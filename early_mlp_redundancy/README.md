@@ -14,6 +14,10 @@ inspection surface, not a newly completed redundancy experiment.
 
 ## Read this first
 
+**Follow-up correction:** [the history audit](HISTORY_AUDIT.md) adds completed table-composition,
+MLP2 compensation, and compiler results. Read it before planning a new experiment: the older
+aligned-repair hypothesis was not established, and the deployed parent differs from this native inspector.
+
 | Observation | Evidence | What it establishes / leaves open |
 |---|---|---|
 | An MLP0 article-related cluster can be changed without substantially changing MLP1's article-related signal. | [Original result](evidence/prior/mlp1_reads_mlp0_results.json); [historical synthesis](evidence/prior/EXCERPTS_RESULTS.md), §847 | Supports parallel encoding for that signal under that intervention. It does not show all of MLP1 ignores MLP0. |
@@ -123,7 +127,8 @@ apparent redundancy or disagreement between implementations.
 
 ## A bounded next experiment
 
-See [RESEARCH_QUESTION.md](RESEARCH_QUESTION.md): one fixed set of token-conditioned replacements
+First read [HISTORY_AUDIT.md](HISTORY_AUDIT.md). The initial proposal in
+[RESEARCH_QUESTION.md](RESEARCH_QUESTION.md) describes one fixed set of token-conditioned replacements
 and a 2×2 MLP0/MLP1 intervention factorial, scored on untouched documents and competent behavioral
 contrasts. No new featurizer architecture is needed to ask this question. The first goal is to
 separate shared predictable content from a context-dependent correction and downstream compensation.

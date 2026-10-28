@@ -21,3 +21,7 @@ dependency directory. No original research repository imports are needed by insp
 A fresh pip installation, fresh network checkpoint download and CPU execution were not tested.
 The lower-bound versions in requirements.txt express API requirements, not a tested version matrix.
 The original archival scripts have not all been reexecuted and may need missing external data.
+
+Follow-up: inspected historical composition source boundaries and verified simple arithmetic,
+stored compensation gates, and compiler terminal authority. No new native forwards or full
+bootstrap replay were performed for this amendment; see validation/history_audit.json.

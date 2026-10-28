@@ -124,3 +124,17 @@ The following list is generated from that provenance; vendored source is include
 - [evidence/prior/EXCERPTS_FINDINGS.md](evidence/prior/EXCERPTS_FINDINGS.md)
 - [evidence/prior/EXCERPTS_RESULTS.md](evidence/prior/EXCERPTS_RESULTS.md)
 - [evidence/prior/EXCERPTS_LESSONS.md](evidence/prior/EXCERPTS_LESSONS.md)
+
+
+## Follow-up sources
+
+Read [HISTORY_AUDIT.md](HISTORY_AUDIT.md) for the amended chronology and implications.
+
+- [evidence/prior/front_table_compose.py](evidence/prior/front_table_compose.py)
+- [evidence/prior/front_table_compose_results.json](evidence/prior/front_table_compose_results.json)
+- [evidence/prior/front_table_compose4.py](evidence/prior/front_table_compose4.py)
+- [evidence/prior/front_table_compose4_results.json](evidence/prior/front_table_compose4_results.json)
+- [evidence/prior/mlp0_c512_mlp2_compensation_v2_results.json](evidence/prior/mlp0_c512_mlp2_compensation_v2_results.json)
+- [evidence/prior/early_mlp_state_complete_compiler_v21_final_authority.json](evidence/prior/early_mlp_state_complete_compiler_v21_final_authority.json)
+- [evidence/prior/MLP0_C512_MLP2_COMPENSATION_V2_FINDINGS.md](evidence/prior/MLP0_C512_MLP2_COMPENSATION_V2_FINDINGS.md)
+- [evidence/prior/EARLY_MLP_STATE_COMPLETE_COMPILER_V21_FINAL_FINDINGS.md](evidence/prior/EARLY_MLP_STATE_COMPLETE_COMPILER_V21_FINAL_FINDINGS.md)

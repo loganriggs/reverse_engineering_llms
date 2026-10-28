@@ -1,5 +1,10 @@
 # One problem: the extra contribution of MLP1
 
+**Status amendment:** the [history audit](HISTORY_AUDIT.md) found related completed experiments.
+The factorial below is now a possible protocol bridge, not the default next run or an untested
+mechanistic idea. First resolve native-versus-deployed parent differences and specify the missing
+contrast it would test. The detailed design is retained for review.
+
 ## Target
 
 Explain why MLP1 repeats a readily token-predictable signal while removing it can have a large
