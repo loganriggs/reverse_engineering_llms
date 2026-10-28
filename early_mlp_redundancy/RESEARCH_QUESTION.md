@@ -1,4 +1,8 @@
-# Active next step: fixed first-moment ablation across objectives
+# Active next step: local versus finite native intervention effects
+
+## Current M32 result
+
+Identical MLP1 interventions have context-dependent relative-logit effects in the native model. Removing the common log-probability shift leaves 57–91% of the response-change energy; 60–91% of that centered change is orthogonal to the reference response. These are descriptive aggregates on familiar tasks, not semantic-unit validation or a universal failure of context transfer. See [report](NATIVE_CONTEXT_RESPONSE_GEOMETRY.md). Next: two fixed symmetric amplitudes on the same directions, then return to joint representation comparison. Earlier next steps below are historical.
 
 ## Current M31 result
 

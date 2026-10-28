@@ -184,3 +184,8 @@ M30 pairedwrappers hold exacttasktokens andtaskspandelta fixed, all240M28taskrow
 ## M31: stable component geometry is not sufficient for causal-fidelity advantage
 
 M31 recomputes sameM18group on targetcontextnativewrite, same720rows/20models. Fullpassagejoint/control ratios improve4/4 butsampleonly2/4; fullsamplewinsstay2/4, bothblockslightlyworse(.74/.81%). Tenthcountsunchanged; scalar72sampleeffectivelytie. Blocksamplemediancosines.994/.997 withnormratios1.018/1.001: wholesalevectormismatchinsufficient, notproofsemanticinvariance. 6802forwards3600responses; allintactmetrics/referenceoutputs/sampleddecodes/geometry audited. Noops31/35/30retained. Stopconstructionvariants. Next native-onlyfullresponsevector replay of fixedM30delta triples, commonreferenceprobabilitymetric, centered/constant decomposition andlogit/logprobidentity; no fitting/prompts/search.
+
+
+## M32 update
+
+Identical MLP1 interventions have context-dependent relative-logit effects in the native model. Removing the common log-probability shift leaves 57–91% of the response-change energy; 60–91% of that centered change is orthogonal to the reference response. These are descriptive aggregates on familiar tasks, not semantic-unit validation or a universal failure of context transfer. The shift-only and gain-only accounts are insufficient for these aggregates. A legitimate reusable feature can still have context-dependent readers. Separate local sensitivity from finite-removal curvature before fitting conditional representations. See [report](NATIVE_CONTEXT_RESPONSE_GEOMETRY.md).

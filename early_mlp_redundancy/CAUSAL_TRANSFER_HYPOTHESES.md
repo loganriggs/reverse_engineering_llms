@@ -34,3 +34,8 @@ Hypothesis1 gains direct paired evidence for some model/scale cases, but its eff
 ## M31 update
 
 Reencoding the same group in each context changes some effects but does not rescue the full-step block sample crossovers. Block component medians stay geometrically close, weakening a wholesale transported-vector mismatch account. This does not refute conditional units: native response dependence and log-probability scoring must be separated before assigning the residual failure to representation geometry. The next native-only response decomposition tests hypotheses1/4 without changing student parameters or intervention construction.
+
+
+## M32 update
+
+Identical MLP1 interventions have context-dependent relative-logit effects in the native model. Removing the common log-probability shift leaves 57–91% of the response-change energy; 60–91% of that centered change is orthogonal to the reference response. These are descriptive aggregates on familiar tasks, not semantic-unit validation or a universal failure of context transfer. The shift-only and gain-only accounts are insufficient for these aggregates. A legitimate reusable feature can still have context-dependent readers. Separate local sensitivity from finite-removal curvature before fitting conditional representations. See [report](NATIVE_CONTEXT_RESPONSE_GEOMETRY.md).
