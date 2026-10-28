@@ -1,4 +1,8 @@
-# Active next step: local versus finite native intervention effects
+# Active next step: reconcile shared-dictionary implementation for joint comparison
+
+## Current M33 result
+
+Context-dependent native response directions persist under small symmetric interventions. Of 627 active direction/context cases, 626 pass the fixed two-scale agreement threshold; median relative scale discrepancy is 0.37%. At amplitude .01, centered cross-context change/reference energy is .122–.314 and 55–86% of that change cannot be explained by scalar gain. Full-removal curvature is therefore insufficient to explain the aggregate context dependence. Close wrapper/amplitude diagnostics and return to joint scalar/block/shared comparison. See [report](NATIVE_LOCAL_SENSITIVITY.md). Earlier next steps below are historical.
 
 ## Current M32 result
 

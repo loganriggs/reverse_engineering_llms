@@ -39,3 +39,8 @@ Reencoding the same group in each context changes some effects but does not resc
 ## M32 update
 
 Identical MLP1 interventions have context-dependent relative-logit effects in the native model. Removing the common log-probability shift leaves 57–91% of the response-change energy; 60–91% of that centered change is orthogonal to the reference response. These are descriptive aggregates on familiar tasks, not semantic-unit validation or a universal failure of context transfer. The shift-only and gain-only accounts are insufficient for these aggregates. A legitimate reusable feature can still have context-dependent readers. Separate local sensitivity from finite-removal curvature before fitting conditional representations. See [report](NATIVE_CONTEXT_RESPONSE_GEOMETRY.md).
+
+
+## M33 update
+
+Context-dependent native response directions persist under small symmetric interventions. Of 627 active direction/context cases, 626 pass the fixed two-scale agreement threshold; median relative scale discrepancy is 0.37%. At amplitude .01, centered cross-context change/reference energy is .122–.314 and 55–86% of that change cannot be explained by scalar gain. Full-removal curvature is therefore insufficient to explain the aggregate context dependence. Conditional native readers remain plausible; no semantic-unit claim. Existing causal supervision already conditions on native context. Close this diagnostic and return to common scalar/block/shared-dictionary training and transfer comparison. See [report](NATIVE_LOCAL_SENSITIVITY.md).
