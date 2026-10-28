@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: response supervision transfers to unused groups on familiar inputs
+## Latest: intervention basis explains only part of the transfer gap
+
+[M29](BASIS_TRANSFER_COMPARISON.md). M29 fixes evaluationinputs/candidates/groupindices/regions and changesM11→M18interventiongenerator. JointbeatsKL-only logprob5→6/8full,6→7/8tenth; margin4→5/8full,4→4/8tenth. Fewwinnerchanges: basis mismatchcontributesbutinsufficient. Equalfamilymargin8/8fullM18; context-onlystratumlogprob5/8full3/8tenth remainsmixed. All880intactbaselines replay;24noopstatuschanges,96→94noops; nativeenergiesreported. 4584forwards3520responses120samples560summaries audited. Refreshed20hypotheses. Next pairedwrappers onallM28task-regionrows, fixsource/taskspandelta, all20models/evalwrappers; no fitting or outcomeselection. Prefixfailuresoutside thattargetedprobe; nosemanticunitclaim.
+
+## Previous: response supervision transfers to unused groups on familiar inputs
 
 [M28](UNSEEN_DIRECTION_TRANSFER.md). M28 same-input unsupervised-group probe: jointresponseobjective beatsmatchedKL-only onall4model/all8region logprob aggregates atbothnorms; gainsweakerthan supervisedgroups (full1.1–14.9% versus33.9–51.5%). Familywins25/40full24/40tenth; margin3/8full4/8tenth. 480scheduled/400distinct directions,59noops retained,158exactinputs; exacttoken exclusion acrossaliases/regions. 4526forwards2400records40samples660summaries audited. Partial directionaltransfer, notsemanticunits. Next sameevaluationinputs/groups/regions withM18 versusM11basis, same20candidates; compare withinbasis, reportchangednativeenergies/noops. Reuseoutputmetrics; no newtraining/search.
 
