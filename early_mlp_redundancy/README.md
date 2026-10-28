@@ -9,7 +9,7 @@ and can we isolate that contribution with a faithful, reusable intervention?
 
 The word *redundant* has covered several different observations. This packet separates them;
 it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. It includes historical evidence, runnable inspection code, and five
+replacement already exists. It includes historical evidence, runnable inspection code, and six
 small exploratory native-model studies.
 
 ## Current answer, within the tested panel
@@ -26,6 +26,12 @@ on their own versus38–40% for the full prefix intervention; freezing them leav
 ([P5](PREFIX_RESPONSE_FACTORIAL.md)). Matched random-prefix edits do not recover the donor distribution.
 This is evidence of a direction-dependent early computation on a small reused authored panel, **not
 a verified compact feature basis or broad task understanding**. She/he transfer is notably weak.
+
+Position localization ([P6](RESPONSE_POSITIONS.md)) shows that the changed word's MLP1 response
+alone recovers about29% of donor discrepancy, versus34% for all positions and4% for the complement.
+This is a source-token response, not a discovered neuron or compact basis. The four later nouns
+provide only eight distinct source contexts, so further feature fitting on this panel would be
+uninformative. Next work must vary prefixes before the edit and broaden competent-task coverage.
 
 The earlier [P1](NATIVE_MLP2_RESPONSE_PILOT.md) and [P2](MLP2_TOKEN_TRANSFER.md) studies distinguish
 native MLP2 amplification from approximation-specific error attenuation. Read the parent contracts

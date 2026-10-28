@@ -44,3 +44,7 @@ No additional audit forwards; see MLP1_MEDIATION.md.
 
 EMLP-P5:704native forwards; identity/joint replay exact0;32independent scalar KL checks
 max3.06e-16, previous P4 prefix arm within1.96e-7absolute. See PREFIX_RESPONSE_FACTORIAL.md.
+
+EMLP-P6:320native forwards; identity/pre-source controls exact0;32prior full-response arms
+replay exactly;28independent scalar KL checks max6.94e-16; source-prefix identities verified.
+See RESPONSE_POSITIONS.md for the eight-source-context limitation and stopping rule.

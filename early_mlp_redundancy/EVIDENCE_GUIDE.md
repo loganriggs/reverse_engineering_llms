@@ -163,3 +163,7 @@ See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.m
 ## Output recovery through distributed MLP1 response
 
 [EMLP-P5](PREFIX_RESPONSE_FACTORIAL.md) crosses prefix MLP0 transfer with induced MLP1 writes and matched random-prefix controls.
+
+## Source-position localization and panel stopping rule
+
+[EMLP-P6](RESPONSE_POSITIONS.md) localizes the recoverable response and documents why later-anchor repetition is not independent source evidence.

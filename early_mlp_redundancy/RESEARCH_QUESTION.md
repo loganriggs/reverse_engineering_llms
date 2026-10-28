@@ -11,8 +11,10 @@ has not. [EMLP-P2](MLP2_TOKEN_TRANSFER.md) now tests four noun anchors and futur
 amplification for context and random changes. [EMLP-P4](MLP1_MEDIATION.md) now makes that comparison: prefix transfer gives83%write-error
 reduction versus20%local, while a perfect local MLP1 write recovers little output discrepancy.
 [EMLP-P5](PREFIX_RESPONSE_FACTORIAL.md) finds that the induced all-position MLP1 writes
-carry much of the donor-output recovery. Next split their response at the changed lexical position
-versus other positions, to define a smaller causal target; this is still an opened-panel diagnostic.
+carry much of the donor-output recovery. [EMLP-P6](RESPONSE_POSITIONS.md) localizes most of that recovery to the changed lexical
+position. The panel has only eight distinct source contexts; stop further fitting on it. Next test
+the concrete source-response target across varied pre-edit prefixes and competent task families,
+preserving whole-task training exclusions.
 
 ## Target
 
