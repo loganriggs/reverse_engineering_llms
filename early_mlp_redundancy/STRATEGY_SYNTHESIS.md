@@ -84,3 +84,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M8: objective choice substantially changes causal fidelity
 
 [Matched continued-training comparison](CAUSAL_FEATURIZER_OBJECTIVE.md) reducesKL59–63% with puredownstreamKL versusMSE, bothscalar/block andbothseeds, despiteworsened raw/within-tokenreconstruction. Scalarremainsbetter. This supports downstream weighting as a featurizer target, not semantic/canonical unit recovery. Next frozen transfer toalready-opened diversecompetenttaskpanel, no additionalfit orreservedtaskexposure. Onefloat32/float64 TopKnear-tie is explicitlydocumented in the audit.
+
+## M9: supervision distribution matters as well as objective
+
+[Frozen diverse-task transfer](FEATURIZER_TASK_TRANSFER.md) improves overallKL13–23% under natural-textKLtraining butcapital/numberfamiliesworsenall4comparisons atoverallKL. Capital finalKL/marginsalso worsen; numberfinalKLmixed. Binaryanswerscanremaincorrectdespitedistributionaldamage. Addeddiversecausalsupervision ismotivated, butrequiresgroup-auditedsplits andnaturaltextforgettingcontrols; representationtransferonreuseddevtasks isnotnewtaskdiscovery.

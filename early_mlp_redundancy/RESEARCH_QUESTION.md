@@ -1,4 +1,8 @@
-# Active next step: frozen diverse-task transfer
+# Active next step: audit splits for diverse causal supervision
+
+[M9](FEATURIZER_TASK_TRANSFER.md) finds average transfer but consistent family-specific failures. Audit lexical source-token groups/context duplicates in the existing10trainingfamilies, then freeze a bounded family-balanced taskKL versus continued natural-textKL comparison fromidenticalcheckpoints. Keep paired endpoints/lexicalgroups together fortransferclaims; flagfamilies lacking multipleindependentgroups. Retain natural-text eval to detectforgetting, and original excludedfamilies. Do not fit selected failures then call them validation. No manifold/newtaskclaim or additionalnatural-textobjective search. Earlier plans are historical.
+
+# Completed step: frozen diverse-task transfer
 
 [M8](CAUSAL_FEATURIZER_OBJECTIVE.md) finds59–63%lower outputKL under explicit downstream training than continuedMSE, with worse rawreconstruction. Freeze all8models. Evaluate existing80-pair/ten-family task panel without fitting, retaining allseeds/families and original exclusions. Measure outputKL/top1, supported task decisions/margins and localerror separately. These tasks were not featurizer training data but were previously examined in thisresearch; do not call them pristine holdouts or discoveredtasks. Stop natural-text objective tuning; test transfer before interpreting groups. Earlier plans are historical.
 

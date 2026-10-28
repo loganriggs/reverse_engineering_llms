@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: downstream supervision changes what the featurizer preserves
+## Latest: diverse-task transfer is real but uneven
+
+[M9](FEATURIZER_TASK_TRANSFER.md) evaluates all8frozen models on80existing development pairs across10families. Downstream training improves overallKL13–23%, smaller than natural-text gains, and taskTop1improves. Capital recall and number successor worsen in all4all-positionKLcomparisons despite100%binaryaccuracy; capital final-position/marginfidelityalso worsens. No newtaskdiscoveryclaim. Next audit lexical/context splits before a bounded diverse causal-supervision comparison, retaining natural-text forgetting checks and originaltaskexclusions.
+
+## Previous: downstream supervision changes what the featurizer preserves
 
 [M8](CAUSAL_FEATURIZER_OBJECTIVE.md) fine-tunes identical scalar/block checkpoints using reconstruction or native-outputKL. KL supervision cuts evaluationKL59–63% while raw/token-context reconstruction gets slightly worse. Scalar remains better than block; neither is near exact. Gradient paths were finite-difference checked, and the audit documents one near-tied TopK boundary. Next freeze models and test diverse-task transfer on the already-opened80-pair development panel, preserving original task exclusions.
 
