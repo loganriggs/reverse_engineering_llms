@@ -1,4 +1,8 @@
-# Active next step: explicit causal objective versus continued reconstruction
+# Active next step: frozen diverse-task transfer
+
+[M8](CAUSAL_FEATURIZER_OBJECTIVE.md) finds59–63%lower outputKL under explicit downstream training than continuedMSE, with worse rawreconstruction. Freeze all8models. Evaluate existing80-pair/ten-family task panel without fitting, retaining allseeds/families and original exclusions. Measure outputKL/top1, supported task decisions/margins and localerror separately. These tasks were not featurizer training data but were previously examined in thisresearch; do not call them pristine holdouts or discoveredtasks. Stop natural-text objective tuning; test transfer before interpreting groups. Earlier plans are historical.
+
+# Completed step: explicit causal objective versus continued reconstruction
 
 [M7](WRITE_FEATURIZER_PILOT.md) completes six matched-parameter fits and live causal evaluation. Freeze a bounded fine-tuning comparison from the saved scalar/block checkpoints: continued reconstruction versus native-output KL supervision, matched train-document streams and optimizer steps, no evaluation-based selection. Verify differentiable native replay/gradient path first and fix loss scaling on training data only. Preserve active32 budget, evaluate reconstruction/token/context/KL/CE separately, retain both seeds, and keep original task exclusions unused. Do not tune fixed-shared gates or widen models based on this pilot. Earlier plans below are historical.
 

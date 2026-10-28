@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: actual MLP1-write featurizer comparison
+## Latest: downstream supervision changes what the featurizer preserves
+
+[M8](CAUSAL_FEATURIZER_OBJECTIVE.md) fine-tunes identical scalar/block checkpoints using reconstruction or native-outputKL. KL supervision cuts evaluationKL59–63% while raw/token-context reconstruction gets slightly worse. Scalar remains better than block; neither is near exact. Gradient paths were finite-difference checked, and the audit documents one near-tied TopK boundary. Next freeze models and test diverse-task transfer on the already-opened80-pair development panel, preserving original task exclusions.
+
+## Previous: actual MLP1-write featurizer comparison
 
 [M7](WRITE_FEATURIZER_PILOT.md) fits scalar, disjoint-block and fixed-overlap models on32documents and evaluates32different reused development documents. Scalar outputKL.292–.304, block.424–.434, fixed-overlap.524–.567. Scalar/block both activate32coordinates; shared unions average28.3–28.4. All128atoms are used, but none is close to faithful at this budget. Next compare explicit downstream-KL training against continued reconstruction training from identical saved checkpoints; no architecture/width sweep or semantic-manifold claim.
 

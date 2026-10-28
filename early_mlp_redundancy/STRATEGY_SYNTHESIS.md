@@ -80,3 +80,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M7: reconstruction-trained group structure does not improve this pilot
 
 [Six nativeMLP1write fits](WRITE_FEATURIZER_PILOT.md) favor scalarTop32 over block4×8 in bothseeds on rawerror andKL; fixedshared unions performworse at loweractualactivecost. Allatomsused; no learnedmembershipcollapse here. Tiny128atom/32trainingdoc/1000stepbudget leavescapacity/optimizationlimits. Next directly testdownstreamKLsupervision against matchedcontinuedreconstruction, preserving source/evaldocuments, before attributingfailure solelytoarchitecture. No manifold ornewtaskdiscoveryclaim.
+
+## M8: objective choice substantially changes causal fidelity
+
+[Matched continued-training comparison](CAUSAL_FEATURIZER_OBJECTIVE.md) reducesKL59–63% with puredownstreamKL versusMSE, bothscalar/block andbothseeds, despiteworsened raw/within-tokenreconstruction. Scalarremainsbetter. This supports downstream weighting as a featurizer target, not semantic/canonical unit recovery. Next frozen transfer toalready-opened diversecompetenttaskpanel, no additionalfit orreservedtaskexposure. Onefloat32/float64 TopKnear-tie is explicitlydocumented in the audit.
