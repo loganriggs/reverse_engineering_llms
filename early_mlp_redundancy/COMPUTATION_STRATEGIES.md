@@ -127,3 +127,7 @@ Do not start broad training sweeps before the matched layer comparison. Natural-
 and generalization checks remain necessary before corpus-level claims; the user approved those
 checks, but the next priority is this mechanism comparison. P10 projection/residual work remains
 available as a focused test of shared directions, not the sole research direction.
+
+## Matched evidence update
+
+[M1](MATCHED_LAYER_MECHANISMS.md) completes the first matched layer comparison. All three layers have net constructive pair interference on the opened task panel; MLP2 is less constructive, with smaller downstream deletion effects. The sum-of-norms ratio alone is not a cancellation diagnostic: orthogonal contributions also increase it. Pair it with channel/net squared energy. The next toy should include shared-plus-private components and independently controlled reader sensitivity; do not assign the extreme cancelling toy to MLP2.

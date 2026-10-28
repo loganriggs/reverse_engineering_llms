@@ -3,8 +3,9 @@
 The user's latest request broadens the question from removal tolerance to how MLPs implement
 functions, including clustering, overlap and cancellation. Use [COMPUTATION_STRATEGIES.md](COMPUTATION_STRATEGIES.md)
 for the operational taxonomy, twenty hypotheses, first exact-function toy and fixed next sequence.
-Do not treat these as mutually exclusive layer categories. Next compare MLP0/1/2 under matched
-inputs and removal fractions before training explanatory toy models. Corpus checks remain approved
+Do not treat these as mutually exclusive layer categories. The [matched comparison](MATCHED_LAYER_MECHANISMS.md) is complete and rejects a simple layer
+dichotomy on this panel. Next add shared-plus-private contributions and controlled downstream
+readers to the diagnostic toys before training explanatory models. Corpus checks remain approved
 and necessary for generalization; they are not the sole next step.
 
 ## Preserved subquestion: removability of MLP1

@@ -15,6 +15,12 @@ can be implemented by duplicated contributions or cancelling ones with identical
 The current MLP1/MLP2 contrast also confounds pruning fraction; matched layer measurements come
 before assigning different strategy labels. The removal evidence below remains one part of that profile.
 
+The [matched MLP0/1/2 comparison (M1)](MATCHED_LAYER_MECHANISMS.md) now finds net constructive
+channel interference in all three layers on the task panel, with decreasing collective alignment
+from MLP0 to MLP2. MLP2 has less output KL damage despite greater local relative write error at
+25–50% deletion. Thus the earlier redundancy-versus-cancellation dichotomy is not supported as a
+general layer classification. Function, implementation geometry and downstream sensitivity stay separate.
+
 ## Current removal evidence
 
 Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).

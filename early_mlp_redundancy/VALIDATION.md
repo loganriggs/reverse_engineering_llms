@@ -62,3 +62,5 @@ P10 adds [lexical direction transfer](LEXICAL_DIRECTION_TRANSFER.md), with expli
 User-definition correction: [literal removal versus replacement and steering](REMOVAL_REDUNDANCY.md). EMLP-D1 has a [separate deletion audit](validation/mlp1_group_deletion_audit.json); its outputs do not establish exact equivalence.
 
 [D2 matched-norm controls](DELETION_NORM_CONTROL.md) separate amplitude-only perturbations from literal deletion, with [audit](validation/deletion_norm_control_audit.json).
+
+[M1 matched layer comparison](MATCHED_LAYER_MECHANISMS.md) includes signed interference, fixed deletion masks, an analytic subset expectation and [audit receipt](validation/matched_layers_audit.json).
