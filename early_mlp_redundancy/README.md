@@ -7,6 +7,10 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
+## Latest: token geometry versus context
+
+[M3](TOKEN_CONTEXT_PARTITION.md) partitions cached native writes. Among tokens observed in multiple distinct contexts, deduplicated within-token variation accounts for 10.1%, 13.8% and 19.0% of centered MLP0/1/2 write energy. The contextual component spans more directions than the token-conditioned means on this panel. This is descriptive, not a token-table generalization or causal dispensability result. Natural-text replication is the next evidence gap.
+
 ## Broader question: which computational mechanisms explain these observations?
 
 The [mechanism framework and first toy model](COMPUTATION_STRATEGIES.md) separate the function

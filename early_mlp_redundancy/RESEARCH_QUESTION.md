@@ -1,4 +1,8 @@
-# Active next step: token geometry versus contextual variation
+# Active next step: natural-text replication with audited provenance
+
+[M3](TOKEN_CONTEXT_PARTITION.md) completes the token/context partition and independent audit. Audit existing natural-text data and cached native writes before freezing a finite replication of the same decomposition. Verify model/site and token-prefix alignment, document prior use, and label reused data honestly. Preserve whole-task exclusions. The featurizer deliverable is separate token/context reconstruction diagnostics plus causal fidelity, conditional on broader replication; this observational partition does not establish causal features. No additional toy width/noise/dropout tuning.
+
+# Completed step: token geometry versus contextual variation
 
 [M2](EMPIRICAL_OUTPUT_SPECTRA.md) completes the real-output spectral mapping. Next decompose
 observed writes into token-conditioned means and within-token residuals on the same opened panel,

@@ -60,3 +60,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## Real-output mapping update
 
 [M2](EMPIRICAL_OUTPUT_SPECTRA.md) measures spectra and native contribution energy on distinct prefixes. MLP1 dimensionality rises after removing repeated-prefix weighting; all three layers remain far above an unconstrained factorization lower bound. This is not proof of executable compression. Next separate token-conditioned geometry from within-token context residuals, keeping observational and causal claims distinct.
+
+## M3: token-conditioned and contextual write geometry
+
+[M3](TOKEN_CONTEXT_PARTITION.md) finds 10.1/13.8/19.0% within-token centered variation for MLP0/1/2 on distinct prefixes of repeated-context tokens. Contextual residual spectra are broader than token-mean spectra, though group counts constrain the latter. This motivates evaluating both components when fitting featurizers; it does not establish a causal decomposition or generalization. Natural-text replication must precede making this a training prior.
