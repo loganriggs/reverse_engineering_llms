@@ -52,3 +52,5 @@ See RESPONSE_POSITIONS.md for the eight-source-context limitation and stopping r
 EMLP-P7:1072native forwards;80training memberships/76single-token selections/cohort gates
 checked;160texts exactly retokenize; independent saved KL/margins agree within8.89e-16/1.78e-15.
 Selection metadata unchanged. See TRAINING_TASK_SCREEN.md for source-diversity limits.
+
+P8 adds the [fixed preamble competence and transfer study](PREAMBLE_TRANSFER.md), with [audit receipt](validation/preamble_audit.json).

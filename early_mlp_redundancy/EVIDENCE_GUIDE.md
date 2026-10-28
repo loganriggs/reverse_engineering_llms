@@ -171,3 +171,5 @@ See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.m
 ## Competent training tasks and source-context coverage
 
 [EMLP-P7](TRAINING_TASK_SCREEN.md) audits the80-pair training bank and tests76single-token pairs without evaluation-family forwards.
+
+P8 adds the [fixed preamble competence and transfer study](PREAMBLE_TRANSFER.md), with [audit receipt](validation/preamble_audit.json).

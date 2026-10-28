@@ -9,7 +9,7 @@ and can we isolate that contribution with a faithful, reusable intervention?
 
 The word *redundant* has covered several different observations. This packet separates them;
 it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. It includes historical evidence, runnable inspection code, and seven
+replacement already exists. It includes historical evidence, runnable inspection code, and eight
 small exploratory native-model studies.
 
 ## Current answer, within the tested panel
@@ -38,6 +38,11 @@ single-token pairs across nine competent task families. Agreement, sentiment, pl
 past tense show partial donor recovery; binding and factual recall do not. Only sentiment and
 binding have repeated token edits under multiple pre-edit contexts. This is a scoped causal target,
 not a universal featurizer objective; whole-task evaluation exclusions remain intact.
+
+A [fixed preamble test (P8)](PREAMBLE_TRANSFER.md) finds that the response direction remains
+aligned across new prefixes (mean cosine .87–.98 in passing cohorts), with partial causal transfer.
+Magnitude changes matter: an old response can outperform the new one until their norms are matched.
+Only five of eight task/preamble cohorts pass native competence, so this is a qualified reuse result.
 
 The earlier [P1](NATIVE_MLP2_RESPONSE_PILOT.md) and [P2](MLP2_TOKEN_TRANSFER.md) studies distinguish
 native MLP2 amplification from approximation-specific error attenuation. Read the parent contracts
