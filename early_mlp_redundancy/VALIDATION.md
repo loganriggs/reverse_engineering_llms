@@ -70,3 +70,5 @@ User-definition correction: [literal removal versus replacement and steering](RE
 [T3 width/noise follow-up](TOY_WIDTH_RESULTS.md) includes12 new trained models,228 independently replayed clean/noisy/deletion evaluations and192 cross-checked single-channel confusion matrices.
 
 [T4 combined robustness](TOY_DROPOUT_RESULTS.md) adds nine trained models plus three exactly replayed controls, with516 independent evaluations. [Strategy synthesis](STRATEGY_SYNTHESIS.md) closes the toy grid and separates supported claims from LLM hypotheses.
+
+[M2 empirical spectra](EMPIRICAL_OUTPUT_SPECTRA.md) includes twelve independently reproduced spectra and exact causal-prefix deduplication checks.

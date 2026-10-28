@@ -1,4 +1,13 @@
-# Active next step: map the completed toy grid to real-model signatures
+# Active next step: token geometry versus contextual variation
+
+[M2](EMPIRICAL_OUTPUT_SPECTRA.md) completes the real-output spectral mapping. Next decompose
+observed writes into token-conditioned means and within-token residuals on the same opened panel,
+with occurrence and unique-prefix weighting, singleton counts and exact energy accounting.
+Do not interpret within-sample means as a validated predictor or context removal as a measured
+causal intervention. This separates potential clustering/re-clustering from contextual computation
+before choosing a featurizer target. Prior next-step paragraphs below are historical.
+
+## Completed step: map the completed toy grid to real-model signatures
 
 [T4](TOY_DROPOUT_RESULTS.md) completes the fixed capacity/dropout comparison and closes that toy
 grid. Read [STRATEGY_SYNTHESIS.md](STRATEGY_SYNTHESIS.md) for the current mechanism account.

@@ -56,3 +56,7 @@ Start with [M1 real-layer comparison](MATCHED_LAYER_MECHANISMS.md),
 [T2 capacity/noise](TOY_CAPACITY_RESULTS.md), [T3 width/specialization](TOY_WIDTH_RESULTS.md),
 and [T4 combined robustness](TOY_DROPOUT_RESULTS.md). The historical re-clustering correction and
 literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
+
+## Real-output mapping update
+
+[M2](EMPIRICAL_OUTPUT_SPECTRA.md) measures spectra and native contribution energy on distinct prefixes. MLP1 dimensionality rises after removing repeated-prefix weighting; all three layers remain far above an unconstrained factorization lower bound. This is not proof of executable compression. Next separate token-conditioned geometry from within-token context residuals, keeping observational and causal claims distinct.

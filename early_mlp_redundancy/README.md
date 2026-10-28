@@ -38,6 +38,12 @@ noisy-vector fidelity still worsens. Read the [compact strategy synthesis](STRAT
 for what this says—and does not say—about computational mechanisms. Next work maps those signatures
 back to the real model rather than expanding toy hyperparameters.
 
+The [real-output spectrum check (M2)](EMPIRICAL_OUTPUT_SPECTRA.md) finds that repeated-prefix
+weighting substantially affects apparent MLP1 dimensionality. Distinct-prefix centered r90 values
+are48/59/61 for MLP0/1/2. Native contributions sit far above the toy's unconstrained factorization
+bound, but that bound does not establish executable compression or removable units. Next separate
+token-conditioned geometry from within-token context variation.
+
 ## Current removal evidence
 
 Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).
