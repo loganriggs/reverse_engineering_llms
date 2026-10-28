@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: direct response supervision failed to retain its training targets
+## Latest: exact replay finds smooth interference despite stable active features
+
+[M21](RESPONSE_TRAJECTORY_DIAGNOSIS.md) exactly reproduces all final tensors of block71 treatment and tracks its largest-error training endpoint. Error .01395→1.24825: net smooth change+1.29089, support-change effect−.05659, first-order prediction+1.21566. The five largest increases have unchanged support. This points to continuous update interference for this post-selected case, not a general gate-failure claim. Next fixed steps79–83 diagnose current-gradient versus Adam-history contributions without changing the trained model or tuning against the sentinel.
+
+## Previous: direct response supervision failed to retain its training targets
 
 [M20](RESPONSE_SUPERVISION_RESULTS.md) executes the fixed8fits and unchanged704-direction native benchmark. Treatment worsens final training response error for all4starts, with40–79% concentrated in one endpoint per start; paired removal of that endpoint still leaves all4worse than control. Native margin transfer improves4/8 aggregates (equal-family3/8), logprob response2/8; ordinary joint-eval KL worsensall4. This is an optimization/retention failure before a clean generalization test. Next bounded exact replay of block71 treatment with support/update instrumentation; no coefficient/learning-rate sweep or semantic-unit claim.
 
