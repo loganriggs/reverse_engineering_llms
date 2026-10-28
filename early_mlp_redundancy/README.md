@@ -21,6 +21,11 @@ from MLP0 to MLP2. MLP2 has less output KL damage despite greater local relative
 25–50% deletion. Thus the earlier redundancy-versus-cancellation dichotomy is not supported as a
 general layer classification. Function, implementation geometry and downstream sensitivity stay separate.
 
+A [trained capacity/noise toy screen (T2)](TOY_CAPACITY_RESULTS.md) now tests the user's extremes
+question. With spare output-rank capacity, penalizing large contributions improves channel-deletion
+robustness at nearly unchanged clean fit. Under rank pressure, benefits depend on the metric; input
+noise robustness is a separate tradeoff. This is a controlled toy result, not an LLM training explanation.
+
 ## Current removal evidence
 
 Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).

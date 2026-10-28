@@ -183,3 +183,5 @@ User-definition correction: [literal removal versus replacement and steering](RE
 [D2 matched-norm controls](DELETION_NORM_CONTROL.md) separate amplitude-only perturbations from literal deletion, with [audit](validation/deletion_norm_control_audit.json).
 
 [M1 matched layer comparison](MATCHED_LAYER_MECHANISMS.md) includes signed interference, fixed deletion masks, an analytic subset expectation and [audit receipt](validation/matched_layers_audit.json).
+
+[T2 capacity and noise experiment](TOY_CAPACITY_RESULTS.md) includes a frozen protocol,24 trained models,408 independently replayed clean/deletion evaluations, and an output-rank capacity bound.

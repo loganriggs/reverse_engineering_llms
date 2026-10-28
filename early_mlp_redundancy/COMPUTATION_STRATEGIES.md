@@ -131,3 +131,7 @@ available as a focused test of shared directions, not the sole research directio
 ## Matched evidence update
 
 [M1](MATCHED_LAYER_MECHANISMS.md) completes the first matched layer comparison. All three layers have net constructive pair interference on the opened task panel; MLP2 is less constructive, with smaller downstream deletion effects. The sum-of-norms ratio alone is not a cancellation diagnostic: orthogonal contributions also increase it. Pair it with channel/net squared energy. The next toy should include shared-plus-private components and independently controlled reader sensitivity; do not assign the extreme cancelling toy to MLP2.
+
+## Learned-capacity update
+
+[T2](TOY_CAPACITY_RESULTS.md) adds the first24 trained toy runs under capacity and input noise. Spare output rank permits contribution spreading and deletion robustness; saturated rank changes that tradeoff. The next fixed causal check varies width on the same fine target task. Other toy mechanisms and corpus generalization remain open.

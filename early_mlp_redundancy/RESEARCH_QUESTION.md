@@ -1,4 +1,13 @@
-# Current research direction: identify computational mechanisms
+# Latest priority: capacity and robustness of learned implementations
+
+The user's extremes question is now tested in [T2](TOY_CAPACITY_RESULTS.md), with a
+[pre-outcome protocol](TOY_CAPACITY_PROTOCOL.md). Next hold the fine target task fixed and compare
+width8 with16, retaining paired seeds, penalties, noise levels and training budget. This isolates
+capacity more directly than changing both target complexity and capacity demand. Label-noise and
+held-out-combination tests remain unperformed. The broader taxonomy and real-layer evidence below
+remain relevant; do not equate toy results with an explanation of the checkpoint's training.
+
+## Broader research direction: identify computational mechanisms
 
 The user's latest request broadens the question from removal tolerance to how MLPs implement
 functions, including clustering, overlap and cancellation. Use [COMPUTATION_STRATEGIES.md](COMPUTATION_STRATEGIES.md)
