@@ -1,18 +1,29 @@
-# Why does the second MLP repeat so much early token information?
+# How much of MLP1 can be removed while preserving its computation?
 
-A bounded research handoff for the 18-layer bilinear language model, assembled 2026-10-28.
-Start with **MLP1**, the **second block** (all indices here are zero based).
-MLP0 is the preceding control; MLP2 is the following comparison case.
+A shareable research handoff for the 18-layer bilinear language model, assembled 2026-10-28.
+**MLP1 is the second block**, using zero-based indices. MLP0 is the preceding comparison;
+MLP2 has a separate native-channel cancellation/pruning problem.
 
-**Question:** What does MLP1 contribute beyond the token information already present after MLP0,
-and can we isolate that contribution with a faithful, reusable intervention?
+The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
+token-table replaceability, or a useful steering direction. This is the primary question below.
 
-The word *redundant* has covered several different observations. This packet separates them;
-it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. It includes historical evidence, runnable inspection code, and ten
-small exploratory native-model studies.
+## Current removal evidence
 
-## Current answer, within the tested panel
+Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).
+The old 46-unit article-cluster result used mean replacement and a narrow average article margin;
+it did not test arbitrary large literal deletions or full-output preservation. The historical claim
+that layer1 merely repeats layer0 was explicitly retracted: a token table can re-cluster token geometry.
+
+In the new fixed random-partition diagnostic, literally deleting a quarter of MLP1's native products
+leaves forced-choice task accuracy unchanged but changes native top predictions at about6–8% of prompt
+positions. Deleting half produces mean KL.030–.044, versus.598 for all products. This supports partial
+robustness on the opened task panel, not unchanged computation or a corpus-wide pruning guarantee.
+
+The directory contains ten exploratory response/steering studies plus the D1 deletion diagnostic,
+a pinned standalone model loader, original evidence, and runnable verification scripts. The response
+studies below remain relevant to finding computational units, but must not be used as removal evidence.
+
+## Related response and steering studies: not removal evidence
 
 MLP1 is causally active even when its information overlaps earlier layers. It amplifies upstream
 changes, including random ones ([P3](MLP1_RESPONSE.md)). Amplification alone is not semantic evidence.
