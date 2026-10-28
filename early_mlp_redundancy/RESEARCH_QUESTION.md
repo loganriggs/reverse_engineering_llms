@@ -1,4 +1,8 @@
-# Active next step: reconcile shared-dictionary implementation for joint comparison
+# Active next step: calibrate and execute joint shared comparison
+
+## Current M34 result
+
+Fixed-overlap union decoding and full dictionary coverage pass all six pilot replays. Shared models were omitted after M7; learned SharedGroups is a distinct larger implementation with earlier membership-concentration failures. A common12-fit scalar/block/fixed-shared comparison is designed, using both native intervention generators for every architecture; training-only calibration and gradient checks precede launch. See [report](SHARED_COMPARISON_READINESS.md). Prior next steps below are historical.
 
 ## Current M33 result
 

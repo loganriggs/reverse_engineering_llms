@@ -194,3 +194,8 @@ Identical MLP1 interventions have context-dependent relative-logit effects in th
 ## M33 update
 
 Context-dependent native response directions persist under small symmetric interventions. Of 627 active direction/context cases, 626 pass the fixed two-scale agreement threshold; median relative scale discrepancy is 0.37%. At amplitude .01, centered cross-context change/reference energy is .122–.314 and 55–86% of that change cannot be explained by scalar gain. Full-removal curvature is therefore insufficient to explain the aggregate context dependence. Conditional native readers remain plausible; no semantic-unit claim. Existing causal supervision already conditions on native context. Close this diagnostic and return to common scalar/block/shared-dictionary training and transfer comparison. See [report](NATIVE_LOCAL_SENSITIVITY.md).
+
+
+## M34 update
+
+Fixed-overlap union decoding and full dictionary coverage pass all six pilot replays. Shared models were omitted after M7; learned SharedGroups is a distinct larger implementation with earlier membership-concentration failures. A common12-fit scalar/block/fixed-shared comparison is designed, using both native intervention generators for every architecture; training-only calibration and gradient checks precede launch. Group-gate removal and shared-atom removal have different semantics. Equal parameter count does not imply equal active budget; shared means28.26/28.44 versus32. No new learned structures validated.
