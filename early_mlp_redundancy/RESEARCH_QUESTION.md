@@ -1,4 +1,8 @@
-# Active next step: reconnect the causal benchmark to featurizer fitting
+# Active next step: explicit causal objective versus continued reconstruction
+
+[M7](WRITE_FEATURIZER_PILOT.md) completes six matched-parameter fits and live causal evaluation. Freeze a bounded fine-tuning comparison from the saved scalar/block checkpoints: continued reconstruction versus native-output KL supervision, matched train-document streams and optimizer steps, no evaluation-based selection. Verify differentiable native replay/gradient path first and fix loss scaling on training data only. Preserve active32 budget, evaluate reconstruction/token/context/KL/CE separately, retain both seeds, and keep original task exclusions unused. Do not tune fixed-shared gates or widen models based on this pilot. Earlier plans below are historical.
+
+# Completed step: reconnect the causal benchmark to featurizer fitting
 
 [M6](MATCHED_ANGLE_CONTROL.md) completes the fixed directional controls. Stop perturbation/seed sweeps. Audit existing scalar/block/shared implementations and prior failures (H835 pre-MLP sites; H984/H989 MLP12; H1029 stopped selector). Prepare a bounded native MLP1-write comparison with document-separated fitting, matched active-coordinate costs and causal output evaluation, preserving raw/token/context reconstruction separately. Fixed shared memberships are a baseline; do not resume collapsed learned gates without a new reason. Freeze protocol before training. This is a benchmark and representation comparison, not proof of manifold semantics or new-task discovery. Earlier plans below are historical.
 

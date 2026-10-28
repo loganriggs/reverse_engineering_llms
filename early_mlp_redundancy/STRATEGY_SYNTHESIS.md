@@ -76,3 +76,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M6: magnitude-matched errors differ in causal impact
 
 [Matched-angle controls](MATCHED_ANGLE_CONTROL.md) yield MLP1KL.04561–.04692 versus table.18354, despite equal pointwise norms/angles/squared errors. All64documents show this ordering for all3seeds. Orientation and/or cross-position structure matters; semantic selectivity and pure contextual causation remain unproven. This closes the directional-control series and supplies a concrete causal benchmark for scalar/block/fixed-shared featurizer comparison. Historical pre-MLP andMLP12models are different sites and cannot be silently reused asMLP1writefeaturizers.
+
+## M7: reconstruction-trained group structure does not improve this pilot
+
+[Six nativeMLP1write fits](WRITE_FEATURIZER_PILOT.md) favor scalarTop32 over block4×8 in bothseeds on rawerror andKL; fixedshared unions performworse at loweractualactivecost. Allatomsused; no learnedmembershipcollapse here. Tiny128atom/32trainingdoc/1000stepbudget leavescapacity/optimizationlimits. Next directly testdownstreamKLsupervision against matchedcontinuedreconstruction, preserving source/evaldocuments, before attributingfailure solelytoarchitecture. No manifold ornewtaskdiscoveryclaim.

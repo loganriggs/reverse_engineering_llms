@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: equal local errors cause unequal downstream damage
+## Latest: actual MLP1-write featurizer comparison
+
+[M7](WRITE_FEATURIZER_PILOT.md) fits scalar, disjoint-block and fixed-overlap models on32documents and evaluates32different reused development documents. Scalar outputKL.292–.304, block.424–.434, fixed-overlap.524–.567. Scalar/block both activate32coordinates; shared unions average28.3–28.4. All128atoms are used, but none is close to faithful at this budget. Next compare explicit downstream-KL training against continued reconstruction training from identical saved checkpoints; no architecture/width sweep or semantic-manifold claim.
+
+## Previous: equal local errors cause unequal downstream damage
 
 [M6](MATCHED_ANGLE_CONTROL.md) matches MLP1 token-table replacements' per-position norm, angle and squared error using random tangent directions. Table KL0.18354 versus random0.04561–0.04692; table damage is larger on every document for all3draws. Error orientation/joint structure matters beyond magnitude. The fixed control series is complete; its deliverable is a natural-text causal benchmark for the next featurizer comparison, not discovered semantic units.
 
