@@ -1,0 +1,11 @@
+"""Post-result M20 concentration and online-to-final drift; no fit or repair."""
+from pathlib import Path
+import json,hashlib
+P=Path(__file__).resolve().parent/'validation'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+fp=P/'response_training_fit.json';tp=P/'response_training_targets.json';rp=P/'response_training_results.json';fit=json.loads(fp.read_text());targets=json.loads(tp.read_text());training=json.loads(rp.read_text());out=[]
+for kind in ['scalar','block']:
+ for seed in [71,72]:
+  treatment=[x for x in fit['records'] if (x['kind'],x['seed'],x['arm'])==(kind,seed,'intact_KL_plus_response')];control={x['target_index']:x for x in fit['records'] if (x['kind'],x['seed'],x['arm'])==(kind,seed,'intact_KL')};largest=max(treatment,key=lambda x:x['R']);idx=largest['target_index'];target=targets['records'][idx];history=next(x for x in training['histories'] if (x['kind'],x['seed'],x['arm'])==(kind,seed,'intact_KL_plus_response'));step=2*target['task_update']+1;component=history['updates'][step]['components'][target['endpoint']];assert component['target_index']==idx;keep=[x for x in treatment if x['target_index']!=idx]
+  out.append(dict(kind=kind,seed=seed,largest_target_index=idx,family=largest['family'],region=largest['region'],scheduled_step=step,initial_R=target['initial_R'],online_preupdate_R=component['R'],final_treatment_R=largest['R'],final_control_R=control[idx]['R'],fraction_of_final_treatment_error=largest['R']/sum(x['R'] for x in treatment),paired_omit_largest=dict(endpoints=len(keep),treatment_mean_R=sum(x['R'] for x in keep)/len(keep),control_mean_R=sum(control[x['target_index']]['R'] for x in keep)/len(keep),initial_mean_R=sum(x['initial_R'] for x in keep)/len(keep))))
+result=dict(scope='Post-result descriptive diagnosis. Largest final-treatment target selected only to quantify concentration; paired omission is sensitivity, not improved model or independent confirmation. Online value is before its update; later change is not attributed to a particular step without trajectory replay.',fit_sha256=sha(fp),targets_sha256=sha(tp),training_results_sha256=sha(rp),rows=out);(P/'response_fit_concentration.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(out,indent=2))
