@@ -37963,3 +37963,582 @@ Limits: one seed/partition, tiny discovery and development panels,80steps, fixed
 Audits: sixfits completed;960student suffix sequences during causal training,120native training-reference suffixes and684development suffixes,1764total. All outputs/gradients finite, maximum gradient9.66; exact hard supports and budget<=48checked. Training-source/PCA hashes unchanged; saved weights satisfy clamp and group degree invariants. Independent reduction of all summaries exact. No new corpus or original whole-task-holdout reads; natural-document pool26112unchanged. Checkpoints, all development rows, training histories and schedule saved. No process running. H1033 is local and is not part of the already pushed H1032snapshot.
 
 Next: freeze these candidates and evaluate the pre-existing task-training-excluded copying/spatial-inversion families with the same boundary/port contract, first checking length alignment and native competence. These are historical evaluation families, not globally untouched tasks or genuine discoveries. Do not tune candidates on them. This tests whether finite supervision transfers beyond trained task families before any further selector optimization. Preserve scalar untrained/activation/causal and full-span references; retain all failures. Broad goal remains active.
+
+
+## H1034 — Whole-task transfer fails for the frozen sparse selectors
+
+Previous turn was progress: published the current research snapshot and verified remote main. This turn inspects and independently audits the completed held-out-task evaluation; no training or candidate selection occurred.
+
+Copying and spatial inversion were excluded entirely from the PCA and H1031–H1033 training. These are historically evaluated tasks, not fresh task discovery. All 32 equal-length pairs (64 endpoints) across four historical splits were retained. Only discovery and lexical cohorts in each family passed the prespecified native competence gate: at least 75% both-endpoint binary accuracy and 50% intended full-vocabulary top-answer accuracy. Structural and joint cohorts failed and remain diagnostics. Each cohort has only four pairs.
+
+Results below average equally over the four competent family/split cohorts. Whole KL compares native output with reconstructed-state output. Paired relative KL compares a decoded donor-minus-recipient intervention with the full donor output, normalized by the no-edit divergence; 0 is perfect and 1 equals no edit. It is not a percentage of model understanding.
+
+| Candidate | Whole KL | Paired relative KL |
+|---|---:|---:|
+| Scalar, untrained |4.2531|0.9156|
+| Scalar, activation trained |4.0706|0.8867|
+| Scalar, finite causal trained |4.2569|0.9093|
+| Block, untrained |5.0317|0.9005|
+| Block, activation trained |4.8969|0.8922|
+| Block, finite causal trained |5.0343|0.9408|
+| Shared, untrained |4.9277|0.9381|
+| Shared, activation trained |5.1464|0.9140|
+| Shared, finite causal trained |5.0486|0.9693|
+| PCA16 per stream |5.1569|0.9698|
+| PCA128 per stream |2.8755|0.7392|
+
+Every candidate has zero intended full-vocabulary top-answer accuracy after whole-state reconstruction on these competent cohorts, versus native cohort accuracy 75–100%. Finite causal training worsens paired relative KL versus activation training by approximately 2.5% scalar, 5.4% block, and 6.1% shared. The limited development gains of H1033 do not transfer here. This does not establish that causal supervision is generally ineffective: the training set is small, only one seed is used, and the learned selector cannot change the fixed dictionary geometry.
+
+The PCA128 reference uses 384 total coordinates, versus at most 48 for selectors, and is not a matched-budget competitor. Its poor transfer raises the possibility that important directions lie outside the discovery-trained span, or that simultaneous projection of multiple interacting streams is disruptive. Full-span Euclidean projection is not a behaviorally optimal encoder, so this is not proof that no representation in that span could work.
+
+Audit: all source hashes unchanged, no training/evaluation prompt overlap, zero fitted evaluation rows, maximum 48 selected coordinates, 64 native prefix and 1472 suffix evaluations. Independently recomputed all 88 summary rows from records and KL from 11 saved endpoint logit samples, one per arm; maximum discrepancy 4.18e-14. This verifies metrics, not an independent rerun of model execution. Failed native cohorts were not silently dropped from the saved evidence.
+
+Course correction: stop tuning these frozen selectors for now. Next run the eight native-versus-PCA128 stream combinations on the same frozen competent holdout panel, treating this as diagnosis rather than new validation. The three streams are the layer-11 residual, the initial embedding residual input, and cached first-layer values. Quantify which projected stream and interactions cause whole-output and paired-edit failure; measure retained state/difference energy alongside behavioral loss. Deliverable is a stream-specific representation requirement for the next joint featurizer comparison. Stop after this fixed factorial; do not tune on these holdouts. Subsequent training must retain whole-task exclusions and obtain a separate evaluation panel before claiming generalization.
+
+
+## H1035 — Residual projection drives held-out failure, with cached-value interaction
+
+Previous goal turn was progress: H1034 independently audited frozen selector transfer and redirected work away from further gate tuning. This turn completed the prespecified eight-corner projection experiment. No training, rank search, or candidate selection occurred.
+
+Panel: the same 16 historical pairs/32 endpoints from H1034's four native-competent copying and spatial-inversion cohorts. Both entire task families remain excluded from the PCA training. These outcomes now serve diagnosis, not untouched validation. Each input stream is either native or projected into its frozen discovery-trained 128-dimensional PCA subspace. Streams are the residual immediately before attention 11, the initial embedding residual input, and cached first-layer values. All downstream layers are native.
+
+For whole-state reconstruction, replace selected streams with their projections. For paired interventions, apply recipient plus the hybrid donor-minus-recipient representation; target is full donor output. Thus native corners preserve all three full donor differences. Lower KL is better. Paired relative KL is normalized to the no-edit divergence and is not an understanding percentage.
+
+| Projected streams | Whole-output KL | Paired relative KL | Intended top-answer accuracy |
+|---|---:|---:|---:|
+| None |0.0000|0.0000|90.6%|
+| Cached values |0.0574|0.0487|93.8%|
+| Initial embedding |0.0109|0.0001|93.8%|
+| Embedding + cached values |0.0623|0.0497|100.0%|
+| Residual |2.0246|0.4787|3.1%|
+| Residual + cached values |2.7997|0.7382|0.0%|
+| Residual + embedding |2.0781|0.4818|6.3%|
+| All three |2.8755|0.7392|0.0%|
+
+Metrics average equally over four family/split cohorts. Small apparent accuracy improvements represent only one to three endpoints and are not evidence for a better model. The residual-only intervention is damaging on both tasks: paired relative KL is 0.3402 for copying and 0.6173 for spatial inversion. Cached-value-only projection yields 0.0953 and 0.0021 respectively. The initial-embedding port is nearly irrelevant to this comparison; this does not imply embeddings are unimportant to the model's earlier computation.
+
+Interaction matters. Adding cached-value projection to residual projection increases paired error by 0.2595, versus 0.0487 when the residual is native. The difference of differences is approximately 0.2108 in this normalized KL metric. That demonstrates non-additive sensitivity under these finite interventions; it does not identify a unique underlying bilinear mechanism or imply independence at other contexts.
+
+Mean centered activation energy retained is 35.3% residual, 50.6% embedding, and 46.9% cached values. Mean paired-difference energy retained is 21.1%, 13.3%, and 19.5% respectively. These are averages of per-example/per-pair norm ratios over full sequences. Similar low difference-energy retention produces very different behavioral damage across streams, reinforcing why Euclidean reconstruction alone is not a sufficient target. The poor residual coverage is substantial, not merely a tiny low-energy tail. This result concerns the particular discovery-trained PCA span and cannot establish that all low-dimensional residual representations fail.
+
+Verification: 512 suffix executions, no fitting. Native logits replay exactly; all-native donor patches differ from saved donor logits by at most 6.68e-6 due to float32 subtraction/addition. All-projected metrics reproduce H1034 exactly. Frozen source hashes unchanged. Independently recomputed saved-logit KL for one endpoint in every arm (eight samples), maximum discrepancy 3.94e-14. This is an independent metric audit plus native/cross-experiment execution checks, not a second independent implementation of the entire suffix.
+
+Featurizer deliverable: preserve a native residual bypass as a diagnostic control and require adequate residual task-difference coverage before treating gate selection as the main bottleneck. Evaluate cached values jointly with residual compression because isolated fidelity overestimates combined fidelity. Do not interpret a frozen random grouping of a narrow PCA dictionary as a broad test of block manifolds.
+
+Stopping criterion met for this diagnostic: all eight fixed corners evaluated and the main damage localized. Next return to training-data coverage: compare training-only residual bases fitted from the narrow task panel versus diverse existing natural-language activations, at matched rank and information access, with activation-only and paired-causal criteria reported separately. Audit existing capture provenance first; do not fit on copying/spatial holdouts or reuse their outcomes to select rank. A separate whole-task evaluation panel is required before claiming new generalization. If suitable natural captures are unavailable, collect a fixed training-only panel rather than silently mixing evaluated tasks into training. The broader manifold/discovery goal remains unresolved.
+
+
+## H1036 — Broader natural activation PCA does not repair task transfer
+
+Previous goal turn was progress: H1035 localized projection damage to the residual stream and its interaction with cached values. This turn audited natural-data provenance, recaptured the exact current pre-attention11 boundary, and compared frozen rank128 residual bases. Other streams remained native.
+
+Training data: first192 documents from H998's previously designated discovery subset. Every document belongs to the original BSF training partition; no reserved validation/test documents or new corpus acquisitions were used. Verified each original128-token window against its stored SHA256. Recaptured first16 tokens per document under the current facade (3072 states). This deliberately samples short natural prefixes; it does not establish coverage of all natural language. No exact evaluated task token sequence occurs within these training prefixes.
+
+Arms: the existing family-balanced task-trained PCA128; natural PCA128 on a fixed seeded subset of1054 states matching the task state's token count; and natural PCA128 on all3072 states. Natural bases use their own training means and ordinary uniform covariance. Equal sample count is not equal effective sample size, position distribution, centering, or weighting, so differences cannot be attributed solely to semantic diversity. No evaluation-dependent rank, subset, or hyperparameter selection.
+
+Evaluation retains the four competent historical copying/spatial cohorts (16pairs/32endpoints). These task families remain excluded from all fitting but are already opened diagnostic evaluations, not fresh validation. Whole-output reconstruction projects only residual states. Paired edits use recipient residual plus projected donor-minus-recipient residual, and exact donor differences for both other streams, consistent with H1035's residual-only condition.
+
+| Residual basis | Whole KL | Paired relative KL | Top-answer accuracy | Centered residual MSE |
+|---|---:|---:|---:|---:|
+| Task-trained |2.0246|0.4787|3.1%|0.6466|
+| Natural,1054 states |2.2527|0.5478|6.3%|0.6247|
+| Natural,3072 states |2.4463|0.5470|6.3%|0.6087|
+
+Lower errors are better. Behavioral metrics average four family/split cohorts equally; MSE averages per-endpoint relative errors centered using each basis's own training mean, so its denominator differs between training distributions. Natural bases modestly improve Euclidean coverage but do not improve the aggregate behavioral target. Copying whole KL improves1.0173→0.6799 with all natural states, while paired relative KL stays essentially unchanged0.3402→0.3422. Spatial whole KL worsens3.0320→4.2127 and paired error0.6173→0.7517. Neither candidate supports autonomous replacement of the residual stream.
+
+Interpretation: broader short-prefix natural PCA is insufficient at this rank. This does not disprove richer natural training, nonlinear geometry, task-conditioned representations, or causal objectives. These are newly captured pre-attention11 states; the older natural MLP12/preMLP4 captures were not silently reused at the wrong site. The experiment directly challenges the simple hypothesis that inadequate lexical diversity alone explains the failure. It leaves variance allocation, context-dependent computations, and task-relevant change geometry as distinct hypotheses.
+
+Verification:192 native prefix and192 suffix sequences; zero reserved BSF documents; zero exact evaluation token-subsequence overlap; PCA orthogonality error2.23e-15. Task baseline reproduces H1035 to7.37e-7 at the summary level (float32 projection scaling/order differs slightly). Saved-logit KL independently recomputed for one endpoint per arm, maximum discrepancy3.74e-14. No full independent execution rerun or multi-seed uncertainty estimate claimed.
+
+Next discriminating experiment: fit rank128 residual bases from the same five-family discovery paired differences, compare against activation PCA with the same dictionary rank, and evaluate paired edits while preserving native recipient context. Report whole-state reconstruction separately. This tests whether variance-based geometry misses reusable changes rather than tuning selectors on these opened holdouts. Keep all task-family exclusions; obtain a separate task evaluation before claiming fresh transfer or discovery. A successful local-difference basis would be a concrete candidate dictionary for overlapping/block groups; failure would direct work toward context-conditioned rather than universal residual subspaces.
+
+
+## H1037 — Training-change geometry fits well but fails to cover excluded tasks
+
+Previous turn was progress: H1036 tested broader natural training and found no aggregate causal-transfer improvement. This turn tested the alternative that activation variance hides reusable task-change directions.
+
+Fit: rank128 orthonormal residual basis from the uncentered second moment of donor-minus-recipient states across the original60discovery pairs and fivefamilies. Weights balance families, pairs within family, and tokens within pair. This is equivalent to covariance over both signed orientations, avoiding arbitrary direction centering. The difference covariance has effective rank248 at relative eigenvalue threshold1e-10. Both candidate bases use the same activation-training center for whole-state reconstruction. Centers cancel for paired differences. No downstream loss or holdout input enters the fit.
+
+Compare against frozen activation PCA128 at the same residual dimension, same native other streams, and same competent copying/spatial historical panel (16pairs/32endpoints). Paired edits preserve recipient residual context and add projected donor-minus-recipient residual; other streams receive exact donor differences. This is a residual representation diagnostic with native assistance, not an autonomous sparse model. These holdouts are already opened, and no fresh generalization claim is made.
+
+| Basis | Weighted training-change energy retained | Held-out change energy retained | Whole KL | Paired relative KL | Whole-reconstruction top1 |
+|---|---:|---:|---:|---:|---:|
+| Activation PCA128 |90.62%|21.14%|2.0246|0.4787|3.1%|
+| Paired-difference basis128 |99.67%|20.55%|1.8271|0.5006|15.6%|
+
+Training energy uses the weighted ratio of total squared norms. Held-out energy is the mean of per-pair ratios; the distributions and weighting differ, so the gap is descriptive rather than a calibrated generalization statistic. Paired KL worsens on both excluded tasks: copying0.3402→0.3519; spatial0.6173→0.6494. Whole KL improves in aggregate, mainly spatial3.0320→2.3105, while copying worsens1.0173→1.3436. Whole-state answer improvements do not imply faithful causal edits.
+
+The representation strongly captures observed training changes but does not extend their geometric coverage to excluded tasks. This weakens the hypothesis that merely switching from activation covariance to task-difference covariance supplies broadly reusable directions. It does not establish that task changes are inherently non-reusable: the supervised task inventory is small, context dependence is possible, and an adequate basis may require richer training families. Combined with H1036, the evidence favors testing supervised task coverage rather than another small selector or covariance variation.
+
+Verification:128suffix executions, no new prefix captures, no holdout fit rows, exact prompt disjointness, unchanged input hashes. Double-precision PCA orthogonality error1.78e-15. Activation baseline agrees with H1035 within7.37e-7. Independently replayed KL from one saved endpoint per arm (two samples), error3.74e-14. No multi-seed uncertainty estimate or independent full execution rerun claimed.
+
+Next stopping decision: stop further basis variants on this excluded-task panel. Evaluate these two frozen bases on existing same-family lexical development examples, reporting training-change coverage and development causal fidelity separately. If same-family causal transfer works while whole-task transfer fails, expand the competent training-task inventory and introduce separately frozen task holdouts for the next joint featurizer fit. If same-family transfer also fails, inspect fitting/conditioning and local contextual variation before attributing the failure to missing tasks. This is a bounded two-arm check, not another selector sweep. The resulting diverse causal task data must feed scalar/block/shared-dictionary comparison; no unrelated mechanistic detour is opened.
+
+
+## H1038 — Residual bases transfer within familiar tasks, conditional on native other streams
+
+Previous goal turn was progress: H1037 showed excellent training-change coverage but poor excluded-task transfer. This turn completed the bounded frozen same-family evaluation, then added a necessary native-assistance control after observing the initial two-arm results. No basis, threshold, rank, or gate was tuned.
+
+Panel: all19 historical lexical-development pairs/38endpoints across the five training families, exactly prompt-disjoint from discovery. Native both-endpoint binary accuracy100% for every family. Native top-answer accuracy is87.5%agreement,100%capital,100%binding,75%pronoun,75%sentiment. Capital has only3equal-length pairs, so remains diagnostic; the other families have4pairs each. These are previously opened development examples, not fresh task validation.
+
+Both frozen rank128 residual bases use the same training center. Whole reconstruction compresses the residual and keeps other streams native. Paired edits preserve recipient residual context and transfer the projected residual difference, with exact donor information in the embedding and cached-value ports. The added mean-only decoder produces zero residual change in paired edits, retaining the same exact donor other ports. Its whole reconstruction is a mean-residual ablation, not a matched-rank candidate.
+
+| Family | Activation-basis paired relative KL | Difference-basis paired relative KL | Zero residual change, donor other ports |
+|---|---:|---:|---:|
+| Agreement |0.0121|0.0133|0.9660|
+| Capital recall |0.0107|0.0131|0.0211|
+| Entity binding |0.0259|0.0248|0.0981|
+| Pronoun gender |0.0106|0.0036|0.6753|
+| Sentiment |0.0568|0.0510|0.8573|
+
+Lower is better; normalization is against no edit at any port, not the added zero-residual-change control. The residual representations supply substantial causal information for agreement, pronouns, and sentiment, since donor other ports alone perform poorly there. Capital is largely explained by the other ports; its tiny candidate error must not be read as strong residual explanatory coverage. Binding shows an intermediate incremental contribution. This agrees with H1030's stream-level task differences and avoids mistaking native assistance for a learned explanation.
+
+Five-family macro paired error0.0232activation versus0.0212difference, compared with0.4787/0.5006on excluded copying/spatial tasks inH1037. These panels differ in tasks, strength of effects, examples, and native port reliance, so this is a descriptive contrast rather than a controlled effect size of task coverage. Within-family causal transfer is nonetheless demonstrated on three residual-dependent families.
+
+Whole-state reconstruction differs sharply: activation-basis whole KL0.0322, macro top187.5%; difference-basis whole KL0.7774, top120%. A representation useful for local causal changes need not encode enough background state to replace the whole residual. Mean held-out difference energy byfamily is59.4%activation and61.4%difference, again not a model-understanding score. Paired differences and whole-state representation should remain distinct featurizer objectives.
+
+Verification: native saved logits replay exactly across all38endpoints; no fitted evaluation rows or exact prompt overlap; source hashes unchanged. Initial two-arm evaluation used190suffix calls; final three-arm rerun used266,456total. Independent saved-logit KL replay covers one endpoint per arm, three samples, with error below1e-10. The control was added after the initial results to resolve an interpretation confound; it was not prespecified, and no candidate was selected or trained from its outcome.
+
+Decision: stop this basis-diagnostic series. There is enough same-family success to justify broadening supervised task coverage before another architecture search. Return to the requested loop: screen a diverse inventory of candidate tasks for native competence and aligned counterfactual pairs; freeze whole-family train/development/evaluation assignments before feature fitting; train residual task-change dictionaries plus context-preserving controls; compare scalar/block/shared support at matched capacity and intervention access. Include tasks beyond agreement/capital/binding/sentiment/pronouns, while preserving copying and spatial inversion as historical excluded diagnostics rather than silently folding them into training. New candidate families should span lexical relations, morphology, temporal relations, numerical relations, and symbolic transformations. Discovery remains unproven until an unlabeled component yields a new independently validated task.
+
+
+## H1039 — Diverse task screen adds five eligible training cohorts; reserved panels need repair
+
+Previous turn was progress: H1038 established conditional within-family causal transfer and ended the basis-diagnostic series. This turn returns to the task-supervision/featurizer loop with a fixed20-family native-competence and token-alignment screen.
+
+Before any forwards, saved a manifest of80pairs across20candidate task families:12training,4development,4evaluation. All family assignments fixed before outcomes. Domain-related families cross splits (e.g. comparative/superlative, addition/multiplication); these are whole named-task exclusions, not unseen-primitive exclusions. Original sequence_copy and spatial_inverse remain excluded. Number-sequence continuation is related to copying, so future transfer to copying cannot be called a wholly novel computational domain. Some candidate tasks and lexical items were investigated historically; these are additions to the current five-family training setup, not discoveries of previously unknown capabilities.
+
+Tokenization requires disjoint single-token continuation answer groups (original, capitalized, uppercase spellings), exact prefix preservation, and equal-length counterfactual prompts for positional intervention eligibility. Six pairs fail answer validity, leaving74pairs/148endpoints captured at the current pre-attention11 boundary with native logits. Equal length is necessary here but not sufficient to establish semantic position alignment. The weekday pair with identical Monday answers was rejected before inference rather than treated as a binary contrast.
+
+Fixed cohort gate: at least4valid equal-length pairs, >=75% both-endpoint forced-choice accuracy, >=50% intended full-vocabulary top-answer accuracy. A passing train cohort retains all four pairs, including any model errors; no per-example success filtering.
+
+| Eligible training family | Both-endpoint accuracy | Native top-answer accuracy |
+|---|---:|---:|
+| Antonym |100%|75%|
+| Noun plural |75%|50%|
+| Past tense |100%|100%|
+| Country-language recall |100%|87.5%|
+| Number successor sequences |100%|100%|
+
+Deliverable:20eligible training pairs/40endpoints with native boundary states, output targets, and an explicit eligibility manifest. Added to the existing60discovery pairs, these could yield80pairs across10named training families, after causal-port and semantic-alignment checks. This is a candidate expansion, not yet a fitted featurizer or verified causal-supervision bank.
+
+No reserved development/evaluation family passed the complete gate. The failures are informative but must not be overinterpreted. Animal category is perfect on its two aligned pairs but lacks four pairs. Object color has only three aligned pairs and does not meet the binary threshold. Synonym and past-participle probes often favor the intended answer over the contrast but predict an intervening article or other word in unrestricted generation. Comparative, calendar, ordinal, and superlative prompts often continue with 'the'; arithmetic prompts also show incorrect numerical continuations. This screen does not establish inability at these tasks under other natural formats. Answer groups are deliberately narrow and may undercount valid paraphrases.
+
+All reserved prompts were read for native competence, so they are not untouched evaluation in an absolute sense. They have not been used to fit or select representations. Repairing prompt format or alignment after this screen creates adaptive development work; a separate frozen confirmation panel will be needed before claiming transfer. Do not move passing development/evaluation families into training to make the benchmark easier.
+
+Verification: manifest hash frozen before forwards and unchanged; all148token-valid prompt strings unique across splits.148prefix captures and148suffix passes, plus20independent direct full forwards (one per family), replay error0. Independently recomputed all74pair metrics and20family summaries from saved logits; exact agreement. Zero feature-fitting rows, no original copying/spatial training rows, no new natural documents. Native capability and causal reliance remain separate claims.
+
+Next: repair reserved cohort construction before fitting the expanded model: enforce token-valid distinct contrasts and aligned lengths before execution, use natural completion formats rather than metalinguistic prompts where appropriate, and preserve the original family assignments. Record every attempted template and its competence outcome. In parallel within this workstream, run residual-versus-other-port causal controls on the20eligible training pairs, so added tasks supply actual causal targets rather than only labels. The resulting bank must feed the scalar/block/shared dictionary comparison at matched capacity; no standalone task mechanism detour is needed.
+
+
+## H1040 — Added task cohorts supply different causal stream targets
+
+Previous goal turn was progress: H1039 screened20candidate families and produced20eligible training pairs across five additions. This turn completed the fixed eight-corner donor/recipient boundary factorial on every eligible pair in both directions,320suffix evaluations, without fitting or inspecting reserved task results.
+
+The ports are residual pre-attention11, initial embedding recurrence input, and cached first-layer values. Full donor transplant is the reference. Answer margins compare the two continuation groups; full-output KL is also measured. Shapley allocation averages each port's marginal effect over all insertion orders, then projects onto the native donor-minus-recipient answer effect. These signed allocations sum to one but are not fractions of overall model understanding and can exceed100% or be negative.
+
+| Training cohort | Residual aligned allocation | Embedding allocation | Cached-value allocation | Residual-only relative donor KL | Cache-only relative donor KL |
+|---|---:|---:|---:|---:|---:|
+| Antonym |68.9%|0.2%|30.9%|0.0975|0.7004|
+| Country-language |23.9%|0.4%|75.7%|0.5368|0.0270|
+| Number successor |90.2%|0.04%|9.7%|0.0075|0.8122|
+| Past tense |91.8%|0.05%|8.1%|0.0424|0.9558|
+| Noun plural |117.3%|0.3%|-17.5%|0.0978|1.0020|
+
+KL values are normalized by full-donor versus no-edit output divergence;0is exact and1equals no edit. They are not the same metric as margin allocations. Residual+cache transplant leaves relative donor KL below0.00016for every cohort while embedding remains native. This supports stream-specific supervision with joint evaluation; it does not justify deleting the embedding port globally.
+
+The noun-plural cache allocation opposes the aggregate answer effect. This is cancellation in a small panel, not evidence of a negative semantic feature. The native model already makes some plural errors; all four eligible-cohort pairs remain included. Fidelity targets reproduce native behavior, including errors, whereas supervised correctness targets desired answers. Do not silently conflate them. Single-port additivity error is approximately25.5%antonym and26.5%past tense, so a purely additive explanation is incomplete under these finite hybrid interventions.
+
+Semantic scope: these pairs usually vary lexical content under a fixed task format. 'Today I walk. Yesterday I' versus the corresponding play prompt measures verb-identity effects in a past-tense setting; it does not isolate changing tense. Likewise noun-plural contrasts change cat versus dog while both contexts demand plurality. Number sequences change several aligned positions together. The bank supplies within-task counterfactual targets, not a proven causal factorization into grammatical operations. Equal token counts enable positional transplantation but do not prove semantic position equivalence. Future operation claims need content-matched task/operator contrasts or transfer controls.
+
+Featurizer deliverable: the expansion contains residual-dependent sequence/morphology contexts and cache-dependent factual recall, avoiding an exclusively residual training objective. Preserve all three inputs for matched comparisons and report stream-conditioned plus joint causal fidelity. Shared groups must demonstrate transfer, not merely coexist with these coarse port effects. No feature/manifold discovery is established by this experiment.
+
+Verification: source captures, eligibility, and screen hashes unchanged; zero reserved pairs selected and zero fitting rows. Native and full-donor boundary logits replay exactly. Shapley efficiency error3.56e-15. Independently recomputed Shapley for all40directed pairs using explicit permutations, and all eight saved logit corner margins/KLs for one direction; maximum discrepancy4.89e-15. No new natural documents or fresh prompts were acquired.
+
+Stopping criterion for training-port localization is met. Next repair the reserved task prompt/alignment panels while preserving family assignments and retaining all failed attempts. Then construct the expanded joint training comparison with both state-reconstruction and context-preserving edit objectives. Record contrast variable explicitly as lexical identity, sequence offset, or operation change; require an operation-isolating control before attributing a learned group to an operation. Do not launch further head-localization detours for these cohorts.
+
+
+## H1041 — Reserved-format repair yields weekday development; freeze a bounded training-coverage pilot
+
+Previous goal turn was progress: H1040 verified distinct causal port dependencies for the added training cohorts. This turn tried two fixed completion formats for each of the eight reserved H1039families, preserving original family-level development/evaluation assignments. All16format cohorts/64pairs were written to a hashed manifest before any forward. Formats were informed by H1039 failures, so this is adaptive task development, not fresh confirmation.
+
+All64pairs have disjoint single-token answer groups;128endpoints were captured. Some remain unequal in token length and cannot enter the positional-patching cohort under the current rule. No padding or semantic alignment was silently inferred. Every attempted pair, including failures and unequal lengths, is retained. The original H1039 screen remains unchanged.
+
+Only weekday_successor__prose passes the complete fixed gate: four aligned pairs,75%both-endpoint binary accuracy and75%intended full-vocabulary top1. It remains development-only. Weekday sequence format reaches100%binary/83.3%top1on three aligned pairs but fails the four-pair minimum. Animal category formats retain only two aligned pairs, despite100%binary accuracy. Past-participle prose reaches100%binary but25%top1. Unit equations reach75%binary/37.5%top1. No evaluation cohort passes. Synonym, ordinal, superlative, and multiplication formats also fail the complete gate.
+
+These are properties of the tested prompts and exact continuation policy, not blanket model-capability claims. Equal-length constraints and narrow answer groups limit usable coverage. Repeatedly changing prompts until enough pass would create an increasingly selected benchmark. Therefore stop this format-repair round; keep the gate unchanged and report the missing fresh evaluation coverage honestly.
+
+The next pilot comparison is frozen in reserved_task_format_screen/next_comparison_contract.json: original60pairs/fivefamilies versus expanded80pairs/tenfamilies; training-only representations with scalar, disjoint-block, and fixed shared-union support at the existing rank128perstream/max48active budget and equal native port access. Preserve final-step finite causal training and avoid a rank/threshold search. Before fitting, audit cross-source exact prompt overlap and duplicate training weights. All reserved families, historical copying, and spatial inversion stay excluded from fitted statistics.
+
+Evaluation will use the original same-family19pair development panel, historical16pair competent copying/spatial panel, and the new fourpair weekday development cohort. This can assess whether training expansion helps on opened diagnostics. It cannot establish fresh-task generalization, a robust architecture winner, or new-task discovery. Obtaining a separate competent evaluation panel remains unresolved; it is not a reason to indefinitely postpone the concrete joint comparison already requested.
+
+Verification:128native prefix and128suffix executions plus16independent direct full forwards (one per format cohort), maximum replay error0. Manifest unchanged. Independently recomputed all64pair metrics and16cohort summaries from saved logits, exact agreement. All prompt strings unique within this screen. Zero fitted rows and zero reserved examples promoted into training. No new natural corpus documents.
+
+This completes the reserved-format pilot and returns work to the featurizer comparison. The five added training cohorts have native and causal-port evidence, and the available evaluation limitations are explicit. No further isolated basis or prompt sweeps are planned before fitting the comparison.
+
+
+## H1042 — Expanded causal selector pilot improves weekday transfer but not general fidelity
+
+Previous goal turn was progress: H1041 bounded reserved-format repair and froze the joint comparison. This turn executed six finite-causal fits: narrow five-family versus expanded ten-family training, crossed with scalar, disjoint-block, and shared-union selectors. All untrained controls also evaluated; no architecture selected.
+
+Data: narrow60pairs/120unique prompts; expanded80pairs/160unique prompts, with the20H1039eligible additions. Exact cross-source training/evaluation prompt overlap0, duplicate endpoint aliases0, duplicate pairs0. PCA is refitted on training only using equal family weight, equal unique prompt weight within family, and uniform tokens within prompt. All three streams have rank128 and train-only center/scale. Unlike H1033's endpoint-pair weighting, this explicitly weights unique prompts; all current comparison arms use the same recipe. Baselines are newly fitted, not claimed numerically identical to H1033.
+
+Architecture remains limited:384learned diagonal importance coefficients; fixed PCA coordinate values, fixed random partitions for groups. Scalar selects16coordinates perstream; block selects4groups of4; shared selects2groups of8 and decodes their union once. Maximum48active coordinates; shared actual union can be40–48. This is not a test of learned semantic memberships, a full learned BSF dictionary, or a computational DAG. Equal maximal sparsity is not exact equal union size.
+
+Optimization: single seed10331, Adam0.03,80fixed pair steps, equal-family round robin, final checkpoint only. Actual finite downstream objective sums native-to-reconstruction KL and full-donor-to-decoded-difference-patch KL in both directions, plus1e-4importance penalty. Hard support forward with the existing straight-through surrogate. Native suffix frozen and excluded from inference. No convergence claim.
+
+Important exposure limit:80steps gives16visits per family in narrow training versus8in expanded training. Narrow schedule covers all60pairs, expanded only56of80pairs directly under causal loss, although all80pairs enter training geometry. The comparison controls total compute, not exposure per family. It must not be presented as a complete test of fully trained broad supervision.
+
+Paired relative KL, lower better, after finite-causal training:
+
+| Evaluation panel | Scalar narrow→expanded | Block narrow→expanded | Shared narrow→expanded |
+|---|---:|---:|---:|
+| Same-family lexical |0.5265→0.7082|0.7750→0.8373|0.8863→0.8844|
+| Historical copying/spatial |0.9125→0.9102|0.9433→0.9447|0.9675→0.9628|
+| Reserved weekday development |0.8709→0.7743|0.9703→0.9190|0.9601→0.9821|
+
+Metrics average families equally within panel; copying/spatial records pool their two competent historical cohorts within each family. Whole-output KL improves on historical exclusions (scalar4.2434→3.8656) and weekday (scalar5.2854→3.3206), but correct top-answer accuracy remains0for every method on both excluded panels. Same-family scalar whole-reconstruction macro accuracy falls32.5%→5.8%. This is partial distributional improvement, not successful model replacement or general reverse engineering.
+
+Untrained controls distinguish geometry from optimization: scalar same-family paired error already worsens0.5422→0.7019when training geometry broadens, before any importance learning. Scalar weekday already improves0.9107→0.7988untrained; finite supervision changes it to0.8709→0.7743. Thus the scalar coverage tradeoff cannot be attributed solely to fewer causal updates. Block/shared controls show heterogeneous effects; no consistent shared-group advantage emerges. These small single-seed cohorts do not support architecture ranking in general.
+
+Evaluation remains opened diagnostics:19same-family pairs,16historical excluded pairs,4adaptively screened weekday pairs,78endpoints. No evaluation prompt enters PCA or optimization. No fresh-task validation or unlabeled discovery claim. Coarse boundary-port native assistance remains present only through the frozen suffix and intervention baseline; candidates here must represent all three streams, unlike the earlier residual-only diagnostic.
+
+Verification:3952suffix evaluations including1920differentiable student passes, six completed fits, finite losses/gradients/metrics, frozen source hashes unchanged. PCA orthogonality3.56e-15, max48active. Independently recomputed all summaries and KL from36saved logit examples (one endpoint per panel/arm), max discrepancy4.36e-14. All candidate checkpoints and training geometry saved.
+
+Next bounded control: continue each expanded selector to160total fixed steps with the same schedule/order and no hyperparameter changes. This provides16visits per family, matching narrow80 exposure and covering all80expanded pairs, at twice the optimization compute. Compare against both saved expanded80 and narrow80; report the compute difference. Do not select a stopping point using evaluation. If original-family degradation persists, the untrained controls already suggest rank/sparsity allocation or task-conditioned geometry rather than merely undertraining. Avoid declaring broad supervision ineffective from this short compute-matched pilot, and avoid another unconstrained rank sweep.
+
+
+## H1043 — Full pair exposure does not resolve expanded-selector failure
+
+Previous goal turn was progress: H1042 completed the compute-matched joint pilot and identified incomplete direct causal exposure in the expanded80step schedule. This turn ran the fixed expanded160step control, keeping geometry, memberships, optimizer settings, pair order, and evaluation panels unchanged.
+
+Because H1042saved model weights but not Adam state, first replayed steps0–79from initialization with the exact saved expanded PCA and same native teacher outputs. Every state-dictionary tensor matches the original80step checkpoint exactly for scalar, block, and shared (maxdifference0). Continued with the reconstructed Adam state through160steps, saving optimizer state at80and160. Thus this is a verified trajectory continuation, not a reset-optimizer fine-tune. No geometry refit and no evaluation-dependent stopping.
+
+Expanded160has16visits per family, matching narrow80per-family exposure at twice optimization compute. All80expanded training pairs now receive finite-causal supervision, versus56at expanded80. This is not a convergence test and does not establish that more training could never help.
+
+Paired relative KL, lower better:
+
+| Panel / selector | Narrow80 | Expanded80 | Expanded160 |
+|---|---:|---:|---:|
+| Same-family / scalar |0.5265|0.7082|0.7000|
+| Same-family / block |0.7750|0.8373|0.7991|
+| Same-family / shared |0.8863|0.8844|0.9755|
+| Historical exclusions / scalar |0.9125|0.9102|0.9026|
+| Historical exclusions / block |0.9433|0.9447|0.9405|
+| Historical exclusions / shared |0.9675|0.9628|0.9647|
+| Weekday / scalar |0.8709|0.7743|0.8911|
+| Weekday / block |0.9703|0.9190|0.9087|
+| Weekday / shared |0.9601|0.9821|0.9417|
+
+No consistent benefit across architectures and panels. The scalar weekday benefit at80steps disappears at160; the80step result must not be promoted as a reliable winner through retrospective checkpoint selection. Historical improvements are small and whole-reconstruction top-answer accuracy stays0for all candidates on copying/spatial and weekday panels. Same-family scalar macro top1recovers5.8%→10.8%, still below narrow32.5%. Shared same-family paired fidelity worsens despite slightly improved whole KL, again separating reconstruction and causal edit objectives.
+
+All claims remain conditional on fixed training-only PCA128perport, fixed random groups, max48active coordinates, a diagonal importance selector, straight-through gradients, one seed, and opened small diagnostic panels. This does not falsify learned overlapping dictionaries, nonlinear manifolds, computational DAGs, or broader causal supervision. It weakens incomplete pair exposure as the sole explanation for H1042failure. Untrained geometry already produced much of the narrow/broad scalar tradeoff.
+
+Verification:2548suffix calls this turn, including1920student passes (half reconstructing the original trajectory); three final fits, all80pairs covered, source and original checkpoint hashes unchanged. Max48/min41active coordinates in evaluation. No training/evaluation exact prompt overlap. Independently recomputed KL on9saved logits (one endpoint per panel/method), max4.18e-14. Corrected inherited metadata to state that geometry is reused, not refitted; no new PCA orthogonality test was claimed. Frozen PCA's earlier audit remains the source for geometry verification.
+
+Stop further duration extensions for this selector family. Next fixed comparison targets the quantity being sparsified: current decoded-donor minus decoded-recipient activations versus a direct sparse encoding of the donor-minus-recipient difference. Both receive the same endpoint pair and use native recipient context, but the latter chooses support for the change itself and avoids changing endpoint supports. Compare at fixed48coordinate maximum and include dense128perport change projection as a capacity reference. This is an edit representation, not an autonomous whole-state featurizer or a learned semantic operation. Use frozen expanded geometry and no output-dependent support selection, fitting, or rank sweep. It tests whether context allocation/support switching, rather than solely task inventory, is limiting causal fidelity. Results should guide whether the next shared/block representation should encode changes conditionally on context.
+
+
+## H1044 — Direct change encoding improves edits over differences of sparse endpoints
+
+Previous goal turn was progress: H1043 verified full expanded exposure without consistent recovery and stopped duration extensions. This turn tested whether sparse support should be chosen for the change rather than separately for its two endpoint activations. No fitting or output-dependent support selection occurred.
+
+Geometry and group memberships are frozen from the expanded H1042/H1043run. Direct encoding computes delta=donor-recipient for each of three streams, projects delta/scale into PCA coordinates, chooses support from squared delta coordinates (optionally multiplied by frozen learned importance), decodes once without a center, and adds the result to the native recipient. Endpoint controls decode each endpoint with the old selector and subtract. Both receive the same pair and full native recipient context. This is a paired-edit representation, not autonomous state reconstruction.
+
+Budgets differ in a useful, explicit way: direct selection uses at most16coordinates perstream/48total. Each endpoint uses at most48, but its difference can occupy the union of two supports; observed union maximum88, theoretical96. Thus direct methods improve despite a smaller effective change-support budget, not through extra active coordinates. Dense projection uses128perstream/384total as a capacity reference and is not matched-budget.
+
+Paired relative KL, lower better:
+
+| Method | Same-family | Historical copying/spatial | Weekday development |
+|---|---:|---:|---:|
+| Endpoint scalar, trained |0.7000|0.9026|0.8911|
+| Direct scalar, transferred trained weights |0.4695|0.8635|0.7672|
+| Direct scalar, untrained |0.4475|0.8448|0.7498|
+| Endpoint block, trained |0.7991|0.9405|0.9087|
+| Direct block, transferred trained weights |0.7191|0.9115|0.8910|
+| Direct block, untrained |0.6322|0.9166|0.8416|
+| Endpoint shared, trained |0.9755|0.9647|0.9417|
+| Direct shared, transferred trained weights |0.7933|0.9373|0.8700|
+| Direct shared, untrained |0.7161|0.9220|0.8974|
+| Dense direct projection |0.2527|0.7000|0.5819|
+
+All nine architecture/panel comparisons of transferred trained direct versus trained endpoint improve. Untrained scalar direct is stronger still; the learned importance weights were optimized for endpoint reconstruction plus endpoint-difference edits, so their transfer to a new input statistic should not be assumed beneficial. These results support choosing coordinates for changes themselves and avoiding wasted support on background activations/support-switching artifacts. They do not isolate background allocation from switching as separate causes; both change together.
+
+Fidelity remains inadequate. Donor-correct top1on copying/spatial is0for every arm, including dense. Same-family donor top1is22.5%untrained direct scalar versus0%endpoint scalar; dense reaches47.5%. Weekday donor top1is12.5%for all arms. These are correctness after paired interventions, distinct from earlier whole-reconstruction top1. Dense projection is a fixed Euclidean reference, not a behaviorally optimal upper bound over every possible encoding in the span.
+
+Interpretation is conditional on the same small opened evaluation panels, single seed, PCA geometry, and fixed random groups. No general block/shared advantage, new-task discovery, or manifold validation established. Nevertheless, the measurement supplies a concrete change in representation objective: local edits can be represented more economically by their own support, while native context remains available. Context-conditioned feature work should not be judged solely by reconstruction of complete activations.
+
+Verification:780suffix evaluations and zero fitted rows. Endpoint controls replay H1043paired KL exactly. All checkpoint/source hashes unchanged. Direct encoding returns exactly zero for zero changes and is exactly antisymmetric on checked reverse-change examples for each arm. Sparse maximum48, endpoint union maximum88. Independently recomputed KL for30saved endpoints (one per panel/arm), maximum3.78e-14. No native output used to choose support.
+
+Next bounded experiment: train direct-change scalar/block/shared importance weights from zero on the same expanded80training pairs, fixed160steps and same family schedule, using only finite paired-edit KL plus the same small importance regularizer. Do not include whole-state reconstruction loss for a representation intended solely for changes. Compare all final checkpoints against frozen untrained direct controls and transferred endpoint-trained weights on the same panels, with no evaluation-dependent stopping. This tests whether supervision helps once the encoded quantity matches the causal objective. If it fails, stop diagonal-importance tuning and investigate learned dictionary/group geometry instead of extending this optimizer run indefinitely.
+
+
+## H1045 — Direct causal gate training worsens training loss as well as transfer
+
+Previous goal turn was progress: H1044 established a direct-change encoding advantage and proposed a matching training objective. This turn fitted three direct-change selectors from zero importance, using expanded80pairs/tenfamilies,160fixed steps, all pairs covered, unchanged geometry/group partitions, and final checkpoints only.
+
+Objective is the average finite donor-output KL after direct encoded changes, in both directions, plus1e-4importance regularization. Whole-state reconstruction loss is removed. Adam0.03, clamped log-importance[-2,2], hard top-k/union forward and the existing softmax straight-through surrogate. Models learn384importance weights; they do not learn dictionary directions or memberships. Evaluation receives both endpoints and native recipient context. No evaluation examples used for fitting.
+
+Paired relative KL, initial untrained→final direct-causal:
+
+| Panel | Scalar | Block | Shared |
+|---|---:|---:|---:|
+| Same-family |0.4475→0.4575|0.6322→0.6403|0.7161→0.7909|
+| Historical copying/spatial |0.8448→0.8556|0.9166→0.9205|0.9220→0.9391|
+| Weekday development |0.7498→0.7744|0.8416→0.8532|0.8974→0.9173|
+
+All nine comparisons worsen. Same-family donor-correct top1declines22.5%→20%scalar and10%→5%block; shared remains0%. Excluded copying/spatial stays0%for all, weekday12.5%. These are paired-edit accuracies, not whole-state replacement accuracy.
+
+Crucial follow-up: evaluated exact hard-forward loss on every training pair at initialization and final weights, with equal family weighting. This was a read-only training-fit audit, not extra optimization or checkpoint selection:
+
+| Selector | Initial training KL | Final training KL |
+|---|---:|---:|
+| Scalar |0.3281|0.3630|
+| Block |0.8283|0.8692|
+| Shared |1.0946|1.2154|
+
+Thus the problem is not merely failure to generalize a successfully fitted training objective. This recipe does not even lower its full training objective after160steps. The straight-through gradient is a surrogate, not the derivative of the discrete hard-forward objective. Biased gradient directions, finite-step instability, and cyclic-family interference remain plausible. This result does not prove a coding error or isolate those alternatives. It also cannot be used as evidence that causal supervision itself is ineffective or that the dictionary is the sole bottleneck. Changing geometry without first understanding this fitting failure would confound representation and optimizer conclusions.
+
+The direct-encoding improvement of H1044 remains valid and came without learning. Frozen untrained sparse encoding is the stronger control here; do not promote these trained weights. No robust architecture ordering, general manifold validation, or new-task discovery is established.
+
+Verification: untrained direct controls reproduce all H1044paired KL exactly. Frozen source/geometry hashes unchanged; three fits, all80pairs, max48/min43active coordinates. Checked direct zero-change and reverse-sign consistency exactly.1588suffix calls for fits/evaluation, including960differentiable student calls; separate full-training objective audit1120calls,2708total. Independently recomputed KL from18saved evaluation logits, max4.27e-14. All losses/gradients/metrics finite; no train/evaluation prompt overlap. Optimizer states saved.
+
+Stop this diagonal-importance training recipe rather than extend steps or search evaluation thresholds. Next is a bounded optimization-mechanism audit on training data only: compare surrogate-predicted descent with actual hard-forward loss changes around initialization/current weights, check soft-surrogate gradients independently, and separate support changes from coefficient/decoder correctness. Use a fixed diagnostic batch and preserve full-training audit evidence. No new representation winner can be claimed from these unsuccessful fits. A future learned dictionary/group experiment needs an optimization control that demonstrably lowers its actual training objective before interpreting transfer or manifold quality.
+
+
+## H1046 — Surrogate gradient implementation checks pass; hard-loss descent is unreliable
+
+Previous goal turn was progress: H1045 showed that direct-change importance training worsened both full training loss and transfer. This turn performed a bounded training-only optimization audit, with no evaluation datasets loaded and no saved model updated.
+
+Diagnostic batch fixed before results: first listed training pair in each of10families. Tested zero initialization and final160step weights for scalar, block, and shared selectors. Computed the exact implemented STE gradient of the mean bidirectional finite KL, without the tiny regularizer, and probed negative-gradient directions normalized to max-coordinate1at steps0.001,0.01,0.03,0.1. Also tested a0.03sign-gradient direction resembling Adam's first step. At final weights this is not a replay of the actual moment-preconditioned Adam update; it is a diagnostic direction.
+
+At initialization, independently constructed the continuous local surrogate hard(w0)+soft(w)-soft(w0). Its forward anchor matches the hard baseline within5.97e-8. Central finite differences at0.001and0.01agree with autodiff's directional derivative:
+
+| Selector | Maximum relative directional-gradient error |
+|---|---:|
+| Scalar |0.0872%|
+| Block |0.0258%|
+| Shared |0.00654%|
+
+These checks support correctness of the implemented local surrogate derivative on the tested directions. They do not prove every gradient entry, every checkpoint, or every model path correct, nor do they validate the surrogate as a gradient of discrete hard selection.
+
+All30probes predict descent from the surrogate. Actual hard-forward objective is unchanged in17, decreases in10, and increases in3. Constant loss under unchanged support is mathematically expected: coefficients/decoder are fixed and importance affects only discrete selection. It is not itself an implementation error. Once supports change, the surrogate can get direction or magnitude wrong. For example, block initialization sign-step predicts-0.03076but changes actual loss by+0.00585; shared final sign-step predicts-0.00659but actual change is+0.00510. Scalar initialization normalized0.1step predicts-0.06471versus actual-0.00102.
+
+This identifies a concrete optimization mismatch capable of undermining gate learning. It does not prove that this mismatch alone caused the full160step failure; cyclic-family interference, step size, and data coverage remain possible contributors. The audit's ten-pair batch is not the full training distribution. H1045's full80pair initial/final loss comparison remains the evidence that the completed fitting recipe failed to optimize its target.
+
+Verification:1040suffix calls, source/checkpoint hashes unchanged, finite losses, no fitting updates persisted, no evaluation rows loaded. Reused exact deployed decoder/forward definitions and separately assembled the continuous local surrogate for finite differences. No soft-support output was presented as a valid sparse candidate.
+
+Decision: stop interpreting these importance-only STE fits as tests of whether causal supervision or shared representations can work. Retain the successful untrained direct-change encoding controls. Next fixed experiment should freeze the support rule and encoder coordinates, and learn decoder directions through a genuinely continuous finite causal objective. Compare scalar/block/shared support with identical parameter counts and unchanged evaluation access. A continuous decoder is a learned action dictionary, not an optimized manifold or learned taxonomy; shared atoms still decode once. Verify derivatives on a small training case and measure full-training initial/final hard-forward loss before interpreting transfer. If it cannot reduce actual training loss, investigate that failure rather than claiming a representation result. This isolates learnable geometry from the unreliable discrete gate surrogate without another threshold/duration sweep.
+
+
+## H1047 — Continuous action dictionaries fit causal targets and transfer within tasks
+
+Previous goal turn was progress: H1046 checked surrogate derivatives and established hard-selection descent mismatch. This turn held the untrained direct-change support rule fixed and trained continuous decoder directions instead. No gate surrogate was used.
+
+Each method receives both endpoint states, projects their difference into the same frozen expanded-training PCA128perstream, and selects coordinates with the original untrained scalar/block/shared rule. Decoder columns are now learnable and unit-normalized. Three1152x128decoders give442368parameters for every method. Shared atoms are decoded once under the group union. Encoder directions and group membership stay frozen; this is a learned action dictionary, not a full learned BSF, nonlinear manifold, or learned semantic taxonomy.
+
+Training:80pairs/10families,160fixed steps with16visits/family, Adam0.001from the PCA decoder, bidirectional finite paired-edit KL plus1e-4mean squared column-direction displacement. No full-state reconstruction objective. All pairs covered; final checkpoint only. Same schedule, parameter count, and input access across architectures. Max48active coordinates; shared unions sometimes smaller. No evaluation-dependent stopping or learning-rate search.
+
+Continuous derivative checks on one training pair per architecture agree with central finite differences to within0.044%relative error across the tested steps/directions. This is a local implementation check, not proof of all gradients. Unlike the earlier importance-only fits, the actual full80pair equal-family training objective decreases strongly:
+
+| Method | Initial training KL | Final training KL | Reduction |
+|---|---:|---:|---:|
+| Scalar |0.3281|0.1513|53.9%|
+| Block |0.8283|0.1123|86.4%|
+| Shared |1.0946|0.0851|92.2%|
+
+Training losses exclude the tiny displacement penalty. Shared has the best final training fit, despite its worse initialization; this is not evidence of superior generalization.
+
+Paired relative KL, initial→trained:
+
+| Panel | Scalar | Block | Shared |
+|---|---:|---:|---:|
+| Same-family lexical |0.4475→0.3263|0.6322→0.3936|0.7161→0.4345|
+| Historical copying/spatial |0.8448→0.8435|0.9166→0.9232|0.9220→0.9250|
+| Weekday development |0.7498→0.7630|0.8416→0.8593|0.8974→0.8982|
+
+All three improve on familiar-family lexical examples, while excluded-task transfer remains weak. Same-family donor-correct top1after edits rises to40%scalar,40%block,32.5%shared. Copying/spatial remains0%, weekday12.5%. Native recipient context is preserved, so these are edit operators, not autonomous model replacements.
+
+The result separates previously conflated claims: actual finite causal supervision can successfully fit continuous action geometry and help within-family generalization; the failed STE importance recipe was not a sufficient test of that idea. However, training-fit superiority of shared groups does not translate to the best lexical development fidelity, and no whole-task generalization advantage has appeared. Fixed random groups and frozen encoder directions remain strong limitations. With442kparameters and only80pairs, memorization or narrow-family specialization is plausible. The current experiment cannot assign a unique cause to the remaining transfer gap.
+
+Verification:2578suffix calls including960student training passes, full initial/final training audits, derivative probes, and fixed evaluation. Initial encoders reproduce H1044within3.49e-6KL after unit-column normalization; the small numerical difference is explicit. Decoder unit-norm error1.20e-7. Zero-change and reverse-sign behavior exact on checked examples. Frozen encoder/source hashes unchanged, no training/evaluation prompt overlap. Independently recomputed KL from18saved evaluation examples, max4.31e-14. No fresh task discovery or validated manifold claim.
+
+Next decisive test: leave each of the10competent training families out in turn, refitting encoder PCA, normalization, and decoder using only the other nine families. Compare all three methods and their untrained controls under the same fixed per-family exposure, without selecting methods or thresholds from held-out outcomes. This creates a broader within-bank whole-task transfer test and prevents the encoder from seeing the held-out family's states. The bank was already competence-screened, so it is not pristine external validation; report that limitation. Fix the procedure before running, retain native errors, and measure actual training fit for each fold. Do not infer reusable shared computation solely from the strong in-sample shared loss.
+
+
+## H1048 — Whole-family crossfit gains concentrate in country-based tasks
+
+Previous goal turn was progress: H1047 established a continuous decoder recipe that genuinely lowers training loss and improves within-family edits. This turn ran the prespecified ten-fold whole-family exclusion test:30fits, scalar/block/shared for each excluded family. For each fold, PCA128perstream, center, scale, and decoder were fitted only on the other nine families. No exact held-out prompt entered fitted statistics.
+
+Each method uses the same encoder input access,442368decoder parameters, fixed random group layout, max48active coordinates, and144fixed steps (16visits per training family). All remaining training pairs are covered. Optimizer/objective unchanged from H1047; initial and final checkpoints evaluated, with no outcome-based checkpoint choice. All30fits reduce their full-training equal-family KL, so this comparison is not undermined by the earlier STE optimization failure.
+
+| Method | Mean training KL initial→final | Mean held-out relative KL initial→final | Held-out donor top1 initial→final |
+|---|---:|---:|---:|
+| Scalar |0.2841→0.1535|0.6485→0.6364|10.3%→13.1%|
+| Block |0.8144→0.0912|0.7716→0.7322|0.0%→3.8%|
+| Shared |1.1071→0.0887|0.8441→0.7963|2.5%→5.0%|
+
+These are equal-fold macro averages. Block/shared obtain larger relative reductions from worse starting points but remain worse than scalar in final held-out relative KL in all10folds. This compares these fixed random support groups, not optimized semantic group memberships or arbitrary BSFs. One seed/partition and small panels limit broader architecture claims.
+
+The averaged improvement is concentrated:
+
+| Excluded family | Scalar initial→final | Block initial→final | Shared initial→final |
+|---|---:|---:|---:|
+| Capital recall |0.1624→0.1104|0.4015→0.2170|0.6768→0.3985|
+| Country-language recall |0.1966→0.1296|0.4511→0.2534|0.5605→0.3225|
+| Pronoun gender |0.4080→0.3696|0.6865→0.6381|0.7572→0.7518|
+| Number successor |0.9235→0.9238|0.9539→0.9544|0.9709→0.9768|
+
+Removing capital and country-language from the macro leaves essentially no aggregate gain: scalar0.76579→0.76554, block0.85794→0.85647, shared0.90045→0.90530. Agreement, antonym, binding, and several other excluded families remain poorly represented despite strong training fits. The method supports some task-to-task reuse, but not a broad transferable feature vocabulary.
+
+Important interpretation constraint: the two factual families share country identities/words in the bank. Holding out capital recall still leaves country-language training on many of the same countries, and vice versa. This is a legitimate named-task exclusion but not a lexical/content or primitive exclusion. Earlier cached-value work already suggested shared country payloads across factual readers. These results are consistent with that mechanism, but the current experiment does not establish it or prove a general abstract factual-recall operation. Native errors are retained; fidelity reproduces the model, not an ideal answerer.
+
+The bank was competence-screened historically. This crossfit enforces whole-family training exclusion for every learned statistic, but is not pristine external validation or new-task discovery. Decoder columns remain continuous action directions with a frozen PCA encoder and fixed support grouping; there is still no validated manifold/ontology or learned computational DAG.
+
+Verification:18400suffix calls, including8640student training passes,10folds/30fits, all finite. Fold PCA orthogonality3.11e-15; max48active; exact held-out training prompt overlap0. Source hashes unchanged. Independently recomputed all60summary rows and KL for60saved held-out logit examples, max2.45e-14. Per-fold geometry, decoder/optimizer checkpoints, training/held-out records, and audit logits saved. Full training improvement confirmed for every fit.
+
+Next focused transfer check: evaluate the frozen capital/language crossfit models on different country identities, using existing historical lexical panels or a fixed new prompt panel with competence checked separately. Preserve the trained models and compare seen-country versus excluded-country transfer without refitting or selecting ranks. The deliverable is whether the observed reusable action is tied to shared country identities or extends across content. Stop after that matched lexical-transfer test; do not reopen a lengthy head-level mechanism detour. Its result should guide the supervision split and shared-dictionary design for the next broader representation experiment.
+
+
+## H1049 — Factual-task transfer collapses when country identity is excluded
+
+Previous goal turn was progress: H1048 completed30whole-family fits and found gains concentrated in capital/language tasks sharing country content. This turn evaluated the frozen factual crossfit models on fixed matched-wording seen-versus-excluded-country panels. No fitting, rank search, output-based support selection, or cohort filtering.
+
+Each task/cohort has fourpairs. Seen cohort uses France/Germany,Italy/Japan,Spain/China,Russia/France: seven unique countries, with France repeated, all present in the corresponding fold's training prompts through the other factual task. Excluded cohort uses Poland/Turkey,Finland/Sweden,Norway/Portugal,Denmark/Hungary: eight countries verified absent by whole-word matching from every actual prompt used to fit the fold. These countries were historically evaluated elsewhere, so exclusion concerns current representation fitting, not pretraining or globally fresh research data. Repeated France and differing identity counts limit independence.
+
+Wording is fixed to the original task templates: capital city versus main language. Both endpoints have equal token lengths, disjoint single-token answer groups, and preserved continuation boundaries. Native competence passes for all four cohorts: both-endpoint accuracy100%; top1capital seen/excluded100%/100%, language87.5%/100%. Thus poor excluded-country edits are not explained by native task incompetence on this panel.
+
+Paired relative KL, lower better:
+
+| Task/cohort | Scalar initial→trained | Block initial→trained | Shared initial→trained | Dense projection |
+|---|---:|---:|---:|---:|
+| Capital, seen countries |0.1002→0.0525|0.3718→0.1741|0.6292→0.3508|0.0150|
+| Capital, excluded countries |0.8125→0.7994|0.8977→0.8995|0.9144→0.9083|0.6236|
+| Language, seen countries |0.1038→0.0213|0.3812→0.1137|0.4635→0.1181|0.0074|
+| Language, excluded countries |0.7830→0.7778|0.8806→0.8720|0.8867→0.8775|0.6090|
+
+Trained scalar donor-answer top1is50%capital/100%language for seen countries, versus0%for both excluded cohorts. Every candidate, including dense projection, has0%donor top1on excluded countries. Dense uses384coordinates instead of sparse max48 and is a fixed Euclidean reference, not an information-theoretic upper bound on every encoder using the span.
+
+This sharply limits H1048's apparent task-level reuse: it largely transfers across factual readers when lexical country identities are shared. It does not demonstrate a content-independent factual operation. Since even the untrained dense projection changes from near-faithful seen edits to poor excluded edits, gate optimization alone cannot explain the gap; the fitted input geometry already loses relevant new-content variation. The experiment does not uniquely locate that loss to a single port or prove irrecoverability from all possible codes. Learned decoder behavior, low-rank coverage, and content distribution shift remain intertwined.
+
+Connection to earlier research: the native model already reuses token-derived cached values across later readers, and earlier weight-based lexical payload work transferred between language and capital contexts. These findings are consistent with reusable computation acting on content-specific vectors rather than one small global activation dictionary covering every entity. This is a hypothesis supported by converging evidence, not a newly established complete mechanism.
+
+Verification:32prefix captures/256suffix calls, no fits, all original crossfit geometry/checkpoint hashes unchanged, panel hash unchanged. Excluded-country mentions in fitting prompts0; seen mentions verified for each fold. Independently recomputed KL for28saved logit samples, max2.40e-14. All cohorts and candidate outcomes retained. No new corpus documents, externally fresh task validation, or manifold discovery claim.
+
+Stopping criterion met for the factual lexical-transfer test. Do not extend into another head-localization campaign. Next representation-design experiment should explicitly separate token-specific content from contextual changes: build a content-preserving baseline using the existing exact token-to-cached-value program, with any native/uncompressed bypass counted and disclosed, then apply sparse action dictionaries to the remaining contextual streams. Give every compared architecture identical content access. Validate the extracted content program numerically on diverse existing tokens before interpreting behavioral effects. This tests a conditional representation contract rather than assuming broader supervision can make a small fixed PCA span represent all entities. It remains necessary to test genuinely reusable components and unfamiliar task combinations before claiming the broader research objective is resolved.
+
+
+## H1050 — Exact token-content program rescues factual transfer; sparse residual contribution is small
+
+Previous goal turn was progress: H1049 established a large seen/excluded-country gap despite strong native competence. This turn exported and validated the tokenwise content computation, then supplied it equally to all frozen conditional residual action models. No fitting or head-localization search.
+
+Program: raw1152dimensional pretrained token embedding → native RMS normalization x0 → firstblock residual/embedding scalar mixture → second RMS normalization → full firstblock1152x1152value projection → nine cached value heads. It computes x0 and cached values without attention/QK or a model prefix. This extends H1023's head0lexical program to the full cached vector; it is an extraction of existing model computation, not a newly learned rule.
+
+Numerical validation: exact match (max error0, relative L2error0) against native pre-attention11 cached values and embedding inputs on the factual panel and192existing natural training documents,3072token occurrences/1553unique token IDs. Content replacement without a residual edit reproduces each factual native logit vector exactly. Natural-text checks establish numerical agreement of this tokenwise program, not natural behavioral generalization.
+
+Cost is explicit:1327106float32weight scalars,5308424tensor bytes (~5.31MB), plus the external pretrained embedding table57950208scalars (~231.8MBfloat32). One1152x1152matrix multiply (~1.327million MACs) per token plus normalizations. Output retains2304exact content values per token (x0+cache). Conditional candidates additionally use at most16residual coordinates per token, a frozen PCA encoder, and a147456parameter residual action decoder. Native recipient residual and downstream suffix remain. This is not a48total-coordinate replacement or a compressed whole model. Unused other-port decoder weights from the original checkpoints are not required for conditional inference.
+
+Intervention: add only the sparse predicted residual change to the native recipient residual; generate donor x0/cache directly from donor embeddings with the exported program. Every scalar/block/shared method gets identical content access. Controls include no residual change and dense rank128residual projection. All frozen models/geometry remain unchanged. Comparison with H1049compressing all streams is therefore a different representation contract with an explicit exact-content allowance.
+
+Excluded-country paired relative KL:
+
+| Conditional residual edit | Capital | Language |
+|---|---:|---:|
+| Zero residual change |0.02243|0.01460|
+| Trained scalar16 |0.01798|0.01169|
+| Trained block max16 |0.01949|0.01315|
+| Trained shared max16 |0.01938|0.01346|
+| Dense residual128 |0.01537|0.01121|
+
+For reference, H1049trained scalar with all streams compressed was0.7994capital/0.7778language on the identical examples. Conditional scalar donor-answer top1is87.5%capital/100%language; zero-residual control already achieves87.5%for both. Thus most rescue comes from preserving token content, not a successful sparse contextual explanation. Sparse residual edits add modest benefit. Seen-country conditional scalar errors are similarly small0.01746capital/0.00716language. The large lexical gap largely disappears under the explicit content allowance.
+
+Interpretation: losing token-derived cached information was the dominant bottleneck for these factual transfer failures. A reusable fixed tokenwise map preserves arbitrary country content much better than the narrow fitted activation subspace. This supports separating token identity/content from contextual computation when designing conditional featurizers. It does not establish a general-purpose content/context decomposition for residual-dependent tasks, prove a semantic manifold, or show that these action dictionaries explain the model. The pretrained embedding table and value map are substantial retained machinery, and arbitrary unseen-token behavior still depends on that machinery.
+
+Verification:192native natural-prefix runs,288suffix evaluations, frozen source hashes unchanged, max16active residual coordinates. Exported code/weights have recorded hashes and explicit manifest costs. Zero fitting rows. Independently recomputed KL on32saved logit examples, max1.45e-14. Original factual native competence and all cohort outcomes retained. No new natural documents or fresh-task claims.
+
+Next bounded generality check: apply the same exact content program and zero-residual/sparse/dense residual controls to the other eight whole-family crossfit folds, without retraining. This prevents treating a cache-dominated factual success as a general representation success. Compare initial/final residual decoders and the zero-residual baseline, with the same conditional information allowance for every architecture. Then use the residual-dependent failures to specify a conditional residual-training objective; do not expand the factual task mechanism into another head-level detour. The broader goal remains incomplete.
+
+
+## H1051 — Content preservation does not solve residual-dependent whole-task transfer
+
+Previous goal turn was progress: H1050 validated the exact token-content program and showed that factual rescue was chiefly an explicit content bypass. This turn applied the same conditional contract to all other eight H1048whole-family crossfit folds,72pairs/144endpoints. No new fit or family selection.
+
+Every method receives the exact donor embedding/cache outputs from the H1050program and the native recipient residual. Only the residual change is represented sparsely (max16coordinates) or densely (128). Encoder/decoder models were fitted excluding each evaluated family. Initial and final decoder checkpoints are retained, alongside zero-residual-change control. These are conditional edits with2304exact content scalars/token, not a compressed whole model. All retained program/embedding/native-suffix costs remain as documented in H1050.
+
+Paired relative KL, lower better:
+
+| Excluded family | Zero residual edit | Trained scalar16 | Trained block max16 | Trained shared max16 | Dense128 |
+|---|---:|---:|---:|---:|---:|
+| Agreement |0.9839|0.8169|0.8876|0.9383|0.5308|
+| Antonym |0.6983|0.6114|0.6227|0.6678|0.5046|
+| Entity binding |0.0949|0.0531|0.0565|0.0677|0.0543|
+| Number successor |0.8115|0.7585|0.7754|0.7951|0.6739|
+| Past tense |0.9446|0.7181|0.8102|0.8415|0.5607|
+| Noun plural |0.9878|0.7328|0.8028|0.8783|0.4719|
+| Pronoun gender |0.6571|0.2109|0.4140|0.4831|0.0745|
+| Sentiment |0.8418|0.6778|0.7589|0.7820|0.5983|
+
+The content program covers much of binding, consistent with its cached-value dependence, but leaves substantial contextual computation unexplained elsewhere. Scalar improves over zero edits, particularly pronouns, yet most task errors remain high. Dense residual projection is better but still imperfect on most families; it is not a behaviorally optimal upper bound for arbitrary encoders in the span.
+
+Equal-family macro relative KL: zero0.7525; scalar initial0.5766→trained0.5724; block0.6458→0.6410; shared0.6802→0.6817; dense0.4336. Thus nearly all sparse benefit was already present before action-decoder fitting. Macro donor-answer top1is11.98%zero,18.62%trained scalar,13.54%block,12.37%shared,22.53%dense. No strong learned cross-family contextual representation is established.
+
+This closes the generality check without promoting the factual result into an overall success. The current decoders were trained against all-stream reconstruction of changes; they were not trained under the exact-content conditional contract used here. That objective mismatch is a remaining testable explanation, alongside weak encoder coverage, fixed random groups, small training inventory, and limited capacity. These results alone cannot isolate those explanations or prove that context-conditioned manifolds are absent.
+
+Verification:1440suffix calls, zero fitting rows, all8excluded families absent from their fitted geometry, source/checkpoint/program hashes unchanged. Program content matches native inputs exactly and identity replacement reproduces native logits exactly on all evaluated endpoints. Max16sparse residual coordinates. Independently recomputed KL for64saved examples, max2.54e-14. Native errors and all panels retained. No new corpus, untouched external validation, or new-task discovery.
+
+Next bounded comparison: train only residual action decoders under this exact conditional objective, preserving whole-family exclusions and the same fixed support rules. All architectures should have147456learnable normalized decoder parameters, identical exact content access, and16visits per remaining training family. Require full-training initial/final loss improvement, report zero-edit and untrained controls, and compare with the existing frozen all-stream-trained residual decoders. This tests whether directing supervision at the actual unexplained contextual change helps; do not infer success merely because the exact content component is strong. If cross-family gains remain absent, stop this decoder-only family before a new representation hypothesis.
+
+
+## H1052 — Conditional residual supervision fits but transfers mainly to pronouns
+
+Previous goal turn was progress: H1051 tested conditional frozen residual models across8nonfactual whole-family exclusions and found limited learned benefit. This turn trained the residual-only objective directly, completing24fits under identical exact-content access.
+
+Each method has147456learnable unit-normalized residual decoder parameters, fixed training-only PCA128encoder from its H1048fold, fixed scalar/block/shared support rule, and at most16active residual coordinates per token. Donor embedding/cache values come from the validated H1050token-content program. Native recipient residual and suffix remain;2304exact content values/token and retained pretrained machinery are still charged. All methods use9training families,16visits each/144steps, Adam0.001, final checkpoint only. All remaining pairs covered; each evaluated family remains excluded from both encoder and decoder fitting.
+
+Objective: actual bidirectional donor-output KL under the conditional content program, plus the same small direction-displacement penalty. No gate STE, no full-state reconstruction loss, no evaluation-dependent selection. Every one of24fits lowers full equal-family training KL.
+
+| Method | Training KL initial→final | Held-out relative KL initial→final | Prior all-stream-trained conditional KL |
+|---|---:|---:|---:|
+| Scalar |0.1910→0.0984|0.5766→0.5689|0.5724|
+| Block |0.4292→0.0676|0.6458→0.6308|0.6410|
+| Shared |0.5210→0.0611|0.6802→0.6654|0.6817|
+
+Better-matched training helps modestly in aggregate, especially grouped decoders relative to their earlier training objective. Yet the improvements concentrate in pronoun gender: scalar0.2308→0.1742, block0.4381→0.3356, shared0.4808→0.3566 (initial baselines in the current run). Excluding pronouns, seven-family macro barely changes: scalar0.62597→0.62535, block0.67548→0.67294, shared0.70873→0.70949. Training fit remains a poor proxy for broad task transfer.
+
+Final scalar errors remain0.819agreement,0.609antonym,0.053binding,0.760number successor,0.723past tense,0.737plural,0.174pronoun,0.677sentiment. Grouped methods do not beat scalar on any of these eight folds. Macro donor-answer top1is20.96%scalar and14.32%each grouped method. These results concern fixed random groups, one seed, small competence-screened panels, and a frozen encoder; they do not rule out learned groups/manifolds generally.
+
+Verification:14752suffix calls including6912student training passes,24completed fits, all finite; source/program/geometry hashes unchanged; exact content matches native inputs; max16active; no exact heldout prompt or heldout family in fitted statistics. Independently recomputed48saved logit KL samples, error2.45e-14. A strict1e-8cross-run initial-KL replay check failed: maximum difference1.37e-6from H1051. Initial normalized decoder values match exactly; the remaining cross-run numerical cause was not isolated. This is recorded rather than called exact replay, and is much smaller than the reported objective differences. Native/content and current-run metric checks remain valid. No parameter tuning followed that discrepancy.
+
+Stop the decoder-only sequence as promised. Actual optimization now works, objective mismatch has been reduced, and extra training/causal labels alone have not produced broad cross-family reusable directions. Dominant remaining hypotheses include limited frozen-encoder coverage, random group structure, lexical-specific representations, context-dependent geometry, and the fact that whole-family exclusion may withhold a computational primitive rather than merely a new composition.
+
+Next research design should distinguish that last possibility: a frozen crossed content×context benchmark with held-out combinations, where each content item and each context format occurs separately in training. Preserve existing whole-task exclusions and report the new compositional test separately; success on it must not replace the broader goal or be called unseen-primitive transfer. Include matched native competence and zero/context-only controls, retain all attempts, and do not repurpose old heldout prompts into training without explicit provenance. Before fitting, inventory which factors truly vary and whether the native model performs the intended combination. This is a new representation hypothesis after stopping the unsuccessful decoder-only family, not another optimizer-duration or rank sweep.
+
+
+## H1053 — Crossed combination panel isolates a competent residual-dependent agreement test
+
+Previous goal turn was progress: H1052 completed24conditional fits, found narrow transfer gains, and stopped the decoder-only whole-family sequence. Current state remained H1052 with no running GPU jobs. This turn froze and evaluated a new content×context checkerboard before fitting any representation.
+
+Design: four tasks (agreement, pronoun gender, sentiment, antonym), four content pairs per task, four context templates per task:64paired combinations/128unique endpoint prompts. Train if(content index+context index) is even; reserve odd parity. Each content factor and context factor occurs twice in training and twice in the reserved half, while the exact prompt combinations are disjoint. This tests lexical/context recombination, not composition of independently identified computational primitives or transfer to a wholly new task.
+
+Factors are explicit. Agreement changes singular/plural number with noun stem as content and location phrase as context. Pronouns change gendered referents with referent pair as content and location phrase as context. Sentiment changes adjective polarity with adjective pair as content and reviewed object as context. Antonyms change queried lexical identity with opposite pair as content and framing prefix as context. These contrasts do not all isolate the same kind of semantic operation.
+
+All64pairs have valid disjoint single-token answer groups and equal token lengths. Answer groups for agreement and sentiment use the previously fixed semantic sets; pronoun/antonym use exact alternatives. Exact overlap with the four scanned historical task banks is0, and train/reserved overlap0. The historical scan is scoped to listed banks, not a claim that every file in the entire research history was searched. No historical reserved prompts were moved into training.
+
+Fixed gate: all8aligned pairs in a family/split,>=75%both-endpoint binary accuracy,>=50%unrestricted semantic/exact top1. Training eligibility uses training outcomes only; reserved failures remain visible.
+
+| Family | Train binary / top1 | Reserved binary / top1 | Status |
+|---|---:|---:|---|
+| Agreement |100% /56.25%|100% /56.25%|Both pass|
+| Pronoun gender |100% /56.25%|100% /43.75%|Training eligible; reserved diagnostic|
+| Sentiment |25% /0%|25% /6.25%|Training ineligible|
+| Antonym |75% /43.75%|62.5% /50%|Training ineligible|
+
+Do not reinterpret a correct forced-choice contrast as unrestricted task competence. The lower pronoun reserved top1is retained rather than relaxing the gate. Failed sentiment/antonym grids are not evidence of inability on all formats, and will not be repaired repeatedly to manufacture a broad passing benchmark.
+
+The zero-residual-edit control transfers exact donor token content but leaves recipient contextual residual unchanged. Reserved relative KL is0.9935agreement and0.7253pronoun. Thus agreement's content bypass alone is essentially no help: a successful conditional representation must explain a residual-dependent change. Full native boundary transplant replays exactly. No feature, manifold, or decoder trained in this experiment.
+
+Deliverables: complete frozen factor manifest, all128native boundary states/logits, all64native outcome records, zero-residual causal targets, and training eligibility for16pairs (eightagreement+eightpronoun). Agreement is the primary competent composition endpoint; pronoun remains diagnostic. This is a deliberately easier complementary test to whole-family exclusion, not a replacement success criterion for the broader goal.
+
+Verification:128prefix and384suffix executions, content program exact on all inputs, full-boundary logit replay error0, manifest unchanged. Every factor appears twice per split. Independently recomputed all64native pair outcomes and four saved control-logit KL samples; maximum discrepancy below1e-10. No fitting rows, no new natural documents, and no newly validated whole-task discovery.
+
+Next fixed comparison: add only the16eligible checkerboard training pairs to the existing historical training bank, keeping all reserved combinations and original whole-task exclusions out of every fitted statistic. Compare a historical-only control against the augmented bank under the same conditional residual representation and equal compute, with enough prespecified per-family visits to cover every training pair. This avoids confusing tiny-grid rank deficiency with compositional failure. Evaluate primary agreement and diagnostic pronouns separately, include untrained and zero-residual controls, and report both full training fit and reserved-combination fidelity. No outcome-based rank or checkpoint selection, and no claims about the two ineligible grids.

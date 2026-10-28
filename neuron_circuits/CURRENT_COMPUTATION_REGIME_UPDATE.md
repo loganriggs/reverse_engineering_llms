@@ -3778,3 +3778,63 @@ H651 factual-panel correction pending H652: whitespace splitting corrupted South
 
 
 887. H1033: Completed six directly finite-output-supervised/activation selector fits. Causal loss modestly improves scalar/block paired fidelity but worsens shared; no group advantage.
+
+
+888. H1034: Frozen whole-task transfer fails: causal selectors worse than activation controls; even PCA128 loses all competent-cohort top answers. Metrics independently replayed. Next localize projection damage by stream factorial.
+
+
+889. H1035: Eight-corner projection localizes failure to pre-attention11 residual: native top1 90.6%, residual-only 3.1%; cached-value loss interacts strongly with residual compression. Next broaden training-only residual geometry, not gate tuning.
+
+
+890. H1036: Training-only natural PCA at rank128 improves Euclidean residual coverage slightly but worsens paired transfer (.479→.547). Next compare discovery paired-difference geometry with activation geometry at fixed rank.
+
+
+891. H1037: Paired-change rank128 captures99.67%training change energy but20.55%excluded-task change energy; paired KL worsens. Stop holdout basis variants; check frozen same-family transfer to decide task coverage vs fitting/context failure.
+
+
+892. H1038: Frozen bases achieve low same-family paired error; native-assistance control confirms strong residual contributions for agreement/pronoun/sentiment. Difference basis poor whole replacement. Stop basis diagnostics and broaden competent causal task inventory.
+
+
+893. H1039: Fixed20-family screen yields5eligible training cohorts/20pairs; no reserved cohort passes. Capture/metrics audited. Next repair reserved prompts with explicit adaptive provenance and validate added training causal ports before joint featurizer fit.
+
+
+894. H1040: All20added training pairs causally screened: sequence/tense residual-dominant, language cache-dominant, antonym mixed. Contrasts mostly vary lexical content within task, not operation itself. Next reserved-panel repair, then joint fit.
+
+
+895. H1041: Two formats across8reserved families yield one competent weekday development cohort, no evaluation cohort. Stop prompt repair; freeze narrow-vs-expanded joint featurizer pilot on opened diagnostics, retaining all exclusions and limitations.
+
+
+896. H1042: Six finite-causal fits complete. Broad training partially improves weekday/scalar whole KL, not excluded top1; original-family degradation partly exists untrained.80step expanded schedule covers56/80pairs. Next fixed160step exposure control.
+
+
+897. H1043: Verified exact80step replay then expanded160full-pair exposure. No consistent recovery; scalar weekday80gain disappears. Stop duration extensions; next directly sparsify paired changes versus difference of sparse endpoints.
+
+
+898. H1044: Direct delta support improves all9trained endpoint comparisons with max48vs88observed union coordinates; untrained scalar strongest sparse control. Still poor excluded fidelity; next train matched direct-edit objective, no reconstruction loss.
+
+
+899. H1045: Direct-causal importance training worsens all9evaluation comparisons and full training KL for all3selectors. Optimization failure, not merely transfer. Stop recipe; audit surrogate vs actual hard-loss descent on training data before new representation fits.
+
+
+900. H1046: Local-surrogate finite differences pass<0.1%error, but30predicted-descent hard probes yield17plateaus/3uphill. Stop STE gate-fit conclusions; next continuous decoder learning with fixed support and actual training-loss controls.
+
+
+901. H1047: Continuous learned decoders reduce actual training KL54/86/92% and improve same-family edits; excluded transfer unchanged. Shared besttrain, scalar bestdevelopment. Next whole-family crossfit with training-only encoder/decoder.
+
+
+902. H1048: 30whole-family crossfits all lower train loss; transfer gains concentrate in capital/language sharing country identities. Excluding these, macro gain≈0. Scalar bestfinal in10/10folds. Next frozen cross-country transfer check.
+
+
+903. H1049: Frozen factual transfer collapses on excluded countries despite native100%accuracy; scalar capital.053→.799/language.021→.778; dense alsofails. Sharedcontent explains most prior factual transfer. Next explicit content/context factorization baseline.
+
+
+904. H1050: Exact token-content program validates on1553natural tokens; factual excluded-country scalar KL~.018/.012 vs.799/.778all-stream. Zero-residual already~.022/.015: rescue chiefly content bypass,2304exact values/token. Next other8fold conditional controls.
+
+
+905. H1051: Exact content helps binding but leaves most residual-dependent tasks poor.8fold scalar macro.577untrained→.572trained vs.752zero; minimal learned transfer. Next train residual-only conditional objective with exactcontent and full family exclusions.
+
+
+906. H1052: 24conditional residual fits lower train loss; transfer improvements mainly pronouns, sevenotherfamilies≈unchanged. Stop decoder-only sequence. Next distinguish omitted primitive from heldout combination using content×context design while preserving task exclusions.
+
+
+907. H1053: 64-pair checkerboard frozen and screened: agreement passes both halves, pronoun reserved remains diagnostic, sentiment/antonym trainfail. Agreement content-only edit error.9935.16eligible trainpairs; next historical-only vs augmented composition training.
