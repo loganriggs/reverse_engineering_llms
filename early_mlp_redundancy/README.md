@@ -19,7 +19,12 @@ leaves forced-choice task accuracy unchanged but changes native top predictions 
 positions. Deleting half produces mean KL.030–.044, versus.598 for all products. This supports partial
 robustness on the opened task panel, not unchanged computation or a corpus-wide pruning guarantee.
 
-The directory contains ten exploratory response/steering studies plus the D1 deletion diagnostic,
+A [matched-magnitude control (D2)](DELETION_NORM_CONTROL.md) shows that weakening the native
+write while preserving its direction causes4–10 times less KL than literal deletion. Thus deletion
+damage is not explained by amplitude alone; similar directions can still differ in behavior.
+These controls use the native write and are not pruned models.
+
+The directory contains ten exploratory response/steering studies plus the D1 deletion and D2 norm-control diagnostics,
 a pinned standalone model loader, original evidence, and runnable verification scripts. The response
 studies below remain relevant to finding computational units, but must not be used as removal evidence.
 

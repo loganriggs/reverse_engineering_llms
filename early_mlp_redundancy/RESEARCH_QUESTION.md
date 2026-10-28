@@ -13,10 +13,11 @@ observed-token CE, worst-case examples and local write changes. A preserved bina
 is insufficient. A distributional tolerance must be explicit before making an approximate-equivalence
 claim; this diagnostic reports effects without inventing a passing tolerance after the fact.
 
-Next: compare the fixed literal deletions with per-position controls that preserve native MLP1
-write direction while matching the deleted write's norm. Do not count that control as pruning.
-This separates amplitude effects from direction loss. Use the same opened task bank as development,
-no mask search or refitting. Generalization to natural text remains a separate required test.
+The fixed [direction-preserving norm control](DELETION_NORM_CONTROL.md) is complete: at matched
+magnitude it causes substantially less KL than literal deletion. Next audit natural-text row
+provenance and freeze a finite corpus evaluation of the same masks and controls. Do not optimize
+masks or call reused/unknown rows fresh. Preserve per-document tails and position-stratified results.
+The task-panel results remain descriptive until this generalization boundary is tested.
 
 The previous [context-response plan](ARCHIVED_CONTEXT_RESPONSE_PLAN.md) is retained as history.
 Its proposals and P10's projection/residual test are deferred, not additional active next steps.

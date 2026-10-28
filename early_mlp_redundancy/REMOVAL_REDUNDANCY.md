@@ -107,3 +107,5 @@ recomputed in NumPy for eight saved sequence-output pairs, maximum error2.39e-8 
 fraction rounding). All-product output equals the native bias exactly; whole-write output equals
 zero exactly. The audit expects `/tmp/emlp_d1_deletion_logits.pt` written by the runner, not bundled.
 [Audit receipt](validation/mlp1_group_deletion_audit.json).
+
+Follow-up: the fixed norm-control test is now complete in [D2](DELETION_NORM_CONTROL.md). Its native-direction controls cause substantially less output change; these are not pruned models.

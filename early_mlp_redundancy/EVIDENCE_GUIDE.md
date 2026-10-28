@@ -179,3 +179,5 @@ P9 completes the [direction-by-norm factorial](DIRECTION_NORM_FACTORIAL.md), inc
 P10 adds [lexical direction transfer](LEXICAL_DIRECTION_TRANSFER.md), with explicit word-pair exclusions and [audit receipt](validation/lexical_direction_audit.json).
 
 User-definition correction: [literal removal versus replacement and steering](REMOVAL_REDUNDANCY.md). EMLP-D1 has a [separate deletion audit](validation/mlp1_group_deletion_audit.json); its outputs do not establish exact equivalence.
+
+[D2 matched-norm controls](DELETION_NORM_CONTROL.md) separate amplitude-only perturbations from literal deletion, with [audit](validation/deletion_norm_control_audit.json).
