@@ -7,9 +7,9 @@ contrast it would test. The detailed design is retained for review.
 
 The parent audit is now complete at source level: see [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md).
 A small [native response pilot](NATIVE_MLP2_RESPONSE_PILOT.md) has run; the table factorial below
-has not. [EMLP-P2](MLP2_TOKEN_TRANSFER.md) now tests four noun anchors and future predictions. Next apply
-the same intervention to MLP0→MLP1 on the opened panel, to return directly to what MLP1 adds;
-do not treat another diagnostic as fresh natural-corpus confirmation.
+has not. [EMLP-P2](MLP2_TOKEN_TRANSFER.md) now tests four noun anchors and future predictions. [EMLP-P3](MLP1_RESPONSE.md) applies the same intervention to MLP0→MLP1 and finds strong
+amplification for context and random changes. Next compare this induced MLP1 response with
+the full natural donor/recipient MLP1 difference; amplification alone is not a mediation fraction.
 
 ## Target
 

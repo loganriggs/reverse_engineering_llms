@@ -151,3 +151,7 @@ See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.m
 ## Native token-transfer follow-up
 
 [EMLP-P2](MLP2_TOKEN_TRANSFER.md) reports the crossed noun/context panel and its local/future MLP2 response factorial.
+
+## Direct MLP0→MLP1 response
+
+[EMLP-P3](MLP1_RESPONSE.md) uses the same opened panel and controls to test MLP1 response.

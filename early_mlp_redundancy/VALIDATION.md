@@ -33,3 +33,7 @@ packet beyond the original loader smoke test; it does not validate corpus-level 
 EMLP-P2: 704 forwards, exact identity/pre-edit replay, all stored overall summary means
 checked, and 56 independent NumPy positionwise KL checks from saved logits (max7.43e-16).
 See MLP2_TOKEN_TRANSFER.md; no representative-corpus or semantic-feature claim.
+
+EMLP-P3:704native forwards; identity/pre-edit replay exact0; all overall summary means
+and causal equalities checked;56independent NumPy KLchecks max8.29e-16.
+See MLP1_RESPONSE.md for scope and limitations.

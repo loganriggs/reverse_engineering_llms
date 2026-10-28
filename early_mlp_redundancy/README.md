@@ -19,6 +19,10 @@ does not invalidate C512-specific attenuation.
 **Transfer follow-up:** [EMLP-P2](MLP2_TOKEN_TRANSFER.md) extends the amplification finding to
 four noun tokens and future predictions, with a local/future MLP2 response factorial.
 
+**Direct MLP1 test:** [EMLP-P3](MLP1_RESPONSE.md) finds strong amplification of MLP0 write
+changes, including random controls. Information overlap does not imply causal inactivity;
+semantic usefulness and mediation of the full natural context difference remain unmeasured.
+
 ## Read this first
 
 **Follow-up correction:** [the history audit](HISTORY_AUDIT.md) adds completed table-composition,
