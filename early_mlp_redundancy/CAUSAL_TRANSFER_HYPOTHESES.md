@@ -30,3 +30,7 @@ Prioritize1,4,5,18 and19 for the next information gains. The immediate fixed-del
 ## M30 update
 
 Hypothesis1 gains direct paired evidence for some model/scale cases, but its effect is not universal and top1-competent subset conclusions differ. Binary incompetence alone (13) does not explain the selected block reversals. Family omission accounting partially addresses5 but does not exclude endpoint concentration. Before fitting conditional representations (20), test whether recomputing the same group component in the target context changes the conclusion relative to a fixed transported vector. Positional shifts and wrapper meaning remain unseparated.
+
+## M31 update
+
+Reencoding the same group in each context changes some effects but does not rescue the full-step block sample crossovers. Block component medians stay geometrically close, weakening a wholesale transported-vector mismatch account. This does not refute conditional units: native response dependence and log-probability scoring must be separated before assigning the residual failure to representation geometry. The next native-only response decomposition tests hypotheses1/4 without changing student parameters or intervention construction.

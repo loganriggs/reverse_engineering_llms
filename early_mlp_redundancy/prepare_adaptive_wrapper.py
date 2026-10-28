@@ -1,0 +1,19 @@
+from pathlib import Path
+import json,hashlib
+P=Path('/home/loganriggs/Coding/reverse_engineering_llms/early_mlp_redundancy');V=P/'validation'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+p=json.loads((V/'wrapper_crossover_protocol.json').read_text());p['parent_protocol_sha256']=sha(V/'wrapper_crossover_protocol.json');p['intervention']='Decode same M18 group on each context native write, mask to task span. Compare frozen M30 transported delta on identical rows/models. No new fitting or selection.';f=V/'adaptive_wrapper_protocol.json';assert not f.exists();f.write_text(json.dumps(p,indent=2)+'\n')
+s=(P/'probe_wrapper_crossover.py').read_text().replace('M30','M31').replace('wrapper_crossover','adaptive_wrapper').replace('emlp_m30_wrapper','emlp_m31_adaptive_wrapper')
+old="taskdelta=deltas[i];delta=torch.zeros_like(write);assert delta[:,boundary:].shape==taskdelta.shape;delta[:,boundary:]=taskdelta;noop=bool((delta==0).all());taskhash=hashlib.sha256(taskdelta.cpu().numpy().tobytes()).hexdigest()"
+new="""transported=deltas[i];mu,scale=states['initial'];_,current_support,current_code=fs['initial']((write-mu)/scale);D=torch.nn.functional.normalize(fs['initial'].dictionary,dim=0);atoms=torch.arange(4*spec['group'],4*spec['group']+4,device=device);current_full=(current_code[:,:,atoms]@D[:,atoms].T)*scale;taskdelta=current_full[:,boundary:].clone()
+   if spec['context']=='reference':assert torch.equal(taskdelta,transported)
+   delta=torch.zeros_like(write);assert delta[:,boundary:].shape==taskdelta.shape;delta[:,boundary:]=taskdelta;noop=bool((delta==0).all());taskhash=hashlib.sha256(taskdelta.cpu().numpy().tobytes()).hexdigest();tn=transported.double().norm();an=taskdelta.double().norm();cosine=float((transported.double()*taskdelta.double()).sum()/(tn*an)) if tn>0 and an>0 else None;old_support=initial['support'].to(device)[:,spec['source_prefix_length']:,atoms];support_changes=int((old_support!=current_support[:,boundary:,atoms]).any(-1).sum());geometry=dict(transported_task_sha256=hashlib.sha256(transported.cpu().numpy().tobytes()).hexdigest(),transported_energy=float(tn.square()),adaptive_energy=float(an.square()),task_delta_cosine=cosine,task_delta_difference_energy=float((taskdelta.double()-transported.double()).square().sum()),group_support_changed_tokens=support_changes,task_tokens=taskdelta.shape[1])"""
+assert old in s;s=s.replace(old,new)
+s=s.replace("record=dict(kind=kind", "record=dict(**geometry,kind=kind")
+s=s.replace("variant=variant));sampled.add(sk)","variant=variant,write=write.cpu(),current_support=current_support.cpu(),reference_support=old_support.cpu(),initial_key=target['initial_key']));sampled.add(sk)")
+# All M30 intact outputs must replay even when native intervention response changes.
+s=s.replace("reference={(x['target_index'],x['arm']):x for x in old['records']};", "reference={(x['target_index'],x['arm']):x for x in old['records']};fixedp=P/'wrapper_crossover_results.json';fixed=json.loads(fixedp.read_text());assert json.loads((P/'wrapper_crossover_audit.json').read_text())['result_sha256']==sha(fixedp);fixedrows={(x['target_index'],x['context'],x['arm']):x for x in fixed['records']};")
+s=s.replace("records.append(record)", "records.append(record)\n    prior_fixed=fixedrows[i,spec['context'],arm]\n    for field in ['intact_KL','native_binary','native_top1','reconstructed_binary','reconstructed_top1']:assert record[field]==prior_fixed[field]\n    assert geometry['transported_task_sha256']==prior_fixed['task_delta_sha256']\n    assert math.isclose(geometry['transported_energy'],prior_fixed['delta_energy'],rel_tol=1e-12,abs_tol=1e-9)")
+s=s.replace("reference_results_sha256=sha(up),source_sha256", "reference_results_sha256=sha(up),fixed_results_sha256=sha(fixedp),source_sha256")
+(P/'probe_adaptive_wrapper.py').write_text(s)
+print('Frozen adaptive comparison',len(p['rows']))
