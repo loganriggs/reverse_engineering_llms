@@ -1,0 +1,16 @@
+"""M14 fixed cached magnitude and mean-effect baselines, training-only fits."""
+import json,hashlib
+from pathlib import Path
+import numpy as np
+P=Path(__file__).resolve().parent/'validation'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+ ip=P/'group_role_matching.json';m=json.loads(ip.read_text());protocol=dict(source_sha256=sha(Path(__file__)),matching_sha256=sha(ip),design='All6kind/grouping/seed combinations. Fit signedmarginloss fromremovedrelative squaredwriteenergy using training10familymeans only. Throughorigin sharedslope(1coefficient) andpergroupslope(32coefficients), unconstrainedsignedcoefficients. Constantpergrouptrainingmean(32coefficients) control. No regularization/interceptsearch. Score6evaluationfamilymeans, all32groups, unchanged M13assignments/amplitudes. Equalfamilymeanerrors andfixedantonymomission reported alongsideaggregate toretainM13concentration caveat.',limits='Magnitude measured in targetmodel; baseline iswithinseedprediction, unlikecrossseedroletransfer. Failureoflinearenergybaseline doesnotexclude nonlinear energy/direction/context explanations. Previous devdata, notnewconfirmation; no newnativeforwards ormodel fits.')
+ pp=P/'role_energy_protocol.json';pp.write_text(json.dumps(protocol,indent=2)+'\n');results=[]
+ for kind,grouping in [('scalar','contiguous'),('block','contiguous'),('block','shuffled')]:
+  for seed in [71,72]:
+   prefix=f'{kind}:{grouping}:{seed}:';tr=m['signatures'][prefix+'train'];te=m['signatures'][prefix+'evaluation'];E=np.array(tr['energy']);Y=np.array(tr['margin']);Et=np.array(te['energy']);Yt=np.array(te['margin']);shared=float(np.sum(E*Y)/np.sum(E*E));den=np.sum(E*E,axis=1);slopes=np.divide(np.sum(E*Y,axis=1),den,out=np.zeros(32),where=den>0);means=Y.mean(1)
+   for method,coef,pred in [('shared_energy',np.array([shared]),shared*Et),('group_energy',slopes,slopes[:,None]*Et),('group_mean',means,np.broadcast_to(means[:,None],Yt.shape))]:
+    targetenergy=np.sum(Yt*Yt,axis=0);err=np.sum((pred-Yt)**2,axis=0);per=np.divide(err,targetenergy,out=np.zeros_like(err),where=targetenergy>0);keep=np.array([f!='antonym' for f in m['families']['evaluation']]);results.append(dict(kind=kind,grouping=grouping,seed=seed,method=method,coefficients=coef.tolist(),prediction=pred.tolist(),relative_squared_error=float(err.sum()/targetenergy.sum()),flattened_cosine=float(np.sum(pred*Yt)/max(np.linalg.norm(pred)*np.linalg.norm(Yt),1e-20)),per_family_relative_error=dict(zip(m['families']['evaluation'],per.tolist())),equal_family_mean_relative_error=float(per.mean()),relative_error_without_antonym=float(err[keep].sum()/targetenergy[keep].sum()),target_energy=float(targetenergy.sum())))
+ reference=[dict(kind=x['kind'],grouping=x['grouping'],seed=72,method=x['method'],relative_squared_error=x['evaluation_relative_squared_error']) for x in m['matches']];out=dict(status='completed',protocol_sha256=sha(pp),results=results,M13_reference=reference,model_forwards=0);(P/'role_energy_baseline.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps([{k:x[k] for k in ['kind','grouping','seed','method','relative_squared_error','equal_family_mean_relative_error','relative_error_without_antonym']} for x in results],indent=2))
+if __name__=='__main__':main()

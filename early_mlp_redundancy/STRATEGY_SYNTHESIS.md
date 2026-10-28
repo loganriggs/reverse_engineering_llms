@@ -104,3 +104,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M13: geometry predicts some effects, functional matching overfits small signatures
 
 [Decodedgroupablations](GROUP_CAUSAL_ROLES.md) giveactualblock geometrypredictionerror.551vsrandom.907/function.881;scalar/shuffledcontrolsnear1. Butantonym1pairhas60%targeteffectenergy,twogroups58%;groupwisecosinesweak. Withoutantonymgeometry.682vsrandom1.058. Somecausalcorrespondence,nocleansemanticunitdictionary. Nexttraining-onlyremoved-energybaseline oncachedrecords tests genericdisruptionexplanation;noadditionalmodel/groupsearch.
+
+## M14: energy-only explanation is insufficient, stronger unit claims remain open
+
+[Cachedbaselineaudit](GROUP_ROLE_ENERGY_BASELINE.md):seed72actualblockerror sharedenergy.998/pergroupenergy.947/mean.882,vsgeometrycrossseed.551;withoutantonym1.067/.993/1.003vs.682. Baselineevaluationinputs differ(withinseedenergyvscrossseedeffects),sothisrulesoutonlysimplelinearenergy/generalmeanexplanations. Stopoldpanelpredictorsearch;fixednewcontexttransferwithcompetencegates isnextdiscriminator.

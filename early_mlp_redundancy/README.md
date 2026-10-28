@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: some causal correspondence survives, but task units remain unverified
+## Latest: simple energy controls do not explain the strongest role match
+
+[M14](GROUP_ROLE_ENERGY_BASELINE.md) fitscachedtraining-only energy/meanbaselines. Seed72actualblockerrors(sharedenergy/pergroupenergy/mean)=.998/.947/.882 versusfrozengeometry-basedcrossseed.551. Theadvantagesurvivesantonymomission,butdoesnotestablishsemanticunitsorruleoutnonlinear/contextualsensitivity. Stopoldpanelpredictorrefinement;nextfixedcontextchallengewithnativecompetencegatesandfrozenmatches.
+
+## Previous: some causal correspondence survives, but task units remain unverified
 
 [M13](GROUP_CAUSAL_ROLES.md) evaluatesall32decodedgroups withfrozencodes. Actualblockgeometrymatching predicts crossseedevaluationmargin effects better(relativeerror.551)thanrandom(.907)ortraining-effectmatching(.881);shuffledgroups~1.00. Butoneantonympaircontributes60%targetenergy, andpergroupagreementisweak. Concentrationsensitivitypreservessmallergeometryadvantage. Nextcachedremoved-energybaseline testswhetherthis isselectivity orgenericdisruption; no newmodeltuning.
 

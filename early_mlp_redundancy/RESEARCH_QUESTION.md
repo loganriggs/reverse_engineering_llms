@@ -1,4 +1,8 @@
-# Active next step: removed-energy baseline for cached causal roles
+# Active next step: fixed context-generalization challenge
+
+[M14](GROUP_ROLE_ENERGY_BASELINE.md) completesenergy/meancontrols. Stopregressor/matching/thresholdsearchonoldpanel. Preparechangedcontexts forallowedtaskoperations,freezeM11weights/M13geometryassignments/trainingamplitudes, andpredeclare nativecompetencegatesbeforeablationoutcomes. Reportallfailedcohorts;nooutcome-drivenreplacement. Contexttransferisnotnewtaskorlexicaldiscovery;originalexcludedfamiliesunused. Testsurvivingcausalcorrespondenceonindependentcontexts beforestrongerunitclaims. Earlierplansarehistorical.
+
+# Completed step: removed-energy baseline for cached causal roles
 
 [M13](GROUP_CAUSAL_ROLES.md) finds some crossseedprediction undergeometricmatching, but concentratedeffects and weakgroupwisecorrespondence. Usecachedgroupenergy/margins tofit a simple training-onlyenergy predictor, scoreevaluationwithoutrefit, comparefixedgeometry/functionmatches. No newnativeforwards/groupselection/seedsearch. This tests a genericdisruptionconfound before semanticselectivityclaims. Keepweightsand14pairevalfixed; independentfuturecontexttestsneededforstrongerclaims. Originaltaskexclusionsuntouched. Earlierplansarehistorical.
 
