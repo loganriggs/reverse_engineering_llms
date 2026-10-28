@@ -100,3 +100,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M12: stable broader geometry does not give stable blocks
 
 [Structureaudit](BLOCK_STRUCTURE_AUDIT.md) findsactualblocks~3.4conditionaldimensions,butshuffled/arbitrarygroupsalsomultidimensional. Mixedblockcrossseed4Doverlap.116 vsfull128D.690, groupreference.077/ambient.006. Occupancy-adjustedinterpretationneededforJaccard(.212block vs.141ambient; scalar.533vs.525). No verifiedsemanticmanifold. Nextdecoded-groupcausalroles maydistinguishunstablecoordinatesfromreproduciblefunctions,withtraining-onlymatching andfrozenweights.
+
+## M13: geometry predicts some effects, functional matching overfits small signatures
+
+[Decodedgroupablations](GROUP_CAUSAL_ROLES.md) giveactualblock geometrypredictionerror.551vsrandom.907/function.881;scalar/shuffledcontrolsnear1. Butantonym1pairhas60%targeteffectenergy,twogroups58%;groupwisecosinesweak. Withoutantonymgeometry.682vsrandom1.058. Somecausalcorrespondence,nocleansemanticunitdictionary. Nexttraining-onlyremoved-energybaseline oncachedrecords tests genericdisruptionexplanation;noadditionalmodel/groupsearch.

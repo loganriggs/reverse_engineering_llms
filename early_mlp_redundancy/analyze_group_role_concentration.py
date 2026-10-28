@@ -1,0 +1,9 @@
+"""Post-result M13 concentration sensitivity; no matching or amplitude refits."""
+import json,hashlib
+from pathlib import Path
+import numpy as np
+P=Path(__file__).resolve().parent/'validation';ip=P/'group_role_matching.json';r=json.loads(ip.read_text());rows=[]
+for x in r['matches']:
+ prefix=f"{x['kind']}:{x['grouping']}";a=np.array(r['signatures'][prefix+':71:evaluation']['margin']);b=np.array(r['signatures'][prefix+':72:evaluation']['margin'])[x['assignment']];pred=a*np.array(x['train_amplitudes'])[:,None];errors=np.sum((pred-b)**2,0);target=np.sum(b*b,0);ratio=np.divide(errors,target,out=np.zeros_like(errors),where=target>0);shares=target/target.sum();assert abs(np.dot(shares,ratio)-x['evaluation_relative_squared_error'])<1e-12;largest=int(np.argmax(shares));keep=np.arange(len(shares))!=largest;groupenergy=np.sum(b*b,1);rows.append(dict(kind=x['kind'],grouping=x['grouping'],method=x['method'],family_target_energy_shares=dict(zip(r['families']['evaluation'],shares.tolist())),per_family_relative_errors=dict(zip(r['families']['evaluation'],ratio.tolist())),equal_family_mean_relative_error=float(ratio.mean()),omitted_largest_family=r['families']['evaluation'][largest],error_without_largest_family=float(errors[keep].sum()/target[keep].sum()),largest_two_target_group_energy_share=float(np.sort(groupenergy)[-2:].sum()/groupenergy.sum())))
+out=dict(status='completed_post_result_sensitivity',matching_sha256=hashlib.sha256(ip.read_bytes()).hexdigest(),rows=rows,scope='Outcome-informed concentrationdiagnostic; frozenassignments/amplitudes unchanged. Not an independent confirmation, no newnativeforward/candidate selection. Weightedidentity checked for all9matches.')
+(P/'group_role_concentration.json').write_text(json.dumps(out,indent=2)+'\n');print([(x['method'],x['equal_family_mean_relative_error'],x['error_without_largest_family']) for x in rows if x['kind']=='block' and x['grouping']=='contiguous'])

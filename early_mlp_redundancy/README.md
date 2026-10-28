@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: block dimensionality is real, block identity remains weak
+## Latest: some causal correspondence survives, but task units remain unverified
+
+[M13](GROUP_CAUSAL_ROLES.md) evaluatesall32decodedgroups withfrozencodes. Actualblockgeometrymatching predicts crossseedevaluationmargin effects better(relativeerror.551)thanrandom(.907)ortraining-effectmatching(.881);shuffledgroups~1.00. Butoneantonympaircontributes60%targetenergy, andpergroupagreementisweak. Concentrationsensitivitypreservessmallergeometryadvantage. Nextcachedremoved-energybaseline testswhetherthis isselectivity orgenericdisruption; no newmodeltuning.
+
+## Previous: block dimensionality is real, block identity remains weak
 
 [M12](BLOCK_STRUCTURE_AUDIT.md) auditsfrozenmodels. Mixedblocks use~3.4of4conditionaldimensions, butarbitrarygroupingsalso lookmultidimensional. Crossseedmatchedblockoverlap.116 versusfull128Ddictionaryoverlap.690; groupingreference.077,ambientnull.006. SupportJaccard.212 versusambientreference.141. Thesearecandidateblocks,notverifiedmanifolds. Nextfixedcausalgroupablation/rolematchingwithscalar/shuffledcontrols,weightsfrozen.
 

@@ -1,4 +1,8 @@
-# Active next step: causal role stability versus geometric block stability
+# Active next step: removed-energy baseline for cached causal roles
+
+[M13](GROUP_CAUSAL_ROLES.md) finds some crossseedprediction undergeometricmatching, but concentratedeffects and weakgroupwisecorrespondence. Usecachedgroupenergy/margins tofit a simple training-onlyenergy predictor, scoreevaluationwithoutrefit, comparefixedgeometry/functionmatches. No newnativeforwards/groupselection/seedsearch. This tests a genericdisruptionconfound before semanticselectivityclaims. Keepweightsand14pairevalfixed; independentfuturecontexttestsneededforstrongerclaims. Originaltaskexclusionsuntouched. Earlierplansarehistorical.
+
+# Completed step: causal role stability versus geometric block stability
 
 [M12](BLOCK_STRUCTURE_AUDIT.md) findsconditionalmultidimensionality butweakindividualblockreproducibility. Freeze a bounded decoded-group ablation panel onmixedmodels, othercodes/gatesheldfixed. Comparetask-margin/outputKL effects againstintactreconstruction, removedenergy/cost andscalar/shuffledgroupcontrols. Fit rolematching/candidateselectiononlyontrainingtasks; evaluateexisting14source-separatedpairswithoutselection. Fulltaskexclusionsreserved. Geometry/function/semanticclaimsremainseparate; no moremixtureorwidthtuning. Earlierplansarehistorical.
 
