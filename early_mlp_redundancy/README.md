@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: intervention basis explains only part of the transfer gap
+## Latest: paired context changes can erase a causal-fidelity advantage
+
+[M30](PAIRED_WRAPPER_CROSSOVER.md). M30 pairedwrappers hold exacttasktokens andtaskspandelta fixed, all240M28taskrows×3contexts/all20models. Joint/KL-only logprobwins full4/4reference4/4passage2/4sample; tenth4/4,3/4,3/4. Bothfullblock sampleadvantages reverse slightly; nativebinary-correct subset and9/10familyomissions retain reversals, butstrictallcontexttop1subsetschangeconclusions. Contextsensitivitynotuniversalloss. 6820forwards3600records1200reference replays60samples660summaries audited;31noops/contextretained. Next samegroups/input/candidates butreencodeM18componentinnewcontext vsfixedvector; geometry/energy/zeros explicit, no fitting/search. Prefixfailures/semanticunits notresolved.
+
+## Previous: intervention basis explains only part of the transfer gap
 
 [M29](BASIS_TRANSFER_COMPARISON.md). M29 fixes evaluationinputs/candidates/groupindices/regions and changesM11→M18interventiongenerator. JointbeatsKL-only logprob5→6/8full,6→7/8tenth; margin4→5/8full,4→4/8tenth. Fewwinnerchanges: basis mismatchcontributesbutinsufficient. Equalfamilymargin8/8fullM18; context-onlystratumlogprob5/8full3/8tenth remainsmixed. All880intactbaselines replay;24noopstatuschanges,96→94noops; nativeenergiesreported. 4584forwards3520responses120samples560summaries audited. Refreshed20hypotheses. Next pairedwrappers onallM28task-regionrows, fixsource/taskspandelta, all20models/evalwrappers; no fitting or outcomeselection. Prefixfailuresoutside thattargetedprobe; nosemanticunitclaim.
 

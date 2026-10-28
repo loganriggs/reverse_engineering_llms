@@ -26,3 +26,7 @@ This is an evidence-ranked research review, not posterior probabilities or a cla
 |20|Useful units are conditional subspaces or shared computations rather than globally named features.|Plausible architectural hypothesis, not established by these updates.|If paired context effects persist, model context-conditioned causal roles; compare against existing scalar/block controls before adding hierarchy/DAG complexity.|
 
 Prioritize1,4,5,18 and19 for the next information gains. The immediate fixed-delta wrapper crossover addresses1/18 while retaining4. A negative result will not justify an optimizer grid; a positive result will not by itself validate manifolds. After the crossover, use concentration accounting and the existing scalar/block comparison to decide whether wider competent tasks, conditional representations or manifold validation is the next useful deliverable.
+
+## M30 update
+
+Hypothesis1 gains direct paired evidence for some model/scale cases, but its effect is not universal and top1-competent subset conclusions differ. Binary incompetence alone (13) does not explain the selected block reversals. Family omission accounting partially addresses5 but does not exclude endpoint concentration. Before fitting conditional representations (20), test whether recomputing the same group component in the target context changes the conclusion relative to a fixed transported vector. Positional shifts and wrapper meaning remain unseparated.
