@@ -1,0 +1,30 @@
+"""M19 full cached-target audit: eligibility, initial decoding, losses and calibration."""
+from pathlib import Path
+from collections import Counter
+import json,hashlib,math
+import torch,numpy as np
+P=Path(__file__).resolve().parent/'validation'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def logsoft(x):
+ x=x.astype(float);x-=x.max(-1,keepdims=True);return x-np.log(np.exp(x).sum(-1,keepdims=True))
+def close(a,b):assert math.isclose(a,b,rel_tol=1e-8,abs_tol=1e-10),(a,b)
+pp=P/'response_supervision_protocol.json';p=json.loads(pp.read_text());rp=P/'response_training_targets.json';r=json.loads(rp.read_text());assert r['protocol_sha256']==sha(pp);cp=Path(r['cache_path']);assert sha(cp)==r['cache_sha256'];cache=torch.load(cp,weights_only=True);assert len(cache['targets'])==len(r['records'])==480;expanded={x['id']:x for x in json.loads((P/'context_expansion_protocol.json').read_text())['rows']};screen=json.loads((P/'context_expansion_competence.json').read_text());passed={(x['template'],x['lexical_split'],x['family']) for x in screen['cohorts'] if x['pass_gate']};old=json.loads((P/'context_training_protocol.json').read_text());m18=json.loads((P/'context_training_results.json').read_text());assert sha(P/'context_training_results.json')==p['M18_results_sha256'];assert p['initial_models']==[x for x in m18['models'] if x['arm']=='expanded_context'];states={};ties=0;decoded={};maxerr=0
+for entry in p['initial_models']:
+ assert sha(Path(entry['path']))==entry['sha256'];s=torch.load(entry['path'],weights_only=True);states[entry['kind'],entry['seed']]=s
+for seed,schedule in p['schedules'].items():
+ assert schedule['natural_documents']==old['schedules'][seed]['natural_documents'];counts=Counter()
+ for u,prior in zip(schedule['task_updates'],old['schedules'][seed]['task_updates']):
+  assert all(u[k]==v for k,v in prior.items());counts[u['family'],u['region']]+=1
+  for ep in [0,1]:assert u['endpoint_groups'][ep]==int(hashlib.sha256(f'M19:{seed}:{u["task_update"]}:{u["expanded_pair_id"]}:{ep}'.encode()).hexdigest(),16)%32
+ assert len(counts)==20 and set(counts.values())=={3}
+for key,initial in cache['initials'].items():
+ kind,seed,ik=key.split(':',2);s=states[kind,int(seed)];st={k:v.numpy().astype(float) for k,v in s['state'].items()};data=cache['inputs'][ik];mu=s['mean'].numpy();scale=float(s['scale']);a=(data['write'].numpy().astype(float)-mu)/scale@st['encoder'].T+st['encoder_bias'];scores=abs(a) if kind=='scalar' else a*a@st['membership'].T;k=32 if kind=='scalar' else 8;gate=np.zeros_like(scores);np.put_along_axis(gate,np.argsort(scores,axis=-1)[...,-k:],1,axis=-1);support=gate if kind=='scalar' else gate@st['membership'];actual=initial['support'].numpy();changed=np.any(support!=actual,axis=-1);ordered=np.sort(scores,axis=-1);gap=(ordered[...,-k]-ordered[...,-k-1])/np.maximum(abs(ordered[...,-k]),1e-12);assert np.all(gap[changed]<1e-5);ties+=int(changed.sum());support[changed]=actual[changed];code=a*support;D=st['dictionary']/np.linalg.norm(st['dictionary'],axis=0,keepdims=True);q=(code@D.T+st['bias'])*scale+mu;saved=initial['q'].numpy();error=np.linalg.norm(q-saved)/np.linalg.norm(saved);assert error<1e-5;maxerr=max(maxerr,float(error));lp=logsoft(data['native'].numpy());lq=logsoft(initial['output'].numpy());close(float((np.exp(lp)*(lp-lq)).sum(-1).mean()),initial['K']);decoded[key]=(code,D,scale)
+seen=set()
+for i,row in enumerate(r['records']):
+ key=tuple(row[k] for k in ['kind','seed','task_update','endpoint']);assert key not in seen;seen.add(key);u=p['schedules'][str(row['seed'])]['task_updates'][row['task_update']];pair=expanded[row['pair_id']];assert row['pair_id']==u['expanded_pair_id'] and row['group']==u['endpoint_groups'][row['endpoint']] and row['region']==u['region'];assert pair['training_eligible'] and (pair['template'],pair['lexical_split'],pair['family']) in passed;data=cache['inputs'][row['input_key']];initial=cache['initials'][row['initial_key']];target=cache['targets'][i];assert data['ids'].tolist()==[pair['token_ids'][row['endpoint']]];code,D,scale=decoded[row['initial_key']];g=row['group'];mask=np.zeros_like(target['mask'].numpy());n=pair['prefix_length'];mask[:,:n]=1 if row['region']=='prefix' else 0;mask[:,n:]=1 if row['region']=='task' else 0;assert np.array_equal(mask,target['mask'].numpy());delta=code[...,4*g:4*g+4]@D[:,4*g:4*g+4].T*scale*mask;saved=target['delta'].numpy();error=np.linalg.norm(delta-saved)/max(np.linalg.norm(saved),1e-20);assert error<1e-5;maxerr=max(maxerr,float(error));assert row['noop']==bool((saved==0).all());close(float((saved.astype(float)**2).sum()),row['delta_energy']);lp=logsoft(data['native'].numpy()[0,-1]);nr=logsoft(target['native_changed'].numpy())-lp;fr=logsoft(target['initial_changed'].numpy())-logsoft(initial['output'].numpy()[0,-1]);close(float((np.exp(lp)*(fr-nr)**2).sum()),row['initial_R']);close(float((np.exp(lp)*nr**2).sum()),row['native_response_energy']);close(initial['K'],row['initial_K'])
+ if row['noop']:assert row['initial_R']==row['native_response_energy']==0
+for c in r['calibration']:
+ rr=[x for x in r['records'] if (x['kind'],x['seed'])==(c['kind'],c['seed'])];assert len(rr)==120;close(sum(x['initial_K'] for x in rr)/120,c['mean_initial_K']);close(sum(x['initial_R'] for x in rr)/120,c['mean_initial_R']);close(c['response_weight']*c['mean_initial_R'],c['mean_initial_K']);assert c['nonzero_directions']==sum(not x['noop'] for x in rr)
+assert r['forward_count']==len(cache['inputs'])+len(cache['initials'])+2*sum(not x['noop'] for x in r['records'])
+out=dict(status='passed',scheduled_targets=480,unique_native_inputs=len(cache['inputs']),initial_input_decodes=len(cache['initials']),near_tie_support_rows=ties,max_decode_relative_error=maxerr,all_K_and_response_losses_checked=True,training_only_calibrations=4,targets_sha256=sha(rp),scope='Full cached-target NumPy loss/initial-decoder audit, all eligibility/schedules/regionmasks/calibration; native transformer forward itself not independently reimplemented.')
+(P/'response_target_audit.json').write_text(json.dumps(out,indent=2)+'\n');print(out)
