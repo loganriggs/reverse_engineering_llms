@@ -16,6 +16,9 @@ inspection surface, not a newly completed redundancy experiment.
 finds amplification, rather than damping, for the tested final-token edits. This narrow result
 does not invalidate C512-specific attenuation.
 
+**Transfer follow-up:** [EMLP-P2](MLP2_TOKEN_TRANSFER.md) extends the amplification finding to
+four noun tokens and future predictions, with a local/future MLP2 response factorial.
+
 ## Read this first
 
 **Follow-up correction:** [the history audit](HISTORY_AUDIT.md) adds completed table-composition,

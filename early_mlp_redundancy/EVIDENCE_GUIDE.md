@@ -147,3 +147,7 @@ See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.m
 - [evidence/prior/evaluate_mlp0_c512_mlp2_compensation_v1.py](evidence/prior/evaluate_mlp0_c512_mlp2_compensation_v1.py)
 - [evidence/prior/mlp0_c512_mlp2_compensation.py](evidence/prior/mlp0_c512_mlp2_compensation.py)
 - [evidence/prior/early_mlp_state_complete_compiler_v21_final.py](evidence/prior/early_mlp_state_complete_compiler_v21_final.py)
+
+## Native token-transfer follow-up
+
+[EMLP-P2](MLP2_TOKEN_TRANSFER.md) reports the crossed noun/context panel and its local/future MLP2 response factorial.

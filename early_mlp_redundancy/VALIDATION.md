@@ -29,3 +29,7 @@ bootstrap replay were performed for this amendment; see validation/history_audit
 EMLP-P1: 288 exploratory native-model forwards plus 3 replay forwards. See
 NATIVE_MLP2_RESPONSE_PILOT.md and its separate result/audit receipts. This extends the
 packet beyond the original loader smoke test; it does not validate corpus-level redundancy.
+
+EMLP-P2: 704 forwards, exact identity/pre-edit replay, all stored overall summary means
+checked, and 56 independent NumPy positionwise KL checks from saved logits (max7.43e-16).
+See MLP2_TOKEN_TRANSFER.md; no representative-corpus or semantic-feature claim.
