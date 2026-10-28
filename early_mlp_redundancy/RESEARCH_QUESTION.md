@@ -1,4 +1,8 @@
-# Active next step: execute frozen mixed-supervision comparison
+# Active next step: validate candidate block structure in frozen models
+
+[M11](DIVERSE_CAUSAL_SUPERVISION.md) completes8fixedfits and source-separatedtransfer/forgettingevaluation. Freeze finalmodels. Audit conditionalblockdimensionality, occupancy, seedsubspace/supportstability and selectivecausalroles withscalar/shuffledgroupcontrols. Handle sign/permutation/withinblockrotation. Choosecandidatesonlyfromtrainingdata; do notrepeatedlyselectontiny14pairevaluation. Stable/multidimensional≠semanticmanifold. Originalwhole-taskexclusionsreserved; stopmixture/width/gate tuning. Earlierplansarehistorical.
+
+# Completed step: execute frozen mixed-supervision comparison
 
 [M10](DIVERSE_SUPERVISION_SPLIT.md) completes metadata splitting and independent audit. Execute exact `validation/diverse_supervision_protocol.json`: fourM8causalinitialstates×natural-only/mixed arms,120Adam.0003updates, frozenfamilybalancedtask/naturaldocument schedules, noselection. Evaluate14pairs/6families,66trainingpairs separately andnaturaldevelopmentdocs32–63. Fourfamiliesaretraining-only; no lexicaltransferestimate. Comparefrozenbaseline andbotharms,retainallfailures,originalexcludedfamiliesuntouched. Do notresplitafteroutcomes. Earlierplansarehistorical.
 

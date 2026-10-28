@@ -92,3 +92,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M10: family count overstates independent lexical coverage
 
 [Strictsource-input split](DIVERSE_SUPERVISION_SPLIT.md) joinscross-familyexamples anddistractors,leaving17components. Fourfamiliescannotbothtrainandevaluatelexically;14evaluationpairscoveronly6families. Thislimitmustsurvivefutureclaims. Frozen120updatemixedtask/naturalKLcomparison testsbroadersupervision againstmatchedcontinuednaturalKL, withnaturalforgettingchecks; nofittingyet.
+
+## M11: broader causal coverage helps both architectures
+
+[Mixedsupervision](DIVERSE_CAUSAL_SUPERVISION.md) cutslexicalevaltaskKL61–77%vsnatural-onlycontinuation, with3–10%naturalKLcostrelativecontrol. MostcostisforegonenaturalimprovementratherthanlargeforgettingfromM8baseline. BlockscompetitiveontaskKLbutstillworsenaturalKL. Tiny14pairevalandfourtraining-onlyfamilieslimitclaims. Freezeweightsandtestactualblockstructure/stability/causalroles; improvedfidelityaloneisnotmanifoldvalidationornewtaskdiscovery.

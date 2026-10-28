@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: stricter task split before diverse supervision
+## Latest: diverse supervision improves lexical task transfer
+
+[M11](DIVERSE_CAUSAL_SUPERVISION.md) executes the frozen mixture comparison. Mixednatural/taskKLtraining cuts source-separated taskKL61–77% versus continuednatural-only, inall4comparisons, while naturalKLis3–10%worsethanthatcontrol. Only14evalpairs/6families;4otherfamiliestraining-only. BlocksbecomecompetitivewithscalarontaskKLbutremainworseonnaturaltext. Nextfreezecheckpointsandtestblockstructure/stability/selectivecausalroles, ratherthanassumingbetterfidelitymeansmeaningfulmanifolds.
+
+## Previous: stricter task split before diverse supervision
 
 [M10](DIVERSE_SUPERVISION_SPLIT.md) finds17connected source-input components, including cross-family/distractor overlap. The audited split has66trainingpairs and14evaluationpairs across6families;4families cannot support lexical evaluation and aretraining-only. No changedsource token appears in opposite-split taskprompts. Exact schedules freeze natural-only versusmixed natural/taskKLtraining fromM8causalcheckpoints. Training has NOT run yet; data arepreviouslyexamineddevelopment, notfreshholdouts.
 
