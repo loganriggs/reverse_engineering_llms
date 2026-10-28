@@ -139,3 +139,7 @@ available as a focused test of shared directions, not the sole research directio
 ## Same-task width and specialization update
 
 [T3](TOY_WIDTH_RESULTS.md) shows that capacity removes the reconstruction obstruction but does not unify robustness metrics. Input-noise training yields class-specific channels and targeted single-channel vulnerabilities in these toys. A fixed small dropout/width follow-up will test whether both robustness types can be trained; no universal tradeoff or LLM mechanism is established.
+
+## Fixed grid closed
+
+[T4](TOY_DROPOUT_RESULTS.md) completes the fixed capacity/dropout grid. Combined robustness is achievable by classification metrics in these toys, with vector-fidelity costs. Use [the synthesis](STRATEGY_SYNTHESIS.md) and return to empirical real-layer spectra/coordination; no further hyperparameter grid is planned.

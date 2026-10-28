@@ -1,4 +1,14 @@
-# Next bounded step: can both toy robustness types be trained?
+# Active next step: map the completed toy grid to real-model signatures
+
+[T4](TOY_DROPOUT_RESULTS.md) completes the fixed capacity/dropout comparison and closes that toy
+grid. Read [STRATEGY_SYNTHESIS.md](STRATEGY_SYNTHESIS.md) for the current mechanism account.
+Next measure empirical output spectra and contribution-energy bounds for MLP0/1/2 on the same
+opened inputs, including deduplicated causal-prefix views. No fit/pruning or claim that a matrix
+rank bound yields an executable compact bilinear MLP. Preserve whole-task exclusions and distinguish
+this task-panel diagnostic from natural-text generalization. Prior next-step paragraphs below
+are historical, not simultaneous experiment queues.
+
+## Completed step: can both toy robustness types be trained?
 
 [T3](TOY_WIDTH_RESULTS.md) completes the fixed width comparison and checks class specialization
 and selective channel vulnerability. Its next-test section freezes the small dropout/capacity

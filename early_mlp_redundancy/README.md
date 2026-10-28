@@ -32,6 +32,12 @@ which are selectively vulnerable to single-channel removal. Clean-trained penali
 more distributed and tolerate those removals better. These toy outcomes do not establish an
 unavoidable tradeoff or identify the LLM's training strategy.
 
+The fixed toy grid is now complete. [T4](TOY_DROPOUT_RESULTS.md) finds that extra capacity plus
+channel-dropout training can preserve noisy-input classification while improving deletion robustness;
+noisy-vector fidelity still worsens. Read the [compact strategy synthesis](STRATEGY_SYNTHESIS.md)
+for what this says—and does not say—about computational mechanisms. Next work maps those signatures
+back to the real model rather than expanding toy hyperparameters.
+
 ## Current removal evidence
 
 Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).
