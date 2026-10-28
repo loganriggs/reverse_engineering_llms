@@ -79,3 +79,5 @@ single effect table and a short verdict: shared token component sufficient under
 serial correction detected, broad scale/cancellation effect, or unresolved. Negative/ambiguous
 results are legitimate. Do not widen ranks, add featurizers, or declare a manifold from this assay.
 Any next project should be justified by a remaining distinguishable hypothesis.
+
+The fixed preamble screen and direction/norm factorial are complete in [P8](PREAMBLE_TRANSFER.md) and [P9](DIRECTION_NORM_FACTORIAL.md). The next bounded step is P9's lexical-pair-held-out direction-sharing test, not more preamble expansion.

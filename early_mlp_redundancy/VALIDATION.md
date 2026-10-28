@@ -54,3 +54,5 @@ checked;160texts exactly retokenize; independent saved KL/margins agree within8.
 Selection metadata unchanged. See TRAINING_TASK_SCREEN.md for source-diversity limits.
 
 P8 adds the [fixed preamble competence and transfer study](PREAMBLE_TRANSFER.md), with [audit receipt](validation/preamble_audit.json).
+
+P9 completes the [direction-by-norm factorial](DIRECTION_NORM_FACTORIAL.md), including its lexical holdout protocol and [audit receipt](validation/direction_norm_audit.json).

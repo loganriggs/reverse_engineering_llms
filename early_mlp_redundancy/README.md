@@ -9,7 +9,7 @@ and can we isolate that contribution with a faithful, reusable intervention?
 
 The word *redundant* has covered several different observations. This packet separates them;
 it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. It includes historical evidence, runnable inspection code, and eight
+replacement already exists. It includes historical evidence, runnable inspection code, and nine
 small exploratory native-model studies.
 
 ## Current answer, within the tested panel
@@ -43,6 +43,11 @@ A [fixed preamble test (P8)](PREAMBLE_TRANSFER.md) finds that the response direc
 aligned across new prefixes (mean cosine .87–.98 in passing cohorts), with partial causal transfer.
 Magnitude changes matter: an old response can outperform the new one until their norms are matched.
 Only five of eight task/preamble cohorts pass native competence, so this is a qualified reuse result.
+
+The [completed direction/norm factorial (P9)](DIRECTION_NORM_FACTORIAL.md) confirms that
+agreement's large old-vector advantage comes mainly from magnitude. At fixed norm, the new
+context direction performs slightly better. Next is a lexical-pair-held-out direction-sharing
+test on agreement and sentiment, with oracle magnitude clearly separated from learned prediction.
 
 The earlier [P1](NATIVE_MLP2_RESPONSE_PILOT.md) and [P2](MLP2_TOKEN_TRANSFER.md) studies distinguish
 native MLP2 amplification from approximation-specific error attenuation. Read the parent contracts
