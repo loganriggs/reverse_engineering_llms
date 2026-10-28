@@ -1,4 +1,8 @@
-# Active next step: calibrate and execute joint shared comparison
+# Active next step: native transfer and output evaluation for all joint candidates
+
+## Current M35–M36 result
+
+All12 common-training fits completed and their final states/schedules passed audit. Native-response supervision improves final training response error versus matched intact-KL control in 6/6 starts. These are familiar training targets; held-out native response and ordinary-output evaluation remain pending. Fixed random sharing is a baseline, not discovered reusable structure. See [report](JOINT_SHARED_TRAINING_RETENTION.md). Earlier next steps below are historical.
 
 ## Current M34 result
 

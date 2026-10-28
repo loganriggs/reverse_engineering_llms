@@ -199,3 +199,8 @@ Context-dependent native response directions persist under small symmetric inter
 ## M34 update
 
 Fixed-overlap union decoding and full dictionary coverage pass all six pilot replays. Shared models were omitted after M7; learned SharedGroups is a distinct larger implementation with earlier membership-concentration failures. A common12-fit scalar/block/fixed-shared comparison is designed, using both native intervention generators for every architecture; training-only calibration and gradient checks precede launch. Group-gate removal and shared-atom removal have different semantics. Equal parameter count does not imply equal active budget; shared means28.26/28.44 versus32. No new learned structures validated.
+
+
+## M35–M36 update
+
+All12 common-training fits completed and their final states/schedules passed audit. Native-response supervision improves final training response error versus matched intact-KL control in 6/6 starts. These are familiar training targets; held-out native response and ordinary-output evaluation remain pending. Fixed random sharing is a baseline, not discovered reusable structure. Commonlambda7.70262, both native generators for every architecture. Next fixed transfer/output validation, not optimizer search.

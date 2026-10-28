@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: shared-dictionary baseline restored to the comparison
+## Latest: common shared/scalar/block fits completed
+
+[M35–M36](JOINT_SHARED_TRAINING_RETENTION.md). All12 common-training fits completed and their final states/schedules passed audit. Native-response supervision improves final training response error versus matched intact-KL control in 6/6 starts. These are familiar training targets; held-out native response and ordinary-output evaluation remain pending. Fixed random sharing is a baseline, not discovered reusable structure.
+
+## Previous: shared-dictionary baseline restored to the comparison
 
 [M34](SHARED_COMPARISON_READINESS.md). Fixed-overlap union decoding and full dictionary coverage pass all six pilot replays. Shared models were omitted after M7; learned SharedGroups is a distinct larger implementation with earlier membership-concentration failures. A common12-fit scalar/block/fixed-shared comparison is designed, using both native intervention generators for every architecture; training-only calibration and gradient checks precede launch.
 
