@@ -88,3 +88,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M9: supervision distribution matters as well as objective
 
 [Frozen diverse-task transfer](FEATURIZER_TASK_TRANSFER.md) improves overallKL13–23% under natural-textKLtraining butcapital/numberfamiliesworsenall4comparisons atoverallKL. Capital finalKL/marginsalso worsen; numberfinalKLmixed. Binaryanswerscanremaincorrectdespitedistributionaldamage. Addeddiversecausalsupervision ismotivated, butrequiresgroup-auditedsplits andnaturaltextforgettingcontrols; representationtransferonreuseddevtasks isnotnewtaskdiscovery.
+
+## M10: family count overstates independent lexical coverage
+
+[Strictsource-input split](DIVERSE_SUPERVISION_SPLIT.md) joinscross-familyexamples anddistractors,leaving17components. Fourfamiliescannotbothtrainandevaluatelexically;14evaluationpairscoveronly6families. Thislimitmustsurvivefutureclaims. Frozen120updatemixedtask/naturalKLcomparison testsbroadersupervision againstmatchedcontinuednaturalKL, withnaturalforgettingchecks; nofittingyet.

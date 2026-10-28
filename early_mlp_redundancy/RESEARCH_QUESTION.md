@@ -1,4 +1,8 @@
-# Active next step: audit splits for diverse causal supervision
+# Active next step: execute frozen mixed-supervision comparison
+
+[M10](DIVERSE_SUPERVISION_SPLIT.md) completes metadata splitting and independent audit. Execute exact `validation/diverse_supervision_protocol.json`: fourM8causalinitialstates×natural-only/mixed arms,120Adam.0003updates, frozenfamilybalancedtask/naturaldocument schedules, noselection. Evaluate14pairs/6families,66trainingpairs separately andnaturaldevelopmentdocs32–63. Fourfamiliesaretraining-only; no lexicaltransferestimate. Comparefrozenbaseline andbotharms,retainallfailures,originalexcludedfamiliesuntouched. Do notresplitafteroutcomes. Earlierplansarehistorical.
+
+# Completed step: audit splits for diverse causal supervision
 
 [M9](FEATURIZER_TASK_TRANSFER.md) finds average transfer but consistent family-specific failures. Audit lexical source-token groups/context duplicates in the existing10trainingfamilies, then freeze a bounded family-balanced taskKL versus continued natural-textKL comparison fromidenticalcheckpoints. Keep paired endpoints/lexicalgroups together fortransferclaims; flagfamilies lacking multipleindependentgroups. Retain natural-text eval to detectforgetting, and original excludedfamilies. Do not fit selected failures then call them validation. No manifold/newtaskclaim or additionalnatural-textobjective search. Earlier plans are historical.
 

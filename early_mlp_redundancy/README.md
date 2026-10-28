@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: diverse-task transfer is real but uneven
+## Latest: stricter task split before diverse supervision
+
+[M10](DIVERSE_SUPERVISION_SPLIT.md) finds17connected source-input components, including cross-family/distractor overlap. The audited split has66trainingpairs and14evaluationpairs across6families;4families cannot support lexical evaluation and aretraining-only. No changedsource token appears in opposite-split taskprompts. Exact schedules freeze natural-only versusmixed natural/taskKLtraining fromM8causalcheckpoints. Training has NOT run yet; data arepreviouslyexamineddevelopment, notfreshholdouts.
+
+## Previous: diverse-task transfer is real but uneven
 
 [M9](FEATURIZER_TASK_TRANSFER.md) evaluates all8frozen models on80existing development pairs across10families. Downstream training improves overallKL13–23%, smaller than natural-text gains, and taskTop1improves. Capital recall and number successor worsen in all4all-positionKLcomparisons despite100%binaryaccuracy; capital final-position/marginfidelityalso worsens. No newtaskdiscoveryclaim. Next audit lexical/context splits before a bounded diverse causal-supervision comparison, retaining natural-text forgetting checks and originaltaskexclusions.
 
