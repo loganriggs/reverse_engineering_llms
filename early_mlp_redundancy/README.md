@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: one-step improvements transfer unevenly across causal metrics
+## Latest: causal supervision beats KL-only on training responses, unevenly on transfer
+
+[M27](AGGREGATE_KL_OBJECTIVE_CONTROL.md). M27 matched full-data KL-only controls: adding responseobjective improvestrainingR8/8; native margin4/8bothnorms,logprob5/8full6/8tenth. Thus traininggain survives objectivecontrol buttransferuneven. Samegradients/data/rawnoms/normalization; no newfitting. Allnativeeffects/inventories audited. Runtimeexit139audit/output retries preserved; thread1 run initialscoresreplay. Next same-input unseen-M18-group probe withdeterministic groups excludedfromallprevioussupervisiononinput, nozero/effectrejection; allfamilies/candidates/norms retained. Stopoptimizersweeps; distinguish directioncoverage frominput/basistransfer beforefurthertraining.
+
+## Previous: one-step improvements transfer unevenly across causal metrics
 
 [M26](FINITE_CANDIDATE_TRANSFER.md). M26 evaluates all16prespecified candidates+4initials: aggregate full/tenth native logprob error improves7/8 and8/8 versusinitial; margin5/8both. Effects mixedbyregion/metric; natural-onlycontrol alsoimproves. All704 nativeeffects replay;4572nativeforwards/3520responses,24192outputforwards/23040rows audited. Exact40tensor candidate replay required rawupdate+normalization rather than rounded realizeddelta addition. No semanticunit/newtaskclaim. Next full-data KL-only direction control atboth existingnorms, fromsavedM24gradients, to isolate causalobjective contribution; no search.
 
