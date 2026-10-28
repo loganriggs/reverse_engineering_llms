@@ -9,7 +9,7 @@ and can we isolate that contribution with a faithful, reusable intervention?
 
 The word *redundant* has covered several different observations. This packet separates them;
 it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. It includes historical evidence, runnable inspection code, and six
+replacement already exists. It includes historical evidence, runnable inspection code, and seven
 small exploratory native-model studies.
 
 ## Current answer, within the tested panel
@@ -32,6 +32,12 @@ alone recovers about29% of donor discrepancy, versus34% for all positions and4% 
 This is a source-token response, not a discovered neuron or compact basis. The four later nouns
 provide only eight distinct source contexts, so further feature fitting on this panel would be
 uninformative. Next work must vary prefixes before the edit and broaden competent-task coverage.
+
+A [training-task screen (P7)](TRAINING_TASK_SCREEN.md) now tests this source response on76
+single-token pairs across nine competent task families. Agreement, sentiment, pluralization and
+past tense show partial donor recovery; binding and factual recall do not. Only sentiment and
+binding have repeated token edits under multiple pre-edit contexts. This is a scoped causal target,
+not a universal featurizer objective; whole-task evaluation exclusions remain intact.
 
 The earlier [P1](NATIVE_MLP2_RESPONSE_PILOT.md) and [P2](MLP2_TOKEN_TRANSFER.md) studies distinguish
 native MLP2 amplification from approximation-specific error attenuation. Read the parent contracts

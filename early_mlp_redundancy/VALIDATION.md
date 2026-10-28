@@ -48,3 +48,7 @@ max3.06e-16, previous P4 prefix arm within1.96e-7absolute. See PREFIX_RESPONSE_F
 EMLP-P6:320native forwards; identity/pre-source controls exact0;32prior full-response arms
 replay exactly;28independent scalar KL checks max6.94e-16; source-prefix identities verified.
 See RESPONSE_POSITIONS.md for the eight-source-context limitation and stopping rule.
+
+EMLP-P7:1072native forwards;80training memberships/76single-token selections/cohort gates
+checked;160texts exactly retokenize; independent saved KL/margins agree within8.89e-16/1.78e-15.
+Selection metadata unchanged. See TRAINING_TASK_SCREEN.md for source-diversity limits.

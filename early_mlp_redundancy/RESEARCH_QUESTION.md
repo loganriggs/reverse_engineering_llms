@@ -12,9 +12,9 @@ amplification for context and random changes. [EMLP-P4](MLP1_MEDIATION.md) now m
 reduction versus20%local, while a perfect local MLP1 write recovers little output discrepancy.
 [EMLP-P5](PREFIX_RESPONSE_FACTORIAL.md) finds that the induced all-position MLP1 writes
 carry much of the donor-output recovery. [EMLP-P6](RESPONSE_POSITIONS.md) localizes most of that recovery to the changed lexical
-position. The panel has only eight distinct source contexts; stop further fitting on it. Next test
-the concrete source-response target across varied pre-edit prefixes and competent task families,
-preserving whole-task training exclusions.
+position. The panel has only eight distinct source contexts; stop further fitting on it. [EMLP-P7](TRAINING_TASK_SCREEN.md) screens existing training families and finds task-dependent
+utility. Next run its fixed preamble competence screen for the four responsive families; keep
+negative families documented and preserve whole-task exclusions.
 
 ## Target
 
