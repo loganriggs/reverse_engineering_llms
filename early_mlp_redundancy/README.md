@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: token geometry versus context
+## Latest: natural text changes the token/context balance
+
+[M4](NATURAL_TOKEN_CONTEXT.md) repeats the partition on 64 reused natural-text training documents. Within-token variation is 29.5%, 40.8% and 53.8% for MLP0/1/2 among repeated-context tokens, much larger than the short-prompt result. Opposite-document-half token means improve over a global-mean predictor by only 11–13% at MLP2, on 58–60% covered evaluation positions. The small-contextual-correction description is not general. Next test downstream effects of cross-document table replacement with a norm-only control.
+
+## Previous: token geometry versus context
 
 [M3](TOKEN_CONTEXT_PARTITION.md) partitions cached native writes. Among tokens observed in multiple distinct contexts, deduplicated within-token variation accounts for 10.1%, 13.8% and 19.0% of centered MLP0/1/2 write energy. The contextual component spans more directions than the token-conditioned means on this panel. This is descriptive, not a token-table generalization or causal dispensability result. Natural-text replication is the next evidence gap.
 

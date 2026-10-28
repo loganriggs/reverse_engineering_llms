@@ -1,4 +1,8 @@
-# Active next step: natural-text replication with audited provenance
+# Active next step: causal test of cross-document token-mean predictions
+
+[M4](NATURAL_TOKEN_CONTEXT.md) shows much larger contextual variation on natural text and limited MLP2 token-mean prediction. Use the same64 reused training documents and opposite-half token means; replace product writes at covered positions, retain Down bias/native uncovered writes, and test each early layer separately. Include native-product norm-only scaling to table norm, output KL/top1/CE, coverage and local vector error. No refit, new task holdout, or hyperparameter sweep. Freeze this protocol before outcomes. These are table-replacement interventions, not evidence of native-channel removability. Earlier next-step sections are historical.
+
+# Completed step: natural-text replication with audited provenance
 
 [M3](TOKEN_CONTEXT_PARTITION.md) completes the token/context partition and independent audit. Audit existing natural-text data and cached native writes before freezing a finite replication of the same decomposition. Verify model/site and token-prefix alignment, document prior use, and label reused data honestly. Preserve whole-task exclusions. The featurizer deliverable is separate token/context reconstruction diagnostics plus causal fidelity, conditional on broader replication; this observational partition does not establish causal features. No additional toy width/noise/dropout tuning.
 

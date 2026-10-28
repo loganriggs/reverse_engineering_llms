@@ -64,3 +64,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M3: token-conditioned and contextual write geometry
 
 [M3](TOKEN_CONTEXT_PARTITION.md) finds 10.1/13.8/19.0% within-token centered variation for MLP0/1/2 on distinct prefixes of repeated-context tokens. Contextual residual spectra are broader than token-mean spectra, though group counts constrain the latter. This motivates evaluating both components when fitting featurizers; it does not establish a causal decomposition or generalization. Natural-text replication must precede making this a training prior.
+
+## M4: natural text revises the M3 interpretation
+
+[Natural-text replication](NATURAL_TOKEN_CONTEXT.md) raises the repeated-context within-token shares to29.5/40.8/53.8%. A small contextual correction is not a general early-layer description. Cross-document token means reduce covered-position error versus a global mean by55–56%,33–35%,11–13% atMLP0/1/2, with only58–60%coverage. Vocabulary/length/position differences prevent attributing the shift to one cause. Next test causal table-replacement effects with norm controls before turning descriptive variance into a featurizer prior.
