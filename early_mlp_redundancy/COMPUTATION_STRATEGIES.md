@@ -135,3 +135,7 @@ available as a focused test of shared directions, not the sole research directio
 ## Learned-capacity update
 
 [T2](TOY_CAPACITY_RESULTS.md) adds the first24 trained toy runs under capacity and input noise. Spare output rank permits contribution spreading and deletion robustness; saturated rank changes that tradeoff. The next fixed causal check varies width on the same fine target task. Other toy mechanisms and corpus generalization remain open.
+
+## Same-task width and specialization update
+
+[T3](TOY_WIDTH_RESULTS.md) shows that capacity removes the reconstruction obstruction but does not unify robustness metrics. Input-noise training yields class-specific channels and targeted single-channel vulnerabilities in these toys. A fixed small dropout/width follow-up will test whether both robustness types can be trained; no universal tradeoff or LLM mechanism is established.

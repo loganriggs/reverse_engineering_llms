@@ -26,6 +26,12 @@ question. With spare output-rank capacity, penalizing large contributions improv
 robustness at nearly unchanged clean fit. Under rank pressure, benefits depend on the metric; input
 noise robustness is a separate tradeoff. This is a controlled toy result, not an LLM training explanation.
 
+The [same-task width comparison (T3)](TOY_WIDTH_RESULTS.md) removes the rank bottleneck and
+finds a sharper robustness distinction: noisy-input training produces class-specific channels,
+which are selectively vulnerable to single-channel removal. Clean-trained penalized models are
+more distributed and tolerate those removals better. These toy outcomes do not establish an
+unavoidable tradeoff or identify the LLM's training strategy.
+
 ## Current removal evidence
 
 Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).

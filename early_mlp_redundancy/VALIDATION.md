@@ -66,3 +66,5 @@ User-definition correction: [literal removal versus replacement and steering](RE
 [M1 matched layer comparison](MATCHED_LAYER_MECHANISMS.md) includes signed interference, fixed deletion masks, an analytic subset expectation and [audit receipt](validation/matched_layers_audit.json).
 
 [T2 capacity and noise experiment](TOY_CAPACITY_RESULTS.md) includes a frozen protocol,24 trained models,408 independently replayed clean/deletion evaluations, and an output-rank capacity bound.
+
+[T3 width/noise follow-up](TOY_WIDTH_RESULTS.md) includes12 new trained models,228 independently replayed clean/noisy/deletion evaluations and192 cross-checked single-channel confusion matrices.

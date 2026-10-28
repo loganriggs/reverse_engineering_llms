@@ -1,4 +1,13 @@
-# Latest priority: capacity and robustness of learned implementations
+# Next bounded step: can both toy robustness types be trained?
+
+[T3](TOY_WIDTH_RESULTS.md) completes the fixed width comparison and checks class specialization
+and selective channel vulnerability. Its next-test section freezes the small dropout/capacity
+comparison: fine targets, input noise.25, penalty.01, widths16/32, channel dropout0/.25, three seeds,
+fixed budget. Reuse three existing models and train nine new ones. Stop this toy grid after that
+comparison and relate the diagnostic signatures to the real-model evidence, without assuming a
+universal tradeoff. Prior plans below are preserved history, not additional simultaneous next runs.
+
+## Previous step: capacity and robustness of learned implementations
 
 The user's extremes question is now tested in [T2](TOY_CAPACITY_RESULTS.md), with a
 [pre-outcome protocol](TOY_CAPACITY_PROTOCOL.md). Next hold the fine target task fixed and compare
