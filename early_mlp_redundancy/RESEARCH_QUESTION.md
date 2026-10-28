@@ -1,4 +1,8 @@
-# Active next step: fixed context-generalization challenge
+# Active next step: localize context-dependent causal effects
+
+[M15](CONTEXT_ROLE_TRANSFER.md) tests two fixed preambles with frozen models, group matches and gains. Eleven of twelve native family/context cohorts pass; plural nouns under the exercise preamble fail and remain reported. Actual-block geometric prediction errors are .854/.726 versus same-family original .515/.551 (zero predictor=1). Equal-family exercise error is 1.044, so correspondence is partial. Functional/random errors are dominated by a fragile gain of 93.84 on a near-silent training group, not independent evidence against the ontology. Intact replacement also loses fidelity. Next: one bounded prefix-only/task-only intervention decomposition, with all groups/controls and no gain refitting, to identify which causal targets could improve the featurizer.
+
+# Completed step: fixed context-generalization challenge
 
 [M14](GROUP_ROLE_ENERGY_BASELINE.md) completesenergy/meancontrols. Stopregressor/matching/thresholdsearchonoldpanel. Preparechangedcontexts forallowedtaskoperations,freezeM11weights/M13geometryassignments/trainingamplitudes, andpredeclare nativecompetencegatesbeforeablationoutcomes. Reportallfailedcohorts;nooutcome-drivenreplacement. Contexttransferisnotnewtaskorlexicaldiscovery;originalexcludedfamiliesunused. Testsurvivingcausalcorrespondenceonindependentcontexts beforestrongerunitclaims. Earlierplansarehistorical.
 

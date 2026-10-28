@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: simple energy controls do not explain the strongest role match
+## Latest: context changes expose partial correspondence and fragile calibration
+
+[M15](CONTEXT_ROLE_TRANSFER.md) tests two fixed preambles with frozen models, group matches and gains. Eleven of twelve native family/context cohorts pass; plural nouns under the exercise preamble fail and remain reported. Actual-block geometric prediction errors are .854/.726 versus same-family original .515/.551 (zero predictor=1). Equal-family exercise error is 1.044, so correspondence is partial. Functional/random errors are dominated by a fragile gain of 93.84 on a near-silent training group, not independent evidence against the ontology. Intact replacement also loses fidelity. Next: one bounded prefix-only/task-only intervention decomposition, with all groups/controls and no gain refitting, to identify which causal targets could improve the featurizer.
+
+## Previous: simple energy controls do not explain the strongest role match
 
 [M14](GROUP_ROLE_ENERGY_BASELINE.md) fitscachedtraining-only energy/meanbaselines. Seed72actualblockerrors(sharedenergy/pergroupenergy/mean)=.998/.947/.882 versusfrozengeometry-basedcrossseed.551. Theadvantagesurvivesantonymomission,butdoesnotestablishsemanticunitsorruleoutnonlinear/contextualsensitivity. Stopoldpanelpredictorrefinement;nextfixedcontextchallengewithnativecompetencegatesandfrozenmatches.
 

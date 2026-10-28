@@ -108,3 +108,8 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M14: energy-only explanation is insufficient, stronger unit claims remain open
 
 [Cachedbaselineaudit](GROUP_ROLE_ENERGY_BASELINE.md):seed72actualblockerror sharedenergy.998/pergroupenergy.947/mean.882,vsgeometrycrossseed.551;withoutantonym1.067/.993/1.003vs.682. Baselineevaluationinputs differ(withinseedenergyvscrossseedeffects),sothisrulesoutonlysimplelinearenergy/generalmeanexplanations. Stopoldpanelpredictorsearch;fixednewcontexttransferwithcompetencegates isnextdiscriminator.
+
+
+## M15: contextual stability remains limited
+
+[M15](CONTEXT_ROLE_TRANSFER.md) tests two fixed preambles with frozen models, group matches and gains. Eleven of twelve native family/context cohorts pass; plural nouns under the exercise preamble fail and remain reported. Actual-block geometric prediction errors are .854/.726 versus same-family original .515/.551 (zero predictor=1). Equal-family exercise error is 1.044, so correspondence is partial. Functional/random errors are dominated by a fragile gain of 93.84 on a near-silent training group, not independent evidence against the ontology. Intact replacement also loses fidelity. Next: one bounded prefix-only/task-only intervention decomposition, with all groups/controls and no gain refitting, to identify which causal targets could improve the featurizer.
