@@ -7,6 +7,14 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
+## Broader question: which computational mechanisms explain these observations?
+
+The [mechanism framework and first toy model](COMPUTATION_STRATEGIES.md) separate the function
+computed, its channel implementation, and downstream sensitivity. A four-cluster token function
+can be implemented by duplicated contributions or cancelling ones with identical intact outputs.
+The current MLP1/MLP2 contrast also confounds pruning fraction; matched layer measurements come
+before assigning different strategy labels. The removal evidence below remains one part of that profile.
+
 ## Current removal evidence
 
 Start with [the removal audit and direct deletion test](REMOVAL_REDUNDANCY.md).
