@@ -1,0 +1,4118 @@
+{
+  "config": {
+    "experiment": "H1033",
+    "seed": 10331,
+    "steps": 80,
+    "dictionary": "Frozen train-only PCA128 per stream from H1032;48active maximum combined per token; same native port/position access for every method.",
+    "models": "384learned log-importance scalars, one per PCA coordinate/port. ScalarTop16; block32x4 Top4groups; shared32x8 Top2groups degree2 fixed. Coordinate values remain exact PCA projections.",
+    "optimization": "Adam0.03, fixed80pair steps, balanced round-robin family schedule, pair order cycles through all eligible pairs. Final step only. Log-importance clamped[-2,2];1e-4mean-square penalty.",
+    "objectives": {
+      "activation": "mean normalized whole-port MSE +0.1mean normalized pair-difference error",
+      "finite_causal": "mean KL(native endpoint || reconstructed endpoint output) + mean KL(full donor || recipient+decoded donor-minus-recipient output), both directions. Native suffix differentiable, weights frozen."
+    },
+    "gradient": "Hard exact support forward; softmax-based straight-through gate gradients. Surrogate gradient, not derivative of discrete top-k. Fixed temperature1 and normalized score scale.",
+    "controls": "Untrained selectors evaluated first; fixed initialization/memberships/schedule/objective-independent evaluation. No architecture or hyperparameter selection. Single seed pilot.",
+    "data": "120discovery endpoint occurrences,38historically opened lexical development endpoints, no original whole-task holdouts. Dictionary already fitted on discovery only. Capital diagnostic subset retained.",
+    "source_hashes": {
+      "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/multitask_boundary_contract/states.pt": "07c724d6346e1e51a7b6106306226f6d6825f8e051c046ddbd61e79ebcb30b8a",
+      "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/multistream_span_diagnosis/pca.pt": "4972bd7c58602b5b045cd8df7a5d43619933e9da659ba074b365daa4859880c8"
+    },
+    "schedule": [
+      "agreement-context0-0",
+      "capital_recall-context0-0",
+      "entity_binding-context0-0",
+      "pronoun_gender-context0-0",
+      "sentiment-context0-0",
+      "agreement-context1-0",
+      "capital_recall-context0-1",
+      "entity_binding-context1-0",
+      "pronoun_gender-context1-0",
+      "sentiment-context1-0",
+      "agreement-context2-0",
+      "capital_recall-context0-2",
+      "entity_binding-context2-0",
+      "pronoun_gender-context2-0",
+      "sentiment-context2-0",
+      "agreement-context0-1",
+      "capital_recall-context0-3",
+      "entity_binding-context0-1",
+      "pronoun_gender-context3-0",
+      "sentiment-context3-0",
+      "agreement-context1-1",
+      "capital_recall-context0-0",
+      "entity_binding-context1-1",
+      "pronoun_gender-context0-1",
+      "sentiment-context0-1",
+      "agreement-context2-1",
+      "capital_recall-context0-1",
+      "entity_binding-context2-1",
+      "pronoun_gender-context1-1",
+      "sentiment-context1-1",
+      "agreement-context0-2",
+      "capital_recall-context0-2",
+      "entity_binding-context0-2",
+      "pronoun_gender-context2-1",
+      "sentiment-context2-1",
+      "agreement-context1-2",
+      "capital_recall-context0-3",
+      "entity_binding-context1-2",
+      "pronoun_gender-context3-1",
+      "sentiment-context3-1",
+      "agreement-context2-2",
+      "capital_recall-context0-0",
+      "entity_binding-context2-2",
+      "pronoun_gender-context0-2",
+      "sentiment-context0-2",
+      "agreement-context0-3",
+      "capital_recall-context0-1",
+      "entity_binding-context0-3",
+      "pronoun_gender-context1-2",
+      "sentiment-context1-2",
+      "agreement-context1-3",
+      "capital_recall-context0-2",
+      "entity_binding-context1-3",
+      "pronoun_gender-context2-2",
+      "sentiment-context2-2",
+      "agreement-context2-3",
+      "capital_recall-context0-3",
+      "entity_binding-context2-3",
+      "pronoun_gender-context3-2",
+      "sentiment-context3-2",
+      "agreement-context0-0",
+      "capital_recall-context0-0",
+      "entity_binding-context0-0",
+      "pronoun_gender-context0-3",
+      "sentiment-context0-3",
+      "agreement-context1-0",
+      "capital_recall-context0-1",
+      "entity_binding-context1-0",
+      "pronoun_gender-context1-3",
+      "sentiment-context1-3",
+      "agreement-context2-0",
+      "capital_recall-context0-2",
+      "entity_binding-context2-0",
+      "pronoun_gender-context2-3",
+      "sentiment-context2-3",
+      "agreement-context0-1",
+      "capital_recall-context0-3",
+      "entity_binding-context0-1",
+      "pronoun_gender-context3-3",
+      "sentiment-context3-3"
+    ]
+  },
+  "summary": [
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "whole_KL": 0.15499416061090943,
+      "paired_relative_KL": 0.10409077488957616,
+      "top1": 0.875
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "whole_KL": 2.0715699302800155,
+      "paired_relative_KL": 0.8364002942618075,
+      "top1": 0.0
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "whole_KL": 0.9011031944319695,
+      "paired_relative_KL": 0.8096837667796116,
+      "top1": 0.0
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "whole_KL": 0.1469943271479316,
+      "paired_relative_KL": 0.3593612011145308,
+      "top1": 0.625
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "whole_KL": 0.10250883815765474,
+      "paired_relative_KL": 0.5907963659825486,
+      "top1": 0.25
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "whole_KL": 0.16838921324206735,
+      "paired_relative_KL": 0.15092678527807893,
+      "top1": 0.75
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "whole_KL": 2.064221687658462,
+      "paired_relative_KL": 0.8324953851551038,
+      "top1": 0.0
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "whole_KL": 0.9713864797641485,
+      "paired_relative_KL": 0.8164466643538029,
+      "top1": 0.0
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "whole_KL": 0.14692662556258795,
+      "paired_relative_KL": 0.2983788830159222,
+      "top1": 0.75
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "whole_KL": 0.09733861577131721,
+      "paired_relative_KL": 0.5763537471589638,
+      "top1": 0.125
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "whole_KL": 0.15839332890396599,
+      "paired_relative_KL": 0.07503398722228209,
+      "top1": 0.75
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "whole_KL": 2.1080451983068094,
+      "paired_relative_KL": 0.8343721559300656,
+      "top1": 0.0
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "whole_KL": 0.9475676091529281,
+      "paired_relative_KL": 0.8313710721590912,
+      "top1": 0.0
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "whole_KL": 0.15093384905425639,
+      "paired_relative_KL": 0.3453103509885185,
+      "top1": 0.5
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "whole_KL": 0.09896446964784096,
+      "paired_relative_KL": 0.5177091377095738,
+      "top1": 0.375
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "whole_KL": 0.5636583224382148,
+      "paired_relative_KL": 0.8036495697903147,
+      "top1": 0.125
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "whole_KL": 2.591924898781469,
+      "paired_relative_KL": 0.9023910695394686,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "whole_KL": 1.0959088540367785,
+      "paired_relative_KL": 0.8324877482019861,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "whole_KL": 0.358834379946775,
+      "paired_relative_KL": 0.7545062227331502,
+      "top1": 0.375
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "whole_KL": 0.41952164510232265,
+      "paired_relative_KL": 0.8841164096453227,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "whole_KL": 0.3620004065869449,
+      "paired_relative_KL": 0.48206089153591813,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "whole_KL": 2.6552939312108417,
+      "paired_relative_KL": 0.9019168999357645,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "whole_KL": 1.184553391068408,
+      "paired_relative_KL": 0.9743343663213144,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "whole_KL": 0.37223354343213133,
+      "paired_relative_KL": 0.6952440103056511,
+      "top1": 0.5
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "whole_KL": 0.3473545769585644,
+      "paired_relative_KL": 0.9121925924868212,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "whole_KL": 0.44785998661172133,
+      "paired_relative_KL": 0.37689667608449645,
+      "top1": 0.375
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "whole_KL": 2.5228339618668696,
+      "paired_relative_KL": 0.9019743351973255,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "whole_KL": 1.0477762160197877,
+      "paired_relative_KL": 0.8757184512167113,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "whole_KL": 0.45720266789099323,
+      "paired_relative_KL": 0.8212746535665492,
+      "top1": 0.0
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "whole_KL": 0.290806909431485,
+      "paired_relative_KL": 0.8643776395835129,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "whole_KL": 0.8123460293751934,
+      "paired_relative_KL": 0.8577159023924467,
+      "top1": 0.125
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "whole_KL": 5.713472018530965,
+      "paired_relative_KL": 0.8830982831346029,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "whole_KL": 1.3449596765077585,
+      "paired_relative_KL": 0.902029610071645,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "whole_KL": 0.6338004812391795,
+      "paired_relative_KL": 0.6878351639256761,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "whole_KL": 1.0940124358465935,
+      "paired_relative_KL": 0.9806461897165178,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "whole_KL": 0.7179418988283273,
+      "paired_relative_KL": 0.7576020422635691,
+      "top1": 0.125
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "whole_KL": 5.595106869784066,
+      "paired_relative_KL": 0.9037795541212499,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "whole_KL": 1.3651249254060265,
+      "paired_relative_KL": 0.9027467360434307,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "whole_KL": 1.3821067874902804,
+      "paired_relative_KL": 0.7094182827682841,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "whole_KL": 1.0355385493943379,
+      "paired_relative_KL": 0.7960433967835736,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "whole_KL": 0.891327891935212,
+      "paired_relative_KL": 0.8029375174824446,
+      "top1": 0.125
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "whole_KL": 3.634817869258164,
+      "paired_relative_KL": 0.901052943118733,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "whole_KL": 1.311031610294158,
+      "paired_relative_KL": 0.8696187732357109,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "whole_KL": 0.650763889860771,
+      "paired_relative_KL": 0.6513531679991552,
+      "top1": 0.0
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "whole_KL": 0.6197239694030363,
+      "paired_relative_KL": 1.1715044579663572,
+      "top1": 0.0
+    }
+  ],
+  "records": [
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.1639250576176761,
+      "paired_KL": 0.14041703990509974,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.15021275184409255,
+      "paired_KL": 0.43808509292164766,
+      "paired_denominator": 1.6819041110320376,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.12135571475097812,
+      "paired_KL": 0.32923312815243244,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.12727631387388372,
+      "paired_KL": 0.3290970492475707,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.2213470187797755,
+      "paired_KL": 0.7939252585617446,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 0.7043197522656952,
+      "paired_KL": 1.072841959518384,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.1124172903025504,
+      "paired_KL": 0.22414799147568,
+      "paired_denominator": 0.5214111481523722,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.12580458903414665,
+      "paired_KL": 0.13729683328264145,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 2.2954750060509115,
+      "paired_KL": 3.7312013495447296,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 1.761640151549907,
+      "paired_KL": 4.986446117182171,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.0944270483400795,
+      "paired_KL": 0.19414858812823682,
+      "paired_denominator": 2.3423430795485736,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.1501771552549572,
+      "paired_KL": 0.2014791948100374,
+      "paired_denominator": 1.8492906858438614,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.09093844311301963,
+      "paired_KL": 0.19016247325186764,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.09187785981746147,
+      "paired_KL": 0.1573897240599044,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 0.74596466666126,
+      "paired_KL": 0.520969648561452,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.5144957192860931,
+      "paired_KL": 0.6100348531643192,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.15787768224431248,
+      "paired_KL": 0.19429502377370894,
+      "paired_denominator": 0.5936192694788869,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.15174642169689337,
+      "paired_KL": 0.12793759468655758,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 1.4767768911913937,
+      "paired_KL": 3.054600374031371,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 1.89743084997392,
+      "paired_KL": 3.2335328034013777,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.12691833288830412,
+      "paired_KL": 0.18287052097886594,
+      "paired_denominator": 2.640448455741751,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 0.16912825792913855,
+      "paired_KL": 0.12793172083437726,
+      "paired_denominator": 1.5140794626624605,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.08181026289411361,
+      "paired_KL": 0.14465520252952174,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.09377617087420705,
+      "paired_KL": 0.14892295314994977,
+      "paired_denominator": 0.374981705188593,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 0.9073288490590281,
+      "paired_KL": 0.4622319673423141,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.4469540380755291,
+      "paired_KL": 0.6730496768576865,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.15048821167549378,
+      "paired_KL": 0.2051192005397749,
+      "paired_denominator": 0.4931973742684788,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.13715020484126172,
+      "paired_KL": 0.10135990415642762,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.25494030224304826,
+      "paired_KL": 0.12000543827305916,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.13022437876997908,
+      "paired_KL": 0.16324972219691106,
+      "paired_denominator": 1.0367330110255855,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.09972012779247721,
+      "paired_KL": 0.16514393516351372,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 0.1133158121450972,
+      "paired_KL": 0.1450061535203484,
+      "paired_denominator": 0.1904427064963665,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 1.5473850734418377,
+      "paired_KL": 0.9407667579089938,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.1210304378865372,
+      "paired_KL": 1.3810827219264021,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.16472931970632398,
+      "paired_KL": 0.15415349528215655,
+      "paired_denominator": 0.6054900915249846,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.17574089768247048,
+      "paired_KL": 0.20658314064818326,
+      "paired_denominator": 0.6206713930748905,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 2.434297914377236,
+      "paired_KL": 7.076776027156191,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 2.563798768536724,
+      "paired_KL": 5.575542479959203,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.13365673670058975,
+      "paired_KL": 0.1445738157763944,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.16160762728978506,
+      "paired_KL": 0.3143171162105576,
+      "paired_denominator": 1.6819041110320376,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.09743292330959002,
+      "paired_KL": 0.2670774483905546,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.1300639764367948,
+      "paired_KL": 0.28878569036967416,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.327272465987787,
+      "paired_KL": 0.7611488578247003,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 0.7407860793488678,
+      "paired_KL": 1.1118975501854818,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.10528829937901693,
+      "paired_KL": 0.19431951347114726,
+      "paired_denominator": 0.5214111481523722,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.1109247947444395,
+      "paired_KL": 0.09835915377927129,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 2.2386181702762467,
+      "paired_KL": 3.7409352949404457,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 1.7627087086326494,
+      "paired_KL": 4.945654397344913,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.10967190203653626,
+      "paired_KL": 0.4091852221691393,
+      "paired_denominator": 2.3423430795485736,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.23895938759227517,
+      "paired_KL": 0.36926805962931525,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.09231754799452481,
+      "paired_KL": 0.19077036309937567,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.0859136925574271,
+      "paired_KL": 0.1592127885161422,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 0.8065985870776725,
+      "paired_KL": 0.5396073212078973,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.5617250947762089,
+      "paired_KL": 0.6423537741244629,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.1675865669366316,
+      "paired_KL": 0.16163682634729687,
+      "paired_denominator": 0.5936192694788869,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.14926984034857738,
+      "paired_KL": 0.08979326755846007,
+      "paired_denominator": 0.36256407187515344,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 1.4715555344760938,
+      "paired_KL": 2.8971582229004214,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 1.9228106962502387,
+      "paired_KL": 3.3035348773796076,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.14968293761099327,
+      "paired_KL": 0.31686828693348723,
+      "paired_denominator": 2.640448455741751,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 0.2769842735681062,
+      "paired_KL": 0.17212051913175816,
+      "paired_denominator": 1.5140794626624605,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.07105275232296204,
+      "paired_KL": 0.18778613904032843,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.1042833202862424,
+      "paired_KL": 0.18976601056056555,
+      "paired_denominator": 0.374981705188593,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.113997644988686,
+      "paired_KL": 0.5177658472944113,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.5485274129271464,
+      "paired_KL": 0.7640027531044286,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.15067819912835456,
+      "paired_KL": 0.1762819354608174,
+      "paired_denominator": 0.4931973742684788,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.1390260391880443,
+      "paired_KL": 0.07385102579584961,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.1377174923759675,
+      "paired_KL": 0.31541028329739856,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.13883334876228562,
+      "paired_KL": 0.2320554160751857,
+      "paired_denominator": 1.0367330110255855,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.07924833209355288,
+      "paired_KL": 0.14558306065571577,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 0.11839638116944368,
+      "paired_KL": 0.14128054765891862,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 1.6313101107754624,
+      "paired_KL": 0.8370586250548807,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.0408744422313567,
+      "paired_KL": 1.3349828019577783,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.1632491057420159,
+      "paired_KL": 0.14255728775721213,
+      "paired_denominator": 0.6054900915249846,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.1893901590336235,
+      "paired_KL": 0.18485240355913427,
+      "paired_denominator": 0.6206713930748905,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 2.4315848373497033,
+      "paired_KL": 7.054324888448722,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 2.558052178965841,
+      "paired_KL": 5.587363869528498,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.163326334723972,
+      "paired_KL": 0.10356422750185446,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.16306920883244302,
+      "paired_KL": 0.23896394002294927,
+      "paired_denominator": 1.6819041110320376,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.12356773063754897,
+      "paired_KL": 0.24202262222328283,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.09693631228325979,
+      "paired_KL": 0.25223970551850683,
+      "paired_denominator": 0.429307204258474,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.2394163944645484,
+      "paired_KL": 0.8018933304483168,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 0.7601794829601984,
+      "paired_KL": 1.0676196430113947,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.11169494757290328,
+      "paired_KL": 0.2334802103642945,
+      "paired_denominator": 0.5214111481523722,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.13072073285286312,
+      "paired_KL": 0.13653976983416427,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 2.234930880192644,
+      "paired_KL": 3.7590436302287813,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 1.8063004528344826,
+      "paired_KL": 4.975661258152803,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.10637588239072324,
+      "paired_KL": 0.1209088443796074,
+      "paired_denominator": 2.3423430795485736,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.1439660209049805,
+      "paired_KL": 0.18431161186734135,
+      "paired_denominator": 1.8492906858438614,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.08340184173740989,
+      "paired_KL": 0.1739600565035841,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.08707991746932715,
+      "paired_KL": 0.1473042373189523,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 0.808245011875936,
+      "paired_KL": 0.5601171652328708,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.5322740454450114,
+      "paired_KL": 0.6694286159141029,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.1501226827276232,
+      "paired_KL": 0.18753090161857805,
+      "paired_denominator": 0.5936192694788869,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.15616291823887918,
+      "paired_KL": 0.11084285868716344,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 1.5347327728975384,
+      "paired_KL": 3.1171595956151013,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 1.8941439797314072,
+      "paired_KL": 3.2537637052378185,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.15363819667606793,
+      "paired_KL": 0.12299190847972608,
+      "paired_denominator": 2.640448455741751,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 0.16963379923515598,
+      "paired_KL": 0.107805952758192,
+      "paired_denominator": 1.5140794626624605,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.09163992660570296,
+      "paired_KL": 0.1432156747696253,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.08814597304720907,
+      "paired_KL": 0.1441686494730542,
+      "paired_denominator": 0.374981705188593,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 0.9266527540434247,
+      "paired_KL": 0.4964049734008278,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.4847515677582868,
+      "paired_KL": 0.684389327834493,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.14420633526152646,
+      "paired_KL": 0.18943008863343822,
+      "paired_denominator": 0.4931973742684788,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.14034215226839739,
+      "paired_KL": 0.09263773774137284,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.22046709651374444,
+      "paired_KL": 0.1250704515562317,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.14667009195464087,
+      "paired_KL": 0.1268131837728361,
+      "paired_denominator": 1.0367330110255855,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.10250344712554385,
+      "paired_KL": 0.16401514786068627,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 0.11844060827672599,
+      "paired_KL": 0.14356011381545117,
+      "paired_denominator": 0.1904427064963665,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 1.6247811381775064,
+      "paired_KL": 0.9788184689068712,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.2042404784985137,
+      "paired_KL": 1.3691252993262613,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.17082555873214092,
+      "paired_KL": 0.1551135691572021,
+      "paired_denominator": 0.6054900915249846,
+      "top1": true
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.2033954647797175,
+      "paired_KL": 0.19249877404316024,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 2.475955675678036,
+      "paired_KL": 6.9465367348031135,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 2.7022074285067457,
+      "paired_KL": 5.53886771440062,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.3187938159814396,
+      "paired_KL": 1.484427983270621,
+      "paired_denominator": 2.202611422288877,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.9357597484646212,
+      "paired_KL": 1.5955462736113464,
+      "paired_denominator": 1.6819041110320376,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.3457330620634982,
+      "paired_KL": 0.37054283033679747,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.7598486200302801,
+      "paired_KL": 0.33657181149818133,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.4433597034260233,
+      "paired_KL": 0.8648832587714921,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 0.8802625469139223,
+      "paired_KL": 0.8765132874221593,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.286765492981109,
+      "paired_KL": 0.400776348300658,
+      "paired_denominator": 0.5214111481523722,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.32881164903752186,
+      "paired_KL": 0.23054369789562754,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 2.5886028173421898,
+      "paired_KL": 3.704780396580886,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 1.9354889100359243,
+      "paired_KL": 4.917376434532056,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.2529325025916459,
+      "paired_KL": 1.793996252441834,
+      "paired_denominator": 2.3423430795485736,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.7192954106302429,
+      "paired_KL": 1.5171723210729273,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.346120425586831,
+      "paired_KL": 0.30135927272558505,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.3273194815444628,
+      "paired_KL": 0.2658746952857374,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 0.9307890290207671,
+      "paired_KL": 0.5072926556777777,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.5822346375790285,
+      "paired_KL": 0.7617879858363521,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.3227997893135167,
+      "paired_KL": 0.43824875367429283,
+      "paired_denominator": 0.5936192694788869,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.3685579126006866,
+      "paired_KL": 0.28177994293178543,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 2.1781704197827967,
+      "paired_KL": 3.3719915635656177,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 2.4313695487757907,
+      "paired_KL": 3.662995180195653,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.18085120782767888,
+      "paired_KL": 1.962992816383262,
+      "paired_denominator": 2.640448455741751,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 1.1313814171479266,
+      "paired_KL": 1.283828692561948,
+      "paired_denominator": 1.5140794626624605,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.26143964467107256,
+      "paired_KL": 0.3866768693480843,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.42627915591145266,
+      "paired_KL": 0.34067455648448425,
+      "paired_denominator": 0.374981705188593,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.2133208076310535,
+      "paired_KL": 0.5601566131988875,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.5596248880952184,
+      "paired_KL": 0.7928607055721999,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.3215563500445614,
+      "paired_KL": 0.3701791022800379,
+      "paired_denominator": 0.4931973742684788,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.33673970428141753,
+      "paired_KL": 0.1890606257305994,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.2336522000543833,
+      "paired_KL": 1.4435481875429614,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.7366002768077804,
+      "paired_KL": 1.025929893800717,
+      "paired_denominator": 1.0367330110255855,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.3838545974610673,
+      "paired_KL": 0.21566573473958117,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 0.5055781735499167,
+      "paired_KL": 0.19138831712058202,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 1.8251149501944164,
+      "paired_KL": 1.0884498252706205,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.3325642694337987,
+      "paired_KL": 1.1847547769714206,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.39277750750396867,
+      "paired_KL": 0.4296058412626477,
+      "paired_denominator": 0.6054900915249846,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.5126666338114179,
+      "paired_KL": 0.49610885670773974,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 3.3907927626233207,
+      "paired_KL": 7.861532902441014,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 3.027124934128792,
+      "paired_KL": 6.321606752828333,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.30662193013504146,
+      "paired_KL": 0.8612812611223095,
+      "paired_denominator": 2.202611422288877,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.4780750318314828,
+      "paired_KL": 1.1116905488340552,
+      "paired_denominator": 1.6819041110320376,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.36526776753278717,
+      "paired_KL": 0.4000652792091075,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.3647835300098049,
+      "paired_KL": 0.38697113052087906,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.6125169289006465,
+      "paired_KL": 1.1611814158120384,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 0.9727024132260538,
+      "paired_KL": 1.0803254920697571,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.29146102511918404,
+      "paired_KL": 0.39222668694472795,
+      "paired_denominator": 0.5214111481523722,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.3348928989340092,
+      "paired_KL": 0.22033385913225034,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 2.5072198784789723,
+      "paired_KL": 3.714100715148264,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 2.0720843646913347,
+      "paired_KL": 4.986797333421186,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.2607807901400847,
+      "paired_KL": 0.79514906215684,
+      "paired_denominator": 2.3423430795485736,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.3926272397464148,
+      "paired_KL": 0.8186666223238567,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.25865385337756175,
+      "paired_KL": 0.2687709745816766,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.3294900482145416,
+      "paired_KL": 0.2226598222347134,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 0.9926386820711778,
+      "paired_KL": 0.5786592320070888,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.6419978293748362,
+      "paired_KL": 0.5495259441679814,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.3252097817724894,
+      "paired_KL": 0.4306818194226322,
+      "paired_denominator": 0.5936192694788869,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.3906332929762758,
+      "paired_KL": 0.26965316767443226,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 2.4147579372813888,
+      "paired_KL": 3.3096580886627587,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 2.4458710450957737,
+      "paired_KL": 3.749388888125871,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.18211478222111555,
+      "paired_KL": 1.3929515184828416,
+      "paired_denominator": 2.640448455741751,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 0.6314411314358122,
+      "paired_KL": 0.8110829190631845,
+      "paired_denominator": 1.5140794626624605,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.2637541491789356,
+      "paired_KL": 0.3547871130535076,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.40664862432368565,
+      "paired_KL": 0.31367439058221863,
+      "paired_denominator": 0.374981705188593,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.3003397443924496,
+      "paired_KL": 0.8186010914423189,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.6489719538194505,
+      "paired_KL": 0.9134567974201027,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.33003600200925604,
+      "paired_KL": 0.3652181367333317,
+      "paired_denominator": 0.4931973742684788,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.35088875912116313,
+      "paired_KL": 0.1757751941239353,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.3033315232515903,
+      "paired_KL": 0.8605319043785837,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.3410108239340174,
+      "paired_KL": 0.6111704116863277,
+      "paired_denominator": 1.0367330110255855,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.273326076113092,
+      "paired_KL": 0.3128252881663044,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 0.5169125669181064,
+      "paired_KL": 0.22549298022189054,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 1.9417496612569147,
+      "paired_KL": 1.2758158855500628,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.3655099155057362,
+      "paired_KL": 1.3899526840280332,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.39915861822671933,
+      "paired_KL": 0.34919019239471105,
+      "paired_denominator": 0.6054900915249846,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.5555879692979538,
+      "paired_KL": 0.4104484799863705,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 3.2783935987108457,
+      "paired_KL": 7.921996687359491,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 3.213436763006732,
+      "paired_KL": 6.1426616689087865,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.3568242911859113,
+      "paired_KL": 0.6148063556765822,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.5947483912279575,
+      "paired_KL": 0.8770148392493715,
+      "paired_denominator": 1.6819041110320376,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.24177181660356922,
+      "paired_KL": 0.38423987512926117,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.3346881595588914,
+      "paired_KL": 0.3695530673384616,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.371308899635483,
+      "paired_KL": 0.8288505396470794,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 0.8270986782913484,
+      "paired_KL": 1.0659687926642283,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.38595343728409764,
+      "paired_KL": 0.44238695911747067,
+      "paired_denominator": 0.5214111481523722,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.4142472509916806,
+      "paired_KL": 0.2483824299213798,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 2.583124019515304,
+      "paired_KL": 3.869908296757924,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 1.8652229448063795,
+      "paired_KL": 5.131501847480536,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.2400850427947235,
+      "paired_KL": 0.7847482714681103,
+      "paired_denominator": 2.3423430795485736,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.6215098753825219,
+      "paired_KL": 0.8062792073675767,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.24334506940837278,
+      "paired_KL": 0.29064693460521857,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.3264370839108459,
+      "paired_KL": 0.24558090693702794,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 0.8744812657784835,
+      "paired_KL": 0.6325591732569321,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.6569728125748647,
+      "paired_KL": 0.6675717911053101,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.40669088565766665,
+      "paired_KL": 0.4842260255765822,
+      "paired_denominator": 0.5936192694788869,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.45293088927138014,
+      "paired_KL": 0.2938585621555617,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 2.099208035484756,
+      "paired_KL": 3.346275369200005,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 2.3758155548650466,
+      "paired_KL": 3.8602561357634992,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.15911132327928623,
+      "paired_KL": 0.8864954920330703,
+      "paired_denominator": 2.640448455741751,
+      "top1": true
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 0.5682212162756497,
+      "paired_KL": 0.3937364735322672,
+      "paired_denominator": 1.5140794626624605,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.18784680749744026,
+      "paired_KL": 0.35421569690935567,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.3413857237896486,
+      "paired_KL": 0.320357655492445,
+      "paired_denominator": 0.374981705188593,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.2796428115735998,
+      "paired_KL": 0.5609854109621472,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.5554869834169264,
+      "paired_KL": 0.7980807492293167,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.4119585616491188,
+      "paired_KL": 0.40724712957068177,
+      "paired_denominator": 0.4931973742684788,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.4307059876549636,
+      "paired_KL": 0.2005645537755753,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.4121696893827564,
+      "paired_KL": 0.8104781743903703,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.6302100633649643,
+      "paired_KL": 0.5046061175865606,
+      "paired_denominator": 1.0367330110255855,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.26134195159744233,
+      "paired_KL": 0.21042783315825864,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 0.38963866308566975,
+      "paired_KL": 0.17995430935616463,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 1.652519586104057,
+      "paired_KL": 1.0253512596077574,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.1646986907835377,
+      "paired_KL": 1.401972101720288,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.5338182231662847,
+      "paired_KL": 0.4814723701708894,
+      "paired_denominator": 0.6054900915249846,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.6213161074527539,
+      "paired_KL": 0.5291577827460313,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 3.1900302677384094,
+      "paired_KL": 7.448487272250443,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 3.023602948791324,
+      "paired_KL": 6.170073730379777,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.3530181051882794,
+      "paired_KL": 1.4952558875711384,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 1.2435139411697764,
+      "paired_KL": 1.5748412278774049,
+      "paired_denominator": 1.6819041110320376,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 1.120586552378648,
+      "paired_KL": 0.4632263348387282,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 1.041920673386561,
+      "paired_KL": 0.6980894288448631,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.8087495343803952,
+      "paired_KL": 0.9272593146378377,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 1.0609121784009579,
+      "paired_KL": 1.1135045343313659,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.5573825073454878,
+      "paired_KL": 0.3856497249179851,
+      "paired_denominator": 0.5214111481523722,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.5866138290376159,
+      "paired_KL": 0.1993796932790285,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 6.561566002588375,
+      "paired_KL": 3.7463667841616584,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 4.572873471442492,
+      "paired_KL": 4.793684345629826,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.5926313714944847,
+      "paired_KL": 1.8488519322821668,
+      "paired_denominator": 2.3423430795485736,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 0.9725759116624288,
+      "paired_KL": 1.5394077295872375,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 1.1793524140245744,
+      "paired_KL": 0.2532877530601883,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.9426849516417392,
+      "paired_KL": 0.23517806057747376,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 1.2735029001636096,
+      "paired_KL": 0.6736130255512529,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.8458323511613244,
+      "paired_KL": 0.7342863931420713,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.5796070264700286,
+      "paired_KL": 0.4092700611780936,
+      "paired_denominator": 0.5936192694788869,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.6413216871962357,
+      "paired_KL": 0.2361460869846967,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 5.307583461830735,
+      "paired_KL": 3.4015238767611105,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 5.289929242219257,
+      "paired_KL": 3.725656799691711,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.47954124632874934,
+      "paired_KL": 2.5127710664302008,
+      "paired_denominator": 2.640448455741751,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 1.3820292599884234,
+      "paired_KL": 1.488199508442166,
+      "paired_denominator": 1.5140794626624605,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.8876075339620292,
+      "paired_KL": 0.3500132000944389,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 1.0272023359144595,
+      "paired_KL": 0.3222375434697411,
+      "paired_denominator": 0.374981705188593,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.4602251130330954,
+      "paired_KL": 0.5578660128220381,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.7858959542227066,
+      "paired_KL": 0.7901652715654677,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.6502808608971429,
+      "paired_KL": 0.34910610333159525,
+      "paired_denominator": 0.4931973742684788,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.6481490174104878,
+      "paired_KL": 0.14764911359982708,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.6889371252460503,
+      "paired_KL": 1.4772354557907996,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.7865212739233545,
+      "paired_KL": 0.9854199714441308,
+      "paired_denominator": 1.0367330110255855,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 1.2187506981243783,
+      "paired_KL": 0.18717887651785198,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 1.3339943273403585,
+      "paired_KL": 0.16253597541171608,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 2.1021769587810915,
+      "paired_KL": 1.031133270873645,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.4223824219188885,
+      "paired_KL": 1.3632679284937397,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.6384741520579936,
+      "paired_KL": 0.3992308760026872,
+      "paired_denominator": 0.6054900915249846,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.7685747694984439,
+      "paired_KL": 0.4592449014321125,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 6.385671383731804,
+      "paired_KL": 7.498703640541265,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "untrained",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 6.163208549373126,
+      "paired_KL": 6.036373594502528,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.35070005696290485,
+      "paired_KL": 1.571443686516178,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 0.8809462106834891,
+      "paired_KL": 1.5888905435982121,
+      "paired_denominator": 1.6819041110320376,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 0.9927770501440599,
+      "paired_KL": 0.3359542666786215,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 1.0312664185966156,
+      "paired_KL": 0.3443357034223943,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.8139646985603342,
+      "paired_KL": 0.9215085902762075,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 1.071175280655723,
+      "paired_KL": 1.1612542056067343,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 1.3783312394682448,
+      "paired_KL": 0.3986271638680652,
+      "paired_denominator": 0.5214111481523722,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 1.3796304727433828,
+      "paired_KL": 0.2145193318874798,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 6.269270559907657,
+      "paired_KL": 3.9141820233752407,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 4.639802277276005,
+      "paired_KL": 4.788770018146383,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.580616695235405,
+      "paired_KL": 1.656964044623816,
+      "paired_denominator": 2.3423430795485736,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 1.0430182638772008,
+      "paired_KL": 1.3427235913322406,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 1.0399051009523117,
+      "paired_KL": 0.24576305025119655,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.9461821755269125,
+      "paired_KL": 0.2269737619557688,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 1.2960879750470302,
+      "paired_KL": 0.6396225013743176,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.8424716057643888,
+      "paired_KL": 0.7514036303151318,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 1.0630772152625911,
+      "paired_KL": 0.37198187233890945,
+      "paired_denominator": 0.5936192694788869,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 1.3043337578084344,
+      "paired_KL": 0.19115308044611984,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 5.14584314366255,
+      "paired_KL": 3.4180617631665613,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 5.1545790060098176,
+      "paired_KL": 3.830456778036269,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.46217942736176054,
+      "paired_KL": 2.0916441876933836,
+      "paired_denominator": 2.640448455741751,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 1.176655210348932,
+      "paired_KL": 1.0652472152449675,
+      "paired_denominator": 1.5140794626624605,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.8915615229175241,
+      "paired_KL": 0.3403961644651627,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 1.038889894785268,
+      "paired_KL": 0.3278387561439381,
+      "paired_denominator": 0.374981705188593,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.4759996403355318,
+      "paired_KL": 0.5458596518964529,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.814416838309269,
+      "paired_KL": 0.802139596633804,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 1.4082372486979966,
+      "paired_KL": 0.36284471648231026,
+      "paired_denominator": 0.4931973742684788,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 1.3854341268949715,
+      "paired_KL": 0.16431760878870685,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.6836389838622507,
+      "paired_KL": 1.2218557247180553,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.5657803422946748,
+      "paired_KL": 0.8749409730355022,
+      "paired_denominator": 1.0367330110255855,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 1.078273827837445,
+      "paired_KL": 0.18821100045002115,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 1.265452404394566,
+      "paired_KL": 0.1593285596137684,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 2.1190036898235025,
+      "paired_KL": 1.0264726010913747,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.487879674752432,
+      "paired_KL": 1.3485519944535067,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 1.5477724009377698,
+      "paired_KL": 0.4514042181569866,
+      "paired_denominator": 0.6054900915249846,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 1.5900378381088531,
+      "paired_KL": 0.511962781466477,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 6.261028934222388,
+      "paired_KL": 7.820637831197061,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 6.100117297625978,
+      "paired_KL": 6.114089247979649,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 384,
+      "whole_KL": 0.7253947016469037,
+      "paired_KL": 1.6004938155218476,
+      "paired_denominator": 2.202611422288877,
+      "top1": true
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 385,
+      "whole_KL": 1.2447127292769755,
+      "paired_KL": 1.5859619934142533,
+      "paired_denominator": 1.6819041110320376,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 400,
+      "whole_KL": 1.1376102272104625,
+      "paired_KL": 0.49149319227187677,
+      "paired_denominator": 0.4576416414494134,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 401,
+      "whole_KL": 0.3909718408789983,
+      "paired_KL": 0.7728144065088434,
+      "paired_denominator": 0.429307204258474,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 432,
+      "whole_KL": 1.6835250096503154,
+      "paired_KL": 0.8655894660366329,
+      "paired_denominator": 1.01865012853265,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 433,
+      "whole_KL": 1.073789275515846,
+      "paired_KL": 1.1170507475997387,
+      "paired_denominator": 1.230266652247635,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 448,
+      "whole_KL": 0.5664277916772227,
+      "paired_KL": 0.34187831613658254,
+      "paired_denominator": 0.5214111481523722,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 449,
+      "whole_KL": 0.6069842889146047,
+      "paired_KL": 0.19231603754621923,
+      "paired_denominator": 0.30510027704400194,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 464,
+      "whole_KL": 4.197754876683366,
+      "paired_KL": 3.7749942353158072,
+      "paired_denominator": 4.115195645085368,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 465,
+      "whole_KL": 2.5410329654391988,
+      "paired_KL": 4.947843011267173,
+      "paired_denominator": 5.354963412673254,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 480,
+      "whole_KL": 0.6218484018934862,
+      "paired_KL": 1.8503299080410058,
+      "paired_denominator": 2.3423430795485736,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 481,
+      "whole_KL": 1.0992423096417148,
+      "paired_KL": 1.445993318058708,
+      "paired_denominator": 1.8492906858438614,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 496,
+      "whole_KL": 0.43344550339783894,
+      "paired_KL": 0.2420814320409597,
+      "paired_denominator": 0.32977831501030896,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 497,
+      "whole_KL": 0.36411508877565557,
+      "paired_KL": 0.22186531359657174,
+      "paired_denominator": 0.29358018417650866,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 528,
+      "whole_KL": 1.2241877858973966,
+      "paired_KL": 0.544181921761313,
+      "paired_denominator": 0.7294765101005335,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 529,
+      "whole_KL": 0.81355407394397,
+      "paired_KL": 0.6740285494261713,
+      "paired_denominator": 0.7591682769591258,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 544,
+      "whole_KL": 0.5888452943751944,
+      "paired_KL": 0.3670107652761665,
+      "paired_denominator": 0.5936192694788869,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 545,
+      "whole_KL": 0.6657884841080751,
+      "paired_KL": 0.23044395621988034,
+      "paired_denominator": 0.36256407187515344,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 560,
+      "whole_KL": 3.2894006944695096,
+      "paired_KL": 3.827610467415001,
+      "paired_denominator": 3.7542288636280894,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 561,
+      "whole_KL": 3.372671402086839,
+      "paired_KL": 3.5563579268104504,
+      "paired_denominator": 4.072828451275824,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 576,
+      "whole_KL": 0.5146451813559848,
+      "paired_KL": 2.241645567544571,
+      "paired_denominator": 2.640448455741751,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 577,
+      "whole_KL": 1.3075188913071583,
+      "paired_KL": 1.0903620185642904,
+      "paired_denominator": 1.5140794626624605,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 592,
+      "whole_KL": 0.38168716475091635,
+      "paired_KL": 0.3575128285304213,
+      "paired_denominator": 0.4219929631910156,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 593,
+      "whole_KL": 0.4344270217712115,
+      "paired_KL": 0.32347686638986073,
+      "paired_denominator": 0.374981705188593,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 624,
+      "whole_KL": 1.4760991288484966,
+      "paired_KL": 0.5777757688311767,
+      "paired_denominator": 0.6513466264525225,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 625,
+      "whole_KL": 0.7665947742519067,
+      "paired_KL": 0.8039387810188935,
+      "paired_denominator": 0.8905924897960669,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 640,
+      "whole_KL": 0.6587412811279617,
+      "paired_KL": 0.3195950938413309,
+      "paired_denominator": 0.4931973742684788,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 641,
+      "whole_KL": 0.6843630252298276,
+      "paired_KL": 0.14799819770916844,
+      "paired_denominator": 0.257097834603739,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 656,
+      "whole_KL": 0.7166435555587729,
+      "paired_KL": 1.5275679071836836,
+      "paired_denominator": 1.7981642160074875,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "agreement",
+      "row": 657,
+      "whole_KL": 0.9006173648007001,
+      "paired_KL": 0.7543604153049093,
+      "paired_denominator": 1.0367330110255855,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 672,
+      "whole_KL": 0.4968608622241889,
+      "paired_KL": 0.5829843162458247,
+      "paired_denominator": 0.22675144791558963,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "sentiment",
+      "row": 673,
+      "whole_KL": 1.3186740462150182,
+      "paired_KL": 0.1995076204832037,
+      "paired_denominator": 0.1904427064963665,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 704,
+      "whole_KL": 2.095117261337207,
+      "paired_KL": 1.0485418678734848,
+      "paired_denominator": 1.16757356805742,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "entity_binding",
+      "row": 705,
+      "whole_KL": 1.3553855729081246,
+      "paired_KL": 1.3016053003984906,
+      "paired_denominator": 1.5250540140716653,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 720,
+      "whole_KL": 0.640266418134655,
+      "paired_KL": 0.37745377676303393,
+      "paired_denominator": 0.6054900915249846,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "pronoun_gender",
+      "row": 721,
+      "whole_KL": 0.7946945353186273,
+      "paired_KL": 0.4718390689819278,
+      "paired_denominator": 0.6206713930748905,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 736,
+      "whole_KL": 4.253489821731048,
+      "paired_KL": 7.620571538284999,
+      "paired_denominator": 8.613946500766943,
+      "top1": false
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "family": "capital_recall",
+      "row": 737,
+      "whole_KL": 4.154557455139022,
+      "paired_KL": 6.0686568638181795,
+      "paired_denominator": 7.156854128747218,
+      "top1": false
+    }
+  ],
+  "fits": [
+    {
+      "kind": "scalar",
+      "objective": "activation",
+      "history": [
+        {
+          "step": 0,
+          "family": "agreement",
+          "whole": 0.12096315622329712,
+          "paired": 0.6111432313919067,
+          "loss": 0.18207748234272003
+        },
+        {
+          "step": 20,
+          "family": "agreement",
+          "whole": 0.10321865975856781,
+          "paired": 0.4892970323562622,
+          "loss": 0.15214931964874268
+        },
+        {
+          "step": 40,
+          "family": "agreement",
+          "whole": 0.09214453399181366,
+          "paired": 0.5044176578521729,
+          "loss": 0.14258931577205658
+        },
+        {
+          "step": 60,
+          "family": "agreement",
+          "whole": 0.1271856427192688,
+          "paired": 0.588931679725647,
+          "loss": 0.18608516454696655
+        }
+      ],
+      "importance_abs_max": 1.3663970232009888,
+      "parameters": 384
+    },
+    {
+      "kind": "scalar",
+      "objective": "finite_causal",
+      "history": [
+        {
+          "step": 0,
+          "family": "agreement",
+          "whole": 0.10026022791862488,
+          "paired": 0.2743741571903229,
+          "loss": 0.37463438510894775
+        },
+        {
+          "step": 20,
+          "family": "agreement",
+          "whole": 0.06380598247051239,
+          "paired": 0.22264572978019714,
+          "loss": 0.2864529490470886
+        },
+        {
+          "step": 40,
+          "family": "agreement",
+          "whole": 0.10578523576259613,
+          "paired": 0.09129989892244339,
+          "loss": 0.19708819687366486
+        },
+        {
+          "step": 60,
+          "family": "agreement",
+          "whole": 0.11221140623092651,
+          "paired": 0.3071313798427582,
+          "loss": 0.4193475544452667
+        }
+      ],
+      "importance_abs_max": 0.9728503227233887,
+      "parameters": 384
+    },
+    {
+      "kind": "block",
+      "objective": "activation",
+      "history": [
+        {
+          "step": 0,
+          "family": "agreement",
+          "whole": 0.36209219694137573,
+          "paired": 0.9258274435997009,
+          "loss": 0.45467495918273926
+        },
+        {
+          "step": 20,
+          "family": "agreement",
+          "whole": 0.3625749349594116,
+          "paired": 0.9635658264160156,
+          "loss": 0.45893552899360657
+        },
+        {
+          "step": 40,
+          "family": "agreement",
+          "whole": 0.35130736231803894,
+          "paired": 0.8737834692001343,
+          "loss": 0.43869444727897644
+        },
+        {
+          "step": 60,
+          "family": "agreement",
+          "whole": 0.3864366412162781,
+          "paired": 0.9076718688011169,
+          "loss": 0.47721758484840393
+        }
+      ],
+      "importance_abs_max": 1.28511381149292,
+      "parameters": 384
+    },
+    {
+      "kind": "block",
+      "objective": "finite_causal",
+      "history": [
+        {
+          "step": 0,
+          "family": "agreement",
+          "whole": 0.5506146550178528,
+          "paired": 1.747424602508545,
+          "loss": 2.298039197921753
+        },
+        {
+          "step": 20,
+          "family": "agreement",
+          "whole": 0.3359624147415161,
+          "paired": 0.9944300651550293,
+          "loss": 1.3303956985473633
+        },
+        {
+          "step": 40,
+          "family": "agreement",
+          "whole": 0.41819339990615845,
+          "paired": 0.8609272241592407,
+          "loss": 1.2791287899017334
+        },
+        {
+          "step": 60,
+          "family": "agreement",
+          "whole": 0.4804784655570984,
+          "paired": 1.3024466037750244,
+          "loss": 1.78293776512146
+        }
+      ],
+      "importance_abs_max": 1.524869680404663,
+      "parameters": 384
+    },
+    {
+      "kind": "shared",
+      "objective": "activation",
+      "history": [
+        {
+          "step": 0,
+          "family": "agreement",
+          "whole": 0.5370144844055176,
+          "paired": 0.9888995885848999,
+          "loss": 0.6359044313430786
+        },
+        {
+          "step": 20,
+          "family": "agreement",
+          "whole": 0.5089983940124512,
+          "paired": 1.3166441917419434,
+          "loss": 0.6406659483909607
+        },
+        {
+          "step": 40,
+          "family": "agreement",
+          "whole": 0.4737563729286194,
+          "paired": 0.9873975515365601,
+          "loss": 0.572503387928009
+        },
+        {
+          "step": 60,
+          "family": "agreement",
+          "whole": 0.520875096321106,
+          "paired": 1.1514320373535156,
+          "loss": 0.6360289454460144
+        }
+      ],
+      "importance_abs_max": 1.1229287385940552,
+      "parameters": 384
+    },
+    {
+      "kind": "shared",
+      "objective": "finite_causal",
+      "history": [
+        {
+          "step": 0,
+          "family": "agreement",
+          "whole": 0.7780919075012207,
+          "paired": 1.7558374404907227,
+          "loss": 2.5339293479919434
+        },
+        {
+          "step": 20,
+          "family": "agreement",
+          "whole": 0.5884177684783936,
+          "paired": 1.2849836349487305,
+          "loss": 1.8734050989151
+        },
+        {
+          "step": 40,
+          "family": "agreement",
+          "whole": 0.6490057706832886,
+          "paired": 0.9547832608222961,
+          "loss": 1.603799819946289
+        },
+        {
+          "step": 60,
+          "family": "agreement",
+          "whole": 0.8736985325813293,
+          "paired": 1.8301441669464111,
+          "loss": 2.70386004447937
+        }
+      ],
+      "importance_abs_max": 1.433298945426941,
+      "parameters": 384
+    }
+  ],
+  "audits": {
+    "source_hashes_unchanged": true,
+    "fits": 6,
+    "max_active": 48.0,
+    "min_active": 40.0,
+    "finite": true,
+    "max_gradient_abs": 9.6644868850708,
+    "suffix_sequences": 1764,
+    "training_student_suffix_sequences": 960,
+    "whole_task_holdout_reads": 0,
+    "independent_summary_max_abs": 0,
+    "saved_weights_and_membership_verified": true
+  }
+}

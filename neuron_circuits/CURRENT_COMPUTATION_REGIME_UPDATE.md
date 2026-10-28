@@ -3775,3 +3775,6 @@ H651 factual-panel correction pending H652: whitespace splitting corrupted South
 
 
 886. H1032: Same-support least squares adds little; full learned spans improve but trail train-onlyPCA128. Larger PCA preserves grammar much better than capital/binding.
+
+
+887. H1033: Completed six directly finite-output-supervised/activation selector fits. Causal loss modestly improves scalar/block paired fidelity but worsens shared; no group advantage.
