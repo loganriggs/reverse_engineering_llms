@@ -1,0 +1,59 @@
+{
+  "stage": "M38",
+  "status": "frozen_before_group_construction",
+  "source_models": [
+    {
+      "kind": "scalar",
+      "seed": 71,
+      "arm": "intact_KL",
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m36_joint_shared_training/scalar_71_intact_KL.pt",
+      "sha256": "d07748f88492ec3ac2c3df2135511365f76f3b303cdd4fb3791321bb59bc9634"
+    },
+    {
+      "kind": "scalar",
+      "seed": 71,
+      "arm": "intact_KL_plus_native_response",
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m36_joint_shared_training/scalar_71_intact_KL_plus_native_response.pt",
+      "sha256": "8ac8ff0a6835d6c2f35a13fcd1050f82c81c18dad710e6b39f4f6f8f1701d581"
+    },
+    {
+      "kind": "scalar",
+      "seed": 72,
+      "arm": "intact_KL",
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m36_joint_shared_training/scalar_72_intact_KL.pt",
+      "sha256": "7c5465d22fbf8439c34f15b8ed597164e54b03e32470c012663664f8494b3965"
+    },
+    {
+      "kind": "scalar",
+      "seed": 72,
+      "arm": "intact_KL_plus_native_response",
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m36_joint_shared_training/scalar_72_intact_KL_plus_native_response.pt",
+      "sha256": "ee958048ea946206f771c1de302c15366836bbedfc4d731cdd28141e188c507b"
+    }
+  ],
+  "source_results_sha256": "301d4725718a42c3d87ea38c13c33d453e7e48235b251fdd9507fd960f589d7f",
+  "source_audit_sha256": "3c0a24628de768643f4b42c6fd220b288b7a67e4c8b10de63e8cc7624f553d08",
+  "training_schedule_sha256": "3f2d9c4e13352bc9f0f87ccd7cd2b948a794480bb02ecad430b8801ad5b774e9",
+  "target_source_sha256": "780350b3ac2303fbbea39265783230059296250fa0770e1410eaab20d4215ed9",
+  "natural_source_sha256": "d27bddc66aa94b7330a739d4bf8f067e9a1d3fa13447d0de6d3adf125c506ca5",
+  "atoms": 128,
+  "groups": 32,
+  "members_per_group": 8,
+  "active_groups": 4,
+  "atom_degree": 2,
+  "construction": "Two partitions of128 atoms into16 groups of8. Per-seed initialization uses independent torch randperm calls seeded38000+seed, identical for both source objectives. Random condition uses these unchanged. Coactivation condition uses exactly20000 within-partition atom-swap proposals from NumPy RNG39000+seed, accepting only strict objective increase>1e-12. No restart, evaluation selection, decoder/encoder fitting or coefficient tuning.",
+  "affinity": "Training mean of outer products of squared PRE-GATE coordinates, normalized to cosine similarity per atom. Zero-energy atoms have zero off-diagonal affinity. Natural documents0..31 contribute total weight.5 equally by document then token; scheduled task endpoints for eachseed contribute total.5 equally over120endpoints then token, preserving repeated endpoint multiplicity.",
+  "group_objective": "Sum upper-triangular affinity for atom pairs sharing at least one group; pairs shared in both partitions count once. This rewards captured coactivation edges without rewarding duplicate pair coverage.",
+  "constraints": "Exactly8 atoms per group, exactly2 memberships per atom. No group resizing, dropped atoms or extra encoder/gate parameters. Duplicate/overlapping groups measured rather than hidden; no semantic recovery claim.",
+  "selection": "All4 scalar source states (both seeds and both training objectives) retained. Each source compared as unchanged scalarTop32, balanced-random overlapping groups, and training-coactivation groups. Dictionary/encoder/bias/normalization tensors bitwise frozen.",
+  "evaluation": "First report training group objective and local decoding/error/support statistics on scheduled training data and all4096 natural evaluation positions, explicitly separating training and development evaluation. Then all candidates on unchanged native benchmark and output inventory, plus selective shared-atom versus group-gate removal. No evaluation used to construct memberships.",
+  "budget_caveat": "Same296192 trainable-source parameters now frozen,128atoms and maximum32active; realized unions may differ systematically. Report active counts, coverage, duplicate groups and pair overlaps. Better objective is not evidence of better native computation or meaningful manifolds.",
+  "whole_task_exclusions": [
+    "sequence_copy",
+    "spatial_inverse",
+    "weekday_successor",
+    "role_binding",
+    "tense"
+  ],
+  "data_status": "Familiar development data, not a pristine holdout."
+}
