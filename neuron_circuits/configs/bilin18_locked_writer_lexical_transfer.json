@@ -1,0 +1,63 @@
+{
+  "experiment": "H583",
+  "source_sha256": "ccb8e6d58c42ca7bb7f2fae0a470d0a90846ddb790317a3b5fecbd1f9e8035b8",
+  "operations": [
+    [
+      "mlp",
+      3,
+      4,
+      0
+    ],
+    [
+      "mlp",
+      2,
+      4,
+      0
+    ],
+    [
+      "mlp",
+      6,
+      7,
+      8
+    ],
+    [
+      "mlp",
+      5,
+      7,
+      8
+    ],
+    [
+      "attn",
+      5,
+      7,
+      8
+    ],
+    [
+      "attn",
+      4,
+      7,
+      8
+    ],
+    [
+      "attn",
+      6,
+      7,
+      8
+    ]
+  ],
+  "sites": [
+    -1,
+    -2
+  ],
+  "design": "H582 discovery-selected formats, five tasks, two lexical splits, up to eight pairs each and four endpoints. Reuse H582 prompts; template field means lexical split (0 discovery, 1 transfer), not a new template. Sites fixed to final and penultimate tokens for every task; no semantic role equivalence assumed. Swap writer output from opposite-answer donor or same-answer nuisance donor; self control. Replay only resulting selected head local-value change through native routing in a separate run. All token-valid pairs retained regardless of competence.",
+  "gate": "Per task/template: >=4 pairs; both endpoints candidate correct >=.75; intended group full-vocabulary top1 >=.5. No per-item filtering. Nuisance competence separately reported.",
+  "hypotheses": [
+    "Candidate operations are task-general contextual writers.",
+    "Candidate operations preferentially affect copying/binding.",
+    "Internal write/value magnitude is insufficient to predict output influence.",
+    "Apparent task transfer may instead track fixed token position and template."
+  ],
+  "precision": "float32 compute with bf16-rounded weights",
+  "metrics": "Internal writer and value displacement; full and isolated native-to-intervened KL; intended-answer-group NLL change; counterfactual donor-directed margin. Group NLL is not single-token CE.",
+  "selection": "Operations/sites fixed from H580; format selected by H582 discovery only before transfer inference. Retain failed transfer cells. This tests lexical transfer at fixed selected wording, not independent template transfer."
+}

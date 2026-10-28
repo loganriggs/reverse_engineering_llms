@@ -1,0 +1,789 @@
+{
+  "config": {
+    "status": "locked_after_exploratory_lambda_sweep",
+    "selected_lambda": 0.2,
+    "overshoot_control_lambda": 0.4,
+    "corpora": {
+      "fineweb": {
+        "start": 18400,
+        "rows": 128
+      },
+      "wikitext103": {
+        "start": 896,
+        "rows": 128
+      },
+      "tinystories": {
+        "start": 896,
+        "rows": 128
+      }
+    },
+    "causal_rows": 64,
+    "interventions": {
+      "gaussian_rms_0.10": {
+        "kind": "gaussian",
+        "scale": 0.1
+      },
+      "natural_mix_0.25": {
+        "kind": "natural_mix",
+        "scale": 0.25
+      }
+    },
+    "bootstrap_resamples": 2000,
+    "seed": 20261020,
+    "hypotheses": {
+      "H1_behavior": "Lambda 0.20 improves FineWeb and TinyStories KL and increases WikiText KL by no more than 0.002 relative to lambda 0.",
+      "H2_causal": "Lambda 0.20 improves both causal fidelities on all three corpora relative to lambda 0.",
+      "H3_interior": "Lambda 0.20 has better FineWeb KL and mean causal fidelity than the lambda 0.40 overshoot control."
+    }
+  },
+  "behavior": {
+    "fineweb": {
+      "baseline_cross_entropy": {
+        "mean": 3.5731762778013945,
+        "ci_low": 3.4751518833450974,
+        "ci_high": 3.669615068566054,
+        "rows": 128
+      },
+      "models": {
+        "lambda_0.0": {
+          "cross_entropy_delta": {
+            "mean": 0.01616223156452179,
+            "ci_low": 0.013001163955777885,
+            "ci_high": 0.019393964670598507,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.014353966060298262,
+            "ci_low": 0.013529364198348048,
+            "ci_high": 0.015226968786737415,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.92864990234375,
+            "ci_low": 0.92462158203125,
+            "ci_high": 0.9327392578125,
+            "rows": 128
+          }
+        },
+        "lambda_0.2": {
+          "cross_entropy_delta": {
+            "mean": 0.015218613669276237,
+            "ci_low": 0.0117843147367239,
+            "ci_high": 0.018593861814588306,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.013233357163699111,
+            "ci_low": 0.012477536382721154,
+            "ci_high": 0.014077607870876818,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.931884765625,
+            "ci_low": 0.92779541015625,
+            "ci_high": 0.9359130859375,
+            "rows": 128
+          }
+        },
+        "lambda_0.4": {
+          "cross_entropy_delta": {
+            "mean": 0.016125425696372986,
+            "ci_low": 0.01260103420354426,
+            "ci_high": 0.01993431919254362,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.014122674721875228,
+            "ci_low": 0.013334603531620816,
+            "ci_high": 0.014911051988929102,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.92742919921875,
+            "ci_low": 0.9232177734375,
+            "ci_high": 0.93145751953125,
+            "rows": 128
+          }
+        }
+      }
+    },
+    "wikitext103": {
+      "baseline_cross_entropy": {
+        "mean": 4.097565541043878,
+        "ci_low": 4.003985656099394,
+        "ci_high": 4.188210420077667,
+        "rows": 128
+      },
+      "models": {
+        "lambda_0.0": {
+          "cross_entropy_delta": {
+            "mean": 0.020704522728919983,
+            "ci_low": 0.01688354886136949,
+            "ci_high": 0.024471761612221598,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.018913628984591924,
+            "ci_low": 0.01780044567767618,
+            "ci_high": 0.020153496449165687,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.91986083984375,
+            "ci_low": 0.9154052734375,
+            "ci_high": 0.9239501953125,
+            "rows": 128
+          }
+        },
+        "lambda_0.2": {
+          "cross_entropy_delta": {
+            "mean": 0.020484454929828644,
+            "ci_low": 0.016643187683075666,
+            "ci_high": 0.02423438183031976,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.017801913010771386,
+            "ci_low": 0.016583246528898598,
+            "ci_high": 0.01901644005229173,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.92291259765625,
+            "ci_low": 0.918701171875,
+            "ci_high": 0.9272476196289062,
+            "rows": 128
+          }
+        },
+        "lambda_0.4": {
+          "cross_entropy_delta": {
+            "mean": 0.02218102291226387,
+            "ci_low": 0.017956517543643715,
+            "ci_high": 0.026515411771833895,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.019241866553784348,
+            "ci_low": 0.017918518676924577,
+            "ci_high": 0.0207934830992599,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.9193115234375,
+            "ci_low": 0.9149749755859375,
+            "ci_high": 0.9234619140625,
+            "rows": 128
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "baseline_cross_entropy": {
+        "mean": 2.835685281082988,
+        "ci_low": 2.7984933636616915,
+        "ci_high": 2.874989887047559,
+        "rows": 128
+      },
+      "models": {
+        "lambda_0.0": {
+          "cross_entropy_delta": {
+            "mean": 0.01599855162203312,
+            "ci_low": 0.013052919413894415,
+            "ci_high": 0.01912220753729343,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.009966285808332032,
+            "ci_low": 0.008693306465738715,
+            "ci_high": 0.01206021516036344,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.9437255859375,
+            "ci_low": 0.940185546875,
+            "ci_high": 0.94757080078125,
+            "rows": 128
+          }
+        },
+        "lambda_0.2": {
+          "cross_entropy_delta": {
+            "mean": 0.014424214139580727,
+            "ci_low": 0.011765409633517267,
+            "ci_high": 0.01708764676004648,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.009034555670950795,
+            "ci_low": 0.00803736917741844,
+            "ci_high": 0.0107261819458472,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.945556640625,
+            "ci_low": 0.9415283203125,
+            "ci_high": 0.94915771484375,
+            "rows": 128
+          }
+        },
+        "lambda_0.4": {
+          "cross_entropy_delta": {
+            "mean": 0.013590965420007706,
+            "ci_low": 0.010975243896245957,
+            "ci_high": 0.016349414782598614,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.009210662112309365,
+            "ci_low": 0.008623942680060281,
+            "ci_high": 0.010116247144014778,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.94354248046875,
+            "ci_low": 0.9404296875,
+            "ci_high": 0.94671630859375,
+            "rows": 128
+          }
+        }
+      }
+    }
+  },
+  "causal": {
+    "fineweb": {
+      "lambda_0.0": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.10932694386645225,
+          "effect_cosine": 0.5335005930047118,
+          "effect_gain": 0.5079908267779348,
+          "error_energy": 3331718.10546875,
+          "teacher_effect_energy": 3740674.630859375,
+          "student_effect_energy": 3391500.310546875,
+          "dot": 1900228.3984375,
+          "fisher_effect_fidelity": 0.17261779546260925,
+          "fisher_effect_cosine": 0.5662215009665961,
+          "fisher_effect_gain": 0.5384284462535286,
+          "fisher_teacher_effect_energy": 64.10518252849579,
+          "row_effect_fidelity": {
+            "mean": 0.10066792934622268,
+            "ci_low": 0.08121628496074394,
+            "ci_high": 0.12042597150320128,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.5308882820396176,
+            "ci_low": 0.5223727779152343,
+            "ci_high": 0.5400458451203941,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.720592949539423,
+          "margin_effect_correlation": 0.5632735518738627
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.6052909502972086,
+          "effect_cosine": 0.8098208973463575,
+          "effect_gain": 0.8378285933007427,
+          "error_energy": 5996067.53125,
+          "teacher_effect_energy": 15191107.3125,
+          "student_effect_energy": 16260048.1875,
+          "dot": 12727544.0703125,
+          "fisher_effect_fidelity": 0.6283796517794296,
+          "fisher_effect_cosine": 0.8177856793549962,
+          "fisher_effect_gain": 0.8331336292446956,
+          "fisher_teacher_effect_energy": 260.0975649356842,
+          "row_effect_fidelity": {
+            "mean": 0.6037156449516691,
+            "ci_low": 0.5727614357209376,
+            "ci_high": 0.6269532014832064,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.811219373142724,
+            "ci_low": 0.7996098873777541,
+            "ci_high": 0.8205004991695655,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.9016472846269608,
+          "margin_effect_correlation": 0.8163015600293875
+        }
+      },
+      "lambda_0.2": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.13017218003066688,
+          "effect_cosine": 0.5525063943053496,
+          "effect_gain": 0.5364534989453521,
+          "error_energy": 3253742.859375,
+          "teacher_effect_energy": 3740674.630859375,
+          "student_effect_energy": 3526464.21875,
+          "dot": 2006697.994140625,
+          "fisher_effect_fidelity": 0.18515449428797215,
+          "fisher_effect_cosine": 0.5821512966443432,
+          "fisher_effect_gain": 0.5671640421540775,
+          "fisher_teacher_effect_energy": 64.10518252849579,
+          "row_effect_fidelity": {
+            "mean": 0.12057646494876405,
+            "ci_low": 0.10078767107654708,
+            "ci_high": 0.13954121899323588,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.5493544110576393,
+            "ci_low": 0.541557719982345,
+            "ci_high": 0.5573764324832436,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.7247037123888731,
+          "margin_effect_correlation": 0.5630746642127633
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.6241502920991395,
+          "effect_cosine": 0.8160360049984982,
+          "effect_gain": 0.8326827862042331,
+          "error_energy": 5709573.24609375,
+          "teacher_effect_energy": 15191107.3125,
+          "student_effect_energy": 15817213.0,
+          "dot": 12649373.5625,
+          "fisher_effect_fidelity": 0.643573207949274,
+          "fisher_effect_cosine": 0.8229733672314918,
+          "fisher_effect_gain": 0.8283897985053292,
+          "fisher_teacher_effect_energy": 260.0975649356842,
+          "row_effect_fidelity": {
+            "mean": 0.6222124120518542,
+            "ci_low": 0.6029097941307666,
+            "ci_high": 0.6406589596696151,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.816540791287842,
+            "ci_low": 0.8084237413075005,
+            "ci_high": 0.8238670026200489,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.9028585255146027,
+          "margin_effect_correlation": 0.8233782816678286
+        }
+      },
+      "lambda_0.4": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.130772509367045,
+          "effect_cosine": 0.564594664604868,
+          "effect_gain": 0.5635660490931111,
+          "error_energy": 3251497.22265625,
+          "teacher_effect_energy": 3740674.630859375,
+          "student_effect_energy": 3727057.03515625,
+          "dot": 2108117.22265625,
+          "fisher_effect_fidelity": 0.17922661283345076,
+          "fisher_effect_cosine": 0.5919337662408722,
+          "fisher_effect_gain": 0.5952766297290252,
+          "fisher_teacher_effect_energy": 64.10518252849579,
+          "row_effect_fidelity": {
+            "mean": 0.12113077407727965,
+            "ci_low": 0.10250350725357747,
+            "ci_high": 0.1422042771274245,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.561348512909581,
+            "ci_low": 0.5530984457015592,
+            "ci_high": 0.5696665396055518,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.7387615479528904,
+          "margin_effect_correlation": 0.5842258594930172
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.5996888616583196,
+          "effect_cosine": 0.8028115766482329,
+          "effect_gain": 0.814462942458231,
+          "error_energy": 6081169.4609375,
+          "teacher_effect_energy": 15191107.3125,
+          "student_effect_energy": 15635250.25,
+          "dot": 12372593.9609375,
+          "fisher_effect_fidelity": 0.6172500846680333,
+          "fisher_effect_cosine": 0.8091006405036011,
+          "fisher_effect_gain": 0.8111033941253939,
+          "fisher_teacher_effect_energy": 260.0975649356842,
+          "row_effect_fidelity": {
+            "mean": 0.596780459241729,
+            "ci_low": 0.5797553137115421,
+            "ci_high": 0.6136778395982145,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.8026707185060811,
+            "ci_low": 0.795146420231034,
+            "ci_high": 0.8096794564312587,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.9001937918365002,
+          "margin_effect_correlation": 0.8089839853346348
+        }
+      }
+    },
+    "wikitext103": {
+      "lambda_0.0": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.13893949243699333,
+          "effect_cosine": 0.551226555280318,
+          "effect_gain": 0.5276997667053401,
+          "error_energy": 3592330.56640625,
+          "teacher_effect_energy": 4171983.890625,
+          "student_effect_energy": 3823456.59375,
+          "dot": 2201554.92578125,
+          "fisher_effect_fidelity": 0.2030899878796315,
+          "fisher_effect_cosine": 0.5833692110442938,
+          "fisher_effect_gain": 0.5564259560707053,
+          "fisher_teacher_effect_energy": 83.22433984279633,
+          "row_effect_fidelity": {
+            "mean": 0.13001323661191944,
+            "ci_low": 0.10704416368308466,
+            "ci_high": 0.15177078589188742,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.5479724564740944,
+            "ci_low": 0.5374185576996939,
+            "ci_high": 0.558137676460381,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.7544107791036367,
+          "margin_effect_correlation": 0.5695979008451104
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.6010860270381941,
+          "effect_cosine": 0.8067954235945203,
+          "effect_gain": 0.8310219533116773,
+          "error_energy": 6535431.828125,
+          "teacher_effect_energy": 16383060.6875,
+          "student_effect_energy": 17381737.28125,
+          "dot": 13614683.09375,
+          "fisher_effect_fidelity": 0.6327615367895861,
+          "fisher_effect_cosine": 0.8205011709294014,
+          "fisher_effect_gain": 0.838264500833039,
+          "fisher_teacher_effect_energy": 344.15040397644043,
+          "row_effect_fidelity": {
+            "mean": 0.5902917557525567,
+            "ci_low": 0.5738242685912035,
+            "ci_high": 0.6064762961991439,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.80347562870176,
+            "ci_low": 0.7971009592255952,
+            "ci_high": 0.8101843266747888,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.9108527097851038,
+          "margin_effect_correlation": 0.825298149138689
+        }
+      },
+      "lambda_0.2": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.15789503419290907,
+          "effect_cosine": 0.5679389564440162,
+          "effect_gain": 0.5530144739405659,
+          "error_energy": 3513248.3515625,
+          "teacher_effect_energy": 4171983.890625,
+          "student_effect_energy": 3955599.38671875,
+          "dot": 2307167.4765625,
+          "fisher_effect_fidelity": 0.2225776133938464,
+          "fisher_effect_cosine": 0.6015933497064309,
+          "fisher_effect_gain": 0.5864764975721513,
+          "fisher_teacher_effect_energy": 83.22433984279633,
+          "row_effect_fidelity": {
+            "mean": 0.14973447330597667,
+            "ci_low": 0.1259866334631757,
+            "ci_high": 0.17199283803484883,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.56514304292818,
+            "ci_low": 0.5547820714201376,
+            "ci_high": 0.5756594785803635,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.7519976124167442,
+          "margin_effect_correlation": 0.5823411056771874
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.616322500556415,
+          "effect_cosine": 0.8107433292381957,
+          "effect_gain": 0.8214322278211666,
+          "error_energy": 6285811.7578125,
+          "teacher_effect_energy": 16383060.6875,
+          "student_effect_energy": 16817899.296875,
+          "dot": 13457574.0390625,
+          "fisher_effect_fidelity": 0.6488287936420072,
+          "fisher_effect_cosine": 0.8255091902170316,
+          "fisher_effect_gain": 0.8305987016510481,
+          "fisher_teacher_effect_energy": 344.15040397644043,
+          "row_effect_fidelity": {
+            "mean": 0.6063273884948047,
+            "ci_low": 0.5920066841610393,
+            "ci_high": 0.6217554447639426,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.8081833949775961,
+            "ci_low": 0.8018204929915123,
+            "ci_high": 0.8144317807907088,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.915939923375845,
+          "margin_effect_correlation": 0.8270633779466152
+        }
+      },
+      "lambda_0.4": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.15623818043490845,
+          "effect_cosine": 0.5778373301730484,
+          "effect_gain": 0.5774513656046184,
+          "error_energy": 3520160.71875,
+          "teacher_effect_energy": 4171983.890625,
+          "student_effect_energy": 4166412.42578125,
+          "dot": 2409117.794921875,
+          "fisher_effect_fidelity": 0.22309325262864155,
+          "fisher_effect_cosine": 0.6125500790508172,
+          "fisher_effect_gain": 0.6141312381403631,
+          "fisher_teacher_effect_energy": 83.22433984279633,
+          "row_effect_fidelity": {
+            "mean": 0.14809705460544975,
+            "ci_low": 0.12412280257588294,
+            "ci_high": 0.17094213156785418,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.5751092319383576,
+            "ci_low": 0.5647611079423233,
+            "ci_high": 0.5853945141347328,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.7628950532525778,
+          "margin_effect_correlation": 0.5943176578730345
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.5872093602923425,
+          "effect_cosine": 0.7950699341551432,
+          "effect_gain": 0.8006588424749128,
+          "error_energy": 6762774.1015625,
+          "teacher_effect_energy": 16383060.6875,
+          "student_effect_energy": 16614198.203125,
+          "dot": 13117242.40625,
+          "fisher_effect_fidelity": 0.6219900547029606,
+          "fisher_effect_cosine": 0.8101648526134789,
+          "fisher_effect_gain": 0.8065800867926574,
+          "fisher_teacher_effect_energy": 344.15040397644043,
+          "row_effect_fidelity": {
+            "mean": 0.578011434572565,
+            "ci_low": 0.5615712277102802,
+            "ci_high": 0.5936872648329629,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.7935047186522901,
+            "ci_low": 0.7864414417531198,
+            "ci_high": 0.8003949667781534,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.8968023248016834,
+          "margin_effect_correlation": 0.8104329686611891
+        }
+      }
+    },
+    "tinystories": {
+      "lambda_0.0": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.019293973620830407,
+          "effect_cosine": 0.4898189934703983,
+          "effect_gain": 0.469996150467584,
+          "error_energy": 2438125.71875,
+          "teacher_effect_energy": 2486092.318359375,
+          "student_effect_energy": 2288941.0625,
+          "dot": 1168453.8193359375,
+          "fisher_effect_fidelity": 0.0993628892661984,
+          "fisher_effect_cosine": 0.5289037740914088,
+          "fisher_effect_gain": 0.5043685053219558,
+          "fisher_teacher_effect_energy": 39.72595274448395,
+          "row_effect_fidelity": {
+            "mean": 0.020318522047977385,
+            "ci_low": -0.01212140563363167,
+            "ci_high": 0.04656878530964132,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.49166125937665145,
+            "ci_low": 0.4812677867498217,
+            "ci_high": 0.501692927099842,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.6775924563407898,
+          "margin_effect_correlation": 0.5011959057301283
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.5852647718941654,
+          "effect_cosine": 0.8044254635115557,
+          "effect_gain": 0.8471348100216338,
+          "error_energy": 4338770.82421875,
+          "teacher_effect_energy": 10461543.96875,
+          "student_effect_energy": 11601902.7734375,
+          "dot": 8862338.0625,
+          "fisher_effect_fidelity": 0.6166960003100861,
+          "fisher_effect_cosine": 0.8179485572219001,
+          "fisher_effect_gain": 0.8561764318480268,
+          "fisher_teacher_effect_energy": 158.24134397506714,
+          "row_effect_fidelity": {
+            "mean": 0.593977136551737,
+            "ci_low": 0.5523395468635754,
+            "ci_high": 0.6191660189681324,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.8101354921299792,
+            "ci_low": 0.7993219315157292,
+            "ci_high": 0.8188335993814524,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.9045822154730558,
+          "margin_effect_correlation": 0.8167924527078867
+        }
+      },
+      "lambda_0.2": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.04219855283415497,
+          "effect_cosine": 0.5085946813371047,
+          "effect_gain": 0.4952990144822588,
+          "error_energy": 2381182.8203125,
+          "teacher_effect_energy": 2486092.318359375,
+          "student_effect_energy": 2357808.619140625,
+          "dot": 1231359.0751953125,
+          "fisher_effect_fidelity": 0.13017764878976812,
+          "fisher_effect_cosine": 0.5511701847665926,
+          "fisher_effect_gain": 0.5334426814145952,
+          "fisher_teacher_effect_energy": 39.72595274448395,
+          "row_effect_fidelity": {
+            "mean": 0.04113478670849788,
+            "ci_low": 0.009847255240256737,
+            "ci_high": 0.0673299842717276,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.5097708608600979,
+            "ci_low": 0.500533168503019,
+            "ci_high": 0.5189288041084082,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.6845917925238609,
+          "margin_effect_correlation": 0.5298274168744683
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.5956114102893517,
+          "effect_cosine": 0.8061276577742356,
+          "effect_gain": 0.8375681532930517,
+          "error_energy": 4230529.01171875,
+          "teacher_effect_energy": 10461543.96875,
+          "student_effect_energy": 11293497.3125,
+          "dot": 8762256.0625,
+          "fisher_effect_fidelity": 0.6231366851325892,
+          "fisher_effect_cosine": 0.818429122249353,
+          "fisher_effect_gain": 0.846670429803183,
+          "fisher_teacher_effect_energy": 158.24134397506714,
+          "row_effect_fidelity": {
+            "mean": 0.6044224925329964,
+            "ci_low": 0.5648821767345961,
+            "ci_high": 0.6297884746620982,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.8122517058809924,
+            "ci_low": 0.8014469445067179,
+            "ci_high": 0.8205083518093732,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.9094234462827444,
+          "margin_effect_correlation": 0.8165742717683315
+        }
+      },
+      "lambda_0.4": {
+        "gaussian_rms_0.10": {
+          "effect_fidelity": 0.045917057897997826,
+          "effect_cosine": 0.5223686237291751,
+          "effect_gain": 0.5217226297236877,
+          "error_energy": 2371938.2734375,
+          "teacher_effect_energy": 2486092.318359375,
+          "student_effect_energy": 2479947.203125,
+          "dot": 1297050.6220703125,
+          "fisher_effect_fidelity": 0.13365463629968,
+          "fisher_effect_cosine": 0.5665798050642031,
+          "fisher_effect_gain": 0.5662560346473753,
+          "fisher_teacher_effect_energy": 39.72595274448395,
+          "row_effect_fidelity": {
+            "mean": 0.04414828337664255,
+            "ci_low": 0.015667276271625938,
+            "ci_high": 0.070115873638764,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.5230496364060253,
+            "ci_low": 0.5136238100342736,
+            "ci_high": 0.5319847837645143,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.6983999330550432,
+          "margin_effect_correlation": 0.5530989607796073
+        },
+        "natural_mix_0.25": {
+          "effect_fidelity": 0.5681721832933199,
+          "effect_cosine": 0.7910522370661959,
+          "effect_gain": 0.8156021205665307,
+          "error_energy": 4517585.69140625,
+          "teacher_effect_energy": 10461543.96875,
+          "student_effect_energy": 11120956.734375,
+          "dot": 8532457.4453125,
+          "fisher_effect_fidelity": 0.5937352182753424,
+          "fisher_effect_cosine": 0.8029183735468559,
+          "fisher_effect_gain": 0.8259005292627528,
+          "fisher_teacher_effect_energy": 158.24134397506714,
+          "row_effect_fidelity": {
+            "mean": 0.5774288447891885,
+            "ci_low": 0.5327772117850917,
+            "ci_high": 0.6071778801549323,
+            "rows": 64
+          },
+          "row_effect_cosine": {
+            "mean": 0.7979712227345063,
+            "ci_low": 0.787181153085842,
+            "ci_high": 0.806675462153326,
+            "rows": 64
+          },
+          "margin_effect_sign_agreement": 0.8973054550588131,
+          "margin_effect_correlation": 0.8001046944409609
+        }
+      }
+    }
+  },
+  "hypotheses": {
+    "H1_behavior": {
+      "supported": true,
+      "kl_deltas": {
+        "fineweb": -0.0011206088965991512,
+        "wikitext103": -0.0011117159738205373,
+        "tinystories": -0.000931730137381237
+      }
+    },
+    "H2_causal": {
+      "supported": true,
+      "fidelity_deltas": {
+        "fineweb/gaussian_rms_0.10": 0.012536698825362902,
+        "fineweb/natural_mix_0.25": 0.015193556169844413,
+        "wikitext103/gaussian_rms_0.10": 0.0194876255142149,
+        "wikitext103/natural_mix_0.25": 0.016067256852421052,
+        "tinystories/gaussian_rms_0.10": 0.030814759523569712,
+        "tinystories/natural_mix_0.25": 0.006440684822503151
+      }
+    },
+    "H3_interior": {
+      "supported": true,
+      "selected_mean_causal": 0.4089080738659095,
+      "overshoot_mean_causal": 0.3948249765680181
+    }
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B",
+  "pair_count": 36,
+  "pairs_per_family": 12,
+  "unit_note": "MLP entries are scalar activation instances; attention entries are 64-dimensional vectors or messages, so counts are not dimension-equivalent.",
+  "families": {
+    "ioi": {
+      "mlp": {
+        "median": 6.5,
+        "successes": 12
+      },
+      "query": {
+        "median": 5.0,
+        "successes": 12
+      },
+      "key": {
+        "median": null,
+        "successes": 0
+      },
+      "value": {
+        "median": 1.0,
+        "successes": 12
+      },
+      "pattern": {
+        "median": 4,
+        "successes": 11
+      },
+      "message": {
+        "median": 2.5,
+        "successes": 12
+      },
+      "head_output": {
+        "median": 2.0,
+        "successes": 12
+      },
+      "top_recurring_mlp_neurons": [
+        {
+          "layer": 15,
+          "channel": 796,
+          "pairs": 12
+        },
+        {
+          "layer": 14,
+          "channel": 1412,
+          "pairs": 11
+        },
+        {
+          "layer": 16,
+          "channel": 2973,
+          "pairs": 8
+        }
+      ]
+    },
+    "agreement": {
+      "mlp": {
+        "median": 8.5,
+        "successes": 12
+      },
+      "query": {
+        "median": null,
+        "successes": 0
+      },
+      "key": {
+        "median": null,
+        "successes": 0
+      },
+      "value": {
+        "median": 1.0,
+        "successes": 12
+      },
+      "pattern": {
+        "median": null,
+        "successes": 0
+      },
+      "message": {
+        "median": 1.0,
+        "successes": 12
+      },
+      "head_output": {
+        "median": 1.0,
+        "successes": 12
+      },
+      "top_recurring_mlp_neurons": [
+        {
+          "layer": 20,
+          "channel": 4662,
+          "pairs": 12
+        },
+        {
+          "layer": 18,
+          "channel": 1303,
+          "pairs": 11
+        },
+        {
+          "layer": 21,
+          "channel": 1653,
+          "pairs": 10
+        }
+      ]
+    },
+    "brackets": {
+      "mlp": {
+        "median": 3.5,
+        "successes": 12
+      },
+      "query": {
+        "median": 182,
+        "successes": 3
+      },
+      "key": {
+        "median": 1,
+        "successes": 1
+      },
+      "value": {
+        "median": 2.0,
+        "successes": 12
+      },
+      "pattern": {
+        "median": 95.0,
+        "successes": 2
+      },
+      "message": {
+        "median": 2.5,
+        "successes": 12
+      },
+      "head_output": {
+        "median": 1.0,
+        "successes": 12
+      },
+      "top_recurring_mlp_neurons": [
+        {
+          "layer": 22,
+          "channel": 1943,
+          "pairs": 9
+        },
+        {
+          "layer": 22,
+          "channel": 3011,
+          "pairs": 6
+        },
+        {
+          "layer": 23,
+          "channel": 4291,
+          "pairs": 6
+        }
+      ]
+    }
+  },
+  "examples": {
+    "ioi": {
+      "pair_id": "ioi-john-mary-forward",
+      "base_prompt": "John and Mary went to the store. John gave the book to",
+      "base_answer": " Mary",
+      "counterfactual_prompt": "John and Mary went to the store. Mary gave the book to",
+      "counterfactual_answer": " John",
+      "messages": [
+        {
+          "layer": 20,
+          "head": 9,
+          "destination": 12,
+          "destination_token": "\u0120to",
+          "source": 8,
+          "source_token": "\u0120John"
+        },
+        {
+          "layer": 23,
+          "head": 9,
+          "destination": 12,
+          "destination_token": "\u0120to",
+          "source": 2,
+          "source_token": "\u0120Mary"
+        }
+      ]
+    },
+    "agreement": {
+      "pair_id": "agreement-book-picture-sg-to-pl",
+      "base_prompt": "Complete with is or are: The book near the pictures",
+      "base_answer": " is",
+      "counterfactual_prompt": "Complete with is or are: The books near the picture",
+      "counterfactual_answer": " are",
+      "messages": [
+        {
+          "layer": 19,
+          "head": 4,
+          "destination": 10,
+          "destination_token": "\u0120pictures",
+          "source": 7,
+          "source_token": "\u0120book"
+        }
+      ]
+    },
+    "brackets": {
+      "pair_id": "brackets-40-to-91-3",
+      "base_prompt": "Complete with one closing bracket.\n( -> )\n[ -> ]\n{ -> }\n((()) ->",
+      "base_answer": " )\n",
+      "counterfactual_prompt": "Complete with one closing bracket.\n( -> )\n[ -> ]\n{ -> }\n[(()) ->",
+      "counterfactual_answer": " ]\n",
+      "messages": [
+        {
+          "layer": 20,
+          "head": 4,
+          "destination": 17,
+          "destination_token": "\u0120->",
+          "source": 15,
+          "source_token": "(("
+        },
+        {
+          "layer": 20,
+          "head": 5,
+          "destination": 17,
+          "destination_token": "\u0120->",
+          "source": 15,
+          "source_token": "(("
+        }
+      ]
+    }
+  }
+}

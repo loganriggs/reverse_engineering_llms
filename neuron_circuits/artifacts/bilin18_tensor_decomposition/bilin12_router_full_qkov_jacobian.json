@@ -1,0 +1,157 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-mlp-jacobian-validation-before-qkov-derivative",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261224,
+    "batch_size": 2,
+    "targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "steps": 1500,
+    "learning_rate": 0.02,
+    "scale": 0.5,
+    "layer": 6,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "basis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "natural": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 13000,
+      "rows": 768
+    },
+    "selected_graph": "artifacts/bilin18_tensor_decomposition/bilin12_router_graph_natural_causality.json",
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "Q0_manual_attention_trace_is_exact": "The manual squared-attention forward path matches native attention/final states to maximum absolute error at most 1e-5.",
+      "Q1_full_weight_jacobian_predicts_native_edits": "The attention-inclusive unfitted Jacobian predicts one-sided scale-0.5 native coordinate effects with fidelity at least 0.99 on every corpus.",
+      "Q2_full_jacobian_closes_the_mlp_only_gap": "It improves native coordinate fidelity over the MLP-only analytic chain by at least 0.01 on every corpus.",
+      "Q3_full_jacobian_predicts_sparse_grammar": "It predicts selected-edge and restricted-coefficient changes with fidelity at least 0.99 on every corpus.",
+      "Q4_qk_response_is_material": "The exact QK-path Shapley component has absolute target projection at least 0.01 on every corpus.",
+      "Q5_value_response_is_material": "The exact value/OV-path Shapley component has absolute target projection at least 0.01 on every corpus.",
+      "Q6_qk_value_interaction_is_material": "The QK-by-value interaction norm is at least 0.01 of the complete analytic response on every corpus.",
+      "Q7_qkov_profile_transfers_ood": "Each OOD residual/QK/value target-projection profile differs from FineWeb by at most 0.05 per component."
+    }
+  },
+  "hypotheses": {
+    "Q0_manual_attention_trace_is_exact": {
+      "supported": true,
+      "maximum_error": 0.0
+    },
+    "Q1_full_weight_jacobian_predicts_native_edits": {
+      "supported": true
+    },
+    "Q2_full_jacobian_closes_the_mlp_only_gap": {
+      "supported": true
+    },
+    "Q3_full_jacobian_predicts_sparse_grammar": {
+      "supported": true
+    },
+    "Q4_qk_response_is_material": {
+      "supported": true
+    },
+    "Q5_value_response_is_material": {
+      "supported": true
+    },
+    "Q6_qk_value_interaction_is_material": {
+      "supported": false
+    },
+    "Q7_qkov_profile_transfers_ood": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "full_vs_native": {
+        "coordinate_fidelity": 0.9955841936171055,
+        "edge_change_fidelity": 0.9960843194276094,
+        "coefficient_change_fidelity": 0.9960740036331117
+      },
+      "mlp_analytic_vs_native_coordinate_fidelity": 0.9732489846646786,
+      "mlp_analytic_vs_finite_mlp_coordinate_fidelity": 0.9960632747970521,
+      "target_projection": {
+        "mlp_residual": 0.952951192855835,
+        "qk": 0.019980017095804214,
+        "value": 0.027068736031651497
+      },
+      "component_norm_ratio": {
+        "mlp_residual": 0.9636268615722656,
+        "qk": 0.1405268758535385,
+        "value": 0.05018807575106621
+      },
+      "qk_value_interaction_norm_ratio": 0.006756729446351528
+    },
+    "wikitext": {
+      "full_vs_native": {
+        "coordinate_fidelity": 0.9965297959279269,
+        "edge_change_fidelity": 0.9966249763965607,
+        "coefficient_change_fidelity": 0.9966887689661235
+      },
+      "mlp_analytic_vs_native_coordinate_fidelity": 0.9711894132196903,
+      "mlp_analytic_vs_finite_mlp_coordinate_fidelity": 0.997002801625058,
+      "target_projection": {
+        "mlp_residual": 0.9443396329879761,
+        "qk": 0.020319735631346703,
+        "value": 0.035340651869773865
+      },
+      "component_norm_ratio": {
+        "mlp_residual": 0.9562349915504456,
+        "qk": 0.14588840305805206,
+        "value": 0.06099991500377655
+      },
+      "qk_value_interaction_norm_ratio": 0.008765914477407932
+    },
+    "tinystories": {
+      "full_vs_native": {
+        "coordinate_fidelity": 0.9962246285285801,
+        "edge_change_fidelity": 0.9964629695750773,
+        "coefficient_change_fidelity": 0.9964163398835808
+      },
+      "mlp_analytic_vs_native_coordinate_fidelity": 0.9805613905191422,
+      "mlp_analytic_vs_finite_mlp_coordinate_fidelity": 0.9965888278093189,
+      "target_projection": {
+        "mlp_residual": 0.9609177112579346,
+        "qk": 0.010451543144881725,
+        "value": 0.028630660846829414
+      },
+      "component_norm_ratio": {
+        "mlp_residual": 0.9683806896209717,
+        "qk": 0.11701760441064835,
+        "value": 0.0456884391605854
+      },
+      "qk_value_interaction_norm_ratio": 0.004834913183003664
+    }
+  }
+}

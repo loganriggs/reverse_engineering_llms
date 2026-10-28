@@ -1,0 +1,26 @@
+{
+  "experiment": "H943",
+  "hashes": {
+    "runner": "007cc44821c47df8ec7eed1edf9187a169809a8182bdf5d8f41f669d42624c26",
+    "data": "62f715ceea4753fd032067b2bb3d0835e4a87e3f4e25fa3f677d22524e698aea",
+    "data_protocol": "8f8a3e59f599e0cc2c145e49da7c4092320fa912a2273749307de642d9354005",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "rank": 64,
+  "modes": [
+    "native",
+    "endpoints",
+    "effects"
+  ],
+  "seeds": [
+    0,
+    1
+  ],
+  "steps": 2000,
+  "batch": 128,
+  "site": "raw preMLP4 -> RMS -> full bilinear MLP update",
+  "training": "H851 original2048 training documents, one of16 captured positions per document chosen by document_index mod16. Fixed Gaussian tangential perturbation at5% raw-state norm per document, independent of learner and task labels.",
+  "evaluation": "512 H851 development documents from separate natural-document pool; reused research development, not reserved or fresh test. Independent5% tangent noise plus opposite sign and10% dose. No task directions loaded in fitting or selection.",
+  "objectives": "native: centered-energy-normalized outputMSE; endpoints: average native+edited endpointMSE at same normalizer; effects: native outputMSE + effectMSE divided by TRAINING effect energy. This deliberately changes weighting, not endpoint information. Same initializations, minibatches, architecture, Adam .003 and final2000step checkpoint.",
+  "limits": "Compact update surrogate, not activation autoencoder or discovered sparse ontology. Local update scores do not establish outputKL or task preservation. Known rank is NOT assumed here;64 is a fixed compression budget. Full input access and normalization are part of student computation."
+}

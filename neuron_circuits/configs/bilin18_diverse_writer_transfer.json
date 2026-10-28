@@ -1,0 +1,63 @@
+{
+  "experiment": "H581",
+  "source_sha256": "57c26d4c377507b3e79a86968d8667b4e0b7ac2a805ee0e4615f4545cececccc",
+  "operations": [
+    [
+      "mlp",
+      3,
+      4,
+      0
+    ],
+    [
+      "mlp",
+      2,
+      4,
+      0
+    ],
+    [
+      "mlp",
+      6,
+      7,
+      8
+    ],
+    [
+      "mlp",
+      5,
+      7,
+      8
+    ],
+    [
+      "attn",
+      5,
+      7,
+      8
+    ],
+    [
+      "attn",
+      4,
+      7,
+      8
+    ],
+    [
+      "attn",
+      6,
+      7,
+      8
+    ]
+  ],
+  "sites": [
+    -1,
+    -2
+  ],
+  "design": "Newly composed prompt combinations, 5 tasks x 2 templates x 8 pairs x 4 endpoints. Sites fixed to final and penultimate tokens for every task; no semantic role equivalence assumed. Swap writer output from opposite-answer donor or same-answer nuisance donor; self control. Replay only resulting selected head local-value change through native routing in a separate run. All token-valid pairs retained regardless of competence.",
+  "gate": "Per task/template: >=4 pairs; both endpoints candidate correct >=.75; intended group full-vocabulary top1 >=.5. No per-item filtering. Nuisance competence separately reported.",
+  "hypotheses": [
+    "Candidate operations are task-general contextual writers.",
+    "Candidate operations preferentially affect copying/binding.",
+    "Internal write/value magnitude is insufficient to predict output influence.",
+    "Apparent task transfer may instead track fixed token position and template."
+  ],
+  "precision": "float32 compute with bf16-rounded weights",
+  "metrics": "Internal writer and value displacement; full and isolated native-to-intervened KL; intended-answer-group NLL change; counterfactual donor-directed margin. Group NLL is not single-token CE.",
+  "selection": "Operations and sites fixed from H580 before this panel. No selection on template1. Templates share lexical items; whole-task transfer not independent corpus sampling."
+}

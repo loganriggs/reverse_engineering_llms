@@ -1,0 +1,25 @@
+"""H411 fresh confirmation and cross-head transfer of frozen native sets."""
+import json,hashlib
+import numpy as np
+import torch
+import torch.nn.functional as F
+from run_bilin18_l17_local_residual_charts import ROOT,ART,load_full_model,collect_sources
+STEM=ART/'bilin18_l17_rescue_transfer_confirmation'
+@torch.inference_mode()
+def main():
+ torch.set_num_threads(6);cfg=json.loads((ROOT/'configs'/f'{STEM.name}.json').read_text());op=ART/'bilin18_l17_residual_factor_rescue_frozen_sets.npz';assert hashlib.sha256(op.read_bytes()).hexdigest()==cfg['sets_sha256'];assert hashlib.sha256((ROOT/cfg['corpus']).read_bytes()).hexdigest()==cfg['corpus_sha256'];q=np.load(op);sets=[q['core']]+list(q['sets128']);ids=[torch.tensor(v,device='cuda') for v in sets];model=load_full_model('cuda');model.embedding.float();model.blocks.float();model.lm_head.float();pre,heads,_=collect_sources(model,np.load(ROOT/cfg['corpus']),cfg);S=len(pre);L,R,D=[m.weight.detach() for m in [model.blocks[17].mlp.Left,model.blocks[17].mlp.Right,model.blocks[17].mlp.Down]];W=model.lm_head.weight.double();x=F.rms_norm(pre,(1152,));phi0=(x@L.T)*(x@R.T);m0=phi0@D.T;state=pre+m0+model.blocks[17].mlp.Down_bias;base=F.rms_norm(state,(1152,));metrics=np.empty((11,10,2,S));effect=np.empty((10,S));direct_error=0.
+ def lp(y):return (30*torch.tanh((y.double()@W.T)/30)).log_softmax(-1)
+ for ci,(head,amp) in enumerate(cfg['cases']):
+  xx=F.rms_norm(pre-amp*heads[:,head],(1152,));phi1=(xx@L.T)*(xx@R.T);r=phi1@D.T-m0;delta=phi1-phi0;kept=torch.stack([delta[:,ix]@D[:,ix].T for ix in ids]);target=F.rms_norm(state+r,(1152,));pred=F.rms_norm(state[None]+kept,(1152,));clamp=F.rms_norm(state[None]+r[None]-kept,(1152,));patch=phi1[:4].clone();patch[:,ids[1]]=phi0[:4,ids[1]];direct=F.rms_norm(pre[:4]+patch@D.T+model.blocks[17].mlp.Down_bias,(1152,));direct_error=max(direct_error,float((direct-clamp[1,:4]).abs().max()))
+  for off in range(0,S,16):
+   sl=slice(off,off+16);p0=lp(base[sl]);pt=lp(target[sl]);effect[ci,sl]=(pt.exp()*(pt-p0)).sum(-1).cpu().numpy()
+   for oi in range(11):
+    pp=lp(pred[oi,sl]);pc=lp(clamp[oi,sl]);metrics[oi,ci,0,sl]=(pt.exp()*(pt-pp)).sum(-1).cpu().numpy();metrics[oi,ci,1,sl]=(pc.exp()*(pc-p0)).sum(-1).cpu().numpy()
+  np.savez_compressed(STEM.with_name(STEM.name+'_partial_rows.npz'),metrics=metrics[:,:ci+1],native_effect=effect[:ci+1]);print('head',head,'amplitude',amp,'complete',flush=True)
+ assert np.isfinite(metrics).all() and effect.min()>0 and metrics.min()>-1e-10;audit={'direct_clamp_state_absolute_error':direct_error};STEM.with_name(STEM.name+'_audit.json').write_text(json.dumps(audit,indent=2)+'\n');np.savez_compressed(STEM.with_name(STEM.name+'_rows.npz'),metrics=metrics,native_effect=effect);analyze(cfg,metrics,effect,audit)
+def analyze(cfg,m,e,audit):
+ n=cfg['rows'];d=m.reshape(11,10,2,n,4).mean(-1);ed=e.reshape(10,n,4).mean(-1);other=np.array([0,1,2,3,4,5,7,8])
+ def summary(ix,randoms):
+  den=ed[:,ix].mean(-1);err=d[:,:,0][:,:,ix].mean(-1)/den[None];primary=np.array([1-err[1,6],err[2,6]-err[1,6],err[4,6]-err[1,6],err[randoms,6].mean()-err[1,6]]);transfer=np.concatenate([1-err[1,other],err[2,other]-err[1,other]]);return primary,transfer
+ point,transfer=summary(np.arange(n),np.arange(5,11));rng=np.random.default_rng(cfg['bootstrap_seed']);pairs=[summary(rng.integers(0,n,n),5+rng.integers(0,6,6)) for _ in range(cfg['bootstrap_samples'])];boot=np.stack([p[0] for p in pairs]);tb=np.stack([p[1] for p in pairs]);rad=np.quantile(abs(boot-point).max(1),.95);ci=np.stack([point-rad,point+rad],-1);trad=np.quantile(abs(tb-transfer).max(1),.95);tci=np.stack([transfer-trad,transfer+trad],-1);doc=json.loads((ART/'bilin18_rescue_transfer_confirmation_document_audit.json').read_text());gates={'document_disjointness':doc['overlap']==0 and doc['independently_rehashed_excluded_documents']==7872,'recovery90':bool(ci[0,0]>.9),'over_fisher05':bool(ci[1,0]>.05),'over_energy02':bool(ci[2,0]>.02),'over_random05':bool(ci[3,0]>.05),'all_other_heads80':bool((tci[:8,0]>.8).all()),'all_other_heads_over_fisher05':bool((tci[8:,0]>.05).all())};j={'config':cfg,'methods':['core64','residual128','fisher128','contrast128','individual_energy128']+[f'core_random128_{i}' for i in range(6)],'metrics':['retained_prediction_KL','clamped_remaining_KL'],'mean_metrics':m.mean(-1).tolist(),'mean_native_effect':e.mean(-1).tolist(),'primary_names':['head6_residual128_unit_recovery','head6_residual128_minus_fisher128','head6_residual128_minus_energy128','head6_residual128_minus_core_random128'],'primary':point.tolist(),'primary_joint4_ci95':ci.tolist(),'other_heads':other.tolist(),'transfer_names':['residual128_recovery_each_other_head','residual128_minus_fisher128_each_other_head'],'transfer':transfer.tolist(),'transfer_joint16_ci95':tci.tolist(),'gates':gates,'audit':audit,'document_audit':doc};STEM.with_suffix('.json').write_text(json.dumps(j,indent=2)+'\n');np.savez_compressed(STEM.with_name(STEM.name+'_bootstrap.npz'),primary=boot,transfer=tb);print('FINISHED',gates,point,flush=True)
+if __name__=='__main__':main()

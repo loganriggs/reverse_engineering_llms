@@ -1,0 +1,37 @@
+{
+  "status": "H277 fixed before outcomes",
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_intercept_replication_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "models": [
+    "compiled",
+    "constant_exact",
+    "compiled_mean",
+    "common_exact",
+    "common_cal",
+    "actual_zero",
+    "actual_exact",
+    "actual_cal",
+    "mixture_zero",
+    "mixture_exact",
+    "mixture_cal",
+    "native"
+  ],
+  "design": "Freeze H275 centered polynomials. First768 discovery docs only: for each polynomial fit its output constant as mean(native-original_compiler-K), double accumulation, cast float32. No gradient fitting or new basis. Include zero,E(mu),discovery-calibrated constants and compiler/common controls. Freeze before fresh128-doc test, excluding1984 prior document hashes. Intact final-layer replacement, no native answer in predictor. Every response K(z)-K(x) is algebraically unchanged by intercept.",
+  "gates": {
+    "calibration_material": "calibrated vs E(mu) KL reduction>=20%, paired95 lower>0 for BOTH actual/mixture",
+    "bias_dominant": "same reduction>=50% for BOTH",
+    "repair_actual": "actual_cal KL recovery vs compiled>=80%, CE increase<=.02, top1>=.98",
+    "repair_mixture": "same mixture_cal"
+  },
+  "scope": "MSE-optimal constant on discovery, not behavior-optimal. No test mean in calibration. Same corpus/model; no semantic/uniqueness or global-freshness claim."
+}

@@ -1,0 +1,31 @@
+{
+  "experiment": "H941",
+  "hashes": {
+    "runner": "fa1cb8fe58b50caf1ea3a4454ebcd655d0145366b2fc89c79f8d7ba02c845301",
+    "data": "83d483c7c70eba7561941b1525cf2a8bc461dc2dd49f8394620f0bfd3886ea74",
+    "geometry": "609ece27a27b00ecdf85592b38bdfe37e23264f1ac202ed0a7e3735583c9f903"
+  },
+  "kinds": [
+    "free",
+    "state_hull",
+    "difference_hull",
+    "normalized_state"
+  ],
+  "gain_budgets": [
+    2.0,
+    32.0,
+    2048.0
+  ],
+  "seeds": [
+    0,
+    1
+  ],
+  "anchor_halves": [
+    0,
+    1
+  ],
+  "steps": 1500,
+  "loss": "native MSE + finite-effect MSE, both normalized by native-output energy. No output-weight penalty; explicit Frobenius gain budget enforced after every step.",
+  "controls": "Same512 states/interventions, minibatches per initialization seed,4 products, same optimizer and steps. Free factors unitnorm; hull factors native convex combinations with norm<=1; normalized-state only optimizationcontrol. State and difference anchors rescaled to unit RMS norm separately using training data. Raw bank scales saved. Two independent128-anchor banks crossed with two initializations. Free has no anchors and is trained once per seed/budget.",
+  "limits": "Parameter counts differ (hull logits vs free factors), not convergence proof. Known teacher rank supplied. No claim that hull constraint fixes gauge or means same geometry as A-SAE. Anchored banks all span16D; their scale affects effective gain constraints."
+}

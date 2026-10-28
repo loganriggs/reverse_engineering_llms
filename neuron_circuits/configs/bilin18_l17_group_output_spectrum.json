@@ -1,0 +1,19 @@
+{
+  "status": "H305 locked before group spectra",
+  "ranks": [
+    8,
+    16,
+    32,
+    64,
+    128,
+    256
+  ],
+  "source_sha256": "53a8b80d7085a6d6183c853679fe3fb67a63b8ca9ef5aad5fda85e6e572fffbc",
+  "design": "Each18 group gets its own training eigenbasis; evaluate same-group validation capture. Compute validation eigenspectrum as explicitly in-sample optimistic rank bound, not transferable predictor. Compare shared H304 basis. Same saved moments, no new model execution.",
+  "gates": {
+    "specialist32": "all groups >=80% validation capture with own train rank32",
+    "specialist128": "all groups >=80% validation capture with own train rank128",
+    "specialization_gain32": "equal-group mean specialist minus shared at rank32 >=10pp",
+    "oracle128": "all groups rank128 in-sample validation bound>=80%"
+  }
+}

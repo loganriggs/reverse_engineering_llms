@@ -1,0 +1,276 @@
+{
+  "config": {
+    "status": "locked-after-dual-metric-union-failure-before-cross-term-redteam",
+    "layer": 17,
+    "components": 4,
+    "candidate_pool_rank": 128,
+    "covariance_floor_fraction": 0.0001,
+    "batch_size": 4,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 1000
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 15600,
+        "rows": 400
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 600,
+        "rows": 400
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 600,
+        "rows": 400
+      }
+    },
+    "hypotheses": {
+      "X1_block_union_beats_full_union": "Suppressing cross-terms in the same rank-16 span reduces mean exact KL by at least 20% on every corpus.",
+      "X2_block_union_improves_fisher8": "The additive block union reduces mean exact KL relative to Fisher rank eight on every corpus.",
+      "X3_block_union_reaches_median_gate": "The additive block union has median exact KL at most 0.005 on every corpus.",
+      "X4_cross_terms_are_behaviorally_material": "Full and block versions of the same span differ by mean exact output KL of at least 0.001 on every corpus.",
+      "X5_block_union_preserves_task_ce": "The additive block union increases mean next-token CE by at most 0.01 nats on every corpus."
+    }
+  },
+  "hypotheses": {
+    "X1_block_union_beats_full_union": {
+      "supported": false
+    },
+    "X2_block_union_improves_fisher8": {
+      "supported": false
+    },
+    "X3_block_union_reaches_median_gate": {
+      "supported": false
+    },
+    "X4_cross_terms_are_behaviorally_material": {
+      "supported": true
+    },
+    "X5_block_union_preserves_task_ce": {
+      "supported": false
+    }
+  },
+  "covariance": {
+    "minimum_eigenvalue": 0.042147014290094376,
+    "maximum_eigenvalue": 630.876953125,
+    "condition_number": 14968.4853515625
+  },
+  "results": {
+    "fineweb": {
+      "scores": {
+        "fisher8": {
+          "centered_vector_r2": 0.6769237429834222,
+          "median_axis_correlation": 0.7689567783108635,
+          "minimum_axis_correlation": 0.5466069322287984
+        },
+        "frobenius8": {
+          "centered_vector_r2": 0.9486990206112738,
+          "median_axis_correlation": 0.9597771727779187,
+          "minimum_axis_correlation": 0.8959526925361917
+        },
+        "full_union16": {
+          "centered_vector_r2": 0.956528250723785,
+          "median_axis_correlation": 0.9670306456213593,
+          "minimum_axis_correlation": 0.9086330422095297
+        },
+        "block_union16": {
+          "centered_vector_r2": 0.3556004310917007,
+          "median_axis_correlation": 0.6691384113082712,
+          "minimum_axis_correlation": 0.36758661604105763
+        },
+        "complement8": {
+          "centered_vector_r2": -0.22402266250915193,
+          "median_axis_correlation": -0.16084613549603097,
+          "minimum_axis_correlation": -0.291635707934623
+        }
+      },
+      "behavioral": {
+        "fisher8": {
+          "median_exact_kl": 0.004729984328150749,
+          "mean_exact_kl": 0.01503691663876417,
+          "ce_delta": 0.015245899271619835,
+          "top1_agreement": 0.940625
+        },
+        "frobenius8": {
+          "median_exact_kl": 0.006174441892653704,
+          "mean_exact_kl": 0.021719769515003318,
+          "ce_delta": 0.021222617331873722,
+          "top1_agreement": 0.9303125
+        },
+        "full_union16": {
+          "median_exact_kl": 0.006032322999089956,
+          "mean_exact_kl": 0.02011808422742761,
+          "ce_delta": 0.020206883986739966,
+          "top1_agreement": 0.93171875
+        },
+        "block_union16": {
+          "median_exact_kl": 0.005023235455155373,
+          "mean_exact_kl": 0.021119954290833434,
+          "ce_delta": 0.021424925412540007,
+          "top1_agreement": 0.93703125
+        },
+        "complement8": {
+          "median_exact_kl": 0.0304725868627429,
+          "mean_exact_kl": 0.0908201889956932,
+          "ce_delta": 0.09146245413134522,
+          "top1_agreement": 0.8471875
+        }
+      },
+      "cross_terms": {
+        "mean_full_to_block_kl": 0.008397816176946243,
+        "median_full_to_block_kl": 0.0015201454516500235
+      }
+    },
+    "wikitext": {
+      "scores": {
+        "fisher8": {
+          "centered_vector_r2": 0.9258376854761374,
+          "median_axis_correlation": 0.9427997648232664,
+          "minimum_axis_correlation": 0.8918323108842248
+        },
+        "frobenius8": {
+          "centered_vector_r2": 0.9692611743575533,
+          "median_axis_correlation": 0.9698876121473949,
+          "minimum_axis_correlation": 0.9279172766895385
+        },
+        "full_union16": {
+          "centered_vector_r2": 0.9736829993695579,
+          "median_axis_correlation": 0.9747357686105393,
+          "minimum_axis_correlation": 0.9348014953117658
+        },
+        "block_union16": {
+          "centered_vector_r2": 0.9202987627194301,
+          "median_axis_correlation": 0.9370421670951874,
+          "minimum_axis_correlation": 0.8740590355710223
+        },
+        "complement8": {
+          "centered_vector_r2": -0.07736265730733138,
+          "median_axis_correlation": -0.20197522564230336,
+          "minimum_axis_correlation": -0.3357586810548909
+        }
+      },
+      "behavioral": {
+        "fisher8": {
+          "median_exact_kl": 0.0064227532129734755,
+          "mean_exact_kl": 0.01955949089103683,
+          "ce_delta": 0.024110960602815795,
+          "top1_agreement": 0.926875
+        },
+        "frobenius8": {
+          "median_exact_kl": 0.010921712964773178,
+          "mean_exact_kl": 0.03265423847094894,
+          "ce_delta": 0.049005661556802804,
+          "top1_agreement": 0.90078125
+        },
+        "full_union16": {
+          "median_exact_kl": 0.010617198422551155,
+          "mean_exact_kl": 0.029998085157468494,
+          "ce_delta": 0.045588543209323686,
+          "top1_agreement": 0.9040625
+        },
+        "block_union16": {
+          "median_exact_kl": 0.006905747577548027,
+          "mean_exact_kl": 0.022132134507497767,
+          "ce_delta": 0.028229532506079524,
+          "top1_agreement": 0.92359375
+        },
+        "complement8": {
+          "median_exact_kl": 0.04517841339111328,
+          "mean_exact_kl": 0.14987638361610947,
+          "ce_delta": 0.1511963973987986,
+          "top1_agreement": 0.81328125
+        }
+      },
+      "cross_terms": {
+        "mean_full_to_block_kl": 0.0068572344225195005,
+        "median_full_to_block_kl": 0.002457583206705749
+      }
+    },
+    "tinystories": {
+      "scores": {
+        "fisher8": {
+          "centered_vector_r2": 0.9418920725277475,
+          "median_axis_correlation": 0.9437659494030208,
+          "minimum_axis_correlation": 0.9038889262555699
+        },
+        "frobenius8": {
+          "centered_vector_r2": 0.9831643179987984,
+          "median_axis_correlation": 0.982176071835231,
+          "minimum_axis_correlation": 0.9592363442144307
+        },
+        "full_union16": {
+          "centered_vector_r2": 0.9858728705159558,
+          "median_axis_correlation": 0.985759730986403,
+          "minimum_axis_correlation": 0.9634494989887449
+        },
+        "block_union16": {
+          "centered_vector_r2": 0.9448598139748469,
+          "median_axis_correlation": 0.948567414993692,
+          "minimum_axis_correlation": 0.9006724159275912
+        },
+        "complement8": {
+          "centered_vector_r2": -0.0455657549580486,
+          "median_axis_correlation": -0.21848169745792687,
+          "minimum_axis_correlation": -0.2975969731564744
+        }
+      },
+      "behavioral": {
+        "fisher8": {
+          "median_exact_kl": 0.0038935043849051,
+          "mean_exact_kl": 0.006597685791449237,
+          "ce_delta": -0.0009949244590984562,
+          "top1_agreement": 0.94828125
+        },
+        "frobenius8": {
+          "median_exact_kl": 0.004349453141912818,
+          "mean_exact_kl": 0.007810714331685062,
+          "ce_delta": -0.0004651214361405209,
+          "top1_agreement": 0.94609375
+        },
+        "full_union16": {
+          "median_exact_kl": 0.004667168483138084,
+          "mean_exact_kl": 0.008011218894059766,
+          "ce_delta": 0.0013446872768321327,
+          "top1_agreement": 0.9434375
+        },
+        "block_union16": {
+          "median_exact_kl": 0.0037533449940383434,
+          "mean_exact_kl": 0.006849024484374126,
+          "ce_delta": -0.000608086391496272,
+          "top1_agreement": 0.94875
+        },
+        "complement8": {
+          "median_exact_kl": 0.03485407866537571,
+          "mean_exact_kl": 0.07311963933036367,
+          "ce_delta": 0.10659118135791118,
+          "top1_agreement": 0.854375
+        }
+      },
+      "cross_terms": {
+        "mean_full_to_block_kl": 0.002840740334881211,
+        "median_full_to_block_kl": 0.0013746325275860727
+      }
+    }
+  }
+}

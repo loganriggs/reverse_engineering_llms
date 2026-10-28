@@ -1,0 +1,12 @@
+{
+ "status":"H259 locked before outcomes",
+ "discovery":"artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+ "corpus":"artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+ "train_documents":768,"validation_documents":256,"test_documents":128,"positions":[31,63,95,126],"start":0,"batch_size":8,
+ "families":["affine1152","affine624","quadratic1152"],"objectives":["energy","sensitivity"],"ridge_strengths":[0.01,0.1,1.0],"score_samples":16,"seed":20261202,
+ "features":"Train-only PCA of normalized pre-MLP x. Affine1152 all PCs; affine624 first624. Quadratic1152 first624 linear PCs plus528 upper-triangle products of first32 PCs (offdiag sqrt2). Center and scale each feature by train std. Train-only bases/scales. Core1152 bundles equal fitted coefficient count, not equal functional classes or identical compute; quadratic sacrifices lower linear PCs.624 control isolates the added interactions.",
+ "loss":"Energy MSE versus state-specific (I + d/mean_norm2 * mean_k g_ik g_ik^T)/2 quadratic error metric. g exact log-prob gradients for16 categorical draws at discovery native states, seed fixed. Trace normalized in population. Ridge weights only, unpenalized intercept. CG Jacobi preconditioner, tolerance1e-5 max300; retain solver diagnostics. A fixed global output weighting is not the intended intervention.",
+ "selection":"First768 docs training, last256 validation. Select ridge separately in each family/objective by exact native KL. Freeze fitted models (no refit) and selected names BEFORE new test is collected. Report all candidates. New test hashes exclude prior panels. Full-vector corrections only, no inference charts or native residual access.",
+ "gates":{"quadratic_benefit":"Selected quadratic1152 has >=.05 more KL recovery than selected affine1152 under BOTH objectives, paired document-bootstrap95 lower bounds >0.","objective_benefit":"Selected sensitivity beats energy by >=.05 KL recovery in BOTH core1152 feature families with paired document-bootstrap95 lower bounds >0.","behavioral_repair":"Any selected core model recovers>=.80 KL with CE increase<=.02 and native top1 agreement>=.98."},
+ "scope":"Finite fixed quadratic feature family, not all nonlinear programs. Sampled local Fisher+energy surrogate, not exact KL training. Equal readout coefficient count does not mean equal total stored parameters or measured FLOPs. Original compiler fixed."
+}

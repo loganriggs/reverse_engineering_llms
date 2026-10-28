@@ -1,0 +1,13 @@
+{
+  "experiment": "H1009",
+  "hashes": {
+    "runner": "3d59b3e09801cf4f55d2015f5a4fb3a6e9505b0d26d2e7ee52894f0ccf65d0c5",
+    "natural": "5bf87b192bb04709107d1a9e320a42469e35648e7094fdd46ccde97dc7e29077",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "Capture normalized inputs and MLP writes in layers0,1,2 at fourfixedpositions on256historical documents. Fit each local predictor on768states/192discovery documents; evaluate256states/64confirmation documents. No output activation supplied to predictor.",
+  "models": "Mean baseline; rank16/rank32 input PCA then linear or full degree2 polynomial ridge prediction of1152dimensional write. PCA, feature centering/scaling and target mean fit on discovery only. Fixed ridge penalty0.01 in mean squared standardized-feature objective; no validation model selection.",
+  "metrics": "1-sum squared prediction error/sum squared deviation from training target mean; negative scores allowed. Also output-PCA oracle rank32 for compression-only comparison, explicitly given true output.",
+  "limits": "Teacher supplies native local input; not replacement of full attention+MLP block or first-three-layer prefix. Quadratic student is an empirical polynomial surrogate, not a semantic explanation. Existing development documents reused. Fourpositions perdocument not independent samples.",
+  "holdouts": "Only H998discovery/confirmation subset of original historical BSFtraining documents; original BSFvalidation/test not used."
+}

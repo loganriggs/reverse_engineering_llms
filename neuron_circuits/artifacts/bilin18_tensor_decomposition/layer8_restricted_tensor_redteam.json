@@ -1,0 +1,1670 @@
+{
+  "config": {
+    "status": "locked-after-initial-restricted-tensor-failure-before-rank-and-metric-redteam",
+    "seed": 20261113,
+    "layer": 8,
+    "dimension": 512,
+    "local_rank": 4,
+    "clusters": 64,
+    "primary_ridge_fraction": 0.0001,
+    "ridge_fractions": [
+      1e-06,
+      0.0001,
+      0.01
+    ],
+    "ranks": [
+      64,
+      128,
+      256,
+      512,
+      768,
+      1024,
+      1152
+    ],
+    "batch_size": 8,
+    "causal_position": 127,
+    "prototype_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14756,
+      "rows": 128
+    },
+    "natural_states": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 0,
+      "rows": 4000
+    },
+    "hypotheses": {
+      "R1_full_rank_reconstructs": "The joint full-rank program reaches held-out derivative R-squared at least 0.999 for every active prototype.",
+      "R2_both_sides_limit_rank128": "For at least six active prototypes, either the context-only or output-only rank-128 approximation remains below R-squared 0.90.",
+      "R3_rank512_is_usually_sufficient": "At least half of active prototypes reach joint held-out R-squared 0.90 by rank 512.",
+      "R4_route_metric_beats_global": "At rank 128, the route-conditioned metric has higher median held-out R-squared than the global FineWeb metric.",
+      "R5_ridge_choice_is_not_decisive": "Median route-conditioned rank-128 R-squared varies by at most 0.10 across the three predeclared ridge fractions.",
+      "R6_no_small_equal_rank_program": "The median smallest equal Tucker rank reaching held-out R-squared 0.90 is greater than 128.",
+      "R7_rank90_program_is_parameter_compressive": "When rank 0.90 is reached, the median Tucker parameter count is smaller than the dense restricted tensor."
+    }
+  },
+  "active_prototypes": [
+    61,
+    30,
+    28,
+    41,
+    3,
+    47,
+    1,
+    51
+  ],
+  "hypotheses": {
+    "R1_full_rank_reconstructs": {
+      "supported": true,
+      "minimum_r2": 1.0
+    },
+    "R2_both_sides_limit_rank128": {
+      "supported": true
+    },
+    "R3_rank512_is_usually_sufficient": {
+      "supported": false,
+      "passing": 0
+    },
+    "R4_route_metric_beats_global": {
+      "supported": false,
+      "route_median": 0.704259604215622,
+      "global_median": 0.7179304957389832
+    },
+    "R5_ridge_choice_is_not_decisive": {
+      "supported": true,
+      "medians": {
+        "1e-06": 0.6987111270427704,
+        "0.0001": 0.704259604215622,
+        "0.01": 0.7068077921867371
+      }
+    },
+    "R6_no_small_equal_rank_program": {
+      "supported": true,
+      "ranks90": [
+        768,
+        768,
+        768,
+        768,
+        768,
+        768,
+        768,
+        768
+      ]
+    },
+    "R7_rank90_program_is_parameter_compressive": {
+      "supported": true,
+      "median_parameters": 4128768.0,
+      "dense_parameters": 5308416
+    }
+  },
+  "ridge_rank128": {
+    "1e-06": [
+      0.6838582158088684,
+      0.7483043670654297,
+      0.6506409049034119,
+      0.5702694654464722,
+      0.7488850355148315,
+      0.7135640382766724,
+      0.7218165397644043,
+      0.6007211208343506
+    ],
+    "0.0001": [
+      0.6838752627372742,
+      0.7483385801315308,
+      0.6506829261779785,
+      0.5773656368255615,
+      0.7576173543930054,
+      0.7246439456939697,
+      0.7329738736152649,
+      0.6179798245429993
+    ],
+    "0.01": [
+      0.6855233907699585,
+      0.7510254979133606,
+      0.6546134948730469,
+      0.5869442820549011,
+      0.7604573965072632,
+      0.7280921936035156,
+      0.7363061904907227,
+      0.6228867173194885
+    ]
+  },
+  "results": {
+    "61": {
+      "train_sites": 964,
+      "test_sites": 975,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 964,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1050.0545654296875,
+            "condition_number": 10500546.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7364786267280579,
+              "output_train_r2": 0.676498532295227,
+              "joint_train_r2": 0.642505407333374,
+              "context_test_r2": 0.6784065961837769,
+              "output_test_r2": 0.6534504294395447,
+              "joint_test_r2": 0.613579511642456,
+              "context_energy": 0.736290454864502,
+              "output_energy": 0.6763977408409119
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8347601890563965,
+              "output_train_r2": 0.764701783657074,
+              "joint_train_r2": 0.7308152914047241,
+              "context_test_r2": 0.7540220618247986,
+              "output_test_r2": 0.7323296666145325,
+              "joint_test_r2": 0.6838752627372742,
+              "context_energy": 0.8345365524291992,
+              "output_energy": 0.7645822167396545
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9255479574203491,
+              "output_train_r2": 0.8619518876075745,
+              "joint_train_r2": 0.8372560739517212,
+              "context_test_r2": 0.8340010643005371,
+              "output_test_r2": 0.8234006762504578,
+              "joint_test_r2": 0.7694529294967651,
+              "context_energy": 0.9253224730491638,
+              "output_energy": 0.8618319630622864
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.985242486000061,
+              "output_train_r2": 0.9497545957565308,
+              "joint_train_r2": 0.9417163729667664,
+              "context_test_r2": 0.9141971468925476,
+              "output_test_r2": 0.9193265438079834,
+              "joint_test_r2": 0.872653067111969,
+              "context_energy": 0.9850782752037048,
+              "output_energy": 0.9496714472770691
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9984641075134277,
+              "output_train_r2": 0.9842087626457214,
+              "joint_train_r2": 0.9830746650695801,
+              "context_test_r2": 0.9576021432876587,
+              "output_test_r2": 0.9678616523742676,
+              "joint_test_r2": 0.9364213943481445,
+              "context_energy": 0.9983713030815125,
+              "output_energy": 0.9841673970222473
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9999992847442627,
+              "output_train_r2": 0.9974634647369385,
+              "joint_train_r2": 0.997462809085846,
+              "context_test_r2": 0.9887531995773315,
+              "output_test_r2": 0.9932448267936707,
+              "joint_test_r2": 0.9828994870185852,
+              "context_energy": 0.9999739527702332,
+              "output_energy": 0.9974530935287476
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7133965492248535,
+              "output_train_r2": 0.665248453617096,
+              "joint_train_r2": 0.6301380395889282,
+              "context_test_r2": 0.6835682392120361,
+              "output_test_r2": 0.6536024808883667,
+              "joint_test_r2": 0.6154735684394836,
+              "context_energy": 0.7228577733039856,
+              "output_energy": 0.675081729888916
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8061779737472534,
+              "output_train_r2": 0.7514978647232056,
+              "joint_train_r2": 0.7122302651405334,
+              "context_test_r2": 0.7630493640899658,
+              "output_test_r2": 0.7346462607383728,
+              "joint_test_r2": 0.6878423690795898,
+              "context_energy": 0.8126797080039978,
+              "output_energy": 0.7588396668434143
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.8979372978210449,
+              "output_train_r2": 0.8479868173599243,
+              "joint_train_r2": 0.8138463497161865,
+              "context_test_r2": 0.846162736415863,
+              "output_test_r2": 0.8276692628860474,
+              "joint_test_r2": 0.7769024968147278,
+              "context_energy": 0.9008787870407104,
+              "output_energy": 0.8525914549827576
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9686551094055176,
+              "output_train_r2": 0.9403935074806213,
+              "joint_train_r2": 0.922993004322052,
+              "context_test_r2": 0.9270811080932617,
+              "output_test_r2": 0.9243338704109192,
+              "joint_test_r2": 0.8839178681373596,
+              "context_energy": 0.969353437423706,
+              "output_energy": 0.9421326518058777
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9917474985122681,
+              "output_train_r2": 0.979731559753418,
+              "joint_train_r2": 0.9735600352287292,
+              "context_test_r2": 0.9685159921646118,
+              "output_test_r2": 0.9714487791061401,
+              "joint_test_r2": 0.9478966593742371,
+              "context_energy": 0.991893470287323,
+              "output_energy": 0.9803486466407776
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9989515542984009,
+              "output_train_r2": 0.9964461326599121,
+              "joint_train_r2": 0.9954795241355896,
+              "context_test_r2": 0.9922131896018982,
+              "output_test_r2": 0.9943609237670898,
+              "joint_test_r2": 0.9871749877929688,
+              "context_energy": 0.9989592432975769,
+              "output_energy": 0.99654221534729
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        }
+      }
+    },
+    "30": {
+      "train_sites": 306,
+      "test_sites": 280,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 306,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1043.845947265625,
+            "condition_number": 10438460.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.8455122113227844,
+              "output_train_r2": 0.7655225992202759,
+              "joint_train_r2": 0.7459882497787476,
+              "context_test_r2": 0.7398829460144043,
+              "output_test_r2": 0.7265046238899231,
+              "joint_test_r2": 0.6944420337677002,
+              "context_energy": 0.845238208770752,
+              "output_energy": 0.7653202414512634
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.9314957857131958,
+              "output_train_r2": 0.8456473350524902,
+              "joint_train_r2": 0.8317090272903442,
+              "context_test_r2": 0.7933252453804016,
+              "output_test_r2": 0.7887824773788452,
+              "joint_test_r2": 0.7483385801315308,
+              "context_energy": 0.9312142133712769,
+              "output_energy": 0.8454474806785583
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9925451278686523,
+              "output_train_r2": 0.9236271977424622,
+              "joint_train_r2": 0.9212443828582764,
+              "context_test_r2": 0.8487909436225891,
+              "output_test_r2": 0.8555652499198914,
+              "joint_test_r2": 0.8075830936431885,
+              "context_energy": 0.9922909736633301,
+              "output_energy": 0.9234520792961121
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9999999403953552,
+              "output_train_r2": 0.9809340834617615,
+              "joint_train_r2": 0.9809340834617615,
+              "context_test_r2": 0.9352914690971375,
+              "output_test_r2": 0.9261947870254517,
+              "joint_test_r2": 0.8932421207427979,
+              "context_energy": 0.9998856782913208,
+              "output_energy": 0.980820894241333
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9966030716896057,
+              "joint_train_r2": 0.9966030716896057,
+              "context_test_r2": 0.9735413193702698,
+              "output_test_r2": 0.9651889801025391,
+              "joint_test_r2": 0.9464237093925476,
+              "context_energy": 0.9999558925628662,
+              "output_energy": 0.9965430498123169
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9998391270637512,
+              "joint_train_r2": 0.9998391270637512,
+              "context_test_r2": 0.9936310648918152,
+              "output_test_r2": 0.9901602268218994,
+              "joint_test_r2": 0.9844008088111877,
+              "context_energy": 0.9999909996986389,
+              "output_energy": 0.9998213052749634
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7793689370155334,
+              "output_train_r2": 0.7372974753379822,
+              "joint_train_r2": 0.7101815938949585,
+              "context_test_r2": 0.7591029405593872,
+              "output_test_r2": 0.7319433689117432,
+              "joint_test_r2": 0.702305257320404,
+              "context_energy": 0.7257505655288696,
+              "output_energy": 0.6789010763168335
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8522778153419495,
+              "output_train_r2": 0.8086026906967163,
+              "joint_train_r2": 0.7790318727493286,
+              "context_test_r2": 0.8228593468666077,
+              "output_test_r2": 0.7992739081382751,
+              "joint_test_r2": 0.7641279697418213,
+              "context_energy": 0.8162216544151306,
+              "output_energy": 0.7634316682815552
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9220200777053833,
+              "output_train_r2": 0.8843675255775452,
+              "joint_train_r2": 0.8582814931869507,
+              "context_test_r2": 0.8868219256401062,
+              "output_test_r2": 0.8718061447143555,
+              "joint_test_r2": 0.8343797326087952,
+              "context_energy": 0.9035382270812988,
+              "output_energy": 0.8565107583999634
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9760885834693909,
+              "output_train_r2": 0.9548909068107605,
+              "joint_train_r2": 0.9416325092315674,
+              "context_test_r2": 0.9472872018814087,
+              "output_test_r2": 0.9445223808288574,
+              "joint_test_r2": 0.9152704477310181,
+              "context_energy": 0.9704240560531616,
+              "output_energy": 0.9440599083900452
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9937477111816406,
+              "output_train_r2": 0.9846141338348389,
+              "joint_train_r2": 0.9799466133117676,
+              "context_test_r2": 0.9775474071502686,
+              "output_test_r2": 0.9789757132530212,
+              "joint_test_r2": 0.9621742367744446,
+              "context_energy": 0.992189347743988,
+              "output_energy": 0.9810417890548706
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.999220073223114,
+              "output_train_r2": 0.9972903728485107,
+              "joint_train_r2": 0.9965714812278748,
+              "context_test_r2": 0.9945430755615234,
+              "output_test_r2": 0.9958788156509399,
+              "joint_test_r2": 0.9908431768417358,
+              "context_energy": 0.9990019798278809,
+              "output_energy": 0.9966598749160767
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 512
+        }
+      }
+    },
+    "28": {
+      "train_sites": 187,
+      "test_sites": 205,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 187,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1048.10498046875,
+            "condition_number": 10481050.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.860220193862915,
+              "output_train_r2": 0.7248632907867432,
+              "joint_train_r2": 0.7054398655891418,
+              "context_test_r2": 0.6449127197265625,
+              "output_test_r2": 0.6325075626373291,
+              "joint_test_r2": 0.5859832763671875,
+              "context_energy": 0.8598371744155884,
+              "output_energy": 0.724615216255188
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.9672904014587402,
+              "output_train_r2": 0.8309921026229858,
+              "joint_train_r2": 0.8242989778518677,
+              "context_test_r2": 0.7119770050048828,
+              "output_test_r2": 0.707425594329834,
+              "joint_test_r2": 0.6506829261779785,
+              "context_energy": 0.9668817520141602,
+              "output_energy": 0.8307276368141174
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9310847520828247,
+              "joint_train_r2": 0.9310847520828247,
+              "context_test_r2": 0.8194171190261841,
+              "output_test_r2": 0.7941725850105286,
+              "joint_test_r2": 0.7423782348632812,
+              "context_energy": 0.9997021555900574,
+              "output_energy": 0.9308363795280457
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9913306832313538,
+              "joint_train_r2": 0.9913306832313538,
+              "context_test_r2": 0.9200507402420044,
+              "output_test_r2": 0.8875211477279663,
+              "joint_test_r2": 0.8480079770088196,
+              "context_energy": 0.9998667240142822,
+              "output_energy": 0.9911599159240723
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9999997615814209,
+              "joint_train_r2": 0.9999997615814209,
+              "context_test_r2": 0.9667600393295288,
+              "output_test_r2": 0.9450094699859619,
+              "joint_test_r2": 0.9217716455459595,
+              "context_energy": 0.999946653842926,
+              "output_energy": 0.9999117851257324
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9999999403953552,
+              "joint_train_r2": 0.9999999403953552,
+              "context_test_r2": 0.9923484325408936,
+              "output_test_r2": 0.9904420971870422,
+              "joint_test_r2": 0.983433187007904,
+              "context_energy": 0.9999890327453613,
+              "output_energy": 0.99998539686203
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7133729457855225,
+              "output_train_r2": 0.6535489559173584,
+              "joint_train_r2": 0.6175341606140137,
+              "context_test_r2": 0.6771496534347534,
+              "output_test_r2": 0.6352427005767822,
+              "joint_test_r2": 0.5942140221595764,
+              "context_energy": 0.7000849843025208,
+              "output_energy": 0.6471872925758362
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8110746145248413,
+              "output_train_r2": 0.7447686195373535,
+              "joint_train_r2": 0.705943763256073,
+              "context_test_r2": 0.7629338502883911,
+              "output_test_r2": 0.7239342331886292,
+              "joint_test_r2": 0.675818681716919,
+              "context_energy": 0.7971799969673157,
+              "output_energy": 0.7379497289657593
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9050446152687073,
+              "output_train_r2": 0.8474537134170532,
+              "joint_train_r2": 0.815228283405304,
+              "context_test_r2": 0.8520421385765076,
+              "output_test_r2": 0.8249092102050781,
+              "joint_test_r2": 0.7752019166946411,
+              "context_energy": 0.8932054042816162,
+              "output_energy": 0.8403687477111816
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9713250994682312,
+              "output_train_r2": 0.9418535232543945,
+              "joint_train_r2": 0.9259041547775269,
+              "context_test_r2": 0.933451235294342,
+              "output_test_r2": 0.925359845161438,
+              "joint_test_r2": 0.888206422328949,
+              "context_energy": 0.9671327471733093,
+              "output_energy": 0.9375796318054199
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9923543930053711,
+              "output_train_r2": 0.9805364012718201,
+              "joint_train_r2": 0.974814772605896,
+              "context_test_r2": 0.9718465805053711,
+              "output_test_r2": 0.9723736643791199,
+              "joint_test_r2": 0.9512354135513306,
+              "context_energy": 0.9913243055343628,
+              "output_energy": 0.9788253307342529
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9990224838256836,
+              "output_train_r2": 0.9966204762458801,
+              "joint_train_r2": 0.9957186579704285,
+              "context_test_r2": 0.9930249452590942,
+              "output_test_r2": 0.9946845173835754,
+              "joint_test_r2": 0.9882453680038452,
+              "context_energy": 0.9988886117935181,
+              "output_energy": 0.9962828755378723
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        }
+      }
+    },
+    "41": {
+      "train_sites": 118,
+      "test_sites": 105,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 118,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1086.5,
+            "condition_number": 10865000.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.9108044505119324,
+              "output_train_r2": 0.7217289805412292,
+              "joint_train_r2": 0.7085833549499512,
+              "context_test_r2": 0.5562834143638611,
+              "output_test_r2": 0.5692377686500549,
+              "joint_test_r2": 0.5079294443130493,
+              "context_energy": 0.9099957346916199,
+              "output_energy": 0.7212199568748474
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.9999999403953552,
+              "output_train_r2": 0.8491681218147278,
+              "joint_train_r2": 0.849168062210083,
+              "context_test_r2": 0.6473108530044556,
+              "output_test_r2": 0.6444345116615295,
+              "joint_test_r2": 0.5773656368255615,
+              "context_energy": 0.9992198348045349,
+              "output_energy": 0.8486161231994629
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9999999403953552,
+              "output_train_r2": 0.9564093947410583,
+              "joint_train_r2": 0.9564093947410583,
+              "context_test_r2": 0.7876481413841248,
+              "output_test_r2": 0.7374833822250366,
+              "joint_test_r2": 0.6782642602920532,
+              "context_energy": 0.99950110912323,
+              "output_energy": 0.9558894634246826
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9999997019767761,
+              "joint_train_r2": 0.9999997019767761,
+              "context_test_r2": 0.8994786739349365,
+              "output_test_r2": 0.860869288444519,
+              "joint_test_r2": 0.8111002445220947,
+              "context_energy": 0.9997681975364685,
+              "output_energy": 0.9996805191040039
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9999999403953552,
+              "joint_train_r2": 0.9999999403953552,
+              "context_test_r2": 0.9569737315177917,
+              "output_test_r2": 0.9538747072219849,
+              "joint_test_r2": 0.9219772219657898,
+              "context_energy": 0.999906063079834,
+              "output_energy": 0.999893307685852
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9896706342697144,
+              "output_test_r2": 0.991133451461792,
+              "joint_test_r2": 0.9815722107887268,
+              "context_energy": 0.999980628490448,
+              "output_energy": 0.999979555606842
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.6350985765457153,
+              "output_train_r2": 0.6017482280731201,
+              "joint_train_r2": 0.5521054863929749,
+              "context_test_r2": 0.6205565929412842,
+              "output_test_r2": 0.6011833548545837,
+              "joint_test_r2": 0.5502818822860718,
+              "context_energy": 0.6214545965194702,
+              "output_energy": 0.5559231042861938
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.7348639965057373,
+              "output_train_r2": 0.6943378448486328,
+              "joint_train_r2": 0.6378241777420044,
+              "context_test_r2": 0.7069146633148193,
+              "output_test_r2": 0.688937783241272,
+              "joint_test_r2": 0.6275602579116821,
+              "context_energy": 0.7438804507255554,
+              "output_energy": 0.6692938804626465
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.84698885679245,
+              "output_train_r2": 0.8048263788223267,
+              "joint_train_r2": 0.752254843711853,
+              "context_test_r2": 0.8037328720092773,
+              "output_test_r2": 0.7938761711120605,
+              "joint_test_r2": 0.727398157119751,
+              "context_energy": 0.8646644949913025,
+              "output_energy": 0.7983952164649963
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9477384090423584,
+              "output_train_r2": 0.9187488555908203,
+              "joint_train_r2": 0.8893617391586304,
+              "context_test_r2": 0.9038376212120056,
+              "output_test_r2": 0.9071435332298279,
+              "joint_test_r2": 0.853116512298584,
+              "context_energy": 0.9582394957542419,
+              "output_energy": 0.9210824370384216
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9851632714271545,
+              "output_train_r2": 0.9716495275497437,
+              "joint_train_r2": 0.9605221152305603,
+              "context_test_r2": 0.9577173590660095,
+              "output_test_r2": 0.9643215537071228,
+              "joint_test_r2": 0.9324145317077637,
+              "context_energy": 0.9889775514602661,
+              "output_energy": 0.9732757210731506
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.997981607913971,
+              "output_train_r2": 0.9947912096977234,
+              "joint_train_r2": 0.9929285645484924,
+              "context_test_r2": 0.989530086517334,
+              "output_test_r2": 0.9928557872772217,
+              "joint_test_r2": 0.9831840991973877,
+              "context_energy": 0.9985878467559814,
+              "output_energy": 0.9953113198280334
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        }
+      }
+    },
+    "3": {
+      "train_sites": 100,
+      "test_sites": 101,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 100,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1048.95361328125,
+            "condition_number": 10489536.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.951371967792511,
+              "output_train_r2": 0.8294963240623474,
+              "joint_train_r2": 0.8227373957633972,
+              "context_test_r2": 0.7413411140441895,
+              "output_test_r2": 0.7466648817062378,
+              "joint_test_r2": 0.7116796970367432,
+              "context_energy": 0.951076090335846,
+              "output_energy": 0.8292765021324158
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9082351922988892,
+              "joint_train_r2": 0.9082351922988892,
+              "context_test_r2": 0.8063764572143555,
+              "output_test_r2": 0.7910550832748413,
+              "joint_test_r2": 0.7576173543930054,
+              "context_energy": 0.9997408986091614,
+              "output_energy": 0.9080175757408142
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9768715500831604,
+              "joint_train_r2": 0.9768715500831604,
+              "context_test_r2": 0.8735266923904419,
+              "output_test_r2": 0.8443642258644104,
+              "joint_test_r2": 0.8091304302215576,
+              "context_energy": 0.9998278617858887,
+              "output_energy": 0.9766799807548523
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9999999403953552,
+              "joint_train_r2": 0.9999999403953552,
+              "context_test_r2": 0.9373802542686462,
+              "output_test_r2": 0.923963189125061,
+              "joint_test_r2": 0.8908206224441528,
+              "context_energy": 0.9999200105667114,
+              "output_energy": 0.9999021887779236
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9715102910995483,
+              "output_test_r2": 0.9707454442977905,
+              "joint_test_r2": 0.9489441514015198,
+              "context_energy": 0.9999688267707825,
+              "output_energy": 0.9999663233757019
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9919545650482178,
+              "output_test_r2": 0.9929031133651733,
+              "joint_test_r2": 0.9853730797767639,
+              "context_energy": 0.9999935626983643,
+              "output_energy": 0.9999937415122986
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7994275093078613,
+              "output_train_r2": 0.7629206776618958,
+              "joint_train_r2": 0.7362445592880249,
+              "context_test_r2": 0.7783831357955933,
+              "output_test_r2": 0.7592763304710388,
+              "joint_test_r2": 0.7304589748382568,
+              "context_energy": 0.6838464140892029,
+              "output_energy": 0.6236593127250671
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8613530397415161,
+              "output_train_r2": 0.8224958181381226,
+              "joint_train_r2": 0.7933857440948486,
+              "context_test_r2": 0.8316309452056885,
+              "output_test_r2": 0.8132067918777466,
+              "joint_test_r2": 0.7782084345817566,
+              "context_energy": 0.7843748927116394,
+              "output_energy": 0.7181819081306458
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9253626465797424,
+              "output_train_r2": 0.8904280066490173,
+              "joint_train_r2": 0.8648062348365784,
+              "context_test_r2": 0.8896183371543884,
+              "output_test_r2": 0.8780480623245239,
+              "joint_test_r2": 0.8404742479324341,
+              "context_energy": 0.8854269981384277,
+              "output_energy": 0.8273450136184692
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9771082401275635,
+              "output_train_r2": 0.956392765045166,
+              "joint_train_r2": 0.9435752630233765,
+              "context_test_r2": 0.9469285607337952,
+              "output_test_r2": 0.9457650780677795,
+              "joint_test_r2": 0.9161036014556885,
+              "context_energy": 0.9644679427146912,
+              "output_energy": 0.9322187304496765
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9942302107810974,
+              "output_train_r2": 0.9849530458450317,
+              "joint_train_r2": 0.9806153774261475,
+              "context_test_r2": 0.9769734740257263,
+              "output_test_r2": 0.9792702794075012,
+              "joint_test_r2": 0.9619854092597961,
+              "context_energy": 0.9905819296836853,
+              "output_energy": 0.9769576191902161
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9993144869804382,
+              "output_train_r2": 0.997341513633728,
+              "joint_train_r2": 0.996708869934082,
+              "context_test_r2": 0.9943248629570007,
+              "output_test_r2": 0.9959219098091125,
+              "joint_test_r2": 0.9906787276268005,
+              "context_energy": 0.9987947940826416,
+              "output_energy": 0.9959439039230347
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 512
+        }
+      }
+    },
+    "47": {
+      "train_sites": 76,
+      "test_sites": 85,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 76,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1057.9248046875,
+            "condition_number": 10579248.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.9829244613647461,
+              "output_train_r2": 0.8417686820030212,
+              "joint_train_r2": 0.8394470810890198,
+              "context_test_r2": 0.7056981325149536,
+              "output_test_r2": 0.7074158191680908,
+              "joint_test_r2": 0.6659851670265198,
+              "context_energy": 0.9825716018676758,
+              "output_energy": 0.8414964079856873
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9279462695121765,
+              "joint_train_r2": 0.9279462695121765,
+              "context_test_r2": 0.7923317551612854,
+              "output_test_r2": 0.7594232559204102,
+              "joint_test_r2": 0.7246439456939697,
+              "context_energy": 0.9997208714485168,
+              "output_energy": 0.9276776313781738
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9922177791595459,
+              "joint_train_r2": 0.9922177791595459,
+              "context_test_r2": 0.8608001470565796,
+              "output_test_r2": 0.8190906643867493,
+              "joint_test_r2": 0.7800219058990479,
+              "context_energy": 0.9998128414154053,
+              "output_energy": 0.9919837117195129
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9302875995635986,
+              "output_test_r2": 0.9242812395095825,
+              "joint_test_r2": 0.8852889537811279,
+              "context_energy": 0.9999139904975891,
+              "output_energy": 0.9999013543128967
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9670546054840088,
+              "output_test_r2": 0.9695795774459839,
+              "joint_test_r2": 0.9438949823379517,
+              "context_energy": 0.9999663233757019,
+              "output_energy": 0.9999650716781616
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9905921816825867,
+              "output_test_r2": 0.9923998713493347,
+              "joint_test_r2": 0.9835484027862549,
+              "context_energy": 0.9999929666519165,
+              "output_energy": 0.9999933242797852
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.788622260093689,
+              "output_train_r2": 0.7468620538711548,
+              "joint_train_r2": 0.7188311815261841,
+              "context_test_r2": 0.7478200793266296,
+              "output_test_r2": 0.7233827114105225,
+              "joint_test_r2": 0.6900516748428345,
+              "context_energy": 0.6377270221710205,
+              "output_energy": 0.5695438981056213
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8586297035217285,
+              "output_train_r2": 0.8123760223388672,
+              "joint_train_r2": 0.7826327085494995,
+              "context_test_r2": 0.8116047382354736,
+              "output_test_r2": 0.7874789237976074,
+              "joint_test_r2": 0.7480186223983765,
+              "context_energy": 0.7541570067405701,
+              "output_energy": 0.6793001294136047
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.924748420715332,
+              "output_train_r2": 0.8860111236572266,
+              "joint_train_r2": 0.8601418733596802,
+              "context_test_r2": 0.8793447613716125,
+              "output_test_r2": 0.8628354072570801,
+              "joint_test_r2": 0.8216169476509094,
+              "context_energy": 0.8699268102645874,
+              "output_energy": 0.8042261004447937
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.975986123085022,
+              "output_train_r2": 0.9553834795951843,
+              "joint_train_r2": 0.9419418573379517,
+              "context_test_r2": 0.9435816407203674,
+              "output_test_r2": 0.9401248097419739,
+              "joint_test_r2": 0.9084134697914124,
+              "context_energy": 0.959850549697876,
+              "output_energy": 0.9233294725418091
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9935627579689026,
+              "output_train_r2": 0.9849143624305725,
+              "joint_train_r2": 0.9800711274147034,
+              "context_test_r2": 0.9756255149841309,
+              "output_test_r2": 0.9776407480239868,
+              "joint_test_r2": 0.9592913389205933,
+              "context_energy": 0.9893497228622437,
+              "output_energy": 0.9740288257598877
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9991600513458252,
+              "output_train_r2": 0.9973229765892029,
+              "joint_train_r2": 0.9965464472770691,
+              "context_test_r2": 0.9939882755279541,
+              "output_test_r2": 0.9955994486808777,
+              "joint_test_r2": 0.9900417327880859,
+              "context_energy": 0.9986386895179749,
+              "output_energy": 0.9954423308372498
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 512
+        }
+      }
+    },
+    "1": {
+      "train_sites": 68,
+      "test_sites": 68,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 68,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1059.409912109375,
+            "condition_number": 10594099.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.9935415387153625,
+              "output_train_r2": 0.8430290222167969,
+              "joint_train_r2": 0.8421034216880798,
+              "context_test_r2": 0.7060108184814453,
+              "output_test_r2": 0.7197129726409912,
+              "joint_test_r2": 0.678828239440918,
+              "context_energy": 0.9931092858314514,
+              "output_energy": 0.8427093029022217
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9317859411239624,
+              "joint_train_r2": 0.9317859411239624,
+              "context_test_r2": 0.7987073063850403,
+              "output_test_r2": 0.7648805379867554,
+              "joint_test_r2": 0.7329738736152649,
+              "context_energy": 0.9996673464775085,
+              "output_energy": 0.9314618110656738
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9972901940345764,
+              "joint_train_r2": 0.9972901940345764,
+              "context_test_r2": 0.8637827038764954,
+              "output_test_r2": 0.8168315887451172,
+              "joint_test_r2": 0.7801008224487305,
+              "context_energy": 0.9997730851173401,
+              "output_energy": 0.996997594833374
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9305327534675598,
+              "output_test_r2": 0.9287055134773254,
+              "joint_test_r2": 0.889667809009552,
+              "context_energy": 0.9998922348022461,
+              "output_energy": 0.9998806715011597
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9678470492362976,
+              "output_test_r2": 0.972577691078186,
+              "joint_test_r2": 0.9477056860923767,
+              "context_energy": 0.9999571442604065,
+              "output_energy": 0.9999555349349976
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9912868142127991,
+              "output_test_r2": 0.9941415190696716,
+              "joint_test_r2": 0.9859693050384521,
+              "context_energy": 0.9999911785125732,
+              "output_energy": 0.999991238117218
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7673993706703186,
+              "output_train_r2": 0.7287095189094543,
+              "joint_train_r2": 0.697511613368988,
+              "context_test_r2": 0.7531836032867432,
+              "output_test_r2": 0.7273222208023071,
+              "joint_test_r2": 0.6953579187393188,
+              "context_energy": 0.6423896551132202,
+              "output_energy": 0.5748950839042664
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8329856991767883,
+              "output_train_r2": 0.7963356375694275,
+              "joint_train_r2": 0.7609691023826599,
+              "context_test_r2": 0.8085120916366577,
+              "output_test_r2": 0.7895264029502869,
+              "joint_test_r2": 0.7498531341552734,
+              "context_energy": 0.7566297054290771,
+              "output_energy": 0.6818127036094666
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.90312260389328,
+              "output_train_r2": 0.8709977865219116,
+              "joint_train_r2": 0.837890625,
+              "context_test_r2": 0.8702144622802734,
+              "output_test_r2": 0.8615720272064209,
+              "joint_test_r2": 0.817769467830658,
+              "context_energy": 0.8706382513046265,
+              "output_energy": 0.8052098155021667
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9683039784431458,
+              "output_train_r2": 0.9470379948616028,
+              "joint_train_r2": 0.9292844533920288,
+              "context_test_r2": 0.936046838760376,
+              "output_test_r2": 0.9375775456428528,
+              "joint_test_r2": 0.9019379615783691,
+              "context_energy": 0.9598914384841919,
+              "output_energy": 0.9234763979911804
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9918115735054016,
+              "output_train_r2": 0.9814494848251343,
+              "joint_train_r2": 0.9753009676933289,
+              "context_test_r2": 0.9715641736984253,
+              "output_test_r2": 0.9757670760154724,
+              "joint_test_r2": 0.9544761180877686,
+              "context_energy": 0.9893583059310913,
+              "output_energy": 0.9739653468132019
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9990167021751404,
+              "output_train_r2": 0.9966323971748352,
+              "joint_train_r2": 0.9957243800163269,
+              "context_test_r2": 0.992712140083313,
+              "output_test_r2": 0.9951245784759521,
+              "joint_test_r2": 0.9883863925933838,
+              "context_energy": 0.9986327886581421,
+              "output_energy": 0.995408833026886
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 512
+        }
+      }
+    },
+    "51": {
+      "train_sites": 50,
+      "test_sites": 70,
+      "metrics": {
+        "route": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 50,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 9.999999747378752e-05,
+            "maximum_eigenvalue": 1032.6279296875,
+            "condition_number": 10326280.0
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.8331383466720581,
+              "joint_train_r2": 0.8331383466720581,
+              "context_test_r2": 0.6248856782913208,
+              "output_test_r2": 0.5971814393997192,
+              "joint_test_r2": 0.5574921369552612,
+              "context_energy": 0.9996474981307983,
+              "output_energy": 0.8328681588172913
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 1.0,
+              "output_train_r2": 0.9494189620018005,
+              "joint_train_r2": 0.9494189620018005,
+              "context_test_r2": 0.7293797731399536,
+              "output_test_r2": 0.6593441963195801,
+              "joint_test_r2": 0.6179798245429993,
+              "context_energy": 0.999725341796875,
+              "output_energy": 0.9491279721260071
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.8196139335632324,
+              "output_test_r2": 0.7787765264511108,
+              "joint_test_r2": 0.7267342805862427,
+              "context_energy": 0.9998130798339844,
+              "output_energy": 0.9997796416282654
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9132816791534424,
+              "output_test_r2": 0.9069674015045166,
+              "joint_test_r2": 0.8574293255805969,
+              "context_energy": 0.9999123811721802,
+              "output_energy": 0.9999082088470459
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9616133570671082,
+              "output_test_r2": 0.9635246396064758,
+              "joint_test_r2": 0.9336082339286804,
+              "context_energy": 0.9999653100967407,
+              "output_energy": 0.9999662041664124
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 0.9900028705596924,
+              "output_test_r2": 0.9915315508842468,
+              "joint_test_r2": 0.9821260571479797,
+              "context_energy": 0.9999927282333374,
+              "output_energy": 0.9999935030937195
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        },
+        "global": {
+          "covariance": {
+            "estimator": "uncentered_empirical_plus_trace_scaled_isotropic_ridge",
+            "rows": 2000,
+            "dimension": 1152,
+            "ridge_fraction": 0.0001,
+            "ridge_value": 9.999999747378752e-05,
+            "mean_empirical_variance": 1.0,
+            "minimum_eigenvalue": 0.0020963784772902727,
+            "maximum_eigenvalue": 1046.34814453125,
+            "condition_number": 499121.78125
+          },
+          "rows": [
+            {
+              "rank": 64,
+              "context_train_r2": 0.7258731126785278,
+              "output_train_r2": 0.6727813482284546,
+              "joint_train_r2": 0.6378840208053589,
+              "context_test_r2": 0.6766937971115112,
+              "output_test_r2": 0.6463819742202759,
+              "joint_test_r2": 0.6072518229484558,
+              "context_energy": 0.685404896736145,
+              "output_energy": 0.6296497583389282
+            },
+            {
+              "rank": 128,
+              "context_train_r2": 0.8249961137771606,
+              "output_train_r2": 0.7591732740402222,
+              "joint_train_r2": 0.7230882048606873,
+              "context_test_r2": 0.7591306567192078,
+              "output_test_r2": 0.7286370992660522,
+              "joint_test_r2": 0.6803481578826904,
+              "context_energy": 0.7867993712425232,
+              "output_energy": 0.7240661382675171
+            },
+            {
+              "rank": 256,
+              "context_train_r2": 0.9138097763061523,
+              "output_train_r2": 0.8560705780982971,
+              "joint_train_r2": 0.8269277811050415,
+              "context_test_r2": 0.846697986125946,
+              "output_test_r2": 0.8249093294143677,
+              "joint_test_r2": 0.7740097641944885,
+              "context_energy": 0.8873341083526611,
+              "output_energy": 0.831733226776123
+            },
+            {
+              "rank": 512,
+              "context_train_r2": 0.9755213260650635,
+              "output_train_r2": 0.9457772374153137,
+              "joint_train_r2": 0.9321808218955994,
+              "context_test_r2": 0.929969310760498,
+              "output_test_r2": 0.9238758087158203,
+              "joint_test_r2": 0.8848989009857178,
+              "context_energy": 0.9652392864227295,
+              "output_energy": 0.9341393113136292
+            },
+            {
+              "rank": 768,
+              "context_train_r2": 0.9937677383422852,
+              "output_train_r2": 0.9820679426193237,
+              "joint_train_r2": 0.9773985147476196,
+              "context_test_r2": 0.9699487686157227,
+              "output_test_r2": 0.9715242385864258,
+              "joint_test_r2": 0.9489483833312988,
+              "context_energy": 0.9908239841461182,
+              "output_energy": 0.9776453971862793
+            },
+            {
+              "rank": 1024,
+              "context_train_r2": 0.9992702603340149,
+              "output_train_r2": 0.9969385266304016,
+              "joint_train_r2": 0.996265172958374,
+              "context_test_r2": 0.9926693439483643,
+              "output_test_r2": 0.9945505857467651,
+              "joint_test_r2": 0.987779438495636,
+              "context_energy": 0.9988279342651367,
+              "output_energy": 0.9960628151893616
+            },
+            {
+              "rank": 1152,
+              "context_train_r2": 1.0,
+              "output_train_r2": 1.0,
+              "joint_train_r2": 1.0,
+              "context_test_r2": 1.0,
+              "output_test_r2": 1.0,
+              "joint_test_r2": 1.0,
+              "context_energy": 1.0,
+              "output_energy": 1.0
+            }
+          ],
+          "rank90": 768
+        }
+      }
+    }
+  }
+}

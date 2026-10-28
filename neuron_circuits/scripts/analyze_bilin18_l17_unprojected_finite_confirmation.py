@@ -1,0 +1,9 @@
+from pathlib import Path
+import json,numpy as np
+R=Path(__file__).resolve().parents[1];A=R/'artifacts/bilin18_tensor_decomposition';stem='bilin18_l17_unprojected_finite_confirmation';j=json.loads((A/f'{stem}.json').read_text());z=np.load(A/f'{stem}_rows.npz');e=z['errors'];d=z['effects'];assert e.shape==(8,3,24,128,2) and np.isfinite(e).all() and all(j['numerical_gates'].values());rec=1-e.sum((2,3))/d.sum((1,2))[:,None,:];ee=np.take(e,[0,7],axis=0)[...,1];dd=np.take(d,[0,7],axis=0)[...,1]
+def contrast(r):return np.array([r[0,1]-r[0,0],r[1,1]-r[1,0],r[0,0],r[1,0]])
+pt=contrast(np.take(rec,[0,7],axis=0)[...,1]);assert np.allclose(pt,contrast(1-ee.sum((2,3))/dd.sum((1,2))[:,None]));rng=np.random.default_rng(j['config']['bootstrap_seed']);boot=[]
+for _ in range(j['config']['bootstrap_samples']):
+ pairs=rng.integers(0,12,12);sw=np.bincount(np.r_[pairs,12+pairs],minlength=24);dw=np.bincount(rng.integers(0,128,128),minlength=128);rr=1-np.einsum('amsi,s,i->am',ee,sw,dw,optimize=True)/np.einsum('asi,s,i->a',dd,sw,dw,optimize=True)[:,None];boot.append(contrast(rr))
+boot=np.array(boot);radius=np.quantile(abs(boot-pt).max(1),.95);ci=np.stack([pt-radius,pt+radius],1);thresholds=np.array([-.02,-.02,.98,.98]);j.update(primary_names=['compact_minus_dense_negative2','compact_minus_dense_positive2','dense_recovery_negative2','dense_recovery_positive2'],primary=pt.tolist(),primary_joint4_ci95=ci.tolist(),primary_thresholds=thresholds.tolist(),primary_gates=(ci[:,0]>thresholds).tolist(),finite_KL_recovery=rec[...,1].tolist(),Fisher_recovery=rec[...,0].tolist(),raw_recovery=(1-z['raw_errors'].sum((2,3))/z['raw_effects'].sum((1,2))[:,None]).tolist());np.savez_compressed(A/f'{stem}_bootstrap.npz',primary=boot);(A/f'{stem}.json').write_text(json.dumps(j,indent=2)+'\n');print('primary',pt,'CI',ci,'gates',j['primary_gates'])
+for amp,r in zip(j['config']['amplitudes'],rec[...,1]):print(amp,r)

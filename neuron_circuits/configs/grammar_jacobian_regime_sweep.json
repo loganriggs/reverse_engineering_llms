@@ -1,0 +1,30 @@
+{
+  "status": "hypotheses-locked-after-real-model-jacobian-ontology-before-grammar-regime-sweep",
+  "runs": [
+    {"name": "seed0_rho0", "root": "artifacts/grammar_regimes/bilinear_pilot", "rho": 0.0, "seed": 0},
+    {"name": "seed0_rho05", "root": "artifacts/grammar_regimes/bilinear_pilot", "rho": 0.5, "seed": 0},
+    {"name": "seed0_rho1", "root": "artifacts/grammar_regimes/bilinear_pilot", "rho": 1.0, "seed": 0},
+    {"name": "seed1_rho0", "root": "artifacts/grammar_regimes/replicate_seed1_bilinear", "rho": 0.0, "seed": 1},
+    {"name": "seed1_rho05", "root": "artifacts/grammar_regimes/replicate_seed1_bilinear", "rho": 0.5, "seed": 1},
+    {"name": "seed1_rho1", "root": "artifacts/grammar_regimes/replicate_seed1_bilinear", "rho": 1.0, "seed": 1},
+    {"name": "seed2_rho0", "root": "artifacts/grammar_regimes/replicate_seed2_bilinear", "rho": 0.0, "seed": 2}
+  ],
+  "discovery_template": 0,
+  "evaluation_template": 6,
+  "examples_per_answer": 32,
+  "discovery_per_answer": 16,
+  "ranks": [0, 4, 16, 32, 64],
+  "null_replicates": 3,
+  "finite_relative_norms": [0.01, 0.05],
+  "batch_size": 32,
+  "seed": 20261225,
+  "hypotheses": {
+    "G0_jacobians_pass_finite_validation": "Every run and layer predicts one-sided one-percent activation edits with centered-logit energy fidelity at least 0.99 and five-percent edits with fidelity at least 0.95; the manual trace must reproduce native logits within 1e-5.",
+    "G1_reusable_rules_have_lower_early_chart_rank": "Across paired seeds, rho=0 Layer-0 centered Jacobian effective rank is at most 80 percent of rho=1.",
+    "G2_rules_have_a_more_compact_early_dictionary": "Across paired seeds, rho=0 Layer-0 rank-16 reconstruction fidelity exceeds rho=1 by at least 0.05.",
+    "G3_late_answer_interfaces_converge": "At the final layer, rho=0 versus rho=1 differ by at most 10 percent in effective rank and 0.05 in rank-16 fidelity.",
+    "G4_randomized_facts_increase_within_model_chart_variation": "Within every rho=0.5 run, randomized facts have at least 20 percent greater centered Jacobian variance energy than unrandomized facts at an early layer.",
+    "G5_rule_charts_have_stronger_spectral_outliers": "Across paired seeds, rho=0 Layer-0 leading-to-shuffled-null ratio is at least 1.25 times rho=1.",
+    "G6_depth_profiles_replicate_across_seeds": "Within each rho, centered effective-rank depth profiles have pairwise Spearman correlation at least 0.80."
+  }
+}

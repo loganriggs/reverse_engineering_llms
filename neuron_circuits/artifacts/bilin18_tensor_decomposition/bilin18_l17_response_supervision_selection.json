@@ -1,0 +1,204 @@
+{
+  "config": {
+    "status": "H261 locked before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "train_documents": 768,
+    "validation_documents": 256,
+    "supervised_heads": [
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "heldout_heads": [
+      1,
+      3,
+      5,
+      7
+    ],
+    "training_scale": 1.0,
+    "families": [
+      "affine1152",
+      "quadratic1152"
+    ],
+    "response_weights": [
+      0,
+      1,
+      10
+    ],
+    "ridge_strengths": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "seed": 20261205,
+    "models": [
+      "affine1152_beta0",
+      "affine1152_beta1",
+      "affine1152_beta10",
+      "quadratic1152_beta0",
+      "quadratic1152_beta1",
+      "quadratic1152_beta10"
+    ],
+    "frozen_stem": "bilin18_l17_response_supervision",
+    "selection_stem": "bilin18_l17_response_supervision",
+    "fit": "Freeze H259 input PCA/feature means/std. Natural loss normalized by training residual energy; supervised-head full-edit response loss normalized by training response energy. Equal sample weighting within each set, response coefficient beta0/1/10. Closed-form ridge, lambda=alpha*mean diagonal of combined feature normal matrix, intercept unpenalized. Response design rows have intercept0. Train first768, validate last256; choose alpha separately for each fixed beta by natural+beta*response normalized validation error. beta0 selection uses no response loss. No heldout-head responses in fit or selection. No refit. All beta outcomes retained, beta1 is primary, beta10 secondary.",
+    "gates": {
+      "heldout_transfer": "Quadratic beta1 improves missing-response fidelity over beta0 by>=.10 on ACTUAL heldout heads at BOTH scales, paired document-bootstrap95 lower bound>0.",
+      "supervised_learning": "Quadratic beta1 improves fidelity over beta0 by>=.10 on ACTUAL supervised heads at BOTH scales, lower bound>0.",
+      "behavioral_transfer": "Quadratic beta1 improves conditional KL over beta0 by>=.10 on ACTUAL heldout heads at BOTH scales, lower bound>0."
+    },
+    "scope": "Same128 H259 test documents reused. Head holdout means excluded from response targets/selection only; natural states contain all heads and PCA sees their ordinary context. H260 common-native-baseline mediation, float64 KL. No predictor input head ID, no test-native-error access. Core readout budgets unchanged; energy plus response objective differs from H259 state sensitivity."
+  },
+  "selected": {
+    "affine1152_beta0": "affine1152_beta0_alpha1.0",
+    "affine1152_beta1": "affine1152_beta1_alpha0.1",
+    "affine1152_beta10": "affine1152_beta10_alpha0.1",
+    "quadratic1152_beta0": "quadratic1152_beta0_alpha1.0",
+    "quadratic1152_beta1": "quadratic1152_beta1_alpha0.1",
+    "quadratic1152_beta10": "quadratic1152_beta10_alpha0.1"
+  },
+  "validation": {
+    "affine1152_beta0_alpha0.01": {
+      "natural_normalized_error": 0.8232204914093018,
+      "response_normalized_error": 1.257637858390808,
+      "selection_score": 0.8232204914093018
+    },
+    "affine1152_beta0_alpha0.1": {
+      "natural_normalized_error": 0.7741238474845886,
+      "response_normalized_error": 1.2052702903747559,
+      "selection_score": 0.7741238474845886
+    },
+    "affine1152_beta0_alpha1.0": {
+      "natural_normalized_error": 0.6957824230194092,
+      "response_normalized_error": 1.0358364582061768,
+      "selection_score": 0.6957824230194092
+    },
+    "affine1152_beta1_alpha0.01": {
+      "natural_normalized_error": 0.7776148915290833,
+      "response_normalized_error": 0.8354939818382263,
+      "selection_score": 1.6131088733673096
+    },
+    "affine1152_beta1_alpha0.1": {
+      "natural_normalized_error": 0.7204350233078003,
+      "response_normalized_error": 0.8342372179031372,
+      "selection_score": 1.5546722412109375
+    },
+    "affine1152_beta1_alpha1.0": {
+      "natural_normalized_error": 0.75630122423172,
+      "response_normalized_error": 0.8553392291069031,
+      "selection_score": 1.611640453338623
+    },
+    "affine1152_beta10_alpha0.01": {
+      "natural_normalized_error": 1.2275770902633667,
+      "response_normalized_error": 0.778662383556366,
+      "selection_score": 9.014200925827026
+    },
+    "affine1152_beta10_alpha0.1": {
+      "natural_normalized_error": 0.9344468116760254,
+      "response_normalized_error": 0.7926955223083496,
+      "selection_score": 8.861402034759521
+    },
+    "affine1152_beta10_alpha1.0": {
+      "natural_normalized_error": 0.9109799861907959,
+      "response_normalized_error": 0.8503546714782715,
+      "selection_score": 9.41452670097351
+    },
+    "quadratic1152_beta0_alpha0.01": {
+      "natural_normalized_error": 0.6495117545127869,
+      "response_normalized_error": 1.34383225440979,
+      "selection_score": 0.6495117545127869
+    },
+    "quadratic1152_beta0_alpha0.1": {
+      "natural_normalized_error": 0.586276113986969,
+      "response_normalized_error": 1.1100165843963623,
+      "selection_score": 0.586276113986969
+    },
+    "quadratic1152_beta0_alpha1.0": {
+      "natural_normalized_error": 0.574272632598877,
+      "response_normalized_error": 0.9860863089561462,
+      "selection_score": 0.574272632598877
+    },
+    "quadratic1152_beta1_alpha0.01": {
+      "natural_normalized_error": 0.5975046753883362,
+      "response_normalized_error": 0.6410866379737854,
+      "selection_score": 1.2385913133621216
+    },
+    "quadratic1152_beta1_alpha0.1": {
+      "natural_normalized_error": 0.569214403629303,
+      "response_normalized_error": 0.6372635960578918,
+      "selection_score": 1.2064779996871948
+    },
+    "quadratic1152_beta1_alpha1.0": {
+      "natural_normalized_error": 0.6076024770736694,
+      "response_normalized_error": 0.6801221370697021,
+      "selection_score": 1.2877246141433716
+    },
+    "quadratic1152_beta10_alpha0.01": {
+      "natural_normalized_error": 0.7404555082321167,
+      "response_normalized_error": 0.6150746941566467,
+      "selection_score": 6.891202449798584
+    },
+    "quadratic1152_beta10_alpha0.1": {
+      "natural_normalized_error": 0.6674208641052246,
+      "response_normalized_error": 0.6107786893844604,
+      "selection_score": 6.775207757949829
+    },
+    "quadratic1152_beta10_alpha1.0": {
+      "natural_normalized_error": 0.7431612610816956,
+      "response_normalized_error": 0.6519801616668701,
+      "selection_score": 7.262962877750397
+    }
+  },
+  "normal_equation_relative_residual": {
+    "affine1152_beta0_alpha0.01": 1.711711336269982e-15,
+    "affine1152_beta0_alpha0.1": 1.6839929794062696e-15,
+    "affine1152_beta0_alpha1.0": 1.9669926673536185e-15,
+    "affine1152_beta1_alpha0.01": 2.0838353937157735e-15,
+    "affine1152_beta1_alpha0.1": 1.917405485456522e-15,
+    "affine1152_beta1_alpha1.0": 1.41899844819693e-15,
+    "affine1152_beta10_alpha0.01": 2.9358852490380754e-15,
+    "affine1152_beta10_alpha0.1": 2.2176511966687696e-15,
+    "affine1152_beta10_alpha1.0": 1.413789910441875e-15,
+    "quadratic1152_beta0_alpha0.01": 1.909777186561547e-15,
+    "quadratic1152_beta0_alpha0.1": 1.5799182490072465e-15,
+    "quadratic1152_beta0_alpha1.0": 1.227333533421395e-15,
+    "quadratic1152_beta1_alpha0.01": 1.719302436193638e-15,
+    "quadratic1152_beta1_alpha0.1": 1.443582303772974e-15,
+    "quadratic1152_beta1_alpha1.0": 1.1007340173525847e-15,
+    "quadratic1152_beta10_alpha0.01": 2.1061673717556385e-15,
+    "quadratic1152_beta10_alpha0.1": 1.5362751387222752e-15,
+    "quadratic1152_beta10_alpha1.0": 1.1287004052257025e-15
+  }
+}

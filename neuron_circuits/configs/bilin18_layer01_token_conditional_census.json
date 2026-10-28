@@ -1,0 +1,15 @@
+{
+  "status": "locked-after-isolated-token-redteam-before-within-token-test",
+  "source_config": "configs/bilin18_layer01_supervised_feature_census.json",
+  "minimum_within_token_pairs": 500,
+  "coalition_sizes": [1, 4, 16, 64, 256],
+  "hypotheses": {
+    "T0_conditional_coverage": "At least 20 labels have 500 or more held-out positive-negative pairs sharing the exact same current token.",
+    "T1_model_behavior_uses_context": "Among conditionally eligible labels, the model's median within-current-token output-logit AUROC is at least 0.60.",
+    "T2_layer1_coalitions_encode_context": "Layer-1 rank-64 coalitions have median within-current-token AUROC at least 0.60 on conditionally competent labels.",
+    "T3_layer1_approaches_model_behavior": "Layer-1 rank-256 conditional AUROC is within 0.05 of the model-output conditional AUROC median.",
+    "T4_depth_improves_conditional_code": "Layer 1 exceeds layer 0 by at least 0.02 median conditional AUROC at rank 64.",
+    "T5_conditional_code_is_not_single_neuron_aligned": "Rank-64 exceeds the best single native neuron by at least 0.05 median conditional AUROC in layer 1.",
+    "T6_exact_token_matching_removes_embedding_only_explanations": "Every scored positive-negative comparison shares the exact current token, so any deterministic isolated-token or embedding-only score has AUROC 0.5."
+  }
+}

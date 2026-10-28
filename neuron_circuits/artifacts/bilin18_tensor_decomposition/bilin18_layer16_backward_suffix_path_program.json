@@ -1,0 +1,325 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-local-state-router-failure-before-weight-derived-backward-path-program",
+    "seed": 20261119,
+    "batch_size": 2,
+    "layer": 16,
+    "final_layer": 17,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "factor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_adjoint_factors.pt",
+    "static_result_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_suffix_identity_residual_redteam.json",
+    "path_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 18000,
+      "rows": 64,
+      "factor_dataset": "discovery",
+      "factor_start": 0
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19600,
+        "rows": 32,
+        "factor_dataset": "fineweb",
+        "factor_start": 0
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 900,
+        "rows": 32,
+        "factor_dataset": "wikitext",
+        "factor_start": 0
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 900,
+        "rows": 32,
+        "factor_dataset": "tinystories",
+        "factor_start": 0
+      }
+    },
+    "fit_components": [
+      "prediction",
+      "target",
+      "margin"
+    ],
+    "hypotheses": {
+      "P0_four_path_backward_program_is_exact": "The four weight-derived path adjoints and behavioral effects recompose saved native effects to relative error at most 1e-5.",
+      "P1_two_backward_paths_are_sufficient": "The discovery-selected two path types retain at least 0.90 behavioral fidelity for prediction, target, and margin on every evaluation corpus.",
+      "P2_three_backward_paths_are_high_fidelity": "The discovery-selected three path types retain at least 0.95 behavioral fidelity for prediction, target, and margin on every evaluation corpus.",
+      "P3_attention_response_is_material": "Removing both attention-backward paths leaves less than 0.95 fidelity for at least one component on every corpus.",
+      "P4_final_mlp_response_is_material": "Removing both final-MLP-backward paths leaves less than 0.95 fidelity for at least one component on every corpus.",
+      "P5_path_order_transfers_ood": "For two- and three-path programs, each OOD aggregate fidelity is within 0.10 of FineWeb.",
+      "P6_short_program_can_have_broad_path_vectors": "At least one individual path family has write-adjoint R90 of at least 128 on discovery.",
+      "P7_context_executed_program_resolves_static_map_failure": "The exact four-path program is at least 0.50 better than the best static shared suffix behavioral fidelity for every fitted component and corpus."
+    }
+  },
+  "hypotheses": {
+    "P0_four_path_backward_program_is_exact": {
+      "supported": false,
+      "maximum_write_adjoint_error": 0.0002384358103128737,
+      "maximum_same_graph_internal_error": 1.1537702803227189e-07,
+      "maximum_behavioral_error": 1.2903700806677758e-06
+    },
+    "P1_two_backward_paths_are_sufficient": {
+      "supported": false
+    },
+    "P2_three_backward_paths_are_high_fidelity": {
+      "supported": true
+    },
+    "P3_attention_response_is_material": {
+      "supported": false
+    },
+    "P4_final_mlp_response_is_material": {
+      "supported": true
+    },
+    "P5_path_order_transfers_ood": {
+      "supported": true
+    },
+    "P6_short_program_can_have_broad_path_vectors": {
+      "supported": false
+    },
+    "P7_context_executed_program_resolves_static_map_failure": {
+      "supported": false
+    }
+  },
+  "path_names": [
+    "final_residual__mixed_direct",
+    "final_residual__attention",
+    "final_mlp__mixed_direct",
+    "final_mlp__attention"
+  ],
+  "selection": {
+    "1": {
+      "indices": [
+        1
+      ],
+      "paths": [
+        "final_residual__attention"
+      ],
+      "discovery_fidelity": 0.10275115638299592
+    },
+    "2": {
+      "indices": [
+        0,
+        2
+      ],
+      "paths": [
+        "final_residual__mixed_direct",
+        "final_mlp__mixed_direct"
+      ],
+      "discovery_fidelity": 0.9578405967731802
+    },
+    "3": {
+      "indices": [
+        0,
+        1,
+        2
+      ],
+      "paths": [
+        "final_residual__mixed_direct",
+        "final_residual__attention",
+        "final_mlp__mixed_direct"
+      ],
+      "discovery_fidelity": 0.9770224715556328
+    }
+  },
+  "discovery_path_rank90": {
+    "ce": {
+      "final_residual__mixed_direct": 94,
+      "final_residual__attention": 39,
+      "final_mlp__mixed_direct": 68,
+      "final_mlp__attention": 28
+    },
+    "prediction": {
+      "final_residual__mixed_direct": 51,
+      "final_residual__attention": 17,
+      "final_mlp__mixed_direct": 19,
+      "final_mlp__attention": 21
+    },
+    "target": {
+      "final_residual__mixed_direct": 99,
+      "final_residual__attention": 26,
+      "final_mlp__mixed_direct": 40,
+      "final_mlp__attention": 23
+    },
+    "margin": {
+      "final_residual__mixed_direct": 96,
+      "final_residual__attention": 37,
+      "final_mlp__mixed_direct": 70,
+      "final_mlp__attention": 32
+    }
+  },
+  "results": {
+    "fineweb": {
+      "sites": 128,
+      "aggregate_program_fidelity": {
+        "1": 0.09277956523878006,
+        "2": 0.9624626172027806,
+        "3": 0.9690732250709205,
+        "4": 0.999999999999252
+      },
+      "components": {
+        "ce": {
+          "program_fidelity": {
+            "1": 0.0829655168772635,
+            "2": 0.9850488528250906,
+            "3": 0.9852575927513741,
+            "4": 0.999999999998785
+          },
+          "no_attention_fidelity": 0.9850488528250906,
+          "no_final_mlp_fidelity": -0.05191153887254174,
+          "static_behavior_fidelity": 0.23562995450206925
+        },
+        "prediction": {
+          "program_fidelity": {
+            "1": 0.14181932513989892,
+            "2": 0.9473488516611274,
+            "3": 0.9592428667958288,
+            "4": 0.9999999999992799
+          },
+          "no_attention_fidelity": 0.9473488516611274,
+          "no_final_mlp_fidelity": -0.7820786419167756,
+          "static_behavior_fidelity": 0.4502130330923977
+        },
+        "target": {
+          "program_fidelity": {
+            "1": 0.11269803730908956,
+            "2": 0.9576608294762555,
+            "3": 0.9633088263690678,
+            "4": 0.9999999999993456
+          },
+          "no_attention_fidelity": 0.9576608294762555,
+          "no_final_mlp_fidelity": -0.7203905661184817,
+          "static_behavior_fidelity": 0.36919368912784445
+        },
+        "margin": {
+          "program_fidelity": {
+            "1": -0.00674071694718914,
+            "2": 0.9910157068715854,
+            "3": 0.9918299241474157,
+            "4": 0.9999999999990651
+          },
+          "no_attention_fidelity": 0.9910157068715854,
+          "no_final_mlp_fidelity": 0.36123381813955957,
+          "static_behavior_fidelity": 0.25411347105584126
+        }
+      }
+    },
+    "wikitext": {
+      "sites": 128,
+      "aggregate_program_fidelity": {
+        "1": 0.11805770968611717,
+        "2": 0.9810886017005461,
+        "3": 0.9855035486267244,
+        "4": 0.9999999999993294
+      },
+      "components": {
+        "ce": {
+          "program_fidelity": {
+            "1": 0.022472442369008472,
+            "2": 0.9840110270116378,
+            "3": 0.9900113298949146,
+            "4": 0.9999999999989991
+          },
+          "no_attention_fidelity": 0.9840110270116378,
+          "no_final_mlp_fidelity": 0.3887645064905293,
+          "static_behavior_fidelity": 0.23799066841421046
+        },
+        "prediction": {
+          "program_fidelity": {
+            "1": 0.16250908860977464,
+            "2": 0.9775488102213321,
+            "3": 0.9832930801350945,
+            "4": 0.9999999999994605
+          },
+          "no_attention_fidelity": 0.9775488102213321,
+          "no_final_mlp_fidelity": -0.5016401650804863,
+          "static_behavior_fidelity": 0.42270931089924135
+        },
+        "target": {
+          "program_fidelity": {
+            "1": 0.1405241072049066,
+            "2": 0.980309274939884,
+            "3": 0.9854455715466948,
+            "4": 0.9999999999993648
+          },
+          "no_attention_fidelity": 0.980309274939884,
+          "no_final_mlp_fidelity": -0.3632986004002696,
+          "static_behavior_fidelity": 0.37952012683661074
+        },
+        "margin": {
+          "program_fidelity": {
+            "1": -0.01795609992214353,
+            "2": 0.9893542057855407,
+            "3": 0.9895759009695199,
+            "4": 0.9999999999990065
+          },
+          "no_attention_fidelity": 0.9893542057855407,
+          "no_final_mlp_fidelity": 0.5251178713062898,
+          "static_behavior_fidelity": 0.18993511131886132
+        }
+      }
+    },
+    "tinystories": {
+      "sites": 128,
+      "aggregate_program_fidelity": {
+        "1": 0.15061757366572348,
+        "2": 0.9141792264694211,
+        "3": 0.978637907053057,
+        "4": 0.9999999999992801
+      },
+      "components": {
+        "ce": {
+          "program_fidelity": {
+            "1": -0.09668473345218587,
+            "2": 0.972046432289648,
+            "3": 0.9736459689404618,
+            "4": 0.999999999998335
+          },
+          "no_attention_fidelity": 0.972046432289648,
+          "no_final_mlp_fidelity": -0.9268256731312954,
+          "static_behavior_fidelity": -0.17678835326513553
+        },
+        "prediction": {
+          "program_fidelity": {
+            "1": 0.2042246533949087,
+            "2": 0.9010483302920025,
+            "3": 0.984494898678922,
+            "4": 0.9999999999993802
+          },
+          "no_attention_fidelity": 0.9010483302920025,
+          "no_final_mlp_fidelity": -2.456053260080568,
+          "static_behavior_fidelity": 0.5390471507870015
+        },
+        "target": {
+          "program_fidelity": {
+            "1": 0.2136798931250784,
+            "2": 0.8967490255546061,
+            "3": 0.9829423266981999,
+            "4": 0.9999999999992767
+          },
+          "no_attention_fidelity": 0.8967490255546061,
+          "no_final_mlp_fidelity": -3.15749751422996,
+          "static_behavior_fidelity": 0.3732631734960147
+        },
+        "margin": {
+          "program_fidelity": {
+            "1": -0.10107436348085463,
+            "2": 0.9803550074818528,
+            "3": 0.9570373882366314,
+            "4": 0.9999999999990867
+          },
+          "no_attention_fidelity": 0.9803550074818528,
+          "no_final_mlp_fidelity": -0.15241238110253574,
+          "static_behavior_fidelity": 0.034371079199676746
+        }
+      }
+    }
+  }
+}

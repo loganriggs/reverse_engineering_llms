@@ -1,0 +1,24 @@
+{
+  "status": "locked-before-results",
+  "seed": 20261103,
+  "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+  "start": 19752,
+  "rows": 64,
+  "positions": [31,63,95,126],
+  "batch_size": 8,
+  "ranks": [0,16,64,128,256,512,1152],
+  "encoders": ["pca","operator","random"],
+  "scales": [0.05,1.0],
+  "rules": ["context_only","symmetric","both","cross"],
+  "fit": "All encoders use old2048 normalized natural inputs and native weights only. PCA minimizes context reconstruction error. Operator encoder minimizes expected isotropic Jacobian reconstruction error under discovery context covariance using exact weight-derived metric G. Random nested orthogonal encoder is a control. No response fitting or selection.",
+  "operator_metric": "G satisfies ||J_raw(v)||_F^2=v^T G v for the bilinear MLP before RMS. Compute G analytically from Left,Right,Down. With covariance C, top eigenvectors V of C^(1/2) G C^(1/2) give decoder C^(1/2)V and encoder V^T C^(-1/2). This is generally an oblique context projection, not output compression.",
+  "rules_definition": "Let y=x-mu, m=(y+y')/2, delta=y'-y, P=decoder*encoder, and B symmetric bilinear native write. All rules retain exact2B(mu,delta). context_only adds2B(Pm,delta); symmetric addsB(Pm,delta)+B(m,Pdelta); both adds2B(Pm,Pdelta); cross adds2B(Pm,delta)+2B(m,Pdelta)-2B(Pm,Pdelta). Last3 are integrable quadratic state decoders with discovery-only mean calibration.",
+  "gates": {
+    "compact_response": "A rank<=64 context-only rule reaches>=.80 full-response fidelity across all heads.",
+    "compact_integrable": "A rank<=64 integrable rule reaches>=.80 full-response fidelity and>=.80 natural-write R2.",
+    "operator_advantage": "Operator64 context-only improves full-response fidelity by>=.10 over PCA64.",
+    "consistency": "Integrable triangle cycles relative RMS<=1e-4 and full-rank finite replay relative RMS<=1e-4."
+  },
+  "scope": "Full1152-dimensional L8 writes and all9 local head responses, with exact RMS-normalized endpoints. Context-only can be path dependent; report triangle cycles rather than treating it as a forward state decoder. No nonlinear suffix test in this batch.",
+  "cost": "Rank is only the encoded midpoint/context role. Full change vectors, exact normalization and mean-linear term remain; all native Left/Right/Down weights are retained. No per-state SVD. Encoder/decoder store2*1152*r values (PCA/random may share transpose). This does not establish total r-read or parameter compression."
+}

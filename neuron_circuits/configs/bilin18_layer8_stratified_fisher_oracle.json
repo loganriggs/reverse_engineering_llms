@@ -1,0 +1,45 @@
+{
+  "status": "hypotheses-locked-after-mc16-estimator-failure-before-stratified-fisher-replication",
+  "layer": 8,
+  "dimension": 512,
+  "coarse_dimension": 64,
+  "refine_dimension": 256,
+  "queries": 16,
+  "budget": 16,
+  "shortlist": 128,
+  "batch_size": 4,
+  "discovery_positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "causal_position": 127,
+  "sites_per_query": 2,
+  "edit_norm_fraction": 0.05,
+  "exact_top_tokens": 16,
+  "tail_samples_per_split": 16,
+  "component_removal_fraction": 0.1,
+  "finite_modes_per_site": 4,
+  "seed": 20261021,
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 10000,
+    "rows": 300
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 11800,
+      "rows": 300
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 0,
+      "rows": 300
+    }
+  },
+  "hypotheses": {
+    "R1_stratified_sketch_is_stable": "Independent tail estimates with exact top-16 quadrature have median impact correlation at least 0.90 and top-16 recall at least 0.75 on both corpora.",
+    "R2_fisher_modes_pass_matched_finite_control": "Fisher-top modes have at least twice the median exact KL of local-amplitude-matched controls and win at least 75% of pairs on both corpora.",
+    "R3_fisher_set_has_larger_combined_effect": "The matched-norm Fisher route has at least 1.25 times the local oracle's median native KL on both corpora.",
+    "R4_individual_importance_cancels_in_combination": "R2 passes while the Fisher route has at most half the local oracle's median KL on both corpora.",
+    "R5_local_and_fisher_supports_differ": "Median support overlap of the two top-16 sets is at most 0.50 on both corpora.",
+    "R6_hierarchy_targets_local_computation": "The hierarchical route has higher finite-effect fidelity to the local oracle than to the Fisher oracle on both corpora."
+  }
+}

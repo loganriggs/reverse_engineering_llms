@@ -1,0 +1,1089 @@
+{
+  "config": {
+    "status": "locked-after-unsupervised-motifs-before-supervised-anchor-comparison",
+    "direction_dictionary": "artifacts/bilin18_tensor_decomposition/bilin18_competent_feature_direction_dictionary.json",
+    "census_config": "configs/bilin18_layer01_supervised_feature_census.json",
+    "motif_redteam": "artifacts/bilin18_tensor_decomposition/bilin18_unsupervised_weight_motif_redteam.json",
+    "sites_per_feature": 50,
+    "batch_size": 4,
+    "finite_validation_sites": 12,
+    "finite_gate_keep": 0.9,
+    "matched_null_replicates": 10000,
+    "seed": 20262111,
+    "hypotheses": {
+      "A0_exact_forward": "An all-one head gate reproduces the checkpoint logits to maximum absolute error at most 0.02.",
+      "A1_local_causal_measure": "For 10% head downscales, gate-gradient predictions have correlation at least 0.95 and sign agreement at least 0.9 with finite score changes.",
+      "A2_supervised_profiles_replicate": "The two context splits' semantic head-similarity geometries correlate at least 0.5.",
+      "A3_weight_motifs_recover_supervised_function": "Frozen bus-robust component pairs have greater semantic-profile cosine than exact layer-pair-matched controls with one-sided randomization p below 0.01.",
+      "A4_recovery_is_semantic": "The component-versus-control enrichment is at least 0.03 larger for the semantic ontology than for its Gram-matched vocabulary permutation."
+    }
+  },
+  "method": {
+    "labels": "32 competence-gated members of the predeclared 50-label census, with 50 uniformly sampled positive contexts per label",
+    "causal_fingerprint": "d(feature logit contrast)/d(multiplicative attention-head write gate)",
+    "discovery_leakage": "none: bus-robust weight components were frozen before this comparison",
+    "matched_control": "non-component head pairs with the identical unordered layer pair",
+    "semantic_null": "one shared vocabulary permutation preserving the complete objective Gram matrix"
+  },
+  "features": [
+    "newline",
+    "leading_space",
+    "word_continuation",
+    "alphabetic",
+    "numeric",
+    "punctuation",
+    "non_ascii",
+    "capitalized",
+    "all_caps",
+    "lowercase",
+    "long_piece",
+    "determiner",
+    "preposition",
+    "conjunction",
+    "pronoun",
+    "auxiliary",
+    "negation",
+    "modal",
+    "suffix_ing",
+    "suffix_ed",
+    "suffix_ly",
+    "suffix_s",
+    "suffix_ion",
+    "period",
+    "comma",
+    "colon_semicolon",
+    "opening_delimiter",
+    "dash",
+    "code_operator",
+    "time_unit",
+    "boolean",
+    "programming_keyword"
+  ],
+  "sites_per_feature": 50,
+  "site_count": 1600,
+  "gram_relative_error": 1.903543306980282e-06,
+  "all_one_maximum_absolute_logit_error": 0.0,
+  "split_geometry": {
+    "semantic": {
+      "pairwise_similarity_pearson": 0.5066995471882609,
+      "median_head_profile_cosine": 0.48269711160370465
+    },
+    "gram_matched": {
+      "pairwise_similarity_pearson": 0.18171349810476958,
+      "median_head_profile_cosine": 0.32365802393278853
+    }
+  },
+  "comparisons": {
+    "semantic": {
+      "pairs": 71,
+      "component_mean": 0.05988772880006699,
+      "matched_mean": 0.019377645167610643,
+      "enrichment": 0.04051008363245635,
+      "one_sided_p": 0.07989201079892011,
+      "component_median": 0.08140236642811817,
+      "matched_q95": 0.0669466189238149
+    },
+    "gram_matched": {
+      "pairs": 71,
+      "component_mean": 0.020322787462452765,
+      "matched_mean": 0.002007985045693829,
+      "enrichment": 0.018314802416758938,
+      "one_sided_p": 0.2064793520647935,
+      "component_median": 0.03470000599041671,
+      "matched_q95": 0.03884520540036716
+    }
+  },
+  "direct_edge_redteam": {
+    "semantic": {
+      "pairs": 39,
+      "component_mean": 0.054630748669013886,
+      "matched_mean": 0.021949435084588104,
+      "enrichment": 0.03268131358442578,
+      "one_sided_p": 0.20157984201579843,
+      "component_median": 0.07118032072372243,
+      "matched_q95": 0.08604813211763629
+    },
+    "gram_matched": {
+      "pairs": 39,
+      "component_mean": 0.003133124845562408,
+      "matched_mean": -0.003252813534992206,
+      "enrichment": 0.006385938380554615,
+      "one_sided_p": 0.41555844415558446,
+      "component_median": 0.028106732159293782,
+      "matched_q95": 0.04716926921562259
+    }
+  },
+  "finite_validation": {
+    "sites": 12,
+    "pearson": 0.8604852915223583,
+    "sign_agreement": 1.0,
+    "median_absolute_relative_error": 0.27769067877731324,
+    "records": [
+      {
+        "feature": "colon_semicolon",
+        "site_index": 1287,
+        "layer": 5,
+        "head": 7,
+        "gradient": 2.546875,
+        "predicted_change": -0.25468751788139343,
+        "finite_change": -0.3404114246368408
+      },
+      {
+        "feature": "non_ascii",
+        "site_index": 312,
+        "layer": 5,
+        "head": 7,
+        "gradient": 2.015625,
+        "predicted_change": -0.20156250894069672,
+        "finite_change": -0.27778077125549316
+      },
+      {
+        "feature": "all_caps",
+        "site_index": 416,
+        "layer": 5,
+        "head": 7,
+        "gradient": -1.890625,
+        "predicted_change": 0.18906250596046448,
+        "finite_change": 0.13154363632202148
+      },
+      {
+        "feature": "code_operator",
+        "site_index": 1430,
+        "layer": 5,
+        "head": 7,
+        "gradient": 1.875,
+        "predicted_change": -0.1875,
+        "finite_change": -0.332314133644104
+      },
+      {
+        "feature": "comma",
+        "site_index": 1225,
+        "layer": 5,
+        "head": 7,
+        "gradient": -1.84375,
+        "predicted_change": 0.18437500298023224,
+        "finite_change": 0.16094112396240234
+      },
+      {
+        "feature": "numeric",
+        "site_index": 227,
+        "layer": 8,
+        "head": 3,
+        "gradient": 1.734375,
+        "predicted_change": -0.17343750596046448,
+        "finite_change": -0.135392427444458
+      },
+      {
+        "feature": "colon_semicolon",
+        "site_index": 1273,
+        "layer": 5,
+        "head": 0,
+        "gradient": 1.734375,
+        "predicted_change": -0.17343750596046448,
+        "finite_change": -0.30320072174072266
+      },
+      {
+        "feature": "numeric",
+        "site_index": 222,
+        "layer": 5,
+        "head": 7,
+        "gradient": 1.6796875,
+        "predicted_change": -0.16796875,
+        "finite_change": -0.1486520767211914
+      },
+      {
+        "feature": "code_operator",
+        "site_index": 1436,
+        "layer": 5,
+        "head": 7,
+        "gradient": 1.5546875,
+        "predicted_change": -0.15546874701976776,
+        "finite_change": -0.018535137176513672
+      },
+      {
+        "feature": "code_operator",
+        "site_index": 1432,
+        "layer": 5,
+        "head": 7,
+        "gradient": 1.5546875,
+        "predicted_change": -0.15546874701976776,
+        "finite_change": -0.06694316864013672
+      },
+      {
+        "feature": "dash",
+        "site_index": 1393,
+        "layer": 6,
+        "head": 3,
+        "gradient": 1.5390625,
+        "predicted_change": -0.15390625596046448,
+        "finite_change": -0.18512693047523499
+      },
+      {
+        "feature": "colon_semicolon",
+        "site_index": 1289,
+        "layer": 0,
+        "head": 3,
+        "gradient": 1.484375,
+        "predicted_change": -0.1484375,
+        "finite_change": -0.11971569061279297
+      }
+    ]
+  },
+  "hypotheses": {
+    "A0_exact_forward": {
+      "supported": true,
+      "maximum_absolute_logit_error": 0.0
+    },
+    "A1_local_causal_measure": {
+      "supported": false,
+      "pearson": 0.8604852915223583,
+      "sign_agreement": 1.0
+    },
+    "A2_supervised_profiles_replicate": {
+      "supported": true,
+      "pairwise_similarity_pearson": 0.5066995471882609,
+      "median_head_profile_cosine": 0.48269711160370465
+    },
+    "A3_weight_motifs_recover_supervised_function": {
+      "supported": false,
+      "pairs": 71,
+      "component_mean": 0.05988772880006699,
+      "matched_mean": 0.019377645167610643,
+      "enrichment": 0.04051008363245635,
+      "one_sided_p": 0.07989201079892011,
+      "component_median": 0.08140236642811817,
+      "matched_q95": 0.0669466189238149
+    },
+    "A4_recovery_is_semantic": {
+      "supported": false,
+      "semantic_minus_null_enrichment": 0.022195281215697416
+    }
+  },
+  "component_summaries": [
+    {
+      "component": 0,
+      "members": [
+        {
+          "layer": 1,
+          "head": 1
+        },
+        {
+          "layer": 3,
+          "head": 6
+        },
+        {
+          "layer": 4,
+          "head": 1
+        },
+        {
+          "layer": 9,
+          "head": 7
+        },
+        {
+          "layer": 10,
+          "head": 2
+        },
+        {
+          "layer": 15,
+          "head": 1
+        },
+        {
+          "layer": 17,
+          "head": 2
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "leading_space",
+          "score": 0.2500836259860389
+        },
+        {
+          "feature": "all_caps",
+          "score": 0.18988406765931024
+        },
+        {
+          "feature": "period",
+          "score": 0.18931792571626968
+        },
+        {
+          "feature": "auxiliary",
+          "score": 0.18797377106922722
+        },
+        {
+          "feature": "modal",
+          "score": 0.1674447481858174
+        }
+      ],
+      "effective_feature_support": 30.09298161204635
+    },
+    {
+      "component": 1,
+      "members": [
+        {
+          "layer": 5,
+          "head": 0
+        },
+        {
+          "layer": 5,
+          "head": 7
+        },
+        {
+          "layer": 6,
+          "head": 1
+        },
+        {
+          "layer": 9,
+          "head": 8
+        },
+        {
+          "layer": 10,
+          "head": 5
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "newline",
+          "score": 0.28181310870457577
+        },
+        {
+          "feature": "leading_space",
+          "score": 0.26065153199806185
+        },
+        {
+          "feature": "programming_keyword",
+          "score": 0.21332487067326572
+        },
+        {
+          "feature": "preposition",
+          "score": 0.20149456454183512
+        },
+        {
+          "feature": "suffix_ly",
+          "score": 0.18281039125364196
+        }
+      ],
+      "effective_feature_support": 28.210866948980385
+    },
+    {
+      "component": 2,
+      "members": [
+        {
+          "layer": 4,
+          "head": 5
+        },
+        {
+          "layer": 5,
+          "head": 8
+        },
+        {
+          "layer": 6,
+          "head": 3
+        },
+        {
+          "layer": 7,
+          "head": 8
+        },
+        {
+          "layer": 11,
+          "head": 2
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "period",
+          "score": 0.2588914909925705
+        },
+        {
+          "feature": "determiner",
+          "score": 0.23337990014222298
+        },
+        {
+          "feature": "long_piece",
+          "score": 0.22083643586329132
+        },
+        {
+          "feature": "time_unit",
+          "score": 0.20276903312236855
+        },
+        {
+          "feature": "suffix_s",
+          "score": 0.19741361344204506
+        }
+      ],
+      "effective_feature_support": 27.8026568607986
+    },
+    {
+      "component": 3,
+      "members": [
+        {
+          "layer": 13,
+          "head": 5
+        },
+        {
+          "layer": 14,
+          "head": 7
+        },
+        {
+          "layer": 16,
+          "head": 3
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "newline",
+          "score": 0.415922497491886
+        },
+        {
+          "feature": "period",
+          "score": 0.2805574026216748
+        },
+        {
+          "feature": "dash",
+          "score": 0.24880089632990035
+        },
+        {
+          "feature": "leading_space",
+          "score": 0.22534128912259857
+        },
+        {
+          "feature": "programming_keyword",
+          "score": 0.22012939679783752
+        }
+      ],
+      "effective_feature_support": 23.20291755016843
+    },
+    {
+      "component": 4,
+      "members": [
+        {
+          "layer": 10,
+          "head": 8
+        },
+        {
+          "layer": 11,
+          "head": 7
+        },
+        {
+          "layer": 12,
+          "head": 6
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "newline",
+          "score": 0.4239848632063354
+        },
+        {
+          "feature": "comma",
+          "score": 0.32233642544291813
+        },
+        {
+          "feature": "punctuation",
+          "score": 0.21705434457011843
+        },
+        {
+          "feature": "programming_keyword",
+          "score": 0.2101908488963392
+        },
+        {
+          "feature": "conjunction",
+          "score": 0.20526895208980442
+        }
+      ],
+      "effective_feature_support": 22.11309260939918
+    },
+    {
+      "component": 5,
+      "members": [
+        {
+          "layer": 7,
+          "head": 3
+        },
+        {
+          "layer": 10,
+          "head": 3
+        },
+        {
+          "layer": 15,
+          "head": 3
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "determiner",
+          "score": 0.3186600639725287
+        },
+        {
+          "feature": "suffix_ly",
+          "score": 0.25364771348755083
+        },
+        {
+          "feature": "programming_keyword",
+          "score": 0.24525428948906122
+        },
+        {
+          "feature": "pronoun",
+          "score": 0.218078133506554
+        },
+        {
+          "feature": "newline",
+          "score": 0.21574572345204068
+        }
+      ],
+      "effective_feature_support": 26.06140318739972
+    },
+    {
+      "component": 6,
+      "members": [
+        {
+          "layer": 3,
+          "head": 1
+        },
+        {
+          "layer": 4,
+          "head": 2
+        },
+        {
+          "layer": 4,
+          "head": 8
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "all_caps",
+          "score": 0.3254836046697008
+        },
+        {
+          "feature": "determiner",
+          "score": 0.23234250340137966
+        },
+        {
+          "feature": "word_continuation",
+          "score": 0.2070356689235406
+        },
+        {
+          "feature": "suffix_ly",
+          "score": 0.20166173201755924
+        },
+        {
+          "feature": "negation",
+          "score": 0.19980250128190136
+        }
+      ],
+      "effective_feature_support": 26.97156632714735
+    },
+    {
+      "component": 7,
+      "members": [
+        {
+          "layer": 2,
+          "head": 5
+        },
+        {
+          "layer": 3,
+          "head": 5
+        },
+        {
+          "layer": 3,
+          "head": 8
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "long_piece",
+          "score": 0.26843416108262513
+        },
+        {
+          "feature": "newline",
+          "score": 0.25849047420377785
+        },
+        {
+          "feature": "conjunction",
+          "score": 0.24282442087547315
+        },
+        {
+          "feature": "period",
+          "score": 0.22661551079488654
+        },
+        {
+          "feature": "negation",
+          "score": 0.2202151252322396
+        }
+      ],
+      "effective_feature_support": 25.988576085200407
+    },
+    {
+      "component": 8,
+      "members": [
+        {
+          "layer": 0,
+          "head": 7
+        },
+        {
+          "layer": 1,
+          "head": 8
+        },
+        {
+          "layer": 2,
+          "head": 7
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "period",
+          "score": 0.3253121639764694
+        },
+        {
+          "feature": "opening_delimiter",
+          "score": 0.266539351693739
+        },
+        {
+          "feature": "non_ascii",
+          "score": 0.2553871135630965
+        },
+        {
+          "feature": "preposition",
+          "score": 0.18866434992794368
+        },
+        {
+          "feature": "capitalized",
+          "score": 0.1869690255507022
+        }
+      ],
+      "effective_feature_support": 27.05854400018312
+    },
+    {
+      "component": 9,
+      "members": [
+        {
+          "layer": 17,
+          "head": 6
+        },
+        {
+          "layer": 17,
+          "head": 8
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "period",
+          "score": 0.3225672862933969
+        },
+        {
+          "feature": "comma",
+          "score": 0.31666519176424013
+        },
+        {
+          "feature": "suffix_ly",
+          "score": 0.2424614788584508
+        },
+        {
+          "feature": "modal",
+          "score": 0.24014866455110248
+        },
+        {
+          "feature": "word_continuation",
+          "score": 0.22382419803072942
+        }
+      ],
+      "effective_feature_support": 25.795336128840415
+    },
+    {
+      "component": 10,
+      "members": [
+        {
+          "layer": 13,
+          "head": 0
+        },
+        {
+          "layer": 14,
+          "head": 4
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "capitalized",
+          "score": 0.3522771838144412
+        },
+        {
+          "feature": "determiner",
+          "score": 0.32143663286720925
+        },
+        {
+          "feature": "suffix_ly",
+          "score": 0.30595805259106035
+        },
+        {
+          "feature": "newline",
+          "score": 0.3020482955879026
+        },
+        {
+          "feature": "pronoun",
+          "score": 0.21355613889750708
+        }
+      ],
+      "effective_feature_support": 24.06881606638059
+    },
+    {
+      "component": 11,
+      "members": [
+        {
+          "layer": 11,
+          "head": 1
+        },
+        {
+          "layer": 12,
+          "head": 7
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "modal",
+          "score": 0.3847281066767073
+        },
+        {
+          "feature": "leading_space",
+          "score": 0.30158939899008785
+        },
+        {
+          "feature": "conjunction",
+          "score": 0.2791866061489502
+        },
+        {
+          "feature": "suffix_ly",
+          "score": 0.2745921622566047
+        },
+        {
+          "feature": "negation",
+          "score": 0.26218357957847016
+        }
+      ],
+      "effective_feature_support": 21.630961364821257
+    },
+    {
+      "component": 12,
+      "members": [
+        {
+          "layer": 10,
+          "head": 4
+        },
+        {
+          "layer": 11,
+          "head": 6
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "determiner",
+          "score": 0.4495089125438017
+        },
+        {
+          "feature": "alphabetic",
+          "score": 0.27923025582626393
+        },
+        {
+          "feature": "word_continuation",
+          "score": 0.21562202536986383
+        },
+        {
+          "feature": "negation",
+          "score": 0.20657160090042892
+        },
+        {
+          "feature": "pronoun",
+          "score": 0.20602061852558706
+        }
+      ],
+      "effective_feature_support": 24.601067715486977
+    },
+    {
+      "component": 13,
+      "members": [
+        {
+          "layer": 9,
+          "head": 6
+        },
+        {
+          "layer": 12,
+          "head": 4
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "programming_keyword",
+          "score": 0.31386077821392205
+        },
+        {
+          "feature": "long_piece",
+          "score": 0.2974786554022215
+        },
+        {
+          "feature": "pronoun",
+          "score": 0.2786859562882777
+        },
+        {
+          "feature": "lowercase",
+          "score": 0.2604593724723555
+        },
+        {
+          "feature": "suffix_ion",
+          "score": 0.25666801975099984
+        }
+      ],
+      "effective_feature_support": 22.24547537928847
+    },
+    {
+      "component": 14,
+      "members": [
+        {
+          "layer": 6,
+          "head": 8
+        },
+        {
+          "layer": 10,
+          "head": 7
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "alphabetic",
+          "score": 0.4447519672091681
+        },
+        {
+          "feature": "non_ascii",
+          "score": 0.3816733408981624
+        },
+        {
+          "feature": "newline",
+          "score": 0.27315890629819417
+        },
+        {
+          "feature": "period",
+          "score": 0.2277028337963016
+        },
+        {
+          "feature": "punctuation",
+          "score": 0.20180814856160167
+        }
+      ],
+      "effective_feature_support": 18.966132335975324
+    },
+    {
+      "component": 15,
+      "members": [
+        {
+          "layer": 6,
+          "head": 5
+        },
+        {
+          "layer": 6,
+          "head": 7
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "newline",
+          "score": 0.4546508251752597
+        },
+        {
+          "feature": "numeric",
+          "score": 0.31584380409666263
+        },
+        {
+          "feature": "auxiliary",
+          "score": 0.2530531551499292
+        },
+        {
+          "feature": "colon_semicolon",
+          "score": 0.2347258226704089
+        },
+        {
+          "feature": "pronoun",
+          "score": 0.20196215852705013
+        }
+      ],
+      "effective_feature_support": 21.734682424316524
+    },
+    {
+      "component": 16,
+      "members": [
+        {
+          "layer": 5,
+          "head": 3
+        },
+        {
+          "layer": 9,
+          "head": 1
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "modal",
+          "score": 0.4281772503036465
+        },
+        {
+          "feature": "suffix_ed",
+          "score": 0.3142345011618648
+        },
+        {
+          "feature": "period",
+          "score": 0.2857130261161224
+        },
+        {
+          "feature": "suffix_ing",
+          "score": 0.2253683731726981
+        },
+        {
+          "feature": "lowercase",
+          "score": 0.22215799015633683
+        }
+      ],
+      "effective_feature_support": 23.00516408495671
+    },
+    {
+      "component": 17,
+      "members": [
+        {
+          "layer": 3,
+          "head": 0
+        },
+        {
+          "layer": 4,
+          "head": 0
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "preposition",
+          "score": 0.2758245263939187
+        },
+        {
+          "feature": "modal",
+          "score": 0.26933568808498826
+        },
+        {
+          "feature": "alphabetic",
+          "score": 0.26914939665053916
+        },
+        {
+          "feature": "newline",
+          "score": 0.2344728234574509
+        },
+        {
+          "feature": "long_piece",
+          "score": 0.22529791094603285
+        }
+      ],
+      "effective_feature_support": 26.629216401927174
+    },
+    {
+      "component": 18,
+      "members": [
+        {
+          "layer": 1,
+          "head": 7
+        },
+        {
+          "layer": 2,
+          "head": 2
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "newline",
+          "score": 0.3336700075630257
+        },
+        {
+          "feature": "colon_semicolon",
+          "score": 0.3227389714055267
+        },
+        {
+          "feature": "pronoun",
+          "score": 0.2733610312045809
+        },
+        {
+          "feature": "lowercase",
+          "score": 0.24751773791786696
+        },
+        {
+          "feature": "suffix_ed",
+          "score": 0.22358613054523496
+        }
+      ],
+      "effective_feature_support": 23.79763074687338
+    },
+    {
+      "component": 19,
+      "members": [
+        {
+          "layer": 1,
+          "head": 5
+        },
+        {
+          "layer": 2,
+          "head": 6
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "suffix_s",
+          "score": 0.36821319927443574
+        },
+        {
+          "feature": "suffix_ed",
+          "score": 0.2838497893567588
+        },
+        {
+          "feature": "programming_keyword",
+          "score": 0.250103749545381
+        },
+        {
+          "feature": "colon_semicolon",
+          "score": 0.21841027192292112
+        },
+        {
+          "feature": "auxiliary",
+          "score": 0.19734847003336747
+        }
+      ],
+      "effective_feature_support": 25.470348243654232
+    },
+    {
+      "component": 20,
+      "members": [
+        {
+          "layer": 1,
+          "head": 3
+        },
+        {
+          "layer": 2,
+          "head": 8
+        }
+      ],
+      "top_supervised_anchors": [
+        {
+          "feature": "leading_space",
+          "score": 0.2743168115700221
+        },
+        {
+          "feature": "capitalized",
+          "score": 0.250176988482113
+        },
+        {
+          "feature": "programming_keyword",
+          "score": 0.24039578033606612
+        },
+        {
+          "feature": "suffix_ion",
+          "score": 0.23553123858596856
+        },
+        {
+          "feature": "code_operator",
+          "score": 0.22551227190950715
+        }
+      ],
+      "effective_feature_support": 27.67293600880091
+    }
+  ],
+  "arrays": "artifacts/bilin18_tensor_decomposition/bilin18_supervised_anchor_motif_comparison.npz"
+}

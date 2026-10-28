@@ -1,0 +1,493 @@
+{
+  "config": {
+    "status": "locked-after-single-expert-router-failed-before-frozen-topk-execution-frontier",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "layer": 11,
+    "seed": 20261125,
+    "experts": 4,
+    "tail_rank_per_expert": 16,
+    "router_rank": 64,
+    "topk": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "batch_size": 4,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 17500,
+        "rows": 400
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 400
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 400
+      }
+    },
+    "hypotheses": {
+      "K1_top2_matches_full_union": "Upstream-routed top-two expert unions have mean exact KL at most 110% of the full four-expert union on every corpus.",
+      "K2_top2_beats_fixed_rank36": "Upstream-routed top-two unions reduce mean exact KL by at least 20% relative to the fixed PCA rank-36 space on every corpus.",
+      "K3_top2_router_closes_oracle_gap": "The upstream top-two router closes at least 70% of the gap between fixed rank 36 and the per-example oracle top-two union on every corpus.",
+      "K4_oracle_top2_is_near_sufficient": "The per-example oracle top-two union reaches median exact KL at most 0.02 on every corpus.",
+      "K5_top3_retains_most_union_gain": "Routed top three retains at least 80% of the mean-KL gain from routed top one to the full union on every corpus.",
+      "K6_top2_assignment_matters": "Shuffling routed top-two assignments raises mean exact KL by at least 25% on every corpus.",
+      "K7_two_experts_are_enough": "The smallest routed k within 10% of the full union is at most two on every corpus.",
+      "K8_more_experts_monotonically_help": "Mean exact KL is nonincreasing from routed top one through top four on every corpus."
+    }
+  },
+  "hypotheses": {
+    "K1_top2_matches_full_union": {
+      "supported": true
+    },
+    "K2_top2_beats_fixed_rank36": {
+      "supported": false
+    },
+    "K3_top2_router_closes_oracle_gap": {
+      "supported": false
+    },
+    "K4_oracle_top2_is_near_sufficient": {
+      "supported": false
+    },
+    "K5_top3_retains_most_union_gain": {
+      "supported": false
+    },
+    "K6_top2_assignment_matters": {
+      "supported": false
+    },
+    "K7_two_experts_are_enough": {
+      "supported": true
+    },
+    "K8_more_experts_monotonically_help": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "behavioral": {
+        "router_top1": {
+          "mean_exact_kl": 0.12121846666958078,
+          "median_exact_kl": 0.07673511281609535,
+          "p90_exact_kl": 0.2571242034435274,
+          "mean_ce_delta": 0.12181274060329997,
+          "top1_agreement": 0.8059375,
+          "relative_write_mse": 0.19187132665492523
+        },
+        "oracle_top1": {
+          "mean_exact_kl": 0.10456762170916022,
+          "median_exact_kl": 0.06768057495355606,
+          "p90_exact_kl": 0.226940041780472,
+          "mean_ce_delta": 0.1051267628107638,
+          "top1_agreement": 0.8259375,
+          "relative_write_mse": 0.18944135518171248
+        },
+        "shuffled_top1": {
+          "mean_exact_kl": 0.14342150211921648,
+          "median_exact_kl": 0.09376170113682747,
+          "p90_exact_kl": 0.3064573377370835,
+          "mean_ce_delta": 0.13684282839907155,
+          "top1_agreement": 0.78328125,
+          "relative_write_mse": 0.2103087033446891
+        },
+        "router_top2": {
+          "mean_exact_kl": 0.1094182284254228,
+          "median_exact_kl": 0.0694316066801548,
+          "p90_exact_kl": 0.23436994850635534,
+          "mean_ce_delta": 0.10582826739356278,
+          "top1_agreement": 0.81140625,
+          "relative_write_mse": 0.17185769862297226
+        },
+        "oracle_top2": {
+          "mean_exact_kl": 0.09360512358977516,
+          "median_exact_kl": 0.0594816692173481,
+          "p90_exact_kl": 0.20295531302690514,
+          "mean_ce_delta": 0.09177506451039279,
+          "top1_agreement": 0.8375,
+          "relative_write_mse": 0.17390432214594728
+        },
+        "shuffled_top2": {
+          "mean_exact_kl": 0.12111235424394096,
+          "median_exact_kl": 0.0784182921051979,
+          "p90_exact_kl": 0.25774551928043365,
+          "mean_ce_delta": 0.11815634979379297,
+          "top1_agreement": 0.79921875,
+          "relative_write_mse": 0.181413764715709
+        },
+        "router_top3": {
+          "mean_exact_kl": 0.1042818672485626,
+          "median_exact_kl": 0.06679083779454231,
+          "p90_exact_kl": 0.2227491244673729,
+          "mean_ce_delta": 0.09946648594765975,
+          "top1_agreement": 0.81453125,
+          "relative_write_mse": 0.16073670465103782
+        },
+        "oracle_top3": {
+          "mean_exact_kl": 0.09221300474269527,
+          "median_exact_kl": 0.05896860733628273,
+          "p90_exact_kl": 0.19720355272293094,
+          "mean_ce_delta": 0.0890005037306446,
+          "top1_agreement": 0.83265625,
+          "relative_write_mse": 0.16312802276311217
+        },
+        "shuffled_top3": {
+          "mean_exact_kl": 0.10907895836506043,
+          "median_exact_kl": 0.06999734789133072,
+          "p90_exact_kl": 0.2350512400269509,
+          "mean_ce_delta": 0.10469931327689039,
+          "top1_agreement": 0.806875,
+          "relative_write_mse": 0.16483297657259388
+        },
+        "router_top4": {
+          "mean_exact_kl": 0.10036614571413964,
+          "median_exact_kl": 0.06441600993275642,
+          "p90_exact_kl": 0.21597285121679316,
+          "mean_ce_delta": 0.09477622984065874,
+          "top1_agreement": 0.81609375,
+          "relative_write_mse": 0.1527532546847101
+        },
+        "oracle_top4": {
+          "mean_exact_kl": 0.10036614571413964,
+          "median_exact_kl": 0.06441600993275642,
+          "p90_exact_kl": 0.21597285121679316,
+          "mean_ce_delta": 0.09477622984065874,
+          "top1_agreement": 0.81609375,
+          "relative_write_mse": 0.1527532546847101
+        },
+        "shuffled_top4": {
+          "mean_exact_kl": 0.10036614571413964,
+          "median_exact_kl": 0.06441600993275642,
+          "p90_exact_kl": 0.21597285121679316,
+          "mean_ce_delta": 0.09477622984065874,
+          "top1_agreement": 0.81609375,
+          "relative_write_mse": 0.1527532546847101
+        },
+        "fixed_rank20": {
+          "mean_exact_kl": 0.1363154677841635,
+          "median_exact_kl": 0.09042823687195778,
+          "p90_exact_kl": 0.2841165751218796,
+          "mean_ce_delta": 0.13205951726470233,
+          "top1_agreement": 0.77765625,
+          "relative_write_mse": 0.13948523586307124
+        },
+        "fixed_rank36": {
+          "mean_exact_kl": 0.12168753177083687,
+          "median_exact_kl": 0.07868249714374542,
+          "p90_exact_kl": 0.2589027374982835,
+          "mean_ce_delta": 0.11808574012500345,
+          "top1_agreement": 0.78984375,
+          "relative_write_mse": 0.12524765393546894
+        },
+        "fixed_rank52": {
+          "mean_exact_kl": 0.11187151040787839,
+          "median_exact_kl": 0.07132255285978317,
+          "p90_exact_kl": 0.24047026336193092,
+          "mean_ce_delta": 0.11025020962959729,
+          "top1_agreement": 0.79796875,
+          "relative_write_mse": 0.11639831639357544
+        },
+        "fixed_rank68": {
+          "mean_exact_kl": 0.10304105454723782,
+          "median_exact_kl": 0.06580809131264687,
+          "p90_exact_kl": 0.22019420415163043,
+          "mean_ce_delta": 0.10192072398776758,
+          "top1_agreement": 0.8059375,
+          "relative_write_mse": 0.10947087968243151
+        }
+      },
+      "minimum_routed_k_within_10pct_union": 2,
+      "mean_route_confidence": 0.7913591861724854
+    },
+    "wikitext": {
+      "behavioral": {
+        "router_top1": {
+          "mean_exact_kl": 0.1199478882375388,
+          "median_exact_kl": 0.07764716446399689,
+          "p90_exact_kl": 0.24715435653924947,
+          "mean_ce_delta": 0.1255783319539114,
+          "top1_agreement": 0.79953125,
+          "relative_write_mse": 0.16086505495139763
+        },
+        "oracle_top1": {
+          "mean_exact_kl": 0.10619101221161145,
+          "median_exact_kl": 0.06972740218043327,
+          "p90_exact_kl": 0.21531073153018973,
+          "mean_ce_delta": 0.10814471530369701,
+          "top1_agreement": 0.815,
+          "relative_write_mse": 0.15970245084474702
+        },
+        "shuffled_top1": {
+          "mean_exact_kl": 0.13489864270442922,
+          "median_exact_kl": 0.09123673662543297,
+          "p90_exact_kl": 0.27192266285419486,
+          "mean_ce_delta": 0.1372247401349705,
+          "top1_agreement": 0.7815625,
+          "relative_write_mse": 0.17245084543131853
+        },
+        "router_top2": {
+          "mean_exact_kl": 0.10846168581703751,
+          "median_exact_kl": 0.07028038799762726,
+          "p90_exact_kl": 0.21822700500488296,
+          "mean_ce_delta": 0.10792752305153044,
+          "top1_agreement": 0.79890625,
+          "relative_write_mse": 0.1433529418086803
+        },
+        "oracle_top2": {
+          "mean_exact_kl": 0.0959125014664005,
+          "median_exact_kl": 0.062470732256770134,
+          "p90_exact_kl": 0.19086148887872706,
+          "mean_ce_delta": 0.0968845455644987,
+          "top1_agreement": 0.8253125,
+          "relative_write_mse": 0.14689486182145417
+        },
+        "shuffled_top2": {
+          "mean_exact_kl": 0.11492481841478366,
+          "median_exact_kl": 0.0751076191663742,
+          "p90_exact_kl": 0.2338204637169838,
+          "mean_ce_delta": 0.11292897508834358,
+          "top1_agreement": 0.79484375,
+          "relative_write_mse": 0.1463696116269849
+        },
+        "router_top3": {
+          "mean_exact_kl": 0.1037107092766837,
+          "median_exact_kl": 0.06756661087274551,
+          "p90_exact_kl": 0.20820983052253725,
+          "mean_ce_delta": 0.10050608514260602,
+          "top1_agreement": 0.79921875,
+          "relative_write_mse": 0.13527629912982256
+        },
+        "oracle_top3": {
+          "mean_exact_kl": 0.09398993234450245,
+          "median_exact_kl": 0.061057332903146744,
+          "p90_exact_kl": 0.1874988079071045,
+          "mean_ce_delta": 0.09254753593115311,
+          "top1_agreement": 0.82125,
+          "relative_write_mse": 0.13825094714944275
+        },
+        "shuffled_top3": {
+          "mean_exact_kl": 0.10584626403821858,
+          "median_exact_kl": 0.06861162185668945,
+          "p90_exact_kl": 0.21000898927450184,
+          "mean_ce_delta": 0.10322244038416102,
+          "top1_agreement": 0.800625,
+          "relative_write_mse": 0.1363819256331483
+        },
+        "router_top4": {
+          "mean_exact_kl": 0.09965459854442088,
+          "median_exact_kl": 0.06476950645446777,
+          "p90_exact_kl": 0.19643034934997558,
+          "mean_ce_delta": 0.09717266853545879,
+          "top1_agreement": 0.80265625,
+          "relative_write_mse": 0.1300280610913165
+        },
+        "oracle_top4": {
+          "mean_exact_kl": 0.09965459854442088,
+          "median_exact_kl": 0.06476950645446777,
+          "p90_exact_kl": 0.19643034934997558,
+          "mean_ce_delta": 0.09717266853545879,
+          "top1_agreement": 0.80265625,
+          "relative_write_mse": 0.1300280610913165
+        },
+        "shuffled_top4": {
+          "mean_exact_kl": 0.09965459854442088,
+          "median_exact_kl": 0.06476950645446777,
+          "p90_exact_kl": 0.19643034934997558,
+          "mean_ce_delta": 0.09717266853545879,
+          "top1_agreement": 0.80265625,
+          "relative_write_mse": 0.1300280610913165
+        },
+        "fixed_rank20": {
+          "mean_exact_kl": 0.13087201238787202,
+          "median_exact_kl": 0.08862773701548576,
+          "p90_exact_kl": 0.26471427381038665,
+          "mean_ce_delta": 0.12790463192734022,
+          "top1_agreement": 0.7803125,
+          "relative_write_mse": 0.11867228652533224
+        },
+        "fixed_rank36": {
+          "mean_exact_kl": 0.11672669860816313,
+          "median_exact_kl": 0.07660980522632599,
+          "p90_exact_kl": 0.23663773685693745,
+          "mean_ce_delta": 0.11965137666207738,
+          "top1_agreement": 0.78921875,
+          "relative_write_mse": 0.1065618951683133
+        },
+        "fixed_rank52": {
+          "mean_exact_kl": 0.10657373011428717,
+          "median_exact_kl": 0.07035243511199951,
+          "p90_exact_kl": 0.21270012259483342,
+          "mean_ce_delta": 0.1103063647727322,
+          "top1_agreement": 0.80046875,
+          "relative_write_mse": 0.09918348102271439
+        },
+        "fixed_rank68": {
+          "mean_exact_kl": 0.09793378047161241,
+          "median_exact_kl": 0.06436369195580482,
+          "p90_exact_kl": 0.19647960066795359,
+          "mean_ce_delta": 0.09936843050789321,
+          "top1_agreement": 0.804375,
+          "relative_write_mse": 0.09318909106691176
+        }
+      },
+      "minimum_routed_k_within_10pct_union": 2,
+      "mean_route_confidence": 0.8066620230674744
+    },
+    "tinystories": {
+      "behavioral": {
+        "router_top1": {
+          "mean_exact_kl": 0.08624946850879496,
+          "median_exact_kl": 0.06756812334060669,
+          "p90_exact_kl": 0.1665095001459123,
+          "mean_ce_delta": 0.04573512582702733,
+          "top1_agreement": 0.826875,
+          "relative_write_mse": 0.19699927671399908
+        },
+        "oracle_top1": {
+          "mean_exact_kl": 0.07235036287738694,
+          "median_exact_kl": 0.056575898081064224,
+          "p90_exact_kl": 0.13900028467178346,
+          "mean_ce_delta": 0.031969955820322866,
+          "top1_agreement": 0.8490625,
+          "relative_write_mse": 0.1877462113422058
+        },
+        "shuffled_top1": {
+          "mean_exact_kl": 0.10311554590658488,
+          "median_exact_kl": 0.07836199924349785,
+          "p90_exact_kl": 0.19858134239912034,
+          "mean_ce_delta": 0.07687008621631321,
+          "top1_agreement": 0.806875,
+          "relative_write_mse": 0.21695595069421997
+        },
+        "router_top2": {
+          "mean_exact_kl": 0.07759623220599679,
+          "median_exact_kl": 0.06150640361011028,
+          "p90_exact_kl": 0.147273750603199,
+          "mean_ce_delta": 0.04307701900017492,
+          "top1_agreement": 0.82703125,
+          "relative_write_mse": 0.16923739136711488
+        },
+        "oracle_top2": {
+          "mean_exact_kl": 0.0642787120606954,
+          "median_exact_kl": 0.05053247511386871,
+          "p90_exact_kl": 0.12290171384811402,
+          "mean_ce_delta": 0.02595724343942493,
+          "top1_agreement": 0.860625,
+          "relative_write_mse": 0.1694345547293323
+        },
+        "shuffled_top2": {
+          "mean_exact_kl": 0.08657938230277978,
+          "median_exact_kl": 0.06798510253429413,
+          "p90_exact_kl": 0.1632634773850441,
+          "mean_ce_delta": 0.057532612691993563,
+          "top1_agreement": 0.818125,
+          "relative_write_mse": 0.18531744108529696
+        },
+        "router_top3": {
+          "mean_exact_kl": 0.07433630584235289,
+          "median_exact_kl": 0.05935455486178398,
+          "p90_exact_kl": 0.14042655527591705,
+          "mean_ce_delta": 0.04196222318294531,
+          "top1_agreement": 0.830625,
+          "relative_write_mse": 0.1565004618232633
+        },
+        "oracle_top3": {
+          "mean_exact_kl": 0.06374880965766351,
+          "median_exact_kl": 0.05053894780576229,
+          "p90_exact_kl": 0.11993151232600215,
+          "mean_ce_delta": 0.026781595603351888,
+          "top1_agreement": 0.85453125,
+          "relative_write_mse": 0.15666538022154974
+        },
+        "shuffled_top3": {
+          "mean_exact_kl": 0.07749443932638769,
+          "median_exact_kl": 0.06165548600256443,
+          "p90_exact_kl": 0.14554616957902913,
+          "mean_ce_delta": 0.04536321425954157,
+          "top1_agreement": 0.829375,
+          "relative_write_mse": 0.16402115540450835
+        },
+        "router_top4": {
+          "mean_exact_kl": 0.07099198758959574,
+          "median_exact_kl": 0.05635417811572552,
+          "p90_exact_kl": 0.1330815628170967,
+          "mean_ce_delta": 0.03852037807665511,
+          "top1_agreement": 0.83171875,
+          "relative_write_mse": 0.14609488558793313
+        },
+        "oracle_top4": {
+          "mean_exact_kl": 0.07099198758959574,
+          "median_exact_kl": 0.05635417811572552,
+          "p90_exact_kl": 0.1330815628170967,
+          "mean_ce_delta": 0.03852037807665511,
+          "top1_agreement": 0.83171875,
+          "relative_write_mse": 0.14609488558793313
+        },
+        "shuffled_top4": {
+          "mean_exact_kl": 0.07099198758959574,
+          "median_exact_kl": 0.05635417811572552,
+          "p90_exact_kl": 0.1330815628170967,
+          "mean_ce_delta": 0.03852037807665511,
+          "top1_agreement": 0.83171875,
+          "relative_write_mse": 0.14609488558793313
+        },
+        "fixed_rank20": {
+          "mean_exact_kl": 0.10722600665545542,
+          "median_exact_kl": 0.08057567104697227,
+          "p90_exact_kl": 0.20424888134002697,
+          "mean_ce_delta": 0.06787025570316473,
+          "top1_agreement": 0.7921875,
+          "relative_write_mse": 0.13064587394906615
+        },
+        "fixed_rank36": {
+          "mean_exact_kl": 0.09140262501427969,
+          "median_exact_kl": 0.06665681302547455,
+          "p90_exact_kl": 0.17783086448907856,
+          "mean_ce_delta": 0.06087513668961947,
+          "top1_agreement": 0.81078125,
+          "relative_write_mse": 0.11511334564985251
+        },
+        "fixed_rank52": {
+          "mean_exact_kl": 0.08321835281515633,
+          "median_exact_kl": 0.06028714217245579,
+          "p90_exact_kl": 0.16445875465869916,
+          "mean_ce_delta": 0.05879639331144972,
+          "top1_agreement": 0.81546875,
+          "relative_write_mse": 0.10629981947425841
+        },
+        "fixed_rank68": {
+          "mean_exact_kl": 0.07727867451826569,
+          "median_exact_kl": 0.05602714605629444,
+          "p90_exact_kl": 0.15334164798259736,
+          "mean_ce_delta": 0.05349047321530634,
+          "top1_agreement": 0.81984375,
+          "relative_write_mse": 0.0992954852403809
+        }
+      },
+      "minimum_routed_k_within_10pct_union": 2,
+      "mean_route_confidence": 0.7665234208106995
+    }
+  }
+}

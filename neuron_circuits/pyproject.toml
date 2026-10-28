@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neuron-circuits"
+version = "0.1.0"
+description = "Pilot experiments for extracting sufficient neuron circuits"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+research = [
+    "torch>=2.4",
+    "matplotlib>=3.9",
+    "transformers>=4.57,<5",
+    "accelerate>=1.10",
+    "datasets>=4.0",
+]
+
+[project.scripts]
+neuron-circuits-data = "neuron_circuits.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

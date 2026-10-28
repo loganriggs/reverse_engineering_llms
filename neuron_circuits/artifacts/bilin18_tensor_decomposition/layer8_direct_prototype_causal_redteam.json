@@ -1,0 +1,1061 @@
+{
+  "config": {
+    "status": "locked-after-direct-jacobian-quantization-before-finite-causal-validation",
+    "seed": 20261110,
+    "layer": 8,
+    "dimension": 512,
+    "local_rank": 4,
+    "clusters": 64,
+    "edit_norm_fraction": 0.01,
+    "batch_size": 4,
+    "causal_position": 127,
+    "prototype_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14756,
+      "rows": 128
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 17450,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 750,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 750,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "P1_learned_bank_beats_random": "Learned-prototype oracle direct-energy capture is at least twice the matched random-bank oracle on every corpus.",
+      "P2_state_router_retains_direct_energy": "State-routed prototypes capture at least 30% of optimal local rank-four direct energy on every corpus.",
+      "P3_finite_mlp_subspace_transfers": "At 1% input edits, routed-prototype MLP-write effects have median subspace overlap at least 0.70 with local-optimal effects on every corpus.",
+      "P4_suffix_effect_partially_transfers": "The corresponding final-logit effect subspaces have median overlap at least 0.40 on every corpus.",
+      "P5_finite_direct_energy_calibrates": "Median finite MLP energy ratio differs from tangent routed capture by at most 0.10 on every corpus.",
+      "P6_direct_prototype_causality_is_ood_stable": "Finite MLP subspace overlap drops by at most 0.15 from FineWeb to either OOD corpus."
+    }
+  },
+  "hypotheses": {
+    "P1_learned_bank_beats_random": {
+      "supported": true
+    },
+    "P2_state_router_retains_direct_energy": {
+      "supported": true
+    },
+    "P3_finite_mlp_subspace_transfers": {
+      "supported": false
+    },
+    "P4_suffix_effect_partially_transfers": {
+      "supported": false
+    },
+    "P5_finite_direct_energy_calibrates": {
+      "supported": true
+    },
+    "P6_direct_prototype_causality_is_ood_stable": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "summary": {
+        "oracle_capture": 0.43243254721164703,
+        "routed_capture": 0.3717418909072876,
+        "random_oracle_capture": 0.16313033550977707,
+        "finite_mlp_overlap": 0.2987220585346222,
+        "finite_suffix_overlap": 0.3358619213104248,
+        "finite_energy_ratio": 0.3565685749053955
+      },
+      "records": [
+        {
+          "oracle_capture": 0.4287206530570984,
+          "routed_capture": 0.3432576358318329,
+          "random_oracle_capture": 0.1800888478755951,
+          "finite_mlp_overlap": 0.2720741629600525,
+          "finite_suffix_overlap": 0.303842693567276,
+          "finite_energy_ratio": 0.31913432478904724,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4102708101272583,
+          "routed_capture": 0.4102708101272583,
+          "random_oracle_capture": 0.13241636753082275,
+          "finite_mlp_overlap": 0.33620569109916687,
+          "finite_suffix_overlap": 0.35206925868988037,
+          "finite_energy_ratio": 0.38933730125427246,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.45167800784111023,
+          "routed_capture": 0.3916754722595215,
+          "random_oracle_capture": 0.19766701757907867,
+          "finite_mlp_overlap": 0.3309229016304016,
+          "finite_suffix_overlap": 0.3442908525466919,
+          "finite_energy_ratio": 0.3465825915336609,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.46676507592201233,
+          "routed_capture": 0.46676507592201233,
+          "random_oracle_capture": 0.10449513047933578,
+          "finite_mlp_overlap": 0.4977915287017822,
+          "finite_suffix_overlap": 0.5099090933799744,
+          "finite_energy_ratio": 0.503697395324707,
+          "oracle": 47,
+          "routed": 47
+        },
+        {
+          "oracle_capture": 0.4286486804485321,
+          "routed_capture": 0.2883419096469879,
+          "random_oracle_capture": 0.18772774934768677,
+          "finite_mlp_overlap": 0.11691779643297195,
+          "finite_suffix_overlap": 0.17425894737243652,
+          "finite_energy_ratio": 0.2765577435493469,
+          "oracle": 30,
+          "routed": 41
+        },
+        {
+          "oracle_capture": 0.6206856369972229,
+          "routed_capture": 0.35528087615966797,
+          "random_oracle_capture": 0.13525697588920593,
+          "finite_mlp_overlap": 0.3974721133708954,
+          "finite_suffix_overlap": 0.35528916120529175,
+          "finite_energy_ratio": 0.35974177718162537,
+          "oracle": 1,
+          "routed": 47
+        },
+        {
+          "oracle_capture": 0.4484696388244629,
+          "routed_capture": 0.42951762676239014,
+          "random_oracle_capture": 0.18039846420288086,
+          "finite_mlp_overlap": 0.28709959983825684,
+          "finite_suffix_overlap": 0.2855641543865204,
+          "finite_energy_ratio": 0.43003299832344055,
+          "oracle": 61,
+          "routed": 41
+        },
+        {
+          "oracle_capture": 0.5962072014808655,
+          "routed_capture": 0.5962072014808655,
+          "random_oracle_capture": 0.12475976347923279,
+          "finite_mlp_overlap": 0.5507150292396545,
+          "finite_suffix_overlap": 0.5619674324989319,
+          "finite_energy_ratio": 0.6307880282402039,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.6094976663589478,
+          "routed_capture": 0.40478381514549255,
+          "random_oracle_capture": 0.13621729612350464,
+          "finite_mlp_overlap": 0.437711238861084,
+          "finite_suffix_overlap": 0.4615885019302368,
+          "finite_energy_ratio": 0.4352557957172394,
+          "oracle": 4,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.4234985411167145,
+          "routed_capture": 0.4234985411167145,
+          "random_oracle_capture": 0.1828947216272354,
+          "finite_mlp_overlap": 0.24617934226989746,
+          "finite_suffix_overlap": 0.23805707693099976,
+          "finite_energy_ratio": 0.3684619665145874,
+          "oracle": 51,
+          "routed": 51
+        },
+        {
+          "oracle_capture": 0.37897053360939026,
+          "routed_capture": 0.30853357911109924,
+          "random_oracle_capture": 0.18841147422790527,
+          "finite_mlp_overlap": 0.20893552899360657,
+          "finite_suffix_overlap": 0.284054160118103,
+          "finite_energy_ratio": 0.33031877875328064,
+          "oracle": 13,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4106541872024536,
+          "routed_capture": 0.28454527258872986,
+          "random_oracle_capture": 0.15948337316513062,
+          "finite_mlp_overlap": 0.1211068257689476,
+          "finite_suffix_overlap": 0.1913226842880249,
+          "finite_energy_ratio": 0.24320866167545319,
+          "oracle": 61,
+          "routed": 40
+        },
+        {
+          "oracle_capture": 0.3281165659427643,
+          "routed_capture": 0.21434463560581207,
+          "random_oracle_capture": 0.1343076527118683,
+          "finite_mlp_overlap": 0.048814162611961365,
+          "finite_suffix_overlap": 0.1211625188589096,
+          "finite_energy_ratio": 0.18956975638866425,
+          "oracle": 58,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.3986668288707733,
+          "routed_capture": 0.31259885430336,
+          "random_oracle_capture": 0.1611805409193039,
+          "finite_mlp_overlap": 0.2493721842765808,
+          "finite_suffix_overlap": 0.4024695158004761,
+          "finite_energy_ratio": 0.3514355421066284,
+          "oracle": 55,
+          "routed": 51
+        },
+        {
+          "oracle_capture": 0.40164217352867126,
+          "routed_capture": 0.29190924763679504,
+          "random_oracle_capture": 0.1720467060804367,
+          "finite_mlp_overlap": 0.09562459588050842,
+          "finite_suffix_overlap": 0.17311368882656097,
+          "finite_energy_ratio": 0.2742152810096741,
+          "oracle": 1,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4288930296897888,
+          "routed_capture": 0.30913689732551575,
+          "random_oracle_capture": 0.16942353546619415,
+          "finite_mlp_overlap": 0.19803228974342346,
+          "finite_suffix_overlap": 0.27398744225502014,
+          "finite_energy_ratio": 0.25435784459114075,
+          "oracle": 45,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4590676724910736,
+          "routed_capture": 0.34363070130348206,
+          "random_oracle_capture": 0.13934876024723053,
+          "finite_mlp_overlap": 0.16445830464363098,
+          "finite_suffix_overlap": 0.23272499442100525,
+          "finite_energy_ratio": 0.34375977516174316,
+          "oracle": 1,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.3576066195964813,
+          "routed_capture": 0.2781539559364319,
+          "random_oracle_capture": 0.1726624220609665,
+          "finite_mlp_overlap": 0.16374671459197998,
+          "finite_suffix_overlap": 0.196486234664917,
+          "finite_energy_ratio": 0.310761034488678,
+          "oracle": 4,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.5151947736740112,
+          "routed_capture": 0.5151947736740112,
+          "random_oracle_capture": 0.18070940673351288,
+          "finite_mlp_overlap": 0.3334677517414093,
+          "finite_suffix_overlap": 0.3953841030597687,
+          "finite_energy_ratio": 0.6093775629997253,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.3494320511817932,
+          "routed_capture": 0.34448423981666565,
+          "random_oracle_capture": 0.14748115837574005,
+          "finite_mlp_overlap": 0.31034451723098755,
+          "finite_suffix_overlap": 0.3274329900741577,
+          "finite_energy_ratio": 0.34970754384994507,
+          "oracle": 39,
+          "routed": 4
+        },
+        {
+          "oracle_capture": 0.6868888735771179,
+          "routed_capture": 0.6868888735771179,
+          "random_oracle_capture": 0.12223449349403381,
+          "finite_mlp_overlap": 0.651378870010376,
+          "finite_suffix_overlap": 0.6589162349700928,
+          "finite_energy_ratio": 0.7759724259376526,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.3957520127296448,
+          "routed_capture": 0.30559271574020386,
+          "random_oracle_capture": 0.1607213318347931,
+          "finite_mlp_overlap": 0.18436704576015472,
+          "finite_suffix_overlap": 0.20842978358268738,
+          "finite_energy_ratio": 0.31630221009254456,
+          "oracle": 8,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4707709550857544,
+          "routed_capture": 0.3882029056549072,
+          "random_oracle_capture": 0.14950406551361084,
+          "finite_mlp_overlap": 0.36904653906822205,
+          "finite_suffix_overlap": 0.3903868794441223,
+          "finite_energy_ratio": 0.42555564641952515,
+          "oracle": 30,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.538224995136261,
+          "routed_capture": 0.4143836498260498,
+          "random_oracle_capture": 0.15398851037025452,
+          "finite_mlp_overlap": 0.310544490814209,
+          "finite_suffix_overlap": 0.3000262379646301,
+          "finite_energy_ratio": 0.5489727854728699,
+          "oracle": 61,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.43597206473350525,
+          "routed_capture": 0.391589879989624,
+          "random_oracle_capture": 0.1653178632259369,
+          "finite_mlp_overlap": 0.3566550612449646,
+          "finite_suffix_overlap": 0.40598180890083313,
+          "finite_energy_ratio": 0.3747888207435608,
+          "oracle": 60,
+          "routed": 51
+        },
+        {
+          "oracle_capture": 0.3865262269973755,
+          "routed_capture": 0.30109402537345886,
+          "random_oracle_capture": 0.18410718441009521,
+          "finite_mlp_overlap": 0.23012347519397736,
+          "finite_suffix_overlap": 0.39019179344177246,
+          "finite_energy_ratio": 0.3037084639072418,
+          "oracle": 41,
+          "routed": 52
+        },
+        {
+          "oracle_capture": 0.376300573348999,
+          "routed_capture": 0.3093622326850891,
+          "random_oracle_capture": 0.16931091248989105,
+          "finite_mlp_overlap": 0.21189412474632263,
+          "finite_suffix_overlap": 0.25024014711380005,
+          "finite_energy_ratio": 0.35339537262916565,
+          "oracle": 41,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.5681523680686951,
+          "routed_capture": 0.4626297950744629,
+          "random_oracle_capture": 0.14714942872524261,
+          "finite_mlp_overlap": 0.436208575963974,
+          "finite_suffix_overlap": 0.46932709217071533,
+          "finite_energy_ratio": 0.37225088477134705,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.5165228843688965,
+          "routed_capture": 0.5165228843688965,
+          "random_oracle_capture": 0.17702582478523254,
+          "finite_mlp_overlap": 0.4000305235385895,
+          "finite_suffix_overlap": 0.40772831439971924,
+          "finite_energy_ratio": 0.472713440656662,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4565678834915161,
+          "routed_capture": 0.4227372109889984,
+          "random_oracle_capture": 0.16508013010025024,
+          "finite_mlp_overlap": 0.4535300135612488,
+          "finite_suffix_overlap": 0.475216269493103,
+          "finite_energy_ratio": 0.42367029190063477,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4457433521747589,
+          "routed_capture": 0.4457433521747589,
+          "random_oracle_capture": 0.1424218714237213,
+          "finite_mlp_overlap": 0.4635394215583801,
+          "finite_suffix_overlap": 0.5127493143081665,
+          "finite_energy_ratio": 0.42110228538513184,
+          "oracle": 4,
+          "routed": 4
+        },
+        {
+          "oracle_capture": 0.3618326783180237,
+          "routed_capture": 0.25271323323249817,
+          "random_oracle_capture": 0.16954711079597473,
+          "finite_mlp_overlap": 0.16076460480690002,
+          "finite_suffix_overlap": 0.2700694501399994,
+          "finite_energy_ratio": 0.24591924250125885,
+          "oracle": 52,
+          "routed": 3
+        }
+      ]
+    },
+    "wikitext": {
+      "summary": {
+        "oracle_capture": 0.4742330461740494,
+        "routed_capture": 0.3785688430070877,
+        "random_oracle_capture": 0.13575013726949692,
+        "finite_mlp_overlap": 0.3641280084848404,
+        "finite_suffix_overlap": 0.383149653673172,
+        "finite_energy_ratio": 0.37868769466876984
+      },
+      "records": [
+        {
+          "oracle_capture": 0.4633203446865082,
+          "routed_capture": 0.43665897846221924,
+          "random_oracle_capture": 0.1712931990623474,
+          "finite_mlp_overlap": 0.2541971802711487,
+          "finite_suffix_overlap": 0.36412978172302246,
+          "finite_energy_ratio": 0.48425862193107605,
+          "oracle": 51,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.6277838945388794,
+          "routed_capture": 0.6094651818275452,
+          "random_oracle_capture": 0.10944568365812302,
+          "finite_mlp_overlap": 0.6174226403236389,
+          "finite_suffix_overlap": 0.6150137186050415,
+          "finite_energy_ratio": 0.7103254199028015,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.6459687948226929,
+          "routed_capture": 0.43170058727264404,
+          "random_oracle_capture": 0.12072326242923737,
+          "finite_mlp_overlap": 0.404177725315094,
+          "finite_suffix_overlap": 0.4628440737724304,
+          "finite_energy_ratio": 0.46617546677589417,
+          "oracle": 28,
+          "routed": 3
+        },
+        {
+          "oracle_capture": 0.3773617744445801,
+          "routed_capture": 0.36030498147010803,
+          "random_oracle_capture": 0.1980711668729782,
+          "finite_mlp_overlap": 0.21489474177360535,
+          "finite_suffix_overlap": 0.29148492217063904,
+          "finite_energy_ratio": 0.3339821994304657,
+          "oracle": 61,
+          "routed": 41
+        },
+        {
+          "oracle_capture": 0.5175791382789612,
+          "routed_capture": 0.5175791382789612,
+          "random_oracle_capture": 0.17435063421726227,
+          "finite_mlp_overlap": 0.4119894504547119,
+          "finite_suffix_overlap": 0.4226807653903961,
+          "finite_energy_ratio": 0.6682259440422058,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4413268268108368,
+          "routed_capture": 0.4086654782295227,
+          "random_oracle_capture": 0.16352666914463043,
+          "finite_mlp_overlap": 0.3961722254753113,
+          "finite_suffix_overlap": 0.42445114254951477,
+          "finite_energy_ratio": 0.3847256898880005,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.3691581189632416,
+          "routed_capture": 0.35321012139320374,
+          "random_oracle_capture": 0.12558060884475708,
+          "finite_mlp_overlap": 0.3729509711265564,
+          "finite_suffix_overlap": 0.45391857624053955,
+          "finite_energy_ratio": 0.36316925287246704,
+          "oracle": 28,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.5048346519470215,
+          "routed_capture": 0.5048346519470215,
+          "random_oracle_capture": 0.09643515944480896,
+          "finite_mlp_overlap": 0.5807383060455322,
+          "finite_suffix_overlap": 0.5731531381607056,
+          "finite_energy_ratio": 0.47668707370758057,
+          "oracle": 3,
+          "routed": 3
+        },
+        {
+          "oracle_capture": 0.41381949186325073,
+          "routed_capture": 0.3560623824596405,
+          "random_oracle_capture": 0.1915310174226761,
+          "finite_mlp_overlap": 0.19361136853694916,
+          "finite_suffix_overlap": 0.28437256813049316,
+          "finite_energy_ratio": 0.3107485771179199,
+          "oracle": 28,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4268297553062439,
+          "routed_capture": 0.33338096737861633,
+          "random_oracle_capture": 0.1370919644832611,
+          "finite_mlp_overlap": 0.3010401725769043,
+          "finite_suffix_overlap": 0.3222809135913849,
+          "finite_energy_ratio": 0.3459073603153229,
+          "oracle": 1,
+          "routed": 47
+        },
+        {
+          "oracle_capture": 0.4457953870296478,
+          "routed_capture": 0.3471606373786926,
+          "random_oracle_capture": 0.17743124067783356,
+          "finite_mlp_overlap": 0.21090984344482422,
+          "finite_suffix_overlap": 0.24711568653583527,
+          "finite_energy_ratio": 0.31255802512168884,
+          "oracle": 51,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.5616219639778137,
+          "routed_capture": 0.33333536982536316,
+          "random_oracle_capture": 0.12268160283565521,
+          "finite_mlp_overlap": 0.24593453109264374,
+          "finite_suffix_overlap": 0.2829347252845764,
+          "finite_energy_ratio": 0.2686234712600708,
+          "oracle": 61,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.6011891961097717,
+          "routed_capture": 0.3215358257293701,
+          "random_oracle_capture": 0.13077926635742188,
+          "finite_mlp_overlap": 0.36080729961395264,
+          "finite_suffix_overlap": 0.3467584252357483,
+          "finite_energy_ratio": 0.39529234170913696,
+          "oracle": 61,
+          "routed": 23
+        },
+        {
+          "oracle_capture": 0.45399630069732666,
+          "routed_capture": 0.310995876789093,
+          "random_oracle_capture": 0.14577330648899078,
+          "finite_mlp_overlap": 0.22960218787193298,
+          "finite_suffix_overlap": 0.35635292530059814,
+          "finite_energy_ratio": 0.3335752487182617,
+          "oracle": 41,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.42620426416397095,
+          "routed_capture": 0.37565216422080994,
+          "random_oracle_capture": 0.1009783148765564,
+          "finite_mlp_overlap": 0.41630643606185913,
+          "finite_suffix_overlap": 0.4072023034095764,
+          "finite_energy_ratio": 0.3216024339199066,
+          "oracle": 14,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.6872570514678955,
+          "routed_capture": 0.6872570514678955,
+          "random_oracle_capture": 0.1232018992304802,
+          "finite_mlp_overlap": 0.5660287141799927,
+          "finite_suffix_overlap": 0.6130244731903076,
+          "finite_energy_ratio": 0.47235384583473206,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.46809083223342896,
+          "routed_capture": 0.31463032960891724,
+          "random_oracle_capture": 0.17921054363250732,
+          "finite_mlp_overlap": 0.19412559270858765,
+          "finite_suffix_overlap": 0.2670685946941376,
+          "finite_energy_ratio": 0.33576828241348267,
+          "oracle": 51,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.5959427356719971,
+          "routed_capture": 0.2347981035709381,
+          "random_oracle_capture": 0.10513852536678314,
+          "finite_mlp_overlap": 0.2840774655342102,
+          "finite_suffix_overlap": 0.34612590074539185,
+          "finite_energy_ratio": 0.27320370078086853,
+          "oracle": 2,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.4803752601146698,
+          "routed_capture": 0.4762525260448456,
+          "random_oracle_capture": 0.17797429859638214,
+          "finite_mlp_overlap": 0.4170582592487335,
+          "finite_suffix_overlap": 0.4547026753425598,
+          "finite_energy_ratio": 0.42451226711273193,
+          "oracle": 28,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.439178466796875,
+          "routed_capture": 0.4274628758430481,
+          "random_oracle_capture": 0.16279220581054688,
+          "finite_mlp_overlap": 0.36744871735572815,
+          "finite_suffix_overlap": 0.43499496579170227,
+          "finite_energy_ratio": 0.4168515205383301,
+          "oracle": 58,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.3738781809806824,
+          "routed_capture": 0.3543955087661743,
+          "random_oracle_capture": 0.16636157035827637,
+          "finite_mlp_overlap": 0.26488012075424194,
+          "finite_suffix_overlap": 0.2536236047744751,
+          "finite_energy_ratio": 0.33527472615242004,
+          "oracle": 47,
+          "routed": 41
+        },
+        {
+          "oracle_capture": 0.49684223532676697,
+          "routed_capture": 0.49684223532676697,
+          "random_oracle_capture": 0.16422364115715027,
+          "finite_mlp_overlap": 0.4813339114189148,
+          "finite_suffix_overlap": 0.5291550159454346,
+          "finite_energy_ratio": 0.40127116441726685,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.43344104290008545,
+          "routed_capture": 0.43344104290008545,
+          "random_oracle_capture": 0.15731574594974518,
+          "finite_mlp_overlap": 0.4229143261909485,
+          "finite_suffix_overlap": 0.3829101324081421,
+          "finite_energy_ratio": 0.4318679869174957,
+          "oracle": 28,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.508804440498352,
+          "routed_capture": 0.4524120092391968,
+          "random_oracle_capture": 0.13367781043052673,
+          "finite_mlp_overlap": 0.41822075843811035,
+          "finite_suffix_overlap": 0.5319109559059143,
+          "finite_energy_ratio": 0.3975467383861542,
+          "oracle": 51,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.6733850836753845,
+          "routed_capture": 0.33657994866371155,
+          "random_oracle_capture": 0.09300819039344788,
+          "finite_mlp_overlap": 0.3560972809791565,
+          "finite_suffix_overlap": 0.3540794849395752,
+          "finite_energy_ratio": 0.34060633182525635,
+          "oracle": 61,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.5687286257743835,
+          "routed_capture": 0.3372020125389099,
+          "random_oracle_capture": 0.15374566614627838,
+          "finite_mlp_overlap": 0.30873438715934753,
+          "finite_suffix_overlap": 0.25204604864120483,
+          "finite_energy_ratio": 0.36547771096229553,
+          "oracle": 61,
+          "routed": 41
+        },
+        {
+          "oracle_capture": 0.5561520457267761,
+          "routed_capture": 0.5561520457267761,
+          "random_oracle_capture": 0.12804901599884033,
+          "finite_mlp_overlap": 0.5708396434783936,
+          "finite_suffix_overlap": 0.5589679479598999,
+          "finite_energy_ratio": 0.49123886227607727,
+          "oracle": 30,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.467450886964798,
+          "routed_capture": 0.3996037542819977,
+          "random_oracle_capture": 0.1054655984044075,
+          "finite_mlp_overlap": 0.4102368950843811,
+          "finite_suffix_overlap": 0.48606887459754944,
+          "finite_energy_ratio": 0.3911592364311218,
+          "oracle": 51,
+          "routed": 3
+        },
+        {
+          "oracle_capture": 0.6417068243026733,
+          "routed_capture": 0.2903880774974823,
+          "random_oracle_capture": 0.1222599595785141,
+          "finite_mlp_overlap": 0.2893243432044983,
+          "finite_suffix_overlap": 0.3833891749382019,
+          "finite_energy_ratio": 0.2406429499387741,
+          "oracle": 30,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.41282200813293457,
+          "routed_capture": 0.3814855217933655,
+          "random_oracle_capture": 0.15644758939743042,
+          "finite_mlp_overlap": 0.25540828704833984,
+          "finite_suffix_overlap": 0.35217511653900146,
+          "finite_energy_ratio": 0.3726496994495392,
+          "oracle": 4,
+          "routed": 58
+        },
+        {
+          "oracle_capture": 0.3106088638305664,
+          "routed_capture": 0.2943849563598633,
+          "random_oracle_capture": 0.13440831005573273,
+          "finite_mlp_overlap": 0.18335436284542084,
+          "finite_suffix_overlap": 0.27008092403411865,
+          "finite_energy_ratio": 0.2683159410953522,
+          "oracle": 51,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.5709264874458313,
+          "routed_capture": 0.5709264874458313,
+          "random_oracle_capture": 0.1233297735452652,
+          "finite_mlp_overlap": 0.5427965521812439,
+          "finite_suffix_overlap": 0.5036791563034058,
+          "finite_energy_ratio": 0.5863817930221558,
+          "oracle": 3,
+          "routed": 3
+        }
+      ]
+    },
+    "tinystories": {
+      "summary": {
+        "oracle_capture": 0.4688963443040848,
+        "routed_capture": 0.3405872732400894,
+        "random_oracle_capture": 0.1647961661219597,
+        "finite_mlp_overlap": 0.2994137555360794,
+        "finite_suffix_overlap": 0.3159765899181366,
+        "finite_energy_ratio": 0.33904197812080383
+      },
+      "records": [
+        {
+          "oracle_capture": 0.4683386981487274,
+          "routed_capture": 0.34503450989723206,
+          "random_oracle_capture": 0.14209230244159698,
+          "finite_mlp_overlap": 0.3635621666908264,
+          "finite_suffix_overlap": 0.34026432037353516,
+          "finite_energy_ratio": 0.3347560465335846,
+          "oracle": 30,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.3438880443572998,
+          "routed_capture": 0.22529979050159454,
+          "random_oracle_capture": 0.17264842987060547,
+          "finite_mlp_overlap": 0.0845566987991333,
+          "finite_suffix_overlap": 0.16280615329742432,
+          "finite_energy_ratio": 0.24791958928108215,
+          "oracle": 58,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.50276118516922,
+          "routed_capture": 0.50276118516922,
+          "random_oracle_capture": 0.18143410980701447,
+          "finite_mlp_overlap": 0.38276317715644836,
+          "finite_suffix_overlap": 0.4738151431083679,
+          "finite_energy_ratio": 0.5689575672149658,
+          "oracle": 4,
+          "routed": 4
+        },
+        {
+          "oracle_capture": 0.46945399045944214,
+          "routed_capture": 0.3025037348270416,
+          "random_oracle_capture": 0.17975693941116333,
+          "finite_mlp_overlap": 0.16131660342216492,
+          "finite_suffix_overlap": 0.2555385231971741,
+          "finite_energy_ratio": 0.33067387342453003,
+          "oracle": 61,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.4118621051311493,
+          "routed_capture": 0.29352179169654846,
+          "random_oracle_capture": 0.16890336573123932,
+          "finite_mlp_overlap": 0.23496678471565247,
+          "finite_suffix_overlap": 0.29168885946273804,
+          "finite_energy_ratio": 0.3245828449726105,
+          "oracle": 12,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.5670405030250549,
+          "routed_capture": 0.5670405030250549,
+          "random_oracle_capture": 0.16851569712162018,
+          "finite_mlp_overlap": 0.5439481735229492,
+          "finite_suffix_overlap": 0.5318260788917542,
+          "finite_energy_ratio": 0.5658252239227295,
+          "oracle": 12,
+          "routed": 12
+        },
+        {
+          "oracle_capture": 0.4096929728984833,
+          "routed_capture": 0.3222295343875885,
+          "random_oracle_capture": 0.18080008029937744,
+          "finite_mlp_overlap": 0.15599177777767181,
+          "finite_suffix_overlap": 0.26948338747024536,
+          "finite_energy_ratio": 0.32253119349479675,
+          "oracle": 58,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.49342653155326843,
+          "routed_capture": 0.4178903102874756,
+          "random_oracle_capture": 0.17314478754997253,
+          "finite_mlp_overlap": 0.31627562642097473,
+          "finite_suffix_overlap": 0.3812256455421448,
+          "finite_energy_ratio": 0.4318624436855316,
+          "oracle": 30,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.6225902438163757,
+          "routed_capture": 0.6225902438163757,
+          "random_oracle_capture": 0.10860909521579742,
+          "finite_mlp_overlap": 0.6764733791351318,
+          "finite_suffix_overlap": 0.7165063619613647,
+          "finite_energy_ratio": 0.5800110697746277,
+          "oracle": 1,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.6280936002731323,
+          "routed_capture": 0.6280936002731323,
+          "random_oracle_capture": 0.1293695569038391,
+          "finite_mlp_overlap": 0.5856195092201233,
+          "finite_suffix_overlap": 0.6306288242340088,
+          "finite_energy_ratio": 0.5515180230140686,
+          "oracle": 1,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.47760844230651855,
+          "routed_capture": 0.47760844230651855,
+          "random_oracle_capture": 0.15603387355804443,
+          "finite_mlp_overlap": 0.44672709703445435,
+          "finite_suffix_overlap": 0.4678517282009125,
+          "finite_energy_ratio": 0.4307643473148346,
+          "oracle": 37,
+          "routed": 37
+        },
+        {
+          "oracle_capture": 0.5449874997138977,
+          "routed_capture": 0.5449874997138977,
+          "random_oracle_capture": 0.16299372911453247,
+          "finite_mlp_overlap": 0.41445988416671753,
+          "finite_suffix_overlap": 0.5485857725143433,
+          "finite_energy_ratio": 0.5139831304550171,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.5308340787887573,
+          "routed_capture": 0.44801631569862366,
+          "random_oracle_capture": 0.14399483799934387,
+          "finite_mlp_overlap": 0.43308746814727783,
+          "finite_suffix_overlap": 0.48678353428840637,
+          "finite_energy_ratio": 0.4187915027141571,
+          "oracle": 43,
+          "routed": 3
+        },
+        {
+          "oracle_capture": 0.31860485672950745,
+          "routed_capture": 0.2929057776927948,
+          "random_oracle_capture": 0.15112769603729248,
+          "finite_mlp_overlap": 0.2264525294303894,
+          "finite_suffix_overlap": 0.21393011510372162,
+          "finite_energy_ratio": 0.2738722860813141,
+          "oracle": 45,
+          "routed": 41
+        },
+        {
+          "oracle_capture": 0.884135365486145,
+          "routed_capture": 0.884135365486145,
+          "random_oracle_capture": 0.17789791524410248,
+          "finite_mlp_overlap": 0.677758514881134,
+          "finite_suffix_overlap": 0.6830786466598511,
+          "finite_energy_ratio": 0.8597166538238525,
+          "oracle": 6,
+          "routed": 6
+        },
+        {
+          "oracle_capture": 0.43588340282440186,
+          "routed_capture": 0.32717788219451904,
+          "random_oracle_capture": 0.16630208492279053,
+          "finite_mlp_overlap": 0.2719975411891937,
+          "finite_suffix_overlap": 0.2536376416683197,
+          "finite_energy_ratio": 0.3317285180091858,
+          "oracle": 51,
+          "routed": 52
+        },
+        {
+          "oracle_capture": 0.4770191013813019,
+          "routed_capture": 0.4093162417411804,
+          "random_oracle_capture": 0.16867013275623322,
+          "finite_mlp_overlap": 0.36271095275878906,
+          "finite_suffix_overlap": 0.35839900374412537,
+          "finite_energy_ratio": 0.4233408570289612,
+          "oracle": 58,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.42289504408836365,
+          "routed_capture": 0.3001987934112549,
+          "random_oracle_capture": 0.17551767826080322,
+          "finite_mlp_overlap": 0.15725862979888916,
+          "finite_suffix_overlap": 0.21732428669929504,
+          "finite_energy_ratio": 0.3127744197845459,
+          "oracle": 12,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.4516417980194092,
+          "routed_capture": 0.4516417980194092,
+          "random_oracle_capture": 0.17577916383743286,
+          "finite_mlp_overlap": 0.1937398761510849,
+          "finite_suffix_overlap": 0.26811227202415466,
+          "finite_energy_ratio": 0.4971665143966675,
+          "oracle": 61,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.40165767073631287,
+          "routed_capture": 0.2860026955604553,
+          "random_oracle_capture": 0.15982015430927277,
+          "finite_mlp_overlap": 0.11452193558216095,
+          "finite_suffix_overlap": 0.15482892096042633,
+          "finite_energy_ratio": 0.349785178899765,
+          "oracle": 51,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.43283477425575256,
+          "routed_capture": 0.2594172954559326,
+          "random_oracle_capture": 0.1597956418991089,
+          "finite_mlp_overlap": 0.041377224028110504,
+          "finite_suffix_overlap": 0.08810579776763916,
+          "finite_energy_ratio": 0.29173052310943604,
+          "oracle": 4,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.6945927739143372,
+          "routed_capture": 0.6945927739143372,
+          "random_oracle_capture": 0.10821468383073807,
+          "finite_mlp_overlap": 0.6004160046577454,
+          "finite_suffix_overlap": 0.5468323230743408,
+          "finite_energy_ratio": 0.6893284916877747,
+          "oracle": 1,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.7219120860099792,
+          "routed_capture": 0.7219120860099792,
+          "random_oracle_capture": 0.10211250185966492,
+          "finite_mlp_overlap": 0.7304716110229492,
+          "finite_suffix_overlap": 0.7584075927734375,
+          "finite_energy_ratio": 0.661385178565979,
+          "oracle": 1,
+          "routed": 1
+        },
+        {
+          "oracle_capture": 0.348196804523468,
+          "routed_capture": 0.28090623021125793,
+          "random_oracle_capture": 0.16329024732112885,
+          "finite_mlp_overlap": 0.1675615906715393,
+          "finite_suffix_overlap": 0.22529202699661255,
+          "finite_energy_ratio": 0.2871054410934448,
+          "oracle": 4,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.45630377531051636,
+          "routed_capture": 0.301739364862442,
+          "random_oracle_capture": 0.18516601622104645,
+          "finite_mlp_overlap": 0.06685364246368408,
+          "finite_suffix_overlap": 0.08046108484268188,
+          "finite_energy_ratio": 0.3147085905075073,
+          "oracle": 52,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.4973527491092682,
+          "routed_capture": 0.4973527491092682,
+          "random_oracle_capture": 0.17383892834186554,
+          "finite_mlp_overlap": 0.4512057304382324,
+          "finite_suffix_overlap": 0.461017906665802,
+          "finite_energy_ratio": 0.5896425843238831,
+          "oracle": 28,
+          "routed": 28
+        },
+        {
+          "oracle_capture": 0.5779895782470703,
+          "routed_capture": 0.31802722811698914,
+          "random_oracle_capture": 0.1363266557455063,
+          "finite_mlp_overlap": 0.337209016084671,
+          "finite_suffix_overlap": 0.39090096950531006,
+          "finite_energy_ratio": 0.31003424525260925,
+          "oracle": 48,
+          "routed": 3
+        },
+        {
+          "oracle_capture": 0.4694647490978241,
+          "routed_capture": 0.29143884778022766,
+          "random_oracle_capture": 0.17666101455688477,
+          "finite_mlp_overlap": 0.11147929728031158,
+          "finite_suffix_overlap": 0.2724151313304901,
+          "finite_energy_ratio": 0.3052292466163635,
+          "oracle": 1,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.3513980805873871,
+          "routed_capture": 0.25771549344062805,
+          "random_oracle_capture": 0.1614222377538681,
+          "finite_mlp_overlap": 0.050355102866888046,
+          "finite_suffix_overlap": 0.14431411027908325,
+          "finite_energy_ratio": 0.2822266221046448,
+          "oracle": 52,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.3894578814506531,
+          "routed_capture": 0.3361400365829468,
+          "random_oracle_capture": 0.1818530261516571,
+          "finite_mlp_overlap": 0.15966717898845673,
+          "finite_suffix_overlap": 0.25957876443862915,
+          "finite_energy_ratio": 0.3382178843021393,
+          "oracle": 41,
+          "routed": 61
+        },
+        {
+          "oracle_capture": 0.44989660382270813,
+          "routed_capture": 0.3819487690925598,
+          "random_oracle_capture": 0.128217875957489,
+          "finite_mlp_overlap": 0.39615345001220703,
+          "finite_suffix_overlap": 0.46842437982559204,
+          "finite_energy_ratio": 0.3398660719394684,
+          "oracle": 1,
+          "routed": 30
+        },
+        {
+          "oracle_capture": 0.4273137152194977,
+          "routed_capture": 0.31937479972839355,
+          "random_oracle_capture": 0.16078682243824005,
+          "finite_mlp_overlap": 0.2825518846511841,
+          "finite_suffix_overlap": 0.27819788455963135,
+          "finite_energy_ratio": 0.2918131649494171,
+          "oracle": 4,
+          "routed": 51
+        }
+      ]
+    }
+  }
+}

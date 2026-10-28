@@ -1,0 +1,31 @@
+{
+  "status": "hypotheses-locked-after-operator-atlas-before-centered-and-within-mode-red-team",
+  "source_config": "configs/bilin18_late_mlp_operator_atlas.json",
+  "seed": 20261030,
+  "batch_size": 8,
+  "layer": 12,
+  "final_layer": 17,
+  "layers": [13, 14, 15, 16],
+  "rank": 32,
+  "positions": [31, 63, 95, 127],
+  "operator_modes": 64,
+  "inner_ranks": [1, 2, 4, 8, 16, 32],
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "atlas_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17000, "rows": 128},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19800, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 700, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 700, "rows": 32}
+  },
+  "hypotheses": {
+    "C0_exact_read_vectors_recover_mode_coefficients": "Weight-derived state read vectors reproduce discovery coefficients of the first 64 operator modes with relative error at most 1e-5.",
+    "C1_layer16_spike_is_a_common_operator": "Layer 16's frozen discovery-mean operator has FineWeb fidelity at least 0.60 and its leading uncentered mode has cosine at least 0.95 with that mean.",
+    "C2_layer16_variation_remains_spectrally_spiked": "After subtracting the discovery mean operator, Layer 16's leading centered mode still carries at least 0.25 of variation energy.",
+    "C3_layer16_leading_mode_is_a_simple_matrix_circuit": "The leading Layer-16 operator mode needs at most rank 4 between the 32D input chart and 1,152D output to retain 90% of its energy.",
+    "C4_layer16_mode_family_is_inner_low_rank": "The energy-weighted median matrix rank-90 among the first 64 Layer-16 modes is at most 8.",
+    "C5_rank4_inner_factorization_preserves_the_atlas": "At every layer and corpus, truncating each of 64 modes to matrix rank 4 loses at most 0.05 fidelity relative to the complete 64-mode atlas.",
+    "C6_layer16_has_a_compact_read_transform_write_program": "The exact-read, 64-mode, inner-rank-4 program retains at least 0.80 fidelity at Layer 16 on every corpus.",
+    "C7_earlier_layers_remain_broad_after_tensor_factorization": "At least one of Layers 13--15 remains below 0.70 fidelity even with 64 modes and inner rank 8 on every corpus.",
+    "C8_exact_read_program_matches_oracle_projection": "With full inner rank, exact weight-derived reads reproduce rank-64 oracle projection within 1e-5 fidelity at every layer and corpus."
+  }
+}

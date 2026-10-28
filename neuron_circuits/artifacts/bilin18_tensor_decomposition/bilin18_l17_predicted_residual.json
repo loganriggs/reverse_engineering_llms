@@ -1,0 +1,265 @@
+{
+  "config": {
+    "status": "H258 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_local_chart_replication_documents.npy",
+    "train_documents": 768,
+    "validation_documents": 256,
+    "test_documents": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "ridge_strengths": [
+      0.001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "candidate_tokens": 256,
+    "chart_ranks": [
+      16,
+      64
+    ],
+    "seed": 20261201,
+    "selection": "Fit centered affine x->native-minus-compiled write by ridge MSE, lambda=strength*trace(Xc.T Xc)/1152. Train first768 discovery documents; validate last256. Choose full and chart16 models separately by validation exact native KL; ties choose earlier listed alpha. Refit every candidate on1024 discovery, freeze selected names/maps before collecting test. Report all test candidates; no test selection. Chart64 uses chart16-selected alpha.",
+    "gates": {
+      "predictive_signal": "Selected chart16 predictor recovers >=.20 of compiled KL and beats chart16 constant correction with paired document-bootstrap95 KL upper bound <0.",
+      "oracle_gap_closed": "Selected chart16 predictor achieves >=.80 of oracle chart16 KL reduction.",
+      "behavioral_repair": "Selected full OR selected chart16 correction recovers>=.80 KL, CE increase<=.02 nats, native top1 agreement>=.98."
+    },
+    "scope": "Previously examined H256 test panel; adaptive class choice, discovery-only hyperparameter selection. No test-native error in predictor or chart selection. Oracle error only for targets/diagnostic controls. Full matrix1152x1152 adds cost, no cheap or semantic-feature claim. Original compiled program unchanged."
+  },
+  "validation_kl": {
+    "full_0.001": 0.06888645887374878,
+    "chart16_0.001": 0.07505233585834503,
+    "full_0.01": 0.06639024615287781,
+    "chart16_0.01": 0.07315434515476227,
+    "full_0.1": 0.058252349495887756,
+    "chart16_0.1": 0.06702828407287598,
+    "full_1.0": 0.05914871394634247,
+    "chart16_1.0": 0.06788154691457748
+  },
+  "selected": {
+    "full": 0.1,
+    "chart16": 0.1
+  },
+  "results": {
+    "compiled": {
+      "mean_kl": 0.0968196839094162,
+      "ce_delta": 0.10995008796453476,
+      "top1": 0.826171875,
+      "residual_energy_recovery": 0.0,
+      "kl_recovery": 0.0,
+      "ce_delta_document_bootstrap95": [
+        0.06936093047261238,
+        0.1565513163805008
+      ]
+    },
+    "constant": {
+      "mean_kl": 0.09606631100177765,
+      "ce_delta": 0.10954436659812927,
+      "top1": 0.8359375,
+      "residual_energy_recovery": 0.004606306552886963,
+      "kl_recovery": 0.007781195695117149,
+      "ce_delta_document_bootstrap95": [
+        0.06830390207469464,
+        0.15628685466945172
+      ]
+    },
+    "constant_chart16": {
+      "mean_kl": 0.09602630138397217,
+      "ce_delta": 0.10841209441423416,
+      "top1": 0.8359375,
+      "residual_energy_recovery": 3.445148468017578e-05,
+      "kl_recovery": 0.008194434162647313,
+      "ce_delta_document_bootstrap95": [
+        0.06759818531572818,
+        0.15494522526860235
+      ]
+    },
+    "full_0.001": {
+      "mean_kl": 0.05736026167869568,
+      "ce_delta": 0.04811828210949898,
+      "top1": 0.873046875,
+      "residual_energy_recovery": 0.2410181760787964,
+      "kl_recovery": 0.40755578449975594,
+      "ce_delta_document_bootstrap95": [
+        0.015437940997071565,
+        0.08453465439379215
+      ]
+    },
+    "chart16_0.001": {
+      "mean_kl": 0.06392213702201843,
+      "ce_delta": 0.06100132316350937,
+      "top1": 0.87109375,
+      "residual_energy_recovery": 0.00902712345123291,
+      "kl_recovery": 0.3397815976984233,
+      "ce_delta_document_bootstrap95": [
+        0.025992051186040043,
+        0.10013632383197546
+      ]
+    },
+    "chart64_0.001": {
+      "mean_kl": 0.06103390455245972,
+      "ce_delta": 0.05145157128572464,
+      "top1": 0.87109375,
+      "residual_energy_recovery": 0.019860446453094482,
+      "kl_recovery": 0.3696126439581997,
+      "ce_delta_document_bootstrap95": [
+        0.01623318186029792,
+        0.09104563165456056
+      ]
+    },
+    "full_0.01": {
+      "mean_kl": 0.056468985974788666,
+      "ce_delta": 0.047656092792749405,
+      "top1": 0.873046875,
+      "residual_energy_recovery": 0.2630966901779175,
+      "kl_recovery": 0.4167613062275576,
+      "ce_delta_document_bootstrap95": [
+        0.015207979641854764,
+        0.08392202965915203
+      ]
+    },
+    "chart16_0.01": {
+      "mean_kl": 0.06328746676445007,
+      "ce_delta": 0.060777101665735245,
+      "top1": 0.87109375,
+      "residual_energy_recovery": 0.009255170822143555,
+      "kl_recovery": 0.3463367756533746,
+      "ce_delta_document_bootstrap95": [
+        0.026083507249131797,
+        0.0997647076845169
+      ]
+    },
+    "chart64_0.01": {
+      "mean_kl": 0.060239244252443314,
+      "ce_delta": 0.05124349147081375,
+      "top1": 0.875,
+      "residual_energy_recovery": 0.02082347869873047,
+      "kl_recovery": 0.37782027558773357,
+      "ce_delta_document_bootstrap95": [
+        0.015969786373898388,
+        0.09048460610210896
+      ]
+    },
+    "full_0.1": {
+      "mean_kl": 0.05344397574663162,
+      "ce_delta": 0.04717693850398064,
+      "top1": 0.873046875,
+      "residual_energy_recovery": 0.3558286428451538,
+      "kl_recovery": 0.4480050585929053,
+      "ce_delta_document_bootstrap95": [
+        0.015156824770383538,
+        0.08335524536669253
+      ]
+    },
+    "chart16_0.1": {
+      "mean_kl": 0.061234667897224426,
+      "ce_delta": 0.06091760843992233,
+      "top1": 0.869140625,
+      "residual_energy_recovery": 0.010100483894348145,
+      "kl_recovery": 0.3675390641172187,
+      "ce_delta_document_bootstrap95": [
+        0.02703021257184446,
+        0.09941651597619054
+      ]
+    },
+    "chart64_0.1": {
+      "mean_kl": 0.05756288394331932,
+      "ce_delta": 0.051885828375816345,
+      "top1": 0.8671875,
+      "residual_energy_recovery": 0.024660885334014893,
+      "kl_recovery": 0.40546300484543263,
+      "ce_delta_document_bootstrap95": [
+        0.01793440943583846,
+        0.08997119292616843
+      ]
+    },
+    "full_1.0": {
+      "mean_kl": 0.05743815004825592,
+      "ce_delta": 0.058003708720207214,
+      "top1": 0.865234375,
+      "residual_energy_recovery": 0.38585174083709717,
+      "kl_recovery": 0.4067513161683668,
+      "ce_delta_document_bootstrap95": [
+        0.025113956863060595,
+        0.09613247513771055
+      ]
+    },
+    "chart16_1.0": {
+      "mean_kl": 0.0648794174194336,
+      "ce_delta": 0.06820498406887054,
+      "top1": 0.865234375,
+      "residual_energy_recovery": 0.009376168251037598,
+      "kl_recovery": 0.32989434792893657,
+      "ce_delta_document_bootstrap95": [
+        0.03359690262004733,
+        0.10725650042295454
+      ]
+    },
+    "chart64_1.0": {
+      "mean_kl": 0.061299048364162445,
+      "ce_delta": 0.06293486058712006,
+      "top1": 0.865234375,
+      "residual_energy_recovery": 0.02406388521194458,
+      "kl_recovery": 0.3668741118643457,
+      "ce_delta_document_bootstrap95": [
+        0.028620983427390456,
+        0.10214061420410867
+      ]
+    },
+    "oracle16": {
+      "mean_kl": 0.01819513365626335,
+      "ce_delta": 0.008012793958187103,
+      "top1": 1.0,
+      "residual_energy_recovery": 0.022790372371673584,
+      "kl_recovery": 0.8120719576683747,
+      "ce_delta_document_bootstrap95": [
+        -0.008388552605174482,
+        0.025065898010507223
+      ]
+    },
+    "oracle64": {
+      "mean_kl": 0.009512682445347309,
+      "ce_delta": 0.006961076986044645,
+      "top1": 0.998046875,
+      "residual_energy_recovery": 0.06357836723327637,
+      "kl_recovery": 0.9017484662080977,
+      "ce_delta_document_bootstrap95": [
+        -0.004434493533335626,
+        0.019314434751868247
+      ]
+    },
+    "oracle_full": {
+      "mean_kl": 0.0,
+      "ce_delta": 0.0,
+      "top1": 1.0,
+      "residual_energy_recovery": 1.0,
+      "kl_recovery": 1.0,
+      "ce_delta_document_bootstrap95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "contrast": {
+    "selected_minus_constant_kl": -0.03479162976145744,
+    "paired_document_bootstrap95": [
+      -0.04495569644495845,
+      -0.0257169416639954
+    ]
+  },
+  "oracle_reduction_fraction": 0.45259420750409707,
+  "gates": {
+    "predictive_signal": true,
+    "oracle_gap_closed": false,
+    "behavioral_repair": false
+  },
+  "affine_added_scalars": 1328256
+}

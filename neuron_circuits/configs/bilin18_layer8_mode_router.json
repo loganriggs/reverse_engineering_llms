@@ -1,0 +1,43 @@
+{
+  "status": "locked-after-oracle-mode-sparsity-before-predictive-router",
+  "layer": 8,
+  "dimension": 512,
+  "router_dimension": 64,
+  "queries": 16,
+  "cluster_counts": [16, 64, 256],
+  "budgets": [16, 32],
+  "kmeans_iterations": 30,
+  "seed": 20261025,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 10000,
+    "rows": 300
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10300,
+      "rows": 300
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    }
+  },
+  "hypotheses": {
+    "R1_cluster64_routes_are_predictive": "With budget 16, the frozen 64-cluster router reaches median full-score correlation at least 0.85 on every corpus.",
+    "R2_routing_beats_fixed_spectrum": "With budget 16, the 64-cluster router improves correlation over fixed leading eigenmodes by at least 0.15 on every corpus.",
+    "R3_cluster256_approaches_oracle": "With budget 16, the 256-cluster router is within 0.05 correlation of oracle adaptive selection on every corpus.",
+    "R4_router_transfers_ood": "The 64-cluster budget-16 correlation drops by at most 0.05 from FineWeb on each OOD corpus.",
+    "R5_router_predicts_support": "The 64-cluster budget-16 route recalls at least 40% of the oracle top-16 support on every corpus.",
+    "R6_routes_use_a_broad_dictionary": "Across 64 cluster routes, the median per-query union contains at least 128 distinct modes."
+  }
+}

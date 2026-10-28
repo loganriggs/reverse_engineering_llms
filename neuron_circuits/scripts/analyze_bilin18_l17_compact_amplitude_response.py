@@ -1,0 +1,10 @@
+from pathlib import Path
+import json,numpy as np
+R=Path(__file__).resolve().parents[1];A=R/'artifacts/bilin18_tensor_decomposition';stem='bilin18_l17_compact_amplitude_response';j=json.loads((A/f'{stem}.json').read_text());z=np.load(A/f'{stem}_rows.npz');e=z['errors'];d=z['effects'];assert e.shape==(8,3,9,24,128,2) and np.isfinite(e).all() and all(j['numerical_gates'].values());rec=1-e.sum((3,4))/d.sum((1,2))[:,None,None,:];ee=np.take(np.take(e,[4,7],axis=0),[0,2],axis=1)[...,1];dd=d[[4,7],:,:,1]
+def contrast(r,sp):
+ gap=r[:,1]-r[:,0];return np.array([r[0,0,0]-r[1,0,0],(r[0,0,1+sp]-r[1,0,1+sp]).mean(),gap[1,0]-gap[0,0],(gap[1,1+sp]-gap[0,1+sp]).mean()])
+pt=contrast(np.take(np.take(rec,[4,7],axis=0),[0,2],axis=1)[...,1],np.arange(8));assert np.allclose(pt,contrast(1-ee.sum((3,4))/dd.sum((1,2))[:,None,None],np.arange(8)));rng=np.random.default_rng(j['config']['bootstrap_seed']);boot=[]
+for _ in range(j['config']['bootstrap_samples']):
+ pairs=rng.integers(0,12,12);sw=np.bincount(np.r_[pairs,12+pairs],minlength=24);dw=np.bincount(rng.integers(0,128,128),minlength=128);sp=rng.integers(0,8,8);rr=1-np.einsum('ambsi,s,i->amb',ee,sw,dw,optimize=True)/np.einsum('asi,s,i->a',dd,sw,dw,optimize=True)[:,None,None];boot.append(contrast(rr,sp))
+boot=np.array(boot);radius=np.quantile(abs(boot-pt).max(1),.95);ci=np.stack([pt-radius,pt+radius],1);gates=[bool(ci[0,0]>.005),bool(ci[1,0]>.005),bool(ci[2,0]>-.01 and ci[2,1]<.01),bool(ci[3,0]>-.01 and ci[3,1]<.01)];j.update(primary_names=['dense_small_minus_large_learned','dense_small_minus_large_random','compression_gap_change_learned','compression_gap_change_random'],primary=pt.tolist(),primary_joint4_ci95=ci.tolist(),primary_gates=gates,finite_KL_recovery=rec[:,:,:,1].tolist(),Fisher_recovery=rec[:,:,:,0].tolist());np.savez_compressed(A/f'{stem}_bootstrap.npz',primary=boot);(A/f'{stem}.json').write_text(json.dumps(j,indent=2)+'\n');print('primary',pt,'CI',ci,'gates',gates)
+for amp,r in zip(j['config']['amplitudes'],rec[:,:,:,1]):print(amp,'learned',r[:,0],'randommean',r[:,1:].mean(1))

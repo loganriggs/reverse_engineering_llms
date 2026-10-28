@@ -1,0 +1,235 @@
+{
+  "config": {
+    "status": "locked_after-hybrid-basis-and-tangent-validation-before-efficient-contraction",
+    "basis": "hybrid64",
+    "ranks": [
+      16,
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "hypotheses": {
+      "E1_exact_contraction": "The unfactored contracted tensor reproduces the native projected-MLP write with maximum relative error below 1e-5.",
+      "E2_rank128_preserves_hybrid": "Rank-128 factorization adds median KL at most 0.005 relative to the exact Hybrid-64 model on every corpus.",
+      "E3_rank128_native_fidelity": "Rank-128 factorization has median native-model KL at most 0.05 on every corpus.",
+      "E4_rank128_compute_reduction": "Rank-128 factorization uses at least ten times fewer counted dense multiplications per token than the native MLP.",
+      "E5_rank64_useful": "Rank-64 factorization adds median KL at most 0.01 relative to exact Hybrid-64 on every corpus."
+    }
+  },
+  "compute": {
+    "16": {
+      "multiplications_per_token": 161792,
+      "speedup_over_native_dense_multiplications": 98.43037974683544,
+      "parameters_including_basis_and_bias": 158848,
+      "tensor_energy": 0.703381359577179
+    },
+    "32": {
+      "multiplications_per_token": 245760,
+      "speedup_over_native_dense_multiplications": 64.8,
+      "parameters_including_basis_and_bias": 242816,
+      "tensor_energy": 0.7730775475502014
+    },
+    "64": {
+      "multiplications_per_token": 413696,
+      "speedup_over_native_dense_multiplications": 38.495049504950494,
+      "parameters_including_basis_and_bias": 410752,
+      "tensor_energy": 0.8199076056480408
+    },
+    "128": {
+      "multiplications_per_token": 749568,
+      "speedup_over_native_dense_multiplications": 21.24590163934426,
+      "parameters_including_basis_and_bias": 746624,
+      "tensor_energy": 0.8656033277511597
+    },
+    "256": {
+      "multiplications_per_token": 1421312,
+      "speedup_over_native_dense_multiplications": 11.204610951008645,
+      "parameters_including_basis_and_bias": 1418368,
+      "tensor_energy": 0.9181225299835205
+    },
+    "512": {
+      "multiplications_per_token": 2764800,
+      "speedup_over_native_dense_multiplications": 5.76,
+      "parameters_including_basis_and_bias": 2761856,
+      "tensor_energy": 0.9697838425636292
+    }
+  },
+  "native_multiplications_per_token": 15925248,
+  "results": {
+    "fineweb": {
+      "native_ce": 3.293630982438814,
+      "exact_hybrid": {
+        "median_native_kl": 0.042826201766729355,
+        "ce_increase": 0.056518987970785695
+      },
+      "ranks": {
+        "16": {
+          "median_native_kl": 0.10720942169427872,
+          "median_additional_hybrid_kl": 0.058870118111371994,
+          "ce_increase": 0.14427808489016192,
+          "native_top1_agreement": 0.7604166666666666
+        },
+        "32": {
+          "median_native_kl": 0.061152053996920586,
+          "median_additional_hybrid_kl": 0.027855628170073032,
+          "ce_increase": 0.08088766142628856,
+          "native_top1_agreement": 0.8335416666666666
+        },
+        "64": {
+          "median_native_kl": 0.056569209322333336,
+          "median_additional_hybrid_kl": 0.01318359188735485,
+          "ce_increase": 0.074009091708787,
+          "native_top1_agreement": 0.8291666666666667
+        },
+        "128": {
+          "median_native_kl": 0.05008622072637081,
+          "median_additional_hybrid_kl": 0.007750140503048897,
+          "ce_increase": 0.06712070058131925,
+          "native_top1_agreement": 0.8385416666666666
+        },
+        "256": {
+          "median_native_kl": 0.045429036021232605,
+          "median_additional_hybrid_kl": 0.004608755465596914,
+          "ce_increase": 0.06264835759110454,
+          "native_top1_agreement": 0.8470833333333333
+        },
+        "512": {
+          "median_native_kl": 0.042091064155101776,
+          "median_additional_hybrid_kl": 0.0023007680429145694,
+          "ce_increase": 0.05723197709803962,
+          "native_top1_agreement": 0.850625
+        }
+      }
+    },
+    "wikitext": {
+      "native_ce": 4.233968252645951,
+      "exact_hybrid": {
+        "median_native_kl": 0.04585215449333191,
+        "ce_increase": 0.05837494729843229
+      },
+      "ranks": {
+        "16": {
+          "median_native_kl": 0.13824477791786194,
+          "median_additional_hybrid_kl": 0.0803322121500969,
+          "ce_increase": 0.1520379596756145,
+          "native_top1_agreement": 0.70625
+        },
+        "32": {
+          "median_native_kl": 0.07227908447384834,
+          "median_additional_hybrid_kl": 0.03016659989953041,
+          "ce_increase": 0.097034596281941,
+          "native_top1_agreement": 0.8002083333333333
+        },
+        "64": {
+          "median_native_kl": 0.06567778065800667,
+          "median_additional_hybrid_kl": 0.014930075500160456,
+          "ce_increase": 0.08720526579168109,
+          "native_top1_agreement": 0.7979166666666667
+        },
+        "128": {
+          "median_native_kl": 0.057130757719278336,
+          "median_additional_hybrid_kl": 0.008660944178700447,
+          "ce_increase": 0.06967620890506687,
+          "native_top1_agreement": 0.8116666666666666
+        },
+        "256": {
+          "median_native_kl": 0.05124015361070633,
+          "median_additional_hybrid_kl": 0.005285907769575715,
+          "ce_increase": 0.06312372405268452,
+          "native_top1_agreement": 0.8252083333333333
+        },
+        "512": {
+          "median_native_kl": 0.0474628321826458,
+          "median_additional_hybrid_kl": 0.0027335481718182564,
+          "ce_increase": 0.056349573094852445,
+          "native_top1_agreement": 0.8275
+        }
+      }
+    },
+    "tinystories": {
+      "native_ce": 2.4814840052634977,
+      "exact_hybrid": {
+        "median_native_kl": 0.0400374885648489,
+        "ce_increase": 0.021145470652485177
+      },
+      "ranks": {
+        "16": {
+          "median_native_kl": 0.09580312296748161,
+          "median_additional_hybrid_kl": 0.05662219040095806,
+          "ce_increase": 0.09312767502324615,
+          "native_top1_agreement": 0.7804166666666666
+        },
+        "32": {
+          "median_native_kl": 0.05702033452689648,
+          "median_additional_hybrid_kl": 0.023776560090482235,
+          "ce_increase": 0.05513876976190968,
+          "native_top1_agreement": 0.8414583333333333
+        },
+        "64": {
+          "median_native_kl": 0.05015820637345314,
+          "median_additional_hybrid_kl": 0.011471312958747149,
+          "ce_increase": 0.046785984596563246,
+          "native_top1_agreement": 0.8502083333333333
+        },
+        "128": {
+          "median_native_kl": 0.04519175738096237,
+          "median_additional_hybrid_kl": 0.006907850503921509,
+          "ce_increase": 0.04056680534191104,
+          "native_top1_agreement": 0.8475
+        },
+        "256": {
+          "median_native_kl": 0.04149268753826618,
+          "median_additional_hybrid_kl": 0.004000427667051554,
+          "ce_increase": 0.031314182376012134,
+          "native_top1_agreement": 0.8547916666666666
+        },
+        "512": {
+          "median_native_kl": 0.039537640288472176,
+          "median_additional_hybrid_kl": 0.0019040873157791793,
+          "ce_increase": 0.027940053954986777,
+          "native_top1_agreement": 0.85625
+        }
+      }
+    }
+  },
+  "hypotheses": {
+    "E1_exact_contraction": {
+      "supported": true,
+      "maximum_relative_error": 7.377342967629374e-07
+    },
+    "E2_rank128_preserves_hybrid": {
+      "supported": false,
+      "per_corpus": {
+        "fineweb": 0.007750140503048897,
+        "wikitext": 0.008660944178700447,
+        "tinystories": 0.006907850503921509
+      }
+    },
+    "E3_rank128_native_fidelity": {
+      "supported": false,
+      "per_corpus": {
+        "fineweb": 0.05008622072637081,
+        "wikitext": 0.057130757719278336,
+        "tinystories": 0.04519175738096237
+      }
+    },
+    "E4_rank128_compute_reduction": {
+      "supported": true,
+      "multiplications_per_token": 749568,
+      "speedup_over_native_dense_multiplications": 21.24590163934426,
+      "parameters_including_basis_and_bias": 746624,
+      "tensor_energy": 0.8656033277511597,
+      "native_multiplications_per_token": 15925248
+    },
+    "E5_rank64_useful": {
+      "supported": false,
+      "per_corpus": {
+        "fineweb": 0.01318359188735485,
+        "wikitext": 0.014930075500160456,
+        "tinystories": 0.011471312958747149
+      }
+    }
+  }
+}

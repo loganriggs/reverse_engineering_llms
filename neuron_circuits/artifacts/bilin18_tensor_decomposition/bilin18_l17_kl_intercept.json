@@ -1,0 +1,217 @@
+{
+  "config": {
+    "status": "H278 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_kl_intercept_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "learning_rates": [
+      0.3,
+      3.0,
+      30.0
+    ],
+    "steps": 400,
+    "checkpoints": [
+      0,
+      100,
+      200,
+      300,
+      400
+    ],
+    "train_batch": 32,
+    "seed": 20261228,
+    "design": "Only1152 output constant optimized for native-to-prediction next-token KL. Actual and mixture H275 polynomials frozen. Start H277 MSE constant; first768 discovery docs train,next256 validate. Three fixed Adam rates/family,400steps, validation checkpoint selection includes0. Exact final RMS/head/softcap; float64 KL from float32 logits. Fresh128docs exclude2112 prior hashes. No test fitting.",
+    "gates": {
+      "behavior_constant_gain": "KL constant reduces MSE-constant KL>=20% with paired95 lower>0 BOTH families",
+      "bias_dominant": "same reduction>=50% BOTH families",
+      "repair_actual": "actual_kl recovery vs compiled>=80%, CE increase<=.02nats, native top1>=.98",
+      "repair_mixture": "same mixture_kl"
+    },
+    "scope": "Nonconvex downstream optimization, no global-optimality guarantee. Native teacher used in training/ground truth only. Nonconstant coefficients and stable responses must remain unchanged."
+  },
+  "winners": {
+    "actual": "actual_lr3.0",
+    "mixture": "mixture_lr3.0"
+  },
+  "audits": {
+    "actual": {
+      "mse": {
+        "train_kl": 0.07162668970718118,
+        "validation_kl": 0.0768409130870395,
+        "constant_norm": 2110.150146484375,
+        "delta_from_mse_norm": 0.0
+      },
+      "kl": {
+        "train_kl": 0.050230459141043834,
+        "validation_kl": 0.05669294914898664,
+        "constant_norm": 4120.59033203125,
+        "delta_from_mse_norm": 3549.537353515625
+      }
+    },
+    "mixture": {
+      "mse": {
+        "train_kl": 0.07264596459403716,
+        "validation_kl": 0.07789023648071193,
+        "constant_norm": 2110.150146484375,
+        "delta_from_mse_norm": 0.0
+      },
+      "kl": {
+        "train_kl": 0.050575791821015764,
+        "validation_kl": 0.05659901649219956,
+        "constant_norm": 4160.4931640625,
+        "delta_from_mse_norm": 3595.446533203125
+      }
+    }
+  },
+  "results": {
+    "compiled": {
+      "residual_fidelity": 0.0,
+      "mean_kl": 0.08928187826102214,
+      "kl_recovery": 0.0,
+      "kl_recovery_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "mean_ce_increase": 0.09583076410922484,
+      "ce_bootstrap95": [
+        0.059754566406054775,
+        0.1333560761854907
+      ],
+      "top1_agreement": 0.841796875,
+      "top1_bootstrap95": [
+        0.810546875,
+        0.87109375
+      ]
+    },
+    "native": {
+      "residual_fidelity": 1.0,
+      "mean_kl": 0.0,
+      "kl_recovery": 1.0,
+      "kl_recovery_bootstrap95": [
+        1.0,
+        1.0
+      ],
+      "mean_ce_increase": 0.0,
+      "ce_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "top1_agreement": 1.0,
+      "top1_bootstrap95": [
+        1.0,
+        1.0
+      ]
+    },
+    "actual_mse": {
+      "residual_fidelity": 0.4946402907371521,
+      "mean_kl": 0.065899451102479,
+      "kl_recovery": 0.2618944360711465,
+      "kl_recovery_bootstrap95": [
+        0.16111191353855736,
+        0.34773047493726084
+      ],
+      "mean_ce_increase": 0.09765624993479519,
+      "ce_bootstrap95": [
+        0.061693474128873535,
+        0.13560142539661232
+      ],
+      "top1_agreement": 0.861328125,
+      "top1_bootstrap95": [
+        0.826171875,
+        0.892578125
+      ]
+    },
+    "actual_kl": {
+      "residual_fidelity": 0.371962308883667,
+      "mean_kl": 0.05106862733674646,
+      "kl_recovery": 0.42800679901196104,
+      "kl_recovery_bootstrap95": [
+        0.3635710829309778,
+        0.48532573452350425
+      ],
+      "mean_ce_increase": 0.06559602376543783,
+      "ce_bootstrap95": [
+        0.0390461346328355,
+        0.09510720411104961
+      ],
+      "top1_agreement": 0.880859375,
+      "top1_bootstrap95": [
+        0.849609375,
+        0.912109375
+      ]
+    },
+    "mixture_mse": {
+      "residual_fidelity": 0.49222755432128906,
+      "mean_kl": 0.06528577887789218,
+      "kl_recovery": 0.26876786029271926,
+      "kl_recovery_bootstrap95": [
+        0.16926033190192782,
+        0.35212232645218083
+      ],
+      "mean_ce_increase": 0.09966827394553118,
+      "ce_bootstrap95": [
+        0.06460210031819384,
+        0.13668864185056825
+      ],
+      "top1_agreement": 0.857421875,
+      "top1_bootstrap95": [
+        0.822265625,
+        0.888671875
+      ]
+    },
+    "mixture_kl": {
+      "residual_fidelity": 0.3662550449371338,
+      "mean_kl": 0.04982461688818249,
+      "kl_recovery": 0.44194031466815076,
+      "kl_recovery_bootstrap95": [
+        0.3799613432292326,
+        0.4991696056533398
+      ],
+      "mean_ce_increase": 0.06630864002130123,
+      "ce_bootstrap95": [
+        0.03994418359328236,
+        0.09502405624413687
+      ],
+      "top1_agreement": 0.880859375,
+      "top1_bootstrap95": [
+        0.8515625,
+        0.91015625
+      ]
+    }
+  },
+  "contrasts": {
+    "actual": {
+      "relative_kl_reduction": 0.2250523110225821,
+      "paired95": [
+        0.15813403212550223,
+        0.29140267249903445
+      ]
+    },
+    "mixture": {
+      "relative_kl_reduction": 0.2368228158635834,
+      "paired95": [
+        0.16646999645707047,
+        0.30316519223527316
+      ]
+    }
+  },
+  "gates": {
+    "behavior_constant_gain": true,
+    "bias_dominant": false,
+    "repair_actual": false,
+    "repair_mixture": false
+  },
+  "stable_response_bitwise_equal": {
+    "actual": true,
+    "mixture": true
+  },
+  "head_replay": 4.2753435759406867e-07
+}

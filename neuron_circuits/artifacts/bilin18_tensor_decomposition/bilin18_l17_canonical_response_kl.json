@@ -1,0 +1,632 @@
+{
+  "experiment": "H471",
+  "config": {
+    "experiment": "H471",
+    "bootstrap_seed": 20271126,
+    "bootstrap_samples": 4000,
+    "feature_rank": 64,
+    "output_rank": 16,
+    "gram_relative_cutoff": 1e-10,
+    "design": "Freeze augmented64 input coordinates and rank16 output. Start H470 joint16, optimize finite response KL around native baseline using both signed training interventions. Full-training gradients; normalize first-order predicted training response change relative to its current norm. At each of8 iterations choose from fixed fraction grid and zero by training KL, rebalance factor SVD. Select iterate by validation response KL including initialization; no test selection. Anchor ordinary-state intercept to original training mean at each map. Compare selected KL16, joint16 and response16 on fixed test; primary KL16-minus-joint16 deltaKL gain>.1 both signs, intactKL increase<.01, KL16 absolute deltaKL>.8 both signs. Joint5 standardized document bootstrap. No new corpus; calibration and source assignment fixed.",
+    "hashes": {
+      "bilin18_l17_data_canonical_pilot_canonical_maps.npz": "ac69e63ad75ddd33f00619e8b28dfe5490d26d3cf1bceb4e010cae2f5b59791d",
+      "bilin18_l17_data_canonical_pilot_selection.json": "81b6410c016f41f86931658d5da21411e77aa3e70ca0381385c4740852fde3c3",
+      "bilin18_l17_data_canonical_pilot_rows.npz": "628e9978dc8630ab93a0c30f7f01d47e32bba8b369310c95ad4feed55553e957",
+      "bilin18_l17_covariance_source_confirmation_source_audit.npz": "dc9661be2b50998b81cc8d16cb1e3401cd5e65b505f0e6992487f05ac691b828",
+      "bilin18_compact_operation_confirmation_documents.npy": "0165f182eb785d302e9bd26dd04ba4dd03b8eba6b5f1497bd8b15248520f0e0f",
+      "bilin18_l17_compact_operation_confirmation_selection.json": "a1deb9b6b3d58ac60699752c5761230c566aaa1a5384d11eaeec6630f4b219b1",
+      "bilin18_l17_compact_operation_confirmation_rows.npz": "59380a65b22e3f99beb6d4bf35a963e199160a77e00c1de769b95b195a1d1f0b",
+      "bilin18_l17_unprojected_finite_confirmation_selection.json": "e4b5a632c1ecd9fb287ee4563499e32bbc0bf9665f41d5220e90d11a8f336d05",
+      "bilin18_l17_unprojected_finite_confirmation_rows.npz": "2f959c612483cf8bb57a5ccdfb89d6407f34fea110fa039a317fd79e3e02fe28",
+      "bilin18_l17_covariance_source_confirmation_selection.json": "e152ebf2957447290790986b5e79f24ea3f6a9b2ebf84c9404c82144530dece4",
+      "bilin18_l17_covariance_source_confirmation_rows.npz": "f927bc40ce446508bfa83177394d6f667b5128878fd82364f065c81a62da512d",
+      "bilin18_l17_covariance_fresh_confirmation_selection.json": "6e0065534246cfc0235e477bc8d1d2f23331c50f8cb52f8deac31cdf44a39628",
+      "bilin18_l17_covariance_fresh_confirmation_rows.npz": "9a603677c130bde8cf1ef47f0079d430062de32e5b29402615db99e4816d0f96",
+      "bilin18_l17_canonical_measure_factorial_models.npz": "0c2ee958825c48259644480c18a66d405f4e67d39aeb25eb4c134700e1d29d4e",
+      "bilin18_l17_canonical_measure_factorial_rows.npz": "d1d089e59caed813a6a7024c9b57f52178e12d8c80abd4e4995bb6ce8f217e9d",
+      "bilin18_l17_canonical_contrast_fit_models.npz": "b14be30d9cadea05b4e0f068631faba43afa8a6ffad72f5b21d6362c77605032",
+      "bilin18_l17_canonical_contrast_fit_rows.npz": "618f8f5d119f87184d1f90462968168dcab23959ea1ad26452fc43aa793f7dae"
+    },
+    "iterations": 8,
+    "step_fractions": [
+      0.0001,
+      0.0003,
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ]
+  },
+  "metrics": {
+    "intact_joint16": {
+      "write_MSE": 0.1957508338673506,
+      "KL": 0.14222852488752347,
+      "CE_delta": 0.04766386141044617,
+      "top1_agreement": 0.84375
+    },
+    "intact_response16": {
+      "write_MSE": 0.4121688440791331,
+      "KL": 0.28642899226412166,
+      "CE_delta": 0.2153604638253681,
+      "top1_agreement": 0.7734375
+    },
+    "intact_kl16": {
+      "write_MSE": 0.19658657506806776,
+      "KL": 0.1449645188843408,
+      "CE_delta": 0.05804292309816474,
+      "top1_agreement": 0.84375
+    },
+    "negative_joint16": {
+      "write_MSE": 0.19570959359407425,
+      "KL": 0.14413697782714166,
+      "CE_delta": 0.049721712026872755,
+      "top1_agreement": 0.8203125
+    },
+    "negative_response16": {
+      "write_MSE": 0.41250706382561475,
+      "KL": 0.2955774159532965,
+      "CE_delta": 0.22759402797633257,
+      "top1_agreement": 0.75
+    },
+    "negative_kl16": {
+      "write_MSE": 0.19664514264150057,
+      "KL": 0.1467959682680962,
+      "CE_delta": 0.06174906056185907,
+      "top1_agreement": 0.8359375
+    },
+    "positive_joint16": {
+      "write_MSE": 0.19525850385252852,
+      "KL": 0.14012926843257564,
+      "CE_delta": 0.04725833057487001,
+      "top1_agreement": 0.8359375
+    },
+    "positive_response16": {
+      "write_MSE": 0.40692889248020947,
+      "KL": 0.2726238362032412,
+      "CE_delta": 0.20261247058127901,
+      "top1_agreement": 0.75
+    },
+    "positive_kl16": {
+      "write_MSE": 0.1959653830708703,
+      "KL": 0.14289540981175056,
+      "CE_delta": 0.05564774915247555,
+      "top1_agreement": 0.828125
+    }
+  },
+  "training_history": [
+    {
+      "step": 0,
+      "training_KL": 0.0008040323353547613,
+      "validation_KL": 0.0013535860769595537
+    },
+    {
+      "step": 1,
+      "selected_fraction": 0.01,
+      "training_KL": 0.000674510646868791,
+      "validation_KL": 0.0013537914805157446,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.0008040323353547613
+        ],
+        [
+          0.0001,
+          0.0008021763781134832
+        ],
+        [
+          0.0003,
+          0.0007985013784738423
+        ],
+        [
+          0.001,
+          0.0007859926176301305
+        ],
+        [
+          0.003,
+          0.0007533081765979264
+        ],
+        [
+          0.01,
+          0.0006745098836089977
+        ],
+        [
+          0.03,
+          0.0007515193117013086
+        ],
+        [
+          0.1,
+          0.004301107818973365
+        ]
+      ]
+    },
+    {
+      "step": 2,
+      "selected_fraction": 0.01,
+      "training_KL": 0.0005881021876928327,
+      "validation_KL": 0.0012819345244706824,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.000674510646868791
+        ],
+        [
+          0.0001,
+          0.0006732837856007744
+        ],
+        [
+          0.0003,
+          0.0006708507785845305
+        ],
+        [
+          0.001,
+          0.0006625670227532209
+        ],
+        [
+          0.003,
+          0.0006408840000728919
+        ],
+        [
+          0.01,
+          0.0005881022333129463
+        ],
+        [
+          0.03,
+          0.0006329489712172977
+        ],
+        [
+          0.1,
+          0.002916372609321862
+        ]
+      ]
+    },
+    {
+      "step": 3,
+      "selected_fraction": 0.01,
+      "training_KL": 0.000548608314898856,
+      "validation_KL": 0.0012877732323602305,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.0005881021876928327
+        ],
+        [
+          0.0001,
+          0.0005871053039112158
+        ],
+        [
+          0.0003,
+          0.0005851487801018723
+        ],
+        [
+          0.001,
+          0.0005786870414439245
+        ],
+        [
+          0.003,
+          0.0005635139095853362
+        ],
+        [
+          0.01,
+          0.0005486081548835161
+        ],
+        [
+          0.03,
+          0.0008238869269650692
+        ],
+        [
+          0.1,
+          0.004797702967895495
+        ]
+      ]
+    },
+    {
+      "step": 4,
+      "selected_fraction": 0.003,
+      "training_KL": 0.0005196012976057109,
+      "validation_KL": 0.0012557132115517547,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.000548608314898856
+        ],
+        [
+          0.0001,
+          0.0005472947072460994
+        ],
+        [
+          0.0003,
+          0.000544734380528147
+        ],
+        [
+          0.001,
+          0.0005365338609720752
+        ],
+        [
+          0.003,
+          0.0005196014464269565
+        ],
+        [
+          0.01,
+          0.0005367853561868144
+        ],
+        [
+          0.03,
+          0.0012333233536483996
+        ],
+        [
+          0.1,
+          0.009279696041180409
+        ]
+      ]
+    },
+    {
+      "step": 5,
+      "selected_fraction": 0.01,
+      "training_KL": 0.0004965601316517116,
+      "validation_KL": 0.0011920651722646548,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.0005196012976057109
+        ],
+        [
+          0.0001,
+          0.0005189038517709692
+        ],
+        [
+          0.0003,
+          0.000517537289489321
+        ],
+        [
+          0.001,
+          0.0005130532308068326
+        ],
+        [
+          0.003,
+          0.0005027815157669133
+        ],
+        [
+          0.01,
+          0.0004965599935332442
+        ],
+        [
+          0.03,
+          0.0007325292224208774
+        ],
+        [
+          0.1,
+          0.004205591971854992
+        ]
+      ]
+    },
+    {
+      "step": 6,
+      "selected_fraction": 0.003,
+      "training_KL": 0.0004698190737221873,
+      "validation_KL": 0.0011952042514764125,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.0004965601316517116
+        ],
+        [
+          0.0001,
+          0.0004952861131159239
+        ],
+        [
+          0.0003,
+          0.0004928189492483826
+        ],
+        [
+          0.001,
+          0.00048501132103960325
+        ],
+        [
+          0.003,
+          0.0004698191941397118
+        ],
+        [
+          0.01,
+          0.0004991153247116929
+        ],
+        [
+          0.03,
+          0.0012528574521213334
+        ],
+        [
+          0.1,
+          0.009243407028865072
+        ]
+      ]
+    },
+    {
+      "step": 7,
+      "selected_fraction": 0.003,
+      "training_KL": 0.0004582202128177725,
+      "validation_KL": 0.001196344699796555,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.0004698190737221873
+        ],
+        [
+          0.0001,
+          0.0004692542355120562
+        ],
+        [
+          0.0003,
+          0.00046816068877802416
+        ],
+        [
+          0.001,
+          0.0004647201890970455
+        ],
+        [
+          0.003,
+          0.00045822014931864915
+        ],
+        [
+          0.01,
+          0.0004741061890172841
+        ],
+        [
+          0.03,
+          0.0008412602092074741
+        ],
+        [
+          0.1,
+          0.005192771564775897
+        ]
+      ]
+    },
+    {
+      "step": 8,
+      "selected_fraction": 0.01,
+      "training_KL": 0.0004434429483497283,
+      "validation_KL": 0.0011457066461143205,
+      "candidate_training_losses": [
+        [
+          0.0,
+          0.0004582202128177725
+        ],
+        [
+          0.0001,
+          0.00045774908581018597
+        ],
+        [
+          0.0003,
+          0.0004568301100668062
+        ],
+        [
+          0.001,
+          0.0004538119731633128
+        ],
+        [
+          0.003,
+          0.0004469470501809635
+        ],
+        [
+          0.01,
+          0.00044344317735555647
+        ],
+        [
+          0.03,
+          0.0006091528742485402
+        ],
+        [
+          0.1,
+          0.0030817399438240077
+        ]
+      ]
+    }
+  ],
+  "selected_step": 8,
+  "baseline_replay_max_abs": 0.0,
+  "numerical_gates": {
+    "baseline_replay": true,
+    "finite": true
+  },
+  "unique_completed_documents": 12992,
+  "primary_names": [
+    "kl16_minus_joint16_deltaKL_negative",
+    "kl16_minus_joint16_deltaKL_positive",
+    "kl16_minus_joint16_intactKL",
+    "kl16_absolute_deltaKL_negative",
+    "kl16_absolute_deltaKL_positive"
+  ],
+  "primary": [
+    0.05414894776278327,
+    0.04509883072973238,
+    0.002735993996817294,
+    0.5967429085878356,
+    0.5997274019309472
+  ],
+  "primary_joint5_ci95": [
+    [
+      -0.0058910569748907154,
+      0.11418895250045726
+    ],
+    [
+      -0.014336434743929066,
+      0.10453409620339382
+    ],
+    [
+      -0.002280570431828739,
+      0.0077525584254633274
+    ],
+    [
+      0.3690319451469699,
+      0.8244538720287014
+    ],
+    [
+      0.4259898904897792,
+      0.7734649133721152
+    ]
+  ],
+  "primary_gates": [
+    false,
+    false,
+    true,
+    false,
+    false
+  ],
+  "delta_prediction": {
+    "negative_joint16": {
+      "KL_and_raw_recovery": [
+        0.5425939608250523,
+        0.9322720853506489
+      ],
+      "marginal95": [
+        [
+          0.3258174053314069,
+          0.7225839633983193
+        ],
+        [
+          0.9176376189161053,
+          0.9449356333055795
+        ]
+      ],
+      "strata": {
+        "trained_source_indices": [
+          0.5025462956752504,
+          0.9260620544068301
+        ],
+        "untrained_source_indices": [
+          0.6060085692805455,
+          0.9413707985264598
+        ]
+      }
+    },
+    "negative_response16": {
+      "KL_and_raw_recovery": [
+        0.5744231372324664,
+        0.9413934126025792
+      ],
+      "marginal95": [
+        [
+          0.3579446457716044,
+          0.7590936932009501
+        ],
+        [
+          0.9253573148208467,
+          0.9536118319501364
+        ]
+      ],
+      "strata": {
+        "trained_source_indices": [
+          0.5203486725535698,
+          0.937540891287771
+        ],
+        "untrained_source_indices": [
+          0.6600488782644529,
+          0.9470379877688316
+        ]
+      }
+    },
+    "negative_kl16": {
+      "KL_and_raw_recovery": [
+        0.5967429085878355,
+        0.9312607967437002
+      ],
+      "marginal95": [
+        [
+          0.41116265610602265,
+          0.7574673811423475
+        ],
+        [
+          0.9160795971051577,
+          0.9450243103790321
+        ]
+      ],
+      "strata": {
+        "trained_source_indices": [
+          0.5672344246859975,
+          0.9233887304755604
+        ],
+        "untrained_source_indices": [
+          0.6434689523097512,
+          0.942794664082328
+        ]
+      }
+    },
+    "positive_joint16": {
+      "KL_and_raw_recovery": [
+        0.5546285712012151,
+        0.9302715008031959
+      ],
+      "marginal95": [
+        [
+          0.4033941312073899,
+          0.6989661437669205
+        ],
+        [
+          0.9097645053631797,
+          0.9463453187612353
+        ]
+      ],
+      "strata": {
+        "trained_source_indices": [
+          0.526943958519812,
+          0.9228946367600434
+        ],
+        "untrained_source_indices": [
+          0.6008234487563705,
+          0.940912430926977
+        ]
+      }
+    },
+    "positive_response16": {
+      "KL_and_raw_recovery": [
+        0.615905169949035,
+        0.9333339721129555
+      ],
+      "marginal95": [
+        [
+          0.4780547283586937,
+          0.7368394483270027
+        ],
+        [
+          0.9172301464731122,
+          0.9467998597022883
+        ]
+      ],
+      "strata": {
+        "trained_source_indices": [
+          0.5939111265924482,
+          0.9315992450445881
+        ],
+        "untrained_source_indices": [
+          0.6526046951146092,
+          0.9358362697573677
+        ]
+      }
+    },
+    "positive_kl16": {
+      "KL_and_raw_recovery": [
+        0.5997274019309473,
+        0.9290158266882405
+      ],
+      "marginal95": [
+        [
+          0.462791182401602,
+          0.727626626519682
+        ],
+        [
+          0.9061023380325892,
+          0.9465794229825502
+        ]
+      ],
+      "strata": {
+        "trained_source_indices": [
+          0.5821121985286768,
+          0.919896979231699
+        ],
+        "untrained_source_indices": [
+          0.6291203421046655,
+          0.9421695215410749
+        ]
+      }
+    }
+  }
+}

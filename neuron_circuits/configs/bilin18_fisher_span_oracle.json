@@ -1,0 +1,15 @@
+{
+  "experiment": "H957",
+  "hashes": {
+    "runner": "7b4b1ebbedfc068981ae6e5f45861d93c0273de87c1944daff983515b070a4d3",
+    "fits": "3bb3400084cedcc490bfdd5ebc551ed55a2a981e00c7669ec1e70e6527ce36c7",
+    "effects": "81be00e75063a9a09c314930017f47e7a85e3907f03d691cebb99f3d36675802",
+    "tasks": "99c81d4893008f0827a1b95b42c3dda24899ea5b4fefb6002f636b8df1aa03b5",
+    "prior": "100ca55111cd7c44a6dcdfd0e18d357655abd5ee512fa9667c15ce5b95211ae8",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "Frozen .1-penalty top8 span, both seeds, all168 factorial swaps and MLP/joint paths. Teacher-informed per-example Fisher weighted least-squares coefficients, centered at zero MLP change. Reference distribution weights center logit Jacobians and exact target logit difference. Ridge=1e-6 mean Fisher eigenvalue. Exact quadratic norm-constrained solution via eigensystem/bisection; radii1x and2x teacher MLP change norm, all retained. No model training.",
+  "finite_differences": "Central differences per orthonormal span vector at .01 and .005 teacher-effect norm. Half step used; full-step derivative discrepancy reported for every case, no filtering.",
+  "comparators": "Zero MLP change, exact teacher, actual top8, Euclidean projection, Fisher radius1 and radius2. All candidates evaluated in nonlinear live model; local quadratic fit is not a guarantee of globally best KL.",
+  "scope": "An oracle using evaluation teacher outputs, not a deployable or learned representation. Output KL measures distributions at the final token. Norm budgets limit arbitrary off-manifold compensation; do not establish on-manifold validity."
+}

@@ -1,0 +1,193 @@
+{
+  "config": {
+    "status": "H273 fixed rank sweep before new outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_core_interaction_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "initializations": [
+      "weighted",
+      "random0"
+    ],
+    "learning_rates": [
+      0.003,
+      0.01
+    ],
+    "steps": 400,
+    "checkpoints": [
+      0,
+      100,
+      200,
+      300,
+      400
+    ],
+    "train_batch": 256,
+    "seed": 20261216,
+    "design": "Natural core32 fixed. Rank64 partner optimized directly against exact cross-term response at full actual source edits; first768 discovery docs train, next256 validation. Four fixed Adam/QR-retraction runs, checkpoints chosen by validation only, includes step0. Native coefficients and core remain fixed. Test reused H270128 docs at small/full scales, float64 arithmetic; float32 training. No convergence/global optimum claim.",
+    "gates": {
+      "direct_gain": "Optimized-minus-weighted cross fidelity>=10pt with positive paired document CI both scales.",
+      "compact80": "Optimized cross fidelity>=80% both scales.",
+      "total_gain": "Optimized-minus-weighted total residual response fidelity>=5pt positive paired CI both scales."
+    },
+    "scope": "One core family, actual sources only, reused test. Equal partner rank but optimizing basis adds training cost; no semantic/downstream claim. Failure cannot establish irreducibility.",
+    "rank": 64
+  },
+  "curves": {
+    "weighted_lr0.003": [
+      {
+        "step": 0,
+        "validation_fidelity": 0.545154413514708
+      },
+      {
+        "step": 100,
+        "validation_fidelity": 0.6054698091088759
+      },
+      {
+        "step": 200,
+        "validation_fidelity": 0.6083213188196599
+      },
+      {
+        "step": 300,
+        "validation_fidelity": 0.6103559693190501
+      },
+      {
+        "step": 400,
+        "validation_fidelity": 0.6068236888821039
+      }
+    ],
+    "weighted_lr0.01": [
+      {
+        "step": 0,
+        "validation_fidelity": 0.545154413514708
+      },
+      {
+        "step": 100,
+        "validation_fidelity": 0.5664086231400338
+      },
+      {
+        "step": 200,
+        "validation_fidelity": 0.5792559227505554
+      },
+      {
+        "step": 300,
+        "validation_fidelity": 0.5824583000339371
+      },
+      {
+        "step": 400,
+        "validation_fidelity": 0.5633826316535975
+      }
+    ],
+    "random0_lr0.003": [
+      {
+        "step": 0,
+        "validation_fidelity": 0.08103817026963789
+      },
+      {
+        "step": 100,
+        "validation_fidelity": 0.54900407053061
+      },
+      {
+        "step": 200,
+        "validation_fidelity": 0.5720624075345708
+      },
+      {
+        "step": 300,
+        "validation_fidelity": 0.5878804270401077
+      },
+      {
+        "step": 400,
+        "validation_fidelity": 0.5885141564719285
+      }
+    ],
+    "random0_lr0.01": [
+      {
+        "step": 0,
+        "validation_fidelity": 0.08103817026963789
+      },
+      {
+        "step": 100,
+        "validation_fidelity": 0.5653931690222641
+      },
+      {
+        "step": 200,
+        "validation_fidelity": 0.5799385704266178
+      },
+      {
+        "step": 300,
+        "validation_fidelity": 0.5811928250996912
+      },
+      {
+        "step": 400,
+        "validation_fidelity": 0.5619892942567688
+      }
+    ]
+  },
+  "selected": {
+    "weighted_lr0.003": {
+      "step": 300,
+      "validation_fidelity": 0.6103559693190501
+    },
+    "weighted_lr0.01": {
+      "step": 300,
+      "validation_fidelity": 0.5824583000339371
+    },
+    "random0_lr0.003": {
+      "step": 400,
+      "validation_fidelity": 0.5885141564719285
+    },
+    "random0_lr0.01": {
+      "step": 300,
+      "validation_fidelity": 0.5811928250996912
+    }
+  },
+  "winner": "weighted_lr0.003",
+  "audits": {
+    "tensor": {
+      "train": 0.5137753586251992,
+      "validation": 0.5293436521107935,
+      "overlap": 2.60770320892334e-08,
+      "orthogonality": 4.172325134277344e-07
+    },
+    "weighted": {
+      "train": 0.5271522686132628,
+      "validation": 0.5451544072217965,
+      "overlap": 3.259629011154175e-08,
+      "orthogonality": 3.5762786865234375e-07
+    },
+    "random0": {
+      "train": 0.07893865570625735,
+      "validation": 0.08103817395039747,
+      "overlap": 2.60770320892334e-08,
+      "orthogonality": 3.5762786865234375e-07
+    },
+    "optimized": {
+      "train": 0.6233366277664765,
+      "validation": 0.6103559693190501,
+      "overlap": 2.7939677238464355e-08,
+      "orthogonality": 3.5762786865234375e-07
+    }
+  }
+}

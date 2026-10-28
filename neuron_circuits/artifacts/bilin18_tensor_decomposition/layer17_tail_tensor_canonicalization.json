@@ -1,0 +1,490 @@
+{
+  "config": {
+    "status": "locked-after-tail-cleaning-nulls-before-basis-invariant-tail-tucker-test",
+    "seed": 20261026,
+    "layer": 17,
+    "components": 4,
+    "joint_ranks": [
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "behavioral_ranks": [
+      4,
+      8,
+      16,
+      32
+    ],
+    "diagonal_control_rank": 16,
+    "covariance_floor_fraction": 0.0001,
+    "batch_size": 4,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 1000
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 14400,
+        "rows": 400
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 600,
+        "rows": 400
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 600,
+        "rows": 400
+      }
+    },
+    "hypotheses": {
+      "J1_canonical_output_axes_transfer": "The best matched mean cosine between FineWeb tensor-canonical output axes and every evaluation-corpus canonicalization is at least 0.80.",
+      "J2_joint_rank8_reconstructs_tail_scores": "The frozen common rank-8 input basis has median per-axis score correlation at least 0.95 on every corpus.",
+      "J3_joint_rank16_near_exact_scores": "The frozen common rank-16 input basis has centered vector-score R2 at least 0.98 on every corpus.",
+      "J4_joint_rank16_behavioral_fidelity": "Replacing native tail-4 scores with common-rank-16 predictions has median final-distribution KL at most 0.005 on every corpus.",
+      "J5_cross_terms_are_required": "At rank 16, retaining the full interaction matrices improves centered vector-score R2 by at least 0.10 over diagonal-only forms on every corpus.",
+      "J6_joint_rank16_captures_tensor_energy": "The common rank-16 input basis captures at least 95% of the covariance-cleaned tail-map Frobenius energy."
+    }
+  },
+  "hypotheses": {
+    "J1_canonical_output_axes_transfer": {
+      "supported": false,
+      "per_corpus": {
+        "fineweb": 0.9928790032863617,
+        "wikitext": 0.9543408155441284,
+        "tinystories": 0.7718858271837234
+      }
+    },
+    "J2_joint_rank8_reconstructs_tail_scores": {
+      "supported": true
+    },
+    "J3_joint_rank16_near_exact_scores": {
+      "supported": false
+    },
+    "J4_joint_rank16_behavioral_fidelity": {
+      "supported": false
+    },
+    "J5_cross_terms_are_required": {
+      "supported": true
+    },
+    "J6_joint_rank16_captures_tensor_energy": {
+      "supported": true,
+      "energy": 0.9953117966651917
+    }
+  },
+  "covariance": {
+    "minimum_eigenvalue": 0.042147014290094376,
+    "maximum_eigenvalue": 630.876953125,
+    "condition_number": 14968.4853515625
+  },
+  "canonical_output_value_fractions": [
+    0.5057525634765625,
+    0.2374422550201416,
+    0.16253893077373505,
+    0.09426622837781906
+  ],
+  "common_input_energy": {
+    "4": 0.8990252614021301,
+    "8": 0.990096926689148,
+    "16": 0.9953117966651917,
+    "32": 0.99676913022995,
+    "64": 0.9976853132247925
+  },
+  "results": {
+    "fineweb": {
+      "scores": {
+        "4": {
+          "centered_vector_r2": 0.7371532711729447,
+          "median_axis_correlation": 0.8172365994219017,
+          "minimum_axis_correlation": 0.6217097755371245,
+          "axis_correlations": [
+            0.948161966659129,
+            0.6217097755371245,
+            0.8939411667984627,
+            0.7405320320453408
+          ]
+        },
+        "8": {
+          "centered_vector_r2": 0.941960774530775,
+          "median_axis_correlation": 0.957350432933494,
+          "minimum_axis_correlation": 0.8780897787420151,
+          "axis_correlations": [
+            0.9944162898114145,
+            0.9596852785660239,
+            0.955015587300964,
+            0.8780897787420151
+          ]
+        },
+        "16": {
+          "centered_vector_r2": 0.9514723386315377,
+          "median_axis_correlation": 0.9652665777833698,
+          "minimum_axis_correlation": 0.8920833164805894,
+          "axis_correlations": [
+            0.9958478543984041,
+            0.9687561067299718,
+            0.9617770488367678,
+            0.8920833164805894
+          ]
+        },
+        "32": {
+          "centered_vector_r2": 0.955809296058426,
+          "median_axis_correlation": 0.9685654381380046,
+          "minimum_axis_correlation": 0.899009310744163,
+          "axis_correlations": [
+            0.9965553092768321,
+            0.9710203845810251,
+            0.966110491694984,
+            0.899009310744163
+          ]
+        },
+        "64": {
+          "centered_vector_r2": 0.9587054145242178,
+          "median_axis_correlation": 0.9710286650915854,
+          "minimum_axis_correlation": 0.9044998824507504,
+          "axis_correlations": [
+            0.9968266617207563,
+            0.9719811118171617,
+            0.9700762183660091,
+            0.9044998824507504
+          ]
+        }
+      },
+      "diagonal_only": {
+        "centered_vector_r2": 0.3502367961612435,
+        "median_axis_correlation": 0.42044371295992033,
+        "minimum_axis_correlation": 0.0807122801666223,
+        "axis_correlations": [
+          0.8177292747940482,
+          0.545917180176401,
+          0.0807122801666223,
+          0.2949702457434396
+        ]
+      },
+      "canonical_output_match": {
+        "mean_cosine": 0.9928790032863617,
+        "minimum_cosine": 0.9882880449295044,
+        "permutation": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "cosines": [
+          0.9942317008972168,
+          0.9882880449295044,
+          0.991500735282898,
+          0.9974955320358276
+        ]
+      },
+      "local_canonical_value_fractions": [
+        0.5445774793624878,
+        0.21466191112995148,
+        0.15501023828983307,
+        0.08575037121772766
+      ],
+      "behavioral": {
+        "rank4": {
+          "median_kl": 0.009749702643603086,
+          "mean_kl": 0.07241589474159724,
+          "ce_delta": 0.07498546747827675,
+          "top1_agreement": 0.903125
+        },
+        "rank8": {
+          "median_kl": 0.006974390707910061,
+          "mean_kl": 0.02499356132199477,
+          "ce_delta": 0.027182695629020374,
+          "top1_agreement": 0.92296875
+        },
+        "rank16": {
+          "median_kl": 0.00668096193112433,
+          "mean_kl": 0.023810289717326415,
+          "ce_delta": 0.025715709676095173,
+          "top1_agreement": 0.92609375
+        },
+        "rank32": {
+          "median_kl": 0.0066863782703876495,
+          "mean_kl": 0.022663480508180484,
+          "ce_delta": 0.02461795430359629,
+          "top1_agreement": 0.92703125
+        },
+        "diagonal_only16": {
+          "median_kl": 0.03929123654961586,
+          "mean_kl": 0.08650566348368521,
+          "ce_delta": 0.08331713004877997,
+          "top1_agreement": 0.84421875
+        }
+      }
+    },
+    "wikitext": {
+      "scores": {
+        "4": {
+          "centered_vector_r2": 0.7320776385565614,
+          "median_axis_correlation": 0.8304489141626,
+          "minimum_axis_correlation": 0.4109276284034702,
+          "axis_correlations": [
+            0.9541510045705127,
+            0.4109276284034702,
+            0.8652540742300667,
+            0.7956437540951333
+          ]
+        },
+        "8": {
+          "centered_vector_r2": 0.9692611732958392,
+          "median_axis_correlation": 0.9698876014423775,
+          "minimum_axis_correlation": 0.9279172866743691,
+          "axis_correlations": [
+            0.997144046632369,
+            0.9723448251646192,
+            0.9674303777201358,
+            0.9279172866743691
+          ]
+        },
+        "16": {
+          "centered_vector_r2": 0.9746525437651617,
+          "median_axis_correlation": 0.9765749153253084,
+          "minimum_axis_correlation": 0.932881030865917,
+          "axis_correlations": [
+            0.998076393595378,
+            0.9795227804511955,
+            0.9736270501994213,
+            0.932881030865917
+          ]
+        },
+        "32": {
+          "centered_vector_r2": 0.97728937717482,
+          "median_axis_correlation": 0.9790817838389523,
+          "minimum_axis_correlation": 0.9400288657153635,
+          "axis_correlations": [
+            0.9983206775292648,
+            0.9811310575170527,
+            0.977032510160852,
+            0.9400288657153635
+          ]
+        },
+        "64": {
+          "centered_vector_r2": 0.9788168670164056,
+          "median_axis_correlation": 0.9808805600876438,
+          "minimum_axis_correlation": 0.9417138683691312,
+          "axis_correlations": [
+            0.9985221370890146,
+            0.9825357919278778,
+            0.9792253282474097,
+            0.9417138683691312
+          ]
+        }
+      },
+      "diagonal_only": {
+        "centered_vector_r2": 0.370837067056621,
+        "median_axis_correlation": 0.4165162617311126,
+        "minimum_axis_correlation": -0.006546257760579969,
+        "axis_correlations": [
+          0.8826368098141626,
+          0.3318873528576508,
+          -0.006546257760579969,
+          0.5011451706045744
+        ]
+      },
+      "canonical_output_match": {
+        "mean_cosine": 0.9543408155441284,
+        "minimum_cosine": 0.9343671798706055,
+        "permutation": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "cosines": [
+          0.9343671798706055,
+          0.9730390906333923,
+          0.940687358379364,
+          0.9692696332931519
+        ]
+      },
+      "local_canonical_value_fractions": [
+        0.532556414604187,
+        0.21370799839496613,
+        0.16286420822143555,
+        0.09087134897708893
+      ],
+      "behavioral": {
+        "rank4": {
+          "median_kl": 0.015231838449835777,
+          "mean_kl": 0.10729590840184074,
+          "ce_delta": 0.11994049758263828,
+          "top1_agreement": 0.86765625
+        },
+        "rank8": {
+          "median_kl": 0.010921756271272898,
+          "mean_kl": 0.032654239730859444,
+          "ce_delta": 0.0490056562699101,
+          "top1_agreement": 0.90078125
+        },
+        "rank16": {
+          "median_kl": 0.010484041180461645,
+          "mean_kl": 0.03166228349420749,
+          "ce_delta": 0.04609827288470569,
+          "top1_agreement": 0.9053125
+        },
+        "rank32": {
+          "median_kl": 0.010574508924037218,
+          "mean_kl": 0.030192196113974886,
+          "ce_delta": 0.04433124997435243,
+          "top1_agreement": 0.9059375
+        },
+        "diagonal_only16": {
+          "median_kl": 0.04822024516761303,
+          "mean_kl": 0.11164182119319321,
+          "ce_delta": 0.13054392039514368,
+          "top1_agreement": 0.820625
+        }
+      }
+    },
+    "tinystories": {
+      "scores": {
+        "4": {
+          "centered_vector_r2": 0.8299934210713251,
+          "median_axis_correlation": 0.9019526958600002,
+          "minimum_axis_correlation": 0.4318203311283644,
+          "axis_correlations": [
+            0.9842550746313941,
+            0.4318203311283644,
+            0.8871126531575456,
+            0.9167927385624546
+          ]
+        },
+        "8": {
+          "centered_vector_r2": 0.9831643204010669,
+          "median_axis_correlation": 0.9821760716766179,
+          "minimum_axis_correlation": 0.9592363573251926,
+          "axis_correlations": [
+            0.9987281798139026,
+            0.9765894308571363,
+            0.9877627124960995,
+            0.9592363573251926
+          ]
+        },
+        "16": {
+          "centered_vector_r2": 0.985597810969615,
+          "median_axis_correlation": 0.9869694494131804,
+          "minimum_axis_correlation": 0.9598894897487753,
+          "axis_correlations": [
+            0.9989808076491751,
+            0.9837980817549344,
+            0.9901408170714263,
+            0.9598894897487753
+          ]
+        },
+        "32": {
+          "centered_vector_r2": 0.9869552443174842,
+          "median_axis_correlation": 0.9879499737981552,
+          "minimum_axis_correlation": 0.9617530923995307,
+          "axis_correlations": [
+            0.999208881440618,
+            0.9844384403957362,
+            0.9914615072005742,
+            0.9617530923995307
+          ]
+        },
+        "64": {
+          "centered_vector_r2": 0.9884357259136238,
+          "median_axis_correlation": 0.9891738564574356,
+          "minimum_axis_correlation": 0.9654449391497301,
+          "axis_correlations": [
+            0.999310664789535,
+            0.9861258320860037,
+            0.9922218808288675,
+            0.9654449391497301
+          ]
+        }
+      },
+      "diagonal_only": {
+        "centered_vector_r2": 0.32971953902105444,
+        "median_axis_correlation": 0.1834145878565998,
+        "minimum_axis_correlation": -0.35907331791443775,
+        "axis_correlations": [
+          0.9081542152640039,
+          -0.23773038527428644,
+          -0.35907331791443775,
+          0.6045595609874861
+        ]
+      },
+      "canonical_output_match": {
+        "mean_cosine": 0.7718858271837234,
+        "minimum_cosine": 0.584976077079773,
+        "permutation": [
+          3,
+          0,
+          1,
+          2
+        ],
+        "cosines": [
+          0.7618127465248108,
+          0.7878147959709167,
+          0.584976077079773,
+          0.9529396891593933
+        ]
+      },
+      "local_canonical_value_fractions": [
+        0.5967606902122498,
+        0.2160099744796753,
+        0.11562122404575348,
+        0.07160811871290207
+      ],
+      "behavioral": {
+        "rank4": {
+          "median_kl": 0.006833245512098074,
+          "mean_kl": 0.016289520948705557,
+          "ce_delta": -0.005537581356747978,
+          "top1_agreement": 0.93421875
+        },
+        "rank8": {
+          "median_kl": 0.004349535563960671,
+          "mean_kl": 0.0078107144589208135,
+          "ce_delta": -0.0004651155856885225,
+          "top1_agreement": 0.94609375
+        },
+        "rank16": {
+          "median_kl": 0.004352663643658161,
+          "mean_kl": 0.00773968479229012,
+          "ce_delta": 0.000632244799190289,
+          "top1_agreement": 0.94703125
+        },
+        "rank32": {
+          "median_kl": 0.004237112822011113,
+          "mean_kl": 0.007701302855679728,
+          "ce_delta": 0.0015115831700296667,
+          "top1_agreement": 0.9478125
+        },
+        "diagonal_only16": {
+          "median_kl": 0.033872565254569054,
+          "mean_kl": 0.05966922508940328,
+          "ce_delta": 0.07085313634308989,
+          "top1_agreement": 0.86296875
+        }
+      }
+    }
+  }
+}

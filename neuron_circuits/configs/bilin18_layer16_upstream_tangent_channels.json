@@ -1,0 +1,31 @@
+{
+  "status": "hypotheses-locked-after-local-pca-native-loss-breadth-before-natural-upstream-tangent-test",
+  "seed": 20261108,
+  "batch_size": 2,
+  "tangent_chunk": 8,
+  "layer": 12,
+  "final_layer": 17,
+  "layers": [16],
+  "rank": 32,
+  "positions": [31, 63, 95, 127],
+  "budgets": [32, 128, 512, 1024, 2048, 4096, 4608],
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "selection_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19300, "rows": 32},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32}
+  },
+  "local_pca_artifact": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_native_greedy_redteam.json",
+  "hypotheses": {
+    "U0_upstream_dynamic_jvp_is_exact": "The manual dynamic Layers-13--16 tangent agrees with an independent autograd JVP to relative error at most 1e-5.",
+    "U1_native_channel_path_sum_is_exact": "All 4,608 channel contributions reconstruct the direct Layer-16 MLP-path CE derivative with relative error at most 1e-5.",
+    "U2_marginal_512_is_sufficient_on_natural_tangents": "A frozen marginal 512-channel bank retains at least 0.90 on every corpus.",
+    "U3_greedy_512_is_sufficient_on_natural_tangents": "A frozen coordinated 512-channel bank retains at least 0.90 on every corpus.",
+    "U4_greedy_natural_tangent_k90_is_at_most_1024": "Every corpus reaches 90% with at most 1,024 coordinated channels.",
+    "U5_natural_tangents_are_materially_sparser_than_local_pca": "Every corpus reaches 90% with at most 2,048 coordinated channels, versus 4,096 for local PCA directions.",
+    "U6_natural_tangent_bank_transfers_ood": "At 512 channels, each OOD greedy fidelity is within 0.05 of FineWeb.",
+    "U7_coordination_materially_improves_natural_tangents": "At 512 channels, coordinated greedy exceeds marginal selection by at least 0.10 on every corpus.",
+    "U8_greedy_discovery_generalizes": "At 512 channels, held-out FineWeb is within 0.10 of discovery fidelity."
+  }
+}

@@ -1,0 +1,595 @@
+{
+  "config": {
+    "status": "H265 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "train_documents": [
+      256,
+      768
+    ],
+    "validation_start": 768,
+    "validation_documents": 256,
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "quadratic_widths": [
+      32,
+      64
+    ],
+    "linear_features": 624,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "seed": 20261209,
+    "ridge_strengths": [
+      0,
+      1e-06,
+      0.0001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "fit": "All-head full-edit response-only least squares. Fixed H259 PCA basis/input mean from first768 discovery docs. Width32 reuses H259 feature normalization; width64 normalization uses first768 natural states without response labels. Thus data axis scales labeled response supervision CONDITIONAL ON common768-doc feature geometry, not total data exposure. First256 nested in first768, common validation last256. Select alpha by validation response MSE separately in4 cells; no refit. Save every candidate and train/validation results before test.",
+    "gates": {
+      "width_transfer": "Selected width64 exceeds width32 actual test response fidelity by>=.05 at BOTH data sizes and BOTH scales, paired document-bootstrap95 lower bounds>0.",
+      "data_transfer": "Selected768-doc fit exceeds256-doc fit by>=.05 at BOTH widths and BOTH actual scales, paired95 lower bounds>0.",
+      "half_response": "Selected width64/768 fit reaches>=.50 actual test fidelity at BOTH scales."
+    },
+    "scope": "Width32 has1152 features; width64 has2704 features, both624 linear PCs. This expands parameters, not matched-budget. All heads supervised; same128 test docs reused adaptively. Response energy fidelity only in this audit; no new full-replacement behavioral claim. Native error only in targets/training. Explicit unregularized empirical capacity diagnostics."
+  },
+  "selected": {
+    "w32_n256": "w32_n256_a1.0",
+    "w32_n768": "w32_n768_a0.1",
+    "w64_n256": "w64_n256_a1.0",
+    "w64_n768": "w64_n768_a0.1"
+  },
+  "audits": {
+    "w32_n256": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.08563610605386417,
+      "max_eigenvalue": 1213.298407274436,
+      "retained_condition": 14168.070726047312,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 1.1248012761596092e-14,
+          "training_fidelity": 0.6464082935509563
+        },
+        "1e-06": {
+          "normal_relative_residual": 1.1335873867590448e-14,
+          "training_fidelity": 0.6464082934371536
+        },
+        "0.0001": {
+          "normal_relative_residual": 1.0810988676568036e-14,
+          "training_fidelity": 0.6464071847841548
+        },
+        "0.01": {
+          "normal_relative_residual": 7.068239230100733e-15,
+          "training_fidelity": 0.643065784878414
+        },
+        "0.1": {
+          "normal_relative_residual": 4.5274738395652085e-15,
+          "training_fidelity": 0.6052838690854332
+        },
+        "1.0": {
+          "normal_relative_residual": 3.224914161339749e-15,
+          "training_fidelity": 0.46523215849421207
+        }
+      }
+    },
+    "w32_n768": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.3704534145225668,
+      "max_eigenvalue": 4112.900925363313,
+      "retained_condition": 11102.343139862647,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.448081988552946e-15,
+          "training_fidelity": 0.5280008550371633
+        },
+        "1e-06": {
+          "normal_relative_residual": 8.556232150878092e-15,
+          "training_fidelity": 0.5280008549808063
+        },
+        "0.0001": {
+          "normal_relative_residual": 8.631133028618007e-15,
+          "training_fidelity": 0.5280003027608107
+        },
+        "0.01": {
+          "normal_relative_residual": 6.295430944029114e-15,
+          "training_fidelity": 0.5261191148583823
+        },
+        "0.1": {
+          "normal_relative_residual": 4.1940103587708644e-15,
+          "training_fidelity": 0.5023194708087908
+        },
+        "1.0": {
+          "normal_relative_residual": 3.063237043445966e-15,
+          "training_fidelity": 0.4019570932472498
+        }
+      }
+    },
+    "w64_n256": {
+      "rank": 2704,
+      "feature_count": 2704,
+      "min_eigenvalue": 0.029537879842979387,
+      "max_eigenvalue": 1322.58494151516,
+      "retained_condition": 44775.89280428718,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.990573990468912e-15,
+          "training_fidelity": 0.8475377229845674
+        },
+        "1e-06": {
+          "normal_relative_residual": 9.190735418796935e-15,
+          "training_fidelity": 0.8475377225398776
+        },
+        "0.0001": {
+          "normal_relative_residual": 8.714992973927322e-15,
+          "training_fidelity": 0.8475336090009316
+        },
+        "0.01": {
+          "normal_relative_residual": 4.7292613346115495e-15,
+          "training_fidelity": 0.8412586979324403
+        },
+        "0.1": {
+          "normal_relative_residual": 3.294369135966294e-15,
+          "training_fidelity": 0.793283091176095
+        },
+        "1.0": {
+          "normal_relative_residual": 2.7714607684953994e-15,
+          "training_fidelity": 0.6343857490969713
+        }
+      }
+    },
+    "w64_n768": {
+      "rank": 2704,
+      "feature_count": 2704,
+      "min_eigenvalue": 0.2109569226587045,
+      "max_eigenvalue": 5445.090885715185,
+      "retained_condition": 25811.38754343936,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.788316840496982e-15,
+          "training_fidelity": 0.6785196382563128
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.981799831684253e-15,
+          "training_fidelity": 0.6785196381528737
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.730190988214209e-15,
+          "training_fidelity": 0.6785186428399244
+        },
+        "0.01": {
+          "normal_relative_residual": 5.190481743011722e-15,
+          "training_fidelity": 0.6761684390044669
+        },
+        "0.1": {
+          "normal_relative_residual": 3.678824022769153e-15,
+          "training_fidelity": 0.649093431640503
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0845989533406033e-15,
+          "training_fidelity": 0.5295049045355991
+        }
+      }
+    }
+  },
+  "validation": {
+    "w32_n256_a0": 0.1871296763420105,
+    "w32_n256_a1e-06": 0.18713557720184326,
+    "w32_n256_a0.0001": 0.18772590160369873,
+    "w32_n256_a0.01": 0.2246883511543274,
+    "w32_n256_a0.1": 0.3002711534500122,
+    "w32_n256_a1.0": 0.31042706966400146,
+    "w32_n768_a0": 0.374210000038147,
+    "w32_n768_a1e-06": 0.37421101331710815,
+    "w32_n768_a0.0001": 0.37430959939956665,
+    "w32_n768_a0.01": 0.3802295923233032,
+    "w32_n768_a0.1": 0.3886304497718811,
+    "w32_n768_a1.0": 0.3454047441482544,
+    "w64_n256_a0": -0.09150004386901855,
+    "w64_n256_a1e-06": -0.09146106243133545,
+    "w64_n256_a0.0001": -0.08767390251159668,
+    "w64_n256_a0.01": 0.08460640907287598,
+    "w64_n256_a0.1": 0.2949985861778259,
+    "w64_n256_a1.0": 0.3521674871444702,
+    "w64_n768_a0": 0.38448405265808105,
+    "w64_n768_a1e-06": 0.3844865560531616,
+    "w64_n768_a0.0001": 0.38472700119018555,
+    "w64_n768_a0.01": 0.3997683525085449,
+    "w64_n768_a0.1": 0.4323920011520386,
+    "w64_n768_a1.0": 0.40815383195877075
+  },
+  "results": {
+    "actual_s0.1": {
+      "w32_n256_selected": {
+        "fidelity": 0.2953983545303345,
+        "document_bootstrap95": [
+          0.27050594687461854,
+          0.3211257979273796
+        ]
+      },
+      "w32_n256_unregularized": {
+        "fidelity": 0.13387960195541382,
+        "document_bootstrap95": [
+          0.10053091943264007,
+          0.16938644349575036
+        ]
+      },
+      "w32_n768_selected": {
+        "fidelity": 0.37794822454452515,
+        "document_bootstrap95": [
+          0.34757031947374345,
+          0.4089096829295158
+        ]
+      },
+      "w32_n768_unregularized": {
+        "fidelity": 0.35938167572021484,
+        "document_bootstrap95": [
+          0.32912755012512207,
+          0.3902787074446678
+        ]
+      },
+      "w64_n256_selected": {
+        "fidelity": 0.3348918557167053,
+        "document_bootstrap95": [
+          0.3103020578622818,
+          0.35998894274234766
+        ]
+      },
+      "w64_n256_unregularized": {
+        "fidelity": -0.1905834674835205,
+        "document_bootstrap95": [
+          -0.2547198235988617,
+          -0.12996287643909457
+        ]
+      },
+      "w64_n768_selected": {
+        "fidelity": 0.420307457447052,
+        "document_bootstrap95": [
+          0.3913804113864899,
+          0.4497008934617043
+        ]
+      },
+      "w64_n768_unregularized": {
+        "fidelity": 0.36455434560775757,
+        "document_bootstrap95": [
+          0.33575545996427536,
+          0.3937754869461059
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "w32_n256_selected": {
+        "fidelity": 0.2991437315940857,
+        "document_bootstrap95": [
+          0.27351476848125456,
+          0.3245027333498001
+        ]
+      },
+      "w32_n256_unregularized": {
+        "fidelity": 0.1477789282798767,
+        "document_bootstrap95": [
+          0.11697105616331101,
+          0.18107443898916242
+        ]
+      },
+      "w32_n768_selected": {
+        "fidelity": 0.3787168264389038,
+        "document_bootstrap95": [
+          0.3488119512796402,
+          0.40960709005594254
+        ]
+      },
+      "w32_n768_unregularized": {
+        "fidelity": 0.3612300157546997,
+        "document_bootstrap95": [
+          0.3302213430404663,
+          0.39230131208896635
+        ]
+      },
+      "w64_n256_selected": {
+        "fidelity": 0.33795100450515747,
+        "document_bootstrap95": [
+          0.3128668561577797,
+          0.36348153501749036
+        ]
+      },
+      "w64_n256_unregularized": {
+        "fidelity": -0.15794074535369873,
+        "document_bootstrap95": [
+          -0.20714370310306549,
+          -0.10737063884735108
+        ]
+      },
+      "w64_n768_selected": {
+        "fidelity": 0.4210051894187927,
+        "document_bootstrap95": [
+          0.3915789395570755,
+          0.45095014572143555
+        ]
+      },
+      "w64_n768_unregularized": {
+        "fidelity": 0.3676052689552307,
+        "document_bootstrap95": [
+          0.3377732396125793,
+          0.3977500081062317
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "w32_n256_selected": {
+        "fidelity": 0.062455832958221436,
+        "document_bootstrap95": [
+          0.051535779237747194,
+          0.07300563007593154
+        ]
+      },
+      "w32_n256_unregularized": {
+        "fidelity": -0.5971921682357788,
+        "document_bootstrap95": [
+          -0.6367473065853119,
+          -0.5553264528512954
+        ]
+      },
+      "w32_n768_selected": {
+        "fidelity": 0.026539087295532227,
+        "document_bootstrap95": [
+          0.009509001672267915,
+          0.04217482954263687
+        ]
+      },
+      "w32_n768_unregularized": {
+        "fidelity": -0.1658240556716919,
+        "document_bootstrap95": [
+          -0.19006529748439788,
+          -0.14234370291233064
+        ]
+      },
+      "w64_n256_selected": {
+        "fidelity": 0.08299767971038818,
+        "document_bootstrap95": [
+          0.0743088886141777,
+          0.09179069101810455
+        ]
+      },
+      "w64_n256_unregularized": {
+        "fidelity": -0.9951987266540527,
+        "document_bootstrap95": [
+          -1.0902477025985717,
+          -0.9111907303333283
+        ]
+      },
+      "w64_n768_selected": {
+        "fidelity": 0.07363194227218628,
+        "document_bootstrap95": [
+          0.061478109657764436,
+          0.08566866666078568
+        ]
+      },
+      "w64_n768_unregularized": {
+        "fidelity": -0.16550171375274658,
+        "document_bootstrap95": [
+          -0.1882950872182846,
+          -0.14198347628116612
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "w32_n256_selected": {
+        "fidelity": 0.06084662675857544,
+        "document_bootstrap95": [
+          0.051479223370552066,
+          0.06994216889142989
+        ]
+      },
+      "w32_n256_unregularized": {
+        "fidelity": -0.5653444528579712,
+        "document_bootstrap95": [
+          -0.6030380576848984,
+          -0.5264413952827455
+        ]
+      },
+      "w32_n768_selected": {
+        "fidelity": 0.02804243564605713,
+        "document_bootstrap95": [
+          0.012196449935436249,
+          0.04241820871829986
+        ]
+      },
+      "w32_n768_unregularized": {
+        "fidelity": -0.15398383140563965,
+        "document_bootstrap95": [
+          -0.17857512533664704,
+          -0.1297576516866684
+        ]
+      },
+      "w64_n256_selected": {
+        "fidelity": 0.0813361406326294,
+        "document_bootstrap95": [
+          0.07298526763916016,
+          0.09000290483236313
+        ]
+      },
+      "w64_n256_unregularized": {
+        "fidelity": -0.9510794878005981,
+        "document_bootstrap95": [
+          -1.0348761081695557,
+          -0.8782214134931565
+        ]
+      },
+      "w64_n768_selected": {
+        "fidelity": 0.07724237442016602,
+        "document_bootstrap95": [
+          0.06505443751811982,
+          0.08952568918466568
+        ]
+      },
+      "w64_n768_unregularized": {
+        "fidelity": -0.15286970138549805,
+        "document_bootstrap95": [
+          -0.17629269063472747,
+          -0.13024864494800567
+        ]
+      }
+    }
+  },
+  "contrasts": {
+    "actual_s0.1": {
+      "width_n256": {
+        "gain": 0.03949354216456413,
+        "paired_document_bootstrap95": [
+          0.034567094407975674,
+          0.044232583977282046
+        ]
+      },
+      "width_n768": {
+        "gain": 0.042359281331300735,
+        "paired_document_bootstrap95": [
+          0.03670804314315319,
+          0.047823677584528906
+        ]
+      },
+      "data_w32": {
+        "gain": 0.08254983276128769,
+        "paired_document_bootstrap95": [
+          0.07309940624982118,
+          0.09313537832349537
+        ]
+      },
+      "data_w64": {
+        "gain": 0.08541557192802429,
+        "paired_document_bootstrap95": [
+          0.07612301483750343,
+          0.09632464237511157
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "width_n256": {
+        "gain": 0.03880719840526581,
+        "paired_document_bootstrap95": [
+          0.03404461499303579,
+          0.0433496993035078
+        ]
+      },
+      "width_n768": {
+        "gain": 0.042288366705179214,
+        "paired_document_bootstrap95": [
+          0.03720306325703859,
+          0.04752732096239924
+        ]
+      },
+      "data_w32": {
+        "gain": 0.07957306504249573,
+        "paired_document_bootstrap95": [
+          0.07078993041068316,
+          0.08940041307359933
+        ]
+      },
+      "data_w64": {
+        "gain": 0.08305423706769943,
+        "paired_document_bootstrap95": [
+          0.074459033831954,
+          0.0929973278194666
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "width_n256": {
+        "gain": 0.020541919395327568,
+        "paired_document_bootstrap95": [
+          0.01498391767963767,
+          0.027196925878524777
+        ]
+      },
+      "width_n768": {
+        "gain": 0.04709280654788017,
+        "paired_document_bootstrap95": [
+          0.035057968087494375,
+          0.0634320793673396
+        ]
+      },
+      "data_w32": {
+        "gain": -0.035916611552238464,
+        "paired_document_bootstrap95": [
+          -0.043759110290557145,
+          -0.028459020471200355
+        ]
+      },
+      "data_w64": {
+        "gain": -0.009365732781589031,
+        "paired_document_bootstrap95": [
+          -0.01689874115400016,
+          -0.0015385703009087655
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "width_n256": {
+        "gain": 0.020489517599344254,
+        "paired_document_bootstrap95": [
+          0.013223343575373293,
+          0.028704464994370932
+        ]
+      },
+      "width_n768": {
+        "gain": 0.04919998720288277,
+        "paired_document_bootstrap95": [
+          0.03524186471477151,
+          0.06816439162939786
+        ]
+      },
+      "data_w32": {
+        "gain": -0.0328042097389698,
+        "paired_document_bootstrap95": [
+          -0.04176638601347804,
+          -0.024566664220765234
+        ]
+      },
+      "data_w64": {
+        "gain": -0.004093739204108715,
+        "paired_document_bootstrap95": [
+          -0.013281050976365805,
+          0.005672587105073029
+        ]
+      }
+    }
+  },
+  "gates": {
+    "width_transfer": false,
+    "data_transfer": true,
+    "half_response": false
+  },
+  "head_replay": 4.217769751555023e-07,
+  "readout_scalars": {
+    "32": 1328256,
+    "64": 3116160
+  }
+}

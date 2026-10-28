@@ -1,0 +1,30 @@
+{
+  "status": "H276 fixed before outcomes",
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_cross_intact_replication_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "models": [
+    "compiled",
+    "constant",
+    "common",
+    "actual",
+    "mixture",
+    "native"
+  ],
+  "design": "Frozen H275 programs plus exact E(mu) constant computed once from native-minus-original-compiler polynomial at frozen discovery mean. Replaces full final-layer MLP write; retain downstream final RMS/lm_head/softcap. No conditional native intact baseline; no refit or test calibration. Constant-only and common mean-linear/within-core controls. Fresh128 docs exclude1856 prior document hashes. Float32 forward, float64 KL.",
+  "gates": {
+    "intact_actual": "actual mean CE increase<=.02 nats AND top1 agreement>=.98",
+    "intact_mixture": "same for mixture",
+    "repair_actual": "actual KL reduction versus compiled>=80% AND intact_actual",
+    "repair_mixture": "mixture KL reduction versus compiled>=80% AND intact_mixture"
+  },
+  "scope": "Same corpus/model, new documents for continuation, not training/global holdout. No semantic ontology claim. Residual constant is polynomial value at mean, not fitted mean residual."
+}

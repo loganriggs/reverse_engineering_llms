@@ -1,0 +1,23 @@
+## H982 — Scalar channel captures much of valence-changing MLP edits but has limited scope
+
+Previous turn was progress: H980/H981 prospectively validated the frozen single-state readout against one exact scalar-output intervention reference. H982 expands scope with same-valence lexical and book/story context changes, plus six native-competent task-bank families. Compare full MLP3 donor write differences, their exact scalar projection on frozen u, the compact predicted scalar difference, the orthogonal remainder, identity and paired scalar-norm-matched random edits. Sentiment patches are at adjective last subtoken; non-sentiment patches are at the final token. This position confound prevents a clean global semantic-selectivity claim.
+
+Book/story fresh-panel sentiment edges:192 valence-changing directed edges,96 same-valence lexical edges and96 same-valence context edges. All are in cohort-gate-passing settings, but individual incorrect endpoints are not filtered. Lexical edges cycle adjective pairs within the same predeclared cohort, holding lexical-polarity and not-presence signs fixed. Context edges change book versus story with exactly the same adjective phrase and valence label. Six other bank families supply192 directed edges across passing and failing cohorts, reported separately.
+
+| Sentiment edge kind | Full-write margin-change RMS | Exact scalar RMS | Predicted scalar RMS | Exact scalar KL ratio to full write | Predicted scalar KL ratio to full write |
+|---|---|---|---|---|---|
+| Valence change |1.597|1.346|1.273|0.106|0.151|
+| Same-valence lexical |0.357|0.233|0.245|0.752|0.739|
+| Same-valence context |0.079|0.054|0.049|0.631|0.692|
+
+Full-write fidelity ratio is KL(full-write edit||candidate edit) normalized by KL(full-write edit||native). Thus the exact scalar channel captures much of the selected MLP3 intervention distribution for valence changes, beyond merely reproducing its own restricted reference. The compact predictor preserves much of that effect, with ratio0.151. This is not a percentage of whole-model task computation, and nonlinear effects are not additive.
+
+For same-valence changes, substantial full-write effects lie outside this channel. Removing the scalar direction and applying the orthogonal remainder yields full-write KL ratios0.227 for lexical changes and0.239 for context changes, versus0.781 for valence changes. A same-valence label does not imply invariant confidence, lexical semantics or full distribution; the channel itself still changes appreciably. Compact prediction remains reasonably faithful to exact scalar edits on these nuisance-like changes (scalar-reference KL ratios0.084 lexical,0.090 context), but cannot reproduce all full-write effects by construction.
+
+Non-sentiment native-passing tasks: agreement, capital recall, entity binding, pronoun gender, copying and spatial inversion. Exact scalar task-margin RMS ranges roughly0.0001–0.0021, compared with full-write RMS0.0089–0.1425. Full-write effects lie predominantly in the orthogonal remainder. The frozen scalar predictor does not transfer faithfully in relative terms to these final-token states: scalar-reference KL ratios approximately1.28–14.85, while absolute perturbation KL remains tiny (order1e-6 or lower). Ratios with tiny scalar-reference denominators must not be read as large behavioral harm. This is a combined task/position distribution shift, not proof of exclusive sentiment selectivity.
+
+Audits:4,224/4,224 forwards (192 bank activation captures,4,032 intervention evaluations). Capture replay3.34e-5, identity3.53e-5, random norm mismatch2.23e-7. Shared valence-change scalar and predicted margins independently replay H981 within1.18e-5; aggregates checked; frozen source/model hashes unchanged, outputs finite. Copying and spatial remain training holdouts; evaluation only. No fitting or reserved-test access; natural-document pool26,112.
+
+Interpretation: this is a useful task-related scalar computational readout, with prospective same-state prediction and substantial valence-edit coverage. It is not a full-layer featurizer, invariant semantic bit, or universal input representation. The successful prior is aligning input compression to a causally relevant output, not just choosing a deterministic gauge.
+
+Next: test whether the output-aware construction replicates for a second native-competent behavior, initially agreement at its independently localized MLP12 final-token site. Freeze discovery-derived channel/span, compare matched-rank PCA and linear controls, and retain separate output-channel fidelity versus full-write coverage. Do not infer local composition from a compact late readout. H961 frozen context-bridge predictor evaluation remains pending.

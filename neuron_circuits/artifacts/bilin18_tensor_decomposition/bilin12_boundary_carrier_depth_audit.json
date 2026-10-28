@@ -1,0 +1,2655 @@
+{
+  "config": {
+    "status": "locked-after-layerwise-boundary-contrast-trace-before-full-token-carrier-audit",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261024,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "position": 127,
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19020,
+        "rows": 64
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 1088,
+        "rows": 64
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 1088,
+        "rows": 64
+      }
+    },
+    "hypotheses": {
+      "C1_exact_hybrid_recomposition": "At every layer boundary and corpus, the all-base and all-changed hybrid logits agree with independent native forwards to maximum absolute error at most 1e-4.",
+      "C2_nonresidual_carriers_are_material": "Before the final boundary, embedding plus value-bus absolute Shapley projection reaches at least 0.20 at some layer on every corpus.",
+      "C3_embedding_stream_is_material": "The embedding stream has absolute Shapley projection at least 0.10 at some layer on every corpus.",
+      "C4_value_bus_is_material": "The persistent Layer-0 value bus has absolute Shapley projection at least 0.10 at some layer on every corpus.",
+      "C5_late_residual_is_nearly_sufficient": "At the Layer-10 boundary, the changed residual with base embedding and value bus has Fisher fidelity at least 0.75 on every corpus.",
+      "C6_carrier_depth_profiles_transfer_ood": "For each carrier, its 12-layer signed Shapley profile has Spearman correlation at least 0.70 between FineWeb and both OOD corpora.",
+      "C7_carrier_interaction_or_cancellation_is_material": "At some pre-final boundary on every corpus, the sum of absolute carrier Shapley projections is at least 1.20.",
+      "C8_final_boundary_collapses_to_residual": "After Layer 11, residual-only fidelity is at least 0.999 and embedding/value-bus Shapley magnitudes are at most 1e-5 on every corpus."
+    }
+  },
+  "hypotheses": {
+    "C1_exact_hybrid_recomposition": {
+      "supported": true
+    },
+    "C2_nonresidual_carriers_are_material": {
+      "supported": true
+    },
+    "C3_embedding_stream_is_material": {
+      "supported": true
+    },
+    "C4_value_bus_is_material": {
+      "supported": false
+    },
+    "C5_late_residual_is_nearly_sufficient": {
+      "supported": true
+    },
+    "C6_carrier_depth_profiles_transfer_ood": {
+      "supported": true,
+      "correlations": {
+        "residual_sequence": {
+          "wikitext": 1.0,
+          "tinystories": 1.0
+        },
+        "embedding_stream": {
+          "wikitext": 1.0,
+          "tinystories": 1.0
+        },
+        "value_bus": {
+          "wikitext": 0.9930069930069931,
+          "tinystories": 1.0
+        }
+      }
+    },
+    "C7_carrier_interaction_or_cancellation_is_material": {
+      "supported": false
+    },
+    "C8_final_boundary_collapses_to_residual": {
+      "supported": true
+    }
+  },
+  "profile_correlations": {
+    "residual_sequence": {
+      "wikitext": 1.0,
+      "tinystories": 1.0
+    },
+    "embedding_stream": {
+      "wikitext": 1.0,
+      "tinystories": 1.0
+    },
+    "value_bus": {
+      "wikitext": 0.9930069930069931,
+      "tinystories": 1.0
+    }
+  },
+  "results": {
+    "fineweb": {
+      "0": {
+        "examples": 62,
+        "target_fisher_energy": 327.0357265472412,
+        "mean_forward_full_kl": 10.043799431093278,
+        "mean_reverse_full_kl": 10.973154314102665,
+        "max_base_recomposition_error": 3.719329833984375e-05,
+        "max_changed_recomposition_error": 3.4332275390625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.3541700485114079,
+            "fisher_cosine": 0.6082456544925627,
+            "target_projection": 0.29352500778792684,
+            "forward_kl_ratio": 0.11664646133432938,
+            "reverse_error_kl_ratio": 0.45117191853154426
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.3392558558552359,
+            "fisher_cosine": 0.6266265385010733,
+            "target_projection": 0.2478504502486972,
+            "forward_kl_ratio": 0.1631584897981207,
+            "reverse_error_kl_ratio": 0.2597139638549668
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.03495246295413568,
+            "fisher_cosine": 0.1958663929809234,
+            "target_projection": 0.026923931601632523,
+            "forward_kl_ratio": 0.006944493039247223,
+            "reverse_error_kl_ratio": 0.9640764241454024
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.987613022287385,
+            "fisher_cosine": 0.9945206409431306,
+            "target_projection": 0.9510932235416205,
+            "forward_kl_ratio": 0.9708943668363912,
+            "reverse_error_kl_ratio": 0.00487079756927966
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.44299198840118115,
+            "fisher_cosine": 0.6817237828530254,
+            "target_projection": 0.36419515076401643,
+            "forward_kl_ratio": 0.16385418888775402,
+            "reverse_error_kl_ratio": 0.3590075054548356
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.4515059298619014,
+            "fisher_cosine": 0.6919492871780984,
+            "target_projection": 0.3644903631006688,
+            "forward_kl_ratio": 0.27065942331734016,
+            "reverse_error_kl_ratio": 0.1990611928157334
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000116644665,
+            "target_projection": 1.0000000116644665,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.4830972188459262,
+          "embedding_stream": 0.460407556633303,
+          "value_bus": 0.056495246482774056
+        },
+        "shapley_absolute_sum": 1.0000000219620033,
+        "shapley_sum": 1.0000000219620033,
+        "median_example_shapley": {
+          "residual_sequence": 0.5177609622478485,
+          "embedding_stream": 0.4426582157611847,
+          "value_bus": 0.03631885349750519
+        }
+      },
+      "1": {
+        "examples": 62,
+        "target_fisher_energy": 327.03577852249146,
+        "mean_forward_full_kl": 10.043799615675404,
+        "mean_reverse_full_kl": 10.973154867849042,
+        "max_base_recomposition_error": 4.291534423828125e-05,
+        "max_changed_recomposition_error": 3.5762786865234375e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.44823026283609557,
+            "fisher_cosine": 0.6828009996281019,
+            "target_projection": 0.3746430004944406,
+            "forward_kl_ratio": 0.17224077288734155,
+            "reverse_error_kl_ratio": 0.34551252724088477
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.3011072535317181,
+            "fisher_cosine": 0.5906417433515723,
+            "target_projection": 0.21979139032365327,
+            "forward_kl_ratio": 0.13137793411614737,
+            "reverse_error_kl_ratio": 0.29304372877186924
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.02918761070497311,
+            "fisher_cosine": 0.17460633868949793,
+            "target_projection": 0.02419242605203669,
+            "forward_kl_ratio": 0.006881194461822864,
+            "reverse_error_kl_ratio": 0.9678391534167963
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9905307050421822,
+            "fisher_cosine": 0.9958199340214935,
+            "target_projection": 0.9582316999418776,
+            "forward_kl_ratio": 0.9761781728911102,
+            "reverse_error_kl_ratio": 0.0038671985763955425
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.5114981198698327,
+            "fisher_cosine": 0.7311177569028089,
+            "target_projection": 0.42356913875266605,
+            "forward_kl_ratio": 0.2089057206604374,
+            "reverse_error_kl_ratio": 0.29436452100921906
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.39231861936504053,
+            "fisher_cosine": 0.6443697760005103,
+            "target_projection": 0.31771472894561115,
+            "forward_kl_ratio": 0.21351219276190847,
+            "reverse_error_kl_ratio": 0.23835957900315238
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999941677677,
+            "target_projection": 0.9999999941677677,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.5419456137717854,
+          "embedding_stream": 0.41159259430548684,
+          "value_bus": 0.04646181734761544
+        },
+        "shapley_absolute_sum": 1.0000000254248878,
+        "shapley_sum": 1.0000000254248878,
+        "median_example_shapley": {
+          "residual_sequence": 0.6034642159938812,
+          "embedding_stream": 0.3795250952243805,
+          "value_bus": 0.02710359077900648
+        }
+      },
+      "2": {
+        "examples": 62,
+        "target_fisher_energy": 327.0356435775757,
+        "mean_forward_full_kl": 10.04379900040165,
+        "mean_reverse_full_kl": 10.973154990903792,
+        "max_base_recomposition_error": 4.00543212890625e-05,
+        "max_changed_recomposition_error": 3.528594970703125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.49454234493575844,
+            "fisher_cosine": 0.7163200190061212,
+            "target_projection": 0.4154947289181242,
+            "forward_kl_ratio": 0.20675396509416724,
+            "reverse_error_kl_ratio": 0.29761337572227203
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.27182780620371716,
+            "fisher_cosine": 0.5621969563249539,
+            "target_projection": 0.197819961988002,
+            "forward_kl_ratio": 0.1085386983049898,
+            "reverse_error_kl_ratio": 0.3226962563781534
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.02738204744897954,
+            "fisher_cosine": 0.16850445325076885,
+            "target_projection": 0.023034025022931837,
+            "forward_kl_ratio": 0.006829216734295298,
+            "reverse_error_kl_ratio": 0.9704847094380606
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9911258075109878,
+            "fisher_cosine": 0.9960443718090521,
+            "target_projection": 0.960944886411353,
+            "forward_kl_ratio": 0.9778104682703089,
+            "reverse_error_kl_ratio": 0.003956846880527916
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.5519047798624903,
+            "fisher_cosine": 0.758033294328293,
+            "target_projection": 0.46038077736030997,
+            "forward_kl_ratio": 0.24016719081761875,
+            "reverse_error_kl_ratio": 0.25810373278111504
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.3414691474185886,
+            "fisher_cosine": 0.6002548383664024,
+            "target_projection": 0.27792265004252703,
+            "forward_kl_ratio": 0.17188848024905387,
+            "reverse_error_kl_ratio": 0.2769506170531604
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999620904744,
+            "target_projection": 0.9999999620904744,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.5792693007171283,
+          "embedding_stream": 0.3792028647108732,
+          "value_bus": 0.04152782381881566
+        },
+        "shapley_absolute_sum": 0.9999999892468172,
+        "shapley_sum": 0.9999999892468172,
+        "median_example_shapley": {
+          "residual_sequence": 0.6318385601043701,
+          "embedding_stream": 0.35163162648677826,
+          "value_bus": 0.021768026053905487
+        }
+      },
+      "3": {
+        "examples": 62,
+        "target_fisher_energy": 327.03585052490234,
+        "mean_forward_full_kl": 10.043799431093278,
+        "mean_reverse_full_kl": 10.973155052431169,
+        "max_base_recomposition_error": 3.528594970703125e-05,
+        "max_changed_recomposition_error": 3.7670135498046875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.5453014010092045,
+            "fisher_cosine": 0.750980108179505,
+            "target_projection": 0.4613593326940897,
+            "forward_kl_ratio": 0.24698645414766102,
+            "reverse_error_kl_ratio": 0.2488401142041399
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.24328142150039833,
+            "fisher_cosine": 0.535984085907772,
+            "target_projection": 0.17485314857832487,
+            "forward_kl_ratio": 0.08387415808681915,
+            "reverse_error_kl_ratio": 0.3612749808729832
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.027750101492484247,
+            "fisher_cosine": 0.16985250027232215,
+            "target_projection": 0.023217115333449615,
+            "forward_kl_ratio": 0.006790528587647002,
+            "reverse_error_kl_ratio": 0.9706185001764465
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.99113822500267,
+            "fisher_cosine": 0.996052491616957,
+            "target_projection": 0.96090225272956,
+            "forward_kl_ratio": 0.9778206872337072,
+            "reverse_error_kl_ratio": 0.003933826048694636
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.600357380453903,
+            "fisher_cosine": 0.7887112552264306,
+            "target_projection": 0.5058594216122839,
+            "forward_kl_ratio": 0.27956772483266457,
+            "reverse_error_kl_ratio": 0.21598158601336834
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.3086098158827655,
+            "fisher_cosine": 0.5722489311433319,
+            "target_projection": 0.2488829218085851,
+            "forward_kl_ratio": 0.13926736561533268,
+            "reverse_error_kl_ratio": 0.31594322292210375
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000160386353,
+            "target_projection": 1.0000000160386353,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6156074113763919,
+          "embedding_stream": 0.3438660260394418,
+          "value_bus": 0.040526601222696905
+        },
+        "shapley_absolute_sum": 1.0000000386385306,
+        "shapley_sum": 1.0000000386385306,
+        "median_example_shapley": {
+          "residual_sequence": 0.6567255854606628,
+          "embedding_stream": 0.32583795487880707,
+          "value_bus": 0.020887847989797592
+        }
+      },
+      "4": {
+        "examples": 62,
+        "target_fisher_energy": 327.0357789993286,
+        "mean_forward_full_kl": 10.043799584911715,
+        "mean_reverse_full_kl": 10.97315437563004,
+        "max_base_recomposition_error": 3.4332275390625e-05,
+        "max_changed_recomposition_error": 3.24249267578125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.6191480325216587,
+            "fisher_cosine": 0.7991340100077268,
+            "target_projection": 0.5271161183948873,
+            "forward_kl_ratio": 0.31210854329216126,
+            "reverse_error_kl_ratio": 0.17573618518190898
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.2053809230813448,
+            "fisher_cosine": 0.49796831594310254,
+            "target_projection": 0.1452031270678453,
+            "forward_kl_ratio": 0.054717178604241225,
+            "reverse_error_kl_ratio": 0.4237280816925815
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.02769793386959518,
+            "fisher_cosine": 0.16965055654345856,
+            "target_projection": 0.023197233444559057,
+            "forward_kl_ratio": 0.006762592212195649,
+            "reverse_error_kl_ratio": 0.9704747103560919
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9910711494769819,
+            "fisher_cosine": 0.9960273322924243,
+            "target_projection": 0.9605838436626507,
+            "forward_kl_ratio": 0.9777094503036509,
+            "reverse_error_kl_ratio": 0.003953333564697886
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.671811519842148,
+            "fisher_cosine": 0.8321632458655803,
+            "target_projection": 0.5728140277924357,
+            "forward_kl_ratio": 0.34361247522197247,
+            "reverse_error_kl_ratio": 0.14814309175437787
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.2637441876009372,
+            "fisher_cosine": 0.5302733294435574,
+            "target_projection": 0.21115021338140438,
+            "forward_kl_ratio": 0.10113103396909082,
+            "reverse_error_kl_ratio": 0.37843292467724293
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999693807804,
+            "target_projection": 0.9999999693807804,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6661549033491357,
+          "embedding_stream": 0.29436647054434434,
+          "value_bus": 0.039478620137594664
+        },
+        "shapley_absolute_sum": 0.9999999940310748,
+        "shapley_sum": 0.9999999940310748,
+        "median_example_shapley": {
+          "residual_sequence": 0.7100640535354614,
+          "embedding_stream": 0.2749772071838379,
+          "value_bus": 0.019651273265480995
+        }
+      },
+      "5": {
+        "examples": 62,
+        "target_fisher_energy": 327.0357222557068,
+        "mean_forward_full_kl": 10.04379992331228,
+        "mean_reverse_full_kl": 10.97315554465017,
+        "max_base_recomposition_error": 3.4332275390625e-05,
+        "max_changed_recomposition_error": 3.62396240234375e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.6461923712962327,
+            "fisher_cosine": 0.8161005765384572,
+            "target_projection": 0.551103986432219,
+            "forward_kl_ratio": 0.33662117375828204,
+            "reverse_error_kl_ratio": 0.15294329546906843
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.1923948569972771,
+            "fisher_cosine": 0.484993901767024,
+            "target_projection": 0.13485433769122812,
+            "forward_kl_ratio": 0.046233368048154054,
+            "reverse_error_kl_ratio": 0.4500410920560122
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.027596283577874914,
+            "fisher_cosine": 0.16946534165954746,
+            "target_projection": 0.02304143996171305,
+            "forward_kl_ratio": 0.006699067706512408,
+            "reverse_error_kl_ratio": 0.9707133172391783
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9913361068451706,
+            "fisher_cosine": 0.9961450786366217,
+            "target_projection": 0.9612974645171992,
+            "forward_kl_ratio": 0.9780422102742141,
+            "reverse_error_kl_ratio": 0.003822744083171965
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.6958229205308097,
+            "fisher_cosine": 0.8462388618312976,
+            "target_projection": 0.5955577506072853,
+            "forward_kl_ratio": 0.3673721411751572,
+            "reverse_error_kl_ratio": 0.12755297455466696
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.24785309404475186,
+            "fisher_cosine": 0.5147188721595213,
+            "target_projection": 0.1976618597803124,
+            "forward_kl_ratio": 0.09001872456711392,
+            "reverse_error_kl_ratio": 0.4059322174407961
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6843073034408446,
+          "embedding_stream": 0.27723450941664296,
+          "value_bus": 0.03845820031060171
+        },
+        "shapley_absolute_sum": 1.0000000131680893,
+        "shapley_sum": 1.0000000131680893,
+        "median_example_shapley": {
+          "residual_sequence": 0.72441166639328,
+          "embedding_stream": 0.2572931796312332,
+          "value_bus": 0.02056123223155737
+        }
+      },
+      "6": {
+        "examples": 62,
+        "target_fisher_energy": 327.0357093811035,
+        "mean_forward_full_kl": 10.043799677202779,
+        "mean_reverse_full_kl": 10.973155360068045,
+        "max_base_recomposition_error": 3.719329833984375e-05,
+        "max_changed_recomposition_error": 3.147125244140625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.734786648702843,
+            "fisher_cosine": 0.8704846467287504,
+            "target_projection": 0.6258517853149235,
+            "forward_kl_ratio": 0.4308841441471563,
+            "reverse_error_kl_ratio": 0.08646759207321073
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.15313767778120468,
+            "fisher_cosine": 0.4513142521533605,
+            "target_projection": 0.10221723934070087,
+            "forward_kl_ratio": 0.02238222994809097,
+            "reverse_error_kl_ratio": 0.5547614482920785
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.020407994130533513,
+            "fisher_cosine": 0.1460133558248309,
+            "target_projection": 0.016910580714329798,
+            "forward_kl_ratio": 0.004759304182978473,
+            "reverse_error_kl_ratio": 0.9791914593115635
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9926951852333739,
+            "fisher_cosine": 0.9967232456026943,
+            "target_projection": 0.9659409867315637,
+            "forward_kl_ratio": 0.9804016668517405,
+            "reverse_error_kl_ratio": 0.0031534345676471212
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.773487205483725,
+            "fisher_cosine": 0.8915521685329845,
+            "target_projection": 0.6645092296787107,
+            "forward_kl_ratio": 0.45880362196412566,
+            "reverse_error_kl_ratio": 0.06965581141829869
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.1899539202809961,
+            "fisher_cosine": 0.4622701496292399,
+            "target_projection": 0.1424684069950456,
+            "forward_kl_ratio": 0.048885277156872936,
+            "reverse_error_kl_ratio": 0.5258597472471249
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999985419417,
+            "target_projection": 0.9999999985419417,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.7463482322657613,
+          "embedding_stream": 0.2235105059492923,
+          "value_bus": 0.030141286890889258
+        },
+        "shapley_absolute_sum": 1.0000000251059429,
+        "shapley_sum": 1.0000000251059429,
+        "median_example_shapley": {
+          "residual_sequence": 0.7694305181503296,
+          "embedding_stream": 0.20610406249761581,
+          "value_bus": 0.014026941731572151
+        }
+      },
+      "7": {
+        "examples": 62,
+        "target_fisher_energy": 327.0355648994446,
+        "mean_forward_full_kl": 10.043799615675404,
+        "mean_reverse_full_kl": 10.973156221451298,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.24249267578125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.884870330049989,
+            "fisher_cosine": 0.9511496512186379,
+            "target_projection": 0.7707951896282242,
+            "forward_kl_ratio": 0.6527841582495081,
+            "reverse_error_kl_ratio": 0.022799275324597
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.09663347453123505,
+            "fisher_cosine": 0.4101297361030259,
+            "target_projection": 0.05848391886156518,
+            "forward_kl_ratio": 0.006483963455872328,
+            "reverse_error_kl_ratio": 0.7264761759223444
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.017069160240773318,
+            "fisher_cosine": 0.1366146227903497,
+            "target_projection": 0.013208569026076925,
+            "forward_kl_ratio": 0.003141379422685323,
+            "reverse_error_kl_ratio": 0.984990713384312
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9963728678944752,
+            "fisher_cosine": 0.9983611039981576,
+            "target_projection": 0.977993604017025,
+            "forward_kl_ratio": 0.9840547590597744,
+            "reverse_error_kl_ratio": 0.001039276534151247
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.8987254707248437,
+            "fisher_cosine": 0.9563318563739712,
+            "target_projection": 0.7941898823478901,
+            "forward_kl_ratio": 0.670880097685172,
+            "reverse_error_kl_ratio": 0.01981233388812409
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.12151507543584061,
+            "fisher_cosine": 0.3965129261370258,
+            "target_projection": 0.0822957775562633,
+            "forward_kl_ratio": 0.01709277251947551,
+            "reverse_error_kl_ratio": 0.704076835108724
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000116644723,
+            "target_projection": 1.0000000116644723,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.8462483548483041,
+          "embedding_stream": 0.13414560873540896,
+          "value_bus": 0.01960608546630395
+        },
+        "shapley_absolute_sum": 1.000000049050017,
+        "shapley_sum": 1.000000049050017,
+        "median_example_shapley": {
+          "residual_sequence": 0.8561989963054657,
+          "embedding_stream": 0.13456173986196518,
+          "value_bus": 0.009122750721871853
+        }
+      },
+      "8": {
+        "examples": 62,
+        "target_fisher_energy": 327.03567361831665,
+        "mean_forward_full_kl": 10.043800292476531,
+        "mean_reverse_full_kl": 10.973156344506048,
+        "max_base_recomposition_error": 3.4332275390625e-05,
+        "max_changed_recomposition_error": 3.6716461181640625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9566879649868076,
+            "fisher_cosine": 0.9827075315456113,
+            "target_projection": 0.8723510861734952,
+            "forward_kl_ratio": 0.8092532181971774,
+            "reverse_error_kl_ratio": 0.008012242970010191
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.06338494703595776,
+            "fisher_cosine": 0.4034364075148272,
+            "target_projection": 0.03558181310876195,
+            "forward_kl_ratio": 0.0022180454500171395,
+            "reverse_error_kl_ratio": 0.8396855139719485
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0022848841771584416,
+            "fisher_cosine": 0.06861597292607648,
+            "target_projection": 0.001330410086551128,
+            "forward_kl_ratio": 0.00010119265867472124,
+            "reverse_error_kl_ratio": 0.9959857001494623
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9989219641622991,
+            "fisher_cosine": 0.999509713374323,
+            "target_projection": 0.9891364125849132,
+            "forward_kl_ratio": 0.9911665294861933,
+            "reverse_error_kl_ratio": 0.000586884619603253
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9615572018440104,
+            "fisher_cosine": 0.9845670443140745,
+            "target_projection": 0.8823339639441398,
+            "forward_kl_ratio": 0.8166230137676733,
+            "reverse_error_kl_ratio": 0.006578104098729873
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.06514196590415533,
+            "fisher_cosine": 0.39406463694104654,
+            "target_projection": 0.036972373407117884,
+            "forward_kl_ratio": 0.002502327178520071,
+            "reverse_error_kl_ratio": 0.8359691239362246
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999883355316,
+            "target_projection": 0.9999999883355316,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9175526200971584,
+          "embedding_stream": 0.07648717557244183,
+          "value_bus": 0.005960225506421897
+        },
+        "shapley_absolute_sum": 1.0000000211760223,
+        "shapley_sum": 1.0000000211760223,
+        "median_example_shapley": {
+          "residual_sequence": 0.9200991690158844,
+          "embedding_stream": 0.07432011514902115,
+          "value_bus": 0.004238046472892165
+        }
+      },
+      "9": {
+        "examples": 62,
+        "target_fisher_energy": 327.03571367263794,
+        "mean_forward_full_kl": 10.043800477058657,
+        "mean_reverse_full_kl": 10.973156159923922,
+        "max_base_recomposition_error": 3.4332275390625e-05,
+        "max_changed_recomposition_error": 3.0040740966796875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9850233220470315,
+            "fisher_cosine": 0.9940918859113815,
+            "target_projection": 0.932025348152224,
+            "forward_kl_ratio": 0.9004372034441361,
+            "reverse_error_kl_ratio": 0.002835120624039854
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.03671198501128836,
+            "fisher_cosine": 0.40023796473642004,
+            "target_projection": 0.019548795995291354,
+            "forward_kl_ratio": 0.0006451327714118271,
+            "reverse_error_kl_ratio": 0.9208508204872444
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.002662821374052604,
+            "fisher_cosine": 0.07975783828056646,
+            "target_projection": 0.0015108073007030214,
+            "forward_kl_ratio": 9.663836102549561e-05,
+            "reverse_error_kl_ratio": 0.9960551045303717
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9989704400304766,
+            "fisher_cosine": 0.9995279664622555,
+            "target_projection": 0.9897982441043436,
+            "forward_kl_ratio": 0.9915622600980442,
+            "reverse_error_kl_ratio": 0.0005742512387851932
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9884160038623733,
+            "fisher_cosine": 0.9953973722152459,
+            "target_projection": 0.9420523892880937,
+            "forward_kl_ratio": 0.9084363652487021,
+            "reverse_error_kl_ratio": 0.0017717226297382098
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.03896977526804979,
+            "fisher_cosine": 0.3773055546382539,
+            "target_projection": 0.02103962474675039,
+            "forward_kl_ratio": 0.0008385126546282181,
+            "reverse_error_kl_ratio": 0.9170864029368275
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000058322334,
+            "target_projection": 1.0000000058322334,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9554604374008003,
+          "embedding_stream": 0.03871576108792768,
+          "value_bus": 0.005823825096505129
+        },
+        "shapley_absolute_sum": 1.000000023585233,
+        "shapley_sum": 1.000000023585233,
+        "median_example_shapley": {
+          "residual_sequence": 0.9580206871032715,
+          "embedding_stream": 0.03785204887390137,
+          "value_bus": 0.004308081464841962
+        }
+      },
+      "10": {
+        "examples": 62,
+        "target_fisher_energy": 327.03575706481934,
+        "mean_forward_full_kl": 10.043800323240218,
+        "mean_reverse_full_kl": 10.973156159923922,
+        "max_base_recomposition_error": 3.4332275390625e-05,
+        "max_changed_recomposition_error": 3.147125244140625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9971726072805729,
+            "fisher_cosine": 0.9987829152293396,
+            "target_projection": 0.9777262805239886,
+            "forward_kl_ratio": 0.9676349372503706,
+            "reverse_error_kl_ratio": 0.0005646858543103414
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.013693363531001146,
+            "fisher_cosine": 0.40180216984803846,
+            "target_projection": 0.006998373268053984,
+            "forward_kl_ratio": 8.011315836091254e-05,
+            "reverse_error_kl_ratio": 0.9783697543241205
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0008274757158516222,
+            "fisher_cosine": 0.03451047715310222,
+            "target_projection": 0.0005330197374030452,
+            "forward_kl_ratio": 6.467391610143725e-05,
+            "reverse_error_kl_ratio": 0.9974045382827575
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9993078773109914,
+            "fisher_cosine": 0.9996748034430717,
+            "target_projection": 0.9928859315075541,
+            "forward_kl_ratio": 0.9929822020657185,
+            "reverse_error_kl_ratio": 0.0002753995908867653
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9987197598421965,
+            "fisher_cosine": 0.9994583733142804,
+            "target_projection": 0.9848781535487243,
+            "forward_kl_ratio": 0.9746487839753727,
+            "reverse_error_kl_ratio": 0.00016805585223037198
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.014497377632803232,
+            "fisher_cosine": 0.30531012608540464,
+            "target_projection": 0.007554847292194677,
+            "forward_kl_ratio": 0.0001625818368892809,
+            "reverse_error_kl_ratio": 0.9758324436437757
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.000000017496698,
+            "target_projection": 1.000000017496698,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9850959728590754,
+          "embedding_stream": 0.01107032133874864,
+          "value_bus": 0.0038337756921441512
+        },
+        "shapley_absolute_sum": 1.000000069889968,
+        "shapley_sum": 1.000000069889968,
+        "median_example_shapley": {
+          "residual_sequence": 0.986593633890152,
+          "embedding_stream": 0.009721621870994568,
+          "value_bus": 0.0033880299888551235
+        }
+      },
+      "11": {
+        "examples": 62,
+        "target_fisher_energy": 327.035680770874,
+        "mean_forward_full_kl": 10.043800107894405,
+        "mean_reverse_full_kl": 10.973155852287046,
+        "max_base_recomposition_error": 3.337860107421875e-05,
+        "max_changed_recomposition_error": 3.0040740966796875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999897935904,
+            "target_projection": 0.9999999897935904,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999897935904,
+            "target_projection": 0.9999999897935904,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "residual_bus": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999897935904,
+            "target_projection": 0.9999999897935904,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999897935904,
+            "target_projection": 0.9999999897935904,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.999999997083883,
+          "embedding_stream": 0.0,
+          "value_bus": 0.0
+        },
+        "shapley_absolute_sum": 0.999999997083883,
+        "shapley_sum": 0.999999997083883,
+        "median_example_shapley": {
+          "residual_sequence": 1.0,
+          "embedding_stream": 0.0,
+          "value_bus": 0.0
+        }
+      }
+    },
+    "wikitext": {
+      "0": {
+        "examples": 63,
+        "target_fisher_energy": 257.0620346069336,
+        "mean_forward_full_kl": 6.2450140090215776,
+        "mean_reverse_full_kl": 8.239992626129634,
+        "max_base_recomposition_error": 3.910064697265625e-05,
+        "max_changed_recomposition_error": 4.1961669921875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.390542269704649,
+            "fisher_cosine": 0.6265691948173512,
+            "target_projection": 0.364242729005048,
+            "forward_kl_ratio": 0.16761457647593989,
+            "reverse_error_kl_ratio": 0.5706740373358097
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.2629273563092851,
+            "fisher_cosine": 0.5249128826593903,
+            "target_projection": 0.21659782341401426,
+            "forward_kl_ratio": 0.1489173813445021,
+            "reverse_error_kl_ratio": 0.3145399239469404
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.04447179712132576,
+            "fisher_cosine": 0.21531988198230542,
+            "target_projection": 0.0557256068924906,
+            "forward_kl_ratio": 0.020428420590539488,
+            "reverse_error_kl_ratio": 0.952013887973656
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9469540096139449,
+            "fisher_cosine": 0.9732803236593419,
+            "target_projection": 0.929849179971232,
+            "forward_kl_ratio": 0.9036071935332215,
+            "reverse_error_kl_ratio": 0.02184041609964433
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.5144189436669566,
+            "fisher_cosine": 0.7204994670507179,
+            "target_projection": 0.46972164957862217,
+            "forward_kl_ratio": 0.24486568421767677,
+            "reverse_error_kl_ratio": 0.4687033228572971
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.35657569857036797,
+            "fisher_cosine": 0.5972554670999481,
+            "target_projection": 0.34968792989040254,
+            "forward_kl_ratio": 0.3118585519273537,
+            "reverse_error_kl_ratio": 0.24137929967064514
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999962901005,
+            "target_projection": 0.9999999962901005,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.5260594990715606,
+          "embedding_stream": 0.3922201923300944,
+          "value_bus": 0.08172032042364975
+        },
+        "shapley_absolute_sum": 1.0000000118253047,
+        "shapley_sum": 1.0000000118253047,
+        "median_example_shapley": {
+          "residual_sequence": 0.5068775415420532,
+          "embedding_stream": 0.3977104723453522,
+          "value_bus": 0.05627622455358505
+        }
+      },
+      "1": {
+        "examples": 63,
+        "target_fisher_energy": 257.0619878768921,
+        "mean_forward_full_kl": 6.245014190673828,
+        "mean_reverse_full_kl": 8.239993201361763,
+        "max_base_recomposition_error": 4.863739013671875e-05,
+        "max_changed_recomposition_error": 3.910064697265625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.47858862271332003,
+            "fisher_cosine": 0.6941363753357818,
+            "target_projection": 0.4423344328401611,
+            "forward_kl_ratio": 0.21569940444375954,
+            "reverse_error_kl_ratio": 0.49913322888957157
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.23880346652034523,
+            "fisher_cosine": 0.500315230061168,
+            "target_projection": 0.19663480270960426,
+            "forward_kl_ratio": 0.12382695428993043,
+            "reverse_error_kl_ratio": 0.3374863497075753
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.04664605156751611,
+            "fisher_cosine": 0.2193413635452549,
+            "target_projection": 0.056504863782266296,
+            "forward_kl_ratio": 0.01990669517034112,
+            "reverse_error_kl_ratio": 0.9532066539068592
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9459157790711924,
+            "fisher_cosine": 0.9726159383118483,
+            "target_projection": 0.9380809831217684,
+            "forward_kl_ratio": 0.9173450347174137,
+            "reverse_error_kl_ratio": 0.021896595087644747
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.5799810795832541,
+            "fisher_cosine": 0.7663828658565712,
+            "target_projection": 0.5215869612975904,
+            "forward_kl_ratio": 0.2739947534178833,
+            "reverse_error_kl_ratio": 0.4222734307181749
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.31308438649145065,
+            "fisher_cosine": 0.5595407185329515,
+            "target_projection": 0.313755556475178,
+            "forward_kl_ratio": 0.2590249909467381,
+            "reverse_error_kl_ratio": 0.26775535100979225
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999888702994,
+            "target_projection": 0.9999999888702994,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.5772810179384396,
+          "embedding_stream": 0.35051549118720443,
+          "value_bus": 0.0722035035112035
+        },
+        "shapley_absolute_sum": 1.0000000126368476,
+        "shapley_sum": 1.0000000126368476,
+        "median_example_shapley": {
+          "residual_sequence": 0.5641801357269287,
+          "embedding_stream": 0.35562095046043396,
+          "value_bus": 0.0425712950527668
+        }
+      },
+      "2": {
+        "examples": 63,
+        "target_fisher_energy": 257.06203174591064,
+        "mean_forward_full_kl": 6.245013887920077,
+        "mean_reverse_full_kl": 8.239992747231135,
+        "max_base_recomposition_error": 4.00543212890625e-05,
+        "max_changed_recomposition_error": 3.719329833984375e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.5183302241469,
+            "fisher_cosine": 0.7226324615523939,
+            "target_projection": 0.47725780378019994,
+            "forward_kl_ratio": 0.2406961470339206,
+            "reverse_error_kl_ratio": 0.46623575315005544
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.2204829252670748,
+            "fisher_cosine": 0.48060410804241716,
+            "target_projection": 0.18173912073904078,
+            "forward_kl_ratio": 0.1064079056824101,
+            "reverse_error_kl_ratio": 0.35922117109464685
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.04308501490435446,
+            "fisher_cosine": 0.21224223226263342,
+            "target_projection": 0.05444738463503438,
+            "forward_kl_ratio": 0.019849253872265802,
+            "reverse_error_kl_ratio": 0.9563617597029089
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9454153214601807,
+            "fisher_cosine": 0.9723574724957696,
+            "target_projection": 0.9377152532412493,
+            "forward_kl_ratio": 0.9194946842183106,
+            "reverse_error_kl_ratio": 0.022130657483083425
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.615829294789238,
+            "fisher_cosine": 0.7900138369076991,
+            "target_projection": 0.552180315942985,
+            "forward_kl_ratio": 0.29219636355691053,
+            "reverse_error_kl_ratio": 0.393833415781752
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.2783662713116989,
+            "fisher_cosine": 0.5277701138052351,
+            "target_projection": 0.2855233089543282,
+            "forward_kl_ratio": 0.2225248682081189,
+            "reverse_error_kl_ratio": 0.2947742200339116
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999851604018,
+            "target_projection": 0.9999999851604018,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6061963755119815,
+          "embedding_stream": 0.32510849499217537,
+          "value_bus": 0.06869515920402317
+        },
+        "shapley_absolute_sum": 1.00000002970818,
+        "shapley_sum": 1.00000002970818,
+        "median_example_shapley": {
+          "residual_sequence": 0.592421293258667,
+          "embedding_stream": 0.334917813539505,
+          "value_bus": 0.03884080424904823
+        }
+      },
+      "3": {
+        "examples": 63,
+        "target_fisher_energy": 257.0620012283325,
+        "mean_forward_full_kl": 6.2450139787462025,
+        "mean_reverse_full_kl": 8.239992686680385,
+        "max_base_recomposition_error": 3.5762786865234375e-05,
+        "max_changed_recomposition_error": 3.719329833984375e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.5577594348368031,
+            "fisher_cosine": 0.7498630711766489,
+            "target_projection": 0.5117960147104212,
+            "forward_kl_ratio": 0.2651535597282196,
+            "reverse_error_kl_ratio": 0.43421266107391077
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.20308636968088678,
+            "fisher_cosine": 0.4623137757954001,
+            "target_projection": 0.1660290177896939,
+            "forward_kl_ratio": 0.08729850175563575,
+            "reverse_error_kl_ratio": 0.388833030037369
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.043283677744063276,
+            "fisher_cosine": 0.2127109805934069,
+            "target_projection": 0.05466854894683915,
+            "forward_kl_ratio": 0.019877490200122073,
+            "reverse_error_kl_ratio": 0.956273751287095
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9455216745666823,
+            "fisher_cosine": 0.9724158492272011,
+            "target_projection": 0.9374027275815427,
+            "forward_kl_ratio": 0.918758886342041,
+            "reverse_error_kl_ratio": 0.022097739575887912
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.652460010570618,
+            "fisher_cosine": 0.8132807644676472,
+            "target_projection": 0.5844186556105216,
+            "forward_kl_ratio": 0.3125994749277575,
+            "reverse_error_kl_ratio": 0.36314731836086106
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.25404802306014473,
+            "fisher_cosine": 0.5043347459723486,
+            "target_projection": 0.2631687902798914,
+            "forward_kl_ratio": 0.19096199260699778,
+            "reverse_error_kl_ratio": 0.32354576249178607
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000037099,
+            "target_projection": 1.0000000037099,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6330630665005695,
+          "embedding_stream": 0.29955462186853604,
+          "value_bus": 0.0673823501211069
+        },
+        "shapley_absolute_sum": 1.0000000384902126,
+        "shapley_sum": 1.0000000384902126,
+        "median_example_shapley": {
+          "residual_sequence": 0.6187554001808167,
+          "embedding_stream": 0.3112342953681946,
+          "value_bus": 0.03639265522360802
+        }
+      },
+      "4": {
+        "examples": 63,
+        "target_fisher_energy": 257.0620460510254,
+        "mean_forward_full_kl": 6.245014190673828,
+        "mean_reverse_full_kl": 8.239993049984886,
+        "max_base_recomposition_error": 4.0531158447265625e-05,
+        "max_changed_recomposition_error": 3.814697265625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.6149812137003972,
+            "fisher_cosine": 0.7869675413992429,
+            "target_projection": 0.5674932768833071,
+            "forward_kl_ratio": 0.30842499406540974,
+            "reverse_error_kl_ratio": 0.38308275901651495
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.1829511783330363,
+            "fisher_cosine": 0.4424621889271639,
+            "target_projection": 0.14567167682668358,
+            "forward_kl_ratio": 0.06441158949234144,
+            "reverse_error_kl_ratio": 0.43842920977710115
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.04374809023656445,
+            "fisher_cosine": 0.2134704426450535,
+            "target_projection": 0.05468049744905095,
+            "forward_kl_ratio": 0.019805419375874815,
+            "reverse_error_kl_ratio": 0.9561255360229375
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9452104167865273,
+            "fisher_cosine": 0.9722555686372644,
+            "target_projection": 0.9371185824658612,
+            "forward_kl_ratio": 0.9180769117663357,
+            "reverse_error_kl_ratio": 0.022179316787002017
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.7067333090849366,
+            "fisher_cosine": 0.845593362111408,
+            "target_projection": 0.638014979846417,
+            "forward_kl_ratio": 0.35127089542740486,
+            "reverse_error_kl_ratio": 0.31314999314927205
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.22727413602268787,
+            "fisher_cosine": 0.477035468578077,
+            "target_projection": 0.23566828876574364,
+            "forward_kl_ratio": 0.15364256317908614,
+            "reverse_error_kl_ratio": 0.3731573822576166
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999925802013,
+            "target_projection": 0.9999999925802013,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6730719037257971,
+          "embedding_stream": 0.2609877591425906,
+          "value_bus": 0.06594035982576228
+        },
+        "shapley_absolute_sum": 1.00000002269415,
+        "shapley_sum": 1.00000002269415,
+        "median_example_shapley": {
+          "residual_sequence": 0.673568069934845,
+          "embedding_stream": 0.27592840790748596,
+          "value_bus": 0.03671509400010109
+        }
+      },
+      "5": {
+        "examples": 63,
+        "target_fisher_energy": 257.06205558776855,
+        "mean_forward_full_kl": 6.245014372326079,
+        "mean_reverse_full_kl": 8.239992807781885,
+        "max_base_recomposition_error": 4.0531158447265625e-05,
+        "max_changed_recomposition_error": 3.719329833984375e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.6363820356930738,
+            "fisher_cosine": 0.8000992400166212,
+            "target_projection": 0.5909885298004072,
+            "forward_kl_ratio": 0.3264321222997845,
+            "reverse_error_kl_ratio": 0.3631543160474667
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.176250874692211,
+            "fisher_cosine": 0.43651951426751867,
+            "target_projection": 0.13835207379025138,
+            "forward_kl_ratio": 0.057079184743860055,
+            "reverse_error_kl_ratio": 0.45855236352435935
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.043982175833774395,
+            "fisher_cosine": 0.21377063073156058,
+            "target_projection": 0.05455253637389692,
+            "forward_kl_ratio": 0.0196628233126896,
+            "reverse_error_kl_ratio": 0.9564580497624651
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9459342639778113,
+            "fisher_cosine": 0.9726107675367142,
+            "target_projection": 0.9400208500787363,
+            "forward_kl_ratio": 0.9198172812354908,
+            "reverse_error_kl_ratio": 0.021502864524891557
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.7257300610483948,
+            "fisher_cosine": 0.8564106235038149,
+            "target_projection": 0.6582449827638454,
+            "forward_kl_ratio": 0.3673834373107066,
+            "reverse_error_kl_ratio": 0.29562890365984745
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.21893389205206848,
+            "fisher_cosine": 0.46813393108348106,
+            "target_projection": 0.22602124929820763,
+            "forward_kl_ratio": 0.1416009295614404,
+            "reverse_error_kl_ratio": 0.39389129805927436
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000074197983,
+            "target_projection": 1.0000000074197983,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6892159818807335,
+          "embedding_stream": 0.2467858787375964,
+          "value_bus": 0.06399816987240417
+        },
+        "shapley_absolute_sum": 1.0000000304907342,
+        "shapley_sum": 1.0000000304907342,
+        "median_example_shapley": {
+          "residual_sequence": 0.6964254975318909,
+          "embedding_stream": 0.2590647041797638,
+          "value_bus": 0.03288334980607033
+        }
+      },
+      "6": {
+        "examples": 63,
+        "target_fisher_energy": 257.06206226348877,
+        "mean_forward_full_kl": 6.245013221861824,
+        "mean_reverse_full_kl": 8.239991929796007,
+        "max_base_recomposition_error": 3.814697265625e-05,
+        "max_changed_recomposition_error": 3.910064697265625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.7142858418797444,
+            "fisher_cosine": 0.8465857826707849,
+            "target_projection": 0.6750467129164207,
+            "forward_kl_ratio": 0.39853458210854875,
+            "reverse_error_kl_ratio": 0.2844559632847521
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.15073197292594276,
+            "fisher_cosine": 0.41563183067085363,
+            "target_projection": 0.11107663930823826,
+            "forward_kl_ratio": 0.03417304950284594,
+            "reverse_error_kl_ratio": 0.5506469549041967
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.03934425173707401,
+            "fisher_cosine": 0.2001359242292494,
+            "target_projection": 0.045387560013519186,
+            "forward_kl_ratio": 0.016421424233698367,
+            "reverse_error_kl_ratio": 0.9638643497261913
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9542195178546296,
+            "fisher_cosine": 0.9768416006830886,
+            "target_projection": 0.95437088237602,
+            "forward_kl_ratio": 0.9313936970128124,
+            "reverse_error_kl_ratio": 0.019072872041598774
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.7931069714647063,
+            "fisher_cosine": 0.8945029450965062,
+            "target_projection": 0.7251436230865078,
+            "forward_kl_ratio": 0.42600686594605186,
+            "reverse_error_kl_ratio": 0.22311789492465173
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.18411136354377633,
+            "fisher_cosine": 0.4292533845616684,
+            "target_projection": 0.17905211383948594,
+            "forward_kl_ratio": 0.0946666923017025,
+            "reverse_error_kl_ratio": 0.5021501214029035
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.752506623941391,
+          "embedding_stream": 0.19747579837112353,
+          "value_bus": 0.05001761785873683
+        },
+        "shapley_absolute_sum": 1.0000000401712514,
+        "shapley_sum": 1.0000000401712514,
+        "median_example_shapley": {
+          "residual_sequence": 0.7610044479370117,
+          "embedding_stream": 0.20403234660625458,
+          "value_bus": 0.01811232417821884
+        }
+      },
+      "7": {
+        "examples": 63,
+        "target_fisher_energy": 257.062050819397,
+        "mean_forward_full_kl": 6.245014069572328,
+        "mean_reverse_full_kl": 8.239992081172883,
+        "max_base_recomposition_error": 4.1961669921875e-05,
+        "max_changed_recomposition_error": 4.100799560546875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.8473609350470204,
+            "fisher_cosine": 0.922123502762698,
+            "target_projection": 0.8002209927640752,
+            "forward_kl_ratio": 0.5367251495748023,
+            "reverse_error_kl_ratio": 0.13012048389207959
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.10690688754190114,
+            "fisher_cosine": 0.3910528222694205,
+            "target_projection": 0.069036774848897,
+            "forward_kl_ratio": 0.012207264949455702,
+            "reverse_error_kl_ratio": 0.7111906289540703
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.03688848195251049,
+            "fisher_cosine": 0.19224335994581382,
+            "target_projection": 0.03855462406376565,
+            "forward_kl_ratio": 0.012360680023323585,
+            "reverse_error_kl_ratio": 0.9743510339427146
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9688256816554092,
+            "fisher_cosine": 0.984301297247298,
+            "target_projection": 0.9736057101315386,
+            "forward_kl_ratio": 0.9631214038255984,
+            "reverse_error_kl_ratio": 0.011315156718962773
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.8946509195688384,
+            "fisher_cosine": 0.9494991280764339,
+            "target_projection": 0.8226905430887049,
+            "forward_kl_ratio": 0.5520734648720195,
+            "reverse_error_kl_ratio": 0.10424926550454797
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.13166796845177342,
+            "fisher_cosine": 0.36430943290765877,
+            "target_projection": 0.1208974034793372,
+            "forward_kl_ratio": 0.04234829183082436,
+            "reverse_error_kl_ratio": 0.6740094068693753
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000037098993,
+            "target_projection": 1.0000000037098993,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.8412253705305494,
+          "embedding_stream": 0.12473666068337821,
+          "value_bus": 0.03403801111660281
+        },
+        "shapley_absolute_sum": 1.0000000423305304,
+        "shapley_sum": 1.0000000423305304,
+        "median_example_shapley": {
+          "residual_sequence": 0.8438001275062561,
+          "embedding_stream": 0.13048262894153595,
+          "value_bus": 0.011099149473011494
+        }
+      },
+      "8": {
+        "examples": 63,
+        "target_fisher_energy": 257.06205558776855,
+        "mean_forward_full_kl": 6.245013585166325,
+        "mean_reverse_full_kl": 8.239991838969882,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.528594970703125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9325895354401885,
+            "fisher_cosine": 0.9668663682907921,
+            "target_projection": 0.8890595042679831,
+            "forward_kl_ratio": 0.6835157044598095,
+            "reverse_error_kl_ratio": 0.04689180033530525
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.06711983778005681,
+            "fisher_cosine": 0.36299979592914805,
+            "target_projection": 0.03947192015802931,
+            "forward_kl_ratio": 0.004195178137559375,
+            "reverse_error_kl_ratio": 0.8261180313048938
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.004117572612057918,
+            "fisher_cosine": 0.0734935350948098,
+            "target_projection": 0.002768104756539636,
+            "forward_kl_ratio": 0.0004666362938105298,
+            "reverse_error_kl_ratio": 0.9951697134312025
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.987554882312778,
+            "fisher_cosine": 0.9937594744815689,
+            "target_projection": 0.9892840414656622,
+            "forward_kl_ratio": 0.9747281013016017,
+            "reverse_error_kl_ratio": 0.005068408843110837
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9563174342350433,
+            "fisher_cosine": 0.9801666965357292,
+            "target_projection": 0.8956411288656417,
+            "forward_kl_ratio": 0.6963955336661487,
+            "reverse_error_kl_ratio": 0.03569853860307231
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.06938461252970529,
+            "fisher_cosine": 0.35139658276970526,
+            "target_projection": 0.04175062146353394,
+            "forward_kl_ratio": 0.005027440257358333,
+            "reverse_error_kl_ratio": 0.8214252590063663
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999925802016,
+            "target_projection": 0.9999999925802016,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9228838388042562,
+          "embedding_stream": 0.07114478023747971,
+          "value_bus": 0.005971406489181839
+        },
+        "shapley_absolute_sum": 1.0000000255309178,
+        "shapley_sum": 1.0000000255309178,
+        "median_example_shapley": {
+          "residual_sequence": 0.9140493273735046,
+          "embedding_stream": 0.07143766433000565,
+          "value_bus": 0.006216011941432953
+        }
+      },
+      "9": {
+        "examples": 63,
+        "target_fisher_energy": 257.06203746795654,
+        "mean_forward_full_kl": 6.24501355489095,
+        "mean_reverse_full_kl": 8.239992262825133,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.814697265625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9687960971239884,
+            "fisher_cosine": 0.984709783120491,
+            "target_projection": 0.9408223139827933,
+            "forward_kl_ratio": 0.8190295391855027,
+            "reverse_error_kl_ratio": 0.0148319961239786
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.03706085321759378,
+            "fisher_cosine": 0.3471810681931765,
+            "target_projection": 0.020227691892319478,
+            "forward_kl_ratio": 0.001140894263116167,
+            "reverse_error_kl_ratio": 0.9111860418367645
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.004674528979940917,
+            "fisher_cosine": 0.0812556577148383,
+            "target_projection": 0.0030346769340173383,
+            "forward_kl_ratio": 0.0004635143246329278,
+            "reverse_error_kl_ratio": 0.9953898753855205
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9882515815861401,
+            "fisher_cosine": 0.9941093568337599,
+            "target_projection": 0.9895818491803217,
+            "forward_kl_ratio": 0.9761339614715879,
+            "reverse_error_kl_ratio": 0.00479135163238491
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.987038224256823,
+            "fisher_cosine": 0.9942647991226192,
+            "target_projection": 0.9497436390833501,
+            "forward_kl_ratio": 0.8389633701091808,
+            "reverse_error_kl_ratio": 0.007768107288753436
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.04079367615581908,
+            "fisher_cosine": 0.31675895598468684,
+            "target_projection": 0.02304279368017735,
+            "forward_kl_ratio": 0.0018006620342086077,
+            "reverse_error_kl_ratio": 0.906722771300509
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999814505026,
+            "target_projection": 0.9999999814505026,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9586037397129635,
+          "embedding_stream": 0.034955949238009466,
+          "value_bus": 0.006440363556422533
+        },
+        "shapley_absolute_sum": 1.0000000525073955,
+        "shapley_sum": 1.0000000525073955,
+        "median_example_shapley": {
+          "residual_sequence": 0.9532926678657532,
+          "embedding_stream": 0.035296302288770676,
+          "value_bus": 0.0055164131335914135
+        }
+      },
+      "10": {
+        "examples": 63,
+        "target_fisher_energy": 257.06200790405273,
+        "mean_forward_full_kl": 6.245012858557323,
+        "mean_reverse_full_kl": 8.239991869245257,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.337860107421875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.993858799911085,
+            "fisher_cosine": 0.9970001842725794,
+            "target_projection": 0.9817756806653507,
+            "forward_kl_ratio": 0.9402726205380916,
+            "reverse_error_kl_ratio": 0.0018745928112746015
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.011922338350498052,
+            "fisher_cosine": 0.3091816530091206,
+            "target_projection": 0.006159624118421589,
+            "forward_kl_ratio": 0.00012989855960585174,
+            "reverse_error_kl_ratio": 0.9754023246763972
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0022341684956102004,
+            "fisher_cosine": 0.06553974668855694,
+            "target_projection": 0.0013198774379596153,
+            "forward_kl_ratio": 0.00013444900926706593,
+            "reverse_error_kl_ratio": 0.9978112829512236
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9968671200508896,
+            "fisher_cosine": 0.9984350019553266,
+            "target_projection": 0.9945721975679588,
+            "forward_kl_ratio": 0.9815686513636248,
+            "reverse_error_kl_ratio": 0.0011118153752387248
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9986086395958473,
+            "fisher_cosine": 0.9993707338891578,
+            "target_projection": 0.9872077940010711,
+            "forward_kl_ratio": 0.9586614189070002,
+            "reverse_error_kl_ratio": 0.00047613117593082213
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.013976702837745436,
+            "fisher_cosine": 0.2484945729731577,
+            "target_projection": 0.00743608318041868,
+            "forward_kl_ratio": 0.0002941716430599182,
+            "reverse_error_kl_ratio": 0.9732893990177056
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999962901001,
+            "target_projection": 0.9999999962901001,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9871633271409168,
+          "embedding_stream": 0.009469395666804273,
+          "value_bus": 0.0033673338479571985
+        },
+        "shapley_absolute_sum": 1.0000000566556784,
+        "shapley_sum": 1.0000000566556784,
+        "median_example_shapley": {
+          "residual_sequence": 0.9854409098625183,
+          "embedding_stream": 0.00923900119960308,
+          "value_bus": 0.0033061313442885876
+        }
+      },
+      "11": {
+        "examples": 63,
+        "target_fisher_energy": 257.06204319000244,
+        "mean_forward_full_kl": 6.245013161311074,
+        "mean_reverse_full_kl": 8.239991960071382,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.528594970703125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999962901006,
+            "target_projection": 0.9999999962901006,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999962901006,
+            "target_projection": 0.9999999962901006,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "residual_bus": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999962901006,
+            "target_projection": 0.9999999962901006,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999962901006,
+            "target_projection": 0.9999999962901006,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 1.0000000037098993,
+          "embedding_stream": 0.0,
+          "value_bus": 0.0
+        },
+        "shapley_absolute_sum": 1.0000000037098993,
+        "shapley_sum": 1.0000000037098993,
+        "median_example_shapley": {
+          "residual_sequence": 1.0,
+          "embedding_stream": 0.0,
+          "value_bus": 0.0
+        }
+      }
+    },
+    "tinystories": {
+      "0": {
+        "examples": 62,
+        "target_fisher_energy": 253.34453105926514,
+        "mean_forward_full_kl": 9.748798493416079,
+        "mean_reverse_full_kl": 12.037374742569462,
+        "max_base_recomposition_error": 3.337860107421875e-05,
+        "max_changed_recomposition_error": 3.147125244140625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.36155329100122513,
+            "fisher_cosine": 0.615202073810097,
+            "target_projection": 0.29844926517214815,
+            "forward_kl_ratio": 0.10006117718773502,
+            "reverse_error_kl_ratio": 0.4869614072007891
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.2911210496313029,
+            "fisher_cosine": 0.5505359857073864,
+            "target_projection": 0.24286002568426293,
+            "forward_kl_ratio": 0.15923918564131292,
+            "reverse_error_kl_ratio": 0.2882515359577773
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0418426458368808,
+            "fisher_cosine": 0.2047156910034713,
+            "target_projection": 0.04356997617659027,
+            "forward_kl_ratio": 0.009981981494252761,
+            "reverse_error_kl_ratio": 0.9666161306343402
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9907137750621591,
+            "fisher_cosine": 0.9954752523725401,
+            "target_projection": 0.9750058643672688,
+            "forward_kl_ratio": 0.9745402739044063,
+            "reverse_error_kl_ratio": 0.003206634554728972
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.4749579556440209,
+            "fisher_cosine": 0.6988494720990666,
+            "target_projection": 0.4073944452946619,
+            "forward_kl_ratio": 0.1662570336429604,
+            "reverse_error_kl_ratio": 0.4150989762786052
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.4493614686065829,
+            "fisher_cosine": 0.6734721089819723,
+            "target_projection": 0.4099021045921548,
+            "forward_kl_ratio": 0.2762749072999521,
+            "reverse_error_kl_ratio": 0.21751670846610416
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999887069875,
+            "target_projection": 0.9999999887069875,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.47884412121249537,
+          "embedding_stream": 0.45230333129375255,
+          "value_bus": 0.06885257954943855
+        },
+        "shapley_absolute_sum": 1.0000000320556865,
+        "shapley_sum": 1.0000000320556865,
+        "median_example_shapley": {
+          "residual_sequence": 0.5006003081798553,
+          "embedding_stream": 0.44043125212192535,
+          "value_bus": 0.030048588290810585
+        }
+      },
+      "1": {
+        "examples": 62,
+        "target_fisher_energy": 253.34459686279297,
+        "mean_forward_full_kl": 9.748797693560201,
+        "mean_reverse_full_kl": 12.037374434932586,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.337860107421875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.46686747507248827,
+            "fisher_cosine": 0.6960764603904794,
+            "target_projection": 0.3920333846281903,
+            "forward_kl_ratio": 0.16098177735467528,
+            "reverse_error_kl_ratio": 0.39183040573273975
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.26323398802573594,
+            "fisher_cosine": 0.5240773183405247,
+            "target_projection": 0.21864434119111978,
+            "forward_kl_ratio": 0.12741468817138393,
+            "reverse_error_kl_ratio": 0.3165419652000091
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.04726121480921308,
+            "fisher_cosine": 0.21752859200039615,
+            "target_projection": 0.045669469797947525,
+            "forward_kl_ratio": 0.009758166039788234,
+            "reverse_error_kl_ratio": 0.9694452403970547
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9921631992741732,
+            "fisher_cosine": 0.9961696992952659,
+            "target_projection": 0.9785930878108585,
+            "forward_kl_ratio": 0.9829657683775888,
+            "reverse_error_kl_ratio": 0.002340571092384388
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.5394721965051117,
+            "fisher_cosine": 0.7437038176774254,
+            "target_projection": 0.4662915560541478,
+            "forward_kl_ratio": 0.20806583953283364,
+            "reverse_error_kl_ratio": 0.35645809695414976
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.4011526206422422,
+            "fisher_cosine": 0.636356022204707,
+            "target_projection": 0.36574017672201004,
+            "forward_kl_ratio": 0.2179581394937283,
+            "reverse_error_kl_ratio": 0.25191390468271274
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.5388595479143272,
+          "embedding_stream": 0.40188934458775594,
+          "value_bus": 0.05925113134851777
+        },
+        "shapley_absolute_sum": 1.0000000238506008,
+        "shapley_sum": 1.0000000238506008,
+        "median_example_shapley": {
+          "residual_sequence": 0.565328061580658,
+          "embedding_stream": 0.3891429454088211,
+          "value_bus": 0.02042716834694147
+        }
+      },
+      "2": {
+        "examples": 62,
+        "target_fisher_energy": 253.34475135803223,
+        "mean_forward_full_kl": 9.748798647234517,
+        "mean_reverse_full_kl": 12.037374619514711,
+        "max_base_recomposition_error": 3.719329833984375e-05,
+        "max_changed_recomposition_error": 3.24249267578125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.5164267536638434,
+            "fisher_cosine": 0.7300407301196535,
+            "target_projection": 0.4390911186685056,
+            "forward_kl_ratio": 0.19341523139139896,
+            "reverse_error_kl_ratio": 0.3472427868630215
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.24236207364614237,
+            "fisher_cosine": 0.5038240722092134,
+            "target_projection": 0.1998645479147911,
+            "forward_kl_ratio": 0.10469787172198747,
+            "reverse_error_kl_ratio": 0.34291705170341163
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.05073131490083915,
+            "fisher_cosine": 0.2258277638032128,
+            "target_projection": 0.047309118116080615,
+            "forward_kl_ratio": 0.009737557956962113,
+            "reverse_error_kl_ratio": 0.9717523766285584
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9924990953969614,
+            "fisher_cosine": 0.9963267250601774,
+            "target_projection": 0.9797596529819893,
+            "forward_kl_ratio": 0.9869629136227966,
+            "reverse_error_kl_ratio": 0.0026494025884963527
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.575130445661862,
+            "fisher_cosine": 0.7668988740442927,
+            "target_projection": 0.5006823354543826,
+            "forward_kl_ratio": 0.2315975438179781,
+            "reverse_error_kl_ratio": 0.32075804018596504
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.3662625398536651,
+            "fisher_cosine": 0.608307097572047,
+            "target_projection": 0.3326626873914747,
+            "forward_kl_ratio": 0.17777324759525726,
+            "reverse_error_kl_ratio": 0.2832292842402311
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000056465013,
+            "target_projection": 1.0000000056465013,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.5743542248888398,
+          "embedding_stream": 0.37073109442378405,
+          "value_bus": 0.054914720418747474
+        },
+        "shapley_absolute_sum": 1.0000000397313713,
+        "shapley_sum": 1.0000000397313713,
+        "median_example_shapley": {
+          "residual_sequence": 0.5956521332263947,
+          "embedding_stream": 0.36232319474220276,
+          "value_bus": 0.016837692819535732
+        }
+      },
+      "3": {
+        "examples": 62,
+        "target_fisher_energy": 253.34459352493286,
+        "mean_forward_full_kl": 9.74879821654289,
+        "mean_reverse_full_kl": 12.037374557987336,
+        "max_base_recomposition_error": 3.4332275390625e-05,
+        "max_changed_recomposition_error": 3.4332275390625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.5649381813779735,
+            "fisher_cosine": 0.7611331047846308,
+            "target_projection": 0.4880339231696762,
+            "forward_kl_ratio": 0.2291281545254304,
+            "reverse_error_kl_ratio": 0.29657966025003696
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.21661180230823884,
+            "fisher_cosine": 0.47743180585269984,
+            "target_projection": 0.17712366214137512,
+            "forward_kl_ratio": 0.07953112644736576,
+            "reverse_error_kl_ratio": 0.38109436600054686
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.05080739551574276,
+            "fisher_cosine": 0.22603378108179567,
+            "target_projection": 0.047282896051123374,
+            "forward_kl_ratio": 0.009717378817816681,
+            "reverse_error_kl_ratio": 0.9717044242444112
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9925021006491992,
+            "fisher_cosine": 0.9963263758942432,
+            "target_projection": 0.979902572231591,
+            "forward_kl_ratio": 0.9866952517488464,
+            "reverse_error_kl_ratio": 0.002622660463033889
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.6144742117451476,
+            "fisher_cosine": 0.7909544212989499,
+            "target_projection": 0.5421465577021478,
+            "forward_kl_ratio": 0.26483523236583895,
+            "reverse_error_kl_ratio": 0.2750598359001416
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.32978369382417727,
+            "fisher_cosine": 0.5771331762682212,
+            "target_projection": 0.29993399767549583,
+            "forward_kl_ratio": 0.14143950380057427,
+            "reverse_error_kl_ratio": 0.319894718778553
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999811783172,
+            "target_projection": 0.9999999811783172,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.612307090714588,
+          "embedding_stream": 0.3357456745406066,
+          "value_bus": 0.05194727387331943
+        },
+        "shapley_absolute_sum": 1.000000039128514,
+        "shapley_sum": 1.000000039128514,
+        "median_example_shapley": {
+          "residual_sequence": 0.623956710100174,
+          "embedding_stream": 0.334071546792984,
+          "value_bus": 0.01598656363785267
+        }
+      },
+      "4": {
+        "examples": 62,
+        "target_fisher_energy": 253.34452962875366,
+        "mean_forward_full_kl": 9.748798708761893,
+        "mean_reverse_full_kl": 12.037374988678962,
+        "max_base_recomposition_error": 3.528594970703125e-05,
+        "max_changed_recomposition_error": 3.4332275390625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.6379500101511948,
+            "fisher_cosine": 0.8072378540991871,
+            "target_projection": 0.5572068658572512,
+            "forward_kl_ratio": 0.2817580800376475,
+            "reverse_error_kl_ratio": 0.21375899587487057
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.18688873075868995,
+            "fisher_cosine": 0.44785847377067134,
+            "target_projection": 0.1481787068984743,
+            "forward_kl_ratio": 0.050489078092253,
+            "reverse_error_kl_ratio": 0.4447164811849837
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.05060783821235737,
+            "fisher_cosine": 0.22551551912036935,
+            "target_projection": 0.047295620563227114,
+            "forward_kl_ratio": 0.009756661572809671,
+            "reverse_error_kl_ratio": 0.9714718710863104
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.992452643943281,
+            "fisher_cosine": 0.996306226247896,
+            "target_projection": 0.9795062633560224,
+            "forward_kl_ratio": 0.9864673269401206,
+            "reverse_error_kl_ratio": 0.002652462936198688
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.6788583909436801,
+            "fisher_cosine": 0.8304346494534344,
+            "target_projection": 0.6034669714118724,
+            "forward_kl_ratio": 0.3136694191968182,
+            "reverse_error_kl_ratio": 0.19629302633589663
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.2864152717727366,
+            "fisher_cosine": 0.5384887138549773,
+            "target_projection": 0.2578640060920758,
+            "forward_kl_ratio": 0.09929262979379917,
+            "reverse_error_kl_ratio": 0.3824454538883658
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.999999992471325,
+            "target_projection": 0.999999992471325,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6643641293214286,
+          "embedding_stream": 0.28704854015537495,
+          "value_bus": 0.048587353638581444
+        },
+        "shapley_absolute_sum": 1.000000023115385,
+        "shapley_sum": 1.000000023115385,
+        "median_example_shapley": {
+          "residual_sequence": 0.6768368780612946,
+          "embedding_stream": 0.28759464621543884,
+          "value_bus": 0.01536443131044507
+        }
+      },
+      "5": {
+        "examples": 62,
+        "target_fisher_energy": 253.34466934204102,
+        "mean_forward_full_kl": 9.748798093488139,
+        "mean_reverse_full_kl": 12.037374065768335,
+        "max_base_recomposition_error": 3.8623809814453125e-05,
+        "max_changed_recomposition_error": 3.0517578125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.6614206596290158,
+            "fisher_cosine": 0.8213049615810727,
+            "target_projection": 0.5804631611970497,
+            "forward_kl_ratio": 0.30176096064745533,
+            "reverse_error_kl_ratio": 0.18876924699937755
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.17632588175605046,
+            "fisher_cosine": 0.43748106061829695,
+            "target_projection": 0.13769559504572426,
+            "forward_kl_ratio": 0.042715425839111316,
+            "reverse_error_kl_ratio": 0.4697953715841011
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.04967361706032958,
+            "fisher_cosine": 0.22338238033739163,
+            "target_projection": 0.04654120995469966,
+            "forward_kl_ratio": 0.009650312535834253,
+            "reverse_error_kl_ratio": 0.9719567531349286
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9925804001584559,
+            "fisher_cosine": 0.9963652678431325,
+            "target_projection": 0.9800097244077326,
+            "forward_kl_ratio": 0.9868675904945047,
+            "reverse_error_kl_ratio": 0.0026215819905537757
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.6986146473905589,
+            "fisher_cosine": 0.8420055136310317,
+            "target_projection": 0.6232761828163056,
+            "forward_kl_ratio": 0.33160552314709024,
+            "reverse_error_kl_ratio": 0.17252394984846192
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.27003467216440324,
+            "fisher_cosine": 0.5233215893608963,
+            "target_projection": 0.24147525162135575,
+            "forward_kl_ratio": 0.08700220360560347,
+            "reverse_error_kl_ratio": 0.40864654924239546
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000150573418,
+            "target_projection": 1.0000000150573418,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.6828375082448357,
+          "embedding_stream": 0.270553235721104,
+          "value_bus": 0.0466092773996048
+        },
+        "shapley_absolute_sum": 1.0000000213655444,
+        "shapley_sum": 1.0000000213655444,
+        "median_example_shapley": {
+          "residual_sequence": 0.697712242603302,
+          "embedding_stream": 0.2730766087770462,
+          "value_bus": 0.013659773860126734
+        }
+      },
+      "6": {
+        "examples": 62,
+        "target_fisher_energy": 253.34464359283447,
+        "mean_forward_full_kl": 9.748798031960764,
+        "mean_reverse_full_kl": 12.037374496459961,
+        "max_base_recomposition_error": 3.2901763916015625e-05,
+        "max_changed_recomposition_error": 3.528594970703125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.7474800891385687,
+            "fisher_cosine": 0.872104070101232,
+            "target_projection": 0.6608040317150864,
+            "forward_kl_ratio": 0.3892414782559509,
+            "reverse_error_kl_ratio": 0.10645896821663788
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.14068771283484138,
+            "fisher_cosine": 0.4008567983555873,
+            "target_projection": 0.10399864553738948,
+            "forward_kl_ratio": 0.022963865428246646,
+            "reverse_error_kl_ratio": 0.5722536266274263
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.010852781557892488,
+            "fisher_cosine": 0.11303839357419442,
+            "target_projection": 0.01773708893143476,
+            "forward_kl_ratio": 0.005782498467413363,
+            "reverse_error_kl_ratio": 0.9835720885321995
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.993841267642388,
+            "fisher_cosine": 0.9969736304498352,
+            "target_projection": 0.9832582783118248,
+            "forward_kl_ratio": 0.9880275970100636,
+            "reverse_error_kl_ratio": 0.0021937592545676443
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.7722718834420995,
+            "fisher_cosine": 0.8848136215778637,
+            "target_projection": 0.6916981164690246,
+            "forward_kl_ratio": 0.41250119815669656,
+            "reverse_error_kl_ratio": 0.09460687970069256
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.17357951366836544,
+            "fisher_cosine": 0.4273954262335404,
+            "target_projection": 0.14192423145193073,
+            "forward_kl_ratio": 0.03861968258551131,
+            "reverse_error_kl_ratio": 0.5428506435416531
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000075286717,
+            "target_projection": 1.0000000075286717,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.7651633987319301,
+          "embedding_stream": 0.21187375045931015,
+          "value_bus": 0.0229628801294068
+        },
+        "shapley_absolute_sum": 1.000000029320647,
+        "shapley_sum": 1.000000029320647,
+        "median_example_shapley": {
+          "residual_sequence": 0.7800125181674957,
+          "embedding_stream": 0.2119400054216385,
+          "value_bus": 0.009380138013511896
+        }
+      },
+      "7": {
+        "examples": 62,
+        "target_fisher_energy": 253.3445587158203,
+        "mean_forward_full_kl": 9.748798585707142,
+        "mean_reverse_full_kl": 12.037374742569462,
+        "max_base_recomposition_error": 3.62396240234375e-05,
+        "max_changed_recomposition_error": 3.4332275390625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.8880187783974061,
+            "fisher_cosine": 0.9481084742242766,
+            "target_projection": 0.7999653635816589,
+            "forward_kl_ratio": 0.6171055860005106,
+            "reverse_error_kl_ratio": 0.02810126052055589
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.09289301854902698,
+            "fisher_cosine": 0.3651598612936169,
+            "target_projection": 0.05990130708627063,
+            "forward_kl_ratio": 0.007315048579044539,
+            "reverse_error_kl_ratio": 0.7353758564373907
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.009764950124942828,
+            "fisher_cosine": 0.10364922874145101,
+            "target_projection": 0.013984922866618142,
+            "forward_kl_ratio": 0.004370888767625927,
+            "reverse_error_kl_ratio": 0.98739634829503
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9953107374123914,
+            "fisher_cosine": 0.9976681547967705,
+            "target_projection": 0.989785561677338,
+            "forward_kl_ratio": 0.9900272029638719,
+            "reverse_error_kl_ratio": 0.0010542711639974992
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.8951827616990476,
+            "fisher_cosine": 0.9507210080008972,
+            "target_projection": 0.815256179851955,
+            "forward_kl_ratio": 0.6292686425432192,
+            "reverse_error_kl_ratio": 0.02468132624985506
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.11279037644515155,
+            "fisher_cosine": 0.3599934177374531,
+            "target_projection": 0.08292805006454163,
+            "forward_kl_ratio": 0.01527996831489292,
+            "reverse_error_kl_ratio": 0.7160956368471619
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000018821686,
+            "target_projection": 1.0000000018821686,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.8608717390074883,
+          "embedding_stream": 0.12467560378197526,
+          "value_bus": 0.01445270774970267
+        },
+        "shapley_absolute_sum": 1.0000000505391662,
+        "shapley_sum": 1.0000000505391662,
+        "median_example_shapley": {
+          "residual_sequence": 0.8642380833625793,
+          "embedding_stream": 0.12905843555927277,
+          "value_bus": 0.0045687551610171795
+        }
+      },
+      "8": {
+        "examples": 62,
+        "target_fisher_energy": 253.3446855545044,
+        "mean_forward_full_kl": 9.748798124251827,
+        "mean_reverse_full_kl": 12.037373819658834,
+        "max_base_recomposition_error": 3.24249267578125e-05,
+        "max_changed_recomposition_error": 3.24249267578125e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9550522810964079,
+            "fisher_cosine": 0.9799365565028189,
+            "target_projection": 0.8894528134880286,
+            "forward_kl_ratio": 0.7903982160188138,
+            "reverse_error_kl_ratio": 0.00920747375238937
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.06120909535507879,
+            "fisher_cosine": 0.3527846563857302,
+            "target_projection": 0.035734710213519795,
+            "forward_kl_ratio": 0.0023475376506330867,
+            "reverse_error_kl_ratio": 0.8454567147630497
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.005426584684515401,
+            "fisher_cosine": 0.12169062356870611,
+            "target_projection": 0.003021557219819369,
+            "forward_kl_ratio": 0.00011974994989430161,
+            "reverse_error_kl_ratio": 0.994822272064817
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9986884680113237,
+            "fisher_cosine": 0.9993593022392886,
+            "target_projection": 0.9931963029244402,
+            "forward_kl_ratio": 0.9939822279712636,
+            "reverse_error_kl_ratio": 0.0005816060674408373
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9589781045071827,
+            "fisher_cosine": 0.9816211090975043,
+            "target_projection": 0.8969895583778692,
+            "forward_kl_ratio": 0.7953748322919871,
+            "reverse_error_kl_ratio": 0.007334391383672275
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.06688182050718494,
+            "fisher_cosine": 0.36679770998483396,
+            "target_projection": 0.039131732211879655,
+            "forward_kl_ratio": 0.0026740973692232824,
+            "reverse_error_kl_ratio": 0.8406016492218437
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000037643353,
+            "target_projection": 1.0000000037643353,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.9253453317351823,
+          "embedding_stream": 0.06955733080526354,
+          "value_bus": 0.005097379444390346
+        },
+        "shapley_absolute_sum": 1.0000000419848363,
+        "shapley_sum": 1.0000000419848363,
+        "median_example_shapley": {
+          "residual_sequence": 0.9299803972244263,
+          "embedding_stream": 0.06698153913021088,
+          "value_bus": 0.0028353711823001504
+        }
+      },
+      "9": {
+        "examples": 62,
+        "target_fisher_energy": 253.3446969985962,
+        "mean_forward_full_kl": 9.748798647234517,
+        "mean_reverse_full_kl": 12.037374188823085,
+        "max_base_recomposition_error": 3.147125244140625e-05,
+        "max_changed_recomposition_error": 3.62396240234375e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.9845623535127846,
+            "fisher_cosine": 0.9932333571882415,
+            "target_projection": 0.9426512950899154,
+            "forward_kl_ratio": 0.8933124202836323,
+            "reverse_error_kl_ratio": 0.003063972200317481
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.036260585775927834,
+            "fisher_cosine": 0.3542837648895158,
+            "target_projection": 0.019671833682982257,
+            "forward_kl_ratio": 0.0006580869246707316,
+            "reverse_error_kl_ratio": 0.9231421104371473
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.005634682526091228,
+            "fisher_cosine": 0.13222849714121793,
+            "target_projection": 0.003090458980873617,
+            "forward_kl_ratio": 0.00010850691510429656,
+            "reverse_error_kl_ratio": 0.9948726549174041
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9987457411137707,
+            "fisher_cosine": 0.999387554344517,
+            "target_projection": 0.993328017314315,
+            "forward_kl_ratio": 0.9943857556103827,
+            "reverse_error_kl_ratio": 0.0005695550918415472
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9871839992025406,
+            "fisher_cosine": 0.994341030809128,
+            "target_projection": 0.9498189145932198,
+            "forward_kl_ratio": 0.8986560654873319,
+            "reverse_error_kl_ratio": 0.0018469603021842368
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.04202877797236415,
+            "fisher_cosine": 0.3707876608067334,
+            "target_projection": 0.02292586225876913,
+            "forward_kl_ratio": 0.0008201254473507576,
+            "reverse_error_kl_ratio": 0.9182153019698535
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.959972617323585,
+          "embedding_stream": 0.03503631233079573,
+          "value_bus": 0.004991093850656554
+        },
+        "shapley_absolute_sum": 1.0000000235050372,
+        "shapley_sum": 1.0000000235050372,
+        "median_example_shapley": {
+          "residual_sequence": 0.9632546305656433,
+          "embedding_stream": 0.03277782164514065,
+          "value_bus": 0.003012539818882942
+        }
+      },
+      "10": {
+        "examples": 62,
+        "target_fisher_energy": 253.34462451934814,
+        "mean_forward_full_kl": 9.748798031960764,
+        "mean_reverse_full_kl": 12.03737412729571,
+        "max_base_recomposition_error": 3.0517578125e-05,
+        "max_changed_recomposition_error": 3.4332275390625e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 0.996497141785593,
+            "fisher_cosine": 0.9984063061051806,
+            "target_projection": 0.9790102143490899,
+            "forward_kl_ratio": 0.9667990073306284,
+            "reverse_error_kl_ratio": 0.0005179187730602286
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.012952105565024019,
+            "fisher_cosine": 0.3276970272658916,
+            "target_projection": 0.006684081435578735,
+            "forward_kl_ratio": 8.687448419169312e-05,
+            "reverse_error_kl_ratio": 0.9790719504688589
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.00290500028170404,
+            "fisher_cosine": 0.10365115628370057,
+            "target_projection": 0.001566711761635896,
+            "forward_kl_ratio": 4.958086538452009e-05,
+            "reverse_error_kl_ratio": 0.9953671382622111
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 0.9992075536638143,
+            "fisher_cosine": 0.9996218758275754,
+            "target_projection": 0.9932158720687063,
+            "forward_kl_ratio": 0.9947106282948323,
+            "reverse_error_kl_ratio": 0.00023972477412357755
+          },
+          "residual_bus": {
+            "fisher_fidelity": 0.9983991388411055,
+            "fisher_cosine": 0.9992791974386784,
+            "target_projection": 0.9859275677815487,
+            "forward_kl_ratio": 0.9721266380034713,
+            "reverse_error_kl_ratio": 0.00017001393510739148
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.01590428238893038,
+            "fisher_cosine": 0.3135205916630278,
+            "target_projection": 0.008302788073085399,
+            "forward_kl_ratio": 0.00014831155895454092,
+            "reverse_error_kl_ratio": 0.9745116317345547
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999887069917,
+            "target_projection": 0.9999999887069917,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 0.985384586766974,
+          "embedding_stream": 0.010409122831735817,
+          "value_bus": 0.004206281380117453
+        },
+        "shapley_absolute_sum": 0.9999999909788273,
+        "shapley_sum": 0.9999999909788273,
+        "median_example_shapley": {
+          "residual_sequence": 0.9908447563648224,
+          "embedding_stream": 0.00823538051918149,
+          "value_bus": 0.0025677839294075966
+        }
+      },
+      "11": {
+        "examples": 62,
+        "target_fisher_energy": 253.34475326538086,
+        "mean_forward_full_kl": 9.748798524179767,
+        "mean_reverse_full_kl": 12.037374188823085,
+        "max_base_recomposition_error": 2.956390380859375e-05,
+        "max_changed_recomposition_error": 2.86102294921875e-05,
+        "routes": {
+          "residual_only": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000075286684,
+            "target_projection": 1.0000000075286684,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "embedding_only": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "value_bus_only": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "residual_embedding": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000075286684,
+            "target_projection": 1.0000000075286684,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "residual_bus": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000075286684,
+            "target_projection": 1.0000000075286684,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          },
+          "embedding_bus": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "reverse_error_kl_ratio": 1.0
+          },
+          "full": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000075286684,
+            "target_projection": 1.0000000075286684,
+            "forward_kl_ratio": 1.0,
+            "reverse_error_kl_ratio": 0.0
+          }
+        },
+        "shapley_target_projection": {
+          "residual_sequence": 1.0000000094108354,
+          "embedding_stream": 0.0,
+          "value_bus": 0.0
+        },
+        "shapley_absolute_sum": 1.0000000094108354,
+        "shapley_sum": 1.0000000094108354,
+        "median_example_shapley": {
+          "residual_sequence": 1.0,
+          "embedding_stream": 0.0,
+          "value_bus": 0.0
+        }
+      }
+    }
+  }
+}

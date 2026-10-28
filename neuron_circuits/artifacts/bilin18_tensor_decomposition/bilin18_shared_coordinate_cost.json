@@ -1,0 +1,5747 @@
+{
+  "status": "complete",
+  "config": {
+    "experiment": "H701",
+    "hashes": {
+      "data": "b1b080bd2068ca86ef365eb5597e0da4edb708b24996d6044e0e505badc0960d",
+      "teacher": "58526833abb04ba2a9c8ca9ad0b6ce72a1e6ecb5f8747a3b20c0b88400a0b9f5",
+      "implementation": "386b16fdd1fa02171049342ae102c2f01ee65235a6fa0068f52c784a7c88d1e6",
+      "gate_implementation": "2690e11ff30a5931e9e6badf8c813de3133c4aeee2b399e03f4f4465b14e8965",
+      "cost_implementation": "a1b343c36ecce8274f7aae81079fda3906621086335ed0c56fe2986eb017c67e",
+      "runner": "0d2739c4af06ebf6893a4113823cc551b10dcaf6c28c06b1b3cbbca5997e4774"
+    },
+    "steps": 3000,
+    "lr": 0.003,
+    "batch": 128,
+    "group_cost": 0.01,
+    "coordinate_costs": [
+      0.005,
+      0.02,
+      0.05
+    ],
+    "design": "Fresh random dictionary, coordinate encoder, membership and energy detector. Joint label-free only. Add active-support coordinate costs0.005/0.02/0.05 to groupcost0.01; same initializations/batches as H700 joint baselines. For unknown gates train exact Bernoulli expected cost over16patterns; unknown membership uses hardTop3 ST. Same three seeds/minibatches. Select hard validation reconstruction+count cost every100steps, held combinations afterward. Joint condition never uses generating labels in optimization/selection.",
+    "limitations": "One noiseless teacher,known latent/group sizes and3members pergroup,small exactenumeration,hardmembership surrogate. Different cost arms are tradeoffs, not selected on heldout. Counts charge active support; with continuous coordinates nonzero almost surely this equals codeL0 except exact zeros. Fixed membership costs constant; no learned membershipbudget."
+  },
+  "records": [
+    {
+      "seed": 51,
+      "mode": "joint",
+      "coordinate_cost": 0.005,
+      "selected_step": 2800,
+      "train": {
+        "relative_mse": 0.1755208671092987,
+        "objective": 0.23835532367229462,
+        "exact_inference_objective": 0.22016367316246033,
+        "exact_inference_relative_mse": 0.17629282176494598,
+        "mean_groups": 3.409423828125,
+        "mean_active_atoms": 5.748046875,
+        "unique_gate_patterns": 15,
+        "largest_pattern_fraction": 0.553955078125,
+        "gate_counts": [
+          3477.0,
+          3818.0,
+          3771.0,
+          2899.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.1834118664264679,
+        "objective": 0.2529400885105133,
+        "exact_inference_objective": 0.23459859192371368,
+        "exact_inference_relative_mse": 0.18390250205993652,
+        "mean_groups": 3.40625,
+        "mean_active_atoms": 5.748046875,
+        "unique_gate_patterns": 14,
+        "largest_pattern_fraction": 0.54833984375,
+        "gate_counts": [
+          1738.0,
+          1895.0,
+          1885.0,
+          1458.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.2267242968082428,
+        "objective": 0.4501749277114868,
+        "exact_inference_objective": 0.43107280135154724,
+        "exact_inference_relative_mse": 0.2268468141555786,
+        "mean_groups": 3.71044921875,
+        "mean_active_atoms": 5.97998046875,
+        "unique_gate_patterns": 7,
+        "largest_pattern_fraction": 0.716796875,
+        "gate_counts": [
+          2016.0,
+          2025.0,
+          2020.0,
+          1538.0
+        ]
+      },
+      "membership": [
+        [
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "matched_atom_cosine": 0.6432233452796936,
+      "posthoc_membership_entry_agreement": 0.6875,
+      "posthoc_group_permutation": [
+        2,
+        1,
+        3,
+        0
+      ],
+      "heldout_gate_exact_agreement": 0.19140625,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.0515345335006714,
+          "objective": 1.1300147771835327,
+          "exact_inference_objective": 0.9767138957977295,
+          "exact_inference_relative_mse": 0.9279271960258484,
+          "mean_groups": 2.00146484375,
+          "mean_active_atoms": 3.9814453125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.71484375,
+          "gate_counts": [
+            1834.0,
+            353.0,
+            0.0,
+            1912.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.6923946738243103,
+          "objective": 0.7827399969100952,
+          "exact_inference_objective": 0.7439286112785339,
+          "exact_inference_relative_mse": 0.6881246566772461,
+          "mean_groups": 3.9970703125,
+          "mean_active_atoms": 4.9970703125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.9970703125,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2042.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.4001949727535248,
+          "objective": 0.4848695695400238,
+          "exact_inference_objective": 0.465581476688385,
+          "exact_inference_relative_mse": 0.4043671488761902,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.28903713822364807,
+          "objective": 0.36960649490356445,
+          "exact_inference_objective": 0.3504018485546112,
+          "exact_inference_relative_mse": 0.2931014597415924,
+          "mean_groups": 3.9970703125,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.9970703125,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2042.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.37042170763015747,
+          "objective": 0.4490046203136444,
+          "exact_inference_objective": 0.4245399236679077,
+          "exact_inference_relative_mse": 0.3725489377975464,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.20753419399261475,
+          "objective": 0.28514423966407776,
+          "exact_inference_objective": 0.2659394145011902,
+          "exact_inference_relative_mse": 0.2109530121088028,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.3412693738937378,
+          "objective": 0.4187784194946289,
+          "exact_inference_objective": 0.3941720724105835,
+          "exact_inference_relative_mse": 0.34376391768455505,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2047.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.32683855295181274,
+          "objective": 0.40372559428215027,
+          "exact_inference_objective": 0.3792405128479004,
+          "exact_inference_relative_mse": 0.32949715852737427,
+          "mean_groups": 3.990234375,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.990234375,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2028.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.471535861492157,
+          "objective": 0.5476985573768616,
+          "exact_inference_objective": 0.5205861926078796,
+          "exact_inference_relative_mse": 0.4738267958164215,
+          "mean_groups": 3.88720703125,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.88720703125,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            1817.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.2947467267513275,
+          "objective": 0.37001273036003113,
+          "exact_inference_objective": 0.34592801332473755,
+          "exact_inference_relative_mse": 0.29667529463768005,
+          "mean_groups": 3.9638671875,
+          "mean_active_atoms": 4.9638671875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.9638671875,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            1974.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.33332350850105286,
+          "objective": 0.4104337990283966,
+          "exact_inference_objective": 0.38681283593177795,
+          "exact_inference_relative_mse": 0.3356570601463318,
+          "mean_groups": 3.98876953125,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.98974609375,
+          "gate_counts": [
+            2048.0,
+            2046.0,
+            2027.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.18910308182239532,
+          "objective": 0.26452845335006714,
+          "exact_inference_objective": 0.24530766904354095,
+          "exact_inference_relative_mse": 0.19122065603733063,
+          "mean_groups": 3.8994140625,
+          "mean_active_atoms": 5.8994140625,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.90625,
+          "gate_counts": [
+            2048.0,
+            1876.0,
+            2014.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.29531630873680115,
+          "objective": 0.37063732743263245,
+          "exact_inference_objective": 0.34752368927001953,
+          "exact_inference_relative_mse": 0.297131210565567,
+          "mean_groups": 3.9609375,
+          "mean_active_atoms": 4.9765625,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.9677734375,
+          "gate_counts": [
+            2048.0,
+            2000.0,
+            2016.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.3318413496017456,
+          "objective": 0.40772783756256104,
+          "exact_inference_objective": 0.38505735993385315,
+          "exact_inference_relative_mse": 0.33423686027526855,
+          "mean_groups": 3.87890625,
+          "mean_active_atoms": 4.98583984375,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.89306640625,
+          "gate_counts": [
+            2048.0,
+            1854.0,
+            1994.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.3330710828304291,
+          "objective": 0.4093908667564392,
+          "exact_inference_objective": 0.38716500997543335,
+          "exact_inference_relative_mse": 0.33523842692375183,
+          "mean_groups": 3.9150390625,
+          "mean_active_atoms": 4.9912109375,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.92822265625,
+          "gate_counts": [
+            2033.0,
+            1937.0,
+            2000.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.45355135202407837,
+          "objective": 0.5290862917900085,
+          "exact_inference_objective": 0.5016082525253296,
+          "exact_inference_relative_mse": 0.4558875858783722,
+          "mean_groups": 3.890625,
+          "mean_active_atoms": 3.99951171875,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.90576171875,
+          "gate_counts": [
+            2047.0,
+            1874.0,
+            1999.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.33408379554748535,
+          "objective": 0.40950071811676025,
+          "exact_inference_objective": 0.38558417558670044,
+          "exact_inference_relative_mse": 0.3348298668861389,
+          "mean_groups": 3.861328125,
+          "mean_active_atoms": 4.91064453125,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.88330078125,
+          "gate_counts": [
+            2040.0,
+            1873.0,
+            1947.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.44369208812713623,
+          "objective": 0.51787930727005,
+          "exact_inference_objective": 0.4923234283924103,
+          "exact_inference_relative_mse": 0.4460032880306244,
+          "mean_groups": 3.7939453125,
+          "mean_active_atoms": 3.99560546875,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.81982421875,
+          "gate_counts": [
+            2039.0,
+            1879.0,
+            1804.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.2971930205821991,
+          "objective": 0.37158432602882385,
+          "exact_inference_objective": 0.3489760160446167,
+          "exact_inference_relative_mse": 0.2995448410511017,
+          "mean_groups": 3.85986328125,
+          "mean_active_atoms": 4.97900390625,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.88134765625,
+          "gate_counts": [
+            2039.0,
+            1840.0,
+            1978.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.33244335651397705,
+          "objective": 0.40839824080467224,
+          "exact_inference_objective": 0.38539835810661316,
+          "exact_inference_relative_mse": 0.33441510796546936,
+          "mean_groups": 3.90185546875,
+          "mean_active_atoms": 4.94921875,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.92431640625,
+          "gate_counts": [
+            2033.0,
+            1952.0,
+            1958.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.29731255769729614,
+          "objective": 0.3715471029281616,
+          "exact_inference_objective": 0.34854626655578613,
+          "exact_inference_relative_mse": 0.2996295094490051,
+          "mean_groups": 3.841796875,
+          "mean_active_atoms": 4.98291015625,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.8671875,
+          "gate_counts": [
+            2030.0,
+            1815.0,
+            1975.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.4184056520462036,
+          "objective": 0.4927299916744232,
+          "exact_inference_objective": 0.4637902081012726,
+          "exact_inference_relative_mse": 0.42049285769462585,
+          "mean_groups": 3.90234375,
+          "mean_active_atoms": 3.99169921875,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.92626953125,
+          "gate_counts": [
+            2030.0,
+            1934.0,
+            1980.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.18637454509735107,
+          "objective": 0.2611212432384491,
+          "exact_inference_objective": 0.24316036701202393,
+          "exact_inference_relative_mse": 0.1885252147912979,
+          "mean_groups": 3.86083984375,
+          "mean_active_atoms": 5.86083984375,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.88671875,
+          "gate_counts": [
+            2028.0,
+            1848.0,
+            1983.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.3063131868839264,
+          "objective": 0.38128799200057983,
+          "exact_inference_objective": 0.35823380947113037,
+          "exact_inference_relative_mse": 0.3086070120334625,
+          "mean_groups": 3.8876953125,
+          "mean_active_atoms": 4.97314453125,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.91455078125,
+          "gate_counts": [
+            2028.0,
+            1939.0,
+            1947.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.45674777030944824,
+          "objective": 0.5322387218475342,
+          "exact_inference_objective": 0.5043473243713379,
+          "exact_inference_relative_mse": 0.4589112401008606,
+          "mean_groups": 3.8818359375,
+          "mean_active_atoms": 3.98486328125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.9140625,
+          "gate_counts": [
+            2006.0,
+            1926.0,
+            1970.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.3297059237957001,
+          "objective": 0.4048304557800293,
+          "exact_inference_objective": 0.3814049959182739,
+          "exact_inference_relative_mse": 0.3321620225906372,
+          "mean_groups": 3.81884765625,
+          "mean_active_atoms": 4.96923828125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.86328125,
+          "gate_counts": [
+            1965.0,
+            1838.0,
+            1970.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.3101237416267395,
+          "objective": 0.38210105895996094,
+          "exact_inference_objective": 0.36135920882225037,
+          "exact_inference_relative_mse": 0.31060919165611267,
+          "mean_groups": 3.6396484375,
+          "mean_active_atoms": 4.841796875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.70703125,
+          "gate_counts": [
+            1563.0,
+            1886.0,
+            1957.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.32745930552482605,
+          "objective": 0.40181300044059753,
+          "exact_inference_objective": 0.3786148428916931,
+          "exact_inference_relative_mse": 0.3298521339893341,
+          "mean_groups": 3.76513671875,
+          "mean_active_atoms": 4.93896484375,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.814453125,
+          "gate_counts": [
+            1964.0,
+            1815.0,
+            1885.0,
+            2047.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.1834118664264679,
+          "objective": 0.2529400885105133,
+          "exact_inference_objective": 0.23459859192371368,
+          "exact_inference_relative_mse": 0.18390250205993652,
+          "mean_groups": 3.40625,
+          "mean_active_atoms": 5.748046875,
+          "unique_gate_patterns": 14,
+          "largest_pattern_fraction": 0.54833984375,
+          "gate_counts": [
+            1738.0,
+            1895.0,
+            1885.0,
+            1458.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.1838364452123642,
+          "objective": 0.25653696060180664,
+          "exact_inference_objective": 0.23877045512199402,
+          "exact_inference_relative_mse": 0.18495707213878632,
+          "mean_groups": 3.73095703125,
+          "mean_active_atoms": 5.72998046875,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.80810546875,
+          "gate_counts": [
+            1834.0,
+            1909.0,
+            1851.0,
+            2047.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.1894093006849289,
+          "objective": 0.2604391574859619,
+          "exact_inference_objective": 0.23428715765476227,
+          "exact_inference_relative_mse": 0.1831357777118683,
+          "mean_groups": 3.60595703125,
+          "mean_active_atoms": 5.60498046875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.66552734375,
+          "gate_counts": [
+            1520.0,
+            1848.0,
+            1971.0,
+            2046.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 51,
+      "mode": "joint",
+      "coordinate_cost": 0.02,
+      "selected_step": 2800,
+      "train": {
+        "relative_mse": 0.2768319249153137,
+        "objective": 0.38362637162208557,
+        "exact_inference_objective": 0.36377811431884766,
+        "exact_inference_relative_mse": 0.2757166028022766,
+        "mean_groups": 2.720947265625,
+        "mean_active_atoms": 3.979248046875,
+        "unique_gate_patterns": 12,
+        "largest_pattern_fraction": 0.34619140625,
+        "gate_counts": [
+          2996.0,
+          2883.0,
+          2749.0,
+          2517.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.2852914035320282,
+        "objective": 0.40213942527770996,
+        "exact_inference_objective": 0.3814172148704529,
+        "exact_inference_relative_mse": 0.2828991413116455,
+        "mean_groups": 2.7080078125,
+        "mean_active_atoms": 3.96533203125,
+        "unique_gate_patterns": 10,
+        "largest_pattern_fraction": 0.34423828125,
+        "gate_counts": [
+          1477.0,
+          1441.0,
+          1379.0,
+          1249.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.3401321768760681,
+        "objective": 0.6992959976196289,
+        "exact_inference_objective": 0.67365962266922,
+        "exact_inference_relative_mse": 0.3370542824268341,
+        "mean_groups": 3.357421875,
+        "mean_active_atoms": 4.54443359375,
+        "unique_gate_patterns": 10,
+        "largest_pattern_fraction": 0.58251953125,
+        "gate_counts": [
+          1844.0,
+          1738.0,
+          1739.0,
+          1555.0
+        ]
+      },
+      "membership": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matched_atom_cosine": 0.6279722452163696,
+      "posthoc_membership_entry_agreement": 0.6875,
+      "posthoc_group_permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "heldout_gate_exact_agreement": 0.162109375,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.0515345335006714,
+          "objective": 1.1897364854812622,
+          "exact_inference_objective": 0.9969600439071655,
+          "exact_inference_relative_mse": 0.9381219148635864,
+          "mean_groups": 2.00146484375,
+          "mean_active_atoms": 3.9814453125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.71484375,
+          "gate_counts": [
+            1834.0,
+            353.0,
+            0.0,
+            1912.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.6711311936378479,
+          "objective": 0.8297739028930664,
+          "exact_inference_objective": 0.7774577140808105,
+          "exact_inference_relative_mse": 0.6828859448432922,
+          "mean_groups": 3.5830078125,
+          "mean_active_atoms": 4.91015625,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.63037109375,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            1864.0,
+            1378.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.5962852239608765,
+          "objective": 0.7362360954284668,
+          "exact_inference_objective": 0.6955241560935974,
+          "exact_inference_relative_mse": 0.6057062149047852,
+          "mean_groups": 3.80859375,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.83056640625,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            1751.0,
+            1953.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.5162366628646851,
+          "objective": 0.6546976566314697,
+          "exact_inference_objective": 0.6180869936943054,
+          "exact_inference_relative_mse": 0.5250405073165894,
+          "mean_groups": 3.9619140625,
+          "mean_active_atoms": 3.99560546875,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.96630859375,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2016.0,
+            2002.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.5142588019371033,
+          "objective": 0.6523005962371826,
+          "exact_inference_objective": 0.6103906035423279,
+          "exact_inference_relative_mse": 0.5224395394325256,
+          "mean_groups": 3.92626953125,
+          "mean_active_atoms": 3.99609375,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.94873046875,
+          "gate_counts": [
+            2048.0,
+            2040.0,
+            1993.0,
+            1960.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.6211336851119995,
+          "objective": 0.7430407404899597,
+          "exact_inference_objective": 0.7091188430786133,
+          "exact_inference_relative_mse": 0.6265352368354797,
+          "mean_groups": 3.916015625,
+          "mean_active_atoms": 2.99853515625,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.94873046875,
+          "gate_counts": [
+            2047.0,
+            2024.0,
+            2004.0,
+            1945.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.46156877279281616,
+          "objective": 0.5961549878120422,
+          "exact_inference_objective": 0.561085045337677,
+          "exact_inference_relative_mse": 0.46916452050209045,
+          "mean_groups": 3.87060546875,
+          "mean_active_atoms": 3.94775390625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.93701171875,
+          "gate_counts": [
+            2047.0,
+            1944.0,
+            1977.0,
+            1959.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.4425105154514313,
+          "objective": 0.5768032073974609,
+          "exact_inference_objective": 0.5406045913696289,
+          "exact_inference_relative_mse": 0.44980892539024353,
+          "mean_groups": 3.8837890625,
+          "mean_active_atoms": 3.96142578125,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.94287109375,
+          "gate_counts": [
+            2044.0,
+            1957.0,
+            1962.0,
+            1991.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.4113461375236511,
+          "objective": 0.5441591739654541,
+          "exact_inference_objective": 0.5042543411254883,
+          "exact_inference_relative_mse": 0.4178907871246338,
+          "mean_groups": 3.86669921875,
+          "mean_active_atoms": 3.953125,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.9404296875,
+          "gate_counts": [
+            2037.0,
+            1945.0,
+            1964.0,
+            1973.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.42923977971076965,
+          "objective": 0.5628310441970825,
+          "exact_inference_objective": 0.5270571708679199,
+          "exact_inference_relative_mse": 0.4363827407360077,
+          "mean_groups": 3.875,
+          "mean_active_atoms": 3.955078125,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.9365234375,
+          "gate_counts": [
+            2031.0,
+            1952.0,
+            1949.0,
+            2004.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.423007071018219,
+          "objective": 0.5539723038673401,
+          "exact_inference_objective": 0.5211747884750366,
+          "exact_inference_relative_mse": 0.43052467703819275,
+          "mean_groups": 3.79931640625,
+          "mean_active_atoms": 3.873046875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.8974609375,
+          "gate_counts": [
+            2011.0,
+            1899.0,
+            1899.0,
+            1972.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.4244840145111084,
+          "objective": 0.5554643273353577,
+          "exact_inference_objective": 0.5206155180931091,
+          "exact_inference_relative_mse": 0.431770384311676,
+          "mean_groups": 3.76416015625,
+          "mean_active_atoms": 3.888671875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.87158203125,
+          "gate_counts": [
+            1983.0,
+            1887.0,
+            1867.0,
+            1972.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.28286436200141907,
+          "objective": 0.4219036102294922,
+          "exact_inference_objective": 0.3902479112148285,
+          "exact_inference_relative_mse": 0.28699466586112976,
+          "mean_groups": 3.54931640625,
+          "mean_active_atoms": 4.65869140625,
+          "unique_gate_patterns": 14,
+          "largest_pattern_fraction": 0.73876953125,
+          "gate_counts": [
+            1725.0,
+            1924.0,
+            1784.0,
+            1836.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.42253196239471436,
+          "objective": 0.5521125197410583,
+          "exact_inference_objective": 0.5175795555114746,
+          "exact_inference_relative_mse": 0.43014177680015564,
+          "mean_groups": 3.63818359375,
+          "mean_active_atoms": 3.88525390625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.794921875,
+          "gate_counts": [
+            1967.0,
+            1896.0,
+            1785.0,
+            1803.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.28321027755737305,
+          "objective": 0.41942042112350464,
+          "exact_inference_objective": 0.3891840875148773,
+          "exact_inference_relative_mse": 0.287433385848999,
+          "mean_groups": 3.41162109375,
+          "mean_active_atoms": 4.58544921875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.654296875,
+          "gate_counts": [
+            1873.0,
+            1878.0,
+            1637.0,
+            1599.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.28450480103492737,
+          "objective": 0.41462957859039307,
+          "exact_inference_objective": 0.38536906242370605,
+          "exact_inference_relative_mse": 0.28650397062301636,
+          "mean_groups": 3.06005859375,
+          "mean_active_atoms": 4.45458984375,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.48779296875,
+          "gate_counts": [
+            1423.0,
+            1876.0,
+            1795.0,
+            1173.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.4295986592769623,
+          "objective": 0.5505223870277405,
+          "exact_inference_objective": 0.5180020332336426,
+          "exact_inference_relative_mse": 0.4298003911972046,
+          "mean_groups": 3.16943359375,
+          "mean_active_atoms": 3.673828125,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.48583984375,
+          "gate_counts": [
+            1658.0,
+            1666.0,
+            1888.0,
+            1279.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.4252513349056244,
+          "objective": 0.547680675983429,
+          "exact_inference_objective": 0.5207278728485107,
+          "exact_inference_relative_mse": 0.4297592043876648,
+          "mean_groups": 3.24609375,
+          "mean_active_atoms": 3.71875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.5107421875,
+          "gate_counts": [
+            1854.0,
+            1502.0,
+            1715.0,
+            1577.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.28339895606040955,
+          "objective": 0.4128044545650482,
+          "exact_inference_objective": 0.38368356227874756,
+          "exact_inference_relative_mse": 0.2854008674621582,
+          "mean_groups": 3.14453125,
+          "mean_active_atoms": 4.37841796875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.54150390625,
+          "gate_counts": [
+            1520.0,
+            1740.0,
+            1605.0,
+            1575.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.28222548961639404,
+          "objective": 0.4106651246547699,
+          "exact_inference_objective": 0.38203731179237366,
+          "exact_inference_relative_mse": 0.28481143712997437,
+          "mean_groups": 3.04248046875,
+          "mean_active_atoms": 4.38330078125,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.43408203125,
+          "gate_counts": [
+            1362.0,
+            1518.0,
+            1707.0,
+            1644.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.2808710038661957,
+          "objective": 0.4093293845653534,
+          "exact_inference_objective": 0.38105064630508423,
+          "exact_inference_relative_mse": 0.28461799025535583,
+          "mean_groups": 3.00537109375,
+          "mean_active_atoms": 4.4052734375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.44189453125,
+          "gate_counts": [
+            1274.0,
+            1645.0,
+            1720.0,
+            1516.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.2802223861217499,
+          "objective": 0.4091305732727051,
+          "exact_inference_objective": 0.3825230896472931,
+          "exact_inference_relative_mse": 0.28414955735206604,
+          "mean_groups": 3.16015625,
+          "mean_active_atoms": 4.3515625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.4814453125,
+          "gate_counts": [
+            1417.0,
+            1553.0,
+            1636.0,
+            1866.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.2841314673423767,
+          "objective": 0.4127630889415741,
+          "exact_inference_objective": 0.38537344336509705,
+          "exact_inference_relative_mse": 0.28409188985824585,
+          "mean_groups": 3.140625,
+          "mean_active_atoms": 4.34033203125,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.5322265625,
+          "gate_counts": [
+            1485.0,
+            1592.0,
+            1575.0,
+            1780.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.2859419882297516,
+          "objective": 0.4102845788002014,
+          "exact_inference_objective": 0.38269951939582825,
+          "exact_inference_relative_mse": 0.2841784656047821,
+          "mean_groups": 2.986328125,
+          "mean_active_atoms": 4.19970703125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.49462890625,
+          "gate_counts": [
+            1400.0,
+            1719.0,
+            1454.0,
+            1543.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.28176993131637573,
+          "objective": 0.4052271246910095,
+          "exact_inference_objective": 0.3846150040626526,
+          "exact_inference_relative_mse": 0.2853621244430542,
+          "mean_groups": 2.8134765625,
+          "mean_active_atoms": 4.24951171875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.412109375,
+          "gate_counts": [
+            1385.0,
+            1618.0,
+            1542.0,
+            1217.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.2803150713443756,
+          "objective": 0.40692201256752014,
+          "exact_inference_objective": 0.381420373916626,
+          "exact_inference_relative_mse": 0.28386303782463074,
+          "mean_groups": 2.8134765625,
+          "mean_active_atoms": 4.40966796875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.4072265625,
+          "gate_counts": [
+            1412.0,
+            1515.0,
+            1472.0,
+            1363.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.283255934715271,
+          "objective": 0.40367674827575684,
+          "exact_inference_objective": 0.3813939094543457,
+          "exact_inference_relative_mse": 0.28368207812309265,
+          "mean_groups": 2.80712890625,
+          "mean_active_atoms": 4.09814453125,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.4140625,
+          "gate_counts": [
+            1391.0,
+            1480.0,
+            1512.0,
+            1366.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.28633707761764526,
+          "objective": 0.4068025052547455,
+          "exact_inference_objective": 0.38417720794677734,
+          "exact_inference_relative_mse": 0.28508108854293823,
+          "mean_groups": 2.73876953125,
+          "mean_active_atoms": 4.12890625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.37451171875,
+          "gate_counts": [
+            1420.0,
+            1541.0,
+            1400.0,
+            1248.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.2852914035320282,
+          "objective": 0.40213942527770996,
+          "exact_inference_objective": 0.3814172148704529,
+          "exact_inference_relative_mse": 0.2828991413116455,
+          "mean_groups": 2.7080078125,
+          "mean_active_atoms": 3.96533203125,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.34423828125,
+          "gate_counts": [
+            1477.0,
+            1441.0,
+            1379.0,
+            1249.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.28669652342796326,
+          "objective": 0.40411850810050964,
+          "exact_inference_objective": 0.3873249590396881,
+          "exact_inference_relative_mse": 0.2826113700866699,
+          "mean_groups": 2.77490234375,
+          "mean_active_atoms": 3.9580078125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.36669921875,
+          "gate_counts": [
+            1436.0,
+            1502.0,
+            1466.0,
+            1279.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.2874147593975067,
+          "objective": 0.403232216835022,
+          "exact_inference_objective": 0.38076499104499817,
+          "exact_inference_relative_mse": 0.28346163034439087,
+          "mean_groups": 2.67822265625,
+          "mean_active_atoms": 3.9248046875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.32958984375,
+          "gate_counts": [
+            1418.0,
+            1354.0,
+            1485.0,
+            1228.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 51,
+      "mode": "joint",
+      "coordinate_cost": 0.05,
+      "selected_step": 3000,
+      "train": {
+        "relative_mse": 0.29016679525375366,
+        "objective": 0.45902180671691895,
+        "exact_inference_objective": 0.44210976362228394,
+        "exact_inference_relative_mse": 0.28772497177124023,
+        "mean_groups": 1.526611328125,
+        "mean_active_atoms": 3.07177734375,
+        "unique_gate_patterns": 16,
+        "largest_pattern_fraction": 0.23046875,
+        "gate_counts": [
+          1395.0,
+          2297.0,
+          996.0,
+          1565.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.29856574535369873,
+        "objective": 0.47846880555152893,
+        "exact_inference_objective": 0.4617711007595062,
+        "exact_inference_relative_mse": 0.29679620265960693,
+        "mean_groups": 1.53173828125,
+        "mean_active_atoms": 3.07275390625,
+        "unique_gate_patterns": 16,
+        "largest_pattern_fraction": 0.2314453125,
+        "gate_counts": [
+          706.0,
+          1153.0,
+          482.0,
+          796.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.3577859103679657,
+        "objective": 0.8102835416793823,
+        "exact_inference_objective": 0.7881433963775635,
+        "exact_inference_relative_mse": 0.34630629420280457,
+        "mean_groups": 1.8994140625,
+        "mean_active_atoms": 3.732421875,
+        "unique_gate_patterns": 16,
+        "largest_pattern_fraction": 0.1640625,
+        "gate_counts": [
+          595.0,
+          1474.0,
+          831.0,
+          990.0
+        ]
+      },
+      "membership": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matched_atom_cosine": 0.7280447483062744,
+      "posthoc_membership_entry_agreement": 0.75,
+      "posthoc_group_permutation": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "heldout_gate_exact_agreement": 0.064453125,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.0515345335006714,
+          "objective": 1.3091800212860107,
+          "exact_inference_objective": 1.017676591873169,
+          "exact_inference_relative_mse": 0.9584023356437683,
+          "mean_groups": 2.00146484375,
+          "mean_active_atoms": 3.9814453125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.71484375,
+          "gate_counts": [
+            1834.0,
+            353.0,
+            0.0,
+            1912.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.719133198261261,
+          "objective": 0.9134716391563416,
+          "exact_inference_objective": 0.8500622510910034,
+          "exact_inference_relative_mse": 0.7163577675819397,
+          "mean_groups": 1.23291015625,
+          "mean_active_atoms": 3.11279296875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.7021484375,
+          "gate_counts": [
+            139.0,
+            1865.0,
+            219.0,
+            302.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.5201540589332581,
+          "objective": 0.7605897784233093,
+          "exact_inference_objective": 0.7012200951576233,
+          "exact_inference_relative_mse": 0.5438981056213379,
+          "mean_groups": 2.0654296875,
+          "mean_active_atoms": 4.01416015625,
+          "unique_gate_patterns": 14,
+          "largest_pattern_fraction": 0.27001953125,
+          "gate_counts": [
+            1166.0,
+            1744.0,
+            699.0,
+            621.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.4182612895965576,
+          "objective": 0.6669089794158936,
+          "exact_inference_objective": 0.6031707525253296,
+          "exact_inference_relative_mse": 0.4387568533420563,
+          "mean_groups": 2.3837890625,
+          "mean_active_atoms": 4.189453125,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.47607421875,
+          "gate_counts": [
+            1938.0,
+            1720.0,
+            542.0,
+            682.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.3818443715572357,
+          "objective": 0.6202943325042725,
+          "exact_inference_objective": 0.563069224357605,
+          "exact_inference_relative_mse": 0.39630573987960815,
+          "mean_groups": 2.3935546875,
+          "mean_active_atoms": 4.01025390625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.40576171875,
+          "gate_counts": [
+            1905.0,
+            1587.0,
+            801.0,
+            609.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.48702090978622437,
+          "objective": 0.6989662647247314,
+          "exact_inference_objective": 0.6053868532180786,
+          "exact_inference_relative_mse": 0.4543796181678772,
+          "mean_groups": 2.41162109375,
+          "mean_active_atoms": 3.3994140625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.3173828125,
+          "gate_counts": [
+            1747.0,
+            1564.0,
+            899.0,
+            729.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.3570200800895691,
+          "objective": 0.5770451426506042,
+          "exact_inference_objective": 0.5147019028663635,
+          "exact_inference_relative_mse": 0.34335657954216003,
+          "mean_groups": 2.4609375,
+          "mean_active_atoms": 3.646484375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.2978515625,
+          "gate_counts": [
+            1803.0,
+            1500.0,
+            968.0,
+            769.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.3540525436401367,
+          "objective": 0.5659902095794678,
+          "exact_inference_objective": 0.4910092353820801,
+          "exact_inference_relative_mse": 0.3221457600593567,
+          "mean_groups": 2.37841796875,
+          "mean_active_atoms": 3.50341796875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.34716796875,
+          "gate_counts": [
+            1714.0,
+            1553.0,
+            852.0,
+            752.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.535984456539154,
+          "objective": 0.7186656594276428,
+          "exact_inference_objective": 0.68315589427948,
+          "exact_inference_relative_mse": 0.5533345937728882,
+          "mean_groups": 2.4013671875,
+          "mean_active_atoms": 2.7802734375,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.34228515625,
+          "gate_counts": [
+            1733.0,
+            1544.0,
+            878.0,
+            763.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.4482615292072296,
+          "objective": 0.6509193778038025,
+          "exact_inference_objective": 0.6033384203910828,
+          "exact_inference_relative_mse": 0.4639057517051697,
+          "mean_groups": 2.35498046875,
+          "mean_active_atoms": 3.25341796875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.39306640625,
+          "gate_counts": [
+            1690.0,
+            1623.0,
+            740.0,
+            770.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.450188010931015,
+          "objective": 0.6444156169891357,
+          "exact_inference_objective": 0.6046638488769531,
+          "exact_inference_relative_mse": 0.4630647599697113,
+          "mean_groups": 2.28125,
+          "mean_active_atoms": 3.09814453125,
+          "unique_gate_patterns": 15,
+          "largest_pattern_fraction": 0.35302734375,
+          "gate_counts": [
+            1572.0,
+            1512.0,
+            773.0,
+            815.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.29637041687965393,
+          "objective": 0.5198013782501221,
+          "exact_inference_objective": 0.46027863025665283,
+          "exact_inference_relative_mse": 0.29806947708129883,
+          "mean_groups": 2.14501953125,
+          "mean_active_atoms": 3.822265625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.3525390625,
+          "gate_counts": [
+            1371.0,
+            1587.0,
+            666.0,
+            769.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.379780113697052,
+          "objective": 0.5843555331230164,
+          "exact_inference_objective": 0.5339692831039429,
+          "exact_inference_relative_mse": 0.38468754291534424,
+          "mean_groups": 2.197265625,
+          "mean_active_atoms": 3.37353515625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.30078125,
+          "gate_counts": [
+            1385.0,
+            1563.0,
+            598.0,
+            954.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.2916066646575928,
+          "objective": 0.5067331194877625,
+          "exact_inference_objective": 0.4618648886680603,
+          "exact_inference_relative_mse": 0.29813483357429504,
+          "mean_groups": 2.19140625,
+          "mean_active_atoms": 3.650390625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.26953125,
+          "gate_counts": [
+            1313.0,
+            1518.0,
+            599.0,
+            1058.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.3110923171043396,
+          "objective": 0.5039108395576477,
+          "exact_inference_objective": 0.46482518315315247,
+          "exact_inference_relative_mse": 0.3002462387084961,
+          "mean_groups": 2.10107421875,
+          "mean_active_atoms": 3.2080078125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.38232421875,
+          "gate_counts": [
+            1462.0,
+            1390.0,
+            515.0,
+            936.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.3040853440761566,
+          "objective": 0.5013490319252014,
+          "exact_inference_objective": 0.4676794111728668,
+          "exact_inference_relative_mse": 0.30039483308792114,
+          "mean_groups": 2.0732421875,
+          "mean_active_atoms": 3.3076171875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.37744140625,
+          "gate_counts": [
+            1354.0,
+            1424.0,
+            509.0,
+            959.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.3846145272254944,
+          "objective": 0.5652217268943787,
+          "exact_inference_objective": 0.5384411215782166,
+          "exact_inference_relative_mse": 0.3840460479259491,
+          "mean_groups": 1.97509765625,
+          "mean_active_atoms": 2.93505859375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.353515625,
+          "gate_counts": [
+            1152.0,
+            1380.0,
+            490.0,
+            1023.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.3042610287666321,
+          "objective": 0.4899784326553345,
+          "exact_inference_objective": 0.4657377600669861,
+          "exact_inference_relative_mse": 0.29804134368896484,
+          "mean_groups": 1.91650390625,
+          "mean_active_atoms": 3.10791015625,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.3671875,
+          "gate_counts": [
+            1118.0,
+            1307.0,
+            499.0,
+            1001.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.3050585091114044,
+          "objective": 0.4918745458126068,
+          "exact_inference_objective": 0.476764976978302,
+          "exact_inference_relative_mse": 0.30351632833480835,
+          "mean_groups": 1.8916015625,
+          "mean_active_atoms": 3.13427734375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.3623046875,
+          "gate_counts": [
+            1082.0,
+            1305.0,
+            482.0,
+            1005.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.30577781796455383,
+          "objective": 0.4919610023498535,
+          "exact_inference_objective": 0.47648558020591736,
+          "exact_inference_relative_mse": 0.30386850237846375,
+          "mean_groups": 1.9013671875,
+          "mean_active_atoms": 3.119140625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.37548828125,
+          "gate_counts": [
+            1162.0,
+            1297.0,
+            464.0,
+            971.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.3852393627166748,
+          "objective": 0.5667092800140381,
+          "exact_inference_objective": 0.5301147699356079,
+          "exact_inference_relative_mse": 0.3808751106262207,
+          "mean_groups": 1.8515625,
+          "mean_active_atoms": 2.9765625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.37109375,
+          "gate_counts": [
+            1105.0,
+            1263.0,
+            463.0,
+            961.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.299651563167572,
+          "objective": 0.4926120638847351,
+          "exact_inference_objective": 0.46255749464035034,
+          "exact_inference_relative_mse": 0.29706016182899475,
+          "mean_groups": 1.8203125,
+          "mean_active_atoms": 3.275390625,
+          "unique_gate_patterns": 14,
+          "largest_pattern_fraction": 0.3349609375,
+          "gate_counts": [
+            1067.0,
+            1206.0,
+            453.0,
+            1002.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.3007233440876007,
+          "objective": 0.4861840605735779,
+          "exact_inference_objective": 0.47470641136169434,
+          "exact_inference_relative_mse": 0.301954448223114,
+          "mean_groups": 1.71826171875,
+          "mean_active_atoms": 3.14501953125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.291015625,
+          "gate_counts": [
+            934.0,
+            1156.0,
+            434.0,
+            995.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.29988762736320496,
+          "objective": 0.4838480055332184,
+          "exact_inference_objective": 0.4592078626155853,
+          "exact_inference_relative_mse": 0.2965608537197113,
+          "mean_groups": 1.70068359375,
+          "mean_active_atoms": 3.119140625,
+          "unique_gate_patterns": 14,
+          "largest_pattern_fraction": 0.28271484375,
+          "gate_counts": [
+            893.0,
+            1139.0,
+            456.0,
+            995.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.30052289366722107,
+          "objective": 0.48577120900154114,
+          "exact_inference_objective": 0.47445619106292725,
+          "exact_inference_relative_mse": 0.3017837405204773,
+          "mean_groups": 1.6904296875,
+          "mean_active_atoms": 3.146484375,
+          "unique_gate_patterns": 15,
+          "largest_pattern_fraction": 0.2802734375,
+          "gate_counts": [
+            840.0,
+            1171.0,
+            458.0,
+            993.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.2997030019760132,
+          "objective": 0.48757264018058777,
+          "exact_inference_objective": 0.4744900166988373,
+          "exact_inference_relative_mse": 0.3019576668739319,
+          "mean_groups": 1.7626953125,
+          "mean_active_atoms": 3.18505859375,
+          "unique_gate_patterns": 16,
+          "largest_pattern_fraction": 0.28857421875,
+          "gate_counts": [
+            997.0,
+            1136.0,
+            486.0,
+            991.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.299793541431427,
+          "objective": 0.4830229878425598,
+          "exact_inference_objective": 0.4584486782550812,
+          "exact_inference_relative_mse": 0.29587098956108093,
+          "mean_groups": 1.66943359375,
+          "mean_active_atoms": 3.11083984375,
+          "unique_gate_patterns": 15,
+          "largest_pattern_fraction": 0.27490234375,
+          "gate_counts": [
+            836.0,
+            1152.0,
+            464.0,
+            967.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.299184650182724,
+          "objective": 0.4822794198989868,
+          "exact_inference_objective": 0.45855915546417236,
+          "exact_inference_relative_mse": 0.2959398329257965,
+          "mean_groups": 1.66796875,
+          "mean_active_atoms": 3.10888671875,
+          "unique_gate_patterns": 16,
+          "largest_pattern_fraction": 0.279296875,
+          "gate_counts": [
+            839.0,
+            1152.0,
+            475.0,
+            950.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.29778820276260376,
+          "objective": 0.4801969826221466,
+          "exact_inference_objective": 0.45797061920166016,
+          "exact_inference_relative_mse": 0.29522138833999634,
+          "mean_groups": 1.6240234375,
+          "mean_active_atoms": 3.10498046875,
+          "unique_gate_patterns": 16,
+          "largest_pattern_fraction": 0.25048828125,
+          "gate_counts": [
+            762.0,
+            1147.0,
+            478.0,
+            939.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.2987351417541504,
+          "objective": 0.4835028648376465,
+          "exact_inference_objective": 0.4737929701805115,
+          "exact_inference_relative_mse": 0.3009885251522064,
+          "mean_groups": 1.529296875,
+          "mean_active_atoms": 3.17041015625,
+          "unique_gate_patterns": 16,
+          "largest_pattern_fraction": 0.23828125,
+          "gate_counts": [
+            774.0,
+            1128.0,
+            497.0,
+            733.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.29856574535369873,
+          "objective": 0.47846880555152893,
+          "exact_inference_objective": 0.4617711007595062,
+          "exact_inference_relative_mse": 0.29679620265960693,
+          "mean_groups": 1.53173828125,
+          "mean_active_atoms": 3.07275390625,
+          "unique_gate_patterns": 16,
+          "largest_pattern_fraction": 0.2314453125,
+          "gate_counts": [
+            706.0,
+            1153.0,
+            482.0,
+            796.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 52,
+      "mode": "joint",
+      "coordinate_cost": 0.005,
+      "selected_step": 400,
+      "train": {
+        "relative_mse": 0.07452806830406189,
+        "objective": 0.15452806651592255,
+        "exact_inference_objective": 0.14085692167282104,
+        "exact_inference_relative_mse": 0.07753905653953552,
+        "mean_groups": 4.0,
+        "mean_active_atoms": 8.0,
+        "unique_gate_patterns": 1,
+        "largest_pattern_fraction": 1.0,
+        "gate_counts": [
+          4096.0,
+          4096.0,
+          4096.0,
+          4096.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.07809776812791824,
+        "objective": 0.16096150875091553,
+        "exact_inference_objective": 0.14743806421756744,
+        "exact_inference_relative_mse": 0.08093276619911194,
+        "mean_groups": 4.0,
+        "mean_active_atoms": 8.0,
+        "unique_gate_patterns": 1,
+        "largest_pattern_fraction": 1.0,
+        "gate_counts": [
+          2048.0,
+          2048.0,
+          2048.0,
+          2048.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.08443576842546463,
+        "objective": 0.2226988524198532,
+        "exact_inference_objective": 0.2112024426460266,
+        "exact_inference_relative_mse": 0.085085928440094,
+        "mean_groups": 4.0,
+        "mean_active_atoms": 8.0,
+        "unique_gate_patterns": 1,
+        "largest_pattern_fraction": 1.0,
+        "gate_counts": [
+          2048.0,
+          2048.0,
+          2048.0,
+          2048.0
+        ]
+      },
+      "membership": [
+        [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0
+        ]
+      ],
+      "matched_atom_cosine": 0.5998366475105286,
+      "posthoc_membership_entry_agreement": 0.625,
+      "posthoc_group_permutation": [
+        2,
+        1,
+        3,
+        0
+      ],
+      "heldout_gate_exact_agreement": 0.19091796875,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.1123476028442383,
+          "objective": 1.2049694061279297,
+          "exact_inference_objective": 0.9931958317756653,
+          "exact_inference_relative_mse": 0.941497266292572,
+          "mean_groups": 2.35546875,
+          "mean_active_atoms": 5.65576171875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.54736328125,
+          "gate_counts": [
+            1901.0,
+            143.0,
+            826.0,
+            1954.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.47982874512672424,
+          "objective": 0.5774136781692505,
+          "exact_inference_objective": 0.5582214593887329,
+          "exact_inference_relative_mse": 0.48308077454566956,
+          "mean_groups": 3.9990234375,
+          "mean_active_atoms": 8.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.9990234375,
+          "gate_counts": [
+            2048.0,
+            2046.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.23029565811157227,
+          "objective": 0.3187403082847595,
+          "exact_inference_objective": 0.3042483925819397,
+          "exact_inference_relative_mse": 0.23359066247940063,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 8.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.2756726145744324,
+          "objective": 0.360781192779541,
+          "exact_inference_objective": 0.3421521484851837,
+          "exact_inference_relative_mse": 0.2767289876937866,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 7.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.07809776812791824,
+          "objective": 0.16096150875091553,
+          "exact_inference_objective": 0.14743806421756744,
+          "exact_inference_relative_mse": 0.08093276619911194,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 8.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.33619895577430725,
+          "objective": 0.41852691769599915,
+          "exact_inference_objective": 0.3969742953777313,
+          "exact_inference_relative_mse": 0.3399553894996643,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.21231035888195038,
+          "objective": 0.2900955080986023,
+          "exact_inference_objective": 0.2721847593784332,
+          "exact_inference_relative_mse": 0.215715229511261,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.253624826669693,
+          "objective": 0.33292490243911743,
+          "exact_inference_objective": 0.30936652421951294,
+          "exact_inference_relative_mse": 0.25571250915527344,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.156157448887825,
+          "objective": 0.23688356578350067,
+          "exact_inference_objective": 0.21839849650859833,
+          "exact_inference_relative_mse": 0.15985843539237976,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 7.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.2898224890232086,
+          "objective": 0.3704499304294586,
+          "exact_inference_objective": 0.3470895290374756,
+          "exact_inference_relative_mse": 0.29199522733688354,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.3895319998264313,
+          "objective": 0.4688107371330261,
+          "exact_inference_objective": 0.44421058893203735,
+          "exact_inference_relative_mse": 0.3918958902359009,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.2670460641384125,
+          "objective": 0.34683096408843994,
+          "exact_inference_objective": 0.3226081132888794,
+          "exact_inference_relative_mse": 0.26979750394821167,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 5.99951171875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.4216429889202118,
+          "objective": 0.5020992159843445,
+          "exact_inference_objective": 0.47600385546684265,
+          "exact_inference_relative_mse": 0.42430028319358826,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.1334303617477417,
+          "objective": 0.21331818401813507,
+          "exact_inference_objective": 0.1977909803390503,
+          "exact_inference_relative_mse": 0.13685238361358643,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 7.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.4196140766143799,
+          "objective": 0.49999094009399414,
+          "exact_inference_objective": 0.47537559270858765,
+          "exact_inference_relative_mse": 0.4223943054676056,
+          "mean_groups": 3.9990234375,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.9990234375,
+          "gate_counts": [
+            2048.0,
+            2046.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.36934709548950195,
+          "objective": 0.44787102937698364,
+          "exact_inference_objective": 0.4220031499862671,
+          "exact_inference_relative_mse": 0.37169158458709717,
+          "mean_groups": 3.998046875,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.99853515625,
+          "gate_counts": [
+            2048.0,
+            2045.0,
+            2048.0,
+            2047.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.22489503026008606,
+          "objective": 0.30310744047164917,
+          "exact_inference_objective": 0.28005626797676086,
+          "exact_inference_relative_mse": 0.22666656970977783,
+          "mean_groups": 3.99658203125,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.99755859375,
+          "gate_counts": [
+            2048.0,
+            2044.0,
+            2047.0,
+            2046.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.37795597314834595,
+          "objective": 0.4567711353302002,
+          "exact_inference_objective": 0.4324037432670593,
+          "exact_inference_relative_mse": 0.37984728813171387,
+          "mean_groups": 3.99609375,
+          "mean_active_atoms": 4.9990234375,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.9970703125,
+          "gate_counts": [
+            2048.0,
+            2042.0,
+            2048.0,
+            2046.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.24016983807086945,
+          "objective": 0.3188837468624115,
+          "exact_inference_objective": 0.29571643471717834,
+          "exact_inference_relative_mse": 0.24196122586727142,
+          "mean_groups": 3.9921875,
+          "mean_active_atoms": 5.9970703125,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.99462890625,
+          "gate_counts": [
+            2048.0,
+            2038.0,
+            2046.0,
+            2044.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.26794764399528503,
+          "objective": 0.34749701619148254,
+          "exact_inference_objective": 0.3260619342327118,
+          "exact_inference_relative_mse": 0.2717844247817993,
+          "mean_groups": 3.97607421875,
+          "mean_active_atoms": 5.99267578125,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.982421875,
+          "gate_counts": [
+            2048.0,
+            2021.0,
+            2035.0,
+            2039.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.42360296845436096,
+          "objective": 0.5038942098617554,
+          "exact_inference_objective": 0.4794459939002991,
+          "exact_inference_relative_mse": 0.4258873462677002,
+          "mean_groups": 3.97900390625,
+          "mean_active_atoms": 4.99365234375,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.986328125,
+          "gate_counts": [
+            2048.0,
+            2029.0,
+            2038.0,
+            2034.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.1417035013437271,
+          "objective": 0.22164569795131683,
+          "exact_inference_objective": 0.20423917472362518,
+          "exact_inference_relative_mse": 0.14493533968925476,
+          "mean_groups": 3.982421875,
+          "mean_active_atoms": 6.984375,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.98779296875,
+          "gate_counts": [
+            2048.0,
+            2026.0,
+            2044.0,
+            2038.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.417439341545105,
+          "objective": 0.49737271666526794,
+          "exact_inference_objective": 0.4732043147087097,
+          "exact_inference_relative_mse": 0.4196191728115082,
+          "mean_groups": 3.96533203125,
+          "mean_active_atoms": 4.99462890625,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.974609375,
+          "gate_counts": [
+            2048.0,
+            2011.0,
+            2042.0,
+            2020.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.13754551112651825,
+          "objective": 0.21701785922050476,
+          "exact_inference_objective": 0.2013038992881775,
+          "exact_inference_relative_mse": 0.1408345103263855,
+          "mean_groups": 3.9599609375,
+          "mean_active_atoms": 6.9658203125,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.9697265625,
+          "gate_counts": [
+            2048.0,
+            1996.0,
+            2042.0,
+            2024.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.23171700537204742,
+          "objective": 0.30990129709243774,
+          "exact_inference_objective": 0.28687039017677307,
+          "exact_inference_relative_mse": 0.23369655013084412,
+          "mean_groups": 3.97314453125,
+          "mean_active_atoms": 5.9912109375,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.98193359375,
+          "gate_counts": [
+            2048.0,
+            2019.0,
+            2042.0,
+            2028.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.37285277247428894,
+          "objective": 0.4511415660381317,
+          "exact_inference_objective": 0.4274996221065521,
+          "exact_inference_relative_mse": 0.37506723403930664,
+          "mean_groups": 3.9658203125,
+          "mean_active_atoms": 4.99169921875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.9775390625,
+          "gate_counts": [
+            2048.0,
+            2018.0,
+            2036.0,
+            2020.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.3659476041793823,
+          "objective": 0.4437047839164734,
+          "exact_inference_objective": 0.4184947609901428,
+          "exact_inference_relative_mse": 0.36796820163726807,
+          "mean_groups": 3.9384765625,
+          "mean_active_atoms": 4.99072265625,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.9541015625,
+          "gate_counts": [
+            2048.0,
+            1973.0,
+            2034.0,
+            2011.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.4036601483821869,
+          "objective": 0.4825609624385834,
+          "exact_inference_objective": 0.45832473039627075,
+          "exact_inference_relative_mse": 0.4059041738510132,
+          "mean_groups": 3.91650390625,
+          "mean_active_atoms": 4.98681640625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.93408203125,
+          "gate_counts": [
+            2048.0,
+            1951.0,
+            2029.0,
+            1993.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.23188471794128418,
+          "objective": 0.3080878257751465,
+          "exact_inference_objective": 0.287158727645874,
+          "exact_inference_relative_mse": 0.23347775638103485,
+          "mean_groups": 3.77978515625,
+          "mean_active_atoms": 5.98046875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.80029296875,
+          "gate_counts": [
+            2048.0,
+            1982.0,
+            2033.0,
+            1678.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.21599018573760986,
+          "objective": 0.29303625226020813,
+          "exact_inference_objective": 0.2747263014316559,
+          "exact_inference_relative_mse": 0.21897701919078827,
+          "mean_groups": 3.93798828125,
+          "mean_active_atoms": 5.94921875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.95458984375,
+          "gate_counts": [
+            2048.0,
+            1969.0,
+            2032.0,
+            2016.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.37453538179397583,
+          "objective": 0.4521973431110382,
+          "exact_inference_objective": 0.42885419726371765,
+          "exact_inference_relative_mse": 0.3762066662311554,
+          "mean_groups": 3.91259765625,
+          "mean_active_atoms": 4.96044921875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.9326171875,
+          "gate_counts": [
+            2047.0,
+            1952.0,
+            2031.0,
+            1983.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 52,
+      "mode": "joint",
+      "coordinate_cost": 0.02,
+      "selected_step": 3000,
+      "train": {
+        "relative_mse": 0.1087573990225792,
+        "objective": 0.2555762529373169,
+        "exact_inference_objective": 0.23767343163490295,
+        "exact_inference_relative_mse": 0.11189708113670349,
+        "mean_groups": 3.171142578125,
+        "mean_active_atoms": 5.75537109375,
+        "unique_gate_patterns": 13,
+        "largest_pattern_fraction": 0.60205078125,
+        "gate_counts": [
+          3096.0,
+          3349.0,
+          3245.0,
+          3299.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.10817652195692062,
+        "objective": 0.26150357723236084,
+        "exact_inference_objective": 0.24352584779262543,
+        "exact_inference_relative_mse": 0.11150731891393661,
+        "mean_groups": 3.23095703125,
+        "mean_active_atoms": 5.8525390625,
+        "unique_gate_patterns": 15,
+        "largest_pattern_fraction": 0.62353515625,
+        "gate_counts": [
+          1595.0,
+          1685.0,
+          1672.0,
+          1665.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.10911571979522705,
+        "objective": 0.35600045323371887,
+        "exact_inference_objective": 0.3361668586730957,
+        "exact_inference_relative_mse": 0.11141575127840042,
+        "mean_groups": 3.7744140625,
+        "mean_active_atoms": 6.6923828125,
+        "unique_gate_patterns": 9,
+        "largest_pattern_fraction": 0.85693359375,
+        "gate_counts": [
+          1934.0,
+          1925.0,
+          1982.0,
+          1889.0
+        ]
+      },
+      "membership": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "matched_atom_cosine": 0.5896071791648865,
+      "posthoc_membership_entry_agreement": 0.6875,
+      "posthoc_group_permutation": [
+        3,
+        0,
+        1,
+        2
+      ],
+      "heldout_gate_exact_agreement": 0.18310546875,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.1123476028442383,
+          "objective": 1.2898057699203491,
+          "exact_inference_objective": 1.0141303539276123,
+          "exact_inference_relative_mse": 0.9560130834579468,
+          "mean_groups": 2.35546875,
+          "mean_active_atoms": 5.65576171875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.54736328125,
+          "gate_counts": [
+            1901.0,
+            143.0,
+            826.0,
+            1954.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.5179926753044128,
+          "objective": 0.7164741158485413,
+          "exact_inference_objective": 0.6694512963294983,
+          "exact_inference_relative_mse": 0.5393987894058228,
+          "mean_groups": 3.98291015625,
+          "mean_active_atoms": 6.98291015625,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.984375,
+          "gate_counts": [
+            2048.0,
+            2016.0,
+            2045.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.6557636857032776,
+          "objective": 0.7997902035713196,
+          "exact_inference_objective": 0.7482225894927979,
+          "exact_inference_relative_mse": 0.6606619358062744,
+          "mean_groups": 3.998046875,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.99853515625,
+          "gate_counts": [
+            2048.0,
+            2045.0,
+            2047.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.3179478645324707,
+          "objective": 0.4895431101322174,
+          "exact_inference_objective": 0.4491291344165802,
+          "exact_inference_relative_mse": 0.329403817653656,
+          "mean_groups": 3.99755859375,
+          "mean_active_atoms": 5.998046875,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.99853515625,
+          "gate_counts": [
+            2048.0,
+            2046.0,
+            2045.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.394788920879364,
+          "objective": 0.5491774678230286,
+          "exact_inference_objective": 0.5067186951637268,
+          "exact_inference_relative_mse": 0.40509679913520813,
+          "mean_groups": 3.9912109375,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.9921875,
+          "gate_counts": [
+            2048.0,
+            2046.0,
+            2032.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.44931164383888245,
+          "objective": 0.5856115221977234,
+          "exact_inference_objective": 0.5473244786262512,
+          "exact_inference_relative_mse": 0.45663025975227356,
+          "mean_groups": 3.984375,
+          "mean_active_atoms": 3.9990234375,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.986328125,
+          "gate_counts": [
+            2048.0,
+            2046.0,
+            2020.0,
+            2046.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.49219027161598206,
+          "objective": 0.6300283074378967,
+          "exact_inference_objective": 0.5882201790809631,
+          "exact_inference_relative_mse": 0.49993693828582764,
+          "mean_groups": 3.98583984375,
+          "mean_active_atoms": 3.99658203125,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.98974609375,
+          "gate_counts": [
+            2048.0,
+            2041.0,
+            2027.0,
+            2047.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.4827783703804016,
+          "objective": 0.6199978590011597,
+          "exact_inference_objective": 0.582408607006073,
+          "exact_inference_relative_mse": 0.490892618894577,
+          "mean_groups": 3.97021484375,
+          "mean_active_atoms": 3.99072265625,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.9814453125,
+          "gate_counts": [
+            2041.0,
+            2036.0,
+            2010.0,
+            2044.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.631001353263855,
+          "objective": 0.7533289194107056,
+          "exact_inference_objective": 0.7191203236579895,
+          "exact_inference_relative_mse": 0.6358532309532166,
+          "mean_groups": 3.9453125,
+          "mean_active_atoms": 2.98681640625,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.96826171875,
+          "gate_counts": [
+            2039.0,
+            2025.0,
+            1983.0,
+            2033.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.51499342918396,
+          "objective": 0.6522321105003357,
+          "exact_inference_objective": 0.6148834824562073,
+          "exact_inference_relative_mse": 0.5229771137237549,
+          "mean_groups": 3.93505859375,
+          "mean_active_atoms": 3.9501953125,
+          "unique_gate_patterns": 5,
+          "largest_pattern_fraction": 0.970703125,
+          "gate_counts": [
+            2034.0,
+            2008.0,
+            1988.0,
+            2029.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.4198369085788727,
+          "objective": 0.5536888241767883,
+          "exact_inference_objective": 0.5196260809898376,
+          "exact_inference_relative_mse": 0.42705249786376953,
+          "mean_groups": 3.9267578125,
+          "mean_active_atoms": 3.95947265625,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.97119140625,
+          "gate_counts": [
+            2028.0,
+            1996.0,
+            1995.0,
+            2023.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.5160448551177979,
+          "objective": 0.6526042819023132,
+          "exact_inference_objective": 0.6165130734443665,
+          "exact_inference_relative_mse": 0.5242193341255188,
+          "mean_groups": 3.9013671875,
+          "mean_active_atoms": 3.93115234375,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.9658203125,
+          "gate_counts": [
+            2009.0,
+            1993.0,
+            1982.0,
+            2006.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.6305349469184875,
+          "objective": 0.7513218522071838,
+          "exact_inference_objective": 0.7177170515060425,
+          "exact_inference_relative_mse": 0.635686457157135,
+          "mean_groups": 3.8779296875,
+          "mean_active_atoms": 2.9443359375,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.9501953125,
+          "gate_counts": [
+            1970.0,
+            1975.0,
+            1988.0,
+            2009.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.6485825777053833,
+          "objective": 0.7691963911056519,
+          "exact_inference_objective": 0.7349836826324463,
+          "exact_inference_relative_mse": 0.6544854640960693,
+          "mean_groups": 3.84423828125,
+          "mean_active_atoms": 2.91943359375,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.93896484375,
+          "gate_counts": [
+            1941.0,
+            1972.0,
+            1970.0,
+            1990.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.34335702657699585,
+          "objective": 0.4903859496116638,
+          "exact_inference_objective": 0.4615597724914551,
+          "exact_inference_relative_mse": 0.352308064699173,
+          "mean_groups": 3.80712890625,
+          "mean_active_atoms": 4.818359375,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.92724609375,
+          "gate_counts": [
+            1940.0,
+            1962.0,
+            1932.0,
+            1963.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.5262965559959412,
+          "objective": 0.6608295440673828,
+          "exact_inference_objective": 0.626495361328125,
+          "exact_inference_relative_mse": 0.5341970920562744,
+          "mean_groups": 3.7763671875,
+          "mean_active_atoms": 3.87353515625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.90625,
+          "gate_counts": [
+            1946.0,
+            1948.0,
+            1896.0,
+            1944.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.3470507860183716,
+          "objective": 0.48788708448410034,
+          "exact_inference_objective": 0.4565243422985077,
+          "exact_inference_relative_mse": 0.3518265187740326,
+          "mean_groups": 3.57080078125,
+          "mean_active_atoms": 4.6201171875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.791015625,
+          "gate_counts": [
+            1757.0,
+            1927.0,
+            1683.0,
+            1946.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.2520168721675873,
+          "objective": 0.4084552526473999,
+          "exact_inference_objective": 0.3771023750305176,
+          "exact_inference_relative_mse": 0.2586294710636139,
+          "mean_groups": 3.5625,
+          "mean_active_atoms": 5.57861328125,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.77587890625,
+          "gate_counts": [
+            1826.0,
+            1900.0,
+            1666.0,
+            1904.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.22727814316749573,
+          "objective": 0.38374197483062744,
+          "exact_inference_objective": 0.35767585039138794,
+          "exact_inference_relative_mse": 0.23894810676574707,
+          "mean_groups": 3.64013671875,
+          "mean_active_atoms": 5.58642578125,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.8203125,
+          "gate_counts": [
+            1842.0,
+            1879.0,
+            1876.0,
+            1858.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.5129920244216919,
+          "objective": 0.6424424052238464,
+          "exact_inference_objective": 0.6128613948822021,
+          "exact_inference_relative_mse": 0.519034206867218,
+          "mean_groups": 3.51708984375,
+          "mean_active_atoms": 3.7734375,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.72314453125,
+          "gate_counts": [
+            1834.0,
+            1810.0,
+            1633.0,
+            1926.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.24349871277809143,
+          "objective": 0.39570873975753784,
+          "exact_inference_objective": 0.37018388509750366,
+          "exact_inference_relative_mse": 0.2502836287021637,
+          "mean_groups": 3.4775390625,
+          "mean_active_atoms": 5.42529296875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.7294921875,
+          "gate_counts": [
+            1757.0,
+            1873.0,
+            1786.0,
+            1706.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.46798035502433777,
+          "objective": 0.5931777954101562,
+          "exact_inference_objective": 0.5646037459373474,
+          "exact_inference_relative_mse": 0.47236573696136475,
+          "mean_groups": 3.4296875,
+          "mean_active_atoms": 3.68701171875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.720703125,
+          "gate_counts": [
+            1658.0,
+            1853.0,
+            1706.0,
+            1807.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.3274189233779907,
+          "objective": 0.46385854482650757,
+          "exact_inference_objective": 0.4403406083583832,
+          "exact_inference_relative_mse": 0.33376121520996094,
+          "mean_groups": 3.408203125,
+          "mean_active_atoms": 4.517578125,
+          "unique_gate_patterns": 15,
+          "largest_pattern_fraction": 0.6787109375,
+          "gate_counts": [
+            1563.0,
+            1867.0,
+            1744.0,
+            1806.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.35155707597732544,
+          "objective": 0.48623043298721313,
+          "exact_inference_objective": 0.465412437915802,
+          "exact_inference_relative_mse": 0.354766845703125,
+          "mean_groups": 3.33642578125,
+          "mean_active_atoms": 4.4208984375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.6572265625,
+          "gate_counts": [
+            1578.0,
+            1764.0,
+            1721.0,
+            1770.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.2473820447921753,
+          "objective": 0.3930157423019409,
+          "exact_inference_objective": 0.3704529404640198,
+          "exact_inference_relative_mse": 0.24924792349338531,
+          "mean_groups": 3.33203125,
+          "mean_active_atoms": 5.162109375,
+          "unique_gate_patterns": 14,
+          "largest_pattern_fraction": 0.6669921875,
+          "gate_counts": [
+            1587.0,
+            1815.0,
+            1651.0,
+            1771.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.19943395256996155,
+          "objective": 0.34317272901535034,
+          "exact_inference_objective": 0.3255561292171478,
+          "exact_inference_relative_mse": 0.2020391970872879,
+          "mean_groups": 3.3388671875,
+          "mean_active_atoms": 5.15185546875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.673828125,
+          "gate_counts": [
+            1610.0,
+            1781.0,
+            1654.0,
+            1793.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.11385063827037811,
+          "objective": 0.2661210894584656,
+          "exact_inference_objective": 0.24421676993370056,
+          "exact_inference_relative_mse": 0.11123178899288177,
+          "mean_groups": 3.23828125,
+          "mean_active_atoms": 5.78564453125,
+          "unique_gate_patterns": 15,
+          "largest_pattern_fraction": 0.6171875,
+          "gate_counts": [
+            1546.0,
+            1700.0,
+            1651.0,
+            1735.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.3657650947570801,
+          "objective": 0.49727773666381836,
+          "exact_inference_objective": 0.47294339537620544,
+          "exact_inference_relative_mse": 0.36388254165649414,
+          "mean_groups": 3.23681640625,
+          "mean_active_atoms": 4.28662109375,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.62890625,
+          "gate_counts": [
+            1646.0,
+            1682.0,
+            1643.0,
+            1658.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.3711378872394562,
+          "objective": 0.504414975643158,
+          "exact_inference_objective": 0.4824240207672119,
+          "exact_inference_relative_mse": 0.37570783495903015,
+          "mean_groups": 3.2763671875,
+          "mean_active_atoms": 4.34521484375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.6416015625,
+          "gate_counts": [
+            1540.0,
+            1745.0,
+            1604.0,
+            1821.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.1088549792766571,
+          "objective": 0.26221179962158203,
+          "exact_inference_objective": 0.23962534964084625,
+          "exact_inference_relative_mse": 0.10974187403917313,
+          "mean_groups": 3.2177734375,
+          "mean_active_atoms": 5.859375,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.60009765625,
+          "gate_counts": [
+            1477.0,
+            1699.0,
+            1638.0,
+            1776.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.10817652195692062,
+          "objective": 0.26150357723236084,
+          "exact_inference_objective": 0.24352584779262543,
+          "exact_inference_relative_mse": 0.11150731891393661,
+          "mean_groups": 3.23095703125,
+          "mean_active_atoms": 5.8525390625,
+          "unique_gate_patterns": 15,
+          "largest_pattern_fraction": 0.62353515625,
+          "gate_counts": [
+            1595.0,
+            1685.0,
+            1672.0,
+            1665.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 52,
+      "mode": "joint",
+      "coordinate_cost": 0.05,
+      "selected_step": 3000,
+      "train": {
+        "relative_mse": 0.22558476030826569,
+        "objective": 0.4466198980808258,
+        "exact_inference_objective": 0.40526533126831055,
+        "exact_inference_relative_mse": 0.20738446712493896,
+        "mean_groups": 1.860595703125,
+        "mean_active_atoms": 4.048583984375,
+        "unique_gate_patterns": 6,
+        "largest_pattern_fraction": 0.357177734375,
+        "gate_counts": [
+          2176.0,
+          2852.0,
+          2593.0,
+          0.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.22833214700222015,
+        "objective": 0.4585065543651581,
+        "exact_inference_objective": 0.4166985750198364,
+        "exact_inference_relative_mse": 0.21046072244644165,
+        "mean_groups": 1.85791015625,
+        "mean_active_atoms": 4.064453125,
+        "unique_gate_patterns": 6,
+        "largest_pattern_fraction": 0.34912109375,
+        "gate_counts": [
+          1046.0,
+          1457.0,
+          1302.0,
+          0.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.24586129188537598,
+        "objective": 0.704535961151123,
+        "exact_inference_objective": 0.6444757580757141,
+        "exact_inference_relative_mse": 0.2233852595090866,
+        "mean_groups": 2.5205078125,
+        "mean_active_atoms": 5.2763671875,
+        "unique_gate_patterns": 6,
+        "largest_pattern_fraction": 0.646484375,
+        "gate_counts": [
+          1525.0,
+          1881.0,
+          1756.0,
+          0.0
+        ]
+      },
+      "membership": [
+        [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "matched_atom_cosine": 0.6835451126098633,
+      "posthoc_membership_entry_agreement": 0.875,
+      "posthoc_group_permutation": [
+        2,
+        1,
+        0,
+        3
+      ],
+      "heldout_gate_exact_agreement": 0.14990234375,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.1123476028442383,
+          "objective": 1.4594786167144775,
+          "exact_inference_objective": 1.0295934677124023,
+          "exact_inference_relative_mse": 0.9795958399772644,
+          "mean_groups": 2.35546875,
+          "mean_active_atoms": 5.65576171875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.54736328125,
+          "gate_counts": [
+            1901.0,
+            143.0,
+            826.0,
+            1954.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.8849156498908997,
+          "objective": 0.9696837663650513,
+          "exact_inference_objective": 0.8729212880134583,
+          "exact_inference_relative_mse": 0.7265576720237732,
+          "mean_groups": 0.43212890625,
+          "mean_active_atoms": 0.9599609375,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.6923828125,
+          "gate_counts": [
+            430.0,
+            230.0,
+            225.0,
+            0.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.40926504135131836,
+          "objective": 0.7318893671035767,
+          "exact_inference_objective": 0.6505290269851685,
+          "exact_inference_relative_mse": 0.4557037651538849,
+          "mean_groups": 2.65380859375,
+          "mean_active_atoms": 5.62158203125,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.7099609375,
+          "gate_counts": [
+            2001.0,
+            1679.0,
+            1755.0,
+            0.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.39022237062454224,
+          "objective": 0.6773437261581421,
+          "exact_inference_objective": 0.5427014231681824,
+          "exact_inference_relative_mse": 0.3365895748138428,
+          "mean_groups": 2.90625,
+          "mean_active_atoms": 4.875,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.9443359375,
+          "gate_counts": [
+            2015.0,
+            1978.0,
+            1959.0,
+            0.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.49280646443367004,
+          "objective": 0.7330011129379272,
+          "exact_inference_objective": 0.6095765829086304,
+          "exact_inference_relative_mse": 0.4385351240634918,
+          "mean_groups": 2.86181640625,
+          "mean_active_atoms": 3.8701171875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.93115234375,
+          "gate_counts": [
+            1974.0,
+            1954.0,
+            1933.0,
+            0.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.4620956480503082,
+          "objective": 0.6975019574165344,
+          "exact_inference_objective": 0.5754182934761047,
+          "exact_inference_relative_mse": 0.4026176631450653,
+          "mean_groups": 2.8154296875,
+          "mean_active_atoms": 3.80615234375,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.91845703125,
+          "gate_counts": [
+            1934.0,
+            1913.0,
+            1919.0,
+            0.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.5144891142845154,
+          "objective": 0.7485940456390381,
+          "exact_inference_objective": 0.6014608144760132,
+          "exact_inference_relative_mse": 0.4131282567977905,
+          "mean_groups": 2.78125,
+          "mean_active_atoms": 3.74853515625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.90771484375,
+          "gate_counts": [
+            1895.0,
+            1898.0,
+            1903.0,
+            0.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.4568825960159302,
+          "objective": 0.6860480904579163,
+          "exact_inference_objective": 0.6309431791305542,
+          "exact_inference_relative_mse": 0.4714581370353699,
+          "mean_groups": 2.73291015625,
+          "mean_active_atoms": 3.70166015625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.88818359375,
+          "gate_counts": [
+            1872.0,
+            1859.0,
+            1866.0,
+            0.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.3469676077365875,
+          "objective": 0.6180303692817688,
+          "exact_inference_objective": 0.5605618357658386,
+          "exact_inference_relative_mse": 0.3731767535209656,
+          "mean_groups": 2.7138671875,
+          "mean_active_atoms": 4.6240234375,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.8681640625,
+          "gate_counts": [
+            1801.0,
+            1862.0,
+            1895.0,
+            0.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.6164402365684509,
+          "objective": 0.8042981624603271,
+          "exact_inference_objective": 0.6637263298034668,
+          "exact_inference_relative_mse": 0.4943774342536926,
+          "mean_groups": 2.697265625,
+          "mean_active_atoms": 2.765625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.8759765625,
+          "gate_counts": [
+            1851.0,
+            1862.0,
+            1811.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.45470863580703735,
+          "objective": 0.6774612665176392,
+          "exact_inference_objective": 0.5302668809890747,
+          "exact_inference_relative_mse": 0.33515018224716187,
+          "mean_groups": 2.6513671875,
+          "mean_active_atoms": 3.59130859375,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.8544921875,
+          "gate_counts": [
+            1841.0,
+            1819.0,
+            1770.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.48891592025756836,
+          "objective": 0.7081134915351868,
+          "exact_inference_objective": 0.5672320127487183,
+          "exact_inference_relative_mse": 0.37794360518455505,
+          "mean_groups": 2.60009765625,
+          "mean_active_atoms": 3.50537109375,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.8447265625,
+          "gate_counts": [
+            1783.0,
+            1748.0,
+            1794.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.43757364153862,
+          "objective": 0.6507624387741089,
+          "exact_inference_objective": 0.5111806988716125,
+          "exact_inference_relative_mse": 0.3183358311653137,
+          "mean_groups": 2.50244140625,
+          "mean_active_atoms": 3.4423828125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.794921875,
+          "gate_counts": [
+            1703.0,
+            1652.0,
+            1770.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.3024301826953888,
+          "objective": 0.5468401908874512,
+          "exact_inference_objective": 0.49252259731292725,
+          "exact_inference_relative_mse": 0.3063383400440216,
+          "mean_groups": 2.46044921875,
+          "mean_active_atoms": 4.17431640625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.7880859375,
+          "gate_counts": [
+            1682.0,
+            1668.0,
+            1689.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.5074212551116943,
+          "objective": 0.7155247330665588,
+          "exact_inference_objective": 0.5754489302635193,
+          "exact_inference_relative_mse": 0.3888372480869293,
+          "mean_groups": 2.423828125,
+          "mean_active_atoms": 3.30517578125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.775390625,
+          "gate_counts": [
+            1683.0,
+            1644.0,
+            1637.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.31564608216285706,
+          "objective": 0.5481677055358887,
+          "exact_inference_objective": 0.49678272008895874,
+          "exact_inference_relative_mse": 0.30746158957481384,
+          "mean_groups": 2.31689453125,
+          "mean_active_atoms": 3.95556640625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.71923828125,
+          "gate_counts": [
+            1635.0,
+            1616.0,
+            1494.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.5179916024208069,
+          "objective": 0.7172151803970337,
+          "exact_inference_objective": 0.6648303270339966,
+          "exact_inference_relative_mse": 0.5119370818138123,
+          "mean_groups": 2.263671875,
+          "mean_active_atoms": 3.15185546875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.685546875,
+          "gate_counts": [
+            1555.0,
+            1411.0,
+            1670.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.4641762673854828,
+          "objective": 0.6606550812721252,
+          "exact_inference_objective": 0.6113433241844177,
+          "exact_inference_relative_mse": 0.45305079221725464,
+          "mean_groups": 2.24267578125,
+          "mean_active_atoms": 3.140625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.70361328125,
+          "gate_counts": [
+            1494.0,
+            1499.0,
+            1600.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.4930836856365204,
+          "objective": 0.689089298248291,
+          "exact_inference_objective": 0.5582441687583923,
+          "exact_inference_relative_mse": 0.3665795624256134,
+          "mean_groups": 2.23095703125,
+          "mean_active_atoms": 3.1123046875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.693359375,
+          "gate_counts": [
+            1439.0,
+            1532.0,
+            1598.0,
+            0.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.2312115579843521,
+          "objective": 0.49045154452323914,
+          "exact_inference_objective": 0.43454617261886597,
+          "exact_inference_relative_mse": 0.22028692066669464,
+          "mean_groups": 2.24169921875,
+          "mean_active_atoms": 4.56689453125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.6728515625,
+          "gate_counts": [
+            1576.0,
+            1509.0,
+            1506.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.4880259335041046,
+          "objective": 0.6821027994155884,
+          "exact_inference_objective": 0.5555764436721802,
+          "exact_inference_relative_mse": 0.36319127678871155,
+          "mean_groups": 2.0908203125,
+          "mean_active_atoms": 3.10546875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.52783203125,
+          "gate_counts": [
+            1503.0,
+            1380.0,
+            1399.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.36079689860343933,
+          "objective": 0.5701401233673096,
+          "exact_inference_objective": 0.5333221554756165,
+          "exact_inference_relative_mse": 0.34816762804985046,
+          "mean_groups": 1.8720703125,
+          "mean_active_atoms": 3.5478515625,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.400390625,
+          "gate_counts": [
+            1268.0,
+            1318.0,
+            1248.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.5115594267845154,
+          "objective": 0.7023391723632812,
+          "exact_inference_objective": 0.5689836740493774,
+          "exact_inference_relative_mse": 0.3766283690929413,
+          "mean_groups": 1.9775390625,
+          "mean_active_atoms": 3.044921875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.462890625,
+          "gate_counts": [
+            1295.0,
+            1445.0,
+            1310.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.3500717878341675,
+          "objective": 0.5678889751434326,
+          "exact_inference_objective": 0.5293066501617432,
+          "exact_inference_relative_mse": 0.34415754675865173,
+          "mean_groups": 1.96533203125,
+          "mean_active_atoms": 3.70654296875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.4375,
+          "gate_counts": [
+            1364.0,
+            1357.0,
+            1304.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.48177221417427063,
+          "objective": 0.6700094938278198,
+          "exact_inference_objective": 0.6317151188850403,
+          "exact_inference_relative_mse": 0.4742752015590668,
+          "mean_groups": 1.888671875,
+          "mean_active_atoms": 3.03369140625,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.41748046875,
+          "gate_counts": [
+            1189.0,
+            1284.0,
+            1395.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.3305273950099945,
+          "objective": 0.5409383773803711,
+          "exact_inference_objective": 0.5050058364868164,
+          "exact_inference_relative_mse": 0.3194586932659149,
+          "mean_groups": 1.8896484375,
+          "mean_active_atoms": 3.587890625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.40625,
+          "gate_counts": [
+            1285.0,
+            1289.0,
+            1296.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.22638560831546783,
+          "objective": 0.46356379985809326,
+          "exact_inference_objective": 0.42153066396713257,
+          "exact_inference_relative_mse": 0.2118624895811081,
+          "mean_groups": 1.97216796875,
+          "mean_active_atoms": 4.18310546875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.4599609375,
+          "gate_counts": [
+            1332.0,
+            1303.0,
+            1404.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.3660566806793213,
+          "objective": 0.5843769907951355,
+          "exact_inference_objective": 0.43590885400772095,
+          "exact_inference_relative_mse": 0.21920867264270782,
+          "mean_groups": 1.99853515625,
+          "mean_active_atoms": 3.6982421875,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.4501953125,
+          "gate_counts": [
+            1423.0,
+            1353.0,
+            1317.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.23415367305278778,
+          "objective": 0.46156302094459534,
+          "exact_inference_objective": 0.4221165180206299,
+          "exact_inference_relative_mse": 0.210576593875885,
+          "mean_groups": 1.86279296875,
+          "mean_active_atoms": 4.00390625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.37744140625,
+          "gate_counts": [
+            1282.0,
+            1238.0,
+            1295.0,
+            0.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.22602394223213196,
+          "objective": 0.4638236165046692,
+          "exact_inference_objective": 0.4176655113697052,
+          "exact_inference_relative_mse": 0.20917023718357086,
+          "mean_groups": 1.876953125,
+          "mean_active_atoms": 4.21484375,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.39111328125,
+          "gate_counts": [
+            1277.0,
+            1196.0,
+            1371.0,
+            0.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.22833214700222015,
+          "objective": 0.4585065543651581,
+          "exact_inference_objective": 0.4166985750198364,
+          "exact_inference_relative_mse": 0.21046072244644165,
+          "mean_groups": 1.85791015625,
+          "mean_active_atoms": 4.064453125,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.34912109375,
+          "gate_counts": [
+            1046.0,
+            1457.0,
+            1302.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 53,
+      "mode": "joint",
+      "coordinate_cost": 0.005,
+      "selected_step": 3000,
+      "train": {
+        "relative_mse": 0.0959337055683136,
+        "objective": 0.16361436247825623,
+        "exact_inference_objective": 0.14335492253303528,
+        "exact_inference_relative_mse": 0.08998455107212067,
+        "mean_groups": 3.5439453125,
+        "mean_active_atoms": 6.4482421875,
+        "unique_gate_patterns": 12,
+        "largest_pattern_fraction": 0.644287109375,
+        "gate_counts": [
+          3677.0,
+          3209.0,
+          3939.0,
+          3691.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.09794315695762634,
+        "objective": 0.16946186125278473,
+        "exact_inference_objective": 0.14966213703155518,
+        "exact_inference_relative_mse": 0.09280923753976822,
+        "mean_groups": 3.55810546875,
+        "mean_active_atoms": 6.46923828125,
+        "unique_gate_patterns": 12,
+        "largest_pattern_fraction": 0.66064453125,
+        "gate_counts": [
+          1851.0,
+          1620.0,
+          1968.0,
+          1848.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.11868718266487122,
+        "objective": 0.27302613854408264,
+        "exact_inference_objective": 0.2520577311515808,
+        "exact_inference_relative_mse": 0.11365904659032822,
+        "mean_groups": 3.8330078125,
+        "mean_active_atoms": 6.822265625,
+        "unique_gate_patterns": 6,
+        "largest_pattern_fraction": 0.83740234375,
+        "gate_counts": [
+          2021.0,
+          1755.0,
+          2048.0,
+          2026.0
+        ]
+      },
+      "membership": [
+        [
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matched_atom_cosine": 0.6300482153892517,
+      "posthoc_membership_entry_agreement": 0.75,
+      "posthoc_group_permutation": [
+        3,
+        2,
+        0,
+        1
+      ],
+      "heldout_gate_exact_agreement": 0.203125,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.0680656433105469,
+          "objective": 1.1392223834991455,
+          "exact_inference_objective": 1.0003737211227417,
+          "exact_inference_relative_mse": 0.953811764717102,
+          "mean_groups": 1.52490234375,
+          "mean_active_atoms": 3.3486328125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.59619140625,
+          "gate_counts": [
+            1470.0,
+            53.0,
+            98.0,
+            1502.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.5567771792411804,
+          "objective": 0.6450328230857849,
+          "exact_inference_objective": 0.6185243129730225,
+          "exact_inference_relative_mse": 0.5565677881240845,
+          "mean_groups": 3.85595703125,
+          "mean_active_atoms": 5.85595703125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.85595703125,
+          "gate_counts": [
+            2048.0,
+            1753.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.2836748957633972,
+          "objective": 0.36906957626342773,
+          "exact_inference_objective": 0.35191696882247925,
+          "exact_inference_relative_mse": 0.2875920236110687,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 6.99951171875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.19152842462062836,
+          "objective": 0.2735515236854553,
+          "exact_inference_objective": 0.2568063735961914,
+          "exact_inference_relative_mse": 0.19528046250343323,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 7.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.4266984462738037,
+          "objective": 0.5073449015617371,
+          "exact_inference_objective": 0.47562336921691895,
+          "exact_inference_relative_mse": 0.42281222343444824,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.1250154972076416,
+          "objective": 0.20459963381290436,
+          "exact_inference_objective": 0.1875869631767273,
+          "exact_inference_relative_mse": 0.12865781784057617,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 7.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.2705475389957428,
+          "objective": 0.35046815872192383,
+          "exact_inference_objective": 0.32703697681427,
+          "exact_inference_relative_mse": 0.2724353075027466,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.32707521319389343,
+          "objective": 0.40406861901283264,
+          "exact_inference_objective": 0.37971487641334534,
+          "exact_inference_relative_mse": 0.3293965756893158,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.3707704246044159,
+          "objective": 0.44930756092071533,
+          "exact_inference_objective": 0.4236080050468445,
+          "exact_inference_relative_mse": 0.3733479976654053,
+          "mean_groups": 3.99609375,
+          "mean_active_atoms": 4.99609375,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99609375,
+          "gate_counts": [
+            2040.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.36895105242729187,
+          "objective": 0.4472846984863281,
+          "exact_inference_objective": 0.42377716302871704,
+          "exact_inference_relative_mse": 0.3710831105709076,
+          "mean_groups": 3.990234375,
+          "mean_active_atoms": 4.98046875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.990234375,
+          "gate_counts": [
+            2028.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.3652019202709198,
+          "objective": 0.4435714781284332,
+          "exact_inference_objective": 0.4191022217273712,
+          "exact_inference_relative_mse": 0.36771100759506226,
+          "mean_groups": 3.99853515625,
+          "mean_active_atoms": 4.99853515625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99853515625,
+          "gate_counts": [
+            2045.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.19556055963039398,
+          "objective": 0.2727315127849579,
+          "exact_inference_objective": 0.2545328140258789,
+          "exact_inference_relative_mse": 0.19915159046649933,
+          "mean_groups": 4.0,
+          "mean_active_atoms": 6.0,
+          "unique_gate_patterns": 1,
+          "largest_pattern_fraction": 1.0,
+          "gate_counts": [
+            2048.0,
+            2048.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.3519532382488251,
+          "objective": 0.42985403537750244,
+          "exact_inference_objective": 0.40494462847709656,
+          "exact_inference_relative_mse": 0.3545700013637543,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 5.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.4628143906593323,
+          "objective": 0.5397803783416748,
+          "exact_inference_objective": 0.5123770236968994,
+          "exact_inference_relative_mse": 0.46535924077033997,
+          "mean_groups": 3.99951171875,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.99951171875,
+          "gate_counts": [
+            2048.0,
+            2047.0,
+            2048.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.48840293288230896,
+          "objective": 0.5662583112716675,
+          "exact_inference_objective": 0.5366736650466919,
+          "exact_inference_relative_mse": 0.4904592037200928,
+          "mean_groups": 3.99462890625,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.9951171875,
+          "gate_counts": [
+            2039.0,
+            2047.0,
+            2047.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.30730512738227844,
+          "objective": 0.38314884901046753,
+          "exact_inference_objective": 0.3593863546848297,
+          "exact_inference_relative_mse": 0.3094668388366699,
+          "mean_groups": 3.9580078125,
+          "mean_active_atoms": 4.9990234375,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.958984375,
+          "gate_counts": [
+            1965.0,
+            2046.0,
+            2047.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.3632383942604065,
+          "objective": 0.4411013424396515,
+          "exact_inference_objective": 0.41694360971450806,
+          "exact_inference_relative_mse": 0.36531320214271545,
+          "mean_groups": 3.96826171875,
+          "mean_active_atoms": 4.97216796875,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.97119140625,
+          "gate_counts": [
+            1992.0,
+            2044.0,
+            2043.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.1956699788570404,
+          "objective": 0.27201488614082336,
+          "exact_inference_objective": 0.25269266963005066,
+          "exact_inference_relative_mse": 0.19956669211387634,
+          "mean_groups": 3.9287109375,
+          "mean_active_atoms": 5.9765625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.94091796875,
+          "gate_counts": [
+            1937.0,
+            2038.0,
+            2023.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.3146143853664398,
+          "objective": 0.3910239040851593,
+          "exact_inference_objective": 0.3659064471721649,
+          "exact_inference_relative_mse": 0.3170303702354431,
+          "mean_groups": 3.98876953125,
+          "mean_active_atoms": 4.9970703125,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.9931640625,
+          "gate_counts": [
+            2044.0,
+            2035.0,
+            2042.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.2457558512687683,
+          "objective": 0.3242034614086151,
+          "exact_inference_objective": 0.30065348744392395,
+          "exact_inference_relative_mse": 0.24834631383419037,
+          "mean_groups": 3.947265625,
+          "mean_active_atoms": 5.99267578125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.95458984375,
+          "gate_counts": [
+            1966.0,
+            2032.0,
+            2038.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.24513697624206543,
+          "objective": 0.3230247497558594,
+          "exact_inference_objective": 0.2989906370639801,
+          "exact_inference_relative_mse": 0.24729803204536438,
+          "mean_groups": 3.92041015625,
+          "mean_active_atoms": 5.93896484375,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.9306640625,
+          "gate_counts": [
+            1938.0,
+            2029.0,
+            2031.0,
+            2031.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.2063993513584137,
+          "objective": 0.28264936804771423,
+          "exact_inference_objective": 0.2635675370693207,
+          "exact_inference_relative_mse": 0.21024060249328613,
+          "mean_groups": 3.8984375,
+          "mean_active_atoms": 5.939453125,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.916015625,
+          "gate_counts": [
+            1983.0,
+            2012.0,
+            2015.0,
+            1974.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.3227197527885437,
+          "objective": 0.3973000645637512,
+          "exact_inference_objective": 0.3748432695865631,
+          "exact_inference_relative_mse": 0.3242475092411041,
+          "mean_groups": 3.81640625,
+          "mean_active_atoms": 4.91650390625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.85205078125,
+          "gate_counts": [
+            1931.0,
+            2022.0,
+            1905.0,
+            1958.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.20870019495487213,
+          "objective": 0.28386032581329346,
+          "exact_inference_objective": 0.265043705701828,
+          "exact_inference_relative_mse": 0.2118953913450241,
+          "mean_groups": 3.8095703125,
+          "mean_active_atoms": 5.88232421875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.8310546875,
+          "gate_counts": [
+            1932.0,
+            1995.0,
+            2020.0,
+            1855.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.21072643995285034,
+          "objective": 0.2855604588985443,
+          "exact_inference_objective": 0.2622600495815277,
+          "exact_inference_relative_mse": 0.21045365929603577,
+          "mean_groups": 3.796875,
+          "mean_active_atoms": 5.82763671875,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.82275390625,
+          "gate_counts": [
+            1871.0,
+            2027.0,
+            1958.0,
+            1920.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.20737409591674805,
+          "objective": 0.2829958200454712,
+          "exact_inference_objective": 0.25952258706092834,
+          "exact_inference_relative_mse": 0.2091553658246994,
+          "mean_groups": 3.849609375,
+          "mean_active_atoms": 5.904296875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.87890625,
+          "gate_counts": [
+            1917.0,
+            1999.0,
+            2008.0,
+            1960.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.20200587809085846,
+          "objective": 0.2755020260810852,
+          "exact_inference_objective": 0.2547835409641266,
+          "exact_inference_relative_mse": 0.20435787737369537,
+          "mean_groups": 3.65087890625,
+          "mean_active_atoms": 5.916015625,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.71533203125,
+          "gate_counts": [
+            1910.0,
+            1703.0,
+            1971.0,
+            1893.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.2069856822490692,
+          "objective": 0.2820536196231842,
+          "exact_inference_objective": 0.26106470823287964,
+          "exact_inference_relative_mse": 0.21065236628055573,
+          "mean_groups": 3.771484375,
+          "mean_active_atoms": 5.95263671875,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.80517578125,
+          "gate_counts": [
+            1868.0,
+            2026.0,
+            1846.0,
+            1984.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.244798481464386,
+          "objective": 0.3204033374786377,
+          "exact_inference_objective": 0.3028040826320648,
+          "exact_inference_relative_mse": 0.24816468358039856,
+          "mean_groups": 3.73974609375,
+          "mean_active_atoms": 5.84619140625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.78759765625,
+          "gate_counts": [
+            1921.0,
+            1986.0,
+            1888.0,
+            1864.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.2435506135225296,
+          "objective": 0.31833577156066895,
+          "exact_inference_objective": 0.2976476848125458,
+          "exact_inference_relative_mse": 0.2455904632806778,
+          "mean_groups": 3.6513671875,
+          "mean_active_atoms": 5.8681640625,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.7158203125,
+          "gate_counts": [
+            1873.0,
+            1918.0,
+            1897.0,
+            1790.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.09794315695762634,
+          "objective": 0.16946186125278473,
+          "exact_inference_objective": 0.14966213703155518,
+          "exact_inference_relative_mse": 0.09280923753976822,
+          "mean_groups": 3.55810546875,
+          "mean_active_atoms": 6.46923828125,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.66064453125,
+          "gate_counts": [
+            1851.0,
+            1620.0,
+            1968.0,
+            1848.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 53,
+      "mode": "joint",
+      "coordinate_cost": 0.02,
+      "selected_step": 2900,
+      "train": {
+        "relative_mse": 0.18753084540367126,
+        "objective": 0.30646878480911255,
+        "exact_inference_objective": 0.28428220748901367,
+        "exact_inference_relative_mse": 0.18415036797523499,
+        "mean_groups": 2.737060546875,
+        "mean_active_atoms": 4.578369140625,
+        "unique_gate_patterns": 11,
+        "largest_pattern_fraction": 0.3203125,
+        "gate_counts": [
+          2455.0,
+          3082.0,
+          2997.0,
+          2677.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.19601398706436157,
+        "objective": 0.3230013847351074,
+        "exact_inference_objective": 0.2999911606311798,
+        "exact_inference_relative_mse": 0.19204576313495636,
+        "mean_groups": 2.76513671875,
+        "mean_active_atoms": 4.607421875,
+        "unique_gate_patterns": 12,
+        "largest_pattern_fraction": 0.3369140625,
+        "gate_counts": [
+          1255.0,
+          1552.0,
+          1516.0,
+          1340.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.2372881919145584,
+        "objective": 0.5437532663345337,
+        "exact_inference_objective": 0.5167967081069946,
+        "exact_inference_relative_mse": 0.231747567653656,
+        "mean_groups": 3.40869140625,
+        "mean_active_atoms": 5.43212890625,
+        "unique_gate_patterns": 10,
+        "largest_pattern_fraction": 0.61669921875,
+        "gate_counts": [
+          1609.0,
+          1831.0,
+          1842.0,
+          1699.0
+        ]
+      },
+      "membership": [
+        [
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matched_atom_cosine": 0.7227920293807983,
+      "posthoc_membership_entry_agreement": 0.75,
+      "posthoc_group_permutation": [
+        1,
+        0,
+        2,
+        3
+      ],
+      "heldout_gate_exact_agreement": 0.1689453125,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.0680656433105469,
+          "objective": 1.1894519329071045,
+          "exact_inference_objective": 1.0154545307159424,
+          "exact_inference_relative_mse": 0.962857723236084,
+          "mean_groups": 1.52490234375,
+          "mean_active_atoms": 3.3486328125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.59619140625,
+          "gate_counts": [
+            1470.0,
+            53.0,
+            98.0,
+            1502.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.5905656218528748,
+          "objective": 0.7404581308364868,
+          "exact_inference_objective": 0.7038724422454834,
+          "exact_inference_relative_mse": 0.6034724712371826,
+          "mean_groups": 2.94873046875,
+          "mean_active_atoms": 4.9375,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.92431640625,
+          "gate_counts": [
+            1920.0,
+            25.0,
+            2046.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.6351550817489624,
+          "objective": 0.7783721089363098,
+          "exact_inference_objective": 0.7237623929977417,
+          "exact_inference_relative_mse": 0.6386072039604187,
+          "mean_groups": 3.99267578125,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.9931640625,
+          "gate_counts": [
+            2048.0,
+            2034.0,
+            2047.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.4287417232990265,
+          "objective": 0.584267795085907,
+          "exact_inference_objective": 0.5402992367744446,
+          "exact_inference_relative_mse": 0.43985867500305176,
+          "mean_groups": 3.9921875,
+          "mean_active_atoms": 4.994140625,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.994140625,
+          "gate_counts": [
+            2048.0,
+            2036.0,
+            2044.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.5554508566856384,
+          "objective": 0.6956280469894409,
+          "exact_inference_objective": 0.6520699858665466,
+          "exact_inference_relative_mse": 0.5628752708435059,
+          "mean_groups": 3.98974609375,
+          "mean_active_atoms": 3.99560546875,
+          "unique_gate_patterns": 4,
+          "largest_pattern_fraction": 0.994140625,
+          "gate_counts": [
+            2048.0,
+            2038.0,
+            2037.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.4655763506889343,
+          "objective": 0.6025654673576355,
+          "exact_inference_objective": 0.565955638885498,
+          "exact_inference_relative_mse": 0.473043292760849,
+          "mean_groups": 3.99169921875,
+          "mean_active_atoms": 4.0,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.99462890625,
+          "gate_counts": [
+            2048.0,
+            2042.0,
+            2037.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.446837455034256,
+          "objective": 0.5830515027046204,
+          "exact_inference_objective": 0.5459094047546387,
+          "exact_inference_relative_mse": 0.4546481966972351,
+          "mean_groups": 3.98876953125,
+          "mean_active_atoms": 3.9970703125,
+          "unique_gate_patterns": 3,
+          "largest_pattern_fraction": 0.99169921875,
+          "gate_counts": [
+            2048.0,
+            2042.0,
+            2031.0,
+            2048.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.49336138367652893,
+          "objective": 0.6309006214141846,
+          "exact_inference_objective": 0.5907301306724548,
+          "exact_inference_relative_mse": 0.5014349818229675,
+          "mean_groups": 3.97119140625,
+          "mean_active_atoms": 3.98681640625,
+          "unique_gate_patterns": 7,
+          "largest_pattern_fraction": 0.9833984375,
+          "gate_counts": [
+            2040.0,
+            2041.0,
+            2028.0,
+            2024.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.33568111062049866,
+          "objective": 0.4869939982891083,
+          "exact_inference_objective": 0.4521891176700592,
+          "exact_inference_relative_mse": 0.3476303815841675,
+          "mean_groups": 3.95703125,
+          "mean_active_atoms": 4.9716796875,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.97265625,
+          "gate_counts": [
+            2024.0,
+            2040.0,
+            2002.0,
+            2038.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.28933167457580566,
+          "objective": 0.4386862516403198,
+          "exact_inference_objective": 0.40534159541130066,
+          "exact_inference_relative_mse": 0.30049943923950195,
+          "mean_groups": 3.92333984375,
+          "mean_active_atoms": 4.9755859375,
+          "unique_gate_patterns": 6,
+          "largest_pattern_fraction": 0.939453125,
+          "gate_counts": [
+            2036.0,
+            2040.0,
+            1925.0,
+            2034.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.18360033631324768,
+          "objective": 0.34804266691207886,
+          "exact_inference_objective": 0.3096684217453003,
+          "exact_inference_relative_mse": 0.19417425990104675,
+          "mean_groups": 3.91943359375,
+          "mean_active_atoms": 5.92578125,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.951171875,
+          "gate_counts": [
+            1977.0,
+            2038.0,
+            2000.0,
+            2012.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.2894466817378998,
+          "objective": 0.4373551905155182,
+          "exact_inference_objective": 0.40148162841796875,
+          "exact_inference_relative_mse": 0.2986695170402527,
+          "mean_groups": 3.8955078125,
+          "mean_active_atoms": 4.9169921875,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.93603515625,
+          "gate_counts": [
+            1985.0,
+            2035.0,
+            1978.0,
+            1980.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.3348361849784851,
+          "objective": 0.4836181402206421,
+          "exact_inference_objective": 0.4451099932193756,
+          "exact_inference_relative_mse": 0.34471580386161804,
+          "mean_groups": 3.822265625,
+          "mean_active_atoms": 4.9140625,
+          "unique_gate_patterns": 8,
+          "largest_pattern_fraction": 0.89794921875,
+          "gate_counts": [
+            1929.0,
+            2034.0,
+            1868.0,
+            1997.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.3333281874656677,
+          "objective": 0.47992590069770813,
+          "exact_inference_objective": 0.4451697766780853,
+          "exact_inference_relative_mse": 0.3434687852859497,
+          "mean_groups": 3.6005859375,
+          "mean_active_atoms": 4.91845703125,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.66845703125,
+          "gate_counts": [
+            1962.0,
+            2029.0,
+            1782.0,
+            1601.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.18340300023555756,
+          "objective": 0.3400256037712097,
+          "exact_inference_objective": 0.3055615723133087,
+          "exact_inference_relative_mse": 0.19485214352607727,
+          "mean_groups": 3.68115234375,
+          "mean_active_atoms": 5.654296875,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.7880859375,
+          "gate_counts": [
+            1833.0,
+            2019.0,
+            1874.0,
+            1813.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.33615317940711975,
+          "objective": 0.4799785315990448,
+          "exact_inference_objective": 0.44633641839027405,
+          "exact_inference_relative_mse": 0.3464357852935791,
+          "mean_groups": 3.57763671875,
+          "mean_active_atoms": 4.7861328125,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.72607421875,
+          "gate_counts": [
+            1882.0,
+            1935.0,
+            1829.0,
+            1681.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.18495558202266693,
+          "objective": 0.3368450701236725,
+          "exact_inference_objective": 0.30760931968688965,
+          "exact_inference_relative_mse": 0.19662024080753326,
+          "mean_groups": 3.466796875,
+          "mean_active_atoms": 5.52197265625,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.68896484375,
+          "gate_counts": [
+            1854.0,
+            1796.0,
+            1813.0,
+            1637.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.1925661563873291,
+          "objective": 0.33211749792099,
+          "exact_inference_objective": 0.3024541437625885,
+          "exact_inference_relative_mse": 0.19418610632419586,
+          "mean_groups": 3.07421875,
+          "mean_active_atoms": 5.08740234375,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.49365234375,
+          "gate_counts": [
+            1843.0,
+            1273.0,
+            1795.0,
+            1385.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.29089105129241943,
+          "objective": 0.42744141817092896,
+          "exact_inference_objective": 0.3981640338897705,
+          "exact_inference_relative_mse": 0.2994256913661957,
+          "mean_groups": 3.12841796875,
+          "mean_active_atoms": 4.72998046875,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.4677734375,
+          "gate_counts": [
+            1746.0,
+            1241.0,
+            1750.0,
+            1670.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.18802788853645325,
+          "objective": 0.3341120779514313,
+          "exact_inference_objective": 0.304522305727005,
+          "exact_inference_relative_mse": 0.19602571427822113,
+          "mean_groups": 3.3046875,
+          "mean_active_atoms": 5.30712890625,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.58642578125,
+          "gate_counts": [
+            1541.0,
+            1730.0,
+            1816.0,
+            1681.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.19838935136795044,
+          "objective": 0.3404199182987213,
+          "exact_inference_objective": 0.30768540501594543,
+          "exact_inference_relative_mse": 0.19553959369659424,
+          "mean_groups": 3.13671875,
+          "mean_active_atoms": 5.16943359375,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.482421875,
+          "gate_counts": [
+            1405.0,
+            1749.0,
+            1731.0,
+            1539.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.18745754659175873,
+          "objective": 0.32709991931915283,
+          "exact_inference_objective": 0.2997104227542877,
+          "exact_inference_relative_mse": 0.1933528482913971,
+          "mean_groups": 3.01318359375,
+          "mean_active_atoms": 5.1318359375,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.50146484375,
+          "gate_counts": [
+            1506.0,
+            1584.0,
+            1599.0,
+            1482.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.19818487763404846,
+          "objective": 0.33034461736679077,
+          "exact_inference_objective": 0.301495760679245,
+          "exact_inference_relative_mse": 0.194679394364357,
+          "mean_groups": 2.97265625,
+          "mean_active_atoms": 4.75830078125,
+          "unique_gate_patterns": 9,
+          "largest_pattern_fraction": 0.47607421875,
+          "gate_counts": [
+            1411.0,
+            1521.0,
+            1602.0,
+            1554.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.1887194961309433,
+          "objective": 0.325449138879776,
+          "exact_inference_objective": 0.30047476291656494,
+          "exact_inference_relative_mse": 0.19389700889587402,
+          "mean_groups": 2.96533203125,
+          "mean_active_atoms": 5.0078125,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.45361328125,
+          "gate_counts": [
+            1357.0,
+            1549.0,
+            1623.0,
+            1544.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.18942607939243317,
+          "objective": 0.3239990472793579,
+          "exact_inference_objective": 0.3009374439716339,
+          "exact_inference_relative_mse": 0.19347195327281952,
+          "mean_groups": 2.8837890625,
+          "mean_active_atoms": 4.939453125,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.40966796875,
+          "gate_counts": [
+            1369.0,
+            1436.0,
+            1653.0,
+            1448.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.19356843829154968,
+          "objective": 0.32611069083213806,
+          "exact_inference_objective": 0.3018207848072052,
+          "exact_inference_relative_mse": 0.19403204321861267,
+          "mean_groups": 2.96533203125,
+          "mean_active_atoms": 4.78955078125,
+          "unique_gate_patterns": 10,
+          "largest_pattern_fraction": 0.4453125,
+          "gate_counts": [
+            1362.0,
+            1513.0,
+            1642.0,
+            1556.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.1944432407617569,
+          "objective": 0.32593846321105957,
+          "exact_inference_objective": 0.3014388680458069,
+          "exact_inference_relative_mse": 0.1942429542541504,
+          "mean_groups": 2.9296875,
+          "mean_active_atoms": 4.75341796875,
+          "unique_gate_patterns": 11,
+          "largest_pattern_fraction": 0.45068359375,
+          "gate_counts": [
+            1465.0,
+            1443.0,
+            1655.0,
+            1437.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.4008333086967468,
+          "objective": 0.5127969980239868,
+          "exact_inference_objective": 0.4887958765029907,
+          "exact_inference_relative_mse": 0.4013870656490326,
+          "mean_groups": 2.908203125,
+          "mean_active_atoms": 3.4091796875,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.45947265625,
+          "gate_counts": [
+            1533.0,
+            1501.0,
+            1563.0,
+            1359.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.20577557384967804,
+          "objective": 0.3353425860404968,
+          "exact_inference_objective": 0.30719029903411865,
+          "exact_inference_relative_mse": 0.19558016955852509,
+          "mean_groups": 2.8720703125,
+          "mean_active_atoms": 4.6650390625,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.42431640625,
+          "gate_counts": [
+            1450.0,
+            1610.0,
+            1374.0,
+            1448.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.19601398706436157,
+          "objective": 0.3230013847351074,
+          "exact_inference_objective": 0.2999911606311798,
+          "exact_inference_relative_mse": 0.19204576313495636,
+          "mean_groups": 2.76513671875,
+          "mean_active_atoms": 4.607421875,
+          "unique_gate_patterns": 12,
+          "largest_pattern_fraction": 0.3369140625,
+          "gate_counts": [
+            1255.0,
+            1552.0,
+            1516.0,
+            1340.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.29825466871261597,
+          "objective": 0.4190301299095154,
+          "exact_inference_objective": 0.39638006687164307,
+          "exact_inference_relative_mse": 0.2993769347667694,
+          "mean_groups": 2.84326171875,
+          "mean_active_atoms": 4.0703125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.41796875,
+          "gate_counts": [
+            1401.0,
+            1557.0,
+            1414.0,
+            1451.0
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 53,
+      "mode": "joint",
+      "coordinate_cost": 0.05,
+      "selected_step": 1600,
+      "train": {
+        "relative_mse": 0.5332515239715576,
+        "objective": 0.6707513928413391,
+        "exact_inference_objective": 0.5134718418121338,
+        "exact_inference_relative_mse": 0.32714125514030457,
+        "mean_groups": 0.859375,
+        "mean_active_atoms": 2.578125,
+        "unique_gate_patterns": 2,
+        "largest_pattern_fraction": 0.859375,
+        "gate_counts": [
+          0.0,
+          0.0,
+          0.0,
+          3520.0
+        ]
+      },
+      "validation": {
+        "relative_mse": 0.529137134552002,
+        "objective": 0.684711754322052,
+        "exact_inference_objective": 0.5237306356430054,
+        "exact_inference_relative_mse": 0.32595309615135193,
+        "mean_groups": 0.85107421875,
+        "mean_active_atoms": 2.55322265625,
+        "unique_gate_patterns": 2,
+        "largest_pattern_fraction": 0.85107421875,
+        "gate_counts": [
+          0.0,
+          0.0,
+          0.0,
+          1743.0
+        ]
+      },
+      "heldout": {
+        "relative_mse": 0.5814127922058105,
+        "objective": 1.1394009590148926,
+        "exact_inference_objective": 0.817853569984436,
+        "exact_inference_relative_mse": 0.33713778853416443,
+        "mean_groups": 0.97998046875,
+        "mean_active_atoms": 2.93994140625,
+        "unique_gate_patterns": 2,
+        "largest_pattern_fraction": 0.97998046875,
+        "gate_counts": [
+          0.0,
+          0.0,
+          0.0,
+          2007.0
+        ]
+      },
+      "membership": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matched_atom_cosine": 0.6190950274467468,
+      "posthoc_membership_entry_agreement": 0.6875,
+      "posthoc_group_permutation": [
+        1,
+        3,
+        2,
+        0
+      ],
+      "heldout_gate_exact_agreement": 0.0,
+      "history": [
+        {
+          "step": 0,
+          "relative_mse": 1.0680656433105469,
+          "objective": 1.289910912513733,
+          "exact_inference_objective": 1.0291624069213867,
+          "exact_inference_relative_mse": 0.9791141152381897,
+          "mean_groups": 1.52490234375,
+          "mean_active_atoms": 3.3486328125,
+          "unique_gate_patterns": 13,
+          "largest_pattern_fraction": 0.59619140625,
+          "gate_counts": [
+            1470.0,
+            53.0,
+            98.0,
+            1502.0
+          ]
+        },
+        {
+          "step": 100,
+          "relative_mse": 0.8346131443977356,
+          "objective": 0.958264172077179,
+          "exact_inference_objective": 0.876373291015625,
+          "exact_inference_relative_mse": 0.7375085353851318,
+          "mean_groups": 0.58154296875,
+          "mean_active_atoms": 1.74462890625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.58154296875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1191.0
+          ]
+        },
+        {
+          "step": 200,
+          "relative_mse": 0.7155649662017822,
+          "objective": 0.8842257261276245,
+          "exact_inference_objective": 0.7373265027999878,
+          "exact_inference_relative_mse": 0.5521766543388367,
+          "mean_groups": 0.89013671875,
+          "mean_active_atoms": 2.67041015625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.89013671875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1823.0
+          ]
+        },
+        {
+          "step": 300,
+          "relative_mse": 0.658542811870575,
+          "objective": 0.8256595134735107,
+          "exact_inference_objective": 0.7251083850860596,
+          "exact_inference_relative_mse": 0.5629802346229553,
+          "mean_groups": 0.8935546875,
+          "mean_active_atoms": 2.6806640625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.8935546875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1830.0
+          ]
+        },
+        {
+          "step": 400,
+          "relative_mse": 0.6479858160018921,
+          "objective": 0.8170590996742249,
+          "exact_inference_objective": 0.6064562201499939,
+          "exact_inference_relative_mse": 0.4096619188785553,
+          "mean_groups": 0.908203125,
+          "mean_active_atoms": 2.724609375,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.908203125,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1860.0
+          ]
+        },
+        {
+          "step": 500,
+          "relative_mse": 0.6358416676521301,
+          "objective": 0.8027509450912476,
+          "exact_inference_objective": 0.6755576133728027,
+          "exact_inference_relative_mse": 0.5121535658836365,
+          "mean_groups": 0.8974609375,
+          "mean_active_atoms": 2.6923828125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.8974609375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1838.0
+          ]
+        },
+        {
+          "step": 600,
+          "relative_mse": 0.6262487173080444,
+          "objective": 0.7930406332015991,
+          "exact_inference_objective": 0.6532352566719055,
+          "exact_inference_relative_mse": 0.4878041446208954,
+          "mean_groups": 0.89892578125,
+          "mean_active_atoms": 2.69677734375,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.89892578125,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1841.0
+          ]
+        },
+        {
+          "step": 700,
+          "relative_mse": 0.5485591292381287,
+          "objective": 0.7095335125923157,
+          "exact_inference_objective": 0.5761268138885498,
+          "exact_inference_relative_mse": 0.38107895851135254,
+          "mean_groups": 0.88037109375,
+          "mean_active_atoms": 2.64111328125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.88037109375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1803.0
+          ]
+        },
+        {
+          "step": 800,
+          "relative_mse": 0.6095075607299805,
+          "objective": 0.7747480869293213,
+          "exact_inference_objective": 0.5563997030258179,
+          "exact_inference_relative_mse": 0.35542723536491394,
+          "mean_groups": 0.89306640625,
+          "mean_active_atoms": 2.67919921875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.89306640625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1829.0
+          ]
+        },
+        {
+          "step": 900,
+          "relative_mse": 0.5978357195854187,
+          "objective": 0.7621794939041138,
+          "exact_inference_objective": 0.4866003096103668,
+          "exact_inference_relative_mse": 0.26857805252075195,
+          "mean_groups": 0.89013671875,
+          "mean_active_atoms": 2.67041015625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.89013671875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1823.0
+          ]
+        },
+        {
+          "step": 1000,
+          "relative_mse": 0.5685467720031738,
+          "objective": 0.7291603684425354,
+          "exact_inference_objective": 0.4755655825138092,
+          "exact_inference_relative_mse": 0.259671688079834,
+          "mean_groups": 0.87353515625,
+          "mean_active_atoms": 2.62060546875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.87353515625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1789.0
+          ]
+        },
+        {
+          "step": 1100,
+          "relative_mse": 0.5919345021247864,
+          "objective": 0.7523118257522583,
+          "exact_inference_objective": 0.5411621928215027,
+          "exact_inference_relative_mse": 0.3407757878303528,
+          "mean_groups": 0.86669921875,
+          "mean_active_atoms": 2.60009765625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.86669921875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1775.0
+          ]
+        },
+        {
+          "step": 1200,
+          "relative_mse": 0.5332145690917969,
+          "objective": 0.6912044286727905,
+          "exact_inference_objective": 0.5201314091682434,
+          "exact_inference_relative_mse": 0.3313974440097809,
+          "mean_groups": 0.865234375,
+          "mean_active_atoms": 2.595703125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.865234375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1772.0
+          ]
+        },
+        {
+          "step": 1300,
+          "relative_mse": 0.552314817905426,
+          "objective": 0.7079581618309021,
+          "exact_inference_objective": 0.5252301692962646,
+          "exact_inference_relative_mse": 0.3299148380756378,
+          "mean_groups": 0.84619140625,
+          "mean_active_atoms": 2.53857421875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.84619140625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1733.0
+          ]
+        },
+        {
+          "step": 1400,
+          "relative_mse": 0.6045326590538025,
+          "objective": 0.7638094425201416,
+          "exact_inference_objective": 0.473258376121521,
+          "exact_inference_relative_mse": 0.24861934781074524,
+          "mean_groups": 0.85693359375,
+          "mean_active_atoms": 2.57080078125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.85693359375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1755.0
+          ]
+        },
+        {
+          "step": 1500,
+          "relative_mse": 0.6478323936462402,
+          "objective": 0.8060406446456909,
+          "exact_inference_objective": 0.4861939251422882,
+          "exact_inference_relative_mse": 0.254390150308609,
+          "mean_groups": 0.84033203125,
+          "mean_active_atoms": 2.52099609375,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.84033203125,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1721.0
+          ]
+        },
+        {
+          "step": 1600,
+          "relative_mse": 0.529137134552002,
+          "objective": 0.684711754322052,
+          "exact_inference_objective": 0.5237306356430054,
+          "exact_inference_relative_mse": 0.32595309615135193,
+          "mean_groups": 0.85107421875,
+          "mean_active_atoms": 2.55322265625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.85107421875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1743.0
+          ]
+        },
+        {
+          "step": 1700,
+          "relative_mse": 0.5848572850227356,
+          "objective": 0.7402095198631287,
+          "exact_inference_objective": 0.5376686453819275,
+          "exact_inference_relative_mse": 0.3364967405796051,
+          "mean_groups": 0.8369140625,
+          "mean_active_atoms": 2.5107421875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.8369140625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1714.0
+          ]
+        },
+        {
+          "step": 1800,
+          "relative_mse": 0.6094325184822083,
+          "objective": 0.7654514312744141,
+          "exact_inference_objective": 0.4789360463619232,
+          "exact_inference_relative_mse": 0.2545154094696045,
+          "mean_groups": 0.83544921875,
+          "mean_active_atoms": 2.50634765625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.83544921875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1711.0
+          ]
+        },
+        {
+          "step": 1900,
+          "relative_mse": 0.6492133140563965,
+          "objective": 0.8031753897666931,
+          "exact_inference_objective": 0.5907897353172302,
+          "exact_inference_relative_mse": 0.39725324511528015,
+          "mean_groups": 0.8134765625,
+          "mean_active_atoms": 2.4404296875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.8134765625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1666.0
+          ]
+        },
+        {
+          "step": 2000,
+          "relative_mse": 0.587334394454956,
+          "objective": 0.7404336333274841,
+          "exact_inference_objective": 0.6479431390762329,
+          "exact_inference_relative_mse": 0.47747573256492615,
+          "mean_groups": 0.822265625,
+          "mean_active_atoms": 2.466796875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.822265625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1684.0
+          ]
+        },
+        {
+          "step": 2100,
+          "relative_mse": 0.6003347635269165,
+          "objective": 0.7539889216423035,
+          "exact_inference_objective": 0.5464859008789062,
+          "exact_inference_relative_mse": 0.3452376425266266,
+          "mean_groups": 0.82275390625,
+          "mean_active_atoms": 2.46826171875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.82275390625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1685.0
+          ]
+        },
+        {
+          "step": 2200,
+          "relative_mse": 0.5330604314804077,
+          "objective": 0.6853415369987488,
+          "exact_inference_objective": 0.5377702713012695,
+          "exact_inference_relative_mse": 0.34337732195854187,
+          "mean_groups": 0.82958984375,
+          "mean_active_atoms": 2.48876953125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.82958984375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1699.0
+          ]
+        },
+        {
+          "step": 2300,
+          "relative_mse": 0.5766315460205078,
+          "objective": 0.7280884981155396,
+          "exact_inference_objective": 0.5856466293334961,
+          "exact_inference_relative_mse": 0.3946046531200409,
+          "mean_groups": 0.814453125,
+          "mean_active_atoms": 2.443359375,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.814453125,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1668.0
+          ]
+        },
+        {
+          "step": 2400,
+          "relative_mse": 0.6187938451766968,
+          "objective": 0.7714061141014099,
+          "exact_inference_objective": 0.5896408557891846,
+          "exact_inference_relative_mse": 0.394991010427475,
+          "mean_groups": 0.81201171875,
+          "mean_active_atoms": 2.43603515625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.81201171875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1663.0
+          ]
+        },
+        {
+          "step": 2500,
+          "relative_mse": 0.5890175700187683,
+          "objective": 0.7404597997665405,
+          "exact_inference_objective": 0.5480934381484985,
+          "exact_inference_relative_mse": 0.3473723232746124,
+          "mean_groups": 0.8115234375,
+          "mean_active_atoms": 2.4345703125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.8115234375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1662.0
+          ]
+        },
+        {
+          "step": 2600,
+          "relative_mse": 0.5718895196914673,
+          "objective": 0.720750629901886,
+          "exact_inference_objective": 0.5492016077041626,
+          "exact_inference_relative_mse": 0.3495905101299286,
+          "mean_groups": 0.79931640625,
+          "mean_active_atoms": 2.39794921875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.79931640625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1637.0
+          ]
+        },
+        {
+          "step": 2700,
+          "relative_mse": 0.5926843285560608,
+          "objective": 0.7420735955238342,
+          "exact_inference_objective": 0.5490211248397827,
+          "exact_inference_relative_mse": 0.34823423624038696,
+          "mean_groups": 0.7978515625,
+          "mean_active_atoms": 2.3935546875,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.7978515625,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1634.0
+          ]
+        },
+        {
+          "step": 2800,
+          "relative_mse": 0.6256270408630371,
+          "objective": 0.7782554626464844,
+          "exact_inference_objective": 0.593069851398468,
+          "exact_inference_relative_mse": 0.39766281843185425,
+          "mean_groups": 0.810546875,
+          "mean_active_atoms": 2.431640625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.810546875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1660.0
+          ]
+        },
+        {
+          "step": 2900,
+          "relative_mse": 0.5617771744728088,
+          "objective": 0.7122205495834351,
+          "exact_inference_objective": 0.6468388438224792,
+          "exact_inference_relative_mse": 0.48152095079421997,
+          "mean_groups": 0.8115234375,
+          "mean_active_atoms": 2.4345703125,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.8115234375,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1662.0
+          ]
+        },
+        {
+          "step": 3000,
+          "relative_mse": 0.6215541958808899,
+          "objective": 0.7718456983566284,
+          "exact_inference_objective": 0.4995115399360657,
+          "exact_inference_relative_mse": 0.27000153064727783,
+          "mean_groups": 0.796875,
+          "mean_active_atoms": 2.390625,
+          "unique_gate_patterns": 2,
+          "largest_pattern_fraction": 0.796875,
+          "gate_counts": [
+            0.0,
+            0.0,
+            0.0,
+            1632.0
+          ]
+        }
+      ]
+    }
+  ],
+  "audits": {
+    "hashes_unchanged": {
+      "data": true,
+      "teacher": true,
+      "implementation": true,
+      "gate_implementation": true,
+      "cost_implementation": true,
+      "runner": true
+    },
+    "finite": true,
+    "max_reference_forward_error": 3.725290298461914e-09,
+    "whole_model_forwards": 0
+  },
+  "elapsed_seconds": 23.073076725006104
+}

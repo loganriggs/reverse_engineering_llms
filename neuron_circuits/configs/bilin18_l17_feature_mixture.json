@@ -1,0 +1,58 @@
+{
+  "status": "H283 locked before mixture selection/fresh outcomes",
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "ridge_strengths": [
+    0,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "learning_rates": [
+    0.3,
+    3.0
+  ],
+  "penalties": [
+    0,
+    0.1
+  ],
+  "initializations": [
+    "zero",
+    "mse"
+  ],
+  "steps": 400,
+  "checkpoints": [
+    0,
+    100,
+    200,
+    300,
+    400
+  ],
+  "train_batch": 32,
+  "seed": 20270107,
+  "design": "Frozen KL adapters mixed at write level. All nonnegative weights in .1 steps summing<=1; remainder is frozen base. 286 candidates selected on reused256 validation docs. Separate best shrunken-single control includes scale0:.1:1 for each family. Fresh test excluded from selection.",
+  "gates": {
+    "mixture_gain": "relative KL reduction vs validation-selected unscaled single>=5%,paired95 lower>0",
+    "complementarity": "relative KL reduction vs validation-selected shrunken single>=5%,paired95 lower>0",
+    "repair": "mixture KL recovery>=80%,CE<=.02,top1>=.98"
+  },
+  "scope": "Validation reused after earlier hyperparameter selection. Fresh128 docs for fixed choices. Grid is not a global optimum; mixture requires all included feature maps. Oracle document selector diagnostic only.",
+  "family": "quadratic",
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_mixture_documents.npy",
+  "stems": {
+    "linear": "bilin18_l17_fixed_readout",
+    "quadratic": "bilin18_l17_feature_quadratic",
+    "outside": "bilin18_l17_feature_outside"
+  },
+  "interval_scope": "97.5% per contrast, not simultaneous familywise intervals; bootstrap conditions on frozen fits"
+}

@@ -1,0 +1,192 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-embedding-router-redteam-before-source-decomposition-results",
+    "seed": 20261203,
+    "batch_size": 8,
+    "rank": 16,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "sources": [
+      "carried",
+      "embedding",
+      "attention"
+    ],
+    "core_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_core_stability.pt",
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 1000
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 0,
+        "rows": 2000
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 800
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 800
+      }
+    },
+    "hypotheses": {
+      "P0_three_sources_recompose_native_register": "All three exact pre-normalization sources reproduce the native context operator to relative error at most 1e-6.",
+      "P1_embedding_variation_is_a_strong_router": "Direct Layer-17 embedding-reinjection variation alone retains at least 0.75 operator fidelity on every corpus.",
+      "P2_embedding_and_carried_state_are_nearly_sufficient": "Embedding plus carried-state variation retains at least 0.95 operator fidelity on every corpus.",
+      "P3_attention_is_a_small_operator_correction": "The absolute three-source subset-Shapley allocation of final attention is at most 0.10 on every corpus.",
+      "P4_embedding_is_the_largest_shapley_source": "Embedding has the largest three-source subset-Shapley allocation on every corpus.",
+      "P5_attention_alone_is_not_a_router": "Attention variation alone retains at most 0.25 operator fidelity on every corpus.",
+      "P6_carried_state_adds_beyond_embedding": "Adding carried-state variation to embedding improves fidelity by at least 0.05 on every corpus.",
+      "P7_embedding_dominance_transfers_ood": "Embedding-only fidelity differs by at most 0.10 across FineWeb, WikiText, and TinyStories."
+    }
+  },
+  "hypotheses": {
+    "P0_three_sources_recompose_native_register": true,
+    "P1_embedding_variation_is_a_strong_router": false,
+    "P2_embedding_and_carried_state_are_nearly_sufficient": true,
+    "P3_attention_is_a_small_operator_correction": true,
+    "P4_embedding_is_the_largest_shapley_source": false,
+    "P5_attention_alone_is_not_a_router": false,
+    "P6_carried_state_adds_beyond_embedding": true,
+    "P7_embedding_dominance_transfers_ood": true
+  },
+  "layer17_lambdas": [
+    1.0234375,
+    8.0
+  ],
+  "exact_error": 4.853002705620995e-07,
+  "results": {
+    "fineweb": {
+      "subset_fidelity": {
+        "mean": 0.58132802404007,
+        "carried": 0.9899243599211598,
+        "embedding": 0.5819981104805316,
+        "carried+embedding": 0.9900338309778898,
+        "attention": 0.6541910721511941,
+        "carried+attention": 0.9999973724192615,
+        "embedding+attention": 0.6548497369748085,
+        "carried+embedding+attention": 0.9999999999997115
+      },
+      "shapley": {
+        "carried": 0.3768892030962352,
+        "embedding": 0.00035226065369461007,
+        "attention": 0.04143051220971169
+      },
+      "removal_cost": {
+        "carried": 0.3451502630251915,
+        "embedding": 2.627580738545632e-06,
+        "attention": 0.009966169022110227
+      },
+      "norms": {
+        "carried": {
+          "absolute_norm_median": 56876.21875,
+          "variation_norm_median": 36174.84765625
+        },
+        "embedding": {
+          "absolute_norm_median": 271.52899169921875,
+          "variation_norm_median": 266.6555480957031
+        },
+        "attention": {
+          "absolute_norm_median": 6525.986328125,
+          "variation_norm_median": 4836.9833984375
+        }
+      },
+      "full_coefficient_relative_error": 4.853002705620995e-07
+    },
+    "wikitext": {
+      "subset_fidelity": {
+        "mean": 0.606152852090875,
+        "carried": 0.988493200056665,
+        "embedding": 0.6068467283577628,
+        "carried+embedding": 0.9886079037744148,
+        "attention": 0.6779206541154814,
+        "carried+attention": 0.9999973871678657,
+        "embedding+attention": 0.6785966899927347,
+        "carried+embedding+attention": 0.9999999999999564
+      },
+      "shapley": {
+        "carried": 0.35188753740250994,
+        "embedding": 0.00036395296549333417,
+        "attention": 0.041595657541078114
+      },
+      "removal_cost": {
+        "carried": 0.3214033100072653,
+        "embedding": 2.612832134318843e-06,
+        "attention": 0.011392096225585235
+      },
+      "norms": {
+        "carried": {
+          "absolute_norm_median": 56464.61328125,
+          "variation_norm_median": 35882.10546875
+        },
+        "embedding": {
+          "absolute_norm_median": 271.52899169921875,
+          "variation_norm_median": 268.77752685546875
+        },
+        "attention": {
+          "absolute_norm_median": 6973.60546875,
+          "variation_norm_median": 5184.185546875
+        }
+      },
+      "full_coefficient_relative_error": 1.8814737328044393e-07
+    },
+    "tinystories": {
+      "subset_fidelity": {
+        "mean": 0.6522250569228536,
+        "carried": 0.9951630667246416,
+        "embedding": 0.6526317104220759,
+        "carried+embedding": 0.9951845504673994,
+        "attention": 0.7205560264025506,
+        "carried+attention": 0.9999984450230238,
+        "embedding+attention": 0.7209406559213591,
+        "carried+embedding+attention": 0.9999999999999636
+      },
+      "shapley": {
+        "carried": 0.31099832773776365,
+        "embedding": 0.00020375503564841932,
+        "attention": 0.03657286030369796
+      },
+      "removal_cost": {
+        "carried": 0.27905934407864086,
+        "embedding": 1.5549769761813437e-06,
+        "attention": 0.004815449532600602
+      },
+      "norms": {
+        "carried": {
+          "absolute_norm_median": 60207.390625,
+          "variation_norm_median": 39255.0078125
+        },
+        "embedding": {
+          "absolute_norm_median": 271.52899169921875,
+          "variation_norm_median": 263.44903564453125
+        },
+        "attention": {
+          "absolute_norm_median": 7444.04150390625,
+          "variation_norm_median": 5409.6044921875
+        }
+      },
+      "full_coefficient_relative_error": 1.829626954395185e-07
+    }
+  }
+}

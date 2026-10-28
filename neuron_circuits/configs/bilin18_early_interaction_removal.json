@@ -1,0 +1,19 @@
+{
+  "experiment": "H794",
+  "hashes": {
+    "captures": "67714b7262d906bc7186c5683329cf0b8abd015fd7a700190a8578bfa262abc7",
+    "reference": "60a2eab3de3622e97d11752ddb65f72eb13949f4a2211e551f22f50dd84b3bab",
+    "early": "119b26bc2cf72904cc5426e3c45ead425cbee753717da87cd965229169351dbf",
+    "runner": "d8b6ef7a642064d43fcdcfefca490b5f334a39d96125ac07fb1e9f8dcbcdc9c8",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "arms": [
+    "none",
+    "source_attention",
+    "query_mlp",
+    "both"
+  ],
+  "design": "Full H792 factorial, L1 native source-output swaps. At L2 second-source attention output and/or query MLP output, clamp joint-state output to stored z_a0+z_0b-z_00. No clamp arm replays H792. All16factorial cells and all four arms retained.",
+  "prediction": "Removing second-source L2 attention interaction reduces final candidate interaction more than removing early query-local MLP interaction if the traced source route is relevant.",
+  "limitations": "Additive output clamps are hybrid causal tests, not unique mediation fractions. Joint arm clamps query MLP to original reference additive prediction, not a recomputed prediction after source clamp. Other token positions/paths live. Reused localization panel."
+}

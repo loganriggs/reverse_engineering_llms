@@ -1,0 +1,618 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-paired-state-pca-success-before-natural-basis-redteam",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261206,
+    "batch_size": 4,
+    "target": "\n",
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "output_rank": 32,
+    "input_ranks": [
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "router_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "natural_a": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 13000,
+      "rows": 768
+    },
+    "natural_b": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14000,
+      "rows": 768
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 256
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 768,
+        "rows": 256
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 768,
+        "rows": 256
+      }
+    },
+    "hypotheses": {
+      "N0_natural_rank16_is_sufficient": "The rank-16 PCA basis learned only from unedited FineWeb states reaches fidelity at least 0.70 and lies within 0.15 of the pooled rank-32 oracle on every corpus.",
+      "N1_target_conditioning_is_unnecessary": "At rank 16, natural-state PCA is within 0.05 fidelity of newline-paired-state PCA on every corpus.",
+      "N2_natural_basis_replicates_across_slices": "Independent natural-state rank-16 bases differ by at most 0.05 fidelity on every corpus.",
+      "N3_natural_basis_beats_random": "At ranks 8, 16, and 32, both natural bases beat matched random-subspace fidelity by at least 0.20 on every corpus.",
+      "N4_natural_basis_is_geometrically_stable": "The two natural rank-16 subspaces have mean squared canonical cosine at least 0.80.",
+      "N5_behavioral_compression_exceeds_state_energy": "For some corpus, rank-16 causal fidelity exceeds the fraction of changed-state energy captured by at least 0.20."
+    }
+  },
+  "hypotheses": {
+    "N0_natural_rank16_is_sufficient": {
+      "supported": false
+    },
+    "N1_target_conditioning_is_unnecessary": {
+      "supported": true
+    },
+    "N2_natural_basis_replicates_across_slices": {
+      "supported": true
+    },
+    "N3_natural_basis_beats_random": {
+      "supported": true
+    },
+    "N4_natural_basis_is_geometrically_stable": {
+      "supported": false,
+      "overlaps": {
+        "4": 0.9673069715499878,
+        "8": 0.7875475883483887,
+        "16": 0.7317293286323547,
+        "32": 0.7132613658905029,
+        "64": 0.6569901704788208,
+        "128": 0.6000145673751831
+      }
+    },
+    "N5_behavioral_compression_exceeds_state_energy": {
+      "supported": false
+    }
+  },
+  "overlaps": {
+    "4": 0.9673069715499878,
+    "8": 0.7875475883483887,
+    "16": 0.7317293286323547,
+    "32": 0.7132613658905029,
+    "64": 0.6569901704788208,
+    "128": 0.6000145673751831
+  },
+  "results": {
+    "fineweb": {
+      "oracle": {
+        "cosine": 0.9430732131004333,
+        "fidelity": 0.8805755376815796
+      },
+      "frontier": {
+        "4": {
+          "paired": {
+            "cosine": 0.9045326113700867,
+            "fidelity": 0.787051260471344,
+            "edit_energy_fraction": 0.6229805946350098
+          },
+          "base_only": {
+            "cosine": 0.8570077419281006,
+            "fidelity": 0.6813172101974487,
+            "edit_energy_fraction": 0.46564897894859314
+          },
+          "natural_a": {
+            "cosine": 0.8818432688713074,
+            "fidelity": 0.7367712259292603,
+            "edit_energy_fraction": 0.5604899525642395
+          },
+          "natural_b": {
+            "cosine": 0.8763315677642822,
+            "fidelity": 0.7347502708435059,
+            "edit_energy_fraction": 0.5436571836471558
+          },
+          "random": {
+            "cosine": 0.03601482883095741,
+            "fidelity": 4.875659942626953e-05,
+            "edit_energy_fraction": 0.002087916014716029
+          }
+        },
+        "8": {
+          "paired": {
+            "cosine": 0.9211909174919128,
+            "fidelity": 0.8179471492767334,
+            "edit_energy_fraction": 0.6473607420921326
+          },
+          "base_only": {
+            "cosine": 0.8597216010093689,
+            "fidelity": 0.6850197315216064,
+            "edit_energy_fraction": 0.49206313490867615
+          },
+          "natural_a": {
+            "cosine": 0.895591676235199,
+            "fidelity": 0.7707335948944092,
+            "edit_energy_fraction": 0.5899452567100525
+          },
+          "natural_b": {
+            "cosine": 0.9033658504486084,
+            "fidelity": 0.7869815230369568,
+            "edit_energy_fraction": 0.5955190658569336
+          },
+          "random": {
+            "cosine": -0.24665354192256927,
+            "fidelity": -0.0014339685440063477,
+            "edit_energy_fraction": 0.007471450604498386
+          }
+        },
+        "16": {
+          "paired": {
+            "cosine": 0.9260563254356384,
+            "fidelity": 0.8315901756286621,
+            "edit_energy_fraction": 0.6709984540939331
+          },
+          "base_only": {
+            "cosine": 0.8816874623298645,
+            "fidelity": 0.7395347356796265,
+            "edit_energy_fraction": 0.5507648587226868
+          },
+          "natural_a": {
+            "cosine": 0.9104065299034119,
+            "fidelity": 0.8026298880577087,
+            "edit_energy_fraction": 0.6351841688156128
+          },
+          "natural_b": {
+            "cosine": 0.9183631539344788,
+            "fidelity": 0.809657633304596,
+            "edit_energy_fraction": 0.638762354850769
+          },
+          "random": {
+            "cosine": -0.34489306807518005,
+            "fidelity": -0.004075765609741211,
+            "edit_energy_fraction": 0.01660802587866783
+          }
+        },
+        "32": {
+          "paired": {
+            "cosine": 0.9291966557502747,
+            "fidelity": 0.8441699743270874,
+            "edit_energy_fraction": 0.6967114210128784
+          },
+          "base_only": {
+            "cosine": 0.907251238822937,
+            "fidelity": 0.7774935364723206,
+            "edit_energy_fraction": 0.6073247790336609
+          },
+          "natural_a": {
+            "cosine": 0.9196715950965881,
+            "fidelity": 0.8123066425323486,
+            "edit_energy_fraction": 0.6682088971138
+          },
+          "natural_b": {
+            "cosine": 0.9295133948326111,
+            "fidelity": 0.8257886171340942,
+            "edit_energy_fraction": 0.6785896420478821
+          },
+          "random": {
+            "cosine": 0.22674639523029327,
+            "fidelity": 0.005624055862426758,
+            "edit_energy_fraction": 0.03944417089223862
+          }
+        },
+        "64": {
+          "paired": {
+            "cosine": 0.9306084513664246,
+            "fidelity": 0.8471210598945618,
+            "edit_energy_fraction": 0.7243894338607788
+          },
+          "base_only": {
+            "cosine": 0.9140943884849548,
+            "fidelity": 0.7909822463989258,
+            "edit_energy_fraction": 0.649196445941925
+          },
+          "natural_a": {
+            "cosine": 0.9292937517166138,
+            "fidelity": 0.8261584043502808,
+            "edit_energy_fraction": 0.7075134515762329
+          },
+          "natural_b": {
+            "cosine": 0.9299329519271851,
+            "fidelity": 0.8320845365524292,
+            "edit_energy_fraction": 0.709969699382782
+          },
+          "random": {
+            "cosine": 0.09687896817922592,
+            "fidelity": 0.0025175809860229492,
+            "edit_energy_fraction": 0.08858407288789749
+          }
+        },
+        "128": {
+          "paired": {
+            "cosine": 0.9318352937698364,
+            "fidelity": 0.8554269671440125,
+            "edit_energy_fraction": 0.7647766470909119
+          },
+          "base_only": {
+            "cosine": 0.9188900589942932,
+            "fidelity": 0.8117600679397583,
+            "edit_energy_fraction": 0.7008036971092224
+          },
+          "natural_a": {
+            "cosine": 0.9352666735649109,
+            "fidelity": 0.8449596166610718,
+            "edit_energy_fraction": 0.7564340829849243
+          },
+          "natural_b": {
+            "cosine": 0.9357876777648926,
+            "fidelity": 0.8529229760169983,
+            "edit_energy_fraction": 0.7610428929328918
+          },
+          "random": {
+            "cosine": -0.01915476657450199,
+            "fidelity": -0.0036431550979614258,
+            "edit_energy_fraction": 0.17867141962051392
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "oracle": {
+        "cosine": 0.9201381206512451,
+        "fidelity": 0.8169739842414856
+      },
+      "frontier": {
+        "4": {
+          "paired": {
+            "cosine": 0.8399233818054199,
+            "fidelity": 0.6588389873504639,
+            "edit_energy_fraction": 0.4995236098766327
+          },
+          "base_only": {
+            "cosine": 0.7838776707649231,
+            "fidelity": 0.5755043029785156,
+            "edit_energy_fraction": 0.38586363196372986
+          },
+          "natural_a": {
+            "cosine": 0.8128347992897034,
+            "fidelity": 0.6313675045967102,
+            "edit_energy_fraction": 0.45884376764297485
+          },
+          "natural_b": {
+            "cosine": 0.8097699284553528,
+            "fidelity": 0.6115752458572388,
+            "edit_energy_fraction": 0.44853389263153076
+          },
+          "random": {
+            "cosine": 0.023155100643634796,
+            "fidelity": 7.832050323486328e-05,
+            "edit_energy_fraction": 0.0031373074743896723
+          }
+        },
+        "8": {
+          "paired": {
+            "cosine": 0.8560796976089478,
+            "fidelity": 0.6933048963546753,
+            "edit_energy_fraction": 0.5331770181655884
+          },
+          "base_only": {
+            "cosine": 0.8132314085960388,
+            "fidelity": 0.6084277629852295,
+            "edit_energy_fraction": 0.42244991660118103
+          },
+          "natural_a": {
+            "cosine": 0.8337843418121338,
+            "fidelity": 0.6510970592498779,
+            "edit_energy_fraction": 0.4922698438167572
+          },
+          "natural_b": {
+            "cosine": 0.8500715494155884,
+            "fidelity": 0.6639204025268555,
+            "edit_energy_fraction": 0.4932260811328888
+          },
+          "random": {
+            "cosine": -0.14957645535469055,
+            "fidelity": -0.001020193099975586,
+            "edit_energy_fraction": 0.007623867131769657
+          }
+        },
+        "16": {
+          "paired": {
+            "cosine": 0.8684472441673279,
+            "fidelity": 0.726360559463501,
+            "edit_energy_fraction": 0.5693058967590332
+          },
+          "base_only": {
+            "cosine": 0.8285025954246521,
+            "fidelity": 0.640895426273346,
+            "edit_energy_fraction": 0.467739075422287
+          },
+          "natural_a": {
+            "cosine": 0.8495343923568726,
+            "fidelity": 0.686520516872406,
+            "edit_energy_fraction": 0.5397664308547974
+          },
+          "natural_b": {
+            "cosine": 0.8723763227462769,
+            "fidelity": 0.718541145324707,
+            "edit_energy_fraction": 0.5384729504585266
+          },
+          "random": {
+            "cosine": -0.06985872983932495,
+            "fidelity": -0.0010514259338378906,
+            "edit_energy_fraction": 0.01853063516318798
+          }
+        },
+        "32": {
+          "paired": {
+            "cosine": 0.88773512840271,
+            "fidelity": 0.7471764087677002,
+            "edit_energy_fraction": 0.6102420687675476
+          },
+          "base_only": {
+            "cosine": 0.8501389026641846,
+            "fidelity": 0.6652977466583252,
+            "edit_energy_fraction": 0.519356369972229
+          },
+          "natural_a": {
+            "cosine": 0.8748478293418884,
+            "fidelity": 0.7459021806716919,
+            "edit_energy_fraction": 0.5843954086303711
+          },
+          "natural_b": {
+            "cosine": 0.8853675127029419,
+            "fidelity": 0.7512930631637573,
+            "edit_energy_fraction": 0.5841437578201294
+          },
+          "random": {
+            "cosine": 0.23485907912254333,
+            "fidelity": 0.007429718971252441,
+            "edit_energy_fraction": 0.037531521171331406
+          }
+        },
+        "64": {
+          "paired": {
+            "cosine": 0.8964533805847168,
+            "fidelity": 0.769220232963562,
+            "edit_energy_fraction": 0.644644558429718
+          },
+          "base_only": {
+            "cosine": 0.872458279132843,
+            "fidelity": 0.6991777420043945,
+            "edit_energy_fraction": 0.5688299536705017
+          },
+          "natural_a": {
+            "cosine": 0.8926582932472229,
+            "fidelity": 0.7683918476104736,
+            "edit_energy_fraction": 0.6368613243103027
+          },
+          "natural_b": {
+            "cosine": 0.8921467065811157,
+            "fidelity": 0.7675068974494934,
+            "edit_energy_fraction": 0.626145601272583
+          },
+          "random": {
+            "cosine": -0.10053641349077225,
+            "fidelity": -0.004786133766174316,
+            "edit_energy_fraction": 0.08487207442522049
+          }
+        },
+        "128": {
+          "paired": {
+            "cosine": 0.9024228453636169,
+            "fidelity": 0.7775183916091919,
+            "edit_energy_fraction": 0.695185124874115
+          },
+          "base_only": {
+            "cosine": 0.8879138231277466,
+            "fidelity": 0.7408789396286011,
+            "edit_energy_fraction": 0.6345191597938538
+          },
+          "natural_a": {
+            "cosine": 0.9027499556541443,
+            "fidelity": 0.7792755961418152,
+            "edit_energy_fraction": 0.6934599280357361
+          },
+          "natural_b": {
+            "cosine": 0.9020652770996094,
+            "fidelity": 0.7872698903083801,
+            "edit_energy_fraction": 0.678443968296051
+          },
+          "random": {
+            "cosine": -0.01949397474527359,
+            "fidelity": -0.0035599470138549805,
+            "edit_energy_fraction": 0.17289452254772186
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "oracle": {
+        "cosine": 0.942654013633728,
+        "fidelity": 0.8728806972503662
+      },
+      "frontier": {
+        "4": {
+          "paired": {
+            "cosine": 0.888373076915741,
+            "fidelity": 0.7577035427093506,
+            "edit_energy_fraction": 0.612632155418396
+          },
+          "base_only": {
+            "cosine": 0.8525632619857788,
+            "fidelity": 0.6823327541351318,
+            "edit_energy_fraction": 0.46576815843582153
+          },
+          "natural_a": {
+            "cosine": 0.8825854659080505,
+            "fidelity": 0.7244592905044556,
+            "edit_energy_fraction": 0.5586488246917725
+          },
+          "natural_b": {
+            "cosine": 0.885377824306488,
+            "fidelity": 0.7364910244941711,
+            "edit_energy_fraction": 0.5461117625236511
+          },
+          "random": {
+            "cosine": 0.07252394407987595,
+            "fidelity": 0.00021034479141235352,
+            "edit_energy_fraction": 0.002280033193528652
+          }
+        },
+        "8": {
+          "paired": {
+            "cosine": 0.9081271290779114,
+            "fidelity": 0.7884082198143005,
+            "edit_energy_fraction": 0.6390605568885803
+          },
+          "base_only": {
+            "cosine": 0.8592557907104492,
+            "fidelity": 0.6977832317352295,
+            "edit_energy_fraction": 0.49329447746276855
+          },
+          "natural_a": {
+            "cosine": 0.8870741724967957,
+            "fidelity": 0.747572660446167,
+            "edit_energy_fraction": 0.5976852774620056
+          },
+          "natural_b": {
+            "cosine": 0.9091043472290039,
+            "fidelity": 0.7911419868469238,
+            "edit_energy_fraction": 0.5893707871437073
+          },
+          "random": {
+            "cosine": -0.30510830879211426,
+            "fidelity": -0.001526474952697754,
+            "edit_energy_fraction": 0.00888865813612938
+          }
+        },
+        "16": {
+          "paired": {
+            "cosine": 0.9155967235565186,
+            "fidelity": 0.8113737106323242,
+            "edit_energy_fraction": 0.6805108785629272
+          },
+          "base_only": {
+            "cosine": 0.894841194152832,
+            "fidelity": 0.7456417083740234,
+            "edit_energy_fraction": 0.5526125431060791
+          },
+          "natural_a": {
+            "cosine": 0.9121503829956055,
+            "fidelity": 0.7954565286636353,
+            "edit_energy_fraction": 0.6415722370147705
+          },
+          "natural_b": {
+            "cosine": 0.9189498424530029,
+            "fidelity": 0.8085224032402039,
+            "edit_energy_fraction": 0.6343134045600891
+          },
+          "random": {
+            "cosine": -0.382987380027771,
+            "fidelity": -0.0044602155685424805,
+            "edit_energy_fraction": 0.018522834405303
+          }
+        },
+        "32": {
+          "paired": {
+            "cosine": 0.9267894625663757,
+            "fidelity": 0.829289436340332,
+            "edit_energy_fraction": 0.7066766023635864
+          },
+          "base_only": {
+            "cosine": 0.908591091632843,
+            "fidelity": 0.7706220746040344,
+            "edit_energy_fraction": 0.6079865097999573
+          },
+          "natural_a": {
+            "cosine": 0.9205746054649353,
+            "fidelity": 0.8082318902015686,
+            "edit_energy_fraction": 0.669705867767334
+          },
+          "natural_b": {
+            "cosine": 0.9243484735488892,
+            "fidelity": 0.8226696252822876,
+            "edit_energy_fraction": 0.6724160313606262
+          },
+          "random": {
+            "cosine": 0.2718152701854706,
+            "fidelity": 0.00841367244720459,
+            "edit_energy_fraction": 0.04385979101061821
+          }
+        },
+        "64": {
+          "paired": {
+            "cosine": 0.9340516924858093,
+            "fidelity": 0.8422424793243408,
+            "edit_energy_fraction": 0.7333040237426758
+          },
+          "base_only": {
+            "cosine": 0.9146575927734375,
+            "fidelity": 0.7867672443389893,
+            "edit_energy_fraction": 0.648980438709259
+          },
+          "natural_a": {
+            "cosine": 0.925645649433136,
+            "fidelity": 0.820384681224823,
+            "edit_energy_fraction": 0.7165301442146301
+          },
+          "natural_b": {
+            "cosine": 0.9291582703590393,
+            "fidelity": 0.8291646242141724,
+            "edit_energy_fraction": 0.7129311561584473
+          },
+          "random": {
+            "cosine": -0.011857174336910248,
+            "fidelity": -0.0006071329116821289,
+            "edit_energy_fraction": 0.09325874596834183
+          }
+        },
+        "128": {
+          "paired": {
+            "cosine": 0.936326265335083,
+            "fidelity": 0.851502001285553,
+            "edit_energy_fraction": 0.7809038758277893
+          },
+          "base_only": {
+            "cosine": 0.9186483025550842,
+            "fidelity": 0.8081353902816772,
+            "edit_energy_fraction": 0.7079152464866638
+          },
+          "natural_a": {
+            "cosine": 0.9315217137336731,
+            "fidelity": 0.8393735885620117,
+            "edit_energy_fraction": 0.765488862991333
+          },
+          "natural_b": {
+            "cosine": 0.9329484105110168,
+            "fidelity": 0.8441905975341797,
+            "edit_energy_fraction": 0.7609849572181702
+          },
+          "random": {
+            "cosine": -0.08580327033996582,
+            "fidelity": -0.01024162769317627,
+            "edit_energy_fraction": 0.1764458268880844
+          }
+        }
+      }
+    }
+  }
+}

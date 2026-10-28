@@ -1,0 +1,3119 @@
+{
+  "config": {
+    "status": "locked-after-multilayer-routing-audit-before-heldout-layer-subset-search",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "ranking_source": "configs/bilin12_multilayer_attention_routing_audit.json",
+    "seed": 20261030,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "edit_positions": [
+      63,
+      95,
+      119
+    ],
+    "selection_rows": 8,
+    "validation_rows": 16,
+    "budgets": [
+      1,
+      2,
+      4,
+      6,
+      8
+    ],
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19276,
+        "rows": 24
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 24,
+        "rows": 24
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 24,
+        "rows": 24
+      }
+    },
+    "hypotheses": {
+      "G1_forward_greedy_four_layers_are_sufficient": "Forward-greedy four-layer replacement reaches held-out Fisher fidelity at least 0.75 on every corpus and edit position.",
+      "G2_some_four_layer_search_is_sufficient": "The better of forward and backward greedy four-layer replacements reaches held-out fidelity at least 0.75 on every corpus and edit position.",
+      "G3_six_layers_recover_nearly_all_behavior": "The better held-out six-layer replacement reaches fidelity at least 0.90 on every corpus and edit position.",
+      "G4_search_improves_frozen_single_layer_ranking": "At budget four, the better searched subset exceeds the frozen-ranking prefix by at least 0.05 on at least half of corpus-position conditions.",
+      "G5_forward_and_backward_find_a_shared_core": "Forward and backward four-layer subsets overlap in at least two layers on every corpus and edit position.",
+      "G6_middle_layers_form_a_recurrent_core": "At least two of layers 4--7 occur in every better four-layer subset.",
+      "G7_heldout_search_frontiers_are_monotone": "The better held-out frontier is nondecreasing over budgets 1, 2, 4, 6, and 8 for every corpus and edit position.",
+      "G8_no_single_universal_four_layer_subset": "The better four-layer subset is not identical across all nine corpus-position conditions."
+    }
+  },
+  "hypotheses": {
+    "G1_forward_greedy_four_layers_are_sufficient": {
+      "supported": false
+    },
+    "G2_some_four_layer_search_is_sufficient": {
+      "supported": false
+    },
+    "G3_six_layers_recover_nearly_all_behavior": {
+      "supported": false
+    },
+    "G4_search_improves_frozen_single_layer_ranking": {
+      "supported": true,
+      "improvements": [
+        0.16926044130090456,
+        0.4659622187105156,
+        0.10082172442303106,
+        0.20845497442108718,
+        0.05301495388217303,
+        0.027229625956137316,
+        -0.01426741737601378,
+        0.02654085587071231,
+        0.00979640723453834
+      ]
+    },
+    "G5_forward_and_backward_find_a_shared_core": {
+      "supported": true
+    },
+    "G6_middle_layers_form_a_recurrent_core": {
+      "supported": true
+    },
+    "G7_heldout_search_frontiers_are_monotone": {
+      "supported": true
+    },
+    "G8_no_single_universal_four_layer_subset": {
+      "supported": true
+    }
+  },
+  "better_method": {
+    "fineweb": {
+      "63": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "forward",
+        "8": "backward"
+      },
+      "95": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "forward",
+        "8": "forward"
+      },
+      "119": {
+        "1": "forward",
+        "2": "forward",
+        "4": "backward",
+        "6": "forward",
+        "8": "backward"
+      }
+    },
+    "wikitext": {
+      "63": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "forward",
+        "8": "forward"
+      },
+      "95": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "backward",
+        "8": "forward"
+      },
+      "119": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "backward",
+        "8": "forward"
+      }
+    },
+    "tinystories": {
+      "63": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "forward",
+        "8": "forward"
+      },
+      "95": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "forward",
+        "8": "forward"
+      },
+      "119": {
+        "1": "forward",
+        "2": "forward",
+        "4": "forward",
+        "6": "forward",
+        "8": "forward"
+      }
+    }
+  },
+  "results": {
+    "fineweb": {
+      "63": {
+        "forward_order": [
+          6,
+          5,
+          8,
+          10,
+          3,
+          7,
+          4,
+          11,
+          9,
+          2,
+          0,
+          1
+        ],
+        "backward_removal_order": [
+          1,
+          0,
+          7,
+          9,
+          2,
+          3,
+          11,
+          4,
+          10,
+          8,
+          5
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              8,
+              10
+            ],
+            "6": [
+              6,
+              5,
+              8,
+              10,
+              3,
+              7
+            ],
+            "8": [
+              6,
+              5,
+              8,
+              10,
+              3,
+              7,
+              4,
+              11
+            ]
+          },
+          "backward": {
+            "1": [
+              6
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              8,
+              10
+            ],
+            "6": [
+              4,
+              5,
+              6,
+              8,
+              10,
+              11
+            ],
+            "8": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              8,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              4
+            ],
+            "2": [
+              4,
+              6
+            ],
+            "4": [
+              4,
+              6,
+              5,
+              3
+            ],
+            "6": [
+              4,
+              6,
+              5,
+              3,
+              2,
+              1
+            ],
+            "8": [
+              4,
+              6,
+              5,
+              3,
+              2,
+              1,
+              8,
+              9
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.5495783024447676,
+              "fisher_cosine": 0.7971322077074551,
+              "target_projection": 0.401870376966233,
+              "forward_kl_ratio": 0.23363215415854463,
+              "target_error_kl_ratio": 0.4857978282607712
+            },
+            "2": {
+              "fisher_fidelity": 0.7614441882525499,
+              "fisher_cosine": 0.8879161523892698,
+              "target_projection": 0.642628431007726,
+              "forward_kl_ratio": 0.4873553741046922,
+              "target_error_kl_ratio": 0.2880187734563808
+            },
+            "4": {
+              "fisher_fidelity": 0.9274190624493861,
+              "fisher_cosine": 0.9665637287860787,
+              "target_projection": 0.8543861594296633,
+              "forward_kl_ratio": 0.7649304537998389,
+              "target_error_kl_ratio": 0.06435120309873371
+            },
+            "6": {
+              "fisher_fidelity": 0.9736577197002005,
+              "fisher_cosine": 0.9876880583241303,
+              "target_projection": 0.9328189999735494,
+              "forward_kl_ratio": 0.8759067850760488,
+              "target_error_kl_ratio": 0.02484188731328031
+            },
+            "8": {
+              "fisher_fidelity": 0.990046297690704,
+              "fisher_cosine": 0.9951180416447104,
+              "target_projection": 0.975717338311351,
+              "forward_kl_ratio": 0.9449931571496448,
+              "target_error_kl_ratio": 0.010492470246043675
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.5495783024447676,
+              "fisher_cosine": 0.7971322077074551,
+              "target_projection": 0.401870376966233,
+              "forward_kl_ratio": 0.23363215415854463,
+              "target_error_kl_ratio": 0.4857978282607712
+            },
+            "2": {
+              "fisher_fidelity": 0.7614441882525499,
+              "fisher_cosine": 0.8879161523892698,
+              "target_projection": 0.642628431007726,
+              "forward_kl_ratio": 0.4873553741046922,
+              "target_error_kl_ratio": 0.2880187734563808
+            },
+            "4": {
+              "fisher_fidelity": 0.9274190624493861,
+              "fisher_cosine": 0.9665637287860787,
+              "target_projection": 0.8543861594296633,
+              "forward_kl_ratio": 0.7649304537998389,
+              "target_error_kl_ratio": 0.06435120309873371
+            },
+            "6": {
+              "fisher_fidelity": 0.9770075112541655,
+              "fisher_cosine": 0.9902921789617999,
+              "target_projection": 0.9206772916955781,
+              "forward_kl_ratio": 0.8469607925821762,
+              "target_error_kl_ratio": 0.02407993249437291
+            },
+            "8": {
+              "fisher_fidelity": 0.9906030741245865,
+              "fisher_cosine": 0.9954936092889397,
+              "target_projection": 0.9709895440613624,
+              "forward_kl_ratio": 0.9315523931373456,
+              "target_error_kl_ratio": 0.010728817006635022
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.4507168094804339,
+              "fisher_cosine": 0.7061692591783857,
+              "target_projection": 0.34402839670593205,
+              "forward_kl_ratio": 0.18199363755962547,
+              "target_error_kl_ratio": 0.5506466373838351
+            },
+            "2": {
+              "fisher_fidelity": 0.5814878945482302,
+              "fisher_cosine": 0.7665626344146274,
+              "target_projection": 0.5275985739474791,
+              "forward_kl_ratio": 0.3659771363544168,
+              "target_error_kl_ratio": 0.42476781980204226
+            },
+            "4": {
+              "fisher_fidelity": 0.8793542243776965,
+              "fisher_cosine": 0.9413129209279958,
+              "target_projection": 0.8089295174326875,
+              "forward_kl_ratio": 0.706877834857907,
+              "target_error_kl_ratio": 0.0710228475837818
+            },
+            "6": {
+              "fisher_fidelity": 0.9556161336356596,
+              "fisher_cosine": 0.9779094147654135,
+              "target_projection": 0.9306088797095494,
+              "forward_kl_ratio": 0.8479171290706943,
+              "target_error_kl_ratio": 0.03173990173941771
+            },
+            "8": {
+              "fisher_fidelity": 0.9795097797063252,
+              "fisher_cosine": 0.989894146810187,
+              "target_projection": 0.9605784971874587,
+              "forward_kl_ratio": 0.9059705428763724,
+              "target_error_kl_ratio": 0.01465417422408351
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.4507168094804339,
+              "fisher_cosine": 0.7061692591783857,
+              "target_projection": 0.34402839670593205,
+              "forward_kl_ratio": 0.18199363755962547,
+              "target_error_kl_ratio": 0.5506466373838351
+            },
+            "2": {
+              "fisher_fidelity": 0.5814878945482302,
+              "fisher_cosine": 0.7665626344146274,
+              "target_projection": 0.5275985739474791,
+              "forward_kl_ratio": 0.3659771363544168,
+              "target_error_kl_ratio": 0.42476781980204226
+            },
+            "4": {
+              "fisher_fidelity": 0.8793542243776965,
+              "fisher_cosine": 0.9413129209279958,
+              "target_projection": 0.8089295174326875,
+              "forward_kl_ratio": 0.706877834857907,
+              "target_error_kl_ratio": 0.0710228475837818
+            },
+            "6": {
+              "fisher_fidelity": 0.9443860092100141,
+              "fisher_cosine": 0.9740523380652494,
+              "target_projection": 0.8842249299670226,
+              "forward_kl_ratio": 0.8037064812819448,
+              "target_error_kl_ratio": 0.032990228910685586
+            },
+            "8": {
+              "fisher_fidelity": 0.9820864077670638,
+              "fisher_cosine": 0.9916371829944156,
+              "target_projection": 0.9481739480270954,
+              "forward_kl_ratio": 0.883829544399213,
+              "target_error_kl_ratio": 0.013226731016223006
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.3631725053857522,
+              "fisher_cosine": 0.6308219510171732,
+              "target_projection": 0.2803192089084684,
+              "forward_kl_ratio": 0.14805635526302735,
+              "target_error_kl_ratio": 0.7832334045094709
+            },
+            "2": {
+              "fisher_fidelity": 0.6262787024737368,
+              "fisher_cosine": 0.8051113959370393,
+              "target_projection": 0.5289888395965855,
+              "forward_kl_ratio": 0.3301488322438228,
+              "target_error_kl_ratio": 0.4339249256236136
+            },
+            "4": {
+              "fisher_fidelity": 0.7100937830767919,
+              "fisher_cosine": 0.8455708265659461,
+              "target_projection": 0.6558225643378773,
+              "forward_kl_ratio": 0.46587789354362663,
+              "target_error_kl_ratio": 0.34546433898449797
+            },
+            "6": {
+              "fisher_fidelity": 0.8182901375628172,
+              "fisher_cosine": 0.9067220034628883,
+              "target_projection": 0.7658502780571121,
+              "forward_kl_ratio": 0.5607009584895946,
+              "target_error_kl_ratio": 0.27717706116659935
+            },
+            "8": {
+              "fisher_fidelity": 0.9638179629388123,
+              "fisher_cosine": 0.9818637587049764,
+              "target_projection": 0.9488929669080074,
+              "forward_kl_ratio": 0.8593948665652874,
+              "target_error_kl_ratio": 0.029399008374756105
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 1.0,
+              "target_projection": 1.0,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      },
+      "95": {
+        "forward_order": [
+          6,
+          8,
+          5,
+          11,
+          4,
+          7,
+          10,
+          9,
+          2,
+          1,
+          3,
+          0
+        ],
+        "backward_removal_order": [
+          0,
+          3,
+          1,
+          2,
+          9,
+          10,
+          7,
+          4,
+          11,
+          5,
+          8
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              8
+            ],
+            "4": [
+              6,
+              8,
+              5,
+              11
+            ],
+            "6": [
+              6,
+              8,
+              5,
+              11,
+              4,
+              7
+            ],
+            "8": [
+              6,
+              8,
+              5,
+              11,
+              4,
+              7,
+              10,
+              9
+            ]
+          },
+          "backward": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              8
+            ],
+            "4": [
+              5,
+              6,
+              8,
+              11
+            ],
+            "6": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              11
+            ],
+            "8": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              11
+            ],
+            "2": [
+              11,
+              10
+            ],
+            "4": [
+              11,
+              10,
+              1,
+              5
+            ],
+            "6": [
+              11,
+              10,
+              1,
+              5,
+              6,
+              4
+            ],
+            "8": [
+              11,
+              10,
+              1,
+              5,
+              6,
+              4,
+              8,
+              3
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.41307124129821493,
+              "fisher_cosine": 0.7174807992557759,
+              "target_projection": 0.28596246959630656,
+              "forward_kl_ratio": 0.1375343381677664,
+              "target_error_kl_ratio": 0.5689714517949496
+            },
+            "2": {
+              "fisher_fidelity": 0.630405072628512,
+              "fisher_cosine": 0.8452591187286768,
+              "target_projection": 0.4693990579582154,
+              "forward_kl_ratio": 0.30487891078875573,
+              "target_error_kl_ratio": 0.2801654385424578
+            },
+            "4": {
+              "fisher_fidelity": 0.8762754535694948,
+              "fisher_cosine": 0.9449507551040334,
+              "target_projection": 0.7709764907764526,
+              "forward_kl_ratio": 0.6295333188124316,
+              "target_error_kl_ratio": 0.10248355060301917
+            },
+            "6": {
+              "fisher_fidelity": 0.9458312154002966,
+              "fisher_cosine": 0.9743902379743368,
+              "target_projection": 0.8909304787044011,
+              "forward_kl_ratio": 0.7759800411900936,
+              "target_error_kl_ratio": 0.058630604183504985
+            },
+            "8": {
+              "fisher_fidelity": 0.9818162541915609,
+              "fisher_cosine": 0.9910810913538349,
+              "target_projection": 0.9618005482119046,
+              "forward_kl_ratio": 0.942376167550063,
+              "target_error_kl_ratio": 0.01117693462257568
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.41307124129821493,
+              "fisher_cosine": 0.7174807992557759,
+              "target_projection": 0.28596246959630656,
+              "forward_kl_ratio": 0.1375343381677664,
+              "target_error_kl_ratio": 0.5689714517949496
+            },
+            "2": {
+              "fisher_fidelity": 0.630405072628512,
+              "fisher_cosine": 0.8452591187286768,
+              "target_projection": 0.4693990579582154,
+              "forward_kl_ratio": 0.30487891078875573,
+              "target_error_kl_ratio": 0.2801654385424578
+            },
+            "4": {
+              "fisher_fidelity": 0.8762754535694948,
+              "fisher_cosine": 0.9449507551040334,
+              "target_projection": 0.7709764907764526,
+              "forward_kl_ratio": 0.6295333188124316,
+              "target_error_kl_ratio": 0.10248355060301917
+            },
+            "6": {
+              "fisher_fidelity": 0.9458312154002966,
+              "fisher_cosine": 0.9743902379743368,
+              "target_projection": 0.8909304787044011,
+              "forward_kl_ratio": 0.7759800411900936,
+              "target_error_kl_ratio": 0.058630604183504985
+            },
+            "8": {
+              "fisher_fidelity": 0.9818162541915609,
+              "fisher_cosine": 0.9910810913538349,
+              "target_projection": 0.9618005482119046,
+              "forward_kl_ratio": 0.942376167550063,
+              "target_error_kl_ratio": 0.01117693462257568
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.49335552700112917,
+              "fisher_cosine": 0.7469550453125489,
+              "target_projection": 0.36811199088601304,
+              "forward_kl_ratio": 0.19979122108238714,
+              "target_error_kl_ratio": 0.4837989770444961
+            },
+            "2": {
+              "fisher_fidelity": 0.7471166383261445,
+              "fisher_cosine": 0.882753426124005,
+              "target_projection": 0.6210044920498368,
+              "forward_kl_ratio": 0.505061075653872,
+              "target_error_kl_ratio": 0.16725023162015273
+            },
+            "4": {
+              "fisher_fidelity": 0.9205042162651667,
+              "fisher_cosine": 0.964779961919806,
+              "target_projection": 0.8329039169574735,
+              "forward_kl_ratio": 0.7287278978873867,
+              "target_error_kl_ratio": 0.05875931576387654
+            },
+            "6": {
+              "fisher_fidelity": 0.9699783659427784,
+              "fisher_cosine": 0.9858497806710128,
+              "target_projection": 0.9286869786995091,
+              "forward_kl_ratio": 0.8639593606064485,
+              "target_error_kl_ratio": 0.03140122002330873
+            },
+            "8": {
+              "fisher_fidelity": 0.9892836791593236,
+              "fisher_cosine": 0.9947186991983638,
+              "target_projection": 0.9760618189101561,
+              "forward_kl_ratio": 0.9715059537666981,
+              "target_error_kl_ratio": 0.005278422664444345
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.49335552700112917,
+              "fisher_cosine": 0.7469550453125489,
+              "target_projection": 0.36811199088601304,
+              "forward_kl_ratio": 0.19979122108238714,
+              "target_error_kl_ratio": 0.4837989770444961
+            },
+            "2": {
+              "fisher_fidelity": 0.7471166383261445,
+              "fisher_cosine": 0.882753426124005,
+              "target_projection": 0.6210044920498368,
+              "forward_kl_ratio": 0.505061075653872,
+              "target_error_kl_ratio": 0.16725023162015273
+            },
+            "4": {
+              "fisher_fidelity": 0.9205042162651667,
+              "fisher_cosine": 0.964779961919806,
+              "target_projection": 0.8329039169574735,
+              "forward_kl_ratio": 0.7287278978873867,
+              "target_error_kl_ratio": 0.05875931576387654
+            },
+            "6": {
+              "fisher_fidelity": 0.9699783659427784,
+              "fisher_cosine": 0.9858497806710128,
+              "target_projection": 0.9286869786995091,
+              "forward_kl_ratio": 0.8639593606064485,
+              "target_error_kl_ratio": 0.03140122002330873
+            },
+            "8": {
+              "fisher_fidelity": 0.9892836791593236,
+              "fisher_cosine": 0.9947186991983638,
+              "target_projection": 0.9760618189101561,
+              "forward_kl_ratio": 0.9715059537666981,
+              "target_error_kl_ratio": 0.005278422664444345
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": -0.010752709083789558,
+              "fisher_cosine": 0.0015765767628374424,
+              "target_projection": 0.0001659881634139565,
+              "forward_kl_ratio": 0.008357142893660258,
+              "target_error_kl_ratio": 1.0021176048141798
+            },
+            "2": {
+              "fisher_fidelity": 0.0669074871412152,
+              "fisher_cosine": 0.2745054539240366,
+              "target_projection": 0.05012604479059727,
+              "forward_kl_ratio": 0.02501783909343645,
+              "target_error_kl_ratio": 0.9251139324449255
+            },
+            "4": {
+              "fisher_fidelity": 0.4545419975546511,
+              "fisher_cosine": 0.6829996749977291,
+              "target_projection": 0.3918365206653747,
+              "forward_kl_ratio": 0.24304927191590575,
+              "target_error_kl_ratio": 0.6969113566124363
+            },
+            "6": {
+              "fisher_fidelity": 0.8337186436098972,
+              "fisher_cosine": 0.9228564985879747,
+              "target_projection": 0.728037778020578,
+              "forward_kl_ratio": 0.5029674084737161,
+              "target_error_kl_ratio": 0.22036138939450609
+            },
+            "8": {
+              "fisher_fidelity": 0.9733027573601584,
+              "fisher_cosine": 0.9865654023914688,
+              "target_projection": 0.9704466307543503,
+              "forward_kl_ratio": 0.9468782379951876,
+              "target_error_kl_ratio": 0.017949720289046907
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 0.9999999931035729,
+              "target_projection": 0.9999999931035729,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      },
+      "119": {
+        "forward_order": [
+          5,
+          4,
+          3,
+          6,
+          8,
+          10,
+          11,
+          2,
+          7,
+          1,
+          0,
+          9
+        ],
+        "backward_removal_order": [
+          9,
+          3,
+          1,
+          0,
+          10,
+          7,
+          11,
+          2,
+          8,
+          6,
+          4
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              4
+            ],
+            "4": [
+              5,
+              4,
+              3,
+              6
+            ],
+            "6": [
+              5,
+              4,
+              3,
+              6,
+              8,
+              10
+            ],
+            "8": [
+              5,
+              4,
+              3,
+              6,
+              8,
+              10,
+              11,
+              2
+            ]
+          },
+          "backward": {
+            "1": [
+              5
+            ],
+            "2": [
+              4,
+              5
+            ],
+            "4": [
+              4,
+              5,
+              6,
+              8
+            ],
+            "6": [
+              2,
+              4,
+              5,
+              6,
+              8,
+              11
+            ],
+            "8": [
+              2,
+              4,
+              5,
+              6,
+              7,
+              8,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              7
+            ],
+            "2": [
+              7,
+              4
+            ],
+            "4": [
+              7,
+              4,
+              5,
+              6
+            ],
+            "6": [
+              7,
+              4,
+              5,
+              6,
+              3,
+              2
+            ],
+            "8": [
+              7,
+              4,
+              5,
+              6,
+              3,
+              2,
+              9,
+              1
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.5021324418394044,
+              "fisher_cosine": 0.7663714321807595,
+              "target_projection": 0.3636382309027684,
+              "forward_kl_ratio": 0.19365716313480344,
+              "target_error_kl_ratio": 0.5767213361765698
+            },
+            "2": {
+              "fisher_fidelity": 0.7752598220059503,
+              "fisher_cosine": 0.9026459658791233,
+              "target_projection": 0.6353499679037216,
+              "forward_kl_ratio": 0.45581576408756463,
+              "target_error_kl_ratio": 0.2470151552578384
+            },
+            "4": {
+              "fisher_fidelity": 0.9152187728710935,
+              "fisher_cosine": 0.9606273125299815,
+              "target_projection": 0.8391367174880192,
+              "forward_kl_ratio": 0.7394372584182752,
+              "target_error_kl_ratio": 0.0879242824578351
+            },
+            "6": {
+              "fisher_fidelity": 0.9569590152600161,
+              "fisher_cosine": 0.9808887455933379,
+              "target_projection": 0.8915216435960386,
+              "forward_kl_ratio": 0.8075757032661371,
+              "target_error_kl_ratio": 0.03658292609741096
+            },
+            "8": {
+              "fisher_fidelity": 0.9771835425573456,
+              "fisher_cosine": 0.9902711303684388,
+              "target_projection": 0.9224427805519997,
+              "forward_kl_ratio": 0.8237730203441499,
+              "target_error_kl_ratio": 0.02961365130961388
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.5021324418394044,
+              "fisher_cosine": 0.7663714321807595,
+              "target_projection": 0.3636382309027684,
+              "forward_kl_ratio": 0.19365716313480344,
+              "target_error_kl_ratio": 0.5767213361765698
+            },
+            "2": {
+              "fisher_fidelity": 0.7752598220059503,
+              "fisher_cosine": 0.9026459658791233,
+              "target_projection": 0.6353499679037216,
+              "forward_kl_ratio": 0.45581576408756463,
+              "target_error_kl_ratio": 0.2470151552578384
+            },
+            "4": {
+              "fisher_fidelity": 0.9038012546592292,
+              "fisher_cosine": 0.9571894946768092,
+              "target_projection": 0.8095783781404766,
+              "forward_kl_ratio": 0.660413941577019,
+              "target_error_kl_ratio": 0.109221811528679
+            },
+            "6": {
+              "fisher_fidelity": 0.9545742276355942,
+              "fisher_cosine": 0.978938083222569,
+              "target_projection": 0.8984076214707523,
+              "forward_kl_ratio": 0.8022081314101644,
+              "target_error_kl_ratio": 0.04628396425607627
+            },
+            "8": {
+              "fisher_fidelity": 0.9751747257286372,
+              "fisher_cosine": 0.9889215380754207,
+              "target_projection": 0.9257207089421099,
+              "forward_kl_ratio": 0.8431921654178127,
+              "target_error_kl_ratio": 0.025660161637357962
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.48166822881939153,
+              "fisher_cosine": 0.7241751718453482,
+              "target_projection": 0.37467858678106264,
+              "forward_kl_ratio": 0.1725998079577157,
+              "target_error_kl_ratio": 0.7386321812435666
+            },
+            "2": {
+              "fisher_fidelity": 0.5493569372177363,
+              "fisher_cosine": 0.7444950824268645,
+              "target_projection": 0.502073099570783,
+              "forward_kl_ratio": 0.29466426262146594,
+              "target_error_kl_ratio": 0.6270880549231406
+            },
+            "4": {
+              "fisher_fidelity": 0.760288434865642,
+              "fisher_cosine": 0.8719579235490913,
+              "target_projection": 0.7562031614983805,
+              "forward_kl_ratio": 0.5445699345269899,
+              "target_error_kl_ratio": 0.2513110559723106
+            },
+            "6": {
+              "fisher_fidelity": 0.9172079425722266,
+              "fisher_cosine": 0.9579557520332496,
+              "target_projection": 0.896884761055736,
+              "forward_kl_ratio": 0.7605652065609078,
+              "target_error_kl_ratio": 0.0511161103882565
+            },
+            "8": {
+              "fisher_fidelity": 0.9422033442454029,
+              "fisher_cosine": 0.9709988471760415,
+              "target_projection": 0.9183615574994819,
+              "forward_kl_ratio": 0.7572749860292632,
+              "target_error_kl_ratio": 0.0485997288440923
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.48166822881939153,
+              "fisher_cosine": 0.7241751718453482,
+              "target_projection": 0.37467858678106264,
+              "forward_kl_ratio": 0.1725998079577157,
+              "target_error_kl_ratio": 0.7386321812435666
+            },
+            "2": {
+              "fisher_fidelity": 0.5493569372177363,
+              "fisher_cosine": 0.7444950824268645,
+              "target_projection": 0.502073099570783,
+              "forward_kl_ratio": 0.29466426262146594,
+              "target_error_kl_ratio": 0.6270880549231406
+            },
+            "4": {
+              "fisher_fidelity": 0.8726341212420399,
+              "fisher_cosine": 0.9372979511434965,
+              "target_projection": 0.8065729469684919,
+              "forward_kl_ratio": 0.6101405625525594,
+              "target_error_kl_ratio": 0.09557770259701313
+            },
+            "6": {
+              "fisher_fidelity": 0.8939067037969185,
+              "fisher_cosine": 0.947077321483631,
+              "target_projection": 0.8446619490017981,
+              "forward_kl_ratio": 0.6353251658102672,
+              "target_error_kl_ratio": 0.09737591193784523
+            },
+            "8": {
+              "fisher_fidelity": 0.960978356927054,
+              "fisher_cosine": 0.9815089408738089,
+              "target_projection": 0.9154617590190014,
+              "forward_kl_ratio": 0.7933778476650258,
+              "target_error_kl_ratio": 0.02602425237924154
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.1102769068001267,
+              "fisher_cosine": 0.4248839534624025,
+              "target_projection": 0.06791250564910706,
+              "forward_kl_ratio": 0.016017730688531767,
+              "target_error_kl_ratio": 0.8614784257103381
+            },
+            "2": {
+              "fisher_fidelity": 0.28765185581510133,
+              "fisher_cosine": 0.5422196174445301,
+              "target_projection": 0.25079341374156144,
+              "forward_kl_ratio": 0.13656514703793537,
+              "target_error_kl_ratio": 0.6654125790370856
+            },
+            "4": {
+              "fisher_fidelity": 0.7718123968190088,
+              "fisher_cosine": 0.8798463229422224,
+              "target_projection": 0.731775938662519,
+              "forward_kl_ratio": 0.5339875042860145,
+              "target_error_kl_ratio": 0.20073261180143218
+            },
+            "6": {
+              "fisher_fidelity": 0.772523988219626,
+              "fisher_cosine": 0.8798010325136131,
+              "target_projection": 0.8084162860295551,
+              "forward_kl_ratio": 0.6472736063056993,
+              "target_error_kl_ratio": 0.18808999260439338
+            },
+            "8": {
+              "fisher_fidelity": 0.8807192663816485,
+              "fisher_cosine": 0.9386220735773787,
+              "target_projection": 0.897056141038419,
+              "forward_kl_ratio": 0.7661237182399832,
+              "target_error_kl_ratio": 0.08324547027372221
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 0.9999999826853927,
+              "target_projection": 0.9999999826853927,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "63": {
+        "forward_order": [
+          6,
+          5,
+          8,
+          10,
+          11,
+          7,
+          4,
+          9,
+          2,
+          3,
+          0,
+          1
+        ],
+        "backward_removal_order": [
+          3,
+          1,
+          0,
+          2,
+          9,
+          4,
+          7,
+          11,
+          10,
+          8,
+          5
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              8,
+              10
+            ],
+            "6": [
+              6,
+              5,
+              8,
+              10,
+              11,
+              7
+            ],
+            "8": [
+              6,
+              5,
+              8,
+              10,
+              11,
+              7,
+              4,
+              9
+            ]
+          },
+          "backward": {
+            "1": [
+              6
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              8,
+              10
+            ],
+            "6": [
+              5,
+              6,
+              7,
+              8,
+              10,
+              11
+            ],
+            "8": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              4,
+              8
+            ],
+            "6": [
+              6,
+              5,
+              4,
+              8,
+              2,
+              10
+            ],
+            "8": [
+              6,
+              5,
+              4,
+              8,
+              2,
+              10,
+              1,
+              3
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.4472384987865471,
+              "fisher_cosine": 0.695963892647385,
+              "target_projection": 0.35026455678891794,
+              "forward_kl_ratio": 0.2051146628234336,
+              "target_error_kl_ratio": 0.5667379074383418
+            },
+            "2": {
+              "fisher_fidelity": 0.5990435361594912,
+              "fisher_cosine": 0.7830264104213048,
+              "target_projection": 0.5201947570238417,
+              "forward_kl_ratio": 0.3601822497827905,
+              "target_error_kl_ratio": 0.42042285048672356
+            },
+            "4": {
+              "fisher_fidelity": 0.7952354848283925,
+              "fisher_cosine": 0.8938372713996684,
+              "target_projection": 0.7445045883084644,
+              "forward_kl_ratio": 0.7024243900978019,
+              "target_error_kl_ratio": 0.12419164674045483
+            },
+            "6": {
+              "fisher_fidelity": 0.9508478451224641,
+              "fisher_cosine": 0.975831586850033,
+              "target_projection": 0.9157427580956159,
+              "forward_kl_ratio": 0.8509667251458469,
+              "target_error_kl_ratio": 0.03370468304254709
+            },
+            "8": {
+              "fisher_fidelity": 0.9911317226647487,
+              "fisher_cosine": 0.9955948701956859,
+              "target_projection": 0.9999681447748054,
+              "forward_kl_ratio": 1.006491912423343,
+              "target_error_kl_ratio": 0.005014443465683931
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.4472384987865471,
+              "fisher_cosine": 0.695963892647385,
+              "target_projection": 0.35026455678891794,
+              "forward_kl_ratio": 0.2051146628234336,
+              "target_error_kl_ratio": 0.5667379074383418
+            },
+            "2": {
+              "fisher_fidelity": 0.5990435361594912,
+              "fisher_cosine": 0.7830264104213048,
+              "target_projection": 0.5201947570238417,
+              "forward_kl_ratio": 0.3601822497827905,
+              "target_error_kl_ratio": 0.42042285048672356
+            },
+            "4": {
+              "fisher_fidelity": 0.7952354848283925,
+              "fisher_cosine": 0.8938372713996684,
+              "target_projection": 0.7445045883084644,
+              "forward_kl_ratio": 0.7024243900978019,
+              "target_error_kl_ratio": 0.12419164674045483
+            },
+            "6": {
+              "fisher_fidelity": 0.9508478451224641,
+              "fisher_cosine": 0.975831586850033,
+              "target_projection": 0.9157427580956159,
+              "forward_kl_ratio": 0.8509667251458469,
+              "target_error_kl_ratio": 0.03370468304254709
+            },
+            "8": {
+              "fisher_fidelity": 0.9911317226647487,
+              "fisher_cosine": 0.9955948701956859,
+              "target_projection": 0.9999681447748054,
+              "forward_kl_ratio": 1.006491912423343,
+              "target_error_kl_ratio": 0.005014443465683931
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.2568754608386784,
+              "fisher_cosine": 0.5108706943883986,
+              "target_projection": 0.22822360370635295,
+              "forward_kl_ratio": 0.19997330749248324,
+              "target_error_kl_ratio": 0.6900503319336565
+            },
+            "2": {
+              "fisher_fidelity": 0.38608596186623956,
+              "fisher_cosine": 0.6213623476096322,
+              "target_projection": 0.3875087941198545,
+              "forward_kl_ratio": 0.3899713192065702,
+              "target_error_kl_ratio": 0.5618340818107026
+            },
+            "4": {
+              "fisher_fidelity": 0.778293212974505,
+              "fisher_cosine": 0.8822494709140208,
+              "target_projection": 0.7709333864833867,
+              "forward_kl_ratio": 0.7973519453777582,
+              "target_error_kl_ratio": 0.18911793239403937
+            },
+            "6": {
+              "fisher_fidelity": 0.9445869124683979,
+              "fisher_cosine": 0.9727721874385211,
+              "target_projection": 0.9061907672177477,
+              "forward_kl_ratio": 0.8766379140089074,
+              "target_error_kl_ratio": 0.04808018325470038
+            },
+            "8": {
+              "fisher_fidelity": 0.9812592468426823,
+              "fisher_cosine": 0.9905886387685626,
+              "target_projection": 0.9787114270258778,
+              "forward_kl_ratio": 0.9821016974147435,
+              "target_error_kl_ratio": 0.01554435824967616
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.2568754608386784,
+              "fisher_cosine": 0.5108706943883986,
+              "target_projection": 0.22822360370635295,
+              "forward_kl_ratio": 0.19997330749248324,
+              "target_error_kl_ratio": 0.6900503319336565
+            },
+            "2": {
+              "fisher_fidelity": 0.38608596186623956,
+              "fisher_cosine": 0.6213623476096322,
+              "target_projection": 0.3875087941198545,
+              "forward_kl_ratio": 0.3899713192065702,
+              "target_error_kl_ratio": 0.5618340818107026
+            },
+            "4": {
+              "fisher_fidelity": 0.778293212974505,
+              "fisher_cosine": 0.8822494709140208,
+              "target_projection": 0.7709333864833867,
+              "forward_kl_ratio": 0.7973519453777582,
+              "target_error_kl_ratio": 0.18911793239403937
+            },
+            "6": {
+              "fisher_fidelity": 0.9445869124683979,
+              "fisher_cosine": 0.9727721874385211,
+              "target_projection": 0.9061907672177477,
+              "forward_kl_ratio": 0.8766379140089074,
+              "target_error_kl_ratio": 0.04808018325470038
+            },
+            "8": {
+              "fisher_fidelity": 0.9812592468426823,
+              "fisher_cosine": 0.9905886387685626,
+              "target_projection": 0.9787114270258778,
+              "forward_kl_ratio": 0.9821016974147435,
+              "target_error_kl_ratio": 0.01554435824967616
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.2568754608386784,
+              "fisher_cosine": 0.5108706943883986,
+              "target_projection": 0.22822360370635295,
+              "forward_kl_ratio": 0.19997330749248324,
+              "target_error_kl_ratio": 0.6900503319336565
+            },
+            "2": {
+              "fisher_fidelity": 0.38608596186623956,
+              "fisher_cosine": 0.6213623476096322,
+              "target_projection": 0.3875087941198545,
+              "forward_kl_ratio": 0.3899713192065702,
+              "target_error_kl_ratio": 0.5618340818107026
+            },
+            "4": {
+              "fisher_fidelity": 0.5698382385534179,
+              "fisher_cosine": 0.7608526870767943,
+              "target_projection": 0.6513124575851261,
+              "forward_kl_ratio": 0.740764863897869,
+              "target_error_kl_ratio": 0.3877467513773552
+            },
+            "6": {
+              "fisher_fidelity": 0.7952583093585263,
+              "fisher_cosine": 0.8926608335690004,
+              "target_projection": 0.8323828031160477,
+              "forward_kl_ratio": 0.8932409271713211,
+              "target_error_kl_ratio": 0.17827940449391608
+            },
+            "8": {
+              "fisher_fidelity": 0.7192175365032973,
+              "fisher_cosine": 0.8544296957787654,
+              "target_projection": 0.818979104953604,
+              "forward_kl_ratio": 0.9430005436530605,
+              "target_error_kl_ratio": 0.23449910956860875
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 0.9999999820147356,
+              "target_projection": 0.9999999820147356,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      },
+      "95": {
+        "forward_order": [
+          5,
+          6,
+          8,
+          10,
+          9,
+          4,
+          11,
+          7,
+          2,
+          3,
+          0,
+          1
+        ],
+        "backward_removal_order": [
+          1,
+          0,
+          3,
+          2,
+          9,
+          4,
+          11,
+          7,
+          10,
+          8,
+          6
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              8,
+              10
+            ],
+            "6": [
+              5,
+              6,
+              8,
+              10,
+              9,
+              4
+            ],
+            "8": [
+              5,
+              6,
+              8,
+              10,
+              9,
+              4,
+              11,
+              7
+            ]
+          },
+          "backward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              8,
+              10
+            ],
+            "6": [
+              5,
+              6,
+              7,
+              8,
+              10,
+              11
+            ],
+            "8": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              3,
+              8
+            ],
+            "6": [
+              5,
+              6,
+              3,
+              8,
+              4,
+              10
+            ],
+            "8": [
+              5,
+              6,
+              3,
+              8,
+              4,
+              10,
+              2,
+              7
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.42658095304776056,
+              "fisher_cosine": 0.6698414483958475,
+              "target_projection": 0.3490935784552219,
+              "forward_kl_ratio": 0.18592923866540656,
+              "target_error_kl_ratio": 0.7870798859404403
+            },
+            "2": {
+              "fisher_fidelity": 0.7231096498705719,
+              "fisher_cosine": 0.8623321157535051,
+              "target_projection": 0.6201283463211964,
+              "forward_kl_ratio": 0.39339905291521643,
+              "target_error_kl_ratio": 0.3048746269420585
+            },
+            "4": {
+              "fisher_fidelity": 0.8620254158144425,
+              "fisher_cosine": 0.9304314391645448,
+              "target_projection": 0.809281226711924,
+              "forward_kl_ratio": 0.7012143826848061,
+              "target_error_kl_ratio": 0.09569178957609072
+            },
+            "6": {
+              "fisher_fidelity": 0.9292748494096764,
+              "fisher_cosine": 0.964053187590249,
+              "target_projection": 0.9186725044512105,
+              "forward_kl_ratio": 0.9271153931382762,
+              "target_error_kl_ratio": 0.02900457962966362
+            },
+            "8": {
+              "fisher_fidelity": 0.9871253191290967,
+              "fisher_cosine": 0.9937128680305612,
+              "target_projection": 0.9691435245378213,
+              "forward_kl_ratio": 0.9443447437383606,
+              "target_error_kl_ratio": 0.005638218283858452
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.42658095304776056,
+              "fisher_cosine": 0.6698414483958475,
+              "target_projection": 0.3490935784552219,
+              "forward_kl_ratio": 0.18592923866540656,
+              "target_error_kl_ratio": 0.7870798859404403
+            },
+            "2": {
+              "fisher_fidelity": 0.7231096498705719,
+              "fisher_cosine": 0.8623321157535051,
+              "target_projection": 0.6201283463211964,
+              "forward_kl_ratio": 0.39339905291521643,
+              "target_error_kl_ratio": 0.3048746269420585
+            },
+            "4": {
+              "fisher_fidelity": 0.8620254158144425,
+              "fisher_cosine": 0.9304314391645448,
+              "target_projection": 0.809281226711924,
+              "forward_kl_ratio": 0.7012143826848061,
+              "target_error_kl_ratio": 0.09569178957609072
+            },
+            "6": {
+              "fisher_fidelity": 0.928000357937898,
+              "fisher_cosine": 0.9646629037053254,
+              "target_projection": 0.8816307209875265,
+              "forward_kl_ratio": 0.7445189442643941,
+              "target_error_kl_ratio": 0.06577063534869984
+            },
+            "8": {
+              "fisher_fidelity": 0.9871253191290967,
+              "fisher_cosine": 0.9937128680305612,
+              "target_projection": 0.9691435245378213,
+              "forward_kl_ratio": 0.9443447437383606,
+              "target_error_kl_ratio": 0.005638218283858452
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.32888389298504916,
+              "fisher_cosine": 0.5760618875961461,
+              "target_projection": 0.3004885047386619,
+              "forward_kl_ratio": 0.2548704625769506,
+              "target_error_kl_ratio": 0.6741539853858848
+            },
+            "2": {
+              "fisher_fidelity": 0.5909464297583928,
+              "fisher_cosine": 0.7696138450424604,
+              "target_projection": 0.5639345640756617,
+              "forward_kl_ratio": 0.5090476553220884,
+              "target_error_kl_ratio": 0.388000185935912
+            },
+            "4": {
+              "fisher_fidelity": 0.7709180033122965,
+              "fisher_cosine": 0.8787239408672174,
+              "target_projection": 0.8030699221058258,
+              "forward_kl_ratio": 0.8511540300304928,
+              "target_error_kl_ratio": 0.18757928066168328
+            },
+            "6": {
+              "fisher_fidelity": 0.8080544123887708,
+              "fisher_cosine": 0.9058720900115008,
+              "target_projection": 0.9220852098837994,
+              "forward_kl_ratio": 1.0426111621564496,
+              "target_error_kl_ratio": 0.1579972856588352
+            },
+            "8": {
+              "fisher_fidelity": 0.9759413139466283,
+              "fisher_cosine": 0.9878978068482113,
+              "target_projection": 0.9767569127611053,
+              "forward_kl_ratio": 0.9760604944621287,
+              "target_error_kl_ratio": 0.01915983619928601
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.32888389298504916,
+              "fisher_cosine": 0.5760618875961461,
+              "target_projection": 0.3004885047386619,
+              "forward_kl_ratio": 0.2548704625769506,
+              "target_error_kl_ratio": 0.6741539853858848
+            },
+            "2": {
+              "fisher_fidelity": 0.5909464297583928,
+              "fisher_cosine": 0.7696138450424604,
+              "target_projection": 0.5639345640756617,
+              "forward_kl_ratio": 0.5090476553220884,
+              "target_error_kl_ratio": 0.388000185935912
+            },
+            "4": {
+              "fisher_fidelity": 0.7709180033122965,
+              "fisher_cosine": 0.8787239408672174,
+              "target_projection": 0.8030699221058258,
+              "forward_kl_ratio": 0.8511540300304928,
+              "target_error_kl_ratio": 0.18757928066168328
+            },
+            "6": {
+              "fisher_fidelity": 0.8939283055190652,
+              "fisher_cosine": 0.9455093615192609,
+              "target_projection": 0.8866853983598364,
+              "forward_kl_ratio": 0.876975728267492,
+              "target_error_kl_ratio": 0.08590399312285703
+            },
+            "8": {
+              "fisher_fidelity": 0.9759413139466283,
+              "fisher_cosine": 0.9878978068482113,
+              "target_projection": 0.9767569127611053,
+              "forward_kl_ratio": 0.9760604944621287,
+              "target_error_kl_ratio": 0.01915983619928601
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.32888389298504916,
+              "fisher_cosine": 0.5760618875961461,
+              "target_projection": 0.3004885047386619,
+              "forward_kl_ratio": 0.2548704625769506,
+              "target_error_kl_ratio": 0.6741539853858848
+            },
+            "2": {
+              "fisher_fidelity": 0.5909464297583928,
+              "fisher_cosine": 0.7696138450424604,
+              "target_projection": 0.5639345640756617,
+              "forward_kl_ratio": 0.5090476553220884,
+              "target_error_kl_ratio": 0.388000185935912
+            },
+            "4": {
+              "fisher_fidelity": 0.7179030494301235,
+              "fisher_cosine": 0.8479506819876235,
+              "target_projection": 0.7473641615660803,
+              "forward_kl_ratio": 0.7710404622114052,
+              "target_error_kl_ratio": 0.22792438908680485
+            },
+            "6": {
+              "fisher_fidelity": 0.7964825892609186,
+              "fisher_cosine": 0.901212383189743,
+              "target_projection": 0.925109418752703,
+              "forward_kl_ratio": 1.0564050396630769,
+              "target_error_kl_ratio": 0.16853911856683185
+            },
+            "8": {
+              "fisher_fidelity": 0.9340623777458266,
+              "fisher_cosine": 0.9665808248687124,
+              "target_projection": 0.9484865785627233,
+              "forward_kl_ratio": 0.9552457262500983,
+              "target_error_kl_ratio": 0.05288067519345227
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 1.000000015305088,
+              "target_projection": 1.000000015305088,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      },
+      "119": {
+        "forward_order": [
+          6,
+          4,
+          5,
+          3,
+          7,
+          10,
+          1,
+          8,
+          11,
+          0,
+          9,
+          2
+        ],
+        "backward_removal_order": [
+          2,
+          9,
+          0,
+          11,
+          10,
+          1,
+          8,
+          7,
+          3,
+          5,
+          4
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              4
+            ],
+            "4": [
+              6,
+              4,
+              5,
+              3
+            ],
+            "6": [
+              6,
+              4,
+              5,
+              3,
+              7,
+              10
+            ],
+            "8": [
+              6,
+              4,
+              5,
+              3,
+              7,
+              10,
+              1,
+              8
+            ]
+          },
+          "backward": {
+            "1": [
+              6
+            ],
+            "2": [
+              4,
+              6
+            ],
+            "4": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "6": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "8": [
+              1,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              10
+            ]
+          },
+          "frozen": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              4
+            ],
+            "4": [
+              5,
+              4,
+              6,
+              2
+            ],
+            "6": [
+              5,
+              4,
+              6,
+              2,
+              3,
+              7
+            ],
+            "8": [
+              5,
+              4,
+              6,
+              2,
+              3,
+              7,
+              1,
+              9
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.4703213380526019,
+              "fisher_cosine": 0.7662090368373448,
+              "target_projection": 0.32526707761123175,
+              "forward_kl_ratio": 0.22286814844295336,
+              "target_error_kl_ratio": 0.5787252972588862
+            },
+            "2": {
+              "fisher_fidelity": 0.7453060800103877,
+              "fisher_cosine": 0.8911314410781872,
+              "target_projection": 0.5972396152648107,
+              "forward_kl_ratio": 0.5096177467393482,
+              "target_error_kl_ratio": 0.3244953133315963
+            },
+            "4": {
+              "fisher_fidelity": 0.8975628658966008,
+              "fisher_cosine": 0.9622055338302831,
+              "target_projection": 0.7640385787309223,
+              "forward_kl_ratio": 0.6626513097224532,
+              "target_error_kl_ratio": 0.12918354633445206
+            },
+            "6": {
+              "fisher_fidelity": 0.9516536003972271,
+              "fisher_cosine": 0.9787415976113168,
+              "target_projection": 0.8803638982634495,
+              "forward_kl_ratio": 0.8267070318695992,
+              "target_error_kl_ratio": 0.0769718551251926
+            },
+            "8": {
+              "fisher_fidelity": 0.9795410737316256,
+              "fisher_cosine": 0.9904981768233185,
+              "target_projection": 0.9421464076778514,
+              "forward_kl_ratio": 0.9075386954687006,
+              "target_error_kl_ratio": 0.033778810523292964
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.4703213380526019,
+              "fisher_cosine": 0.7662090368373448,
+              "target_projection": 0.32526707761123175,
+              "forward_kl_ratio": 0.22286814844295336,
+              "target_error_kl_ratio": 0.5787252972588862
+            },
+            "2": {
+              "fisher_fidelity": 0.7453060800103877,
+              "fisher_cosine": 0.8911314410781872,
+              "target_projection": 0.5972396152648107,
+              "forward_kl_ratio": 0.5096177467393482,
+              "target_error_kl_ratio": 0.3244953133315963
+            },
+            "4": {
+              "fisher_fidelity": 0.8975628658966008,
+              "fisher_cosine": 0.9622055338302831,
+              "target_projection": 0.7640385787309223,
+              "forward_kl_ratio": 0.6626513097224532,
+              "target_error_kl_ratio": 0.12918354633445206
+            },
+            "6": {
+              "fisher_fidelity": 0.9505874511725383,
+              "fisher_cosine": 0.9795314970640823,
+              "target_projection": 0.8671019990625312,
+              "forward_kl_ratio": 0.7967780977177065,
+              "target_error_kl_ratio": 0.07415759101123373
+            },
+            "8": {
+              "fisher_fidelity": 0.9795410737316256,
+              "fisher_cosine": 0.9904981768233185,
+              "target_projection": 0.9421464076778514,
+              "forward_kl_ratio": 0.9075386954687006,
+              "target_error_kl_ratio": 0.033778810523292964
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.520656864177335,
+              "fisher_cosine": 0.7787190965719616,
+              "target_projection": 0.3783748670736321,
+              "forward_kl_ratio": 0.24056117700056268,
+              "target_error_kl_ratio": 0.3224726638383564
+            },
+            "2": {
+              "fisher_fidelity": 0.6545450723750731,
+              "fisher_cosine": 0.8436811804271495,
+              "target_projection": 0.5099254744577852,
+              "forward_kl_ratio": 0.33834038558239166,
+              "target_error_kl_ratio": 0.25033398305689236
+            },
+            "4": {
+              "fisher_fidelity": 0.753537753220612,
+              "fisher_cosine": 0.8713762942174058,
+              "target_projection": 0.6931701589015243,
+              "forward_kl_ratio": 0.580004667092874,
+              "target_error_kl_ratio": 0.17596417409489787
+            },
+            "6": {
+              "fisher_fidelity": 0.8709921028296106,
+              "fisher_cosine": 0.9346477387200494,
+              "target_projection": 0.8261448202827752,
+              "forward_kl_ratio": 0.7004056322117727,
+              "target_error_kl_ratio": 0.11555060135709888
+            },
+            "8": {
+              "fisher_fidelity": 0.9348965995674967,
+              "fisher_cosine": 0.9671306557939123,
+              "target_projection": 0.9149374869966171,
+              "forward_kl_ratio": 0.8584687537588028,
+              "target_error_kl_ratio": 0.0379023446557956
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.520656864177335,
+              "fisher_cosine": 0.7787190965719616,
+              "target_projection": 0.3783748670736321,
+              "forward_kl_ratio": 0.24056117700056268,
+              "target_error_kl_ratio": 0.3224726638383564
+            },
+            "2": {
+              "fisher_fidelity": 0.6545450723750731,
+              "fisher_cosine": 0.8436811804271495,
+              "target_projection": 0.5099254744577852,
+              "forward_kl_ratio": 0.33834038558239166,
+              "target_error_kl_ratio": 0.25033398305689236
+            },
+            "4": {
+              "fisher_fidelity": 0.753537753220612,
+              "fisher_cosine": 0.8713762942174058,
+              "target_projection": 0.6931701589015243,
+              "forward_kl_ratio": 0.580004667092874,
+              "target_error_kl_ratio": 0.17596417409489787
+            },
+            "6": {
+              "fisher_fidelity": 0.8826270366201203,
+              "fisher_cosine": 0.9406732434662147,
+              "target_projection": 0.8403537063260412,
+              "forward_kl_ratio": 0.7628893077011067,
+              "target_error_kl_ratio": 0.07489482656106929
+            },
+            "8": {
+              "fisher_fidelity": 0.9348965995674967,
+              "fisher_cosine": 0.9671306557939123,
+              "target_projection": 0.9149374869966171,
+              "forward_kl_ratio": 0.8584687537588028,
+              "target_error_kl_ratio": 0.0379023446557956
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.28362599126518584,
+              "fisher_cosine": 0.5440739565750022,
+              "target_projection": 0.23545422253107787,
+              "forward_kl_ratio": 0.14582103918122852,
+              "target_error_kl_ratio": 0.8367293755027315
+            },
+            "2": {
+              "fisher_fidelity": 0.3949822873685799,
+              "fisher_cosine": 0.6296137447179359,
+              "target_projection": 0.3725940592063533,
+              "forward_kl_ratio": 0.2799603934104493,
+              "target_error_kl_ratio": 0.7512270216503795
+            },
+            "4": {
+              "fisher_fidelity": 0.7263081272644747,
+              "fisher_cosine": 0.8551781451537671,
+              "target_projection": 0.6707295220930848,
+              "forward_kl_ratio": 0.5643795346209293,
+              "target_error_kl_ratio": 0.18903533014533805
+            },
+            "6": {
+              "fisher_fidelity": 0.7571830261709546,
+              "fisher_cosine": 0.8703577225846076,
+              "target_projection": 0.7735597589625718,
+              "forward_kl_ratio": 0.7151393347565533,
+              "target_error_kl_ratio": 0.19821442932351108
+            },
+            "8": {
+              "fisher_fidelity": 0.8060850083747972,
+              "fisher_cosine": 0.8981784691711715,
+              "target_projection": 0.8294396914846879,
+              "forward_kl_ratio": 0.7827897901290759,
+              "target_error_kl_ratio": 0.13864595706433278
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 1.0,
+              "target_projection": 1.0,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "63": {
+        "forward_order": [
+          5,
+          6,
+          4,
+          8,
+          10,
+          9,
+          11,
+          3,
+          2,
+          7,
+          1,
+          0
+        ],
+        "backward_removal_order": [
+          0,
+          1,
+          7,
+          2,
+          3,
+          11,
+          9,
+          10,
+          8,
+          4,
+          6
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              4,
+              8
+            ],
+            "6": [
+              5,
+              6,
+              4,
+              8,
+              10,
+              9
+            ],
+            "8": [
+              5,
+              6,
+              4,
+              8,
+              10,
+              9,
+              11,
+              3
+            ]
+          },
+          "backward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              4,
+              5,
+              6,
+              8
+            ],
+            "6": [
+              4,
+              5,
+              6,
+              8,
+              9,
+              10
+            ],
+            "8": [
+              3,
+              4,
+              5,
+              6,
+              8,
+              9,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              9,
+              4
+            ],
+            "6": [
+              6,
+              5,
+              9,
+              4,
+              3,
+              8
+            ],
+            "8": [
+              6,
+              5,
+              9,
+              4,
+              3,
+              8,
+              2,
+              1
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.6329714328245184,
+              "fisher_cosine": 0.8278463188819024,
+              "target_projection": 0.4959027485323118,
+              "forward_kl_ratio": 0.2708065851059044,
+              "target_error_kl_ratio": 0.6090458821329024
+            },
+            "2": {
+              "fisher_fidelity": 0.8408792063153451,
+              "fisher_cosine": 0.9215221719069461,
+              "target_projection": 0.7651277217184339,
+              "forward_kl_ratio": 0.554919708776573,
+              "target_error_kl_ratio": 0.27418330212331604
+            },
+            "4": {
+              "fisher_fidelity": 0.961596014665439,
+              "fisher_cosine": 0.9825809090018652,
+              "target_projection": 0.9043449516246789,
+              "forward_kl_ratio": 0.7608901613581325,
+              "target_error_kl_ratio": 0.05140337489704985
+            },
+            "6": {
+              "fisher_fidelity": 0.9869719933860294,
+              "fisher_cosine": 0.9942339987810458,
+              "target_projection": 0.9496237781525284,
+              "forward_kl_ratio": 0.9042440089917483,
+              "target_error_kl_ratio": 0.007613315678786956
+            },
+            "8": {
+              "fisher_fidelity": 0.9945959351599157,
+              "fisher_cosine": 0.9973292516019018,
+              "target_projection": 1.0029851319626941,
+              "forward_kl_ratio": 1.0005856038945626,
+              "target_error_kl_ratio": 0.002874523402023136
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.6329714328245184,
+              "fisher_cosine": 0.8278463188819024,
+              "target_projection": 0.4959027485323118,
+              "forward_kl_ratio": 0.2708065851059044,
+              "target_error_kl_ratio": 0.6090458821329024
+            },
+            "2": {
+              "fisher_fidelity": 0.8408792063153451,
+              "fisher_cosine": 0.9215221719069461,
+              "target_projection": 0.7651277217184339,
+              "forward_kl_ratio": 0.554919708776573,
+              "target_error_kl_ratio": 0.27418330212331604
+            },
+            "4": {
+              "fisher_fidelity": 0.961596014665439,
+              "fisher_cosine": 0.9825809090018652,
+              "target_projection": 0.9043449516246789,
+              "forward_kl_ratio": 0.7608901613581325,
+              "target_error_kl_ratio": 0.05140337489704985
+            },
+            "6": {
+              "fisher_fidelity": 0.9869719933860294,
+              "fisher_cosine": 0.9942339987810458,
+              "target_projection": 0.9496237781525284,
+              "forward_kl_ratio": 0.9042440089917483,
+              "target_error_kl_ratio": 0.007613315678786956
+            },
+            "8": {
+              "fisher_fidelity": 0.9945959351599157,
+              "fisher_cosine": 0.9973292516019018,
+              "target_projection": 1.0029851319626941,
+              "forward_kl_ratio": 1.0005856038945626,
+              "target_error_kl_ratio": 0.002874523402023136
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.5889930572260222,
+              "fisher_cosine": 0.8125034419643904,
+              "target_projection": 0.4434064922561529,
+              "forward_kl_ratio": 0.24343389866583487,
+              "target_error_kl_ratio": 0.5681882779361832
+            },
+            "2": {
+              "fisher_fidelity": 0.8078256787693878,
+              "fisher_cosine": 0.9078068451929496,
+              "target_projection": 0.7082565256723786,
+              "forward_kl_ratio": 0.5132711126655453,
+              "target_error_kl_ratio": 0.26146145388023173
+            },
+            "4": {
+              "fisher_fidelity": 0.9008343632315234,
+              "fisher_cosine": 0.949196785025736,
+              "target_projection": 0.8897408143939516,
+              "forward_kl_ratio": 0.7927883915464398,
+              "target_error_kl_ratio": 0.09104781730958594
+            },
+            "6": {
+              "fisher_fidelity": 0.9486575526211202,
+              "fisher_cosine": 0.9744969272615011,
+              "target_projection": 0.9802546027458566,
+              "forward_kl_ratio": 0.9906048151780529,
+              "target_error_kl_ratio": 0.02868788004949102
+            },
+            "8": {
+              "fisher_fidelity": 0.9658074065409156,
+              "fisher_cosine": 0.9844202668737327,
+              "target_projection": 1.0254265008451686,
+              "forward_kl_ratio": 1.0643189279592802,
+              "target_error_kl_ratio": 0.01847444279000927
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.5889930572260222,
+              "fisher_cosine": 0.8125034419643904,
+              "target_projection": 0.4434064922561529,
+              "forward_kl_ratio": 0.24343389866583487,
+              "target_error_kl_ratio": 0.5681882779361832
+            },
+            "2": {
+              "fisher_fidelity": 0.8078256787693878,
+              "fisher_cosine": 0.9078068451929496,
+              "target_projection": 0.7082565256723786,
+              "forward_kl_ratio": 0.5132711126655453,
+              "target_error_kl_ratio": 0.26146145388023173
+            },
+            "4": {
+              "fisher_fidelity": 0.9008343632315234,
+              "fisher_cosine": 0.949196785025736,
+              "target_projection": 0.8897408143939516,
+              "forward_kl_ratio": 0.7927883915464398,
+              "target_error_kl_ratio": 0.09104781730958594
+            },
+            "6": {
+              "fisher_fidelity": 0.9486575526211202,
+              "fisher_cosine": 0.9744969272615011,
+              "target_projection": 0.9802546027458566,
+              "forward_kl_ratio": 0.9906048151780529,
+              "target_error_kl_ratio": 0.02868788004949102
+            },
+            "8": {
+              "fisher_fidelity": 0.9658074065409156,
+              "fisher_cosine": 0.9844202668737327,
+              "target_projection": 1.0254265008451686,
+              "forward_kl_ratio": 1.0643189279592802,
+              "target_error_kl_ratio": 0.01847444279000927
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.4400570347898667,
+              "fisher_cosine": 0.6696050292423325,
+              "target_projection": 0.38731634899592693,
+              "forward_kl_ratio": 0.2787366572054797,
+              "target_error_kl_ratio": 0.558401965428713
+            },
+            "2": {
+              "fisher_fidelity": 0.8078256787693878,
+              "fisher_cosine": 0.9078068451929496,
+              "target_projection": 0.7082565256723786,
+              "forward_kl_ratio": 0.5132711126655453,
+              "target_error_kl_ratio": 0.26146145388023173
+            },
+            "4": {
+              "fisher_fidelity": 0.9151017806075372,
+              "fisher_cosine": 0.9575450906711735,
+              "target_projection": 0.8763732474854625,
+              "forward_kl_ratio": 0.7534701459646201,
+              "target_error_kl_ratio": 0.09410086279046509
+            },
+            "6": {
+              "fisher_fidelity": 0.9330087676091994,
+              "fisher_cosine": 0.9673432409555125,
+              "target_projection": 0.9864259404889607,
+              "forward_kl_ratio": 0.9774362715540938,
+              "target_error_kl_ratio": 0.044534663540561036
+            },
+            "8": {
+              "fisher_fidelity": 0.930213633471043,
+              "fisher_cosine": 0.9661787972154352,
+              "target_projection": 0.9889013707656539,
+              "forward_kl_ratio": 0.980185276531282,
+              "target_error_kl_ratio": 0.045238471133494544
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 1.0000000117026129,
+              "target_projection": 1.0000000117026129,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      },
+      "95": {
+        "forward_order": [
+          5,
+          6,
+          9,
+          4,
+          8,
+          3,
+          10,
+          7,
+          1,
+          2,
+          11,
+          0
+        ],
+        "backward_removal_order": [
+          3,
+          11,
+          0,
+          1,
+          10,
+          9,
+          2,
+          7,
+          8,
+          4,
+          6
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              5,
+              6,
+              9,
+              4
+            ],
+            "6": [
+              5,
+              6,
+              9,
+              4,
+              8,
+              3
+            ],
+            "8": [
+              5,
+              6,
+              9,
+              4,
+              8,
+              3,
+              10,
+              7
+            ]
+          },
+          "backward": {
+            "1": [
+              5
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              4,
+              5,
+              6,
+              8
+            ],
+            "6": [
+              2,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "8": [
+              2,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ]
+          },
+          "frozen": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              4,
+              1
+            ],
+            "6": [
+              6,
+              5,
+              4,
+              1,
+              8,
+              3
+            ],
+            "8": [
+              6,
+              5,
+              4,
+              1,
+              8,
+              3,
+              2,
+              9
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.5068789060867296,
+              "fisher_cosine": 0.7188806429251394,
+              "target_projection": 0.44522376091252164,
+              "forward_kl_ratio": 0.28200075776845007,
+              "target_error_kl_ratio": 0.7110422229985954
+            },
+            "2": {
+              "fisher_fidelity": 0.7978903553648881,
+              "fisher_cosine": 0.896597438700798,
+              "target_projection": 0.7344560434052038,
+              "forward_kl_ratio": 0.520786319301174,
+              "target_error_kl_ratio": 0.3164730215273094
+            },
+            "4": {
+              "fisher_fidelity": 0.9309688487872347,
+              "fisher_cosine": 0.9707104511106582,
+              "target_projection": 0.8390451652146369,
+              "forward_kl_ratio": 0.6264966437514553,
+              "target_error_kl_ratio": 0.12203053988018599
+            },
+            "6": {
+              "fisher_fidelity": 0.9818736783486333,
+              "fisher_cosine": 0.9915980187582654,
+              "target_projection": 0.9462568626798243,
+              "forward_kl_ratio": 0.8751055119307577,
+              "target_error_kl_ratio": 0.013363422608986611
+            },
+            "8": {
+              "fisher_fidelity": 0.9930890333231306,
+              "fisher_cosine": 0.9965888943476479,
+              "target_projection": 0.9831968648638175,
+              "forward_kl_ratio": 0.974885263460738,
+              "target_error_kl_ratio": 0.003429126066772127
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.5068789060867296,
+              "fisher_cosine": 0.7188806429251394,
+              "target_projection": 0.44522376091252164,
+              "forward_kl_ratio": 0.28200075776845007,
+              "target_error_kl_ratio": 0.7110422229985954
+            },
+            "2": {
+              "fisher_fidelity": 0.7978903553648881,
+              "fisher_cosine": 0.896597438700798,
+              "target_projection": 0.7344560434052038,
+              "forward_kl_ratio": 0.520786319301174,
+              "target_error_kl_ratio": 0.3164730215273094
+            },
+            "4": {
+              "fisher_fidelity": 0.9476374551726346,
+              "fisher_cosine": 0.9754133262678948,
+              "target_projection": 0.8913514447054399,
+              "forward_kl_ratio": 0.7243003782631375,
+              "target_error_kl_ratio": 0.08018815283660669
+            },
+            "6": {
+              "fisher_fidelity": 0.9787557531533906,
+              "fisher_cosine": 0.9907180007637534,
+              "target_projection": 0.9294125889943595,
+              "forward_kl_ratio": 0.756777815487655,
+              "target_error_kl_ratio": 0.0643149907158472
+            },
+            "8": {
+              "fisher_fidelity": 0.9917710624535322,
+              "fisher_cosine": 0.9961751122105843,
+              "target_projection": 0.9680889453308199,
+              "forward_kl_ratio": 0.9546981685588161,
+              "target_error_kl_ratio": 0.0039337211129359196
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.3162599816093592,
+              "fisher_cosine": 0.6711508611713496,
+              "target_projection": 0.2045938037910749,
+              "forward_kl_ratio": 0.028327229055955652,
+              "target_error_kl_ratio": 0.7722241174491411
+            },
+            "2": {
+              "fisher_fidelity": 0.5868553023474793,
+              "fisher_cosine": 0.8201951232184904,
+              "target_projection": 0.4323809391931358,
+              "forward_kl_ratio": 0.17050090324283693,
+              "target_error_kl_ratio": 0.2493195757015819
+            },
+            "4": {
+              "fisher_fidelity": 0.7242320022858544,
+              "fisher_cosine": 0.8662047937084603,
+              "target_projection": 0.610428273789696,
+              "forward_kl_ratio": 0.4064784877405735,
+              "target_error_kl_ratio": 0.09808044365836888
+            },
+            "6": {
+              "fisher_fidelity": 0.8097190438688487,
+              "fisher_cosine": 0.9024308907208907,
+              "target_projection": 0.752762256424717,
+              "forward_kl_ratio": 0.7814473468181564,
+              "target_error_kl_ratio": 0.023568269647951366
+            },
+            "8": {
+              "fisher_fidelity": 0.8861089466443859,
+              "fisher_cosine": 0.9440772476131291,
+              "target_projection": 0.8233799348348483,
+              "forward_kl_ratio": 0.8628784699926121,
+              "target_error_kl_ratio": 0.013668180171382487
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.3162599816093592,
+              "fisher_cosine": 0.6711508611713496,
+              "target_projection": 0.2045938037910749,
+              "forward_kl_ratio": 0.028327229055955652,
+              "target_error_kl_ratio": 0.7722241174491411
+            },
+            "2": {
+              "fisher_fidelity": 0.5868553023474793,
+              "fisher_cosine": 0.8201951232184904,
+              "target_projection": 0.4323809391931358,
+              "forward_kl_ratio": 0.17050090324283693,
+              "target_error_kl_ratio": 0.2493195757015819
+            },
+            "4": {
+              "fisher_fidelity": 0.6950384475460036,
+              "fisher_cosine": 0.8442338178801834,
+              "target_projection": 0.6004373829281556,
+              "forward_kl_ratio": 0.440491237151718,
+              "target_error_kl_ratio": 0.08451032099622033
+            },
+            "6": {
+              "fisher_fidelity": 0.5642946628359933,
+              "fisher_cosine": 0.7545695701582904,
+              "target_projection": 0.6231592800691624,
+              "forward_kl_ratio": 0.5469179074782641,
+              "target_error_kl_ratio": 0.08115187903708984
+            },
+            "8": {
+              "fisher_fidelity": 0.8209587578841933,
+              "fisher_cosine": 0.9073430092438596,
+              "target_projection": 0.7796383012594568,
+              "forward_kl_ratio": 0.8654806841887461,
+              "target_error_kl_ratio": 0.020672498119466406
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.4106577694647192,
+              "fisher_cosine": 0.7157204686174501,
+              "target_projection": 0.28412387411552176,
+              "forward_kl_ratio": 0.08565699950131005,
+              "target_error_kl_ratio": 0.37330555603356697
+            },
+            "2": {
+              "fisher_fidelity": 0.5868553023474793,
+              "fisher_cosine": 0.8201951232184904,
+              "target_projection": 0.4323809391931358,
+              "forward_kl_ratio": 0.17050090324283693,
+              "target_error_kl_ratio": 0.2493195757015819
+            },
+            "4": {
+              "fisher_fidelity": 0.6976911464151421,
+              "fisher_cosine": 0.8413290818476586,
+              "target_projection": 0.6231008167722024,
+              "forward_kl_ratio": 0.30017229511316756,
+              "target_error_kl_ratio": 0.18215681125324443
+            },
+            "6": {
+              "fisher_fidelity": 0.7913845172074307,
+              "fisher_cosine": 0.889663263280999,
+              "target_projection": 0.781915982892211,
+              "forward_kl_ratio": 0.647666001002443,
+              "target_error_kl_ratio": 0.040805978811134645
+            },
+            "8": {
+              "fisher_fidelity": 0.7595805650619271,
+              "fisher_cosine": 0.878108457073341,
+              "target_projection": 0.8652162410893705,
+              "forward_kl_ratio": 0.8793548022700722,
+              "target_error_kl_ratio": 0.024151513423225482
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 1.0,
+              "target_projection": 1.0,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      },
+      "119": {
+        "forward_order": [
+          6,
+          5,
+          4,
+          3,
+          8,
+          11,
+          10,
+          9,
+          7,
+          1,
+          0,
+          2
+        ],
+        "backward_removal_order": [
+          2,
+          0,
+          9,
+          1,
+          7,
+          10,
+          11,
+          8,
+          3,
+          4,
+          5
+        ],
+        "sets": {
+          "forward": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              4,
+              3
+            ],
+            "6": [
+              6,
+              5,
+              4,
+              3,
+              8,
+              11
+            ],
+            "8": [
+              6,
+              5,
+              4,
+              3,
+              8,
+              11,
+              10,
+              9
+            ]
+          },
+          "backward": {
+            "1": [
+              6
+            ],
+            "2": [
+              5,
+              6
+            ],
+            "4": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "6": [
+              3,
+              4,
+              5,
+              6,
+              8,
+              11
+            ],
+            "8": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              10,
+              11
+            ]
+          },
+          "frozen": {
+            "1": [
+              6
+            ],
+            "2": [
+              6,
+              5
+            ],
+            "4": [
+              6,
+              5,
+              4,
+              2
+            ],
+            "6": [
+              6,
+              5,
+              4,
+              2,
+              3,
+              1
+            ],
+            "8": [
+              6,
+              5,
+              4,
+              2,
+              3,
+              1,
+              8,
+              9
+            ]
+          }
+        },
+        "selection_scores": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.5300818236878351,
+              "fisher_cosine": 0.7385984802297937,
+              "target_projection": 0.45373369272755093,
+              "forward_kl_ratio": 0.27937078461993337,
+              "target_error_kl_ratio": 0.2964557127711243
+            },
+            "2": {
+              "fisher_fidelity": 0.8510082956036747,
+              "fisher_cosine": 0.9283813684745985,
+              "target_projection": 0.7650386602143735,
+              "forward_kl_ratio": 0.5872916383237141,
+              "target_error_kl_ratio": 0.08289244509438518
+            },
+            "4": {
+              "fisher_fidelity": 0.9255824647753308,
+              "fisher_cosine": 0.9631699782300587,
+              "target_projection": 0.8834132005464096,
+              "forward_kl_ratio": 0.7940346054064448,
+              "target_error_kl_ratio": 0.04187081082345928
+            },
+            "6": {
+              "fisher_fidelity": 0.959153110076111,
+              "fisher_cosine": 0.9810134693379705,
+              "target_projection": 0.9065967553647414,
+              "forward_kl_ratio": 0.8763089863077936,
+              "target_error_kl_ratio": 0.01272084164309755
+            },
+            "8": {
+              "fisher_fidelity": 0.9836970961537294,
+              "fisher_cosine": 0.9920791497337308,
+              "target_projection": 0.9615173729731272,
+              "forward_kl_ratio": 1.005510989790266,
+              "target_error_kl_ratio": 0.0056863133036551316
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.5300818236878351,
+              "fisher_cosine": 0.7385984802297937,
+              "target_projection": 0.45373369272755093,
+              "forward_kl_ratio": 0.27937078461993337,
+              "target_error_kl_ratio": 0.2964557127711243
+            },
+            "2": {
+              "fisher_fidelity": 0.8510082956036747,
+              "fisher_cosine": 0.9283813684745985,
+              "target_projection": 0.7650386602143735,
+              "forward_kl_ratio": 0.5872916383237141,
+              "target_error_kl_ratio": 0.08289244509438518
+            },
+            "4": {
+              "fisher_fidelity": 0.9255824647753308,
+              "fisher_cosine": 0.9631699782300587,
+              "target_projection": 0.8834132005464096,
+              "forward_kl_ratio": 0.7940346054064448,
+              "target_error_kl_ratio": 0.04187081082345928
+            },
+            "6": {
+              "fisher_fidelity": 0.959153110076111,
+              "fisher_cosine": 0.9810134693379705,
+              "target_projection": 0.9065967553647414,
+              "forward_kl_ratio": 0.8763089863077936,
+              "target_error_kl_ratio": 0.01272084164309755
+            },
+            "8": {
+              "fisher_fidelity": 0.981773755852824,
+              "fisher_cosine": 0.9909779383954512,
+              "target_projection": 0.9659521118837017,
+              "forward_kl_ratio": 0.9656309742889022,
+              "target_error_kl_ratio": 0.005423819393685404
+            }
+          }
+        },
+        "validation": {
+          "forward": {
+            "1": {
+              "fisher_fidelity": 0.4405406769918505,
+              "fisher_cosine": 0.7236271941679935,
+              "target_projection": 0.3150413466390897,
+              "forward_kl_ratio": 0.1995334113711479,
+              "target_error_kl_ratio": 0.44602380860531177
+            },
+            "2": {
+              "fisher_fidelity": 0.82519237020767,
+              "fisher_cosine": 0.9334664874852053,
+              "target_projection": 0.6707897553788307,
+              "forward_kl_ratio": 0.4890792487194728,
+              "target_error_kl_ratio": 0.17584335422095096
+            },
+            "4": {
+              "fisher_fidelity": 0.941361316042317,
+              "fisher_cosine": 0.9707098560258274,
+              "target_projection": 0.9128941479317491,
+              "forward_kl_ratio": 0.8135829783580081,
+              "target_error_kl_ratio": 0.08210882770340466
+            },
+            "6": {
+              "fisher_fidelity": 0.9645115235820771,
+              "fisher_cosine": 0.9821644548828157,
+              "target_projection": 0.9532142153256785,
+              "forward_kl_ratio": 0.8953547070746675,
+              "target_error_kl_ratio": 0.03435896782648249
+            },
+            "8": {
+              "fisher_fidelity": 0.9755797754895397,
+              "fisher_cosine": 0.9877583972894959,
+              "target_projection": 0.9848672390786439,
+              "forward_kl_ratio": 0.9915912820709378,
+              "target_error_kl_ratio": 0.021129834394973727
+            }
+          },
+          "backward": {
+            "1": {
+              "fisher_fidelity": 0.4405406769918505,
+              "fisher_cosine": 0.7236271941679935,
+              "target_projection": 0.3150413466390897,
+              "forward_kl_ratio": 0.1995334113711479,
+              "target_error_kl_ratio": 0.44602380860531177
+            },
+            "2": {
+              "fisher_fidelity": 0.82519237020767,
+              "fisher_cosine": 0.9334664874852053,
+              "target_projection": 0.6707897553788307,
+              "forward_kl_ratio": 0.4890792487194728,
+              "target_error_kl_ratio": 0.17584335422095096
+            },
+            "4": {
+              "fisher_fidelity": 0.941361316042317,
+              "fisher_cosine": 0.9707098560258274,
+              "target_projection": 0.9128941479317491,
+              "forward_kl_ratio": 0.8135829783580081,
+              "target_error_kl_ratio": 0.08210882770340466
+            },
+            "6": {
+              "fisher_fidelity": 0.9645115235820771,
+              "fisher_cosine": 0.9821644548828157,
+              "target_projection": 0.9532142153256785,
+              "forward_kl_ratio": 0.8953547070746675,
+              "target_error_kl_ratio": 0.03435896782648249
+            },
+            "8": {
+              "fisher_fidelity": 0.9747731565917164,
+              "fisher_cosine": 0.9873538575329064,
+              "target_projection": 0.9844622425199869,
+              "forward_kl_ratio": 0.9453484950225416,
+              "target_error_kl_ratio": 0.024461872013660155
+            }
+          },
+          "frozen": {
+            "1": {
+              "fisher_fidelity": 0.4405406769918505,
+              "fisher_cosine": 0.7236271941679935,
+              "target_projection": 0.3150413466390897,
+              "forward_kl_ratio": 0.1995334113711479,
+              "target_error_kl_ratio": 0.44602380860531177
+            },
+            "2": {
+              "fisher_fidelity": 0.82519237020767,
+              "fisher_cosine": 0.9334664874852053,
+              "target_projection": 0.6707897553788307,
+              "forward_kl_ratio": 0.4890792487194728,
+              "target_error_kl_ratio": 0.17584335422095096
+            },
+            "4": {
+              "fisher_fidelity": 0.9315649088077786,
+              "fisher_cosine": 0.9657771979104546,
+              "target_projection": 0.8998221780313748,
+              "forward_kl_ratio": 0.8002977031095637,
+              "target_error_kl_ratio": 0.09191434338203094
+            },
+            "6": {
+              "fisher_fidelity": 0.9487987062869564,
+              "fisher_cosine": 0.9741722724487102,
+              "target_projection": 0.9347993493013188,
+              "forward_kl_ratio": 0.8540568611490504,
+              "target_error_kl_ratio": 0.07840394566171503
+            },
+            "8": {
+              "fisher_fidelity": 0.9771650327504992,
+              "fisher_cosine": 0.9885275251776533,
+              "target_projection": 0.9817738015638479,
+              "forward_kl_ratio": 0.9874068201821173,
+              "target_error_kl_ratio": 0.019286714942624385
+            }
+          },
+          "all": {
+            "12": {
+              "fisher_fidelity": 1.0,
+              "fisher_cosine": 1.0000000120293029,
+              "target_projection": 1.0000000120293029,
+              "forward_kl_ratio": 1.0,
+              "target_error_kl_ratio": 0.0
+            }
+          }
+        }
+      }
+    }
+  }
+}

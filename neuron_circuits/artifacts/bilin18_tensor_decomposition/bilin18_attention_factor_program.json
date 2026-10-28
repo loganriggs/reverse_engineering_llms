@@ -1,0 +1,249 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-exact-layer-path-result-before-qk-value-singleton-factorization",
+    "source_config": "configs/bilin18_attention_layer_path_program.json",
+    "source_artifact": "artifacts/bilin18_tensor_decomposition/bilin18_attention_layer_path_program.json",
+    "seed": 20261027,
+    "budgets": [
+      1,
+      2,
+      4,
+      8,
+      11
+    ],
+    "random_replicates": 128,
+    "hypotheses": {
+      "F0_qk_value_singletons_are_exact": "For every layer, QK plus current-value singleton paths reconstruct the corresponding complete attention singleton with maximum relative error at most 1e-5.",
+      "F1_singletons_explain_attention_program": "Identity plus all ten QK/value singleton paths retains at least 0.995 full-analytic fidelity on every corpus.",
+      "F2_four_factor_paths_are_high_fidelity": "Four discovery-frozen factor paths retain at least 0.98 full-analytic fidelity on every corpus.",
+      "F3_qk_routing_dominates_value_response": "Identity plus all five QK paths exceeds identity plus all five value paths by at least 0.005 fidelity on every corpus.",
+      "F4_factor_paths_beat_random": "At budget four, the frozen factor program exceeds the identity-plus-random factor 95th percentile by at least 0.01 on every corpus.",
+      "F5_factor_program_transfers_ood": "Frozen four-factor fidelity on each OOD corpus is within 0.03 of FineWeb.",
+      "F6_compact_factor_and_mlp_program_predicts_finite": "Replacing identity by the frozen four-path MLP approximation and retaining the selected nonidentity factor paths predicts finite native effects with at least 0.94 fidelity on every corpus.",
+      "F7_context_specific_factor_selection_is_small": "At budget four, the per-example factor oracle exceeds the frozen factor program by less than 0.02 on every corpus.",
+      "F8_qk_branch_asymmetry_is_small": "The two exchangeable QK branches have aggregate local attention-response norms within a factor of two on every corpus."
+    }
+  },
+  "hypotheses": {
+    "F0_qk_value_singletons_are_exact": {
+      "supported": true,
+      "maximum_relative_error": 1.2214732123538852e-06
+    },
+    "F1_singletons_explain_attention_program": {
+      "supported": true
+    },
+    "F2_four_factor_paths_are_high_fidelity": {
+      "supported": true
+    },
+    "F3_qk_routing_dominates_value_response": {
+      "supported": true
+    },
+    "F4_factor_paths_beat_random": {
+      "supported": false
+    },
+    "F5_factor_program_transfers_ood": {
+      "supported": true
+    },
+    "F6_compact_factor_and_mlp_program_predicts_finite": {
+      "supported": true
+    },
+    "F7_context_specific_factor_selection_is_small": {
+      "supported": true
+    },
+    "F8_qk_branch_asymmetry_is_small": {
+      "supported": true
+    }
+  },
+  "factor_order": [
+    "I",
+    "L17Q",
+    "L13Q",
+    "L14Q",
+    "L15Q",
+    "L15V",
+    "L16Q",
+    "L17V",
+    "L13V",
+    "L14V",
+    "L16V"
+  ],
+  "results": {
+    "fineweb": {
+      "sites": 32,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.9756820853799582,
+          "oracle_fidelity": 0.975682086887394,
+          "random": {
+            "median": 0.9756820853799582,
+            "p95": 0.9756820853799582,
+            "maximum": 0.9756820853799582
+          },
+          "combined_to_finite_fidelity": 0.9214242175221443
+        },
+        "2": {
+          "frozen_fidelity": 0.9912969833239913,
+          "oracle_fidelity": 0.9915830240591141,
+          "random": {
+            "median": 0.97610585950315,
+            "p95": 0.9912969833239913,
+            "maximum": 0.9912969833239913
+          },
+          "combined_to_finite_fidelity": 0.9458927847445011
+        },
+        "4": {
+          "frozen_fidelity": 0.9976671920157969,
+          "oracle_fidelity": 0.9979189396243431,
+          "random": {
+            "median": 0.9818466315045953,
+            "p95": 0.9961502980208025,
+            "maximum": 0.9976671920157969
+          },
+          "combined_to_finite_fidelity": 0.9533590599894524
+        },
+        "8": {
+          "frozen_fidelity": 0.9992494367179461,
+          "oracle_fidelity": 0.9993508662864835,
+          "random": {
+            "median": 0.9973172955214977,
+            "p95": 0.9990747448930051,
+            "maximum": 0.9991977325989865
+          },
+          "combined_to_finite_fidelity": 0.9572354480624199
+        },
+        "11": {
+          "frozen_fidelity": 0.9992653725785203,
+          "oracle_fidelity": 0.9992653726381148,
+          "random": {
+            "median": 0.9992653725785203,
+            "p95": 0.999265372636728,
+            "maximum": 0.9992653726949356
+          },
+          "combined_to_finite_fidelity": 0.9574004597961903
+        }
+      },
+      "all_singletons_fidelity": 0.999265372636728,
+      "qk_only_fidelity": 0.9990492924116552,
+      "value_only_fidelity": 0.9762027803808451,
+      "qk1_qk2_norm_ratio": 1.2224200963035432
+    },
+    "wikitext": {
+      "sites": 32,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.9718528352677822,
+          "oracle_fidelity": 0.9718528346756455,
+          "random": {
+            "median": 0.9718528352677822,
+            "p95": 0.9718528352677822,
+            "maximum": 0.9718528352677822
+          },
+          "combined_to_finite_fidelity": 0.9188686907291412
+        },
+        "2": {
+          "frozen_fidelity": 0.9882315900176764,
+          "oracle_fidelity": 0.9894653755314339,
+          "random": {
+            "median": 0.9746527411043644,
+            "p95": 0.9882315900176764,
+            "maximum": 0.9882315900176764
+          },
+          "combined_to_finite_fidelity": 0.9397085830569267
+        },
+        "4": {
+          "frozen_fidelity": 0.9964980566874146,
+          "oracle_fidelity": 0.9969331031322708,
+          "random": {
+            "median": 0.978555217385292,
+            "p95": 0.9939641612581909,
+            "maximum": 0.9947487162426114
+          },
+          "combined_to_finite_fidelity": 0.9468257203698158
+        },
+        "8": {
+          "frozen_fidelity": 0.9979544631205499,
+          "oracle_fidelity": 0.9984665216890627,
+          "random": {
+            "median": 0.9958258199039847,
+            "p95": 0.997895380249247,
+            "maximum": 0.9979616040363908
+          },
+          "combined_to_finite_fidelity": 0.9503831416368484
+        },
+        "11": {
+          "frozen_fidelity": 0.9979826682247221,
+          "oracle_fidelity": 0.9979826685675871,
+          "random": {
+            "median": 0.9979826682247221,
+            "p95": 0.9979826682247221,
+            "maximum": 0.9979826684575528
+          },
+          "combined_to_finite_fidelity": 0.9504991285502911
+        }
+      },
+      "all_singletons_fidelity": 0.9979826682247221,
+      "qk_only_fidelity": 0.9977374605368823,
+      "value_only_fidelity": 0.9720506556332111,
+      "qk1_qk2_norm_ratio": 1.0142276259746121
+    },
+    "tinystories": {
+      "sites": 32,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.9698409251868725,
+          "oracle_fidelity": 0.9698409183867813,
+          "random": {
+            "median": 0.9698409251868725,
+            "p95": 0.9698409251868725,
+            "maximum": 0.9698409251868725
+          },
+          "combined_to_finite_fidelity": 0.9247928932309151
+        },
+        "2": {
+          "frozen_fidelity": 0.9919160716235638,
+          "oracle_fidelity": 0.9919160712686584,
+          "random": {
+            "median": 0.972148172557354,
+            "p95": 0.9919160716235638,
+            "maximum": 0.9919160716235638
+          },
+          "combined_to_finite_fidelity": 0.9543862603604794
+        },
+        "4": {
+          "frozen_fidelity": 0.9973270734772086,
+          "oracle_fidelity": 0.9977180465460042,
+          "random": {
+            "median": 0.9759154766798019,
+            "p95": 0.9956451727310196,
+            "maximum": 0.9973270734772086
+          },
+          "combined_to_finite_fidelity": 0.9614652246236801
+        },
+        "8": {
+          "frozen_fidelity": 0.9991003809846006,
+          "oracle_fidelity": 0.9992505386714303,
+          "random": {
+            "median": 0.9973374688997865,
+            "p95": 0.9989170293556526,
+            "maximum": 0.9990387459984049
+          },
+          "combined_to_finite_fidelity": 0.9653765596449375
+        },
+        "11": {
+          "frozen_fidelity": 0.9991233492037281,
+          "oracle_fidelity": 0.9991233492076701,
+          "random": {
+            "median": 0.9991233492037281,
+            "p95": 0.9991233492037281,
+            "maximum": 0.9991233492619358
+          },
+          "combined_to_finite_fidelity": 0.9655200690031052
+        }
+      },
+      "all_singletons_fidelity": 0.9991233492037281,
+      "qk_only_fidelity": 0.9988848831271753,
+      "value_only_fidelity": 0.9705800469964743,
+      "qk1_qk2_norm_ratio": 1.2476745294395704
+    }
+  }
+}

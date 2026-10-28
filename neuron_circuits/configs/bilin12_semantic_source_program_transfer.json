@@ -1,0 +1,31 @@
+{
+  "status": "locked-after-newline-source-program-before-semantic-transfer",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "semantic_source": "configs/bilin18_layer8_semantic_counterfactuals.json",
+  "seed": 20261109,
+  "contexts_per_pair": 2,
+  "batch_size": 1,
+  "world_chunk": 8,
+  "sequence_length": 64,
+  "edit_position": 47,
+  "prediction_position": 63,
+  "layers": [5, 6, 8, 10],
+  "budgets": [8, 16, 32, 64],
+  "methods": ["cooperative_oracle", "state_norm", "pattern_change", "routing_norm", "value_norm", "recency"],
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 0, "rows": 20000},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 0, "rows": 1200}
+  },
+  "hypotheses": {
+    "S1_semantic_messages_have_cooperative_source_programs": "Adaptive cooperative top-16 programs have at least 0.80 mean finite fidelity across semantic substitutions.",
+    "S2_local_state_norm_predicts_the_program": "Local state-norm top-16 is within 0.10 mean fidelity of the cooperative oracle.",
+    "S3_local_state_norm_is_robust_at_32": "State-norm top-32 has at least 0.75 fidelity in every corpus-by-family aggregate.",
+    "S4_pattern_change_alone_is_sufficient": "Pattern-change top-32 has at least 0.80 mean fidelity.",
+    "S5_value_and_routing_norms_have_distinct_regimes": "Routing-norm beats value-norm for at least one family while value-norm beats routing-norm for at least one other family by at least 0.05.",
+    "S6_tensor_local_rule_beats_recency": "State-norm top-16 exceeds recency top-16 by at least 0.20 mean fidelity.",
+    "S7_state_norm_transfers_to_every_semantic_family": "State-norm top-32 has at least 0.80 mean fidelity for every family.",
+    "S8_semantic_final_messages_are_behaviorally_nontrivial": "Median full final-destination KL is at least 1e-5 in both corpora.",
+    "S9_oracle_topology_is_semantically_recurrent": "Same-family top-16 source-position Jaccard exceeds different-family Jaccard by at least 0.05.",
+    "S10_semantic_program_is_not_newline_specific": "State-norm top-32 mean fidelity is at least 0.85, matching the successful rule discovered on newline edits."
+  }
+}

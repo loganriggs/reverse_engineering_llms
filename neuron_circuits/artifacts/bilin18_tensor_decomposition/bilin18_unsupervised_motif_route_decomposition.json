@@ -1,0 +1,270 @@
+{
+  "config": {
+    "status": "locked-after-frozen-motif-interpretation-before-heldout-semantic-validation",
+    "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 19200,
+    "rows": 800,
+    "sequence_length": 128,
+    "positions": [
+      15,
+      31,
+      47,
+      63,
+      79,
+      95,
+      111,
+      126
+    ],
+    "batch_size": 4,
+    "causal_sites_per_head": 6,
+    "families": {
+      "recurrence_reference": {
+        "heads": [
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            8
+          ]
+        ],
+        "mask": "prior_exact_token_match",
+        "interpretation": "Repeated surface form is the trunk; entity/reference continuity is a proposed related offshoot."
+      },
+      "local_composition_a": {
+        "heads": [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            8
+          ],
+          [
+            3,
+            7
+          ]
+        ],
+        "mask": "distance_one",
+        "interpretation": "Immediate-left-token composition: word pieces, hyphenation, fractions, and short grammatical relations."
+      },
+      "local_composition_b": {
+        "heads": [
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        "mask": "distance_one",
+        "interpretation": "A second weight-distinct immediate-left-token composition motif."
+      },
+      "boundary_multiscale": {
+        "heads": [
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            9,
+            8
+          ],
+          [
+            10,
+            5
+          ]
+        ],
+        "mask": "boundary_source",
+        "interpretation": "Document, line, and sentence boundary transport as related segmentation scales."
+      }
+    },
+    "hypotheses": {
+      "S1_semantic_routes_enrich": "Every family has median semantic-edge energy enrichment at least 2 over edge prevalence on held-out rows.",
+      "S2_frozen_heads_beat_layer_controls": "Every family median enrichment exceeds the median of all native heads in the same layers.",
+      "S3_semantic_edges_are_causal": "Every family has positive median downstream KL and absolute next-token log-probability change after semantic-edge removal.",
+      "S4_semantic_edges_beat_matched_controls": "At least two families have median semantic-edge KL at least 1.5 times their same-destination magnitude-matched nonsemantic controls."
+    }
+  },
+  "hypotheses": {
+    "D1_recurrence_is_address_selective": {
+      "supported": true,
+      "family_median_enrichment": 11.116187259664295,
+      "layer_control_median_enrichment": 1.9275122388149692,
+      "advantage": 9.188675020849326,
+      "per_head": [
+        11.360603711938243,
+        5.659801124275201,
+        11.116187259664295
+      ]
+    },
+    "D2_local_composition_is_address_selective": {
+      "supported": true
+    },
+    "D3_boundary_is_address_selective": {
+      "supported": false,
+      "family_median_enrichment": 1.4172475953685133,
+      "layer_control_median_enrichment": 1.1253186493388447,
+      "advantage": 0.29192894602966857,
+      "per_head": [
+        0.909307533157461,
+        1.4172475953685133,
+        1.8710516720291512,
+        2.8612050695993867,
+        0.7361679268430765
+      ]
+    },
+    "D4_semantics_require_conjunction": {
+      "supported": true
+    }
+  },
+  "families": {
+    "recurrence_reference": {
+      "joint": {
+        "family_median_enrichment": 10.22047390745678,
+        "layer_control_median_enrichment": 1.7816708428924035,
+        "advantage": 8.438803064564377,
+        "per_head": [
+          10.22047390745678,
+          5.075228474111732,
+          10.831791729644909
+        ]
+      },
+      "address": {
+        "family_median_enrichment": 11.116187259664295,
+        "layer_control_median_enrichment": 1.9275122388149692,
+        "advantage": 9.188675020849326,
+        "per_head": [
+          11.360603711938243,
+          5.659801124275201,
+          11.116187259664295
+        ]
+      },
+      "write": {
+        "family_median_enrichment": 0.8411353271250003,
+        "layer_control_median_enrichment": 0.8694484772194023,
+        "advantage": -0.02831315009440205,
+        "per_head": [
+          0.7773711664678752,
+          0.8411353271250003,
+          0.8749623222490799
+        ]
+      }
+    },
+    "local_composition_a": {
+      "joint": {
+        "family_median_enrichment": 21.81516119102144,
+        "layer_control_median_enrichment": 7.826914653849424,
+        "advantage": 13.988246537172014,
+        "per_head": [
+          26.14524583492104,
+          18.561664733601223,
+          21.81516119102144
+        ]
+      },
+      "address": {
+        "family_median_enrichment": 20.436202112720665,
+        "layer_control_median_enrichment": 7.408131286480995,
+        "advantage": 13.02807082623967,
+        "per_head": [
+          23.573553675386936,
+          17.60387631635332,
+          20.436202112720665
+        ]
+      },
+      "write": {
+        "family_median_enrichment": 1.0030486902167004,
+        "layer_control_median_enrichment": 0.9995089010975483,
+        "advantage": 0.0035397891191520925,
+        "per_head": [
+          1.0035004976142399,
+          1.0004005503017166,
+          1.0030486902167004
+        ]
+      }
+    },
+    "local_composition_b": {
+      "joint": {
+        "family_median_enrichment": 20.65548213125036,
+        "layer_control_median_enrichment": 7.952779889259414,
+        "advantage": 12.702702241990945,
+        "per_head": [
+          17.082979260644706,
+          24.227985001856013
+        ]
+      },
+      "address": {
+        "family_median_enrichment": 20.06063776279238,
+        "layer_control_median_enrichment": 7.616684216140042,
+        "advantage": 12.443953546652336,
+        "per_head": [
+          16.044121995238655,
+          24.077153530346102
+        ]
+      },
+      "write": {
+        "family_median_enrichment": 0.9989644924094119,
+        "layer_control_median_enrichment": 0.9974984333973915,
+        "advantage": 0.0014660590120203487,
+        "per_head": [
+          0.9947580478436973,
+          1.0031709369751265
+        ]
+      }
+    },
+    "boundary_multiscale": {
+      "joint": {
+        "family_median_enrichment": 1.3616982389450287,
+        "layer_control_median_enrichment": 1.1020468883513095,
+        "advantage": 0.25965135059371924,
+        "per_head": [
+          0.8876881556691575,
+          1.3616982389450287,
+          2.2304484793700285,
+          4.1996155162746875,
+          0.8933647002283059
+        ]
+      },
+      "address": {
+        "family_median_enrichment": 1.4172475953685133,
+        "layer_control_median_enrichment": 1.1253186493388447,
+        "advantage": 0.29192894602966857,
+        "per_head": [
+          0.909307533157461,
+          1.4172475953685133,
+          1.8710516720291512,
+          2.8612050695993867,
+          0.7361679268430765
+        ]
+      },
+      "write": {
+        "family_median_enrichment": 1.2397596920468128,
+        "layer_control_median_enrichment": 0.9691328851376588,
+        "advantage": 0.27062680690915397,
+        "per_head": [
+          0.9903144641621269,
+          1.2632912630655806,
+          1.2397596920468128,
+          1.6465384066865016,
+          1.2269501333726864
+        ]
+      }
+    }
+  }
+}

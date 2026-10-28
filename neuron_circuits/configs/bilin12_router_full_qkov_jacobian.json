@@ -1,0 +1,31 @@
+{
+  "status": "hypotheses-locked-after-mlp-jacobian-validation-before-qkov-derivative",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "seed": 20261224,
+  "batch_size": 2,
+  "targets": ["\n", ".", ",", " the"],
+  "pooled_targets": ["\n", ".", ",", " the"],
+  "steps": 1500,
+  "learning_rate": 0.02,
+  "scale": 0.5,
+  "layer": 6,
+  "positions": [31, 63, 95, 127],
+  "basis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17100, "rows": 512},
+  "natural": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 13000, "rows": 768},
+  "selected_graph": "artifacts/bilin18_tensor_decomposition/bilin12_router_graph_natural_causality.json",
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18500, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 0, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 0, "rows": 32}
+  },
+  "hypotheses": {
+    "Q0_manual_attention_trace_is_exact": "The manual squared-attention forward path matches native attention/final states to maximum absolute error at most 1e-5.",
+    "Q1_full_weight_jacobian_predicts_native_edits": "The attention-inclusive unfitted Jacobian predicts one-sided scale-0.5 native coordinate effects with fidelity at least 0.99 on every corpus.",
+    "Q2_full_jacobian_closes_the_mlp_only_gap": "It improves native coordinate fidelity over the MLP-only analytic chain by at least 0.01 on every corpus.",
+    "Q3_full_jacobian_predicts_sparse_grammar": "It predicts selected-edge and restricted-coefficient changes with fidelity at least 0.99 on every corpus.",
+    "Q4_qk_response_is_material": "The exact QK-path Shapley component has absolute target projection at least 0.01 on every corpus.",
+    "Q5_value_response_is_material": "The exact value/OV-path Shapley component has absolute target projection at least 0.01 on every corpus.",
+    "Q6_qk_value_interaction_is_material": "The QK-by-value interaction norm is at least 0.01 of the complete analytic response on every corpus.",
+    "Q7_qkov_profile_transfers_ood": "Each OOD residual/QK/value target-projection profile differs from FineWeb by at most 0.05 per component."
+  }
+}

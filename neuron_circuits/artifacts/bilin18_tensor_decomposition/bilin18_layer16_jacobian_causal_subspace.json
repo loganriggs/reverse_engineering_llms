@@ -1,0 +1,169 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-predictive-subspace-failure-before-jacobian-results",
+    "seed": 20261207,
+    "batch_size": 4,
+    "rank": 16,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "sensitivity_ranks": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "edit_scales": [
+      0.1,
+      1.0
+    ],
+    "core_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_core_stability.pt",
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 32
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 0,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 16
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 16
+      }
+    },
+    "ridge_relative_penalty": 0.001,
+    "finite_difference_scale": 0.0001,
+    "hypotheses": {
+      "J0_autodiff_jacobian_matches_finite_difference": "The tensor-metric relative error of the local Jacobian finite-difference control is at most 0.01.",
+      "J1_small_edit_linearization_is_accurate": "The exact local Jacobian predicts 0.1x cyclic-edit effects with at least 0.90 fidelity on every corpus.",
+      "J2_full_edit_is_more_nonlinear": "Full-edit Jacobian fidelity is at least 0.10 below small-edit fidelity on every corpus.",
+      "J3_site_specific_rowspace_captures_small_effect": "Projecting 0.1x edits into the site-specific Jacobian row space reproduces at least 0.90 of the full finite effect on every corpus.",
+      "J4_site_specific_rowspace_remains_useful_for_full_edits": "The site-specific Jacobian row space reproduces at least 0.70 of the full cyclic-edit effect on every corpus.",
+      "J5_shared_sensitivity64_captures_small_effect": "The discovery-frozen rank-64 aggregate sensitivity subspace reproduces at least 0.70 of the 0.1x edit effect on every corpus.",
+      "J6_sensitivity64_beats_random64": "At 0.1x scale, sensitivity rank 64 exceeds matched random rank 64 by at least 0.30 on every corpus.",
+      "J7_sensitivity16_beats_predictive16": "At 0.1x scale, aggregate sensitivity rank 16 exceeds the predictive ridge span by at least 0.20 on every corpus.",
+      "J8_sensitivity128_is_useful_for_full_edits": "Aggregate sensitivity rank 128 reproduces at least 0.50 of full cyclic-edit effects on every corpus.",
+      "J9_shared_sensitivity_subspace_transfers_ood": "Sensitivity-rank-64 small-edit fidelity differs by at most 0.15 across corpora.",
+      "J10_tensor_metric_is_positive": "The context-to-operator Gram matrix is positive semidefinite to numerical tolerance."
+    }
+  },
+  "hypotheses": {
+    "J0_autodiff_jacobian_matches_finite_difference": false,
+    "J1_small_edit_linearization_is_accurate": true,
+    "J2_full_edit_is_more_nonlinear": true,
+    "J3_site_specific_rowspace_captures_small_effect": true,
+    "J4_site_specific_rowspace_remains_useful_for_full_edits": false,
+    "J5_shared_sensitivity64_captures_small_effect": true,
+    "J6_sensitivity64_beats_random64": true,
+    "J7_sensitivity16_beats_predictive16": true,
+    "J8_sensitivity128_is_useful_for_full_edits": true,
+    "J9_shared_sensitivity_subspace_transfers_ood": true,
+    "J10_tensor_metric_is_positive": true
+  },
+  "operator_gram_min_eigenvalue": 5143.003533226839,
+  "finite_difference_relative_error": 0.020151153509538722,
+  "sensitivity_spectrum": {
+    "rank90": 7,
+    "rank99": 59,
+    "top16_energy": 0.9631492749624131,
+    "top64_energy": 0.9908850194371227
+  },
+  "results": {
+    "fineweb": {
+      "0.1": {
+        "linearization": 0.9908355062457663,
+        "predictive_16": 0.587157536055056,
+        "site_specific": 0.992038203616683,
+        "sensitivity_16": 0.8754824611863675,
+        "sensitivity_32": 0.8931239031215497,
+        "sensitivity_64": 0.9071227666321815,
+        "sensitivity_128": 0.9234597755274043,
+        "random_16": 0.02122537178456374,
+        "random_64": 0.058746463476479605,
+        "effect_operator_rms": 935.877465977631,
+        "examples": 128
+      },
+      "1.0": {
+        "linearization": 0.15963629152335446,
+        "predictive_16": 0.6491432284942686,
+        "site_specific": 0.5350860908057984,
+        "sensitivity_16": 0.969241808775166,
+        "sensitivity_32": 0.977415982237908,
+        "sensitivity_64": 0.9811987408759995,
+        "sensitivity_128": 0.9845751189832908,
+        "random_16": 0.02009804202820209,
+        "random_64": 0.05976616393066503,
+        "effect_operator_rms": 7916.479391881147,
+        "examples": 128
+      }
+    },
+    "wikitext": {
+      "0.1": {
+        "linearization": 0.9532355364239504,
+        "predictive_16": 0.6225944521633862,
+        "site_specific": 0.9577617214264976,
+        "sensitivity_16": 0.9313725990900596,
+        "sensitivity_32": 0.9453831896135705,
+        "sensitivity_64": 0.9567412376662329,
+        "sensitivity_128": 0.9654082317204304,
+        "random_16": 0.025425362281155994,
+        "random_64": 0.08273923720090492,
+        "effect_operator_rms": 1096.3921895777291,
+        "examples": 64
+      },
+      "1.0": {
+        "linearization": 0.13838655367174968,
+        "predictive_16": 0.6627341255433379,
+        "site_specific": 0.6207135910072272,
+        "sensitivity_16": 0.9718937824758815,
+        "sensitivity_32": 0.9780060244500245,
+        "sensitivity_64": 0.9833695885582787,
+        "sensitivity_128": 0.9873412902521413,
+        "random_16": 0.02351326465379966,
+        "random_64": 0.07993806729229291,
+        "effect_operator_rms": 8754.269669584352,
+        "examples": 64
+      }
+    },
+    "tinystories": {
+      "0.1": {
+        "linearization": 0.9946131022302465,
+        "predictive_16": 0.50233441126508,
+        "site_specific": 0.996892668872874,
+        "sensitivity_16": 0.864353988455461,
+        "sensitivity_32": 0.880062687793523,
+        "sensitivity_64": 0.8974792876779821,
+        "sensitivity_128": 0.9173980047718936,
+        "random_16": 0.025824576490952822,
+        "random_64": 0.07494138210282142,
+        "effect_operator_rms": 768.0543099562484,
+        "examples": 64
+      },
+      "1.0": {
+        "linearization": 0.479001494691246,
+        "predictive_16": 0.5600014813820167,
+        "site_specific": 0.6759183454617136,
+        "sensitivity_16": 0.9915283743509342,
+        "sensitivity_32": 0.9939671277406535,
+        "sensitivity_64": 0.9945773205880641,
+        "sensitivity_128": 0.9955488023810085,
+        "random_16": 0.023962022498592805,
+        "random_64": 0.06253317243037837,
+        "effect_operator_rms": 8298.933407357477,
+        "examples": 64
+      }
+    }
+  }
+}

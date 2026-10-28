@@ -1,0 +1,32 @@
+{
+  "status": "hypotheses-locked-after-operator-decomposition-before-layerwise-mlp-shapley",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "seed": 20261217,
+  "batch_size": 2,
+  "targets": ["\n", ".", ",", " the"],
+  "pooled_targets": ["\n", ".", ",", " the"],
+  "output_rank": 32,
+  "input_rank": 32,
+  "steps": 1500,
+  "learning_rate": 0.02,
+  "scale": 0.02,
+  "boundary_layer": 6,
+  "mlp_layers": [7, 8, 9, 10],
+  "positions": [31, 63, 95, 127],
+  "basis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17100, "rows": 512},
+  "natural": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 13000, "rows": 768},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18500, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 0, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 0, "rows": 32}
+  },
+  "hypotheses": {
+    "M0_shapley_recomposition_is_exact": "Residual response plus four exact MLP-layer Shapley vectors reconstructs the all-MLP response to maximum absolute error at most 1e-5.",
+    "M1_one_mlp_layer_dominates": "At least one layer receives at least 50 percent target projection on every corpus.",
+    "M2_late_mlp_layers_dominate": "Layers 9 and 10 together receive at least 70 percent target projection on every corpus.",
+    "M3_progressive_unfreezing_is_monotonic": "Cumulative chronological unfreezing never lowers response fidelity by more than 0.02 on any corpus.",
+    "M4_mlp_layer_interactions_are_material": "The difference between the all-dynamic response and the additive sum of four single-layer responses has norm at least 10 percent of the target on every corpus.",
+    "M5_layer_profile_transfers_ood": "Every OOD Shapley projection differs from FineWeb by at most 0.10 for each layer.",
+    "M6_early_late_cancellation_is_material": "The sum of absolute MLP-layer target projections is at least 1.20 on every corpus."
+  }
+}

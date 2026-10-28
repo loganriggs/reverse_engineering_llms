@@ -1,0 +1,132 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-count-only-scan-before-axis-recurrence-analysis",
+    "source_config": "configs/bilin18_layer8_frozen_fisher_quotient.json",
+    "seed": 20261031,
+    "prediction_token_ids": [
+      262,
+      13,
+      11,
+      198
+    ],
+    "sites_per_token": 8,
+    "axes": 4,
+    "top_tokens": 8,
+    "scan_batch_size": 16,
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18000,
+        "rows": 1000
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 1200
+      }
+    },
+    "hypotheses": {
+      "E1_exact_prediction_improves_fisher_recurrence": "Within-exact-prediction Fisher-subspace overlap exceeds between-prediction overlap by at least 0.05 on both corpora.",
+      "E2_exact_prediction_improves_logit_recurrence": "Within-exact-prediction unweighted-logit overlap exceeds between-prediction overlap by at least 0.05 on both corpora.",
+      "E3_exact_prediction_improves_input_recurrence": "Within-exact-prediction input-sensitivity overlap exceeds between-prediction overlap by at least 0.05 on both corpora.",
+      "E4_exact_prediction_stabilizes_token_labels": "Within-exact-prediction matched-axis top-token Jaccard is at least 0.10 on both corpora.",
+      "E5_input_verbs_transfer_cross_corpus": "Same-prediction input-subspace overlap across corpora is at least 0.10.",
+      "E6_input_recurrence_exceeds_random_subspaces": "Within-prediction input-subspace overlap is at least three times the 4/512 random-subspace expectation on both corpora."
+    }
+  },
+  "hypotheses": {
+    "E1_exact_prediction_improves_fisher_recurrence": {
+      "supported": true
+    },
+    "E2_exact_prediction_improves_logit_recurrence": {
+      "supported": false
+    },
+    "E3_exact_prediction_improves_input_recurrence": {
+      "supported": false
+    },
+    "E4_exact_prediction_stabilizes_token_labels": {
+      "supported": false
+    },
+    "E5_input_verbs_transfer_cross_corpus": {
+      "supported": false
+    },
+    "E6_input_recurrence_exceeds_random_subspaces": {
+      "supported": false
+    }
+  },
+  "random_input_overlap_expectation": 0.0078125,
+  "results": {
+    "fineweb": {
+      "counts": {
+        "262": 74,
+        "13": 55,
+        "11": 39,
+        "198": 37
+      },
+      "within": {
+        "fisher": 0.06236088275909424,
+        "logit": 0.17643200606107712,
+        "input": 0.01194403925910592,
+        "token_jaccard": 0.07586206896551724
+      },
+      "between": {
+        "fisher": 0.004908261122182012,
+        "logit": 0.1724957600235939,
+        "input": 0.009954166132956743,
+        "token_jaccard": 0.016666666666666666
+      },
+      "advantage": {
+        "fisher": 0.05745262163691223,
+        "logit": 0.003936246037483215,
+        "input": 0.0019898731261491776,
+        "token_jaccard": 0.05919540229885058
+      }
+    },
+    "wikitext": {
+      "counts": {
+        "262": 130,
+        "13": 40,
+        "11": 30,
+        "198": 40
+      },
+      "within": {
+        "fisher": 0.09258068352937698,
+        "logit": 0.2003721073269844,
+        "input": 0.012921597342938185,
+        "token_jaccard": 0.10572005343974197
+      },
+      "between": {
+        "fisher": 0.015626624692231417,
+        "logit": 0.1950276866555214,
+        "input": 0.010174250695854425,
+        "token_jaccard": 0.04112903225806452
+      },
+      "advantage": {
+        "fisher": 0.07695405883714557,
+        "logit": 0.005344420671463013,
+        "input": 0.0027473466470837593,
+        "token_jaccard": 0.06459102118167745
+      }
+    }
+  },
+  "cross_corpus": {
+    "same_prediction": {
+      "fisher": 0.07043838500976562,
+      "logit": 0.1864629089832306,
+      "input": 0.011040905956178904,
+      "token_jaccard": 0.07770538693786747
+    },
+    "different_prediction": {
+      "fisher": 0.008930390235036612,
+      "logit": 0.18264159560203552,
+      "input": 0.009729486890137196,
+      "token_jaccard": 0.03225806451612903
+    },
+    "advantage": {
+      "fisher": 0.06150799477472901,
+      "logit": 0.0038213133811950684,
+      "input": 0.001311419066041708,
+      "token_jaccard": 0.045447322421738434
+    }
+  }
+}

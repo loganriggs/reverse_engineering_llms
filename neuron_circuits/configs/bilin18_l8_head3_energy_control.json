@@ -1,0 +1,72 @@
+{
+  "status": "adaptive-followup-locked-after-primary-before-new-fits-and-fresh-test",
+  "seed": 20261031,
+  "replicates": [
+    0,
+    1
+  ],
+  "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+  "layer": 8,
+  "start": 18536,
+  "rows": 512,
+  "validation_start": 19048,
+  "test_start": 19432,
+  "evaluation_rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "batch_size": 8,
+  "fit_heads": [
+    0,
+    2,
+    4,
+    6,
+    8
+  ],
+  "pair_removals": [
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      6,
+      7
+    ]
+  ],
+  "conditions": [
+    "even_only",
+    "actual",
+    "shuffled",
+    "gaussian",
+    "isotropic"
+  ],
+  "rank": 64,
+  "steps": 1600,
+  "checkpoint_every": 100,
+  "natural_minibatch": 256,
+  "draws_per_source": 42,
+  "learning_rate": 0.0003,
+  "selection": "Common validation natural loss plus even-head response loss; head3 and all payload diagnostics excluded from selection. Include step zero and save selected plus step1600. Freeze all ten fits before collecting new test. Normalization scales reused from first128 training rows/even heads as H230.",
+  "controls": "Each update draws42 examples from each of five even heads and42 supplement examples, total252 response draws. Even-only control draws supplement uniformly over even-head examples. Other conditions supplement actual/shuffled/Gaussian-in-head3-span/isotropic payloads, norm-matched to each site's raw head3 write before RMS recomputation. All fits use same natural data, rank64, exact linear term, optimizer and1600 updates. Two replicates vary SGD seed and fixed training sham realization; they are not two independent corpora.",
+  "predictions": {
+    "generic_support": "Shuffled and Gaussian supervision improve actual test-head3 fidelity by >=.05 over even-only and stay within.03 of actual supervision in both replicates.",
+    "natural_anisotropy": "Shuffled supervision matches actual but Gaussian does not, suggesting natural within-span directions matter without correct payload-context pairing.",
+    "context_pairing": "Actual supervision outperforms both shuffled and Gaussian by >=.05 on actual head3 responses in both replicates; this supports source-state correlation, not semantic meaning by itself.",
+    "generic_regularization": "Isotropic supplementation matches head3 actual gains and improves isotropic response fidelity by >=.05, suggesting broadly missing directional coverage."
+  },
+  "scope": "Four fixed L8 output coordinates, local finite responses. After this focused test, prioritize population coverage/downstream behavior over further four-coordinate tuning.",
+  "energy_match_supplement": true,
+  "reuse_primary_controls": true,
+  "energy_control": "For each sham replicate and output, multiply supplement loss by actual-head3 quadratic target mean square divided by sham quadratic target mean square, computed only on training. Base even-head loss unchanged. Actual/even-only models reused from frozen primary experiment, not retrained. Six new sham fits, same payloads and SGD seeds; new test19432\u201319559. This controls discovery target-energy scaling, not all gradient conditioning or optimization differences."
+}

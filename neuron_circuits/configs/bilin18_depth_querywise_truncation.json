@@ -1,0 +1,40 @@
+{
+  "status": "locked-after-querywise-weight-rank-before-natural-truncation-redteam",
+  "layers": [0, 8, 17],
+  "dimension": 512,
+  "queries_per_group": 16,
+  "middle_start": 128,
+  "ranks": [4, 16, 32, 64, 128, 256, 512],
+  "seed": 20261023,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 10000,
+    "rows": 300
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10300,
+      "rows": 300
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    }
+  },
+  "hypotheses": {
+    "B1_rank64_natural_direction_fidelity": "For natural-top queries at every layer and corpus, rank 64 reaches median score correlation at least 0.90.",
+    "B2_rank64_natural_magnitude_fidelity": "For natural-top queries at every layer and corpus, rank 64 reaches median centered R2 at least 0.80.",
+    "B3_late_needs_fewer_behavioral_modes": "The first tested rank reaching correlation 0.90 and centered R2 0.80 for layer-17 natural-top FineWeb is at most half the corresponding layer-8 rank.",
+    "B4_natural_head_beats_random": "At rank 16 on FineWeb, natural-top median correlation exceeds random-query median by at least 0.10 at every layer.",
+    "B5_late_tensor_spikes_have_compact_scores": "At layer 17 across all corpora, tensor-top rank-16 median correlation is at least 0.80."
+  }
+}

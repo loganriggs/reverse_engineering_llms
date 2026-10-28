@@ -1,0 +1,33 @@
+{
+  "status": "hypotheses-locked-after-centered-layer16-atlas-before-downstream-relevance-results",
+  "source_config": "configs/bilin18_late_mlp_tensor_canonicalization.json",
+  "seed": 20261031,
+  "batch_size": 8,
+  "layer": 12,
+  "final_layer": 17,
+  "target_layer": 16,
+  "layers": [16],
+  "rank": 32,
+  "positions": [31, 63, 95, 127],
+  "operator_modes": 64,
+  "inner_ranks": [1, 2, 4, 8, 16, 32],
+  "endpoint_spectral_budgets": [1, 2, 4, 8, 16, 32, 64],
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "atlas_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17000, "rows": 128},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19800, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 700, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 700, "rows": 32}
+  },
+  "hypotheses": {
+    "D0_composed_endpoint_derivative_is_exact": "The analytic local-MLP plus Layer-17 RMS derivative agrees with an independent autograd JVP to relative error at most 1e-5.",
+    "D1_downstream_readout_compresses_contextual_variation": "The centered endpoint-operator discovery rank-90 is at least 64 smaller than the centered local-operator rank-90 of 206.",
+    "D2_endpoint_rank16_atlas_is_sufficient": "A fixed rank-16 endpoint atlas retains at least 0.90 oracle-projection fidelity on every corpus.",
+    "D3_endpoint_rank64_atlas_is_high_fidelity": "A fixed rank-64 endpoint atlas retains at least 0.95 oracle-projection fidelity on every corpus.",
+    "D4_common_local_operator_is_behaviorally_sufficient": "The frozen mean local operator retains at least 0.80 after the exact downstream map on every corpus.",
+    "D5_factorized_local_program_is_behaviorally_sufficient": "The exact-read 64-mode inner-rank-8 local program retains at least 0.90 after the downstream map on every corpus.",
+    "D6_inner_rank8_preserves_the_causal_atlas": "The inner-rank-8 local program is within 0.05 of the full-inner-rank 64-mode program on every corpus after downstream composition.",
+    "D7_downstream_program_transfers_ood": "The inner-rank-8 program's OOD fidelity is within 0.05 of FineWeb.",
+    "D8_contextual_correction_is_behaviorally_material": "The full 64-mode local program improves on the common mean operator by at least 0.05 on every corpus after downstream composition."
+  }
+}

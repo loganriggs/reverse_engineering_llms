@@ -1,0 +1,28 @@
+{
+  "status": "locked-after-prospective-relation-test-before-finite-validation",
+  "seed": 20261408,
+  "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+  "splits": [[18960, 19440], [19440, 19920]],
+  "sequence_length": 128,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "batch_size": 16,
+  "operator_probes": 48,
+  "matched_edges_per_split": 256,
+  "pairs": [
+    {"candidate": "boundary_source", "layer": 9, "head": 8, "role": "predicted"},
+    {"candidate": "boundary_source", "layer": 8, "head": 1, "role": "head_control"},
+    {"candidate": "adjacent_function_word", "layer": 7, "head": 8, "role": "strongest_predicted"},
+    {"candidate": "adjacent_function_word", "layer": 9, "head": 7, "role": "second_predicted"},
+    {"candidate": "adjacent_function_word", "layer": 8, "head": 1, "role": "head_control"},
+    {"candidate": "adjacent_name_piece", "layer": 8, "head": 1, "role": "failed_relation_control"}
+  ],
+  "hypotheses": {
+    "F0_native_branch_is_exact": "The unmodified manual branch matches the native model with maximum logit error at most 1e-4.",
+    "F1_boundary_has_finite_local_effect": "Removing matched L9H8 boundary edges has local-effect AUROC at least 0.60 in both splits.",
+    "F2_boundary_reaches_output": "Removing matched L9H8 boundary edges has final-logit KL AUROC at least 0.55 in both splits.",
+    "F3_L7H8_function_read_is_finite": "Removing matched L7H8 adjacent-function-word edges has local-effect AUROC at least 0.60 and KL AUROC at least 0.55 in both splits.",
+    "F4_L9H7_function_read_is_finite": "Removing matched L9H7 adjacent-function-word edges has local-effect AUROC at least 0.60 and KL AUROC at least 0.55 in both splits.",
+    "F5_relations_are_head_specific": "The predicted head exceeds its declared head control by at least 0.05 local-effect AUROC in both splits for both surviving relations.",
+    "F6_failed_name_relation_stays_negative": "L8H1 adjacent-name removal fails to reach both local AUROC 0.60 and KL AUROC 0.55 in at least one split."
+  }
+}

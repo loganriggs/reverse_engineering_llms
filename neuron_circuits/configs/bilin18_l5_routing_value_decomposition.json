@@ -1,0 +1,12 @@
+{
+  "experiment": "H778",
+  "hashes": {
+    "capture": "4c0951900c06e53ad654d817bc025a2887fad9f45e0444fed55390f3507f0d1e",
+    "previous": "d845fe82cc9b60c2dd96479fb55170742b46a4e1c116bb0f603ab25cb21864c6",
+    "runner": "9b1390a40195f53605aa29f86e6e6b82c014ff4e5b395cb03c86839cc2683d4e",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+    "attention_source": "49ecdbd6c060ff5b3e57f3134d87ba32841390c891c42e6ae23b71d8627612b2"
+  },
+  "design": "At L5H5 capture actual post-RMS/RoPE q,k,q2,k2 and mixed values via squared_attention entry. Reconstruct signed A=(QK/128)*(Q2K2/128), causal mask, H=A V. Matched receiver/donor: routing=dA Vr;value=Ar dV;interaction=dA dV. Audit sum=Hd-Hr. Intervene each, routing+value, sum and full native head difference at query/source/both; reciprocal task,nuisance,identity across all H777lexicalcohorts.",
+  "limitations": "Receiver-centered algebra, not unique causal attribution; downstream nonlinear effects not additive. Routing is signed, not probabilities. Value includes layer-local and layer0bus mixture; no claim of purely lexical content or compact routing yet. Require equal sequence length and aligned selected source position."
+}

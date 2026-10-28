@@ -1,0 +1,36 @@
+{
+  "status": "locked-after-residual-component-audit-before-squared-attention-qkov-audit",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "seed": 20261027,
+  "batch_size": 4,
+  "sequence_length": 128,
+  "position": 127,
+  "layers": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 19196,
+      "rows": 32
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 1056,
+      "rows": 32
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 1056,
+      "rows": 32
+    }
+  },
+  "hypotheses": {
+    "Q1_manual_attention_and_factor_recomposition_are_exact": "Manual squared attention matches the native attention write, and all four changed factors recompose the changed attention write, to maximum absolute error at most 1e-4.",
+    "Q2_query_routing_dominates_self_key_routing": "At every audited layer and corpus, query allocation exceeds key allocation in absolute local attention-write projection.",
+    "Q3_routing_dominates_values": "At at least eight of eleven layers on every corpus, absolute query-plus-key local allocation exceeds current-value-plus-bus allocation.",
+    "Q4_persistent_bus_is_not_the_main_value_source": "At every layer and corpus, current-value allocation is at least as large as persistent-bus allocation in absolute local projection.",
+    "Q5_insertion_and_removal_agree_on_top_factor": "At every layer and corpus, insertion and removal causal Shapley select the same largest absolute factor.",
+    "Q6_attention_effect_is_head_concentrated": "At some layer on every corpus, one head receives at least 0.50 of absolute local head projection mass.",
+    "Q7_isolated_heads_add_approximately": "At every layer and corpus, summing isolated head logit effects has Fisher fidelity at least 0.80 to the complete attention-change intervention.",
+    "Q8_attention_only_behavior_is_small": "At every layer and corpus, insertion of the complete changed attention write causes at most 0.10 of the native full-token forward KL."
+  }
+}

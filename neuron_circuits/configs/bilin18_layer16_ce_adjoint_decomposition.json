@@ -1,0 +1,31 @@
+{
+  "status": "hypotheses-locked-after-global-subspace-optimizer-redteam-before-ce-adjoint-decomposition",
+  "seed": 20261115,
+  "batch_size": 2,
+  "tangent_chunk": 8,
+  "layer": 12,
+  "final_layer": 17,
+  "layers": [16],
+  "rank": 32,
+  "positions": [31, 63, 95, 127],
+  "subspace_ranks": [32, 64, 128, 256],
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "decomposition_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18000, "rows": 192},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32}
+  },
+  "hypotheses": {
+    "D0_adjoint_decomposition_is_exact": "CE write gradients equal prediction-minus-target gradients and all forward-adjoint contractions agree with direct write contractions to relative error at most 1e-5.",
+    "D1_target_readout_dominates_ce_energy": "Target-logit effect energy is at least prediction-term effect energy on every corpus.",
+    "D2_prediction_term_has_compact_forward_interface": "The discovery-frozen rank-64 forward basis retains at least 0.90 of the probability-weighted prediction effect on every corpus.",
+    "D3_target_term_is_broad_at_rank64": "The rank-64 forward basis retains less than 0.90 of the target-logit effect on every corpus.",
+    "D4_model_margin_has_compact_forward_interface": "The rank-64 forward basis retains at least 0.90 of the model-chosen top1-versus-runner-up margin effect on every corpus.",
+    "D5_target_adjoint_is_broader_than_prediction_adjoint": "Discovery effective-adjoint R90 for the target term exceeds prediction-term R90 by at least 32.",
+    "D6_target_identity_predicts_repeated_target_reads": "Leave-one-out target-token prototypes retain at least 0.50 of target-term effects on discovery sites whose token occurs at least twice.",
+    "D7_target_identity_clusters_effective_adjoints": "Mean same-token effective-adjoint cosine exceeds a matched different-token mean by at least 0.20.",
+    "D8_ce_breadth_is_primarily_target_readout_breadth": "At rank 64, the prediction term exceeds CE fidelity by at least 0.10 and target-term fidelity is within 0.05 of CE on every corpus.",
+    "D9_target_prototypes_transfer_across_contexts": "On every corpus, at least 25% of sites have a target token seen in discovery and frozen token prototypes retain at least 0.50 on those covered sites."
+  }
+}

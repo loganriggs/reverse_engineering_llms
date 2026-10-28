@@ -1,0 +1,54 @@
+{
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "seed": 20270123,
+  "heads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "rank": 64,
+  "payload_seed": 20270121,
+  "iterations": 8,
+  "step_grid": [
+    1,
+    0.5,
+    0.25,
+    0.125,
+    0.0625,
+    0.03125
+  ],
+  "armijo": 0.0001,
+  "gates": {
+    "validation_both_gain": "selected validation fidelity gain>=2pp actual AND angle vs proxy",
+    "compact80": "selected validation both fidelity>=80%",
+    "monotone_train": "every accepted step nondecreasing in both training fidelities"
+  },
+  "scope": "Local optimizer diagnostic, existing validation selection only. Training monotonicity is algorithm audit, not generalization. No convergence/global optimum claim on budget stop. No fresh or intact eval.",
+  "status": "H302 locked before per-head gradient results",
+  "design": "Audit18 separately energy-normalized full training gradients at rank64 proxy and refined. Pooled-family unit sum, equal-head mean, and minimum-norm convex combination of unit gradients. Fixed steps .03/.3; no fresh evaluation or checkpoint promotion.",
+  "comparison_gates": {
+    "rank_gain": "rank64 selected validation fidelity exceeds rank32 selected by >=5pp in BOTH families",
+    "optimization_gain": "rank64 selected improves its own proxy by >=2pp in BOTH families",
+    "compact80": "rank64 selected fidelity>=80% in BOTH families"
+  },
+  "step_norms": [
+    0.03,
+    0.3
+  ],
+  "finite_difference_step": 0.003
+}

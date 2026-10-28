@@ -1,0 +1,21 @@
+{
+  "experiment": "H533",
+  "dtype": "float32",
+  "task_pairs": 128,
+  "variants": [
+    "base",
+    "counterfactual",
+    "nuisance"
+  ],
+  "discovery_pairs_per_family": 8,
+  "transfer_pairs_per_family": 8,
+  "gate": "On each split: >=4 token-valid pairs, binary correct on both endpoints >=0.75, pooled intended semantic full-vocab top1 >=0.5. No individual pair filtering.",
+  "causal_plan": "All 18 layers: swap last-position MLP write bidirectionally on every discovery pair in gate-passing families. Choose layer with largest mean donor-directed margin change on discovery, then evaluate every transfer pair there. Include same-answer nuisance donors. Whole writes localize only; no semantic unit claim.",
+  "full_vocab": "Exact retrieval tokens; fixed agreement and sentiment sets inherited from earlier redteam. Context association probes exploratory and ambiguous.",
+  "hypotheses": [
+    "Endpoint competence will vary across families and templates.",
+    "Task-changing donors should move answer contrast more than nuisance donors.",
+    "A discovery-selected MLP layer will transfer across held-out wording and lexicons."
+  ],
+  "fineweb_new_documents": 0
+}

@@ -1,0 +1,30 @@
+{
+  "status": "hypotheses-locked-after-split-stable-function-unstable-rank64-bases-before-tucker-core-results",
+  "seed": 20261125,
+  "batch_size": 2,
+  "evaluation_batch_size": 4,
+  "layer": 16,
+  "final_layer": 17,
+  "positions": [31, 63, 95, 127],
+  "factor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_adjoint_factors.pt",
+  "discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18000, "rows": 64, "factor_dataset": "discovery", "factor_start": 0},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32, "factor_dataset": "fineweb", "factor_start": 0},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "wikitext", "factor_start": 0},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "tinystories", "factor_start": 0}
+  },
+  "components": ["prediction", "target", "margin"],
+  "base_rank": 64,
+  "core_ranks": [8, 16, 32, 64],
+  "splits": ["head", "tail", "interleaved", "random"],
+  "hypotheses": {
+    "C0_role_tensor_has_small_multilinear_rank": "Every split's rank-64 role tensor has 90%-energy rank at most 32 in each of its output, tangent, and context unfoldings.",
+    "C1_top16_physical_core_is_stable": "Relative to the head split, every split's top-16 physical output, tangent, and context Tucker subspaces have projector overlap at least 0.70.",
+    "C2_tucker16_recovers_score_paths": "Every split's Tucker-16 quotient retains at least 0.80 prediction and target fidelity on every external corpus.",
+    "C3_tucker32_is_score_sufficient": "Every split's Tucker-32 quotient retains at least 0.90 prediction and target fidelity on every external corpus.",
+    "C4_tucker32_recovers_margin": "Every split's Tucker-32 quotient retains at least 0.60 margin fidelity on every external corpus.",
+    "C5_tucker32_is_split_stable": "Across split choices, every external endpoint's Tucker-32 fidelity range is at most 0.08.",
+    "C6_tucker_tensor_execution_is_exact": "Direct execution of every split's contracted Tucker-32 tensor matches projected native CP execution to relative error at most 1e-5.",
+    "C7_tensor_axes_are_not_claimed_canonical": "Results are reported as physical subspaces; no sign, permutation, or individual HOSVD-axis identity claim is made."
+  }
+}

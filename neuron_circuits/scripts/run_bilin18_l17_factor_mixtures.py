@@ -1,0 +1,70 @@
+"""H328 data-weighted mixtures of native factors via fitted-output moments."""
+import json,hashlib
+import sys
+from types import SimpleNamespace
+def minimum_norm(gram):
+    w=np.ones(len(gram))/len(gram)
+    for iteration in range(20000):
+        gw=gram@w;j=int(np.argmin(gw));gap=float(w@gw-gw[j])
+        if gap<1e-10:break
+        d=-w.copy();d[j]+=1;alpha=min(1.,max(0.,gap/float(d@gram@d)));w+=alpha*d
+    return SimpleNamespace(x=w,success=gap<1e-8,message=f"Frank-Wolfe iteration {iteration}, gap {gap}")
+import numpy as np
+import torch
+import torch.nn.functional as F
+from run_bilin18_l17_local_residual_charts import ROOT,ART,load_full_model,collect_sources,load_program,forward_normalized,B
+from run_bilin18_l17_partner_compression import cross_response
+from run_bilin18_l17_core_interaction_factorial import quadratic_terms
+from run_bilin18_l17_residual_term_accounting import mean_linear
+from run_bilin18_l8_execution_alignment import angle_matched_payload
+STEM=ART/'bilin18_l17_factor_mixtures'
+def partner_q(w,core):return torch.linalg.qr(w-core@(core.T@w),mode='reduced').Q
+
+@torch.inference_mode()
+def main():
+    global STEM
+    if len(sys.argv)>1:STEM=ART/sys.argv[1]
+    torch.set_num_threads(6);cfg=json.loads((ROOT/'configs'/f'{STEM.name}.json').read_text());model=load_full_model('cuda');model.embedding.float();model.blocks.float()
+    L,R,D=[m.weight.detach() for m in [model.blocks[17].mlp.Left,model.blocks[17].mlp.Right,model.blocks[17].mlp.Down]];p=load_program(ART/'bilin18_l17_compiled_partners_m16_factorized.npz','cuda');f=load_program(ART/'bilin18_l17_conditional_partner_rank_bases.npz','cuda');c=torch.linalg.qr(f['core']).Q;mu=f['mean'];base={n:partner_q(f[n][:,:cfg.get('rank',32)],c) for n in ['weighted','random0']}
+    with torch.no_grad():
+        pre,heads,_=collect_sources(model,np.load(ROOT/cfg['discovery'],mmap_mode='r'),{**cfg,'rows':1024});x=F.rms_norm(pre,(1152,));zs_actual=[F.rms_norm(pre-heads[:,h],(1152,)) for h in cfg['heads']];zs_angle=[];rng=torch.Generator(device='cuda').manual_seed(cfg['payload_seed'])
+        for h in cfg['heads']:
+            source=torch.linalg.qr(model.blocks[17].attn.c_proj.weight.reshape(1152,9,128)[:,h]).Q;pay=angle_matched_payload(pre,heads[:,h],source,torch.randn(len(pre),128,generator=rng,device='cuda'));zs_angle.append(F.rms_norm(pre-pay,(1152,)))
+    path=ART/'bilin18_l17_document_repartition_responses.npy';assert hashlib.sha256(path.read_bytes()).hexdigest()==cfg['response_sha256'];Y=torch.tensor(np.load(path),device='cuda').reshape(18,4096,1152).double()
+    path=ART/'bilin18_l17_shared_kernel_coverage_6144_frozen.npz';assert hashlib.sha256(path.read_bytes()).hexdigest()==cfg['mixed_sha256'];f=np.load(path);ref=[torch.tensor(f[k],device='cuda') for k in ['ux','vx','uz','vz']];assignment=torch.tensor(f['assignment'],device='cuda');labels=Y[assignment,torch.arange(6144,device='cuda')%3072]
+    common=np.load(ART/'bilin18_l17_kernel_confirmation_frozen/common.npz');c=torch.tensor(common['core'],device='cuda').double();q=torch.tensor(common['partner'],device='cuda').double();mu=torch.tensor(common['mean'],device='cuda').double()
+    def coords(v):
+        w=v.double()-mu;u=w@c;return u,w-u@c.T-(w@q)@q.T
+    u,v=coords(x[3072:]);queries=[]
+    for z in zs_actual+zs_angle:
+        w,t=coords(z[3072:]);queries.append((u,v,w,t))
+    path=ART/'bilin18_l17_native_factor_readout_native_frozen.npz';assert hashlib.sha256(path.read_bytes()).hexdigest()==cfg['native_sha256'];full=np.load(path);ll=L.double();rr=R.double();lc=c.T@ll.T;rc=c.T@rr.T
+    def features(z):
+        aa,bb,cc,dd=z
+        return (cc@lc)*(dd@rr.T)+(cc@rc)*(dd@ll.T)-(aa@lc)*(bb@rr.T)-(aa@rc)*(bb@ll.T)
+    coef=torch.tensor(full['coef'],device='cuda')/float(full['scale'])**.5;raw=features(ref);prediction=raw@coef;moment=prediction.T@prediction;balanced=torch.zeros_like(moment)
+    for group in range(18):
+      pred=prediction[assignment==group];m=pred.T@pred;balanced+=m/torch.trace(m)
+    bases={};spectra={};audits={}
+    for name,m in [('pooled',moment),('equalgroup',balanced)]:
+      ev,V=torch.linalg.eigh((m+m.T)/2);order=torch.argsort(ev,descending=True);bases[name]=V[:,order];spectra[name]=ev[order].cpu().numpy();audits[name]={'minimum_eigenvalue':float(ev.min()),'orthogonality':float((V.T@V-torch.eye(1152,device='cuda')).abs().max())}
+    gen=torch.Generator(device='cuda').manual_seed(cfg['mixture_seed']);bases['random']=torch.linalg.qr(torch.randn(1152,1152,generator=gen,device='cuda',dtype=torch.float64)).Q;rows={};previous=np.load(ART/'bilin18_l17_native_factor_subsets_rows.npz');replay=0.
+    for g,query in enumerate(queries):
+      pred=features(query)@coef;target=Y[g,3072:];energy=target.square().sum(1);rows[f'g{g}_energy']=energy.reshape(256,4).sum(1).cpu().numpy()
+      for name,V in bases.items():
+        pv=pred@V;tv=target@V;cumulative=(pv.square()-2*pv*tv).cumsum(1)
+        for width in cfg['mixture_widths']:
+          error=(energy+cumulative[:,width-1]).reshape(256,4).sum(1).cpu().numpy();rows[f'{name}{width}_g{g}_error']=error
+          if width==1152:
+            old=previous[f'ranked4608_g{g}_a0.001_error'];replay=max(replay,float(np.linalg.norm(error-old)/np.linalg.norm(old)))
+    assert replay<1e-8
+    summary={}
+    for name in bases:
+      summary[name]={}
+      for width in cfg['mixture_widths']:
+        summary[name][str(width)]={}
+        for family,groups in [('actual',range(9)),('angle',range(9,18))]:
+          energy=sum(rows[f'g{g}_energy'] for g in groups);error=sum(rows[f'{name}{width}_g{g}_error'] for g in groups);summary[name][str(width)][family]={split:float(1-error[sl].sum()/energy[sl].sum()) for split,sl in [('calibration',slice(0,128)),('evaluation',slice(128,None))]}
+    gates={'pooled256_80':all(v['evaluation']>=.8 for v in summary['pooled']['256'].values()),'pooled256_gain10':all(summary['pooled']['256'][f]['evaluation']-summary['random']['256'][f]['evaluation']>=.1 for f in ['actual','angle'])}
+    np.savez_compressed(STEM.with_name(STEM.name+'_bases.npz'),**{k:v.cpu().numpy() for k,v in bases.items()},**{k+'_eigenvalues':v for k,v in spectra.items()});np.savez_compressed(STEM.with_name(STEM.name+'_rows.npz'),**rows);STEM.with_suffix('.json').write_text(json.dumps({'config':cfg,'summary':summary,'audits':audits,'full_prediction_error_replay_relative':replay,'gates':gates},indent=2)+'\n');print('FINISHED',summary,gates,flush=True)
+if __name__=='__main__':main()

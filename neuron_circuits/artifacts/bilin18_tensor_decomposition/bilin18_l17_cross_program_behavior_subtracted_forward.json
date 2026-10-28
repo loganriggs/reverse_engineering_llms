@@ -1,0 +1,365 @@
+{
+  "config": {
+    "status": "H275 fixed before outcomes",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_cross_program_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "seed": 20261222,
+    "design": "Compile frozen H274 actual and mixture centered residual polynomials: full mean-linear + within-core + core-partner terms. No native tensors needed for correction inference. Compare compiled-only, common linear+within, actual, mixture and exact residual oracle. Native intact write is common conditional baseline; direct source perturbation retained. Fresh128 docs exclude1728 prior hashes. No fitting/tuning. Float64 compiler audit, float32 executable evaluation, float64 KL from float32 logits.",
+    "gates": {
+      "cross_behavior": "actual correction reduces common conditional KL>=10%, paired95 lower>0 BOTH actual scales",
+      "mixture_angle_advantage": "mixture reduces actual-only conditional KL>=5%, paired95 lower>0 BOTH angle scales",
+      "mixture_actual_retention": "mixture improvement over actual-only paired95 lower>\u22123% BOTH actual scales",
+      "half_kl": "actual correction reduces compiled-only conditional KL>=50% BOTH actual scales"
+    },
+    "scope": "Conditional mediation using exact native intact baseline, NOT intact model replacement. Dense linear/full-output coefficient costs included. No semantic claim."
+  },
+  "costs": {
+    "actual": {
+      "array_scalars": {
+        "mean": 1152,
+        "core": 36864,
+        "partner": 36864,
+        "linear": 1327104,
+        "within": 608256,
+        "cross": 1179648
+      },
+      "total_scalars": 3189888,
+      "uncompressed_float32_bytes": 12759552,
+      "saved_bytes": 11840454,
+      "native_mlp_weight_scalars": 15925248,
+      "original_compiler_scalars": 504224
+    },
+    "mixture": {
+      "array_scalars": {
+        "mean": 1152,
+        "core": 36864,
+        "partner": 36864,
+        "linear": 1327104,
+        "within": 608256,
+        "cross": 1179648
+      },
+      "total_scalars": 3189888,
+      "uncompressed_float32_bytes": 12759552,
+      "saved_bytes": 11841341,
+      "native_mlp_weight_scalars": 15925248,
+      "original_compiler_scalars": 504224
+    }
+  },
+  "audits": {
+    "float64_relative_max": 1.4252145670842775e-12,
+    "float32_relative_max": 0.00045262341745851316,
+    "angle_norm_relative_max": 3.609312386743113e-07,
+    "angle_dot_relative_max": 2.508390934963245e-07
+  },
+  "results": {
+    "actual_s0.1": {
+      "compiled": {
+        "residual_fidelity": 0.0,
+        "mean_conditional_kl": 2.092777044869941e-06,
+        "kl_recovery": 0.0,
+        "kl_recovery_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "top1_agreement": 0.9993489384651184
+      },
+      "common": {
+        "residual_fidelity": 0.172735333442688,
+        "mean_conditional_kl": 2.0397024427356095e-06,
+        "kl_recovery": 0.025360848765249133,
+        "kl_recovery_bootstrap95": [
+          -0.01755785895241338,
+          0.06969616739972881
+        ],
+        "top1_agreement": 0.9993489384651184
+      },
+      "actual": {
+        "residual_fidelity": 0.40319812297821045,
+        "mean_conditional_kl": 1.3200524906478922e-06,
+        "kl_recovery": 0.36923405487280225,
+        "kl_recovery_bootstrap95": [
+          0.31857684386520246,
+          0.4213176518721362
+        ],
+        "top1_agreement": 0.9995659589767456
+      },
+      "mixture": {
+        "residual_fidelity": 0.3879045844078064,
+        "mean_conditional_kl": 1.3476791182486036e-06,
+        "kl_recovery": 0.35603311324911957,
+        "kl_recovery_bootstrap95": [
+          0.30366294782538744,
+          0.40955170977504374
+        ],
+        "top1_agreement": 0.9993489384651184
+      },
+      "oracle": {
+        "residual_fidelity": 1.0,
+        "mean_conditional_kl": 2.0093365276502204e-13,
+        "kl_recovery": 0.9999999039870715,
+        "kl_recovery_bootstrap95": [
+          0.9999998907771704,
+          0.9999999163650145
+        ],
+        "top1_agreement": 1.0
+      }
+    },
+    "actual_s1.0": {
+      "compiled": {
+        "residual_fidelity": 0.0,
+        "mean_conditional_kl": 0.00020018045370209157,
+        "kl_recovery": 0.0,
+        "kl_recovery_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "top1_agreement": 0.9919704794883728
+      },
+      "common": {
+        "residual_fidelity": 0.17406481504440308,
+        "mean_conditional_kl": 0.0001961043753436855,
+        "kl_recovery": 0.02036201978277108,
+        "kl_recovery_bootstrap95": [
+          -0.02494331379124165,
+          0.06493988169729772
+        ],
+        "top1_agreement": 0.9928385615348816
+      },
+      "actual": {
+        "residual_fidelity": 0.3965418338775635,
+        "mean_conditional_kl": 0.0001315115472492423,
+        "kl_recovery": 0.3430350225654014,
+        "kl_recovery_bootstrap95": [
+          0.29601726698416125,
+          0.3916608283938452
+        ],
+        "top1_agreement": 0.9932725429534912
+      },
+      "mixture": {
+        "residual_fidelity": 0.38172250986099243,
+        "mean_conditional_kl": 0.00013404117335375203,
+        "kl_recovery": 0.33039829376532426,
+        "kl_recovery_bootstrap95": [
+          0.2805366753787102,
+          0.3816727780318936
+        ],
+        "top1_agreement": 0.9934895634651184
+      },
+      "oracle": {
+        "residual_fidelity": 1.0,
+        "mean_conditional_kl": 2.0133027840502257e-13,
+        "kl_recovery": 0.9999999989942561,
+        "kl_recovery_bootstrap95": [
+          0.9999999988613409,
+          0.9999999991170915
+        ],
+        "top1_agreement": 1.0
+      }
+    },
+    "angle_s0.1": {
+      "compiled": {
+        "residual_fidelity": 0.0,
+        "mean_conditional_kl": 2.717828969649448e-06,
+        "kl_recovery": 0.0,
+        "kl_recovery_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "top1_agreement": 0.9997829794883728
+      },
+      "common": {
+        "residual_fidelity": 0.1930631399154663,
+        "mean_conditional_kl": 2.408510567716249e-06,
+        "kl_recovery": 0.11381084144271802,
+        "kl_recovery_bootstrap95": [
+          0.05110424982127705,
+          0.16989051890804924
+        ],
+        "top1_agreement": 0.9995659589767456
+      },
+      "actual": {
+        "residual_fidelity": 0.28560060262680054,
+        "mean_conditional_kl": 2.038223746472467e-06,
+        "kl_recovery": 0.25005444815191524,
+        "kl_recovery_bootstrap95": [
+          0.18852200901128877,
+          0.29762134108609595
+        ],
+        "top1_agreement": 0.9995659589767456
+      },
+      "mixture": {
+        "residual_fidelity": 0.3021543622016907,
+        "mean_conditional_kl": 1.9642328859869305e-06,
+        "kl_recovery": 0.2772787000499587,
+        "kl_recovery_bootstrap95": [
+          0.20468689544811675,
+          0.3331602150982721
+        ],
+        "top1_agreement": 0.9995659589767456
+      },
+      "oracle": {
+        "residual_fidelity": 1.0,
+        "mean_conditional_kl": 2.0808994277361716e-13,
+        "kl_recovery": 0.9999999234352327,
+        "kl_recovery_bootstrap95": [
+          0.9999999096627562,
+          0.9999999350883496
+        ],
+        "top1_agreement": 1.0
+      }
+    },
+    "angle_s1.0": {
+      "compiled": {
+        "residual_fidelity": 0.0,
+        "mean_conditional_kl": 0.00028683013391702706,
+        "kl_recovery": 0.0,
+        "kl_recovery_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "top1_agreement": 0.9924045205116272
+      },
+      "common": {
+        "residual_fidelity": 0.19325041770935059,
+        "mean_conditional_kl": 0.0002630374269881279,
+        "kl_recovery": 0.08295051361577588,
+        "kl_recovery_bootstrap95": [
+          0.016686106885779216,
+          0.13680937065754556
+        ],
+        "top1_agreement": 0.9928385615348816
+      },
+      "actual": {
+        "residual_fidelity": 0.2905395030975342,
+        "mean_conditional_kl": 0.00022228702674753953,
+        "kl_recovery": 0.22502205848482515,
+        "kl_recovery_bootstrap95": [
+          0.15462629161723554,
+          0.2790316825379708
+        ],
+        "top1_agreement": 0.9934895634651184
+      },
+      "mixture": {
+        "residual_fidelity": 0.30817335844039917,
+        "mean_conditional_kl": 0.00021498045417583255,
+        "kl_recovery": 0.25049557645843035,
+        "kl_recovery_bootstrap95": [
+          0.1708836560950137,
+          0.31041958218666743
+        ],
+        "top1_agreement": 0.9939236044883728
+      },
+      "oracle": {
+        "residual_fidelity": 1.0,
+        "mean_conditional_kl": 2.001375057251627e-13,
+        "kl_recovery": 0.9999999993022438,
+        "kl_recovery_bootstrap95": [
+          0.9999999991882965,
+          0.9999999994002376
+        ],
+        "top1_agreement": 1.0
+      }
+    }
+  },
+  "contrasts": {
+    "actual_s0.1": {
+      "cross_behavior": {
+        "relative_kl_reduction": 0.3528210473300882,
+        "paired95": [
+          0.3100850632960115,
+          0.3953913733720629
+        ]
+      },
+      "mixture_advantage": {
+        "relative_kl_reduction": -0.020928431101366326,
+        "paired95": [
+          -0.0363777665061227,
+          -0.005292038776175532
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "cross_behavior": {
+        "relative_kl_reduction": 0.3293798416340284,
+        "paired95": [
+          0.2905551746852229,
+          0.3686600237804898
+        ]
+      },
+      "mixture_advantage": {
+        "relative_kl_reduction": -0.019235011353911976,
+        "paired95": [
+          -0.03624988868536377,
+          -0.002134199771923778
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "cross_behavior": {
+        "relative_kl_reduction": 0.15374099919141648,
+        "paired95": [
+          0.11731489982927484,
+          0.18870291010228624
+        ]
+      },
+      "mixture_advantage": {
+        "relative_kl_reduction": 0.03630163794018768,
+        "paired95": [
+          0.008564850934187948,
+          0.06273296324635119
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "cross_behavior": {
+        "relative_kl_reduction": 0.15492244091342802,
+        "paired95": [
+          0.11972786903293786,
+          0.19069147925688024
+        ]
+      },
+      "mixture_advantage": {
+        "relative_kl_reduction": 0.032869991013939455,
+        "paired95": [
+          0.0041320724870303705,
+          0.05833407621436275
+        ]
+      }
+    }
+  },
+  "gates": {
+    "cross_behavior": true,
+    "mixture_angle_advantage": false,
+    "mixture_actual_retention": false,
+    "half_kl": false
+  },
+  "head_replay": 4.2653168756067596e-07
+}

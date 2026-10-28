@@ -1,0 +1,19 @@
+{
+  "experiment": "H724",
+  "hashes": {
+    "data": "3ebd5f4914f1d1fe7a74a06ceb7d5d49f05122d7ee28b487d3314bb8a4d8f5e0",
+    "fits": "26e1cdfa37dacbc4ea052d33b983be919794123e8d47edc737d25e19128520f2",
+    "runner": "34f393fc56f243b0a54fa7b6d609fa62582fe14bde34951910bd7547de01f57c"
+  },
+  "seeds": [
+    7241,
+    7242,
+    7243
+  ],
+  "steps": 3000,
+  "batch": 512,
+  "active_coordinates": 8,
+  "decoder_width": 128,
+  "design": "Task-blind H722naturaltrain/validation splits, H723write-PCAcoordinates. Full128Dwhitening thenorthogonalrotation trainedsmoothL1 withmatrix-exp skewparameter,lr.003. SelectcheckpointbyvalidationL1every250steps; decodeunwhitened andTop8byindividualwrite-contributionnorm. Controlsidentity(PCAadaptiveTop8),randominitialrotations. SignedBSF useslinearencoder128->128withbias, decoder128x128unitnormatoms, outputbias; blockwidth1or4 selects8or2blocks=8scalars,lr.001, MSEin globallyscaledwrite-PCAcoordinates. SelectvalidationMSEevery250steps. Samebatchseed/order and3000steps, allseedsreported. Decoderblockorthogonalitynotimposed. Parametercounts/objectives/optimizationdiffer; not equalcapacityorcompute claim.",
+  "limitations": "Finite-trainingpilot, notconvergence. ThisBSFbaselineisunit-column signedblockTopK, notGrassmannianBSF. Samewidth/activebudget butrotation16384trainableparameters(8128orthogonaldegrees) vsBSF33024. Validationreused. No output/task/manifoldclaimsfromreconstructionalone; originaltestuntouched."
+}

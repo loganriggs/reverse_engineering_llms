@@ -1,0 +1,55 @@
+{
+  "experiment": "H781",
+  "hashes": {
+    "native": "4c0951900c06e53ad654d817bc025a2887fad9f45e0444fed55390f3507f0d1e",
+    "factors": "3ea863ca52d56814eab58b79a712d5ff05ab5d8c60adf085743ac1827c634250",
+    "streams": "1c363b241bc884a49d36ef133316a32e24fd4dd28ff033e5cdd0db9ccc1b528f",
+    "roles": "436fe08bbfe0af1b0839921c4342d5feaaa57f18b1b1a34aa9af063ee0186763",
+    "runner": "9f796fc45668a006a4b7f2170b79da291670600c0e4f44ddb0f2242b1640fcef",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "sites": [
+    [
+      0,
+      "attn"
+    ],
+    [
+      0,
+      "mlp"
+    ],
+    [
+      1,
+      "attn"
+    ],
+    [
+      1,
+      "mlp"
+    ],
+    [
+      2,
+      "attn"
+    ],
+    [
+      2,
+      "mlp"
+    ],
+    [
+      3,
+      "attn"
+    ],
+    [
+      3,
+      "mlp"
+    ],
+    [
+      4,
+      "attn"
+    ],
+    [
+      4,
+      "mlp"
+    ]
+  ],
+  "design": "First pass replaces donor attention/MLP output at both copied-value positions at one layer0\u20134site; all other upstream computation native. Capture resulting L5H5 local values. Second fresh receiver pass injects only native-receiver-routing times the weighted local-value change at those two sources into final L5H5 output. Compare to full donor local-value-word target and zero. Task reciprocal,nuisance,identity across lexical cohorts; same alignment exclusions.",
+  "limitations": "Sufficiency-style site substitution along isolated value readout, not necessity or unique mediation fraction. First-pass upstream changes can propagate through many paths before L5. Does not preserve upstream bypass effects in second pass. Individual sites can substitute/cancel; do not sum causal fractions."
+}

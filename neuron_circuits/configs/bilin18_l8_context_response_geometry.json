@@ -1,0 +1,23 @@
+{
+  "status": "locked-before-results",
+  "seed": 20261102,
+  "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+  "start": 19720,
+  "rows": 32,
+  "positions": [31,63,95,126],
+  "batch_size": 8,
+  "matrix_batch": 8,
+  "ranks": [4,16,64,128],
+  "scales": [0.05,1.0],
+  "families": ["matched","wrong_context","wrong_source","global"],
+  "context_control": "Rotate contexts by one complete row, preserving position; mapping fixed without observing responses. Wrong source is(h+1) mod9 at the correct state.",
+  "geometry": "Source span is orthonormal QR of each head output projection. At the unperturbed pre-MLP state, form exact derivative of native bilinear write composed with RMSNorm, restricted to that span. Output basis is its left singular vectors, chosen without finite-response labels. Frozen global output bases are H233 all-head response bases.",
+  "prediction": "For every basis, separately evaluate projection of exact finite response (oracle geometric coverage) and projection of the correct native full tangent response (prediction without changed-output inputs). Wrong-chart comparisons vary output basis only; their predicted coefficients still use the current-state native tangent. Full tangent is an additional reference.",
+  "gates": {
+    "locally_compact": "Matched rank16 captures>=.80 pooled response energy at both scales and improves over global16 by>=.20.",
+    "context_specific": "Matched rank16 exceeds wrong-context rank16 coverage by>=.10 at both scales.",
+    "source_specific": "Matched rank16 exceeds wrong-source rank16 coverage by>=.10 at both scales.",
+    "small_change_prediction": "Full tangent fidelity>=.99 at scale.05, and independently checked analytic derivative relative error<=1e-4."
+  },
+  "cost": "Per state/source construct1152x128 derivative matrix from native weights and perform SVD. A rank-r chart stores1152*r numbers per state/source. This is expensive model-derived geometry, not a recovered cheap router, shared global feature list, or semantic unit."
+}

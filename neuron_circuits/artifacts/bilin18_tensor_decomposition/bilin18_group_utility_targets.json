@@ -1,0 +1,182 @@
+{
+  "config": {
+    "experiment": "H1008",
+    "hashes": {
+      "runner": "341933f75dfaa33a4e3e6f2fbf8e3a6f8aba269026a17f28057abc751a3c99f8",
+      "forward": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+      "geometry": "6c2bf3f06a7eaa521d41e5bcd3db36b4cde788c228922db88ebb4911053bab7e",
+      "old": "b7d437b308131e633abc939812455f6ed4cec09234dba3ac706d7c2a77ab768e",
+      "noun": "2556fe7ce38db74d5b5c119601d53346f7e1b753578073d31e033768512d029b",
+      "nounscreen": "a52c2e7b7ff485b6357be657c73443be6b05792d0aa41fc373bfbfd4db65c53f",
+      "natural": "5bf87b192bb04709107d1a9e320a42469e35648e7094fdd46ccde97dc7e29077",
+      "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+    },
+    "design": "Discovery-only utility targets. Deduplicate132old training prompts,8noun discovery endpoints,768natural discovery states. Fixed multi-anchor dictionary and mean. Exactly32active coordinates: scalarTop32 or one forced anchor group plus remaining highest-energy coordinates. Seven real groups, two atom-permuted panels preserving sizes/overlap. Identity and dense128 references.",
+    "selection": "Per-state lowest native-outputKL among scalar and seven panel choices is an in-sample oracle; it uses the native downstream output and is not a deployable encoder. All candidates saved for future training. No evaluation/confirmation states used.",
+    "metric": "KL(native || candidate). No paired-edit optimization in this target collection; whole-state and paired validation required for later learned router.",
+    "limits": "Only8nounstates, repeated task vocabulary,192natural training documents. Oracle includes scalar and therefore cannot be worse by construction; compare gain size against equal-choice shuffled panels. Group-plus-fill is hybrid sparsity, not pure group sparsity. No neural gate trained."
+  },
+  "summary": [
+    {
+      "domain": "old",
+      "n": 132,
+      "scalar_KL": 0.0002701118961754189,
+      "dense_KL": 0.0002057093178400759,
+      "panels": {
+        "real": {
+          "oracle_KL": 0.00025980888060664933,
+          "relative_reduction": 0.038143509096239314,
+          "non_scalar_fraction": 0.6439393939393939,
+          "selection_counts": {
+            "scalar32": 47,
+            "real/agreement": 9,
+            "real/capital_recall": 17,
+            "real/entity_binding": 15,
+            "real/sentiment": 13,
+            "real/negation": 11,
+            "real/pronoun_gender": 11,
+            "real/noun_contrast": 9
+          }
+        },
+        "shuffle10081": {
+          "oracle_KL": 0.00025872493737859656,
+          "relative_reduction": 0.042156450560131176,
+          "non_scalar_fraction": 0.5227272727272727,
+          "selection_counts": {
+            "scalar32": 63,
+            "shuffle10081/agreement": 10,
+            "shuffle10081/capital_recall": 6,
+            "shuffle10081/entity_binding": 5,
+            "shuffle10081/sentiment": 9,
+            "shuffle10081/negation": 7,
+            "shuffle10081/pronoun_gender": 10,
+            "shuffle10081/noun_contrast": 22
+          }
+        },
+        "shuffle10082": {
+          "oracle_KL": 0.0002570521671759646,
+          "relative_reduction": 0.048349329238623784,
+          "non_scalar_fraction": 0.5606060606060606,
+          "selection_counts": {
+            "scalar32": 58,
+            "shuffle10082/agreement": 2,
+            "shuffle10082/capital_recall": 12,
+            "shuffle10082/entity_binding": 11,
+            "shuffle10082/sentiment": 5,
+            "shuffle10082/negation": 15,
+            "shuffle10082/pronoun_gender": 7,
+            "shuffle10082/noun_contrast": 22
+          }
+        }
+      }
+    },
+    {
+      "domain": "noun",
+      "n": 8,
+      "scalar_KL": 0.02118875893191289,
+      "dense_KL": 0.016504092906236174,
+      "panels": {
+        "real": {
+          "oracle_KL": 0.020966482540976678,
+          "relative_reduction": 0.010490297787164593,
+          "non_scalar_fraction": 0.5,
+          "selection_counts": {
+            "scalar32": 4,
+            "real/capital_recall": 1,
+            "real/sentiment": 1,
+            "real/pronoun_gender": 2
+          }
+        },
+        "shuffle10081": {
+          "oracle_KL": 0.020709192331849813,
+          "relative_reduction": 0.02263306697688605,
+          "non_scalar_fraction": 0.875,
+          "selection_counts": {
+            "scalar32": 1,
+            "shuffle10081/capital_recall": 1,
+            "shuffle10081/entity_binding": 2,
+            "shuffle10081/pronoun_gender": 3,
+            "shuffle10081/noun_contrast": 1
+          }
+        },
+        "shuffle10082": {
+          "oracle_KL": 0.02059924212316001,
+          "relative_reduction": 0.027822149029455123,
+          "non_scalar_fraction": 0.875,
+          "selection_counts": {
+            "scalar32": 1,
+            "shuffle10082/capital_recall": 4,
+            "shuffle10082/entity_binding": 1,
+            "shuffle10082/negation": 1,
+            "shuffle10082/noun_contrast": 1
+          }
+        }
+      }
+    },
+    {
+      "domain": "natural",
+      "n": 768,
+      "scalar_KL": 0.021607837379888983,
+      "dense_KL": 0.016980672008467028,
+      "panels": {
+        "real": {
+          "oracle_KL": 0.01988622278018309,
+          "relative_reduction": 0.07967547003608266,
+          "non_scalar_fraction": 0.6744791666666666,
+          "selection_counts": {
+            "scalar32": 250,
+            "real/agreement": 52,
+            "real/capital_recall": 61,
+            "real/entity_binding": 62,
+            "real/sentiment": 68,
+            "real/negation": 58,
+            "real/pronoun_gender": 82,
+            "real/noun_contrast": 135
+          }
+        },
+        "shuffle10081": {
+          "oracle_KL": 0.019844779121470833,
+          "relative_reduction": 0.08159346201203255,
+          "non_scalar_fraction": 0.6653645833333334,
+          "selection_counts": {
+            "scalar32": 257,
+            "shuffle10081/agreement": 43,
+            "shuffle10081/capital_recall": 68,
+            "shuffle10081/entity_binding": 78,
+            "shuffle10081/sentiment": 88,
+            "shuffle10081/negation": 55,
+            "shuffle10081/pronoun_gender": 73,
+            "shuffle10081/noun_contrast": 106
+          }
+        },
+        "shuffle10082": {
+          "oracle_KL": 0.019802821231213658,
+          "relative_reduction": 0.0835352523689068,
+          "non_scalar_fraction": 0.6822916666666666,
+          "selection_counts": {
+            "scalar32": 244,
+            "shuffle10082/agreement": 61,
+            "shuffle10082/capital_recall": 76,
+            "shuffle10082/entity_binding": 75,
+            "shuffle10082/sentiment": 77,
+            "shuffle10082/negation": 81,
+            "shuffle10082/pronoun_gender": 69,
+            "shuffle10082/noun_contrast": 85
+          }
+        }
+      }
+    }
+  ],
+  "audits": {
+    "hashes_unchanged": true,
+    "inputs_unchanged": true,
+    "whole_model_forwards": 22560,
+    "expected_forwards": 22560,
+    "identity_logits_max_abs": 3.814697265625e-05,
+    "natural_capture_relative_error": 3.5998191865606043e-06,
+    "finite": true,
+    "evaluation_states_used": 0,
+    "no_router_training": true
+  },
+  "elapsed_seconds": 80.7382698059082
+}

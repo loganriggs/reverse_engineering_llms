@@ -1,0 +1,102 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-source-decomposition-before-attention-mediation-results",
+    "seed": 20261204,
+    "batch_size": 8,
+    "rank": 16,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "core_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_core_stability.pt",
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 500
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 0,
+        "rows": 256
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 128
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 128
+      }
+    },
+    "hypotheses": {
+      "M0_native_recomposition_is_exact": "Native context coefficients recompute to relative error at most 1e-6.",
+      "M1_direct_embedding_mean_replacement_is_small": "Replacing the selected-position direct Layer-17 embedding term by its discovery mean and recomputing attention retains at least 0.98 operator fidelity on every corpus.",
+      "M2_direct_embedding_cycle_is_small": "Cyclically substituting the selected-position direct embedding term and recomputing attention retains at least 0.95 fidelity on every corpus.",
+      "M3_embedding_attention_mediation_is_small": "Recomputing rather than holding attention changes embedding-replacement fidelity by at most 0.02 on every corpus.",
+      "M4_carried_mean_replacement_is_material": "Replacing selected-position carried state by its discovery mean and recomputing attention retains at most 0.80 fidelity on every corpus.",
+      "M5_carried_cycle_is_material": "Cyclically substituting selected-position carried state and recomputing attention retains at most 0.90 fidelity on every corpus.",
+      "M6_carried_cost_dominates_embedding_cost": "The operator-fidelity cost of carried mean replacement is at least ten times the direct-embedding mean-replacement cost on every corpus.",
+      "M7_attention_recomputation_preserves_source_order": "Carried replacement is more damaging than direct-embedding replacement under both held-attention and recomputed-attention executions on every corpus."
+    }
+  },
+  "hypotheses": {
+    "M0_native_recomposition_is_exact": true,
+    "M1_direct_embedding_mean_replacement_is_small": true,
+    "M2_direct_embedding_cycle_is_small": true,
+    "M3_embedding_attention_mediation_is_small": true,
+    "M4_carried_mean_replacement_is_material": true,
+    "M5_carried_cycle_is_material": true,
+    "M6_carried_cost_dominates_embedding_cost": true,
+    "M7_attention_recomputation_preserves_source_order": true
+  },
+  "native_recomposition_error": 1.8478939883938404e-07,
+  "results": {
+    "fineweb": {
+      "embedding_mean_held": 0.9999972816698787,
+      "embedding_mean_recomputed": 0.9999969240989524,
+      "embedding_cycle_held": 0.9999956708960565,
+      "embedding_cycle_recomputed": 0.9999950619499584,
+      "carried_mean_held": 0.6178996082859198,
+      "carried_mean_recomputed": 0.5369710844969646,
+      "carried_cycle_held": 0.5139033119015002,
+      "carried_cycle_recomputed": 0.3818270196492809
+    },
+    "wikitext": {
+      "embedding_mean_held": 0.9999976494778857,
+      "embedding_mean_recomputed": 0.9999969354832438,
+      "embedding_cycle_held": 0.9999967426080413,
+      "embedding_cycle_recomputed": 0.9999957815810452,
+      "carried_mean_held": 0.6978592201644876,
+      "carried_mean_recomputed": 0.6207684614516539,
+      "carried_cycle_held": 0.6256180433049026,
+      "carried_cycle_recomputed": 0.5119399741949113
+    },
+    "tinystories": {
+      "embedding_mean_held": 0.9999985250994516,
+      "embedding_mean_recomputed": 0.9999983597583663,
+      "embedding_cycle_held": 0.999997204579424,
+      "embedding_cycle_recomputed": 0.9999969502161802,
+      "carried_mean_held": 0.7403198542126652,
+      "carried_mean_recomputed": 0.6997553495354965,
+      "carried_cycle_held": 0.6408280678165397,
+      "carried_cycle_recomputed": 0.5754997582834935
+    }
+  }
+}

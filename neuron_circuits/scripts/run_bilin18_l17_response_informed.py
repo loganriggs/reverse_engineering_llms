@@ -1,0 +1,17 @@
+"""H291 residual-response covariance directions, nested ridge readouts."""
+from pathlib import Path
+import json
+import numpy as np
+ROOT=Path(__file__).resolve().parents[1];ART=ROOT/'artifacts/bilin18_tensor_decomposition';STEM=ART/'bilin18_l17_response_informed'
+def main():
+ cfg=json.loads((ROOT/'configs'/f'{STEM.name}.json').read_text());d=np.load(STEM.with_name(STEM.name+'_statistics.npz'));keys=[k[:-5] for k in d.files if k.endswith('_gram')];pr=np.load(ART/'bilin18_l17_residual_cross_actual_refined_program.npz');f=np.load(ART/'bilin18_l17_fixed_readout_frozen.npz');outside=np.load(ART/'bilin18_l17_feature_outside_frozen.npz');ridge=np.load(ART/'bilin18_l17_response_ridge_frozen.npz');reads=np.concatenate([pr['core'],pr['partner']],1).astype('float64');q=np.linalg.qr(reads)[0];a=reads/f['feature_std'];g=sum(d[k+'_gram'] for k in keys if k.startswith('train'));r=sum(d[k+'_rhs'] for k in keys if k.startswith('train'));residual=r-g@a@ridge['n64_a0.1'][:64].astype('float64');cross=residual-q@(q.T@residual);u,s,_=np.linalg.svd(cross,full_matrices=False);u=u[:,:64];u=u-q@(q.T@u);u=np.linalg.qr(u)[0];scale=np.sqrt(np.einsum('ik,ij,jk->k',u,d['state_cov'],u)).clip(1e-6);informed=u/scale;natural=(outside['reads'].astype('float64')@outside['projection'].astype('float64'))/outside['feature_std'];maps={'base64':a,'natural96':np.concatenate([a,natural[:,:32]],1),'natural128':np.concatenate([a,natural],1),'informed96':np.concatenate([a,informed[:,:32]],1),'informed128':np.concatenate([a,informed],1)};records={};weights={};projected={}
+ for family,m in maps.items():
+  pg=m.T@g@m;rr=m.T@r;width=m.shape[1];groupstats={k:(m.T@d[k+'_gram']@m,m.T@d[k+'_rhs'],float(d[k+'_energy'])) for k in keys}
+  for alpha in cfg['alphas']:
+   h=pg+alpha*np.trace(pg)/width*np.eye(width);w=np.linalg.solve(h,rr);name=family+'_a'+str(alpha);weights[name]=w;v={'family':family,'alpha':alpha,'normal_equation_relative_residual':float(np.linalg.norm(h@w-rr)/np.linalg.norm(rr)),'groups':{}}
+   for k,(gg,r1,e) in groupstats.items():v['groups'][k]=float((np.sum(w*(gg@w))-2*np.sum(w*r1)+e)/e)
+   for split in ['train','validation']:v[split]=sum(v['groups'][k]*float(d[k+'_energy']) for k in keys if k.startswith(split))/sum(float(d[k+'_energy']) for k in keys if k.startswith(split))
+   records[name]=v
+  print('family',family,'complete',flush=True)
+ winners={family:min((k for k,v in records.items() if v['family']==family),key=lambda k:records[k]['validation']) for family in maps};bestinf=min([winners['informed96'],winners['informed128']],key=lambda k:records[k]['validation']);bestnat=min([winners['natural96'],winners['natural128']],key=lambda k:records[k]['validation']);gain=1-records[bestinf]['validation']/records[bestnat]['validation'];basegain=1-records[bestinf]['validation']/records[winners['base64']]['validation'];audits={'outside_span_overlap':float(np.linalg.norm(q.T@u)/np.linalg.norm(u)),'singular_values':s.tolist(),'direction_scale_min':float(scale.min()),'direction_scale_max':float(scale.max())};np.savez_compressed(STEM.with_name(STEM.name+'_frozen.npz'),state_mean=d['state_mean'],**{'map_'+k:v for k,v in maps.items()},**weights);STEM.with_suffix('.json').write_text(json.dumps({'config':cfg,'records':records,'winners':winners,'best_informed':bestinf,'best_natural':bestnat,'direction_gain':gain,'base64_gain':basegain,'audits':audits,'gates':{'direction_gain':gain>=.02,'base64_gain':basegain>=.02}},indent=2)+'\n');print('WINNERS',winners,'GAIN',gain,basegain,flush=True)
+if __name__=='__main__':main()

@@ -1,0 +1,31 @@
+{
+  "status": "hypotheses-locked-after-role-separated-rank64-result-before-split-stability-redteam",
+  "seed": 20261125,
+  "batch_size": 2,
+  "evaluation_batch_size": 4,
+  "layer": 16,
+  "final_layer": 17,
+  "positions": [31, 63, 95, 127],
+  "factor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_adjoint_factors.pt",
+  "path_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_backward_suffix_paths.pt",
+  "parent_result_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_quotient.json",
+  "discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18000, "rows": 64, "factor_dataset": "discovery", "factor_start": 0},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32, "factor_dataset": "fineweb", "factor_start": 0},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "wikitext", "factor_start": 0},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "tinystories", "factor_start": 0}
+  },
+  "components": ["prediction", "target", "margin"],
+  "rank": 64,
+  "splits": ["head", "tail", "interleaved", "random"],
+  "hypotheses": {
+    "R0_all_split_bases_are_discovery_only": "Every split fits exactly 192 of 256 discovery sites and evaluates its complementary 64 sites without overlap.",
+    "R1_score_fidelity_is_split_stable": "Across split choices, the external-corpus range of prediction and target fidelity is at most 0.05 in every corpus.",
+    "R2_margin_fidelity_is_split_stable": "Across split choices, the external-corpus range of margin fidelity is at most 0.10 in every corpus.",
+    "R3_every_split_recovers_scores": "Every split's rank-64 role quotient retains at least 0.80 prediction and target fidelity on every external corpus.",
+    "R4_correct_roles_beat_swapped_roles": "For every split and external corpus, correct assignment exceeds swapped assignment by at least 0.10 in mean endpoint fidelity.",
+    "R5_role_bases_are_subspace_stable": "Relative to the head split, every context, tangent, and output rank-64 basis has normalized projector overlap at least 0.75.",
+    "R6_margin_is_systematically_harder": "In every split and external corpus, margin fidelity is at least 0.15 below the mean of prediction and target fidelity.",
+    "R7_heldout_split_predicts_external_behavior": "Across split choices, mean validation fidelity and mean held-out FineWeb fidelity have positive Spearman correlation."
+  }
+}

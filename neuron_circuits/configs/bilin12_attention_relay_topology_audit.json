@@ -1,0 +1,36 @@
+{
+  "status": "locked-after-universal-backbone-audit-and-exploratory-edge-probe-before-relay-topology-audit",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "seed": 20261101,
+  "batch_size": 4,
+  "sequence_length": 128,
+  "edit_position": 95,
+  "prediction_position": 127,
+  "layers": [5, 6, 8, 10],
+  "destination_groups": {
+    "local_0_4": [95, 100],
+    "relay_5_16": [100, 112],
+    "late_17_31": [112, 127],
+    "final_32": [127, 128]
+  },
+  "source_groups": {
+    "earlier": [0, 93],
+    "edit_neighborhood": [93, 98],
+    "later": [98, 128]
+  },
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19324, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 72, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 72, "rows": 32}
+  },
+  "hypotheses": {
+    "T1_edge_partitions_recompose_attention": "Destination and source partitions each recompose the full changed-minus-base attention write to maximum absolute error at most 1e-4.",
+    "T2_direct_final_write_is_not_the_main_route": "The final-position-only destination receives at most 0.20 absolute causal Shapley share at every layer and corpus.",
+    "T3_early_backbone_writes_locally": "At Layers 5 and 6, local-plus-relay destination groups receive at least 0.50 absolute causal Shapley share on every corpus.",
+    "T4_relay_front_moves_forward_with_depth": "Late-plus-final destination share is larger at Layer 10 than Layer 5 on every corpus.",
+    "T5_edited_source_neighborhood_seeds_the_backbone": "At Layers 5 and 6, the edited source neighborhood receives at least 0.50 absolute causal Shapley share on every corpus.",
+    "T6_later_sources_grow_after_relay": "The later-source causal share is larger at Layer 10 than Layer 5 on every corpus.",
+    "T7_state_energy_and_behavioral_routing_differ": "At some layer and corpus, a group's local state projection and causal Shapley projection differ by at least 0.15.",
+    "T8_dominant_topology_transfers_ood": "The largest destination group and largest source group at every layer are identical across all three corpora."
+  }
+}

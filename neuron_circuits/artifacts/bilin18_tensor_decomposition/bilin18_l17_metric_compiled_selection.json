@@ -1,0 +1,120 @@
+{
+  "experiment": "H442",
+  "config": {
+    "experiment": "H442",
+    "rank": 64,
+    "tokens_per_context": 128,
+    "metric_seed": 20270950,
+    "bootstrap_seed": 20270951,
+    "bootstrap_samples": 4000,
+    "ridge_multipliers": [
+      null,
+      1,
+      0.1,
+      0.01,
+      0.001
+    ],
+    "design": "Fixed H441384/128 split and .5 empirical/.5 isotropic input objective. Construct average baseline Fisher via128 sampled token gradients/context, exact probability-weighted mean gradient centering. Regularized metric PCA creates oblique encoder/decoder; select ridge including unweighted control by reserved baseline metric error. No finite target selection. Primary selected-minus-unweighted finiteKL>.02 and selected-minus-exact>-.02 low/median joint4; H438 reused diagnostic. Compiled encoder*T maps plus decoder share same rank64 storage budget.",
+    "hashes": {
+      "bilin18_l17_calibration_coverage_frozen_bases.npz": "917455a17acf2dea2fe96a67e40a6179525b841616bbfc2f2e42016e2e63794d",
+      "bilin18_l17_compiled_omitted_maps_weight_compilation.npz": "ab711559c2bb471bf50a2484b7d92e6879d95e93362221a07ecc875f039a3f3a",
+      "bilin18_l17_operator_transfer_confirmation_rows.npz": "866a574d468c87a56fb03fb51691d3b678a66cca7a3027e4eccf1a59045e2cd0"
+    }
+  },
+  "candidates": [
+    {
+      "label": "unweighted",
+      "ridge": null,
+      "training_metric_error_fraction": 0.18815276609910855,
+      "validation_metric_error_fraction": 0.18695929541079107,
+      "validation_raw_activity_error_fraction": 0.07949009226541304,
+      "projector_idempotence_relative": 1.333547800830198e-15
+    },
+    {
+      "label": "metric_ridge_1",
+      "ridge": 1,
+      "training_metric_error_fraction": 0.1346190380396443,
+      "validation_metric_error_fraction": 0.1714122966501894,
+      "validation_raw_activity_error_fraction": 0.08308365323529214,
+      "projector_idempotence_relative": 2.690715391266013e-15
+    },
+    {
+      "label": "metric_ridge_0.1",
+      "ridge": 0.1,
+      "training_metric_error_fraction": 0.12463503780784814,
+      "validation_metric_error_fraction": 0.1812347063510423,
+      "validation_raw_activity_error_fraction": 0.09148473250590022,
+      "projector_idempotence_relative": 3.1264768348188007e-15
+    },
+    {
+      "label": "metric_ridge_0.01",
+      "ridge": 0.01,
+      "training_metric_error_fraction": 0.12530449656199086,
+      "validation_metric_error_fraction": 0.1816631740744707,
+      "validation_raw_activity_error_fraction": 0.09478537005872839,
+      "projector_idempotence_relative": 3.354786858496998e-15
+    },
+    {
+      "label": "metric_ridge_0.001",
+      "ridge": 0.001,
+      "training_metric_error_fraction": 0.12540232856488262,
+      "validation_metric_error_fraction": 0.18185826460851456,
+      "validation_raw_activity_error_fraction": 0.09527345803911937,
+      "projector_idempotence_relative": 3.7426359484853275e-15
+    }
+  ],
+  "selected": 1,
+  "selection_scope": "Reserved baseline sampled-Fisher predicted-map error, no finite targets. Average metric estimated with128 probability-sampled exact centered token gradients per context. Conditional shared source maps/calibration split.",
+  "unique_completed_documents": 12480,
+  "finite_KL_recovery": {
+    "low": [
+      0.9317098886829829,
+      0.9326813933007929
+    ],
+    "median": [
+      0.9683473041663004,
+      0.9716025038146204
+    ]
+  },
+  "evaluation_basis_indices": [
+    0,
+    1
+  ],
+  "primary_names": [
+    "selected_minus_unweighted_low",
+    "selected_minus_unweighted_median",
+    "selected_minus_exact_low",
+    "selected_minus_exact_median"
+  ],
+  "primary": [
+    0.0009715046178100008,
+    0.0032551996483199466,
+    -0.04940077743759487,
+    -0.02250547156819918
+  ],
+  "primary_joint4_ci95": [
+    [
+      -0.0660640642808537,
+      0.06800707351647368
+    ],
+    [
+      -0.06378036925034375,
+      0.07029076854698363
+    ],
+    [
+      -0.11643634633625856,
+      0.01763479146106882
+    ],
+    [
+      -0.08954104046686287,
+      0.04453009733046451
+    ]
+  ],
+  "primary_gates": [
+    false,
+    false,
+    false,
+    false
+  ],
+  "unweighted_score_replay_max_abs": 1.0408340855860843e-17
+}

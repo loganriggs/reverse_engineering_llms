@@ -1,0 +1,656 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-linear-router-ood-failure-before-exact-quadratic-canonicalization",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261205,
+    "batch_size": 4,
+    "target": "\n",
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "output_rank": 32,
+    "input_ranks": [
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      256,
+      512,
+      768
+    ],
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 256
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 768,
+        "rows": 256
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 768,
+        "rows": 256
+      }
+    },
+    "hypotheses": {
+      "Q0_exact_tensor_map_recomposes_coefficients": "The symmetric quadratic forms derived from native weights reproduce pooled rank-32 coefficients with maximum relative error at most 1e-5.",
+      "Q1_weight_rank64_is_sufficient": "The shared weight-canonical input rank 64 reaches causal fidelity at least 0.70 and lies within 0.15 of the full rank-32 oracle on every corpus.",
+      "Q2_weight_rank128_is_sufficient": "The shared weight-canonical input rank 128 reaches causal fidelity at least 0.70 and lies within 0.15 of oracle on every corpus.",
+      "Q3_weight_subspace_beats_random": "At input ranks 32, 64, and 128, weight-canonical fidelity exceeds matched random-subspace fidelity by at least 0.20 on every corpus.",
+      "Q4_weight_subspace_beats_state_pca": "At input rank 64, weight-canonical fidelity exceeds FineWeb state-PCA fidelity by at least 0.10 on every corpus.",
+      "Q5_one_compact_input_space_transfers_ood": "Some shared input rank at most 128 passes the 0.70/within-0.15 gate on all three corpora.",
+      "Q6_quadratic_map_repairs_linear_wikitext_failure": "On WikiText, weight-canonical rank 128 exceeds the prior best linear local-router fidelity 0.607 by at least 0.10."
+    }
+  },
+  "hypotheses": {
+    "Q0_exact_tensor_map_recomposes_coefficients": {
+      "supported": true,
+      "maximum_relative_error": 8.213973501369765e-07
+    },
+    "Q1_weight_rank64_is_sufficient": {
+      "supported": true
+    },
+    "Q2_weight_rank128_is_sufficient": {
+      "supported": true
+    },
+    "Q3_weight_subspace_beats_random": {
+      "supported": true
+    },
+    "Q4_weight_subspace_beats_state_pca": {
+      "supported": false
+    },
+    "Q5_one_compact_input_space_transfers_ood": {
+      "supported": true,
+      "minimum_passing_ranks": {
+        "fineweb": 16,
+        "wikitext": 32,
+        "tinystories": 4
+      }
+    },
+    "Q6_quadratic_map_repairs_linear_wikitext_failure": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "examples": 252,
+      "oracle": {
+        "cosine": 0.9430732131004333,
+        "fidelity": 0.8805755376815796
+      },
+      "frontier": {
+        "4": {
+          "weight": {
+            "cosine": 0.8551287055015564,
+            "fidelity": 0.6716210842132568,
+            "r2": -0.357025146484375,
+            "median_cosine": 0.9321202039718628
+          },
+          "state_pca": {
+            "cosine": 0.9045326113700867,
+            "fidelity": 0.787051260471344,
+            "r2": 0.47847265005111694,
+            "median_cosine": 0.9802322387695312
+          },
+          "random": {
+            "cosine": 0.43085935711860657,
+            "fidelity": 0.0012307167053222656,
+            "r2": -7.01220703125,
+            "median_cosine": 0.5001722574234009
+          }
+        },
+        "8": {
+          "weight": {
+            "cosine": 0.8563695549964905,
+            "fidelity": 0.6817944049835205,
+            "r2": -0.34113895893096924,
+            "median_cosine": 0.9418207406997681
+          },
+          "state_pca": {
+            "cosine": 0.9211909174919128,
+            "fidelity": 0.8179471492767334,
+            "r2": 0.6118953227996826,
+            "median_cosine": 0.9854036569595337
+          },
+          "random": {
+            "cosine": 0.6377232074737549,
+            "fidelity": 0.004604518413543701,
+            "r2": -6.990560531616211,
+            "median_cosine": 0.537803590297699
+          }
+        },
+        "16": {
+          "weight": {
+            "cosine": 0.8922320008277893,
+            "fidelity": 0.7661857604980469,
+            "r2": 0.24539858102798462,
+            "median_cosine": 0.9735076427459717
+          },
+          "state_pca": {
+            "cosine": 0.9260563254356384,
+            "fidelity": 0.8315901756286621,
+            "r2": 0.6846681237220764,
+            "median_cosine": 0.990583598613739
+          },
+          "random": {
+            "cosine": 0.4627641439437866,
+            "fidelity": 0.005704939365386963,
+            "r2": -6.991207122802734,
+            "median_cosine": 0.37771332263946533
+          }
+        },
+        "32": {
+          "weight": {
+            "cosine": 0.9094728231430054,
+            "fidelity": 0.7977763414382935,
+            "r2": 0.5856391787528992,
+            "median_cosine": 0.9803398847579956
+          },
+          "state_pca": {
+            "cosine": 0.9291966557502747,
+            "fidelity": 0.8441699743270874,
+            "r2": 0.7532586455345154,
+            "median_cosine": 0.9928946495056152
+          },
+          "random": {
+            "cosine": 0.3814414441585541,
+            "fidelity": 0.008174717426300049,
+            "r2": -6.962410926818848,
+            "median_cosine": 0.3475509285926819
+          }
+        },
+        "64": {
+          "weight": {
+            "cosine": 0.9129353165626526,
+            "fidelity": 0.8024808168411255,
+            "r2": 0.6155478954315186,
+            "median_cosine": 0.9800745248794556
+          },
+          "state_pca": {
+            "cosine": 0.9306084513664246,
+            "fidelity": 0.8471210598945618,
+            "r2": 0.8139767646789551,
+            "median_cosine": 0.9944530725479126
+          },
+          "random": {
+            "cosine": 0.03028787299990654,
+            "fidelity": 0.0005915164947509766,
+            "r2": -6.929028034210205,
+            "median_cosine": 0.3299156725406647
+          }
+        },
+        "128": {
+          "weight": {
+            "cosine": 0.9155362248420715,
+            "fidelity": 0.8104625940322876,
+            "r2": 0.6713389158248901,
+            "median_cosine": 0.9818386435508728
+          },
+          "state_pca": {
+            "cosine": 0.9318352937698364,
+            "fidelity": 0.8554269671440125,
+            "r2": 0.8675307035446167,
+            "median_cosine": 0.99610835313797
+          },
+          "random": {
+            "cosine": 0.6341784000396729,
+            "fidelity": 0.0630226731300354,
+            "r2": -6.360334396362305,
+            "median_cosine": 0.7282547354698181
+          }
+        },
+        "256": {
+          "weight": {
+            "cosine": 0.9212490916252136,
+            "fidelity": 0.8283047676086426,
+            "r2": 0.7396326661109924,
+            "median_cosine": 0.9862881898880005
+          },
+          "state_pca": {
+            "cosine": 0.9386776089668274,
+            "fidelity": 0.8637665510177612,
+            "r2": 0.9210752844810486,
+            "median_cosine": 0.9973994493484497
+          },
+          "random": {
+            "cosine": 0.7180407047271729,
+            "fidelity": 0.20233625173568726,
+            "r2": -5.0539045333862305,
+            "median_cosine": 0.8219128847122192
+          }
+        },
+        "512": {
+          "weight": {
+            "cosine": 0.9310320019721985,
+            "fidelity": 0.8455716371536255,
+            "r2": 0.7915655374526978,
+            "median_cosine": 0.9883718490600586
+          },
+          "state_pca": {
+            "cosine": 0.9387596845626831,
+            "fidelity": 0.8685937523841858,
+            "r2": 0.9680101275444031,
+            "median_cosine": 0.9988224506378174
+          },
+          "random": {
+            "cosine": 0.8765048980712891,
+            "fidelity": 0.5969167947769165,
+            "r2": -1.825026512145996,
+            "median_cosine": 0.9775534272193909
+          }
+        },
+        "768": {
+          "weight": {
+            "cosine": 0.9430732727050781,
+            "fidelity": 0.8805740475654602,
+            "r2": 1.0,
+            "median_cosine": 1.0
+          },
+          "state_pca": {
+            "cosine": 0.9431357979774475,
+            "fidelity": 0.8804244995117188,
+            "r2": 0.9999986886978149,
+            "median_cosine": 1.0
+          },
+          "random": {
+            "cosine": 0.9430733323097229,
+            "fidelity": 0.8805748224258423,
+            "r2": 1.0,
+            "median_cosine": 1.0
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "examples": 253,
+      "oracle": {
+        "cosine": 0.9201381206512451,
+        "fidelity": 0.8169739842414856
+      },
+      "frontier": {
+        "4": {
+          "weight": {
+            "cosine": 0.8127689361572266,
+            "fidelity": 0.6215476393699646,
+            "r2": 0.36980050802230835,
+            "median_cosine": 0.9443642497062683
+          },
+          "state_pca": {
+            "cosine": 0.8399233818054199,
+            "fidelity": 0.6588389873504639,
+            "r2": 0.4803915023803711,
+            "median_cosine": 0.9496961236000061
+          },
+          "random": {
+            "cosine": 0.2891312539577484,
+            "fidelity": 0.0008243918418884277,
+            "r2": -2.6136598587036133,
+            "median_cosine": 0.503602147102356
+          }
+        },
+        "8": {
+          "weight": {
+            "cosine": 0.8240428566932678,
+            "fidelity": 0.6302888989448547,
+            "r2": 0.42324358224868774,
+            "median_cosine": 0.9531311988830566
+          },
+          "state_pca": {
+            "cosine": 0.8560796976089478,
+            "fidelity": 0.6933048963546753,
+            "r2": 0.6293802261352539,
+            "median_cosine": 0.9663000702857971
+          },
+          "random": {
+            "cosine": 0.4128958582878113,
+            "fidelity": 0.00341951847076416,
+            "r2": -2.6023571491241455,
+            "median_cosine": 0.5630214214324951
+          }
+        },
+        "16": {
+          "weight": {
+            "cosine": 0.8571984171867371,
+            "fidelity": 0.6957293152809143,
+            "r2": 0.6241533756256104,
+            "median_cosine": 0.9676429033279419
+          },
+          "state_pca": {
+            "cosine": 0.8684472441673279,
+            "fidelity": 0.726360559463501,
+            "r2": 0.7125892639160156,
+            "median_cosine": 0.9744945168495178
+          },
+          "random": {
+            "cosine": 0.32901015877723694,
+            "fidelity": 0.004074156284332275,
+            "r2": -2.612180233001709,
+            "median_cosine": 0.1872105896472931
+          }
+        },
+        "32": {
+          "weight": {
+            "cosine": 0.8537709712982178,
+            "fidelity": 0.7052150964736938,
+            "r2": 0.7231099009513855,
+            "median_cosine": 0.9702318906784058
+          },
+          "state_pca": {
+            "cosine": 0.88773512840271,
+            "fidelity": 0.7471764087677002,
+            "r2": 0.7770415544509888,
+            "median_cosine": 0.979872465133667
+          },
+          "random": {
+            "cosine": 0.34905800223350525,
+            "fidelity": 0.008070707321166992,
+            "r2": -2.608536720275879,
+            "median_cosine": 0.1262546181678772
+          }
+        },
+        "64": {
+          "weight": {
+            "cosine": 0.8641169667243958,
+            "fidelity": 0.7129544615745544,
+            "r2": 0.7328569889068604,
+            "median_cosine": 0.9703152775764465
+          },
+          "state_pca": {
+            "cosine": 0.8964533805847168,
+            "fidelity": 0.769220232963562,
+            "r2": 0.814069390296936,
+            "median_cosine": 0.9853670001029968
+          },
+          "random": {
+            "cosine": -0.019349493086338043,
+            "fidelity": -0.0018597841262817383,
+            "r2": -2.5939671993255615,
+            "median_cosine": 0.1642541140317917
+          }
+        },
+        "128": {
+          "weight": {
+            "cosine": 0.8642709851264954,
+            "fidelity": 0.722019374370575,
+            "r2": 0.7668225765228271,
+            "median_cosine": 0.9721794128417969
+          },
+          "state_pca": {
+            "cosine": 0.9024228453636169,
+            "fidelity": 0.7775183916091919,
+            "r2": 0.8626921772956848,
+            "median_cosine": 0.9896520972251892
+          },
+          "random": {
+            "cosine": 0.42508718371391296,
+            "fidelity": 0.04267728328704834,
+            "r2": -2.3867640495300293,
+            "median_cosine": 0.6004645228385925
+          }
+        },
+        "256": {
+          "weight": {
+            "cosine": 0.8781076073646545,
+            "fidelity": 0.7420649528503418,
+            "r2": 0.817899763584137,
+            "median_cosine": 0.9782751798629761
+          },
+          "state_pca": {
+            "cosine": 0.910853385925293,
+            "fidelity": 0.7948112487792969,
+            "r2": 0.9239020943641663,
+            "median_cosine": 0.993812084197998
+          },
+          "random": {
+            "cosine": 0.6027268171310425,
+            "fidelity": 0.13719773292541504,
+            "r2": -1.9230878353118896,
+            "median_cosine": 0.7612923383712769
+          }
+        },
+        "512": {
+          "weight": {
+            "cosine": 0.8967997431755066,
+            "fidelity": 0.7805836796760559,
+            "r2": 0.8697056770324707,
+            "median_cosine": 0.9847957491874695
+          },
+          "state_pca": {
+            "cosine": 0.9201523661613464,
+            "fidelity": 0.8117551803588867,
+            "r2": 0.9746883511543274,
+            "median_cosine": 0.9979879856109619
+          },
+          "random": {
+            "cosine": 0.8529714345932007,
+            "fidelity": 0.4891362190246582,
+            "r2": -0.31630492210388184,
+            "median_cosine": 0.9693475961685181
+          }
+        },
+        "768": {
+          "weight": {
+            "cosine": 0.9201380610466003,
+            "fidelity": 0.8169736266136169,
+            "r2": 1.0,
+            "median_cosine": 1.0
+          },
+          "state_pca": {
+            "cosine": 0.9200997948646545,
+            "fidelity": 0.8169081211090088,
+            "r2": 0.9999993443489075,
+            "median_cosine": 1.0
+          },
+          "random": {
+            "cosine": 0.9201382994651794,
+            "fidelity": 0.8169740438461304,
+            "r2": 1.0,
+            "median_cosine": 1.0
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "examples": 240,
+      "oracle": {
+        "cosine": 0.942654013633728,
+        "fidelity": 0.8728806972503662
+      },
+      "frontier": {
+        "4": {
+          "weight": {
+            "cosine": 0.8727117776870728,
+            "fidelity": 0.7236427664756775,
+            "r2": -0.6659269332885742,
+            "median_cosine": 0.9310331344604492
+          },
+          "state_pca": {
+            "cosine": 0.888373076915741,
+            "fidelity": 0.7577035427093506,
+            "r2": 0.35010427236557007,
+            "median_cosine": 0.9779843091964722
+          },
+          "random": {
+            "cosine": 0.4520162343978882,
+            "fidelity": 0.0014161467552185059,
+            "r2": -8.802536964416504,
+            "median_cosine": 0.49971020221710205
+          }
+        },
+        "8": {
+          "weight": {
+            "cosine": 0.8906665444374084,
+            "fidelity": 0.7642111778259277,
+            "r2": -0.5567108392715454,
+            "median_cosine": 0.943939208984375
+          },
+          "state_pca": {
+            "cosine": 0.9081271290779114,
+            "fidelity": 0.7884082198143005,
+            "r2": 0.5872836112976074,
+            "median_cosine": 0.9866613745689392
+          },
+          "random": {
+            "cosine": 0.5967622995376587,
+            "fidelity": 0.004562973976135254,
+            "r2": -8.774920463562012,
+            "median_cosine": 0.6071195602416992
+          }
+        },
+        "16": {
+          "weight": {
+            "cosine": 0.9056463241577148,
+            "fidelity": 0.7994065880775452,
+            "r2": 0.08592689037322998,
+            "median_cosine": 0.9735989570617676
+          },
+          "state_pca": {
+            "cosine": 0.9155967235565186,
+            "fidelity": 0.8113737106323242,
+            "r2": 0.6687824726104736,
+            "median_cosine": 0.9892479181289673
+          },
+          "random": {
+            "cosine": 0.49882689118385315,
+            "fidelity": 0.006039857864379883,
+            "r2": -8.778406143188477,
+            "median_cosine": 0.34981852769851685
+          }
+        },
+        "32": {
+          "weight": {
+            "cosine": 0.9206753969192505,
+            "fidelity": 0.8186794519424438,
+            "r2": 0.5079880952835083,
+            "median_cosine": 0.9815188050270081
+          },
+          "state_pca": {
+            "cosine": 0.9267894625663757,
+            "fidelity": 0.829289436340332,
+            "r2": 0.7521545886993408,
+            "median_cosine": 0.9933666586875916
+          },
+          "random": {
+            "cosine": 0.44220951199531555,
+            "fidelity": 0.010981619358062744,
+            "r2": -8.728387832641602,
+            "median_cosine": 0.3927667737007141
+          }
+        },
+        "64": {
+          "weight": {
+            "cosine": 0.921768307685852,
+            "fidelity": 0.8206833600997925,
+            "r2": 0.5354324579238892,
+            "median_cosine": 0.979270339012146
+          },
+          "state_pca": {
+            "cosine": 0.9340516924858093,
+            "fidelity": 0.8422424793243408,
+            "r2": 0.8122612833976746,
+            "median_cosine": 0.9946964979171753
+          },
+          "random": {
+            "cosine": 0.05148282274603844,
+            "fidelity": 0.0012973546981811523,
+            "r2": -8.66917610168457,
+            "median_cosine": 0.41317808628082275
+          }
+        },
+        "128": {
+          "weight": {
+            "cosine": 0.9241714477539062,
+            "fidelity": 0.8162763118743896,
+            "r2": 0.5989927053451538,
+            "median_cosine": 0.9814574122428894
+          },
+          "state_pca": {
+            "cosine": 0.936326265335083,
+            "fidelity": 0.851502001285553,
+            "r2": 0.8547278642654419,
+            "median_cosine": 0.9954653978347778
+          },
+          "random": {
+            "cosine": 0.6129108667373657,
+            "fidelity": 0.058122456073760986,
+            "r2": -8.030207633972168,
+            "median_cosine": 0.7020546197891235
+          }
+        },
+        "256": {
+          "weight": {
+            "cosine": 0.9323408007621765,
+            "fidelity": 0.8310815095901489,
+            "r2": 0.6972351670265198,
+            "median_cosine": 0.9857923984527588
+          },
+          "state_pca": {
+            "cosine": 0.9380167722702026,
+            "fidelity": 0.8653632402420044,
+            "r2": 0.9117347598075867,
+            "median_cosine": 0.9974117279052734
+          },
+          "random": {
+            "cosine": 0.6943021416664124,
+            "fidelity": 0.19498640298843384,
+            "r2": -6.54800271987915,
+            "median_cosine": 0.7771013975143433
+          }
+        },
+        "512": {
+          "weight": {
+            "cosine": 0.937368631362915,
+            "fidelity": 0.8491809368133545,
+            "r2": 0.770798921585083,
+            "median_cosine": 0.989159107208252
+          },
+          "state_pca": {
+            "cosine": 0.9399943351745605,
+            "fidelity": 0.8674954771995544,
+            "r2": 0.9636455774307251,
+            "median_cosine": 0.9989200830459595
+          },
+          "random": {
+            "cosine": 0.8817030191421509,
+            "fidelity": 0.5789741277694702,
+            "r2": -2.5903308391571045,
+            "median_cosine": 0.9745803475379944
+          }
+        },
+        "768": {
+          "weight": {
+            "cosine": 0.9426536560058594,
+            "fidelity": 0.8728803992271423,
+            "r2": 1.0,
+            "median_cosine": 1.0
+          },
+          "state_pca": {
+            "cosine": 0.9426680207252502,
+            "fidelity": 0.8728313446044922,
+            "r2": 0.9999983906745911,
+            "median_cosine": 1.0
+          },
+          "random": {
+            "cosine": 0.9426543712615967,
+            "fidelity": 0.8728804588317871,
+            "r2": 1.0,
+            "median_cosine": 1.0
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-32-site-logit-ce-pilot-before-128-site-replication",
+    "seed": 20261103,
+    "batch_size": 2,
+    "tangent_chunk": 8,
+    "layer": 12,
+    "final_layer": 17,
+    "layers": [
+      16
+    ],
+    "rank": 32,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "operator_modes": 64,
+    "inner_ranks": [
+      4,
+      8
+    ],
+    "axis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 16000,
+      "rows": 64
+    },
+    "local_atlas_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17000,
+      "rows": 128
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19600,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 900,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 900,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "L0_full_suffix_logit_derivative_is_exact": "The analytic Layer-16-through-capped-logit derivative agrees with independent autograd to relative error at most 1e-5.",
+      "L1_inner8_preserves_full_logit_tangents": "The exact-read 64-mode inner-rank-8 program retains at least 0.95 full-logit tangent fidelity on every corpus.",
+      "L2_inner4_preserves_full_logit_tangents": "The inner-rank-4 program retains at least 0.90 full-logit tangent fidelity on every corpus.",
+      "L3_inner8_preserves_fisher_geometry": "The inner-rank-8 program retains at least 0.95 probability-weighted centered-logit/Fisher fidelity on every corpus.",
+      "L4_inner8_preserves_cross_entropy_derivatives": "The inner-rank-8 program retains at least 0.90 true-next-token cross-entropy directional-derivative fidelity on every corpus.",
+      "L5_common_operator_is_loss_sufficient": "The frozen mean local operator retains at least 0.70 cross-entropy directional-derivative fidelity on every corpus.",
+      "L6_contextual_program_materially_improves_loss": "The full 64-mode local program exceeds the mean operator's cross-entropy derivative fidelity by at least 0.10 on every corpus.",
+      "L7_loss_program_transfers_ood": "Inner-rank-8 cross-entropy derivative fidelity on each OOD corpus is within 0.05 of FineWeb.",
+      "L8_inner8_nearly_matches_full64_on_loss": "Inner-rank-8 cross-entropy derivative fidelity is within 0.05 of full-rank 64-mode fidelity on every corpus."
+    }
+  },
+  "hypotheses": {
+    "L0_full_suffix_logit_derivative_is_exact": {
+      "supported": true,
+      "autograd_relative_error": 4.521811423962626e-07,
+      "maximum_native_forward_relative_error": 0.0
+    },
+    "L1_inner8_preserves_full_logit_tangents": {
+      "supported": false
+    },
+    "L2_inner4_preserves_full_logit_tangents": {
+      "supported": false
+    },
+    "L3_inner8_preserves_fisher_geometry": {
+      "supported": false
+    },
+    "L4_inner8_preserves_cross_entropy_derivatives": {
+      "supported": false
+    },
+    "L5_common_operator_is_loss_sufficient": {
+      "supported": false
+    },
+    "L6_contextual_program_materially_improves_loss": {
+      "supported": true
+    },
+    "L7_loss_program_transfers_ood": {
+      "supported": true
+    },
+    "L8_inner8_nearly_matches_full64_on_loss": {
+      "supported": false
+    }
+  },
+  "results": {
+    "fineweb": {
+      "sites": 128,
+      "native_cross_entropy": 3.432788400677964,
+      "fidelity": {
+        "mean": {
+          "logit": 0.44544716255760175,
+          "fisher": 0.34848800617065845,
+          "cross_entropy": 0.14899315212826714,
+          "margin": 0.09736844497459007
+        },
+        "full64": {
+          "logit": 0.8797360198451345,
+          "fisher": 0.8033576463559258,
+          "cross_entropy": 0.8030788151447021,
+          "margin": 0.7847704594674505
+        },
+        "inner4": {
+          "logit": 0.7957279904898356,
+          "fisher": 0.7089329926526298,
+          "cross_entropy": 0.7081588412520828,
+          "margin": 0.6822294259775376
+        },
+        "inner8": {
+          "logit": 0.8385814472251941,
+          "fisher": 0.7410935511639007,
+          "cross_entropy": 0.745823367708824,
+          "margin": 0.7200754311607322
+        }
+      }
+    },
+    "wikitext": {
+      "sites": 128,
+      "native_cross_entropy": 3.95148841640912,
+      "fidelity": {
+        "mean": {
+          "logit": 0.3709809614340893,
+          "fisher": 0.17495423481326933,
+          "cross_entropy": 0.2032428272530704,
+          "margin": 0.11496243551027885
+        },
+        "full64": {
+          "logit": 0.8797586553926005,
+          "fisher": 0.7867633892194605,
+          "cross_entropy": 0.7788634574917794,
+          "margin": 0.7581718718434672
+        },
+        "inner4": {
+          "logit": 0.8006188057176403,
+          "fisher": 0.699702995394559,
+          "cross_entropy": 0.6997420164508583,
+          "margin": 0.6703211800171001
+        },
+        "inner8": {
+          "logit": 0.8419301475141556,
+          "fisher": 0.731730832935525,
+          "cross_entropy": 0.7318000902157098,
+          "margin": 0.7023814099046468
+        }
+      }
+    },
+    "tinystories": {
+      "sites": 128,
+      "native_cross_entropy": 2.6353478939272463,
+      "fidelity": {
+        "mean": {
+          "logit": 0.7701384841938215,
+          "fisher": 0.5186917817886243,
+          "cross_entropy": 0.2891818276340863,
+          "margin": 0.2886838349221609
+        },
+        "full64": {
+          "logit": 0.9269570608921602,
+          "fisher": 0.8189102439165883,
+          "cross_entropy": 0.8382564387773673,
+          "margin": 0.8096547890331409
+        },
+        "inner4": {
+          "logit": 0.8503621238414153,
+          "fisher": 0.6963816993020571,
+          "cross_entropy": 0.7190536796348439,
+          "margin": 0.672782166418969
+        },
+        "inner8": {
+          "logit": 0.889327527851403,
+          "fisher": 0.7390746424029169,
+          "cross_entropy": 0.7588791948544025,
+          "margin": 0.7187280113187642
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "status": "hypotheses-locked-after-dynamic-attention-boundary-before-two-qk-layer-path-program",
+  "source_config": "configs/bilin18_mlp_path_highcount_replication.json",
+  "source_artifact": "artifacts/bilin18_tensor_decomposition/bilin18_mlp_path_highcount_replication.json",
+  "seed": 20261026,
+  "batch_size": 1,
+  "tangent_chunk": 4,
+  "budgets": [1, 2, 4, 8, 16, 32],
+  "random_replicates": 128,
+  "path_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18500, "rows": 32},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19700, "rows": 8},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 600, "rows": 8},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 600, "rows": 8}
+  },
+  "hypotheses": {
+    "T0_manual_two_qk_attention_jvp_is_exact": "Manual two-QK/current-value attention writes and JVPs match native forward/autograd with maximum relative error at most 1e-5.",
+    "T1_attention_layer_paths_recompose_exactly": "The 32 I/A layer-subset paths recompose the independent unexpanded full suffix JVP with maximum sitewise relative error at most 1e-5.",
+    "T2_full_analytic_jvp_predicts_finite_effect": "The full path sum predicts the scale-0.02 dynamic-attention finite effect with fidelity at least 0.99 on every corpus.",
+    "T3_mlp_identity_path_explains_most_effect": "The no-attention-response path retains at least 0.94 analytic fidelity on every corpus.",
+    "T4_four_attention_paths_are_high_fidelity": "Four discovery-frozen attention paths retain at least 0.98 analytic fidelity on every corpus.",
+    "T5_compact_combined_program_predicts_native_effect": "Replacing the identity path by the frozen four-path MLP approximation while retaining the top four attention paths predicts the finite native effect with at least 0.94 fidelity on every corpus.",
+    "T6_attention_paths_beat_random": "At budget four, the frozen attention program exceeds the identity-plus-random-path 95th percentile by at least 0.01 on every corpus.",
+    "T7_attention_program_transfers_ood": "Frozen four-path analytic fidelity on each OOD corpus is within 0.03 of FineWeb.",
+    "T8_attention_program_is_low_order": "At least three of the frozen top-four paths use attention response in at most one layer.",
+    "T9_context_specific_attention_selection_is_small": "At budget four, the per-example oracle exceeds the frozen program by less than 0.02 on every corpus."
+  }
+}

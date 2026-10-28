@@ -1,0 +1,80 @@
+{
+  "experiment": "H993",
+  "hashes": {
+    "/home/loganriggs/Coding/neuron_circuits/scripts/run_bilin18_data_driven_groups.py": "3878216c24f304e37e5e3e8d68bff959e4a5fa2bce2b6891aa14d6b417a842b2",
+    "/home/loganriggs/Coding/neuron_circuits/scripts/run_bilin18_diverse_causal_tasks.py": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/bilin18_context_training_bank_captures.pt": "b7d437b308131e633abc939812455f6ed4cec09234dba3ac706d7c2a77ab768e",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/bilin18_expanded_task_bank_captures.pt": "55f637d754e8a4239551baeaaa3bd354afca38322606b21ed68271e5777c11be",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/bilin18_task_bank_causal_sites_captures.pt": "75f58f13fe3f094dc389f62967e0669daf5a22ae4e466d1e2b13d0dca392d86f",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/joint_change_featurizer/block_paired_changes_9831.pt": "7168211f7df1dac589eefa875b1adba10edeea36064b521787cccbfc276f37ea",
+    "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-18l-9h-1152embd/snapshots/ed9146549ee6dc8ed8cd75e9d48fcfe4278f4240/pytorch_model.bin": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/expanded_joint_featurizer/block_paired_changes_expanded6_9831.pt": "20724cd2773ddfd8b087e37183f520015305ede08ddf26874797580befd842ee",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/expanded_joint_featurizer/block_paired_changes_expanded6_9832.pt": "8954f965f60c6dd8205eb0ed4e8492d7149e7ea3b6393bc135a3aeb6d98a014b",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/expanded_joint_featurizer/shared_fixed_paired_changes_expanded6_9831.pt": "8208b22007a1a6bf6f18bd86054e3ce571c56131eef082bdd35a7cf2c3bdd446",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/expanded_joint_featurizer/shared_fixed_paired_changes_expanded6_9832.pt": "3e32ca113930cf061c1006c875f337a77b1f62cc9b46a8a4b5b36c7ace47fb59",
+    "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/bilin18_pca_behavior_transfer_bases.pt": "ffae84d2704dd7fa07acdd8ca53029b002b56c55b5f369742ef44bfb4abf7d52",
+    "/home/loganriggs/Coding/neuron_circuits/scripts/bilin18_data_grouping.py": "55ef3663f804f806141a9d04c83b6aa4742f61ab0cd40d4173cd06c0e0006313"
+  },
+  "layer": 12,
+  "arms": [
+    "dense128",
+    "dense32",
+    "scalar32",
+    "block_contiguous4",
+    "task_signature",
+    "coactivation",
+    "shuffled_task"
+  ],
+  "support_stats": {
+    "dense128": {
+      "mean": 128.0,
+      "minimum": 128,
+      "maximum": 128
+    },
+    "dense32": {
+      "mean": 32.0,
+      "minimum": 32,
+      "maximum": 32
+    },
+    "scalar32": {
+      "mean": 32.0,
+      "minimum": 32,
+      "maximum": 32
+    },
+    "block_contiguous4": {
+      "mean": 32.0,
+      "minimum": 32,
+      "maximum": 32
+    },
+    "task_signature": {
+      "mean": 32.0,
+      "minimum": 32,
+      "maximum": 32
+    },
+    "coactivation": {
+      "mean": 32.0,
+      "minimum": 32,
+      "maximum": 32
+    },
+    "shuffled_task": {
+      "mean": 32.0,
+      "minimum": 32,
+      "maximum": 32
+    }
+  },
+  "stability": {
+    "task_signature": {
+      "full_vs_first": 0.16717325150966644,
+      "full_vs_second": 0.13946586847305298,
+      "first_vs_second": 0.06963787972927094
+    },
+    "coactivation": {
+      "full_vs_first": 0.18518517911434174,
+      "full_vs_second": 0.12941177189350128,
+      "first_vs_second": 0.07262569665908813
+    }
+  },
+  "design": "Freeze H991 PCA128 basis. Fit disjoint4-atom groups by deterministic two-level balanced greedy agglomeration of cosine profiles. Task signatures: per-task mean squared coordinate change divided by task mean total change energy, then normalize each atom profile. Coactivation: squared coordinates over144training states, cosine similarity across atoms. Shuffle task labels across72training pairs preserving counts as control. SelectTop8 groups by single-state coordinate energy. All alternatives exactly32active atoms, no evaluation labels used.",
+  "metric": "Same624 directed finite edits and full donor-reference KL. Conditional membership stability from source0-1 versus2-3 training subsets with fixed PCA basis; co-membership-pair Jaccard, not feature-training seed reproducibility.",
+  "limits": "Groupings are heuristic and disjoint; no computational DAG or learned overlap. Task-change signatures are activation statistics, not downstream causal response profiles. Normalized profiles remove overall amplitude; PCA-order control keeps variance ordering. No prospective new-task discovery claim."
+}

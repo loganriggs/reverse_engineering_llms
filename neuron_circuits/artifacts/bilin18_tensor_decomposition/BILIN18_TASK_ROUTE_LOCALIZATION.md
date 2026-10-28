@@ -1,0 +1,28 @@
+## H536 — Binding and copying effects travel strongly through attention and the persistent value stream
+
+H533 found small single-MLP-write effects for entity binding and sequence copying. Reuse their 16 paired examples each (eight discovery, eight transfer), including nuisance and self donors. Independently scan all 18 layers for three interventions: replace the last-position attention output, replace the last-position post-block residual state, or replace the entire persistent value bus. Choose the maximum discovery mean donor-directed contrast per family/component, then freeze the layer and evaluate all transfer pairs. Exclude terminal residual L17 from selection because it trivially determines the readout, and exclude terminal bus L17 because it has no downstream consumers. Both remain diagnostic controls.
+
+The persistent value bus is initialized in the first attention block as a linear projection of its normalized token input. This precedes contextual attention: the bus initially represents token identities, not a contextual semantic summary. Later attention mixes its own value projection with this persistent bus using learned layer-specific coefficients. Injecting a donor bus after layer L changes the values available to future attention layers but leaves the current attention output and all earlier computation native. Later routing and MLPs are recomputed and may themselves change. This experiment does not hold routes fixed.
+
+Bus replacement is allowed only for equal token lengths and uses aligned positions; all exclusions are recorded. Component scopes differ: a single attention/MLP write touches one position at one layer, while replacing the bus can affect many positions across every later attention layer. Their effect sizes therefore cannot be interpreted as an equal-budget ranking of components or additive shares of computation.
+
+| Family | Component | Selected layer | Transfer donor-directed log-odds change | Ratio to native endpoint contrast | Absolute nuisance change | Positive task directions |
+|---|---|---:|---:|---:|---:|---:|
+|entity_binding|attention|14|5.0438|65.1%|0.0441 (n=8)|16/16|
+|entity_binding|residual|16|7.6883|99.3%|0.1468 (n=8)|16/16|
+|entity_binding|value_bus|6|7.5035|96.9%|0.0350 (n=8)|16/16|
+|sequence_copy|attention|8|3.2349|39.9%|0.5109 (n=8)|16/16|
+|sequence_copy|residual|16|7.9573|98.3%|1.6898 (n=8)|16/16|
+|sequence_copy|value_bus|3|6.8117|84.1%|0.7683 (n=5)|16/16|
+
+The selected attention write carries about 65% of the binding endpoint contrast and 40% of the copying contrast, compared with the earlier selected MLP-write ratios of about 2% and 4%. Attention's task effects exceed nuisance effects on this panel. A late residual replacement carries almost the complete contrast, as expected for an accumulated state near the readout; this by itself does not localize the generating computation.
+
+Replacing the persistent bus after L6 for binding or L3 for copying carries about 97% and 84% of the native endpoint contrast. That is strong sufficiency evidence under these hybrid interventions for the influence of early token-value information through downstream readers. It is not evidence that these fractions of natural task computation exclusively use the bus, that one layer performs the whole task, or that changing the bus has a small intervention footprint. The ratios are answer log-odds changes, not accuracy, KL recovery, or additive mediation percentages.
+
+Nuisance effects remain much smaller than task effects, particularly for binding, but nuisance changes are not matched in norm, edit count or semantic specificity. Copying changes multiple occurrences of the repeated value; bus injection changes those token values throughout future attention. The native recipient routes can then update. A source-token/reader mechanism is therefore a plausible explanation, while the relative roles of fixed routing, changed downstream routing, contextual values, and MLP processing remain unresolved.
+
+This raises H533 hypotheses 3, 4 and 10 (routing, source/reader relations, persistent value bus). It complements H535's downgrade of a general-feature interpretation for selected late MLP writes. The evidence now favors studying how information is read and transformed over simply naming a portable late direction.
+
+Next discriminating experiment: at the frozen bus-injection layers, retain native donor-bus substitution but freeze recipient attention Q/K projections in later layers. In a separate condition also freeze their contextual V projections. Compare those conditions with the unrestricted bus intervention, using recipient-native replay and self controls. If most effect survives fixed Q/K and contextual V, direct transport through fixed readers plus residual/MLP processing suffices. If it collapses, downstream rerouting or contextual-value feedback matters. Save all native projections before intervention and report both directions for every pair; do not select new layers. This is a diagnostic on the existing panel and will still require new task variations afterward.
+
+Audits: 3,591 interventions executed and 57 skipped for unequal token lengths. All 16 task directions per family/component were retained at selected transfer layers. Self swaps reproduce margins within 8.6e-6. Terminal residual swaps reproduce donor margins within 4.8e-6; terminal bus swaps have no effect beyond 5.8e-6 numerical noise. All measurements finite and manifest unchanged. Native model attention code was inspected to verify bus initialization, reuse and intervention timing. No new FineWeb documents or synthetic prompts; the H533 panel is reused, with tracked FineWeb total 26,112. No complete mechanism or canonical feature ontology is claimed.

@@ -1,0 +1,29 @@
+{
+  "status": "locked-after-source-program-before-fresh-cancellation-redteam",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "seed": 20261106,
+  "batch_size": 2,
+  "sequence_length": 128,
+  "prediction_position": 127,
+  "edit_positions": [63, 95, 119],
+  "layers": [5, 6, 8, 10],
+  "budgets": [1, 2, 4, 8, 16, 32, 64, 128],
+  "methods": ["signed_fisher", "absolute_fisher", "balanced_fisher", "state_norm", "random"],
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19656, "rows": 16},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 232, "rows": 16},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 232, "rows": 16}
+  },
+  "hypotheses": {
+    "C1_full_local_score_predicts_the_finite_target": "The median full-source local predicted projection is within 0.15 of one.",
+    "C2_positive_and_negative_source_evidence_both_matter": "The median cancellation ratio (positive plus absolute negative score divided by absolute net score) is at least 1.5.",
+    "C3_two_sided_selection_beats_one_sided_selection": "Absolute-Fisher top-16 exceeds signed-Fisher top-16 mean finite fidelity by at least 0.20.",
+    "C4_sixtyfour_two_sided_sources_are_robust": "Absolute-Fisher top-64 has at least 0.75 finite fidelity in every condition.",
+    "C5_state_magnitude_is_a_competitive_proxy": "State-norm top-16 mean fidelity is within 0.05 of absolute-Fisher top-16.",
+    "C6_participation_understates_required_support": "Median score participation is at most 16 while absolute-Fisher top-16 falls below 0.50 in at least one condition.",
+    "C7_balancing_signs_is_not_enough": "Balanced-Fisher top-16 remains at least 0.05 worse in mean fidelity than absolute-magnitude selection.",
+    "C8_cancellation_strength_transfers_across_corpora": "Corpus median cancellation ratios differ from FineWeb by at most 0.30.",
+    "C9_the_edit_edge_is_not_the_message": "The edited-source-only mean fidelity remains below 0.10.",
+    "C10_no_fixed_sixteen_position_skeleton_dominates": "The sixteen most frequent selected positions account for less than half of absolute-Fisher top-16 selections."
+  }
+}

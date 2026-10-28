@@ -1,0 +1,38 @@
+{
+  "experiment": "H545",
+  "source_sha256": "0dbd140977848d60b4f65cbdf81f8fb99473ad1446923c765706154f1cc4399b",
+  "heads": [
+    [
+      14,
+      4
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      14,
+      0
+    ],
+    [
+      8,
+      0
+    ]
+  ],
+  "design": "8 name triples x all 6 permutations x 3 cyclic entry orders x all 3 queries = 432 prompts. Positions and token counts fixed within blocks; every key occupies each entry position across order rotations.",
+  "competence": "Report three-way candidate accuracy, full-vocabulary top1, all-three-query block accuracy and nonquery-rival accuracy for nonfixed queries. Strong gate requires >=75% all-three-query blocks and >=50% full-top1 per permutation kind. No individual-case filtering.",
+  "sites": [
+    "query",
+    "value_of_key0",
+    "value_of_key1",
+    "value_of_key2"
+  ],
+  "intervention": "Replace one source-to-head bus contribution at final destination with mean of the three name-value vectors. Other paths and downstream computation live. Self adds zero.",
+  "hypotheses": [
+    "Three-way success requires evidence separating two nonquery alternatives, beyond suppressing the query.",
+    "The frozen heads preferentially copy the correct value if they select an association.",
+    "Broad copying with query correction predicts weak correct-value preference and possible failure on cycles or fixed points."
+  ],
+  "scope": "No head fitting or selection. Individual head/source neutralizations, not exhaustive ablations. Known names in new combinations, not training-data holdout.",
+  "precision": "float32 compute after bfloat16-rounded loader"
+}

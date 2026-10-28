@@ -1,0 +1,26 @@
+## H721 — Native head coordinates provide stronger causal baselines for featurizer tests
+
+Previous goal turn classification: progress. H720 reconstructed exact block contributions and found that attention dominates several new task-transfer effects. Before rerunning head localization, review existing records. H536already showed bindingL14andcopyL8attention transfer on this suite; H538selected L14head4for binding andL8head3for copying under frozen-bus reader interventions. H672later separated the signed local/bus value components inL14head4. Thus H719/H720's binding/copy overlap is replication and integration with the featurizer investigation, not a new discovery of those readers. H590also established context-dependent MLP11responses in a different agreement intervention, so a weak current MLP-write swap must not erase that earlier result.
+
+Focus new head tests on agreementL11and capital recallL13. Capture each attention module's final-position pre-output-projection coordinates, shaped9heads×128dimensions. Project each head through its own columns of the output matrix and verify that their sum reconstructs the native attention write. For all9heads independently, replace the receiver's128coordinates with the donor's and allow the MLP and later computation to respond. Also replaceall9heads as the whole-attention baseline. Preserve other positions and the persistent value bus. Evaluate all16paired items/family (8discovery,8transfer), both task directions and nuisance0<-2; no per-example filtering.
+
+Select a head by largest discovery task-directed answer-margin gain minus absolute nuisance change. Freeze the head before interpreting transfer wording. No head is selected using transfer effects.
+
+| Family | Selected head (zero-indexed) | Discovery specificity | Transfer margin recovery | Transfer task gain | All-head task gain | Transfer specificity95%interval |
+|---|---|---:|---:|---:|---:|---|
+|agreement|L11 H3|4.6531|59.6%|5.0495|5.1564|[4.1311,5.3487]|
+|capital_recall|L13 H0|9.0374|46.6%|4.3038|4.9897|[1.4914,4.3550]|
+
+AgreementL11head3carries97.9%of the all-head donor-directed margin effect on transfer; capitalL13head0carries86.3%. These are finite-effect ratios under the tested swaps, not additive causal shares or measures of necessity. Agreement selected-head nuisance change is0.2883against task gain5.0495; capital nuisance change1.2887against task gain4.3038. Capital nuisance sensitivity grows substantially from discovery, so its apparent selectivity is less stable than a head label would suggest.
+
+Margin movement is not answer correctness: agreement's selected head produces donor Top1in1/16transfer directions, the same as the all-head swap, despite59.6%margin recovery. Capital produces donor Top1in4/16versus6/16for allheads, with46.6%margin recovery. Thus these are useful partial causal controls, not complete task algorithms. All9head results are retained. Bootstrap intervals resample the8transfer pairs with their two task directions and nuisance together;10000resamples, exploratory and not multiplicity-adjusted.
+
+### Consequence for representation experiments
+
+The architectural decomposition yields128Dhead coordinates whose causal effect is directly measurable and much stronger than the provisional early coactivation neighborhoods' task effects. That is a useful baseline, not proof that a head is one feature or one manifold. A head can mix many source values and context-dependent routes, and its output subspace may overlap other heads.
+
+Return to task-blind representation fitting inside these causally useful components. Capture natural-text head coordinates for L11H3andL13H0, with previously established L14H4/L8H3as complementary readers where useful. Fit PCA and whitened sparse/shared-group alternatives without task labels, preserve training/validation separation, and evaluate both reconstruction and preservation of the frozen task/nuisance interventions. Site choice is task-informed even when the within-site representation fit is task-blind. Compare against the full128Dnative head and rank/dimension-matched controls. A compact model that reconstructs well but loses the task effect fails functional validation; a task-only direction that loses general output fidelity is a different objective and must be labeled accordingly. Do not call compression a discovered algorithm.
+
+Before interpreting block memberships, check seed stability, effective dimension and whether selected groups transfer across held combinations and diverse tasks. Keep the signed coefficient×projected-token-value factorization from earlier experiments as an explicit mechanistic competitor to generic geometric feature groups. The purpose is to identify which representation makes causal reuse easier to explain, not to force the model into a preferred ontology.
+
+Audits:1056whole-model prefix evaluations (96native,960head/allhead swaps). Independent float64per-head output projections sum to nativeattentionwithin2.23e-7relative error. All-head swaps replay H720liveattention answer-margin changes within3.34e-6. All model/source/prior-result hashes unchanged and metrics finite. No original corpus reserved-test evaluation or new unique research documents, pool26112. Broad goal active.

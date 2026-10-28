@@ -1,0 +1,941 @@
+{
+  "config": {
+    "status": "H256 locked before new-panel outcomes",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_local_chart_replication_documents.npy",
+    "candidate_tokens": 256,
+    "ranks": [
+      16,
+      64
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "seeds": [
+      20261123,
+      20261124,
+      20261125
+    ],
+    "design": "At fixed compiled states, compare native residual with three isotropic equal-site-norm draws and three shuffled-document residuals rescaled to each site's native error norm. Charts selected before errors. Target distribution is head(state+scale*error_family); approximate distribution head(state+scale*projected_error_family). No observed next-token labels. Matched and wrong-context charts. Each family normalized by its own uncorrected exact KL. Synthetic targets are NOT native predictions.",
+    "gates": {
+      "generic_sufficiency": "At both scales, seed-averaged isotropic rank16 KL recovery >=0.60 and matched-minus-wrong recovery >=0.40.",
+      "native_specialness": "At both scales, native rank16 recovery exceeds BOTH seed-averaged isotropic and shuffled recovery by >=0.10 with paired document-bootstrap lower bound >0.",
+      "entropy_dependence": "At full scale/native/rank16, low minus high recovery >=.15 with document-bootstrap95 lower bound >0, both bins >=30 sites.",
+      "directional_native_alignment": "Native-minus-isotropic and native-minus-shuffled rank16 recovery have paired document-bootstrap95 lower bounds >0 at both scales. Separate from original >=.10 specialness gate."
+    },
+    "scope": "New128 documents exclude1024 discovery,64 original test,128 H252 test. Same cached corpus, not training holdout. Original support256, ranks16/64, scales .1/1, three control seeds unchanged. Ratio of sums across seeds, document bootstrap. Fixed compiled entropy bins <2,[2,4),>=4 nats."
+  },
+  "results": {
+    "native_s0.1": {
+      "none": {
+        "kl": 0.0008894914644770324,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00015121325850486755,
+        "recovery": 0.8300003265418945
+      },
+      "wrong16": {
+        "kl": 0.0007908208062872291,
+        "recovery": 0.11092929176989441
+      },
+      "local64": {
+        "kl": 7.891027053119615e-05,
+        "recovery": 0.9112860845971236
+      },
+      "wrong64": {
+        "kl": 0.0006922512548044324,
+        "recovery": 0.2217449155496567
+      }
+    },
+    "native_s1.0": {
+      "none": {
+        "kl": 0.096819669008255,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.01819513365626335,
+        "recovery": 0.8120719287450568
+      },
+      "wrong16": {
+        "kl": 0.08530394732952118,
+        "recovery": 0.1189398992652203
+      },
+      "local64": {
+        "kl": 0.009512683376669884,
+        "recovery": 0.901748441467417
+      },
+      "wrong64": {
+        "kl": 0.07469542324542999,
+        "recovery": 0.22850982645828566
+      }
+    },
+    "isotropic20261123_s0.1": {
+      "none": {
+        "kl": 0.0005209691007621586,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00015330837049987167,
+        "recovery": 0.705724638417927
+      },
+      "wrong16": {
+        "kl": 0.00045179110020399094,
+        "recovery": 0.13278714698618943
+      },
+      "local64": {
+        "kl": 8.344397065229714e-05,
+        "recovery": 0.8398293285912318
+      },
+      "wrong64": {
+        "kl": 0.0003925400669686496,
+        "recovery": 0.24651948379591426
+      }
+    },
+    "isotropic20261123_s1.0": {
+      "none": {
+        "kl": 0.05741170793771744,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.019582724198698997,
+        "recovery": 0.658907130581394
+      },
+      "wrong16": {
+        "kl": 0.050594229251146317,
+        "recovery": 0.11874718470258716
+      },
+      "local64": {
+        "kl": 0.010834965854883194,
+        "recovery": 0.8112760228865268
+      },
+      "wrong64": {
+        "kl": 0.04439656063914299,
+        "recovery": 0.22669848652985225
+      }
+    },
+    "shuffled20261123_s0.1": {
+      "none": {
+        "kl": 0.0005594255053438246,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.0001385080104228109,
+        "recovery": 0.7524102689281508
+      },
+      "wrong16": {
+        "kl": 0.0004458139883354306,
+        "recovery": 0.2030860515352585
+      },
+      "local64": {
+        "kl": 7.324849138967693e-05,
+        "recovery": 0.8690647982796955
+      },
+      "wrong64": {
+        "kl": 0.00037457485450431705,
+        "recovery": 0.33042942996654723
+      }
+    },
+    "shuffled20261123_s1.0": {
+      "none": {
+        "kl": 0.05764517933130264,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.017510436475276947,
+        "recovery": 0.6962376268336391
+      },
+      "wrong16": {
+        "kl": 0.046872206032276154,
+        "recovery": 0.18688420131562533
+      },
+      "local64": {
+        "kl": 0.009609510190784931,
+        "recovery": 0.8332989800316789
+      },
+      "wrong64": {
+        "kl": 0.04040129482746124,
+        "recovery": 0.29913836167871155
+      }
+    },
+    "isotropic20261124_s0.1": {
+      "none": {
+        "kl": 0.0004978397628292441,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.0001535655028419569,
+        "recovery": 0.6915362847490572
+      },
+      "wrong16": {
+        "kl": 0.0004455855814740062,
+        "recovery": 0.10496184768021599
+      },
+      "local64": {
+        "kl": 8.417924982495606e-05,
+        "recovery": 0.830910955471773
+      },
+      "wrong64": {
+        "kl": 0.0003910414525307715,
+        "recovery": 0.21452346371758935
+      }
+    },
+    "isotropic20261124_s1.0": {
+      "none": {
+        "kl": 0.05388888344168663,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.018387924879789352,
+        "recovery": 0.6587807409354287
+      },
+      "wrong16": {
+        "kl": 0.047873154282569885,
+        "recovery": 0.11163209877277169
+      },
+      "local64": {
+        "kl": 0.010516704991459846,
+        "recovery": 0.8048446299162978
+      },
+      "wrong64": {
+        "kl": 0.04135177284479141,
+        "recovery": 0.23264743665475407
+      }
+    },
+    "shuffled20261124_s0.1": {
+      "none": {
+        "kl": 0.0005320508498698473,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.0001407625386491418,
+        "recovery": 0.7354340498026162
+      },
+      "wrong16": {
+        "kl": 0.0004503687669057399,
+        "recovery": 0.15352307581895386
+      },
+      "local64": {
+        "kl": 7.429539982695132e-05,
+        "recovery": 0.8603603399090034
+      },
+      "wrong64": {
+        "kl": 0.00038580040563829243,
+        "recovery": 0.27488057629704254
+      }
+    },
+    "shuffled20261124_s1.0": {
+      "none": {
+        "kl": 0.05564630404114723,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.017270352691411972,
+        "recovery": 0.6896406151495427
+      },
+      "wrong16": {
+        "kl": 0.04781072959303856,
+        "recovery": 0.14081033022992362
+      },
+      "local64": {
+        "kl": 0.009538887068629265,
+        "recovery": 0.8285800425923021
+      },
+      "wrong64": {
+        "kl": 0.0410575270652771,
+        "recovery": 0.2621697384444899
+      }
+    },
+    "isotropic20261125_s0.1": {
+      "none": {
+        "kl": 0.0005456832004711032,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00015370658366009593,
+        "recovery": 0.7183226760006596
+      },
+      "wrong16": {
+        "kl": 0.0004822641785722226,
+        "recovery": 0.11621948750507483
+      },
+      "local64": {
+        "kl": 8.505899313604459e-05,
+        "recovery": 0.8441238559981123
+      },
+      "wrong64": {
+        "kl": 0.0004162584082223475,
+        "recovery": 0.2371793599968255
+      }
+    },
+    "isotropic20261125_s1.0": {
+      "none": {
+        "kl": 0.05669982731342316,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.018385645002126694,
+        "recovery": 0.6757371958031685
+      },
+      "wrong16": {
+        "kl": 0.05038728937506676,
+        "recovery": 0.11133257784829209
+      },
+      "local64": {
+        "kl": 0.01057211309671402,
+        "recovery": 0.8135424110152242
+      },
+      "wrong64": {
+        "kl": 0.04443654417991638,
+        "recovery": 0.21628431186779928
+      }
+    },
+    "shuffled20261125_s0.1": {
+      "none": {
+        "kl": 0.0005751008284278214,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.0001394601713400334,
+        "recovery": 0.75750309433342
+      },
+      "wrong16": {
+        "kl": 0.00045021221740171313,
+        "recovery": 0.21715950465159617
+      },
+      "local64": {
+        "kl": 7.520709186792374e-05,
+        "recovery": 0.8692279889884341
+      },
+      "wrong64": {
+        "kl": 0.0003644459357019514,
+        "recovery": 0.36629210446757066
+      }
+    },
+    "shuffled20261125_s1.0": {
+      "none": {
+        "kl": 0.05538242682814598,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.01735459454357624,
+        "recovery": 0.686640771495473
+      },
+      "wrong16": {
+        "kl": 0.044858768582344055,
+        "recovery": 0.19001800478078157
+      },
+      "local64": {
+        "kl": 0.009980151429772377,
+        "recovery": 0.8197957005253451
+      },
+      "wrong64": {
+        "kl": 0.03788541257381439,
+        "recovery": 0.31593079712136063
+      }
+    }
+  },
+  "summary": {
+    "0.1": {
+      "native": {
+        "local16": {
+          "recovery": 0.8300003409385681,
+          "document_bootstrap95": [
+            0.8056003838777542,
+            0.853078581392765
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.11092931032180786,
+          "document_bootstrap95": [
+            0.06118980646133423,
+            0.1617304906249046
+          ]
+        },
+        "local64": {
+          "recovery": 0.9112861156463623,
+          "document_bootstrap95": [
+            0.896704526245594,
+            0.9254042282700539
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.22174489498138428,
+          "document_bootstrap95": [
+            0.17082264572381972,
+            0.26928295195102686
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "recovery": 0.705603837966919,
+          "document_bootstrap95": [
+            0.6773040562868118,
+            0.7394298136234283
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.11815404891967773,
+          "document_bootstrap95": [
+            0.08932323753833771,
+            0.1570350021123886
+          ]
+        },
+        "local64": {
+          "recovery": 0.838489294052124,
+          "document_bootstrap95": [
+            0.817449152469635,
+            0.8599233061075211
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.2330802083015442,
+          "document_bootstrap95": [
+            0.18863603770732879,
+            0.2956045508384704
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "recovery": 0.7487480640411377,
+          "document_bootstrap95": [
+            0.719624501466751,
+            0.7766907736659049
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.19211965799331665,
+          "document_bootstrap95": [
+            0.15781718939542771,
+            0.22776648104190825
+          ]
+        },
+        "local64": {
+          "recovery": 0.8663421869277954,
+          "document_bootstrap95": [
+            0.8473364934325218,
+            0.8839919298887253
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.3250710368156433,
+          "document_bootstrap95": [
+            0.27328473776578904,
+            0.37852236926555627
+          ]
+        }
+      }
+    },
+    "1.0": {
+      "native": {
+        "local16": {
+          "recovery": 0.8120719194412231,
+          "document_bootstrap95": [
+            0.7860661387443543,
+            0.8381500318646431
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.11893987655639648,
+          "document_bootstrap95": [
+            0.06830550879240035,
+            0.1691097766160965
+          ]
+        },
+        "local64": {
+          "recovery": 0.9017484188079834,
+          "document_bootstrap95": [
+            0.8849292874336243,
+            0.9176696836948395
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.2285098433494568,
+          "document_bootstrap95": [
+            0.18070499151945113,
+            0.2773574844002723
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "recovery": 0.6645467281341553,
+          "document_bootstrap95": [
+            0.6393440544605256,
+            0.6934351235628128
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.11396259069442749,
+          "document_bootstrap95": [
+            0.09139876961708068,
+            0.14005477875471115
+          ]
+        },
+        "local64": {
+          "recovery": 0.8099779486656189,
+          "document_bootstrap95": [
+            0.7889803409576416,
+            0.8310841634869576
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.22509199380874634,
+          "document_bootstrap95": [
+            0.19526433944702148,
+            0.2588947668671608
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "recovery": 0.6909102201461792,
+          "document_bootstrap95": [
+            0.6653772443532944,
+            0.7159851297736168
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.17271322011947632,
+          "document_bootstrap95": [
+            0.14646307677030562,
+            0.19997313022613525
+          ]
+        },
+        "local64": {
+          "recovery": 0.8273085355758667,
+          "document_bootstrap95": [
+            0.80719113945961,
+            0.8467874631285668
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.29245585203170776,
+          "document_bootstrap95": [
+            0.2575340926647186,
+            0.3286255806684494
+          ]
+        }
+      }
+    }
+  },
+  "contrasts": {
+    "0.1": {
+      "isotropic": {
+        "native_minus_control": 0.12439650297164917,
+        "paired_document_bootstrap95": [
+          0.09371794760227203,
+          0.14907007068395614
+        ]
+      },
+      "shuffled": {
+        "native_minus_control": 0.08125227689743042,
+        "paired_document_bootstrap95": [
+          0.05842883139848709,
+          0.10340797007083892
+        ]
+      }
+    },
+    "1.0": {
+      "isotropic": {
+        "native_minus_control": 0.14752519130706787,
+        "paired_document_bootstrap95": [
+          0.11922692358493805,
+          0.17360473722219466
+        ]
+      },
+      "shuffled": {
+        "native_minus_control": 0.12116169929504395,
+        "paired_document_bootstrap95": [
+          0.09702885895967484,
+          0.14330125451087952
+        ]
+      }
+    }
+  },
+  "gates": {
+    "generic_sufficiency": true,
+    "native_specialness": false,
+    "entropy_dependence": true,
+    "directional_native_alignment": true
+  },
+  "norm_relative_error_max": {
+    "native": 0.0,
+    "isotropic20261123": 1.876148303381342e-07,
+    "shuffled20261123": 1.7135305085957953e-07,
+    "isotropic20261124": 1.5271929498794634e-07,
+    "shuffled20261124": 1.6623476994936937e-07,
+    "isotropic20261125": 1.5053382185215014e-07,
+    "shuffled20261125": 1.4173050999488623e-07
+  },
+  "entropy_strata": {
+    "low": {
+      "native": {
+        "local16": {
+          "sites": 198,
+          "mean_kl": 0.004883511457592249,
+          "baseline_kl": 0.09018990397453308,
+          "recovery": 0.9458529949188232,
+          "document_bootstrap95": [
+            0.9311400905251503,
+            0.9567039430141449
+          ]
+        },
+        "wrong16": {
+          "sites": 198,
+          "mean_kl": 0.07712901383638382,
+          "baseline_kl": 0.09018990397453308,
+          "recovery": 0.1448153853416443,
+          "document_bootstrap95": [
+            0.06608947962522507,
+            0.24451109766960133
+          ]
+        },
+        "local64": {
+          "sites": 198,
+          "mean_kl": 0.0020892545580863953,
+          "baseline_kl": 0.09018990397453308,
+          "recovery": 0.9768349528312683,
+          "document_bootstrap95": [
+            0.969725550711155,
+            0.9817949533462524
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "sites": 198,
+          "mean_kl": 0.005969926714897156,
+          "baseline_kl": 0.037273041903972626,
+          "recovery": 0.839832603931427,
+          "document_bootstrap95": [
+            0.8022955149412155,
+            0.8729520097374915
+          ]
+        },
+        "wrong16": {
+          "sites": 198,
+          "mean_kl": 0.031573038548231125,
+          "baseline_kl": 0.037273041903972626,
+          "recovery": 0.1529255509376526,
+          "document_bootstrap95": [
+            0.09249622523784637,
+            0.22662173062562938
+          ]
+        },
+        "local64": {
+          "sites": 198,
+          "mean_kl": 0.002975831041112542,
+          "baseline_kl": 0.037273041903972626,
+          "recovery": 0.9201613068580627,
+          "document_bootstrap95": [
+            0.9011408850550652,
+            0.9366334110498428
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "sites": 198,
+          "mean_kl": 0.006580793298780918,
+          "baseline_kl": 0.037845395505428314,
+          "recovery": 0.826113760471344,
+          "document_bootstrap95": [
+            0.7837013930082322,
+            0.8659524291753768
+          ]
+        },
+        "wrong16": {
+          "sites": 198,
+          "mean_kl": 0.029745150357484818,
+          "baseline_kl": 0.037845395505428314,
+          "recovery": 0.21403521299362183,
+          "document_bootstrap95": [
+            0.14956257939338685,
+            0.2865711241960525
+          ]
+        },
+        "local64": {
+          "sites": 198,
+          "mean_kl": 0.0032866576220840216,
+          "baseline_kl": 0.037845395505428314,
+          "recovery": 0.9131556749343872,
+          "document_bootstrap95": [
+            0.887766644358635,
+            0.9359110683202744
+          ]
+        }
+      }
+    },
+    "medium": {
+      "native": {
+        "local16": {
+          "sites": 186,
+          "mean_kl": 0.018907662481069565,
+          "baseline_kl": 0.10426704585552216,
+          "recovery": 0.8186612129211426,
+          "document_bootstrap95": [
+            0.7924467414617539,
+            0.84370406717062
+          ]
+        },
+        "wrong16": {
+          "sites": 186,
+          "mean_kl": 0.08914566040039062,
+          "baseline_kl": 0.10426704585552216,
+          "recovery": 0.14502555131912231,
+          "document_bootstrap95": [
+            0.0715697392821312,
+            0.21654977500438685
+          ]
+        },
+        "local64": {
+          "sites": 186,
+          "mean_kl": 0.009043806232511997,
+          "baseline_kl": 0.10426704585552216,
+          "recovery": 0.9132630228996277,
+          "document_bootstrap95": [
+            0.8978082209825515,
+            0.9277524098753929
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "sites": 186,
+          "mean_kl": 0.018389731645584106,
+          "baseline_kl": 0.06327842175960541,
+          "recovery": 0.7093838453292847,
+          "document_bootstrap95": [
+            0.6844902008771896,
+            0.736936517059803
+          ]
+        },
+        "wrong16": {
+          "sites": 186,
+          "mean_kl": 0.0561867319047451,
+          "baseline_kl": 0.06327842175960541,
+          "recovery": 0.1120712161064148,
+          "document_bootstrap95": [
+            0.08220878541469574,
+            0.14377651661634444
+          ]
+        },
+        "local64": {
+          "sites": 186,
+          "mean_kl": 0.009351291693747044,
+          "baseline_kl": 0.06327842175960541,
+          "recovery": 0.8522198796272278,
+          "document_bootstrap95": [
+            0.8325707793235779,
+            0.8709375113248825
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "sites": 186,
+          "mean_kl": 0.015645042061805725,
+          "baseline_kl": 0.06376854330301285,
+          "recovery": 0.7546589374542236,
+          "document_bootstrap95": [
+            0.7312848955392838,
+            0.7775086194276809
+          ]
+        },
+        "wrong16": {
+          "sites": 186,
+          "mean_kl": 0.05196142569184303,
+          "baseline_kl": 0.06376854330301285,
+          "recovery": 0.1851557493209839,
+          "document_bootstrap95": [
+            0.145883646607399,
+            0.22394276261329651
+          ]
+        },
+        "local64": {
+          "sites": 186,
+          "mean_kl": 0.007951664738357067,
+          "baseline_kl": 0.06376854330301285,
+          "recovery": 0.8753042817115784,
+          "document_bootstrap95": [
+            0.8601809725165367,
+            0.8910158827900887
+          ]
+        }
+      }
+    },
+    "high": {
+      "native": {
+        "local16": {
+          "sites": 128,
+          "mean_kl": 0.03775115683674812,
+          "baseline_kl": 0.0962531566619873,
+          "recovery": 0.6077930927276611,
+          "document_bootstrap95": [
+            0.573386587202549,
+            0.6403607070446015
+          ]
+        },
+        "wrong16": {
+          "sites": 128,
+          "mean_kl": 0.09236706048250198,
+          "baseline_kl": 0.0962531566619873,
+          "recovery": 0.04037368297576904,
+          "document_bootstrap95": [
+            -0.019011762738227845,
+            0.09507724791765211
+          ]
+        },
+        "local64": {
+          "sites": 128,
+          "mean_kl": 0.021677132695913315,
+          "baseline_kl": 0.0962531566619873,
+          "recovery": 0.7747904062271118,
+          "document_bootstrap95": [
+            0.7497304826974869,
+            0.800285491347313
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "sites": 128,
+          "mean_kl": 0.039184413850307465,
+          "baseline_kl": 0.07439237833023071,
+          "recovery": 0.4732738137245178,
+          "document_bootstrap95": [
+            0.4448142424225807,
+            0.49948919117450713
+          ]
+        },
+        "wrong16": {
+          "sites": 128,
+          "mean_kl": 0.06798701733350754,
+          "baseline_kl": 0.07439237833023071,
+          "recovery": 0.08610236644744873,
+          "document_bootstrap95": [
+            0.0631961926817894,
+            0.10982402116060255
+          ]
+        },
+        "local64": {
+          "sites": 128,
+          "mean_kl": 0.024373207241296768,
+          "baseline_kl": 0.07439237833023071,
+          "recovery": 0.6723695993423462,
+          "document_bootstrap95": [
+            0.6424600198864937,
+            0.6964943259954453
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "sites": 128,
+          "mean_kl": 0.03659997880458832,
+          "baseline_kl": 0.07369279116392136,
+          "recovery": 0.5033438205718994,
+          "document_bootstrap95": [
+            0.46650433242321016,
+            0.5377329856157302
+          ]
+        },
+        "wrong16": {
+          "sites": 128,
+          "mean_kl": 0.06453713774681091,
+          "baseline_kl": 0.07369279116392136,
+          "recovery": 0.12424081563949585,
+          "document_bootstrap95": [
+            0.09004302322864532,
+            0.16233516186475752
+          ]
+        },
+        "local64": {
+          "sites": 128,
+          "mean_kl": 0.022199250757694244,
+          "baseline_kl": 0.07369279116392136,
+          "recovery": 0.6987595558166504,
+          "document_bootstrap95": [
+            0.6654346480965614,
+            0.7285307109355926
+          ]
+        }
+      }
+    }
+  },
+  "entropy_contrast": {
+    "low_minus_high_recovery": 0.3380599021911621,
+    "document_bootstrap95": [
+      0.30236971080303193,
+      0.3753589361906051
+    ]
+  }
+}

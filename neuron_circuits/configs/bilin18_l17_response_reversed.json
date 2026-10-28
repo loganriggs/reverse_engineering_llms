@@ -1,0 +1,74 @@
+{
+  "status": "H286 locked before reversed-split outcomes",
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "ridge_strengths": [
+    0,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "learning_rates": [
+    0.3,
+    3.0
+  ],
+  "penalties": [
+    0,
+    0.1
+  ],
+  "initializations": [
+    "zero",
+    "mse"
+  ],
+  "steps": 400,
+  "checkpoints": [
+    0,
+    100,
+    200,
+    300,
+    400
+  ],
+  "train_batch": 32,
+  "seed": 20270111,
+  "design": "Restart H280 KL adapter, same64 reads and normalizers. Loss intactKL+.1 correctionEnergy/baseStateErrorEnergy+lambda*baseTrainingKL*responseMSE/baseResponseErrorEnergy. Exact response quadratic statistics over actual/angle full removals, fit heads0:6. First768 train,next256 validation. All8 runs retained. Select min validation intactKL among checkpoints with <=2% loss vs H280 and responseMSE<=base separately for actual/angle fit heads. If none, select minimum intactKL/H280KL+max response ratio and label fallback. Heldout heads6:9 never select. H286 reverses response head split; same seed and minibatches as H285. Group sizes3 vs6 differ, response loss normalized by group base error. Same eight fits and selection. Zero-strength validation-selected control declared before outcomes.",
+  "gates": {
+    "state_retention": "fresh selected intactKL vs H280 relative worsening<=2%, paired95 upper<=.02",
+    "response_gain": "fresh actual and angle fit-head responseMSE reduce>=5% vs H280,paired95 lower>0",
+    "base_response_retention": "fresh responseMSE vs base worsening<=2% upper95 for actual and angle",
+    "heldout_transfer": "same response gain vs H280 on heads6:9"
+  },
+  "scope": "Response regularizer uses output MSE, not downstream KL. Also report conditional response KL. Training-head exclusion applies only to this added response loss; base learned from all heads earlier. Not wholly unseen heads. No global optimum assertion.",
+  "fit_heads": [
+    6,
+    7,
+    8
+  ],
+  "heldout_heads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "strengths": [
+    0,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "rates": [
+    0.1,
+    0.3
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "experiment": "H965",
+  "hashes": {
+    "runner": "8d83b439150d6312894d4fc8b9b855e73ecb4059cb236449d0cf3edfc6c721ef",
+    "screen": "24fb60e0d23b206e0bc155db20948dbce80bd8dad729af7ee356031dc9766a26",
+    "examples": "55f637d754e8a4239551baeaaa3bd354afca38322606b21ed68271e5777c11be",
+    "writes": "75f58f13fe3f094dc389f62967e0669daf5a22ae4e466d1e2b13d0dca392d86f",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+    "forward": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed"
+  },
+  "families": [
+    "agreement",
+    "sentiment",
+    "negation",
+    "pronoun_gender"
+  ],
+  "layer": 12,
+  "design": "Normalize mean discovery MLP write difference endpoint1 minus endpoint0 for each family. Freeze four rank-one directions before validation. For every target pair project its true donor delta onto each source direction; test projected edit and complementary edit separately. This is teacher-informed span adequacy, not an encoder or independently predicted intervention.",
+  "controls": "Identity, complete donor swap, fixed random rank-one projection, per-source +/- Gaussian edits matched to projected norm. Privileged generic readout control projects onto mean unembedding weight group1 minus group0 (not the exact downstream Jacobian).",
+  "metrics": "Signed donor task-margin change; KL(full donor patch||candidate patch) and KL(native||candidate). Fidelity is relative to same-recipient full-write patch, not natural donor logits.",
+  "splits": "Only discovery rows fit directions. Candidate lexical cohorts are not strictly vocabulary disjoint. Alternate-format native gate failures remain diagnostics. No whole-task training holdouts or reserved tests accessed.",
+  "hypotheses": [
+    "All four share a direction",
+    "Only sentiment and negation share a direction",
+    "Each task has a separate rank-one direction",
+    "Low rank predicts margins but misses distribution changes",
+    "A direct output-label contrast explains apparent transfer",
+    "Mean directions miss meaningful context-dependent subspaces"
+  ],
+  "limits": "Four discovery pairs per family; supervised directions; exact donor delta used for projection coefficients; no claim of unsupervised manifold or shared upstream computation."
+}

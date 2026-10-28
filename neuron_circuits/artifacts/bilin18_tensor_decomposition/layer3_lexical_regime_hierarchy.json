@@ -1,0 +1,743 @@
+{
+  "config": {
+    "status": "posthoc-aggregation-redteam-after-unseen-causal-coverage-sensitivity",
+    "seed_results": "artifacts/bilin18_tensor_decomposition/layer3_shared_backbone_quotient.json",
+    "unseen_results": "artifacts/bilin18_tensor_decomposition/layer3_unseen_causal_quotient_coverage.json",
+    "seed_config": "configs/bilin18_layer8_semantic_counterfactuals.json",
+    "bootstrap_seed": 20261119,
+    "bootstrap_replicates": 10000,
+    "output_stem": "layer3_lexical_regime_hierarchy",
+    "diagnostic_questions": {
+      "D1": "Does the shared-minus-residual regime sign agree under occurrence-weighted and lexical-pair-balanced aggregation?",
+      "D2": "Do different lexical pairs within a semantic family have the same regime sign?",
+      "D3": "Does each lexical pair retain its regime sign across FineWeb and TinyStories?",
+      "D4": "Do repeated contexts within a lexical pair retain the same regime sign?"
+    }
+  },
+  "diagnostics": {
+    "D1_aggregation_sign_agreement": {
+      "fineweb/sentiment": true,
+      "fineweb/gender": true,
+      "fineweb/tense": true,
+      "fineweb/increasing_scale": true,
+      "fineweb/polarity": true,
+      "tinystories/sentiment": true,
+      "tinystories/gender": true,
+      "tinystories/tense": true,
+      "tinystories/increasing_scale": false,
+      "tinystories/polarity": true
+    },
+    "D2_unanimous_pair_sign": {
+      "fineweb/sentiment": true,
+      "fineweb/gender": true,
+      "fineweb/tense": true,
+      "fineweb/increasing_scale": true,
+      "fineweb/polarity": true,
+      "tinystories/sentiment": true,
+      "tinystories/gender": true,
+      "tinystories/tense": true,
+      "tinystories/increasing_scale": false,
+      "tinystories/polarity": true
+    },
+    "D3_cross_corpus_pair_sign_agreement": {
+      "sentiment": {
+        "common_pairs": 7,
+        "sign_agreement_fraction": 1.0,
+        "disagreeing_pairs": []
+      },
+      "gender": {
+        "common_pairs": 5,
+        "sign_agreement_fraction": 1.0,
+        "disagreeing_pairs": []
+      },
+      "tense": {
+        "common_pairs": 7,
+        "sign_agreement_fraction": 1.0,
+        "disagreeing_pairs": []
+      },
+      "increasing_scale": {
+        "common_pairs": 6,
+        "sign_agreement_fraction": 0.6666666666666666,
+        "disagreeing_pairs": [
+          "1310->1588",
+          "7009->3236"
+        ]
+      },
+      "polarity": {
+        "common_pairs": 1,
+        "sign_agreement_fraction": 1.0,
+        "disagreeing_pairs": []
+      }
+    },
+    "D4_context_sign_consistency": {
+      "fineweb/sentiment": 1.0,
+      "fineweb/gender": 1.0,
+      "fineweb/tense": 1.0,
+      "fineweb/increasing_scale": 0.8333333333333334,
+      "fineweb/polarity": 1.0,
+      "tinystories/sentiment": 1.0,
+      "tinystories/gender": 1.0,
+      "tinystories/tense": 1.0,
+      "tinystories/increasing_scale": 1.0,
+      "tinystories/polarity": 1.0
+    }
+  },
+  "unseen": {
+    "fineweb": {
+      "sentiment": {
+        "contexts": 60,
+        "pairs": 10,
+        "occurrence_weighted_median": 0.8882153332233429,
+        "pair_balanced_median": 0.8997813612222672,
+        "pair_bootstrap_95": [
+          0.8365163207054138,
+          0.975450187921524
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1049->12659": 0.9328345060348511,
+          "6275->7818": 1.0278494954109192,
+          "7932->12361": 0.8927518129348755,
+          "3621->13400": 1.009295791387558,
+          "4950->5290": 0.8569732904434204,
+          "4998->2356": 0.5645317137241364,
+          "15497->7954": 0.9068109095096588,
+          "1943->5287": 0.8365163207054138,
+          "2883->3252": 0.8229914903640747,
+          "9670->12177": 0.975450187921524
+        }
+      },
+      "gender": {
+        "contexts": 60,
+        "pairs": 10,
+        "occurrence_weighted_median": -0.6255589723587036,
+        "pair_balanced_median": -0.6490377336740494,
+        "pair_bootstrap_95": [
+          -0.7622802555561066,
+          -0.46470125019550323
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "683->4048": -0.6513424217700958,
+          "4257->2802": -0.6467330455780029,
+          "2988->3656": -0.7201562225818634,
+          "5229->16599": -0.2104211151599884,
+          "5822->25949": -0.8330371677875519,
+          "7711->6621": -0.7217119336128235,
+          "3956->4957": -0.5015868544578552,
+          "3367->10846": -0.49484944343566895,
+          "22427->1995": -0.8044042885303497,
+          "9955->21752": -0.42781564593315125
+        }
+      },
+      "tense": {
+        "contexts": 60,
+        "pairs": 10,
+        "occurrence_weighted_median": -0.7331045567989349,
+        "pair_balanced_median": -0.6338582336902618,
+        "pair_bootstrap_95": [
+          -0.9602952301502228,
+          -0.5056881606578827
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1909->7415": -0.43915611505508423,
+          "3058->4271": -0.5056881606578827,
+          "1944->2084": -0.5013604164123535,
+          "2107->2961": -1.0508220195770264,
+          "2221->2540": -0.9492248892784119,
+          "923->2627": -0.5721563696861267,
+          "2555->6150": -1.0278698801994324,
+          "3520->3947": -0.5791225433349609,
+          "1283->4444": -0.6885939240455627,
+          "1716->4504": -0.8927205801010132
+        }
+      },
+      "increasing_scale": {
+        "contexts": 60,
+        "pairs": 10,
+        "occurrence_weighted_median": 0.5992877185344696,
+        "pair_balanced_median": 0.6357081830501556,
+        "pair_bootstrap_95": [
+          0.2999645471572876,
+          0.8361232131719589
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 0.8333333333333334,
+        "pair_medians": {
+          "1310->1588": 0.9271160662174225,
+          "7009->3236": 0.4264727234840393,
+          "1342->517": 0.7451303601264954,
+          "1551->749": 0.7109808623790741,
+          "2060->3294": 0.09155237674713135,
+          "7135->3094": 0.7972691357135773,
+          "1790->890": 0.5083767175674438,
+          "1877->1029": 1.0082977712154388,
+          "4159->1688": 0.0712273120880127,
+          "5288->5415": 0.5604355037212372
+        }
+      },
+      "polarity": {
+        "contexts": 60,
+        "pairs": 10,
+        "occurrence_weighted_median": 0.6460288166999817,
+        "pair_balanced_median": 0.6735822111368179,
+        "pair_bootstrap_95": [
+          0.42680203914642395,
+          0.8058187067508698
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "3763->645": 0.1097867488861084,
+          "3729->407": 0.8737539052963257,
+          "1744->5340": 0.5768078565597534,
+          "1249->10129": 0.6318038702011108,
+          "2453->11148": 0.7378835082054138,
+          "4236->11491": 0.715360552072525,
+          "3376->12515": 0.7933528125286102,
+          "4938->15560": 0.8997373878955841,
+          "7139->4844": 0.22317510843276978,
+          "7160->6159": 0.4558767080307007
+        }
+      }
+    },
+    "tinystories": {
+      "sentiment": {
+        "contexts": 42,
+        "pairs": 7,
+        "occurrence_weighted_median": 0.9698630273342133,
+        "pair_balanced_median": 0.9510152041912079,
+        "pair_bootstrap_95": [
+          0.8884176313877106,
+          1.081412523984909
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1049->12659": 0.7918208241462708,
+          "7932->12361": 0.9510152041912079,
+          "3621->13400": 1.081412523984909,
+          "4950->5290": 0.9536738693714142,
+          "4998->2356": 0.9504501819610596,
+          "2883->3252": 1.2684114873409271,
+          "9670->12177": 0.8884176313877106
+        }
+      },
+      "gender": {
+        "contexts": 25,
+        "pairs": 5,
+        "occurrence_weighted_median": -0.5702614784240723,
+        "pair_balanced_median": -0.5837297439575195,
+        "pair_bootstrap_95": [
+          -0.792769193649292,
+          -0.5640921890735626
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "683->4048": -0.5837297439575195,
+          "5822->25949": -0.5640921890735626,
+          "3956->4957": -0.6501654088497162,
+          "3367->10846": -0.792769193649292,
+          "9955->21752": -0.5685523152351379
+        }
+      },
+      "tense": {
+        "contexts": 29,
+        "pairs": 7,
+        "occurrence_weighted_median": -0.6851675510406494,
+        "pair_balanced_median": -0.5945469737052917,
+        "pair_bootstrap_95": [
+          -0.8787247538566589,
+          -0.21475017070770264
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1909->7415": -0.21475017070770264,
+          "1944->2084": -0.6401397287845612,
+          "2107->2961": -0.5945469737052917,
+          "923->2627": -0.5516448318958282,
+          "2555->6150": -0.8787247538566589,
+          "1283->4444": -0.9313048720359802,
+          "1716->4504": -0.07362046837806702
+        }
+      },
+      "increasing_scale": {
+        "contexts": 17,
+        "pairs": 6,
+        "occurrence_weighted_median": -0.028900504112243652,
+        "pair_balanced_median": 0.8108706474304199,
+        "pair_bootstrap_95": [
+          -0.3690342754125595,
+          0.9721949547529221
+        ],
+        "aggregation_sign_agrees": false,
+        "positive_pair_fraction": 0.6666666666666666,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1310->1588": -0.6459586918354034,
+          "7009->3236": -0.09210985898971558,
+          "1342->517": 0.9804692566394806,
+          "7135->3094": 0.9639206528663635,
+          "1790->890": 0.7818275690078735,
+          "1877->1029": 0.8399137258529663
+        }
+      },
+      "polarity": {
+        "contexts": 6,
+        "pairs": 1,
+        "occurrence_weighted_median": 0.49809449911117554,
+        "pair_balanced_median": 0.49809449911117554,
+        "pair_bootstrap_95": [
+          0.49809449911117554,
+          0.49809449911117554
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "3763->645": 0.49809449911117554
+        }
+      }
+    }
+  },
+  "seed": {
+    "fineweb": {
+      "sentiment": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": 0.8448314666748047,
+        "pair_balanced_median": 0.8448314666748047,
+        "pair_bootstrap_95": [
+          0.5507540106773376,
+          1.098167061805725
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "922->2089": 0.5507540106773376,
+          "3772->6507": 1.0267436504364014,
+          "3338->4923": 0.662919282913208,
+          "1842->5465": 1.098167061805725
+        }
+      },
+      "gender": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": -1.0195211470127106,
+        "pair_balanced_median": -1.0195211470127106,
+        "pair_bootstrap_95": [
+          -1.801169991493225,
+          -0.28884726762771606
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "339->673": -1.3072540760040283,
+          "465->607": -1.801169991493225,
+          "582->2415": -0.7317882180213928,
+          "2933->2576": -0.28884726762771606
+        }
+      },
+      "tense": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": -0.5761597454547882,
+        "pair_balanced_median": -0.5761597454547882,
+        "pair_bootstrap_95": [
+          -0.9075104594230652,
+          0.47171229124069214
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.25,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "318->373": -0.9075104594230652,
+          "389->547": -0.6917311549186707,
+          "468->550": -0.46058833599090576,
+          "783->788": 0.47171229124069214
+        }
+      },
+      "increasing_scale": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": -0.39098167419433594,
+        "pair_balanced_median": -0.39098167419433594,
+        "pair_bootstrap_95": [
+          -0.7788709402084351,
+          0.8209090232849121
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.25,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "530->867": -0.6796926259994507,
+          "1178->1811": -0.7788709402084351,
+          "1402->1263": -0.10227072238922119,
+          "717->938": 0.8209090232849121
+        }
+      },
+      "polarity": {
+        "contexts": 3,
+        "pairs": 3,
+        "occurrence_weighted_median": 0.7942549586296082,
+        "pair_balanced_median": 0.7942549586296082,
+        "pair_bootstrap_95": [
+          0.7132720351219177,
+          1.1291720867156982
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1464->1239": 0.7942549586296082,
+          "460->2314": 1.1291720867156982,
+          "2081->3991": 0.7132720351219177
+        }
+      }
+    },
+    "tinystories": {
+      "sentiment": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": 0.7789027988910675,
+        "pair_balanced_median": 0.7789027988910675,
+        "pair_bootstrap_95": [
+          0.4224804639816284,
+          0.9991447925567627
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "922->2089": 0.7232180833816528,
+          "3772->6507": 0.9991447925567627,
+          "3338->4923": 0.8345875144004822,
+          "1842->5465": 0.4224804639816284
+        }
+      },
+      "gender": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": -0.8651865422725677,
+        "pair_balanced_median": -0.8651865422725677,
+        "pair_bootstrap_95": [
+          -1.2577486634254456,
+          -0.7318146228790283
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "339->673": -0.812310516834259,
+          "465->607": -1.2577486634254456,
+          "582->2415": -0.9180625677108765,
+          "2933->2576": -0.7318146228790283
+        }
+      },
+      "tense": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": -0.878402054309845,
+        "pair_balanced_median": -0.878402054309845,
+        "pair_bootstrap_95": [
+          -1.3246124982833862,
+          -0.8320647478103638
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "318->373": -0.9202940464019775,
+          "389->547": -0.8365100622177124,
+          "468->550": -0.8320647478103638,
+          "783->788": -1.3246124982833862
+        }
+      },
+      "increasing_scale": {
+        "contexts": 4,
+        "pairs": 4,
+        "occurrence_weighted_median": -0.0517142117023468,
+        "pair_balanced_median": -0.0517142117023468,
+        "pair_bootstrap_95": [
+          -0.3539654612541199,
+          0.9382657408714294
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 0.5,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "530->867": -0.3539654612541199,
+          "1178->1811": -0.2417812943458557,
+          "1402->1263": 0.9382657408714294,
+          "717->938": 0.1383528709411621
+        }
+      },
+      "polarity": {
+        "contexts": 3,
+        "pairs": 3,
+        "occurrence_weighted_median": 0.8789989352226257,
+        "pair_balanced_median": 0.8789989352226257,
+        "pair_bootstrap_95": [
+          0.6833412051200867,
+          1.1604119539260864
+        ],
+        "aggregation_sign_agrees": true,
+        "positive_pair_fraction": 1.0,
+        "median_within_pair_sign_consistency": 1.0,
+        "pair_medians": {
+          "1464->1239": 0.6833412051200867,
+          "460->2314": 0.8789989352226257,
+          "2081->3991": 1.1604119539260864
+        }
+      }
+    }
+  },
+  "cross_corpus": {
+    "sentiment": {
+      "common_pairs": 7,
+      "sign_agreement_fraction": 1.0,
+      "disagreeing_pairs": []
+    },
+    "gender": {
+      "common_pairs": 5,
+      "sign_agreement_fraction": 1.0,
+      "disagreeing_pairs": []
+    },
+    "tense": {
+      "common_pairs": 7,
+      "sign_agreement_fraction": 1.0,
+      "disagreeing_pairs": []
+    },
+    "increasing_scale": {
+      "common_pairs": 6,
+      "sign_agreement_fraction": 0.6666666666666666,
+      "disagreeing_pairs": [
+        "1310->1588",
+        "7009->3236"
+      ]
+    },
+    "polarity": {
+      "common_pairs": 1,
+      "sign_agreement_fraction": 1.0,
+      "disagreeing_pairs": []
+    }
+  },
+  "token_names": {
+    "1049->12659": [
+      " great",
+      " awful"
+    ],
+    "6275->7818": [
+      " excellent",
+      " terrible"
+    ],
+    "7932->12361": [
+      " wonderful",
+      " horrible"
+    ],
+    "3621->13400": [
+      " nice",
+      " ugly"
+    ],
+    "4950->5290": [
+      " beautiful",
+      " worst"
+    ],
+    "4998->2356": [
+      " amazing",
+      " pain"
+    ],
+    "15497->7954": [
+      " pleasant",
+      " angry"
+    ],
+    "1943->5287": [
+      " success",
+      " failure"
+    ],
+    "2883->3252": [
+      " enjoy",
+      " fear"
+    ],
+    "9670->12177": [
+      " lucky",
+      " cruel"
+    ],
+    "683->4048": [
+      " him",
+      " female"
+    ],
+    "4257->2802": [
+      " male",
+      " mother"
+    ],
+    "2988->3656": [
+      " father",
+      " wife"
+    ],
+    "5229->16599": [
+      " husband",
+      " queen"
+    ],
+    "5822->25949": [
+      " king",
+      " aunt"
+    ],
+    "7711->6621": [
+      " uncle",
+      " sister"
+    ],
+    "3956->4957": [
+      " brother",
+      " daughter"
+    ],
+    "3367->10846": [
+      " son",
+      " lady"
+    ],
+    "22427->1995": [
+      " gentleman",
+      " mom"
+    ],
+    "9955->21752": [
+      " dad",
+      " princess"
+    ],
+    "1909->7415": [
+      " today",
+      " yesterday"
+    ],
+    "3058->4271": [
+      " currently",
+      " previously"
+    ],
+    "1944->2084": [
+      " present",
+      " ago"
+    ],
+    "2107->2961": [
+      " live",
+      " earlier"
+    ],
+    "2221->2540": [
+      " begin",
+      " began"
+    ],
+    "923->2627": [
+      " start",
+      " became"
+    ],
+    "2555->6150": [
+      " continue",
+      " remained"
+    ],
+    "3520->3947": [
+      " remain",
+      " seemed"
+    ],
+    "1283->4444": [
+      " seem",
+      " ended"
+    ],
+    "1716->4504": [
+      " become",
+      " returned"
+    ],
+    "1310->1588": [
+      " little",
+      " large"
+    ],
+    "7009->3236": [
+      " tiny",
+      " huge"
+    ],
+    "1342->517": [
+      " less",
+      " more"
+    ],
+    "1551->749": [
+      " least",
+      " most"
+    ],
+    "2060->3294": [
+      " single",
+      " multiple"
+    ],
+    "7135->3094": [
+      " narrow",
+      " wide"
+    ],
+    "1790->890": [
+      " short",
+      " long"
+    ],
+    "1877->1029": [
+      " low",
+      " high"
+    ],
+    "4159->1688": [
+      " minor",
+      " major"
+    ],
+    "5288->5415": [
+      " minimum",
+      " maximum"
+    ],
+    "3763->645": [
+      " yes",
+      " no"
+    ],
+    "3729->407": [
+      " certainly",
+      " not"
+    ],
+    "1744->5340": [
+      " possible",
+      " impossible"
+    ],
+    "1249->10129": [
+      " allow",
+      " deny"
+    ],
+    "2453->11148": [
+      " accept",
+      " refuse"
+    ],
+    "4236->11491": [
+      " agree",
+      " incorrect"
+    ],
+    "3376->12515": [
+      " correct",
+      " invalid"
+    ],
+    "4938->15560": [
+      " valid",
+      " disable"
+    ],
+    "7139->4844": [
+      " enable",
+      " none"
+    ],
+    "7160->6159": [
+      " exists",
+      " neither"
+    ]
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "config": {
+    "status": "H264 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "train_documents": 768,
+    "validation_documents": 256,
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "seed": 20261208,
+    "ridge_strengths": [
+      0,
+      1e-06,
+      0.0001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "eigenvalue_cutoff_relative": 1e-12,
+    "models": [
+      "affine1152_response",
+      "affine1152_unregularized",
+      "quadratic1152_response",
+      "quadratic1152_unregularized"
+    ],
+    "frozen_stem": "bilin18_l17_response_capacity",
+    "selection_stem": "bilin18_l17_response_capacity",
+    "fit": "Freeze H259 feature map. All9 actual heads, full-edit response targets only. No natural loss. Double Gram eigensolve, alpha*mean diagonal ridge, alpha0 empirical least-squares projection with relative eigen cutoff1e-12. Record spectrum/rank/normal residual. Intercept set afterward from natural TRAIN means, irrelevant to responses. Choose alpha separately per feature family by validation response MSE; freeze before test. No refit. Report unregularized fit plus selected regularized fit, training/validation/test fidelity.",
+    "gates": {
+      "limited_empirical_capacity": "Quadratic unregularized training response fidelity<.50 with relative normal-equation residual<1e-7 and full feature rank retained.",
+      "generalization_gap": "Quadratic unregularized training minus validation response fidelity>=.15.",
+      "selected_response_transfer": "Selected quadratic actual response fidelity>=.50 on test at BOTH scales; document-bootstrap95 lower bounds>0."
+    },
+    "scope": "All heads now supervised, only contexts/documents transfer. Same test panel reused. Empirical least-squares ceiling within frozen feature span, not all quadratic maps or intrinsic model dimension. Natural mean intercept is not response supervision and native error needed only in discovery/targets. No full behavioral-repair claim."
+  },
+  "selected": {
+    "affine1152_response": "affine1152_alpha0.01",
+    "affine1152_unregularized": "affine1152_alpha0",
+    "quadratic1152_response": "quadratic1152_alpha0.1",
+    "quadratic1152_unregularized": "quadratic1152_alpha0"
+  },
+  "diagnostics": {
+    "affine1152": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 1.5182996021925255,
+      "max_eigenvalue": 14417.142570791655,
+      "retained_condition": 9495.58476467513,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 1.545504839889219e-14,
+          "training_fidelity": 0.4228058262912132,
+          "float32_training_fidelity": 0.4228058457374573
+        },
+        "1e-06": {
+          "normal_relative_residual": 1.5069469001815264e-14,
+          "training_fidelity": 0.4228058262212221,
+          "float32_training_fidelity": 0.4228058457374573
+        },
+        "0.0001": {
+          "normal_relative_residual": 1.4494179157628556e-14,
+          "training_fidelity": 0.42280513053186697,
+          "float32_training_fidelity": 0.42280513048171997
+        },
+        "0.01": {
+          "normal_relative_residual": 1.247669027298784e-14,
+          "training_fidelity": 0.41849122878783984,
+          "float32_training_fidelity": 0.4184911847114563
+        },
+        "0.1": {
+          "normal_relative_residual": 6.11034526544443e-15,
+          "training_fidelity": 0.35412466557186784,
+          "float32_training_fidelity": 0.3541247248649597
+        },
+        "1.0": {
+          "normal_relative_residual": 3.305100486883059e-15,
+          "training_fidelity": 0.22318661159152753,
+          "float32_training_fidelity": 0.22318661212921143
+        }
+      }
+    },
+    "quadratic1152": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.3704534145225668,
+      "max_eigenvalue": 4112.900925363313,
+      "retained_condition": 11102.343139862647,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.448081988552946e-15,
+          "training_fidelity": 0.5280008550371633,
+          "float32_training_fidelity": 0.5280008316040039
+        },
+        "1e-06": {
+          "normal_relative_residual": 8.556232150878092e-15,
+          "training_fidelity": 0.5280008549808063,
+          "float32_training_fidelity": 0.5280008316040039
+        },
+        "0.0001": {
+          "normal_relative_residual": 8.631133028618007e-15,
+          "training_fidelity": 0.5280003027608107,
+          "float32_training_fidelity": 0.5280003547668457
+        },
+        "0.01": {
+          "normal_relative_residual": 6.295430944029114e-15,
+          "training_fidelity": 0.5261191148583823,
+          "float32_training_fidelity": 0.5261191129684448
+        },
+        "0.1": {
+          "normal_relative_residual": 4.1940103587708644e-15,
+          "training_fidelity": 0.5023194708087908,
+          "float32_training_fidelity": 0.5023194551467896
+        },
+        "1.0": {
+          "normal_relative_residual": 3.063237043445966e-15,
+          "training_fidelity": 0.4019570932472498,
+          "float32_training_fidelity": 0.40195709466934204
+        }
+      }
+    }
+  },
+  "validation": {
+    "affine1152_alpha0": {
+      "response_fidelity": 0.2242274284362793,
+      "natural_residual_fidelity": -1.4266915321350098
+    },
+    "affine1152_alpha1e-06": {
+      "response_fidelity": 0.224229633808136,
+      "natural_residual_fidelity": -1.4266152381896973
+    },
+    "affine1152_alpha0.0001": {
+      "response_fidelity": 0.2244398593902588,
+      "natural_residual_fidelity": -1.4191007614135742
+    },
+    "affine1152_alpha0.01": {
+      "response_fidelity": 0.23680317401885986,
+      "natural_residual_fidelity": -0.905663013458252
+    },
+    "affine1152_alpha0.1": {
+      "response_fidelity": 0.22705036401748657,
+      "natural_residual_fidelity": -0.07418310642242432
+    },
+    "affine1152_alpha1.0": {
+      "response_fidelity": 0.1666865348815918,
+      "natural_residual_fidelity": 0.0460471510887146
+    },
+    "quadratic1152_alpha0": {
+      "response_fidelity": 0.374210000038147,
+      "natural_residual_fidelity": -0.2740844488143921
+    },
+    "quadratic1152_alpha1e-06": {
+      "response_fidelity": 0.37421101331710815,
+      "natural_residual_fidelity": -0.2740340232849121
+    },
+    "quadratic1152_alpha0.0001": {
+      "response_fidelity": 0.37430959939956665,
+      "natural_residual_fidelity": -0.26912498474121094
+    },
+    "quadratic1152_alpha0.01": {
+      "response_fidelity": 0.3802295923233032,
+      "natural_residual_fidelity": -0.05501401424407959
+    },
+    "quadratic1152_alpha0.1": {
+      "response_fidelity": 0.3886304497718811,
+      "natural_residual_fidelity": 0.1719476580619812
+    },
+    "quadratic1152_alpha1.0": {
+      "response_fidelity": 0.3454047441482544,
+      "natural_residual_fidelity": 0.1698845624923706
+    }
+  }
+}

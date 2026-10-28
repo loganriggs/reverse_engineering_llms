@@ -1,0 +1,45 @@
+{
+  "status": "complete",
+  "config": {
+    "experiment": "H681",
+    "hashes": {
+      "manifest": "42f62c36ad645ecb9b188295fc525dc3a398a31a402c5d0d6a489254a69fe7dc",
+      "runner": "4ad1e20a48f9fe32fb6b1226ced5ac5017906bf1a078e7da0bdd803c2ab7aebd"
+    },
+    "design": "Reuse existing document-hashed FineWeb windows; deduplicate documents across63panels then deterministic hash-sort.2048train/256validation/256test documents,16fixed positions per128token window. Sites: persistent layer0 values and residual after blocks0,1,2. No task labels/prompts used.",
+    "training_plan": "Pilot block dimensions1,4,16 at fixed total decoder width2304 and active scalar budget32; three seeds. Train centered/global-scaled activations, no per-example normalization. Choose checkpoints only on validation; test reserved for final evaluation. Compare reconstruction, effective block rank, occupancy and across-seed subspace stability before interpreting blocks.",
+    "limitations": "Documents reused from research, not model-training holdout. Natural corpus duplicates beyond exact full-document hashes may remain. First128 tokens of existing sampled windows, not necessarily document beginnings. Purely lexical persistent values require identity-conditioned controls."
+  },
+  "summary": {
+    "value0": {
+      "rms": 8.058794021606445,
+      "finite": true
+    },
+    "residual0": {
+      "rms": 1485.49853515625,
+      "finite": true
+    },
+    "residual1": {
+      "rms": 155.5249481201172,
+      "finite": true
+    },
+    "residual2": {
+      "rms": 724.8461303710938,
+      "finite": true
+    }
+  },
+  "audits": {
+    "hashes_unchanged": {
+      "manifest": true,
+      "runner": true
+    },
+    "source_hashes_unchanged": true,
+    "document_splits_disjoint": true,
+    "documents": 2560,
+    "new_documents": 0,
+    "whole_model_forwards": 0,
+    "three_block_prefix_forwards": 2560,
+    "finite": true
+  },
+  "elapsed_seconds": 4.746824741363525
+}

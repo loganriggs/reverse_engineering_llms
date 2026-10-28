@@ -1,0 +1,214 @@
+{
+  "config": {
+    "status": "H276 fixed before outcomes",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_cross_intact_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "models": [
+      "compiled",
+      "constant",
+      "common",
+      "actual",
+      "mixture",
+      "native"
+    ],
+    "design": "Frozen H275 programs plus exact E(mu) constant computed once from native-minus-original-compiler polynomial at frozen discovery mean. Replaces full final-layer MLP write; retain downstream final RMS/lm_head/softcap. No conditional native intact baseline; no refit or test calibration. Constant-only and common mean-linear/within-core controls. Fresh128 docs exclude1856 prior document hashes. Float32 forward, float64 KL.",
+    "gates": {
+      "intact_actual": "actual mean CE increase<=.02 nats AND top1 agreement>=.98",
+      "intact_mixture": "same for mixture",
+      "repair_actual": "actual KL reduction versus compiled>=80% AND intact_actual",
+      "repair_mixture": "mixture KL reduction versus compiled>=80% AND intact_mixture"
+    },
+    "scope": "Same corpus/model, new documents for continuation, not training/global holdout. No semantic ontology claim. Residual constant is polynomial value at mean, not fitted mean residual."
+  },
+  "results": {
+    "compiled": {
+      "residual_fidelity": 0.0,
+      "native_write_fidelity": 0.9688809514045715,
+      "mean_kl": 0.10786673335155422,
+      "kl_recovery": 0.0,
+      "kl_recovery_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "mean_ce_increase": 0.12519484992515414,
+      "ce_increase_bootstrap95": [
+        0.08048684172991563,
+        0.17350112336267906
+      ],
+      "top1_agreement": 0.859375,
+      "top1_bootstrap95": [
+        0.828125,
+        0.888671875
+      ],
+      "next_token_accuracy": 0.380859375
+    },
+    "constant": {
+      "residual_fidelity": -0.15008819103240967,
+      "native_write_fidelity": 0.9642103314399719,
+      "mean_kl": 0.10577713903840674,
+      "kl_recovery": 0.01937199957967739,
+      "kl_recovery_bootstrap95": [
+        -0.04956662984719796,
+        0.08609178298270269
+      ],
+      "mean_ce_increase": 0.12398204941678963,
+      "ce_increase_bootstrap95": [
+        0.07781995780847173,
+        0.17205697308649007
+      ],
+      "top1_agreement": 0.841796875,
+      "top1_bootstrap95": [
+        0.80859375,
+        0.873046875
+      ],
+      "next_token_accuracy": 0.36328125
+    },
+    "common": {
+      "residual_fidelity": 0.3872120976448059,
+      "native_write_fidelity": 0.9809306263923645,
+      "mean_kl": 0.10057084812994743,
+      "kl_recovery": 0.06763795467716982,
+      "kl_recovery_bootstrap95": [
+        -0.042049181545980835,
+        0.1635021455968476
+      ],
+      "mean_ce_increase": 0.13352358379813972,
+      "ce_increase_bootstrap95": [
+        0.0908486719079352,
+        0.1785341525613141
+      ],
+      "top1_agreement": 0.859375,
+      "top1_bootstrap95": [
+        0.828125,
+        0.888671875
+      ],
+      "next_token_accuracy": 0.349609375
+    },
+    "actual": {
+      "residual_fidelity": 0.4698912501335144,
+      "native_write_fidelity": 0.983503520488739,
+      "mean_kl": 0.08728324601296109,
+      "kl_recovery": 0.19082331223945015,
+      "kl_recovery_bootstrap95": [
+        0.08135733398590762,
+        0.2838455143035249
+      ],
+      "mean_ce_increase": 0.11925782713494351,
+      "ce_increase_bootstrap95": [
+        0.07662945398755139,
+        0.16523078200821803
+      ],
+      "top1_agreement": 0.869140625,
+      "top1_bootstrap95": [
+        0.837890625,
+        0.900390625
+      ],
+      "next_token_accuracy": 0.353515625
+    },
+    "mixture": {
+      "residual_fidelity": 0.46856051683425903,
+      "native_write_fidelity": 0.9834620952606201,
+      "mean_kl": 0.08763409082080109,
+      "kl_recovery": 0.1875707356855968,
+      "kl_recovery_bootstrap95": [
+        0.07751910605530864,
+        0.2809916137817942
+      ],
+      "mean_ce_increase": 0.11911809192644865,
+      "ce_increase_bootstrap95": [
+        0.07592655482422873,
+        0.1640933598921569
+      ],
+      "top1_agreement": 0.865234375,
+      "top1_bootstrap95": [
+        0.83203125,
+        0.896484375
+      ],
+      "next_token_accuracy": 0.353515625
+    },
+    "native": {
+      "residual_fidelity": 1.0,
+      "native_write_fidelity": 1.0,
+      "mean_kl": 0.0,
+      "kl_recovery": 1.0,
+      "kl_recovery_bootstrap95": [
+        1.0,
+        1.0
+      ],
+      "mean_ce_increase": 0.0,
+      "ce_increase_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "top1_agreement": 1.0,
+      "top1_bootstrap95": [
+        1.0,
+        1.0
+      ],
+      "next_token_accuracy": 0.3828125
+    }
+  },
+  "contrasts": {
+    "actual_vs_constant": {
+      "relative_kl_reduction": 0.1748382797414352,
+      "paired95": [
+        0.08549362090161378,
+        0.2537473865678569
+      ]
+    },
+    "actual_vs_common": {
+      "relative_kl_reduction": 0.1321218063092941,
+      "paired95": [
+        0.0968719406762125,
+        0.16894080031506817
+      ]
+    },
+    "mixture_vs_constant": {
+      "relative_kl_reduction": 0.17152144955459664,
+      "paired95": [
+        0.07678140477647442,
+        0.25634825495966185
+      ]
+    },
+    "mixture_vs_common": {
+      "relative_kl_reduction": 0.12863327246112888,
+      "paired95": [
+        0.08373642626535524,
+        0.17284367766360223
+      ]
+    }
+  },
+  "gates": {
+    "intact_actual": false,
+    "repair_actual": false,
+    "intact_mixture": false,
+    "repair_mixture": false
+  },
+  "costs": {
+    "actual": {
+      "correction_scalars": 3191040,
+      "compiler_scalars": 504224,
+      "saved_bytes": 11845225
+    },
+    "mixture": {
+      "correction_scalars": 3191040,
+      "compiler_scalars": 504224,
+      "saved_bytes": 11846153
+    }
+  },
+  "audits": {
+    "anchor_float32_relative_error": 1.660194315517807e-08,
+    "anchor_norm": 4034.083984375,
+    "common_at_mean_norm": 0.0
+  },
+  "head_replay": 4.281700191030742e-07
+}

@@ -1,0 +1,2794 @@
+{
+  "config": {
+    "status": "locked-after-source-distance-redteam-before-multilayer-routing-audit",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "selection_source": "artifacts/bilin18_tensor_decomposition/bilin12_attention_source_distance_redteam.json",
+    "seed": 20261029,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "prediction_position": 127,
+    "edit_positions": [
+      63,
+      95,
+      119
+    ],
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19252,
+        "rows": 24
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 24
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 24
+      }
+    },
+    "rankings": {
+      "fineweb": {
+        "63": [
+          4,
+          6,
+          5,
+          3,
+          2,
+          1,
+          8,
+          9,
+          7,
+          11,
+          10,
+          0
+        ],
+        "95": [
+          11,
+          10,
+          1,
+          5,
+          6,
+          4,
+          8,
+          3,
+          2,
+          9,
+          7,
+          0
+        ],
+        "119": [
+          7,
+          4,
+          5,
+          6,
+          3,
+          2,
+          9,
+          1,
+          8,
+          10,
+          11,
+          0
+        ]
+      },
+      "wikitext": {
+        "63": [
+          6,
+          5,
+          4,
+          8,
+          2,
+          10,
+          1,
+          3,
+          9,
+          7,
+          11,
+          0
+        ],
+        "95": [
+          5,
+          6,
+          3,
+          8,
+          4,
+          10,
+          2,
+          7,
+          1,
+          9,
+          11,
+          0
+        ],
+        "119": [
+          5,
+          4,
+          6,
+          2,
+          3,
+          7,
+          1,
+          9,
+          8,
+          10,
+          11,
+          0
+        ]
+      },
+      "tinystories": {
+        "63": [
+          6,
+          5,
+          9,
+          4,
+          3,
+          8,
+          2,
+          1,
+          10,
+          11,
+          7,
+          0
+        ],
+        "95": [
+          6,
+          5,
+          4,
+          1,
+          8,
+          3,
+          2,
+          9,
+          11,
+          7,
+          10,
+          0
+        ],
+        "119": [
+          6,
+          5,
+          4,
+          2,
+          3,
+          1,
+          8,
+          9,
+          7,
+          10,
+          11,
+          0
+        ]
+      }
+    },
+    "hypotheses": {
+      "M1_all_attention_replacement_removal_blocks_the_path": "Replacing all twelve changed-run attention writes by base-run writes makes final logits agree with the native base run to maximum absolute error at most 1e-4.",
+      "M2_all_attention_insertion_recovers_most_of_the_effect": "Replacing all twelve base-run attention writes by changed-run writes reaches Fisher fidelity at least 0.50 on every corpus and edit position.",
+      "M3_top4_captures_most_available_insertion": "Top-four replacement insertion fidelity is at least 75% of all-layer replacement insertion fidelity on every corpus and edit position.",
+      "M4_routing_is_distributed_beyond_one_layer": "All-layer replacement insertion fidelity exceeds top-one fidelity by at least 0.20 on every corpus and edit position.",
+      "M5_middle_layers_are_the_main_phase": "Middle-layer replacement insertion fidelity exceeds both early- and late-layer fidelity on every corpus and edit position.",
+      "M6_replacement_and_delta_interventions_agree": "For every route, corpus, and edit position, replacement and additive-delta insertion fidelities differ by at most 0.20.",
+      "M7_topk_frontier_is_monotone": "Replacement insertion fidelity is nondecreasing across top-1, top-2, top-4, top-8, and all-layer routes on every corpus and edit position.",
+      "M8_all_attention_is_structurally_necessary_but_not_a_single_module": "All-layer removal blocks at least 99% of target Fisher projection, while no top-one replacement insertion reaches 0.50 fidelity, on every corpus and edit position."
+    }
+  },
+  "hypotheses": {
+    "M1_all_attention_replacement_removal_blocks_the_path": {
+      "supported": true
+    },
+    "M2_all_attention_insertion_recovers_most_of_the_effect": {
+      "supported": true
+    },
+    "M3_top4_captures_most_available_insertion": {
+      "supported": false
+    },
+    "M4_routing_is_distributed_beyond_one_layer": {
+      "supported": true
+    },
+    "M5_middle_layers_are_the_main_phase": {
+      "supported": false
+    },
+    "M6_replacement_and_delta_interventions_agree": {
+      "supported": false
+    },
+    "M7_topk_frontier_is_monotone": {
+      "supported": false
+    },
+    "M8_all_attention_is_structurally_necessary_but_not_a_single_module": {
+      "supported": false
+    }
+  },
+  "results": {
+    "fineweb": {
+      "63": {
+        "examples": 23,
+        "mean_full_forward_kl": 0.00416443391662577,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.12362373501498403,
+            "fisher_cosine": 0.3517366785709425,
+            "target_projection": 0.12029079635581033,
+            "forward_kl_ratio": 0.10794465591453743,
+            "target_error_kl_ratio": 0.8595959553881646
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.30215728704639777,
+            "fisher_cosine": 0.550456995890946,
+            "target_projection": 0.3190095164414105,
+            "forward_kl_ratio": 0.31505080532845514,
+            "target_error_kl_ratio": 0.6027449353749209
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.45843119061428705,
+            "fisher_cosine": 0.6802539738733381,
+            "target_projection": 0.5074266799332218,
+            "forward_kl_ratio": 0.5295632457731246,
+            "target_error_kl_ratio": 0.44348121097264187
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.5563595096119807,
+            "fisher_cosine": 0.7541520846045507,
+            "target_projection": 0.6526761573900635,
+            "forward_kl_ratio": 0.7751746465981982,
+            "target_error_kl_ratio": 0.2740904373721788
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.12756436055838938,
+            "fisher_cosine": 0.49450358656838067,
+            "target_projection": 0.41365794068060113,
+            "forward_kl_ratio": 0.6854154370263837,
+            "target_error_kl_ratio": 0.7898618480624355
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.3527918428267933,
+            "fisher_cosine": 0.6062411716241702,
+            "target_projection": 0.44112249543342563,
+            "forward_kl_ratio": 0.5031826304093501,
+            "target_error_kl_ratio": 0.5232866755667646
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.5872458088546005,
+            "fisher_cosine": 0.7696841902234055,
+            "target_projection": 0.5370826338667576,
+            "forward_kl_ratio": 0.44036374312876964,
+            "target_error_kl_ratio": 0.37491308947377655
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.12362379337257556,
+            "fisher_cosine": 0.3517369172772234,
+            "target_projection": 0.12028991833932036,
+            "forward_kl_ratio": 0.10794328978260301,
+            "target_error_kl_ratio": 0.8595968585026011
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.27491081726554756,
+            "fisher_cosine": 0.5441654572760395,
+            "target_projection": 0.37535748467915603,
+            "forward_kl_ratio": 0.44531065149830446,
+            "target_error_kl_ratio": 0.6136198631216979
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": -0.04821581664422481,
+            "fisher_cosine": 0.6363348994604308,
+            "target_projection": 0.8332742471561669,
+            "forward_kl_ratio": 1.6211537041554078,
+            "target_error_kl_ratio": 0.8162872246277972
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -0.5122511020207785,
+            "fisher_cosine": 0.810832736442483,
+            "target_projection": 1.5343873036205373,
+            "forward_kl_ratio": 3.656350474506724,
+            "target_error_kl_ratio": 1.258544512134815
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -1.5580628352421475,
+            "fisher_cosine": 0.8728832943276795,
+            "target_projection": 2.0914580704180152,
+            "forward_kl_ratio": 6.159834869361519,
+            "target_error_kl_ratio": 2.5189951978069582
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.27020120843398976,
+            "fisher_cosine": 0.6205088620329902,
+            "target_projection": 0.5953004589140194,
+            "forward_kl_ratio": 0.85763071417741,
+            "target_error_kl_ratio": 0.7051538145454668
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.05143239159229873,
+            "fisher_cosine": 0.5817798109166834,
+            "target_projection": 0.6501602051169602,
+            "forward_kl_ratio": 1.1807640105969832,
+            "target_error_kl_ratio": 0.7390831404872125
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.582380982092798,
+            "fisher_cosine": 0.7684258667216769,
+            "target_projection": 0.5213315061182391,
+            "forward_kl_ratio": 0.4392096399753268,
+            "target_error_kl_ratio": 0.36402237146265126
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -1.5580628352421475,
+            "fisher_cosine": 0.8728832943276795,
+            "target_projection": 2.0914580704180152,
+            "forward_kl_ratio": 6.159834869361519,
+            "target_error_kl_ratio": 2.5189951978069582
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.8544836506247077,
+            "fisher_cosine": 0.9243855292675193,
+            "target_projection": 0.8565426417355891,
+            "forward_kl_ratio": 0.8239944213978149,
+            "target_error_kl_ratio": 0.12525716895494168
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.6621617621187218,
+            "fisher_cosine": 0.8217538351287854,
+            "target_projection": 0.5811622819416206,
+            "forward_kl_ratio": 0.4412752545531622,
+            "target_error_kl_ratio": 0.32938264431451386
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.4461971044735057,
+            "fisher_cosine": 0.6679816278464376,
+            "target_projection": 0.44721270429063,
+            "forward_kl_ratio": 0.37061837490429056,
+            "target_error_kl_ratio": 0.5295424434983131
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.26475544245948646,
+            "fisher_cosine": 0.5172949654426737,
+            "target_projection": 0.29515480546144085,
+            "forward_kl_ratio": 0.2624151756345401,
+            "target_error_kl_ratio": 0.8128047014542876
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.42087647234810677,
+            "fisher_cosine": 0.6756213600244466,
+            "target_projection": 0.5839181900204137,
+            "forward_kl_ratio": 0.6966797855198144,
+            "target_error_kl_ratio": 0.495189296528529
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.49132671172378495,
+            "fisher_cosine": 0.7011051848337777,
+            "target_projection": 0.4811098200584517,
+            "forward_kl_ratio": 0.38978283466017316,
+            "target_error_kl_ratio": 0.4988045042987108
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.5025496458243289,
+            "fisher_cosine": 0.7119101482613532,
+            "target_projection": 0.4603158801993557,
+            "forward_kl_ratio": 0.39685589888671235,
+            "target_error_kl_ratio": 0.4737057031725483
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.8544826850718305,
+            "fisher_cosine": 0.9243850284495017,
+            "target_projection": 0.8565422385376844,
+            "forward_kl_ratio": 0.8239965751218254,
+            "target_error_kl_ratio": 0.12525948267717485
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.48972701873140223,
+            "fisher_cosine": 0.7032036785113563,
+            "target_projection": 0.5430539245419259,
+            "forward_kl_ratio": 0.5282850664822029,
+            "target_error_kl_ratio": 0.4797266267718983
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -0.63237525960043,
+            "fisher_cosine": 0.16933814469754901,
+            "target_projection": 0.16635581876621303,
+            "forward_kl_ratio": 0.8468484668372883,
+            "target_error_kl_ratio": 1.4373525787724888
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.312117699749799,
+            "fisher_cosine": -0.20113207445272202,
+            "target_projection": -0.2680441898325128,
+            "forward_kl_ratio": 1.559360455009639,
+            "target_error_kl_ratio": 3.064905679216421
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -3.794604711220032,
+            "fisher_cosine": -0.4525768639659585,
+            "target_projection": -0.7002634893002391,
+            "forward_kl_ratio": 2.202737168331121,
+            "target_error_kl_ratio": 4.253715730102281
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": -0.2706141944984144,
+            "fisher_cosine": 0.42066430143722205,
+            "target_projection": 0.4583865032886121,
+            "forward_kl_ratio": 1.1159941884650275,
+            "target_error_kl_ratio": 1.0235902847407539
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.2593970802413117,
+            "fisher_cosine": 0.3062816772016403,
+            "target_projection": 0.2758350559521711,
+            "forward_kl_ratio": 0.7001987712241237,
+            "target_error_kl_ratio": 1.1450221324871808
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.48072829404106976,
+            "fisher_cosine": 0.6948663793917793,
+            "target_projection": 0.450913586237769,
+            "forward_kl_ratio": 0.39807185111110477,
+            "target_error_kl_ratio": 0.5072341988575977
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -3.794604711220032,
+            "fisher_cosine": -0.4525768639659585,
+            "target_projection": -0.7002634893002391,
+            "forward_kl_ratio": 2.202737168331121,
+            "target_error_kl_ratio": 4.253715730102281
+          }
+        }
+      },
+      "95": {
+        "examples": 23,
+        "mean_full_forward_kl": 0.011014156367467798,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": -0.006534368912154864,
+            "fisher_cosine": 0.03975159096428928,
+            "target_projection": 0.005161033041912292,
+            "forward_kl_ratio": 0.015003825711190912,
+            "target_error_kl_ratio": 0.9858236533692285
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.058986981921889226,
+            "fisher_cosine": 0.24288164649328,
+            "target_projection": 0.05847788245793154,
+            "forward_kl_ratio": 0.05560614305541348,
+            "target_error_kl_ratio": 0.8959096733822182
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.6357700953594464,
+            "fisher_cosine": 0.8339352305287363,
+            "target_projection": 0.49172554867213597,
+            "forward_kl_ratio": 0.3126381034250208,
+            "target_error_kl_ratio": 0.46909300110544694
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.9802079851725515,
+            "fisher_cosine": 0.990437145947216,
+            "target_projection": 0.953704002265841,
+            "forward_kl_ratio": 0.9115946025483058,
+            "target_error_kl_ratio": 0.01962516941353124
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000164053477,
+            "target_projection": 1.0000000164053477,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.5505783697115219,
+            "fisher_cosine": 0.7449993877871817,
+            "target_projection": 0.604697497406048,
+            "forward_kl_ratio": 0.6072973026270628,
+            "target_error_kl_ratio": 0.5549451163652532
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.8542640055754558,
+            "fisher_cosine": 0.932129337654941,
+            "target_projection": 0.7562312206447322,
+            "forward_kl_ratio": 0.5997409736351389,
+            "target_error_kl_ratio": 0.23924056474018895
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.43384723194250463,
+            "fisher_cosine": 0.7004995051600946,
+            "target_projection": 0.32367439233587436,
+            "forward_kl_ratio": 0.23074558298446396,
+            "target_error_kl_ratio": 0.4513323044365851
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000164053477,
+            "target_projection": 1.0000000164053477,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": -0.006534795451194064,
+            "fisher_cosine": 0.03974993233282467,
+            "target_projection": 0.00516081695272357,
+            "forward_kl_ratio": 0.015002869391387012,
+            "target_error_kl_ratio": 0.985823134687938
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.05093844043399132,
+            "fisher_cosine": 0.22591072727249006,
+            "target_projection": 0.053263109982919,
+            "forward_kl_ratio": 0.05299355662322042,
+            "target_error_kl_ratio": 0.9012915164130434
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.6077075526455604,
+            "fisher_cosine": 0.7833986837190389,
+            "target_projection": 0.5530019624815112,
+            "forward_kl_ratio": 0.44762539460117184,
+            "target_error_kl_ratio": 0.48840060212339775
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -0.24873588798664859,
+            "fisher_cosine": 0.901999169591538,
+            "target_projection": 1.7432912196848553,
+            "forward_kl_ratio": 3.4380429911237935,
+            "target_error_kl_ratio": 0.9037873332782458
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -2.5366490668183004,
+            "fisher_cosine": 0.8717243304525892,
+            "target_projection": 2.3426418287625066,
+            "forward_kl_ratio": 6.712065421075854,
+            "target_error_kl_ratio": 2.6072428059203117
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.24480622483199221,
+            "fisher_cosine": 0.6664500643643758,
+            "target_projection": 0.7417161053438887,
+            "forward_kl_ratio": 1.1138871319033625,
+            "target_error_kl_ratio": 0.7729401049500916
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.541113388455903,
+            "fisher_cosine": 0.8809010737859011,
+            "target_projection": 1.2029041533886227,
+            "forward_kl_ratio": 1.669723149929534,
+            "target_error_kl_ratio": 0.453172615464119
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.43254456941281827,
+            "fisher_cosine": 0.6814389048057401,
+            "target_projection": 0.3428135353338009,
+            "forward_kl_ratio": 0.2823628308916153,
+            "target_error_kl_ratio": 0.4404883852354449
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -2.5366490668183004,
+            "fisher_cosine": 0.8717243304525892,
+            "target_projection": 2.3426418287625066,
+            "forward_kl_ratio": 6.712065421075854,
+            "target_error_kl_ratio": 2.6072428059203117
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000164053477,
+            "target_projection": 1.0000000164053477,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.9828868688630004,
+            "fisher_cosine": 0.9914685684789228,
+            "target_projection": 0.9940031235946,
+            "forward_kl_ratio": 0.9875848017160545,
+            "target_error_kl_ratio": 0.015139415755307868
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.9405611453371322,
+            "fisher_cosine": 0.9698315277907102,
+            "target_projection": 0.9439456872420376,
+            "forward_kl_ratio": 0.9117803923709293,
+            "target_error_kl_ratio": 0.06313068962075813
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.4830888590652428,
+            "fisher_cosine": 0.7191737220321671,
+            "target_projection": 0.38436416731823925,
+            "forward_kl_ratio": 0.29077092328100884,
+            "target_error_kl_ratio": 0.4172815126606526
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.06708142557254271,
+            "fisher_cosine": 0.3212877851850969,
+            "target_projection": 0.04214363313850534,
+            "forward_kl_ratio": 0.01550723571875662,
+            "target_error_kl_ratio": 0.9220015004793927
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.20930269422481806,
+            "fisher_cosine": 0.45758878878106996,
+            "target_projection": 0.20517471810096422,
+            "forward_kl_ratio": 0.22446113635431839,
+            "target_error_kl_ratio": 0.6355301572629749
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.2881154731736597,
+            "fisher_cosine": 0.5836298805474918,
+            "target_projection": 0.20688680479088978,
+            "forward_kl_ratio": 0.13658041151607495,
+            "target_error_kl_ratio": 0.5991628185880589
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.7883925492423121,
+            "fisher_cosine": 0.8989514355041712,
+            "target_projection": 0.6818721818842521,
+            "forward_kl_ratio": 0.5193595781873984,
+            "target_error_kl_ratio": 0.3128936627042993
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000164053477,
+            "target_projection": 1.0000000164053477,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.9828868782191752,
+            "fisher_cosine": 0.9914685644332869,
+            "target_projection": 0.9940031235946,
+            "forward_kl_ratio": 0.9875850664158176,
+            "target_error_kl_ratio": 0.015139632804051867
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.944030592093523,
+            "fisher_cosine": 0.9716287279774972,
+            "target_projection": 0.9495366051168919,
+            "forward_kl_ratio": 0.918356365349907,
+            "target_error_kl_ratio": 0.05960335092855278
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": 0.06258400614603388,
+            "fisher_cosine": 0.39122993445277304,
+            "target_projection": 0.27074032338565823,
+            "forward_kl_ratio": 0.47364109832637397,
+            "target_error_kl_ratio": 0.7134094912475811
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.7531499477403547,
+            "fisher_cosine": -0.6835174284204562,
+            "target_projection": -0.7593980269304773,
+            "forward_kl_ratio": 1.1093493765114724,
+            "target_error_kl_ratio": 3.1368379018423678
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -5.165960089710019,
+            "fisher_cosine": -0.7695657313751024,
+            "target_projection": -1.254436459205269,
+            "forward_kl_ratio": 2.4172813681424894,
+            "target_error_kl_ratio": 5.120903607195863
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": -0.6413424177727269,
+            "fisher_cosine": 0.16404500074516695,
+            "target_projection": 0.1610122225007759,
+            "forward_kl_ratio": 0.9184739435141294,
+            "target_error_kl_ratio": 1.2477615981011734
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -1.0488953020309402,
+            "fisher_cosine": -0.41849936386103403,
+            "target_projection": -0.28787009018602,
+            "forward_kl_ratio": 0.4469638841584427,
+            "target_error_kl_ratio": 1.595110945928012
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.740508983457643,
+            "fisher_cosine": 0.8676020887324042,
+            "target_projection": 0.6568079768903117,
+            "forward_kl_ratio": 0.5162814158913855,
+            "target_error_kl_ratio": 0.3721470680854448
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -5.165960089710019,
+            "fisher_cosine": -0.7695657313751024,
+            "target_projection": -1.254436459205269,
+            "forward_kl_ratio": 2.4172813681424894,
+            "target_error_kl_ratio": 5.120903607195863
+          }
+        }
+      },
+      "119": {
+        "examples": 24,
+        "mean_full_forward_kl": 0.11420670027534167,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.08268551964641324,
+            "fisher_cosine": 0.3391765622416018,
+            "target_projection": 0.05403119056716509,
+            "forward_kl_ratio": 0.016708940467724073,
+            "target_error_kl_ratio": 0.9480878015716221
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.3883260312809421,
+            "fisher_cosine": 0.6716274388784731,
+            "target_projection": 0.2828312302317268,
+            "forward_kl_ratio": 0.12066257405849817,
+            "target_error_kl_ratio": 0.7439362242530703
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.8428137225968153,
+            "fisher_cosine": 0.9287565207374495,
+            "target_projection": 0.731983928251975,
+            "forward_kl_ratio": 0.5771313738426658,
+            "target_error_kl_ratio": 0.09880912002652864
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.9005050070457881,
+            "fisher_cosine": 0.9520898162245909,
+            "target_projection": 0.8329113935001594,
+            "forward_kl_ratio": 0.7087615679868595,
+            "target_error_kl_ratio": 0.05832579394271712
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.6205733026913529,
+            "fisher_cosine": 0.7877776112815302,
+            "target_projection": 0.6241405646293364,
+            "forward_kl_ratio": 0.4817382761331315,
+            "target_error_kl_ratio": 0.42898856586462747
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.8428137225968153,
+            "fisher_cosine": 0.9287565207374495,
+            "target_projection": 0.731983928251975,
+            "forward_kl_ratio": 0.5771313738426658,
+            "target_error_kl_ratio": 0.09880912002652864
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.5032206124151507,
+            "fisher_cosine": 0.7974500133674076,
+            "target_projection": 0.345424898135126,
+            "forward_kl_ratio": 0.14259044033294574,
+            "target_error_kl_ratio": 0.45940954469993034
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.0826855742039031,
+            "fisher_cosine": 0.339176558712111,
+            "target_projection": 0.054031215836538214,
+            "forward_kl_ratio": 0.016709222686538676,
+            "target_error_kl_ratio": 0.9480875306751796
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.3797685009572852,
+            "fisher_cosine": 0.6388368674583935,
+            "target_projection": 0.300559951577266,
+            "forward_kl_ratio": 0.14378079021601753,
+            "target_error_kl_ratio": 0.7537857057361457
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.5661165093279318,
+            "fisher_cosine": 0.8153394502881596,
+            "target_projection": 0.920880541052551,
+            "forward_kl_ratio": 1.0089461903601036,
+            "target_error_kl_ratio": 0.24958531230229122
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -0.5013075754641343,
+            "fisher_cosine": 0.8239503618821572,
+            "target_projection": 1.5740098577434494,
+            "forward_kl_ratio": 3.0186961307301425,
+            "target_error_kl_ratio": 0.7592552614909563
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -0.9502768804304722,
+            "fisher_cosine": 0.8510195010861429,
+            "target_projection": 1.825478149830502,
+            "forward_kl_ratio": 4.101641855271438,
+            "target_error_kl_ratio": 1.1367735234654917
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.3592864676856805,
+            "fisher_cosine": 0.6503777640810706,
+            "target_projection": 0.5871453411453735,
+            "forward_kl_ratio": 0.602573987606558,
+            "target_error_kl_ratio": 0.6372516633714004
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.5661165093279318,
+            "fisher_cosine": 0.8153394502881596,
+            "target_projection": 0.920880541052551,
+            "forward_kl_ratio": 1.0089461903601036,
+            "target_error_kl_ratio": 0.24958531230229122
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.48381411186060896,
+            "fisher_cosine": 0.7827895548068678,
+            "target_projection": 0.3316678938594633,
+            "forward_kl_ratio": 0.144928542270045,
+            "target_error_kl_ratio": 0.4653924895594398
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -0.9502768804304722,
+            "fisher_cosine": 0.8510195010861429,
+            "target_projection": 1.825478149830502,
+            "forward_kl_ratio": 4.101641855271438,
+            "target_error_kl_ratio": 1.1367735234654917
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.9706358474556517,
+            "fisher_cosine": 0.9866109801321811,
+            "target_projection": 0.9215187935393613,
+            "forward_kl_ratio": 0.8930703368894648,
+            "target_error_kl_ratio": 0.0120704828384462
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.7964894640173207,
+            "fisher_cosine": 0.9083062736814507,
+            "target_projection": 0.6715976797728332,
+            "forward_kl_ratio": 0.5394522813145041,
+            "target_error_kl_ratio": 0.12334129676013618
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.2978584751120773,
+            "fisher_cosine": 0.5911124910795746,
+            "target_projection": 0.2151969763490865,
+            "forward_kl_ratio": 0.0853248225863908,
+            "target_error_kl_ratio": 0.700267720613932
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.15216959198861602,
+            "fisher_cosine": 0.473377896335089,
+            "target_projection": 0.09713922392091384,
+            "forward_kl_ratio": 0.02571154337349695,
+            "target_error_kl_ratio": 0.8498538811487009
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.45655026693693823,
+            "fisher_cosine": 0.683625649784731,
+            "target_projection": 0.3963202141158573,
+            "forward_kl_ratio": 0.3621351294402086,
+            "target_error_kl_ratio": 0.4994279454848768
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.2978584751120773,
+            "fisher_cosine": 0.5911124910795746,
+            "target_projection": 0.2151969763490865,
+            "forward_kl_ratio": 0.0853248225863908,
+            "target_error_kl_ratio": 0.700267720613932
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.789913313156103,
+            "fisher_cosine": 0.9148078517707247,
+            "target_projection": 0.6386320666494872,
+            "forward_kl_ratio": 0.4236970998902996,
+            "target_error_kl_ratio": 0.1796672522320618
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.9706358511851676,
+            "fisher_cosine": 0.9866110274361009,
+            "target_projection": 0.9215188130241792,
+            "forward_kl_ratio": 0.8930702227235182,
+            "target_error_kl_ratio": 0.012070414138700131
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.766463229190957,
+            "fisher_cosine": 0.8883081566201972,
+            "target_projection": 0.6554664738262039,
+            "forward_kl_ratio": 0.541918357501485,
+            "target_error_kl_ratio": 0.13579669875220488
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -0.30946365599420056,
+            "fisher_cosine": 0.012909647684631513,
+            "target_projection": 0.007350159188623504,
+            "forward_kl_ratio": 0.22302288038878354,
+            "target_error_kl_ratio": 1.08358162945555
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -1.8438207910223436,
+            "fisher_cosine": -0.5179818609708531,
+            "target_projection": -0.48448588992497976,
+            "forward_kl_ratio": 0.6273646445003442,
+            "target_error_kl_ratio": 2.360376980257797
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -2.6692908273747005,
+            "fisher_cosine": -0.6120539559442302,
+            "target_projection": -0.6932269284578204,
+            "forward_kl_ratio": 0.8296705699206458,
+            "target_error_kl_ratio": 2.9176442614815423
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": 0.22800773746792435,
+            "fisher_cosine": 0.5283405525594917,
+            "target_projection": 0.3986187469838963,
+            "forward_kl_ratio": 0.5557341624405061,
+            "target_error_kl_ratio": 0.5931376590051645
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.30946365599420056,
+            "fisher_cosine": 0.012909647684631513,
+            "target_projection": 0.007350159188623504,
+            "forward_kl_ratio": 0.22302288038878354,
+            "target_error_kl_ratio": 1.08358162945555
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.7655318432077285,
+            "fisher_cosine": 0.8966965778633549,
+            "target_projection": 0.6280451038927759,
+            "forward_kl_ratio": 0.42356832342077533,
+            "target_error_kl_ratio": 0.1945945981904502
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -2.6692908273747005,
+            "fisher_cosine": -0.6120539559442302,
+            "target_projection": -0.6932269284578204,
+            "forward_kl_ratio": 0.8296705699206458,
+            "target_error_kl_ratio": 2.9176442614815423
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "63": {
+        "examples": 24,
+        "mean_full_forward_kl": 0.016642989707179368,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.39336807884182845,
+            "fisher_cosine": 0.6525807360448156,
+            "target_projection": 0.3082277826960798,
+            "forward_kl_ratio": 0.17285764991261243,
+            "target_error_kl_ratio": 0.6787378636275185
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.6856570714271237,
+            "fisher_cosine": 0.8401616037727238,
+            "target_projection": 0.5864196090032687,
+            "forward_kl_ratio": 0.4380982250321244,
+            "target_error_kl_ratio": 0.2767200607388606
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.8452428488147528,
+            "fisher_cosine": 0.9281663957979011,
+            "target_projection": 0.7431745197949354,
+            "forward_kl_ratio": 0.6007399330394995,
+            "target_error_kl_ratio": 0.11992786925688857
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.9310522702193229,
+            "fisher_cosine": 0.9649545194420959,
+            "target_projection": 0.9222464105460491,
+            "forward_kl_ratio": 0.9212926292104842,
+            "target_error_kl_ratio": 0.043447189090703366
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000298141147,
+            "target_projection": 1.0000000298141147,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.45910680662739867,
+            "fisher_cosine": 0.7003205817271935,
+            "target_projection": 0.6144316118498488,
+            "forward_kl_ratio": 0.674544929045215,
+            "target_error_kl_ratio": 0.45720249593718904
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.7972757960829274,
+            "fisher_cosine": 0.895635808418378,
+            "target_projection": 0.7395478704997211,
+            "forward_kl_ratio": 0.6233956448891351,
+            "target_error_kl_ratio": 0.18696104768549224
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.43724339326819117,
+            "fisher_cosine": 0.6684147307842714,
+            "target_projection": 0.3815100617777676,
+            "forward_kl_ratio": 0.2715892367081974,
+            "target_error_kl_ratio": 0.6262937860646187
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000298141147,
+            "target_projection": 1.0000000298141147,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.39336845300896894,
+            "fisher_cosine": 0.6525808220208137,
+            "target_projection": 0.30822831040591137,
+            "forward_kl_ratio": 0.17285760648621276,
+            "target_error_kl_ratio": 0.6787373715722143
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.60517401541763,
+            "fisher_cosine": 0.7789463275521811,
+            "target_projection": 0.6377525694534562,
+            "forward_kl_ratio": 0.582659812024568,
+            "target_error_kl_ratio": 0.33697152704779443
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.5261289932958253,
+            "fisher_cosine": 0.8212885151687087,
+            "target_projection": 0.9908823793459596,
+            "forward_kl_ratio": 1.2656514381159967,
+            "target_error_kl_ratio": 0.3067212642194781
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -0.36273614053457814,
+            "fisher_cosine": 0.8497530343988362,
+            "target_projection": 1.607136371508103,
+            "forward_kl_ratio": 3.8519884484424494,
+            "target_error_kl_ratio": 1.1535412288471967
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -1.9456583496476667,
+            "fisher_cosine": 0.8367288278936483,
+            "target_projection": 2.0611243167432236,
+            "forward_kl_ratio": 7.086469879953973,
+            "target_error_kl_ratio": 2.870740894767127
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.24261022878987948,
+            "fisher_cosine": 0.6015021450861093,
+            "target_projection": 0.5694708072441692,
+            "forward_kl_ratio": 0.7092993005500412,
+            "target_error_kl_ratio": 0.668873353813965
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.4075702724200936,
+            "fisher_cosine": 0.7829713595969949,
+            "target_projection": 0.9679589079926937,
+            "forward_kl_ratio": 1.3455987999102206,
+            "target_error_kl_ratio": 0.4365350783686745
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.462681018112188,
+            "fisher_cosine": 0.6820612966533592,
+            "target_projection": 0.4309242297766432,
+            "forward_kl_ratio": 0.3494278950146398,
+            "target_error_kl_ratio": 0.6044838499701533
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -1.9456583496476667,
+            "fisher_cosine": 0.8367288278936483,
+            "target_projection": 2.0611243167432236,
+            "forward_kl_ratio": 7.086469879953973,
+            "target_error_kl_ratio": 2.870740894767127
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000298141147,
+            "target_projection": 1.0000000298141147,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.7512112245002187,
+            "fisher_cosine": 0.8763536618818905,
+            "target_projection": 0.6544598545222654,
+            "forward_kl_ratio": 0.5660613199090102,
+            "target_error_kl_ratio": 0.16776020416868326
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.3926913998043514,
+            "fisher_cosine": 0.6380297656913388,
+            "target_projection": 0.3305436722042787,
+            "forward_kl_ratio": 0.24098975361035954,
+            "target_error_kl_ratio": 0.6194863781048332
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.24325711756387003,
+            "fisher_cosine": 0.521590810012893,
+            "target_projection": 0.18354032517932997,
+            "forward_kl_ratio": 0.09980906178577344,
+            "target_error_kl_ratio": 0.7720982204436831
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.06634028121662883,
+            "fisher_cosine": 0.26841801703604273,
+            "target_projection": 0.05176902970547811,
+            "forward_kl_ratio": 0.029145480201363448,
+            "target_error_kl_ratio": 0.9428194589956347
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.35980545777304385,
+            "fisher_cosine": 0.6024950992720486,
+            "target_projection": 0.328945897084681,
+            "forward_kl_ratio": 0.26589325146497533,
+            "target_error_kl_ratio": 0.6723812027790247
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.22813644949586454,
+            "fisher_cosine": 0.48759179511295614,
+            "target_projection": 0.18994867088706133,
+            "forward_kl_ratio": 0.1298679149155656,
+            "target_error_kl_ratio": 0.755666146384176
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.6439764313817624,
+            "fisher_cosine": 0.8050744296515479,
+            "target_projection": 0.5961669402837174,
+            "forward_kl_ratio": 0.5794228408345694,
+            "target_error_kl_ratio": 0.28551301223564196
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000298141147,
+            "target_projection": 1.0000000298141147,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.7512118524600112,
+            "fisher_cosine": 0.8763541041830043,
+            "target_projection": 0.6544601109236525,
+            "forward_kl_ratio": 0.5660613601294341,
+            "target_error_kl_ratio": 0.16775996950935335
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.03052592975003887,
+            "fisher_cosine": 0.33015379046520665,
+            "target_projection": 0.20148912216220832,
+            "forward_kl_ratio": 0.32921753480656246,
+            "target_error_kl_ratio": 0.8365804009950263
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -0.8170615621698143,
+            "fisher_cosine": -0.1929706184853786,
+            "target_projection": -0.14112181924091582,
+            "forward_kl_ratio": 0.43094723127253654,
+            "target_error_kl_ratio": 1.5235039332172622
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.082130390945749,
+            "fisher_cosine": -0.5307202112794124,
+            "target_projection": -0.5342990774063922,
+            "forward_kl_ratio": 0.7994681852704931,
+            "target_error_kl_ratio": 2.435528090406019
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -4.604498403725462,
+            "fisher_cosine": -0.4650859551120732,
+            "target_projection": -0.8048529698743099,
+            "forward_kl_ratio": 2.1815564296312475,
+            "target_error_kl_ratio": 3.8506794748367783
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": -0.181715240726825,
+            "fisher_cosine": 0.28487584865772286,
+            "target_projection": 0.2272123555113338,
+            "forward_kl_ratio": 0.5366310226741788,
+            "target_error_kl_ratio": 0.9736060556706618
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.9747353104380689,
+            "fisher_cosine": -0.15686513490899098,
+            "target_projection": -0.13220684223678106,
+            "forward_kl_ratio": 0.5783404625958231,
+            "target_error_kl_ratio": 1.5732454572952392
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.507345781229118,
+            "fisher_cosine": 0.7127229377900978,
+            "target_projection": 0.5258366137257232,
+            "forward_kl_ratio": 0.5733451628944537,
+            "target_error_kl_ratio": 0.3812737555356372
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -4.604498403725462,
+            "fisher_cosine": -0.4650859551120732,
+            "target_projection": -0.8048529698743099,
+            "forward_kl_ratio": 2.1815564296312475,
+            "target_error_kl_ratio": 3.8506794748367783
+          }
+        }
+      },
+      "95": {
+        "examples": 24,
+        "mean_full_forward_kl": 0.014267210848629475,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.3019182875276113,
+            "fisher_cosine": 0.565679942610967,
+            "target_projection": 0.24394088235702457,
+            "forward_kl_ratio": 0.15219358871748348,
+            "target_error_kl_ratio": 0.7410536829849921
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.5298585658474539,
+            "fisher_cosine": 0.7412071251454487,
+            "target_projection": 0.44580615614226776,
+            "forward_kl_ratio": 0.3135994694971178,
+            "target_error_kl_ratio": 0.386359167840911
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.7457491938785751,
+            "fisher_cosine": 0.8739222994264055,
+            "target_projection": 0.6465204767002355,
+            "forward_kl_ratio": 0.49997508045569444,
+            "target_error_kl_ratio": 0.18643294895592072
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.9091845096268039,
+            "fisher_cosine": 0.955366652586908,
+            "target_projection": 0.8558762568627479,
+            "forward_kl_ratio": 0.7739233935456107,
+            "target_error_kl_ratio": 0.05636995882942133
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000034019914,
+            "target_projection": 1.0000000034019914,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.5147012789082477,
+            "fisher_cosine": 0.768273047837237,
+            "target_projection": 0.8014029683279942,
+            "forward_kl_ratio": 1.2601289298382479,
+            "target_error_kl_ratio": 0.7348717501393659
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.671522900108813,
+            "fisher_cosine": 0.8241231653635587,
+            "target_projection": 0.6070691149696565,
+            "forward_kl_ratio": 0.46681997082199334,
+            "target_error_kl_ratio": 0.287415674450234
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.4792858662794003,
+            "fisher_cosine": 0.7060504268162708,
+            "target_projection": 0.4006195463505016,
+            "forward_kl_ratio": 0.2815250479063416,
+            "target_error_kl_ratio": 0.48415533659735455
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000034019914,
+            "target_projection": 1.0000000034019914,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.30191902661024406,
+            "fisher_cosine": 0.5656809215752726,
+            "target_projection": 0.24394101333369367,
+            "forward_kl_ratio": 0.15219231105366143,
+            "target_error_kl_ratio": 0.7410531655958775
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.47955095455269137,
+            "fisher_cosine": 0.6925660309722251,
+            "target_projection": 0.486459931323115,
+            "forward_kl_ratio": 0.4185194043231259,
+            "target_error_kl_ratio": 0.43534133374856726
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.5314704548902387,
+            "fisher_cosine": 0.7709698717908622,
+            "target_projection": 0.7877897432279287,
+            "forward_kl_ratio": 0.8917344912364692,
+            "target_error_kl_ratio": 0.32803265390425196
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -0.13700000035040505,
+            "fisher_cosine": 0.8284835306731924,
+            "target_projection": 1.4381555809663902,
+            "forward_kl_ratio": 2.5298077351353476,
+            "target_error_kl_ratio": 0.660340279969669
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -1.549863387762032,
+            "fisher_cosine": 0.8623372627606113,
+            "target_projection": 2.0495724035301635,
+            "forward_kl_ratio": 5.5952005904185835,
+            "target_error_kl_ratio": 1.8206431741155635
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.34775736865299867,
+            "fisher_cosine": 0.6891065006469084,
+            "target_projection": 0.7205516896515922,
+            "forward_kl_ratio": 1.011738111723679,
+            "target_error_kl_ratio": 0.7438113152264294
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.38555681350991755,
+            "fisher_cosine": 0.7349272394792229,
+            "target_projection": 0.8290493331312686,
+            "forward_kl_ratio": 1.0590137239290487,
+            "target_error_kl_ratio": 0.46402235417848997
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.49308438594434456,
+            "fisher_cosine": 0.7059573389749388,
+            "target_projection": 0.4470232781023771,
+            "forward_kl_ratio": 0.35650702448281857,
+            "target_error_kl_ratio": 0.46678782754116277
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -1.549863387762032,
+            "fisher_cosine": 0.8623372627606113,
+            "target_projection": 2.0495724035301635,
+            "forward_kl_ratio": 5.5952005904185835,
+            "target_error_kl_ratio": 1.8206431741155635
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000034019914,
+            "target_projection": 1.0000000034019914,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.7932343719208257,
+            "fisher_cosine": 0.892216257009871,
+            "target_projection": 0.748708298733805,
+            "forward_kl_ratio": 0.7195284943701631,
+            "target_error_kl_ratio": 0.1400773891726023
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.6116842343971942,
+            "fisher_cosine": 0.7840717481842,
+            "target_projection": 0.571223967889474,
+            "forward_kl_ratio": 0.5226673432532376,
+            "target_error_kl_ratio": 0.32512459345392086
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.3989979845956536,
+            "fisher_cosine": 0.6566677197620255,
+            "target_projection": 0.31335114997056207,
+            "forward_kl_ratio": 0.1948900116265096,
+            "target_error_kl_ratio": 0.5398085107918823
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.12484252479458935,
+            "fisher_cosine": 0.36538896778575425,
+            "target_projection": 0.09949352340528073,
+            "forward_kl_ratio": 0.06390082561670622,
+            "target_error_kl_ratio": 0.8016191742293464
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.24816685819367978,
+            "fisher_cosine": 0.4984114076631453,
+            "target_projection": 0.25624797069086425,
+            "forward_kl_ratio": 0.2970455864794353,
+            "target_error_kl_ratio": 0.4916827612444738
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.40105992308145055,
+            "fisher_cosine": 0.6356318221067828,
+            "target_projection": 0.36939966768871674,
+            "forward_kl_ratio": 0.3549383681355087,
+            "target_error_kl_ratio": 0.4940214135650798
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.6683221828472334,
+            "fisher_cosine": 0.8229004313234934,
+            "target_projection": 0.5997822177779968,
+            "forward_kl_ratio": 0.4800420139382774,
+            "target_error_kl_ratio": 0.30400290363052906
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0000000034019914,
+            "target_projection": 1.0000000034019914,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.793235159481836,
+            "fisher_cosine": 0.8922166894133459,
+            "target_projection": 0.7487083378567062,
+            "forward_kl_ratio": 0.7195267332475983,
+            "target_error_kl_ratio": 0.14007611086466937
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.4613697361110307,
+            "fisher_cosine": 0.6846727828899435,
+            "target_projection": 0.5277023964522183,
+            "forward_kl_ratio": 0.5998031897256061,
+            "target_error_kl_ratio": 0.40696717323426074
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": 0.017621519413662967,
+            "fisher_cosine": 0.3368730710227662,
+            "target_projection": 0.21778467909156257,
+            "forward_kl_ratio": 0.38122347803815154,
+            "target_error_kl_ratio": 0.7923879658189343
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.100533625825668,
+            "fisher_cosine": -0.44998359116520864,
+            "target_projection": -0.480396400446789,
+            "forward_kl_ratio": 0.9392883417679001,
+            "target_error_kl_ratio": 2.1869098363153188
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -4.175406714281142,
+            "fisher_cosine": -0.675555898726726,
+            "target_projection": -0.9975270414175886,
+            "forward_kl_ratio": 1.7022235326968682,
+            "target_error_kl_ratio": 3.4550597510030276
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": -0.5212059817310135,
+            "fisher_cosine": 0.21046654750996846,
+            "target_projection": 0.2025667576090411,
+            "forward_kl_ratio": 0.8278649865726032,
+            "target_error_kl_ratio": 0.9048059086636154
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.42735702067146253,
+            "fisher_cosine": 0.1800027042356915,
+            "target_projection": 0.15445262662500328,
+            "forward_kl_ratio": 0.773350847840033,
+            "target_error_kl_ratio": 1.0868781317808416
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.5758926401899678,
+            "fisher_cosine": 0.7591701309684482,
+            "target_projection": 0.5602957134762007,
+            "forward_kl_ratio": 0.5033019144172004,
+            "target_error_kl_ratio": 0.3210184293039175
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -4.175406714281142,
+            "fisher_cosine": -0.675555898726726,
+            "target_projection": -0.9975270414175886,
+            "forward_kl_ratio": 1.7022235326968682,
+            "target_error_kl_ratio": 3.4550597510030276
+          }
+        }
+      },
+      "119": {
+        "examples": 24,
+        "mean_full_forward_kl": 0.07154824088017146,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.3475098459753184,
+            "fisher_cosine": 0.5925358787143691,
+            "target_projection": 0.3156014689964994,
+            "forward_kl_ratio": 0.21400737429495867,
+            "target_error_kl_ratio": 0.5725375177335993
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.5298635117095898,
+            "fisher_cosine": 0.731200623129475,
+            "target_projection": 0.48404393596073175,
+            "forward_kl_ratio": 0.3434700290466976,
+            "target_error_kl_ratio": 0.41600752713925704
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.7078595901641345,
+            "fisher_cosine": 0.8414439737496806,
+            "target_projection": 0.6971109535610033,
+            "forward_kl_ratio": 0.6009233592881867,
+            "target_error_kl_ratio": 0.19029959386492495
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.7977918887671938,
+            "fisher_cosine": 0.893287372610193,
+            "target_projection": 0.8096236374078831,
+            "forward_kl_ratio": 0.7529998479301369,
+            "target_error_kl_ratio": 0.1197509370940833
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999970602667,
+            "target_projection": 0.9999999970602667,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.6010432966569265,
+            "fisher_cosine": 0.7892948814319474,
+            "target_projection": 0.7399062007530363,
+            "forward_kl_ratio": 1.035257433347425,
+            "target_error_kl_ratio": 0.42082690648231835
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.7399567112509562,
+            "fisher_cosine": 0.8614242884574251,
+            "target_projection": 0.7026234679910518,
+            "forward_kl_ratio": 0.5981841275509667,
+            "target_error_kl_ratio": 0.18030331715552245
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.44624251665160497,
+            "fisher_cosine": 0.7127810501838584,
+            "target_projection": 0.33084182997105743,
+            "forward_kl_ratio": 0.16667045308245543,
+            "target_error_kl_ratio": 0.5949208642095686
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999970602667,
+            "target_projection": 0.9999999970602667,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.34750979746971866,
+            "fisher_cosine": 0.5925357736840853,
+            "target_projection": 0.3156016174530321,
+            "forward_kl_ratio": 0.2140076845265044,
+            "target_error_kl_ratio": 0.5725373923049207
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.480726954012076,
+            "fisher_cosine": 0.706902399629502,
+            "target_projection": 0.5971097835471416,
+            "forward_kl_ratio": 0.5452267284079799,
+            "target_error_kl_ratio": 0.4078721987781754
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.4152272424146135,
+            "fisher_cosine": 0.8134771954512156,
+            "target_projection": 1.0656410054699323,
+            "forward_kl_ratio": 1.6569893370944562,
+            "target_error_kl_ratio": 0.5266816275207244
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -1.0762677357418449,
+            "fisher_cosine": 0.7453006411502597,
+            "target_projection": 1.5075171891351806,
+            "forward_kl_ratio": 3.6636884206869578,
+            "target_error_kl_ratio": 1.4811453370470178
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -1.8129875419099406,
+            "fisher_cosine": 0.7699143481429044,
+            "target_projection": 1.7869435448615505,
+            "forward_kl_ratio": 5.028020911567365,
+            "target_error_kl_ratio": 2.000134567053798
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.42633149120824243,
+            "fisher_cosine": 0.7532219577775431,
+            "target_projection": 0.8501896730637322,
+            "forward_kl_ratio": 1.1550409962092916,
+            "target_error_kl_ratio": 0.4347770034879625
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.6066583798524083,
+            "fisher_cosine": 0.834995278151825,
+            "target_projection": 0.9484920975999693,
+            "forward_kl_ratio": 1.1549169296244208,
+            "target_error_kl_ratio": 0.2817190030271614
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.4376916173298573,
+            "fisher_cosine": 0.6998428674512136,
+            "target_projection": 0.3300556806069115,
+            "forward_kl_ratio": 0.18153964063194278,
+            "target_error_kl_ratio": 0.5928190767463741
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -1.8129875419099406,
+            "fisher_cosine": 0.7699143481429044,
+            "target_projection": 1.7869435448615505,
+            "forward_kl_ratio": 5.028020911567365,
+            "target_error_kl_ratio": 2.000134567053798
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999970602667,
+            "target_projection": 0.9999999970602667,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.765806105302835,
+            "fisher_cosine": 0.8861388744979929,
+            "target_projection": 0.6617027829073674,
+            "forward_kl_ratio": 0.5193361421538389,
+            "target_error_kl_ratio": 0.2514543037192739
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.6335129980749744,
+            "fisher_cosine": 0.8130403917969884,
+            "target_projection": 0.5261542774692577,
+            "forward_kl_ratio": 0.38518331577697584,
+            "target_error_kl_ratio": 0.37035321163864654
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.3192153757695009,
+            "fisher_cosine": 0.5653417643426832,
+            "target_projection": 0.3083636133214721,
+            "forward_kl_ratio": 0.21891216160854163,
+            "target_error_kl_ratio": 0.6856413340056708
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.2114357448818287,
+            "fisher_cosine": 0.47105631409535326,
+            "target_projection": 0.1737212707579347,
+            "forward_kl_ratio": 0.08767286679343841,
+            "target_error_kl_ratio": 0.8270259800123427
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.31606125945642394,
+            "fisher_cosine": 0.5641669789773816,
+            "target_projection": 0.34488478097414,
+            "forward_kl_ratio": 0.29009279659012227,
+            "target_error_kl_ratio": 0.6565843531008433
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.35659552541427386,
+            "fisher_cosine": 0.6145883779209437,
+            "target_projection": 0.288395520121284,
+            "forward_kl_ratio": 0.17691616878914795,
+            "target_error_kl_ratio": 0.6500778120699121
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.7727838327954945,
+            "fisher_cosine": 0.8867677325267677,
+            "target_projection": 0.6830452321185503,
+            "forward_kl_ratio": 0.5828901744402043,
+            "target_error_kl_ratio": 0.15905809483094976
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999970602667,
+            "target_projection": 0.9999999970602667,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.7658060597369685,
+            "fisher_cosine": 0.8861388126064401,
+            "target_projection": 0.6617028622801671,
+            "forward_kl_ratio": 0.5193359718519065,
+            "target_error_kl_ratio": 0.251454618784169
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.3439900488851194,
+            "fisher_cosine": 0.5973063342833804,
+            "target_projection": 0.4243121650559721,
+            "forward_kl_ratio": 0.4400326500695422,
+            "target_error_kl_ratio": 0.559990431583658
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -1.0334595155066668,
+            "fisher_cosine": -0.004774834749062333,
+            "target_projection": -0.004831313545459198,
+            "forward_kl_ratio": 0.6732460167918313,
+            "target_error_kl_ratio": 1.5535844126794656
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.8529942139286857,
+            "fisher_cosine": -0.28561717651350443,
+            "target_projection": -0.4077019337360004,
+            "forward_kl_ratio": 1.233033805571408,
+            "target_error_kl_ratio": 2.600469909585334
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -3.197262173443031,
+            "fisher_cosine": -0.4389786527628885,
+            "target_projection": -0.6155389305796969,
+            "forward_kl_ratio": 1.3081153673972834,
+            "target_error_kl_ratio": 3.0316784402884083
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": -0.05210331010738223,
+            "fisher_cosine": 0.4502315917015499,
+            "target_projection": 0.4299803925666962,
+            "forward_kl_ratio": 0.6990002725525144,
+            "target_error_kl_ratio": 0.7556325495185704
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.5660924220994923,
+            "fisher_cosine": 0.0380307308113395,
+            "target_projection": 0.030096849367270907,
+            "forward_kl_ratio": 0.44738421785568167,
+            "target_error_kl_ratio": 1.258797536162656
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.7512205846241776,
+            "fisher_cosine": 0.8722791896108414,
+            "target_projection": 0.6751812044269679,
+            "forward_kl_ratio": 0.5867153033654925,
+            "target_error_kl_ratio": 0.16918987706944255
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -3.197262173443031,
+            "fisher_cosine": -0.4389786527628885,
+            "target_projection": -0.6155389305796969,
+            "forward_kl_ratio": 1.3081153673972834,
+            "target_error_kl_ratio": 3.0316784402884083
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "63": {
+        "examples": 24,
+        "mean_full_forward_kl": 0.006276630195012937,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.6452899722411483,
+            "fisher_cosine": 0.8504060422207592,
+            "target_projection": 0.48583661032001596,
+            "forward_kl_ratio": 0.2322345863541278,
+            "target_error_kl_ratio": 0.4207775800339125
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.8203016687869129,
+            "fisher_cosine": 0.9264436168473696,
+            "target_projection": 0.6777100105064556,
+            "forward_kl_ratio": 0.38212162079496625,
+            "target_error_kl_ratio": 0.2868855252448126
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.9107629515690902,
+            "fisher_cosine": 0.9601049378404728,
+            "target_projection": 0.8209290399480689,
+            "forward_kl_ratio": 0.5649302548693966,
+            "target_error_kl_ratio": 0.13504387445495858
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.837385958290173,
+            "fisher_cosine": 0.9209198873825523,
+            "target_projection": 0.9433869918244449,
+            "forward_kl_ratio": 0.9287694247519831,
+            "target_error_kl_ratio": 0.07375516130640926
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999904339362,
+            "target_projection": 0.9999999904339362,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": -0.008630285118109482,
+            "fisher_cosine": 0.529344187130254,
+            "target_projection": 0.5646928631792826,
+            "forward_kl_ratio": 0.856677499403028,
+            "target_error_kl_ratio": 0.8996884426900501
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.8817095761545466,
+            "fisher_cosine": 0.9480039718790942,
+            "target_projection": 0.775099836344259,
+            "forward_kl_ratio": 0.49235918618688507,
+            "target_error_kl_ratio": 0.22021738127436605
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.5120943529186579,
+            "fisher_cosine": 0.7490489169141562,
+            "target_projection": 0.3952992238205855,
+            "forward_kl_ratio": 0.24554109415650205,
+            "target_error_kl_ratio": 0.32721155126531226
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999904339362,
+            "target_projection": 0.9999999904339362,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.64528847276065,
+            "fisher_cosine": 0.8504045406525237,
+            "target_projection": 0.4858361164719731,
+            "forward_kl_ratio": 0.2322291697334961,
+            "target_error_kl_ratio": 0.4207748808489256
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.7024971095062094,
+            "fisher_cosine": 0.8439996860341148,
+            "target_projection": 0.796050032598993,
+            "forward_kl_ratio": 0.6059514689895247,
+            "target_error_kl_ratio": 0.3597394834934105
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.5207243414887901,
+            "fisher_cosine": 0.8916905203874668,
+            "target_projection": 1.2621974380177539,
+            "forward_kl_ratio": 1.4564347423707311,
+            "target_error_kl_ratio": 0.23111989543144826
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -1.0289332104075006,
+            "fisher_cosine": 0.8140232453528506,
+            "target_projection": 1.721354528420821,
+            "forward_kl_ratio": 3.7431596736886155,
+            "target_error_kl_ratio": 0.8805063531089788
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -1.721520619203273,
+            "fisher_cosine": 0.8047732119739486,
+            "target_projection": 1.8863782738543946,
+            "forward_kl_ratio": 4.763266698075081,
+            "target_error_kl_ratio": 1.2663159630272605
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": -0.4927719993889772,
+            "fisher_cosine": 0.38629826323393746,
+            "target_projection": 0.4587470398832014,
+            "forward_kl_ratio": 1.164158199177677,
+            "target_error_kl_ratio": 1.2140195890562955
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.5663161129979614,
+            "fisher_cosine": 0.8686646170403428,
+            "target_projection": 1.1314846809843762,
+            "forward_kl_ratio": 1.168036344988109,
+            "target_error_kl_ratio": 0.3302855207851901
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.4413554372925411,
+            "fisher_cosine": 0.6651014356945396,
+            "target_projection": 0.42128080611535884,
+            "forward_kl_ratio": 0.3374640991809652,
+            "target_error_kl_ratio": 0.329327450714423
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -1.721520619203273,
+            "fisher_cosine": 0.8047732119739486,
+            "target_projection": 1.8863782738543946,
+            "forward_kl_ratio": 4.763266698075081,
+            "target_error_kl_ratio": 1.2663159630272605
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999904339362,
+            "target_projection": 0.9999999904339362,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.696543062265093,
+            "fisher_cosine": 0.8700834272835734,
+            "target_projection": 0.5430295204567142,
+            "forward_kl_ratio": 0.34200238181691905,
+            "target_error_kl_ratio": 0.20500138762794998
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.4721174136373011,
+            "fisher_cosine": 0.7478989722084601,
+            "target_projection": 0.3384560764782693,
+            "forward_kl_ratio": 0.17394128683703505,
+            "target_error_kl_ratio": 0.36956127733326777
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.27749000586681905,
+            "fisher_cosine": 0.612729236370935,
+            "target_projection": 0.18367433887462406,
+            "forward_kl_ratio": 0.06249318304885258,
+            "target_error_kl_ratio": 0.6436282198054138
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.08673086078995718,
+            "fisher_cosine": 0.36893658317705336,
+            "target_projection": 0.05412777649201909,
+            "forward_kl_ratio": 0.013962556176708444,
+            "target_error_kl_ratio": 0.8946584628293216
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.31388392334447157,
+            "fisher_cosine": 0.5645068439081885,
+            "target_projection": 0.279622912844516,
+            "forward_kl_ratio": 0.22349952939157275,
+            "target_error_kl_ratio": 0.42567193565832256
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.34104208604589237,
+            "fisher_cosine": 0.6616740918623027,
+            "target_projection": 0.23197933783792582,
+            "forward_kl_ratio": 0.1010456393928764,
+            "target_error_kl_ratio": 0.4830793316609362
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.7336840127957773,
+            "fisher_cosine": 0.8690370764019254,
+            "target_projection": 0.6276772034515563,
+            "forward_kl_ratio": 0.363235343036478,
+            "target_error_kl_ratio": 0.3719520383372813
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 0.9999999904339362,
+            "target_projection": 0.9999999904339362,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.6965402462550666,
+            "fisher_cosine": 0.8700811928738642,
+            "target_projection": 0.5430279492307376,
+            "forward_kl_ratio": 0.3420057960885628,
+            "target_error_kl_ratio": 0.20500443054621578
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.12276428593693589,
+            "fisher_cosine": 0.41021994988349647,
+            "target_projection": 0.2557987445870966,
+            "forward_kl_ratio": 0.3185478008710346,
+            "target_error_kl_ratio": 0.5258544474844599
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -0.7629913854390993,
+            "fisher_cosine": -0.24629803909988032,
+            "target_projection": -0.16286602139596526,
+            "forward_kl_ratio": 0.28196303475511836,
+            "target_error_kl_ratio": 1.1261191144252969
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.690453559560793,
+            "fisher_cosine": -0.669479956239311,
+            "target_projection": -0.737864344405196,
+            "forward_kl_ratio": 0.776736066171175,
+            "target_error_kl_ratio": 2.3880653699835395
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -3.856013038047503,
+            "fisher_cosine": -0.745781573224061,
+            "target_projection": -1.0103423594262981,
+            "forward_kl_ratio": 1.1234143215981196,
+            "target_error_kl_ratio": 3.1949381168680953
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": 0.0013967648882832195,
+            "fisher_cosine": 0.36611569144228284,
+            "target_projection": 0.267381158840524,
+            "forward_kl_ratio": 0.3734692366566825,
+            "target_error_kl_ratio": 0.6615218642231903
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.44567307779000154,
+            "fisher_cosine": -0.03380058612359849,
+            "target_projection": -0.021451272654537595,
+            "forward_kl_ratio": 0.2816919533333086,
+            "target_error_kl_ratio": 0.8472476431124597
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.6176760726949868,
+            "fisher_cosine": 0.7859564385985999,
+            "target_projection": 0.6120924162690449,
+            "forward_kl_ratio": 0.4381139106555189,
+            "target_error_kl_ratio": 0.3873931993522538
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -3.856013038047503,
+            "fisher_cosine": -0.745781573224061,
+            "target_projection": -1.0103423594262981,
+            "forward_kl_ratio": 1.1234143215981196,
+            "target_error_kl_ratio": 3.1949381168680953
+          }
+        }
+      },
+      "95": {
+        "examples": 22,
+        "mean_full_forward_kl": 0.007058361714536493,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.4846925222436219,
+            "fisher_cosine": 0.7324034469523065,
+            "target_projection": 0.3698477442588356,
+            "forward_kl_ratio": 0.15839362315791392,
+            "target_error_kl_ratio": 0.5585525741944691
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.696707233835917,
+            "fisher_cosine": 0.8547150256820616,
+            "target_projection": 0.5733294280530625,
+            "forward_kl_ratio": 0.28803809976652756,
+            "target_error_kl_ratio": 0.37752502592263537
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.7478135108599904,
+            "fisher_cosine": 0.8755597919629805,
+            "target_projection": 0.6465816785500916,
+            "forward_kl_ratio": 0.3537878397129623,
+            "target_error_kl_ratio": 0.32544006600690145
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.8758213154977794,
+            "fisher_cosine": 0.9358791838323149,
+            "target_projection": 0.869348874797686,
+            "forward_kl_ratio": 0.8355357499282694,
+            "target_error_kl_ratio": 0.04103126764457405
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.5243454568190791,
+            "fisher_cosine": 0.7241190951830963,
+            "target_projection": 0.5256052308377419,
+            "forward_kl_ratio": 0.32244090138787995,
+            "target_error_kl_ratio": 0.7145443476521657
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.7906432284008398,
+            "fisher_cosine": 0.9021281720212347,
+            "target_projection": 0.6764508317670354,
+            "forward_kl_ratio": 0.358231502010857,
+            "target_error_kl_ratio": 0.3344430309087438
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.568888151296649,
+            "fisher_cosine": 0.7805177901369503,
+            "target_projection": 0.45248161969923867,
+            "forward_kl_ratio": 0.29503047292804,
+            "target_error_kl_ratio": 0.24365231051791802
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.4846924414558629,
+            "fisher_cosine": 0.7324035713597238,
+            "target_projection": 0.36984746655091394,
+            "forward_kl_ratio": 0.15838565242017746,
+            "target_error_kl_ratio": 0.5585494761776664
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.5949163590697988,
+            "fisher_cosine": 0.7756006993963014,
+            "target_projection": 0.6647575913303343,
+            "forward_kl_ratio": 0.45245613275398644,
+            "target_error_kl_ratio": 0.4286998901511727
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.25652635075037644,
+            "fisher_cosine": 0.738022487734202,
+            "target_projection": 0.9408453346326429,
+            "forward_kl_ratio": 1.0018939648380711,
+            "target_error_kl_ratio": 0.4557975097391376
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -1.2263711583741719,
+            "fisher_cosine": 0.7940667446971377,
+            "target_projection": 1.7126056159832845,
+            "forward_kl_ratio": 3.6479675998207455,
+            "target_error_kl_ratio": 0.7106206298313996
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -2.16976556897006,
+            "fisher_cosine": 0.8116161893948975,
+            "target_projection": 2.023705390552112,
+            "forward_kl_ratio": 4.784043698595039,
+            "target_error_kl_ratio": 1.0204415776719322
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.2908783460257467,
+            "fisher_cosine": 0.641365319928683,
+            "target_projection": 0.6339605452579944,
+            "forward_kl_ratio": 0.5880177890792856,
+            "target_error_kl_ratio": 0.7910047990140703
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.41899914307414166,
+            "fisher_cosine": 0.7758645067275239,
+            "target_projection": 0.9338386122933138,
+            "forward_kl_ratio": 0.8838815129743699,
+            "target_error_kl_ratio": 0.4301734056261441
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.5560908804929605,
+            "fisher_cosine": 0.7545822316113797,
+            "target_projection": 0.4823605431857883,
+            "forward_kl_ratio": 0.3739815478321033,
+            "target_error_kl_ratio": 0.21326863610120328
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -2.16976556897006,
+            "fisher_cosine": 0.8116161893948975,
+            "target_projection": 2.023705390552112,
+            "forward_kl_ratio": 4.784043698595039,
+            "target_error_kl_ratio": 1.0204415776719322
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.7650251194893875,
+            "fisher_cosine": 0.886146058285217,
+            "target_projection": 0.6592173283926368,
+            "forward_kl_ratio": 0.49496633217956554,
+            "target_error_kl_ratio": 0.13390957344622662
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.5610173281361357,
+            "fisher_cosine": 0.7738886703316897,
+            "target_projection": 0.4482708051731189,
+            "forward_kl_ratio": 0.28802220177325827,
+            "target_error_kl_ratio": 0.2567571116809173
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.36154957405007504,
+            "fisher_cosine": 0.6625740168149049,
+            "target_projection": 0.25460537058036803,
+            "forward_kl_ratio": 0.11394175291936516,
+            "target_error_kl_ratio": 0.4646977641944376
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.15486697320975917,
+            "fisher_cosine": 0.4289136695262871,
+            "target_projection": 0.11079979579732585,
+            "forward_kl_ratio": 0.03961259916791256,
+            "target_error_kl_ratio": 0.8576857253658524
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.3153637827850233,
+            "fisher_cosine": 0.5715247317393197,
+            "target_projection": 0.387331833589375,
+            "forward_kl_ratio": 0.3638137683009098,
+            "target_error_kl_ratio": 0.3606719789880583
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.4151467333424199,
+            "fisher_cosine": 0.6796552656759924,
+            "target_projection": 0.31492371166473143,
+            "forward_kl_ratio": 0.20405209305935268,
+            "target_error_kl_ratio": 0.33131464059917853
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.6732946155978563,
+            "fisher_cosine": 0.8388583145130524,
+            "target_projection": 0.5574507152003976,
+            "forward_kl_ratio": 0.2742712082798752,
+            "target_error_kl_ratio": 0.4691242612921836
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.7650252760156705,
+            "fisher_cosine": 0.8861465923842962,
+            "target_projection": 0.6592157378836312,
+            "forward_kl_ratio": 0.4949700446601215,
+            "target_error_kl_ratio": 0.13391217400080127
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.23023688293842615,
+            "fisher_cosine": 0.5102272202233435,
+            "target_projection": 0.3488453833678585,
+            "forward_kl_ratio": 0.42716454859355163,
+            "target_error_kl_ratio": 0.37088754784096944
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -1.4620417956885046,
+            "fisher_cosine": -0.16335551887155372,
+            "target_projection": -0.17263058755533445,
+            "forward_kl_ratio": 1.049861630631815,
+            "target_error_kl_ratio": 1.2587455976277981
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -3.71305441218155,
+            "fisher_cosine": -0.5258072813367742,
+            "target_projection": -0.7737637723310873,
+            "forward_kl_ratio": 1.3084208055327116,
+            "target_error_kl_ratio": 2.696802843963247
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -5.198042122798141,
+            "fisher_cosine": -0.6572555280256692,
+            "target_projection": -1.1275299507236074,
+            "forward_kl_ratio": 1.805791697574017,
+            "target_error_kl_ratio": 3.322723009553189
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": -0.6522830423777339,
+            "fisher_cosine": 0.18873918140640392,
+            "target_projection": 0.19216289651402133,
+            "forward_kl_ratio": 0.6823109957556571,
+            "target_error_kl_ratio": 0.7238177500077315
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.6546762787538403,
+            "fisher_cosine": 0.013815835979123186,
+            "target_projection": 0.011371185715778989,
+            "forward_kl_ratio": 0.5023814033392413,
+            "target_error_kl_ratio": 0.7402733960732516
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.5840940384460664,
+            "fisher_cosine": 0.7693724051850422,
+            "target_projection": 0.5238115254705172,
+            "forward_kl_ratio": 0.2924698359455442,
+            "target_error_kl_ratio": 0.500403532192129
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -5.198042122798141,
+            "fisher_cosine": -0.6572555280256692,
+            "target_projection": -1.1275299507236074,
+            "forward_kl_ratio": 1.805791697574017,
+            "target_error_kl_ratio": 3.322723009553189
+          }
+        }
+      },
+      "119": {
+        "examples": 24,
+        "mean_full_forward_kl": 0.05842301125327746,
+        "all_replacement_removal_base_error": 0.0,
+        "routes": {
+          "insertion/replacement/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/replacement/top1": {
+            "fisher_fidelity": 0.5314367958720396,
+            "fisher_cosine": 0.808848400038394,
+            "target_projection": 0.3707934768324133,
+            "forward_kl_ratio": 0.22668236536854805,
+            "target_error_kl_ratio": 0.34941805034146506
+          },
+          "insertion/replacement/top2": {
+            "fisher_fidelity": 0.6802751802510623,
+            "fisher_cosine": 0.8464860676139625,
+            "target_projection": 0.5553422737011788,
+            "forward_kl_ratio": 0.4466461102213777,
+            "target_error_kl_ratio": 0.2077399133370054
+          },
+          "insertion/replacement/top4": {
+            "fisher_fidelity": 0.6824288316866447,
+            "fisher_cosine": 0.8291622798970757,
+            "target_projection": 0.6284046855149765,
+            "forward_kl_ratio": 0.6048258886381803,
+            "target_error_kl_ratio": 0.20591066773326044
+          },
+          "insertion/replacement/top8": {
+            "fisher_fidelity": 0.8008255911650696,
+            "fisher_cosine": 0.8954081740693716,
+            "target_projection": 0.774447644233981,
+            "forward_kl_ratio": 0.8307547789646424,
+            "target_error_kl_ratio": 0.12527266579301372
+          },
+          "insertion/replacement/all_ranked": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/replacement/early_0_3": {
+            "fisher_fidelity": 0.3791876230597999,
+            "fisher_cosine": 0.6642100162669611,
+            "target_projection": 0.606545140875204,
+            "forward_kl_ratio": 1.7081029580948972,
+            "target_error_kl_ratio": 1.3112659405802534
+          },
+          "insertion/replacement/middle_4_7": {
+            "fisher_fidelity": 0.780276559611076,
+            "fisher_cosine": 0.8931318350588183,
+            "target_projection": 0.6798452657992734,
+            "forward_kl_ratio": 0.5870920078447688,
+            "target_error_kl_ratio": 0.15822932445862076
+          },
+          "insertion/replacement/late_8_11": {
+            "fisher_fidelity": 0.5347163255689619,
+            "fisher_cosine": 0.7950184037307529,
+            "target_projection": 0.3840161391120163,
+            "forward_kl_ratio": 0.20584685564274918,
+            "target_error_kl_ratio": 0.4695604527976959
+          },
+          "insertion/replacement/all_layers": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "insertion/delta/none": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "insertion/delta/top1": {
+            "fisher_fidelity": 0.5314355559631279,
+            "fisher_cosine": 0.8088474425176511,
+            "target_projection": 0.37079266826338486,
+            "forward_kl_ratio": 0.22668196285771364,
+            "target_error_kl_ratio": 0.34941914958232445
+          },
+          "insertion/delta/top2": {
+            "fisher_fidelity": 0.6360554553311313,
+            "fisher_cosine": 0.7975760869236016,
+            "target_projection": 0.6293530643223249,
+            "forward_kl_ratio": 0.6218204247781057,
+            "target_error_kl_ratio": 0.22151123446809307
+          },
+          "insertion/delta/top4": {
+            "fisher_fidelity": 0.30693191268095166,
+            "fisher_cosine": 0.7503994496945167,
+            "target_projection": 0.9428988923173246,
+            "forward_kl_ratio": 1.602223234984943,
+            "target_error_kl_ratio": 0.5010602144778362
+          },
+          "insertion/delta/top8": {
+            "fisher_fidelity": -0.7086118699034138,
+            "fisher_cosine": 0.8220216302714403,
+            "target_projection": 1.6428905753422858,
+            "forward_kl_ratio": 4.3992865393171625,
+            "target_error_kl_ratio": 1.6219873150180826
+          },
+          "insertion/delta/all_ranked": {
+            "fisher_fidelity": -1.4790470390335138,
+            "fisher_cosine": 0.8617897990025996,
+            "target_projection": 2.0272193462004218,
+            "forward_kl_ratio": 5.651971714333549,
+            "target_error_kl_ratio": 2.128146292711825
+          },
+          "insertion/delta/early_0_3": {
+            "fisher_fidelity": 0.3858720091070289,
+            "fisher_cosine": 0.7009595791193438,
+            "target_projection": 0.7189914411468701,
+            "forward_kl_ratio": 1.5108953758131276,
+            "target_error_kl_ratio": 0.9827308261682002
+          },
+          "insertion/delta/middle_4_7": {
+            "fisher_fidelity": 0.5565793255658636,
+            "fisher_cosine": 0.7987835959196891,
+            "target_projection": 0.8660600364389749,
+            "forward_kl_ratio": 1.1267874377000904,
+            "target_error_kl_ratio": 0.3018181541524394
+          },
+          "insertion/delta/late_8_11": {
+            "fisher_fidelity": 0.531104011741053,
+            "fisher_cosine": 0.7999079684568872,
+            "target_projection": 0.3760664507567826,
+            "forward_kl_ratio": 0.20802975824503192,
+            "target_error_kl_ratio": 0.4512758602185959
+          },
+          "insertion/delta/all_layers": {
+            "fisher_fidelity": -1.4790470390335138,
+            "fisher_cosine": 0.8617897990025996,
+            "target_projection": 2.0272193462004218,
+            "forward_kl_ratio": 5.651971714333549,
+            "target_error_kl_ratio": 2.128146292711825
+          },
+          "removal/replacement/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/replacement/top1": {
+            "fisher_fidelity": 0.7772808500112987,
+            "fisher_cosine": 0.9258688205245126,
+            "target_projection": 0.5954359528081887,
+            "forward_kl_ratio": 0.3624219136951732,
+            "target_error_kl_ratio": 0.2789670307953459
+          },
+          "removal/replacement/top2": {
+            "fisher_fidelity": 0.551197384983251,
+            "fisher_cosine": 0.798759065279263,
+            "target_projection": 0.40266166669842196,
+            "forward_kl_ratio": 0.21139989445023483,
+            "target_error_kl_ratio": 0.49676371277212084
+          },
+          "removal/replacement/top4": {
+            "fisher_fidelity": 0.433020807025852,
+            "fisher_cosine": 0.6993875455729178,
+            "target_projection": 0.32345712008014427,
+            "forward_kl_ratio": 0.17716586958584138,
+            "target_error_kl_ratio": 0.6078394678064686
+          },
+          "removal/replacement/top8": {
+            "fisher_fidelity": 0.24113684199355911,
+            "fisher_cosine": 0.5665220513229269,
+            "target_projection": 0.16090059458278108,
+            "forward_kl_ratio": 0.0695538535281047,
+            "target_error_kl_ratio": 0.8276671027536512
+          },
+          "removal/replacement/all_ranked": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/replacement/early_0_3": {
+            "fisher_fidelity": 0.560628487750136,
+            "fisher_cosine": 0.7490919820804361,
+            "target_projection": 0.5780620066944321,
+            "forward_kl_ratio": 0.5561225598889893,
+            "target_error_kl_ratio": 0.47315955612982763
+          },
+          "removal/replacement/middle_4_7": {
+            "fisher_fidelity": 0.42503422596942275,
+            "fisher_cosine": 0.7108185386156196,
+            "target_projection": 0.3039258060893652,
+            "forward_kl_ratio": 0.15562046890365486,
+            "target_error_kl_ratio": 0.5884322638411146
+          },
+          "removal/replacement/late_8_11": {
+            "fisher_fidelity": 0.7271459247313945,
+            "fisher_cosine": 0.8728014912294381,
+            "target_projection": 0.5993463132192836,
+            "forward_kl_ratio": 0.4713783127226177,
+            "target_error_kl_ratio": 0.240395267515386
+          },
+          "removal/replacement/all_layers": {
+            "fisher_fidelity": 0.0,
+            "fisher_cosine": 0.0,
+            "target_projection": 0.0,
+            "forward_kl_ratio": 0.0,
+            "target_error_kl_ratio": 1.0
+          },
+          "removal/delta/none": {
+            "fisher_fidelity": 1.0,
+            "fisher_cosine": 1.0,
+            "target_projection": 1.0,
+            "forward_kl_ratio": 1.0,
+            "target_error_kl_ratio": 0.0
+          },
+          "removal/delta/top1": {
+            "fisher_fidelity": 0.7772805871877139,
+            "fisher_cosine": 0.9258684803991793,
+            "target_projection": 0.5954359744524839,
+            "forward_kl_ratio": 0.36242196417507977,
+            "target_error_kl_ratio": 0.2789671551539078
+          },
+          "removal/delta/top2": {
+            "fisher_fidelity": 0.3286860248666855,
+            "fisher_cosine": 0.5738118064252901,
+            "target_projection": 0.3155127469454071,
+            "forward_kl_ratio": 0.2582438855070658,
+            "target_error_kl_ratio": 0.7176949411283459
+          },
+          "removal/delta/top4": {
+            "fisher_fidelity": -0.5534846829846967,
+            "fisher_cosine": 0.0421374982726292,
+            "target_projection": 0.033174661169535144,
+            "forward_kl_ratio": 0.6445403972413698,
+            "target_error_kl_ratio": 1.5826036335635338
+          },
+          "removal/delta/top8": {
+            "fisher_fidelity": -2.0410801240455583,
+            "fisher_cosine": -0.35947648671793364,
+            "target_projection": -0.40035562937538266,
+            "forward_kl_ratio": 1.0043244063674568,
+            "target_error_kl_ratio": 2.859571869180158
+          },
+          "removal/delta/all_ranked": {
+            "fisher_fidelity": -2.4816885273739144,
+            "fisher_cosine": -0.5055218615925393,
+            "target_projection": -0.580813839970875,
+            "forward_kl_ratio": 1.0693073070695696,
+            "target_error_kl_ratio": 3.167073871375211
+          },
+          "removal/delta/early_0_3": {
+            "fisher_fidelity": 0.40574896104136315,
+            "fisher_cosine": 0.6639017439649979,
+            "target_projection": 0.5649995732672596,
+            "forward_kl_ratio": 0.696622567987029,
+            "target_error_kl_ratio": 0.5947551572228434
+          },
+          "removal/delta/middle_4_7": {
+            "fisher_fidelity": -0.31590051705562106,
+            "fisher_cosine": 0.09310268520657689,
+            "target_projection": 0.06170958009962152,
+            "forward_kl_ratio": 0.4967533343253609,
+            "target_error_kl_ratio": 1.3454363379075462
+          },
+          "removal/delta/late_8_11": {
+            "fisher_fidelity": 0.731753050563974,
+            "fisher_cosine": 0.873880434122474,
+            "target_projection": 0.6075528528798233,
+            "forward_kl_ratio": 0.4894106347092654,
+            "target_error_kl_ratio": 0.25177723263524326
+          },
+          "removal/delta/all_layers": {
+            "fisher_fidelity": -2.4816885273739144,
+            "fisher_cosine": -0.5055218615925393,
+            "target_projection": -0.580813839970875,
+            "forward_kl_ratio": 1.0693073070695696,
+            "target_error_kl_ratio": 3.167073871375211
+          }
+        }
+      }
+    }
+  }
+}

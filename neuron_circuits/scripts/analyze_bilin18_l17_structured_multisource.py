@@ -1,0 +1,6 @@
+from pathlib import Path
+import json,numpy as np
+A=Path(__file__).resolve().parents[1]/'artifacts/bilin18_tensor_decomposition';S=A/'bilin18_l17_structured_multisource';j=json.loads(S.with_suffix('.json').read_text());z=np.load(S.with_name(S.name+'_rows.npz'));rng=np.random.default_rng(j['config']['bootstrap_seed']);ix=(rng.integers(0,8,(4000,64,8))*64+np.arange(64)[None,:,None]).reshape(4000,512);est=[];draw=[];names=[];threshold=[];k=j['selection']['source_rank']
+for sign in ['negative','positive']:
+ e=z[sign+'_effects'][:,0];v=z[sign+f'_k{k}'][:,0];base=z[sign+'_k1'][:,0];names.extend(['absolute_'+sign,'source_gain_'+sign]);threshold.extend([.95,0]);est.extend([1-v.sum()/e.sum(),(base-v).sum()/e.sum()]);draw.extend([1-v[ix].sum(1)/e[ix].sum(1),(base-v)[ix].sum(1)/e[ix].sum(1)])
+est=np.array(est);draw=np.stack(draw,-1);sd=draw.std(0,ddof=1);active=sd>0;q=np.quantile(np.max(abs((draw[:,active]-est[active])/sd[active]),axis=1),.95) if np.any(active) else 0;j['primary_statistics']={n:{'estimate':float(v),'joint95_interval':[float(v-q*s),float(v+q*s)],'threshold':t,'pass':bool(v-q*s>t)} for n,v,s,t in zip(names,est,sd,threshold)};j['bootstrap_scope']='4000 paired within64 fixed donor strata, joint4 standardized bands conditional on fitting/calibration/source pool';S.with_suffix('.json').write_text(json.dumps(j,indent=2)+'\n');print(j['primary_statistics'])

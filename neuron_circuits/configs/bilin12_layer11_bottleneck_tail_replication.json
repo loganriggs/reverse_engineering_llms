@@ -1,0 +1,37 @@
+{
+  "status": "locked-after-independent-raw-natural-cleaning-validation-before-layer11-tail-analysis",
+  "model_repo": "Elriggs/gpt2-bilinear-sqrd-attn-12l-6h-768embd",
+  "snapshot_commit": "51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "layer": 11,
+  "seed": 20261121,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "outlier_rank": 4,
+  "tail_ranks": [4, 16, 32, 64, 128],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 12000,
+    "rows": 512
+  },
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 13000, "rows": 256},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 0, "rows": 256},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 0, "rows": 256}
+  },
+  "behavior": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 14000, "rows": 128},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 512, "rows": 128},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 512, "rows": 128}
+  },
+  "hypotheses": {
+    "T1_raw4_is_cross_corpus_natural_bottleneck": "Raw weight outliers capture at least 75% as much centered-write variance as the corpus-optimal rank-four space on every corpus.",
+    "T2_raw4_alone_is_behaviorally_sufficient": "Keeping only the post-bias mean plus raw outlier-4 component gives median final-distribution KL at most 0.02 on every corpus.",
+    "T3_raw4_plus_tail16_is_near_sufficient": "Keeping raw outlier-4 plus the frozen FineWeb residual-tail 16-space gives median KL at most 0.02 on every corpus.",
+    "T4_raw4_plus_tail64_is_high_fidelity": "Keeping raw outlier-4 plus the frozen FineWeb residual-tail 64-space gives median KL at most 0.005 on every corpus.",
+    "T5_tail16_is_stable_and_compact": "The frozen FineWeb tail-16 space has mean canonical cosine at least 0.70 and at least 75% of optimal tail-16 variance on every corpus.",
+    "T6_learned_tail_beats_random_tail": "Raw outlier-4 plus learned tail-16 gives at most half the median KL of raw outlier-4 plus a matched random residual 16-space on every corpus.",
+    "T7_weight_anchored_program_beats_unconstrained_pca": "Raw outlier-4 plus tail-16 gives no more median KL than the unconstrained natural rank-20 PCA space on every corpus.",
+    "T8_full_projection_is_identity": "Full output-space retention changes the final distribution by median KL at most 1e-7 on every corpus."
+  }
+}

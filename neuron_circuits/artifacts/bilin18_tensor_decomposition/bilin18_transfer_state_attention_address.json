@@ -1,0 +1,725 @@
+{
+  "config": {
+    "status": "locked-after-dynamic-site-selection-before-attention-address-test",
+    "source_config": "configs/bilin18_transfer_state_dynamic_read_selector.json",
+    "dynamic_result": "artifacts/bilin18_tensor_decomposition/bilin18_transfer_state_dynamic_read_selector.json",
+    "artifact_stem": "bilin18_transfer_state_attention_address",
+    "site_count": 8,
+    "hypotheses": {
+      "A1_attention_rollout_recovers_fisher_sites": "Median top-8 Jaccard between attention-rollout and Fisher-demand sites is at least 0.50 at every boundary.",
+      "A2_attention_addresses_preserve_causal_effect": "Attention-rollout site fidelity is within 0.10 of Fisher-selected top-8 fidelity in at least half of target-boundary cells.",
+      "A3_attention_addresses_improve_fixed_reads_early": "At boundary 6, attention-rollout sites exceed the fixed current-plus-previous chart by at least 0.05 for all three target heads.",
+      "A4_rollout_beats_direct_attention": "Attention rollout exceeds direct query-to-source attention in both median top-8 Jaccard and mean causal fidelity.",
+      "A5_attention_addresses_do_not_fully_explain_joint": "The unrestricted joint chart exceeds attention-rollout sites by at least 0.10 in at least one cell."
+    }
+  },
+  "hypotheses": {
+    "A1_attention_rollout_recovers_fisher_sites": {
+      "supported": false
+    },
+    "A2_attention_addresses_preserve_causal_effect": {
+      "supported": true
+    },
+    "A3_attention_addresses_improve_fixed_reads_early": {
+      "supported": false
+    },
+    "A4_rollout_beats_direct_attention": {
+      "supported": false
+    },
+    "A5_attention_addresses_do_not_fully_explain_joint": {
+      "supported": true
+    },
+    "attention_jvp_forward_invariant": {
+      "supported": true,
+      "maximum_relative_error": 0.0
+    }
+  },
+  "diagnostics": [
+    {
+      "row": 0,
+      "boundaries": {
+        "6": {
+          "fisher_sites": [
+            63,
+            95,
+            127,
+            31,
+            94,
+            62,
+            30,
+            88
+          ],
+          "direct_sites": [
+            63,
+            30,
+            62,
+            31,
+            28,
+            27,
+            29,
+            24
+          ],
+          "rollout_sites": [
+            0,
+            2,
+            1,
+            4,
+            3,
+            5,
+            11,
+            10
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 0.0
+        },
+        "10": {
+          "fisher_sites": [
+            63,
+            95,
+            127,
+            31,
+            90,
+            94,
+            58,
+            37
+          ],
+          "direct_sites": [
+            63,
+            62,
+            30,
+            31,
+            28,
+            27,
+            24,
+            29
+          ],
+          "rollout_sites": [
+            0,
+            3,
+            2,
+            5,
+            4,
+            1,
+            11,
+            12
+          ],
+          "direct_jaccard": 0.14285714285714285,
+          "rollout_jaccard": 0.0
+        },
+        "14": {
+          "fisher_sites": [
+            63,
+            95,
+            127,
+            31,
+            53,
+            9,
+            90,
+            37
+          ],
+          "direct_sites": [
+            63,
+            62,
+            24,
+            27,
+            61,
+            29,
+            28,
+            60
+          ],
+          "rollout_sites": [
+            63,
+            31,
+            95,
+            127,
+            4,
+            24,
+            5,
+            9
+          ],
+          "direct_jaccard": 0.06666666666666667,
+          "rollout_jaccard": 0.45454545454545453
+        },
+        "17": {
+          "fisher_sites": [
+            63,
+            95,
+            127,
+            31,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_sites": [
+            7,
+            6,
+            4,
+            5,
+            1,
+            0,
+            2,
+            3
+          ],
+          "rollout_sites": [
+            63,
+            31,
+            95,
+            127,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 1.0
+        }
+      }
+    },
+    {
+      "row": 1,
+      "boundaries": {
+        "6": {
+          "fisher_sites": [
+            95,
+            31,
+            127,
+            63,
+            10,
+            94,
+            30,
+            29
+          ],
+          "direct_sites": [
+            10,
+            30,
+            29,
+            95,
+            31,
+            94,
+            25,
+            63
+          ],
+          "rollout_sites": [
+            0,
+            1,
+            2,
+            3,
+            10,
+            8,
+            4,
+            9
+          ],
+          "direct_jaccard": 0.7777777777777778,
+          "rollout_jaccard": 0.06666666666666667
+        },
+        "10": {
+          "fisher_sites": [
+            31,
+            95,
+            127,
+            63,
+            10,
+            30,
+            94,
+            104
+          ],
+          "direct_sites": [
+            10,
+            30,
+            31,
+            25,
+            29,
+            95,
+            24,
+            94
+          ],
+          "rollout_sites": [
+            0,
+            1,
+            10,
+            2,
+            9,
+            8,
+            3,
+            11
+          ],
+          "direct_jaccard": 0.45454545454545453,
+          "rollout_jaccard": 0.06666666666666667
+        },
+        "14": {
+          "fisher_sites": [
+            31,
+            95,
+            127,
+            63,
+            10,
+            13,
+            30,
+            1
+          ],
+          "direct_sites": [
+            10,
+            25,
+            29,
+            24,
+            31,
+            30,
+            17,
+            1
+          ],
+          "rollout_sites": [
+            10,
+            31,
+            95,
+            63,
+            127,
+            1,
+            25,
+            0
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 0.6
+        },
+        "17": {
+          "fisher_sites": [
+            95,
+            31,
+            127,
+            63,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_sites": [
+            7,
+            6,
+            4,
+            5,
+            1,
+            0,
+            2,
+            3
+          ],
+          "rollout_sites": [
+            63,
+            31,
+            95,
+            127,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 1.0
+        }
+      }
+    },
+    {
+      "row": 2,
+      "boundaries": {
+        "6": {
+          "fisher_sites": [
+            127,
+            31,
+            95,
+            63,
+            26,
+            126,
+            25,
+            11
+          ],
+          "direct_sites": [
+            11,
+            31,
+            30,
+            28,
+            126,
+            26,
+            29,
+            127
+          ],
+          "rollout_sites": [
+            0,
+            2,
+            1,
+            5,
+            3,
+            6,
+            9,
+            7
+          ],
+          "direct_jaccard": 0.45454545454545453,
+          "rollout_jaccard": 0.0
+        },
+        "10": {
+          "fisher_sites": [
+            127,
+            31,
+            95,
+            63,
+            11,
+            126,
+            124,
+            125
+          ],
+          "direct_sites": [
+            11,
+            31,
+            30,
+            28,
+            19,
+            61,
+            29,
+            62
+          ],
+          "rollout_sites": [
+            0,
+            2,
+            5,
+            1,
+            6,
+            11,
+            3,
+            10
+          ],
+          "direct_jaccard": 0.14285714285714285,
+          "rollout_jaccard": 0.06666666666666667
+        },
+        "14": {
+          "fisher_sites": [
+            127,
+            31,
+            63,
+            95,
+            11,
+            28,
+            16,
+            105
+          ],
+          "direct_sites": [
+            11,
+            23,
+            28,
+            13,
+            19,
+            16,
+            29,
+            31
+          ],
+          "rollout_sites": [
+            11,
+            31,
+            127,
+            95,
+            63,
+            0,
+            5,
+            13
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 0.45454545454545453
+        },
+        "17": {
+          "fisher_sites": [
+            127,
+            63,
+            31,
+            95,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_sites": [
+            7,
+            6,
+            4,
+            5,
+            1,
+            0,
+            2,
+            3
+          ],
+          "rollout_sites": [
+            63,
+            31,
+            95,
+            127,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 1.0
+        }
+      }
+    },
+    {
+      "row": 3,
+      "boundaries": {
+        "6": {
+          "fisher_sites": [
+            63,
+            95,
+            31,
+            127,
+            121,
+            123,
+            29,
+            94
+          ],
+          "direct_sites": [
+            30,
+            29,
+            28,
+            94,
+            31,
+            54,
+            26,
+            95
+          ],
+          "rollout_sites": [
+            0,
+            1,
+            3,
+            2,
+            6,
+            4,
+            18,
+            5
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 0.0
+        },
+        "10": {
+          "fisher_sites": [
+            63,
+            127,
+            95,
+            31,
+            54,
+            29,
+            30,
+            94
+          ],
+          "direct_sites": [
+            30,
+            28,
+            54,
+            29,
+            31,
+            26,
+            94,
+            95
+          ],
+          "rollout_sites": [
+            0,
+            1,
+            2,
+            3,
+            6,
+            18,
+            4,
+            19
+          ],
+          "direct_jaccard": 0.6,
+          "rollout_jaccard": 0.0
+        },
+        "14": {
+          "fisher_sites": [
+            63,
+            127,
+            95,
+            31,
+            54,
+            40,
+            21,
+            123
+          ],
+          "direct_sites": [
+            30,
+            28,
+            54,
+            31,
+            26,
+            29,
+            62,
+            25
+          ],
+          "rollout_sites": [
+            31,
+            63,
+            95,
+            127,
+            54,
+            28,
+            26,
+            30
+          ],
+          "direct_jaccard": 0.14285714285714285,
+          "rollout_jaccard": 0.45454545454545453
+        },
+        "17": {
+          "fisher_sites": [
+            63,
+            127,
+            95,
+            31,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_sites": [
+            7,
+            6,
+            4,
+            5,
+            1,
+            0,
+            2,
+            3
+          ],
+          "rollout_sites": [
+            63,
+            31,
+            95,
+            127,
+            3,
+            2,
+            0,
+            1
+          ],
+          "direct_jaccard": 0.3333333333333333,
+          "rollout_jaccard": 1.0
+        }
+      }
+    }
+  ],
+  "median_jaccard": {
+    "direct": {
+      "6": 0.3939393939393939,
+      "10": 0.2987012987012987,
+      "14": 0.23809523809523808,
+      "17": 0.3333333333333333
+    },
+    "rollout": {
+      "6": 0.0,
+      "10": 0.03333333333333333,
+      "14": 0.45454545454545453,
+      "17": 1.0
+    }
+  },
+  "mean_fidelity": {
+    "direct": 0.1452688506365156,
+    "rollout": 0.27384955478448475
+  },
+  "results": {
+    "L0H7": {
+      "6": {
+        "direct": {
+          "response_fidelity": 0.23530518826147073
+        },
+        "rollout": {
+          "response_fidelity": -0.0003487869965508317
+        }
+      },
+      "10": {
+        "direct": {
+          "response_fidelity": 0.2553634248929455
+        },
+        "rollout": {
+          "response_fidelity": 0.0034684160624244287
+        }
+      },
+      "14": {
+        "direct": {
+          "response_fidelity": 0.10056345445669268
+        },
+        "rollout": {
+          "response_fidelity": 0.6372399967593183
+        }
+      },
+      "17": {
+        "direct": {
+          "response_fidelity": 0.0
+        },
+        "rollout": {
+          "response_fidelity": 0.5941158233197381
+        }
+      }
+    },
+    "L4H2": {
+      "6": {
+        "direct": {
+          "response_fidelity": 0.2210110338225897
+        },
+        "rollout": {
+          "response_fidelity": 0.01146475091969712
+        }
+      },
+      "10": {
+        "direct": {
+          "response_fidelity": 0.19634322304783658
+        },
+        "rollout": {
+          "response_fidelity": 0.007851457341781387
+        }
+      },
+      "14": {
+        "direct": {
+          "response_fidelity": 0.09497757488311365
+        },
+        "rollout": {
+          "response_fidelity": 0.482781939769905
+        }
+      },
+      "17": {
+        "direct": {
+          "response_fidelity": 0.0
+        },
+        "rollout": {
+          "response_fidelity": 0.45230049882376644
+        }
+      }
+    },
+    "L5H1": {
+      "6": {
+        "direct": {
+          "response_fidelity": 0.2626154688044662
+        },
+        "rollout": {
+          "response_fidelity": 0.010967223620007127
+        }
+      },
+      "10": {
+        "direct": {
+          "response_fidelity": 0.2645898608169026
+        },
+        "rollout": {
+          "response_fidelity": 0.02169051151794177
+        }
+      },
+      "14": {
+        "direct": {
+          "response_fidelity": 0.11245697865216953
+        },
+        "rollout": {
+          "response_fidelity": 0.5452299581676163
+        }
+      },
+      "17": {
+        "direct": {
+          "response_fidelity": 0.0
+        },
+        "rollout": {
+          "response_fidelity": 0.5194328681081715
+        }
+      }
+    }
+  }
+}

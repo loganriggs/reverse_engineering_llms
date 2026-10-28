@@ -1,0 +1,560 @@
+{
+  "experiment": "H466",
+  "config": {
+    "experiment": "H466",
+    "seed": 20271121,
+    "bootstrap_seed": 20271122,
+    "train": 256,
+    "validation": 128,
+    "test": 128,
+    "feature_rank": 64,
+    "output_rank": 16,
+    "steps": 256,
+    "batch_size": 64,
+    "learning_rate": 0.01,
+    "validation_every": 16,
+    "amplitudes": [
+      -1,
+      1
+    ],
+    "design": "Exploratory fixed-budget empirical bilinear canonical form. Reassemble H454512 cached L17 inputs; randomized document-disjoint train256/validation128/test128, all historically used. Center polynomial kernel ((x dot xprime)/1152)^2 on normalized training inputs; retain64 positive eigenmodes, whiten on train. Mean native write frozen. Best rank16 write regression by SVD; KL and observed-token CE start from that map and optimize same64x16/16x1152 normalized map for256 Adam steps. Select only own validation objective including step0. Canonicalize each learned effective coefficient matrix by SVD without changing predictions. Evaluate all three on write error, native-output KL and CE; intervention evaluation predicts MLP at normalized(pre-alpha*centered head6 donor), direct residual pre fixed. No retained native factors or output oracle coefficients. Data-supported representation, not unique weight canon or whole-network replacement. Primary descriptive paired bootstrap intervals; no success gates for this exploratory pilot.",
+    "hashes": {
+      "bilin18_l17_compact_operation_confirmation_rows.npz": "59380a65b22e3f99beb6d4bf35a963e199160a77e00c1de769b95b195a1d1f0b",
+      "bilin18_l17_compact_operation_confirmation_selection.json": "a1deb9b6b3d58ac60699752c5761230c566aaa1a5384d11eaeec6630f4b219b1",
+      "bilin18_l17_unprojected_finite_confirmation_rows.npz": "2f959c612483cf8bb57a5ccdfb89d6407f34fea110fa039a317fd79e3e02fe28",
+      "bilin18_l17_unprojected_finite_confirmation_selection.json": "e4b5a632c1ecd9fb287ee4563499e32bbc0bf9665f41d5220e90d11a8f336d05",
+      "bilin18_l17_covariance_source_confirmation_rows.npz": "f927bc40ce446508bfa83177394d6f667b5128878fd82364f065c81a62da512d",
+      "bilin18_l17_covariance_source_confirmation_selection.json": "e152ebf2957447290790986b5e79f24ea3f6a9b2ebf84c9404c82144530dece4",
+      "bilin18_l17_covariance_fresh_confirmation_rows.npz": "9a603677c130bde8cf1ef47f0079d430062de32e5b29402615db99e4816d0f96",
+      "bilin18_l17_covariance_fresh_confirmation_selection.json": "6e0065534246cfc0235e477bc8d1d2f23331c50f8cb52f8deac31cdf44a39628",
+      "bilin18_l17_covariance_source_confirmation_source_audit.npz": "dc9661be2b50998b81cc8d16cb1e3401cd5e65b505f0e6992487f05ac691b828",
+      "bilin18_compact_operation_confirmation_documents.npy": "0165f182eb785d302e9bd26dd04ba4dd03b8eba6b5f1497bd8b15248520f0e0f"
+    }
+  },
+  "metrics": {
+    "intact_write": {
+      "normalized_write_mse": 0.17563128931215033,
+      "KL": 0.12548633735679365,
+      "CE_delta": 0.03210936677681363,
+      "top1_agreement": 0.8359375
+    },
+    "intact_kl": {
+      "normalized_write_mse": 0.17563128931215033,
+      "KL": 0.12548633735679365,
+      "CE_delta": 0.03210936677681363,
+      "top1_agreement": 0.8359375
+    },
+    "intact_ce": {
+      "normalized_write_mse": 0.17563128931215033,
+      "KL": 0.12548633735679365,
+      "CE_delta": 0.03210936677681363,
+      "top1_agreement": 0.8359375
+    },
+    "negative_write": {
+      "normalized_write_mse": 0.1785587323247455,
+      "KL": 0.13024566344095878,
+      "CE_delta": 0.03958579193325757,
+      "top1_agreement": 0.828125
+    },
+    "negative_kl": {
+      "normalized_write_mse": 0.1785587323247455,
+      "KL": 0.13024566344095878,
+      "CE_delta": 0.03958579193325757,
+      "top1_agreement": 0.828125
+    },
+    "negative_ce": {
+      "normalized_write_mse": 0.1785587323247455,
+      "KL": 0.13024566344095878,
+      "CE_delta": 0.03958579193325757,
+      "top1_agreement": 0.828125
+    },
+    "positive_write": {
+      "normalized_write_mse": 0.18000842533365358,
+      "KL": 0.12572717565260522,
+      "CE_delta": 0.028454108321220344,
+      "top1_agreement": 0.8359375
+    },
+    "positive_kl": {
+      "normalized_write_mse": 0.18000842533365358,
+      "KL": 0.12572717565260522,
+      "CE_delta": 0.028454108321220344,
+      "top1_agreement": 0.8359375
+    },
+    "positive_ce": {
+      "normalized_write_mse": 0.18000842533365358,
+      "KL": 0.12572717565260522,
+      "CE_delta": 0.028454108321220344,
+      "top1_agreement": 0.8359375
+    }
+  },
+  "objective_matrix": {
+    "train_write": {
+      "write": 0.08592689037322998,
+      "kl": 0.08926564339687654,
+      "ce": 3.0760318183409225
+    },
+    "train_kl": {
+      "write": 0.08592689037322998,
+      "kl": 0.08926564339687654,
+      "ce": 3.0760318183409225
+    },
+    "train_ce": {
+      "write": 0.08592689037322998,
+      "kl": 0.08926564339687654,
+      "ce": 3.0760318183409225
+    },
+    "validation_write": {
+      "write": 0.1523212194442749,
+      "kl": 0.14544009361249832,
+      "ce": 3.2677887949132955
+    },
+    "validation_kl": {
+      "write": 0.1523212194442749,
+      "kl": 0.14544009361249832,
+      "ce": 3.2677887949132955
+    },
+    "validation_ce": {
+      "write": 0.1523212194442749,
+      "kl": 0.14544009361249832,
+      "ce": 3.2677887949132955
+    },
+    "test_write": {
+      "write": 0.17563125491142273,
+      "kl": 0.1254863404919288,
+      "ce": 2.76171621963899
+    },
+    "test_kl": {
+      "write": 0.17563125491142273,
+      "kl": 0.1254863404919288,
+      "ce": 2.76171621963899
+    },
+    "test_ce": {
+      "write": 0.17563125491142273,
+      "kl": 0.1254863404919288,
+      "ce": 2.76171621963899
+    }
+  },
+  "training": {
+    "kl": {
+      "selected_step": 0,
+      "history": [
+        {
+          "step": 0,
+          "validation": 0.14544009361249832
+        },
+        {
+          "step": 16,
+          "validation": 0.20155220433645618,
+          "training_batch_loss": 0.15461506194765218
+        },
+        {
+          "step": 32,
+          "validation": 0.20425784586614332,
+          "training_batch_loss": 0.20092853118313148
+        },
+        {
+          "step": 48,
+          "validation": 0.19075015624020208,
+          "training_batch_loss": 0.08974334750539131
+        },
+        {
+          "step": 64,
+          "validation": 0.17911157282238283,
+          "training_batch_loss": 0.06074366868801037
+        },
+        {
+          "step": 80,
+          "validation": 0.16403586145707538,
+          "training_batch_loss": 0.031355890218197124
+        },
+        {
+          "step": 96,
+          "validation": 0.16919173629396284,
+          "training_batch_loss": 0.04833937777502906
+        },
+        {
+          "step": 112,
+          "validation": 0.16473217767851683,
+          "training_batch_loss": 0.03958456643893388
+        },
+        {
+          "step": 128,
+          "validation": 0.16068452866146465,
+          "training_batch_loss": 0.028546775745688292
+        },
+        {
+          "step": 144,
+          "validation": 0.1569775131087235,
+          "training_batch_loss": 0.03171506884918489
+        },
+        {
+          "step": 160,
+          "validation": 0.1568220049265019,
+          "training_batch_loss": 0.028076099463815077
+        },
+        {
+          "step": 176,
+          "validation": 0.16122888732541923,
+          "training_batch_loss": 0.026621231098638842
+        },
+        {
+          "step": 192,
+          "validation": 0.1600806012094526,
+          "training_batch_loss": 0.028710299709502222
+        },
+        {
+          "step": 208,
+          "validation": 0.15382489934453014,
+          "training_batch_loss": 0.03029114477259757
+        },
+        {
+          "step": 224,
+          "validation": 0.16171256068811493,
+          "training_batch_loss": 0.032043404389142306
+        },
+        {
+          "step": 240,
+          "validation": 0.17452386535096123,
+          "training_batch_loss": 0.04753557615382399
+        },
+        {
+          "step": 256,
+          "validation": 0.1720059989937599,
+          "training_batch_loss": 0.036594675858650776
+        }
+      ]
+    },
+    "ce": {
+      "selected_step": 0,
+      "history": [
+        {
+          "step": 0,
+          "validation": 3.2677887949132955
+        },
+        {
+          "step": 16,
+          "validation": 3.9642502354376177,
+          "training_batch_loss": 1.0187524546833482
+        },
+        {
+          "step": 32,
+          "validation": 4.313173705654449,
+          "training_batch_loss": 0.36682420014043227
+        },
+        {
+          "step": 48,
+          "validation": 4.635751234779095,
+          "training_batch_loss": 0.17329488827276324
+        },
+        {
+          "step": 64,
+          "validation": 4.790288758665296,
+          "training_batch_loss": 0.07477442788020572
+        },
+        {
+          "step": 80,
+          "validation": 4.7729021916926815,
+          "training_batch_loss": 0.16379513656824812
+        },
+        {
+          "step": 96,
+          "validation": 4.798360865098962,
+          "training_batch_loss": 0.052013117677193
+        },
+        {
+          "step": 112,
+          "validation": 4.867025275054259,
+          "training_batch_loss": 0.03575157346187632
+        },
+        {
+          "step": 128,
+          "validation": 4.922002014272248,
+          "training_batch_loss": 0.025599735242152852
+        },
+        {
+          "step": 144,
+          "validation": 4.938202401106375,
+          "training_batch_loss": 0.017676707561131082
+        },
+        {
+          "step": 160,
+          "validation": 4.997742613563769,
+          "training_batch_loss": 0.030611056571419097
+        },
+        {
+          "step": 176,
+          "validation": 5.020429645227038,
+          "training_batch_loss": 0.021059933754638355
+        },
+        {
+          "step": 192,
+          "validation": 5.080747705669127,
+          "training_batch_loss": 0.03805641182058314
+        },
+        {
+          "step": 208,
+          "validation": 5.115008371103382,
+          "training_batch_loss": 0.019599845340626247
+        },
+        {
+          "step": 224,
+          "validation": 5.13253691155479,
+          "training_batch_loss": 0.01651665821230293
+        },
+        {
+          "step": 240,
+          "validation": 5.205118209027589,
+          "training_batch_loss": 0.013256542912125621
+        },
+        {
+          "step": 256,
+          "validation": 5.2184751251114285,
+          "training_batch_loss": 0.023901445042454103
+        }
+      ]
+    }
+  },
+  "canonical_singular_values": {
+    "write": [
+      22.434834141695323,
+      17.038173303139608,
+      11.487965401257616,
+      8.790938766452795,
+      4.670040238076623,
+      2.916758290815029,
+      2.2515830441155984,
+      2.024106510597248,
+      1.5796201761530035,
+      1.2552503573512594,
+      1.1917905465444543,
+      1.0965125762881514,
+      1.0741993703714068,
+      1.028617130322887,
+      0.950785907463983,
+      0.9188231425879628
+    ],
+    "kl": [
+      22.434834141695323,
+      17.038173303139608,
+      11.487965401257616,
+      8.790938766452795,
+      4.670040238076623,
+      2.916758290815029,
+      2.2515830441155984,
+      2.024106510597248,
+      1.5796201761530035,
+      1.2552503573512594,
+      1.1917905465444543,
+      1.0965125762881514,
+      1.0741993703714068,
+      1.028617130322887,
+      0.950785907463983,
+      0.9188231425879628
+    ],
+    "ce": [
+      22.434834141695323,
+      17.038173303139608,
+      11.487965401257616,
+      8.790938766452795,
+      4.670040238076623,
+      2.916758290815029,
+      2.2515830441155984,
+      2.024106510597248,
+      1.5796201761530035,
+      1.2552503573512594,
+      1.1917905465444543,
+      1.0965125762881514,
+      1.0741993703714068,
+      1.028617130322887,
+      0.950785907463983,
+      0.9188231425879628
+    ]
+  },
+  "numerical_gates": {
+    "whitening": true,
+    "gauge_reconstruction": true,
+    "cache_replay": true
+  },
+  "whitening_max_abs": 2.218262173947494e-08,
+  "gauge_relative_errors": {
+    "write": 1.8277950577339385e-14,
+    "kl": 1.8277950577339385e-14,
+    "ce": 1.8277950577339385e-14
+  },
+  "cached_state_max_abs": 0.046875,
+  "cache_relative": 2.457549044265761e-07,
+  "native_double_relative": 2.50393846551454e-07,
+  "cached_double_relative": 1.8768690713983668e-07,
+  "scope": "exploratory canonical representative in fixed64-dimensional empirical bilinear feature family; histories all reused",
+  "unique_completed_documents": 12992,
+  "descriptive_document_bootstrap95": {
+    "intact_write": [
+      [
+        0.13935256912373006,
+        0.21854272289274376
+      ],
+      [
+        0.10278689349775923,
+        0.15220451594393536
+      ],
+      [
+        -0.043174880980711615,
+        0.11211403551080945
+      ],
+      [
+        0.7734375,
+        0.8984375
+      ]
+    ],
+    "intact_kl": [
+      [
+        0.13935256912373006,
+        0.21854272289274376
+      ],
+      [
+        0.10278689349775923,
+        0.15220451594393536
+      ],
+      [
+        -0.043174880980711615,
+        0.11211403551080945
+      ],
+      [
+        0.7734375,
+        0.8984375
+      ]
+    ],
+    "intact_ce": [
+      [
+        0.13935256912373006,
+        0.21854272289274376
+      ],
+      [
+        0.10278689349775923,
+        0.15220451594393536
+      ],
+      [
+        -0.043174880980711615,
+        0.11211403551080945
+      ],
+      [
+        0.7734375,
+        0.8984375
+      ]
+    ],
+    "negative_write": [
+      [
+        0.1426140011753887,
+        0.22066925191975315
+      ],
+      [
+        0.1065329611116801,
+        0.15863746917490035
+      ],
+      [
+        -0.03480363905326269,
+        0.11752841008324313
+      ],
+      [
+        0.7654296875000001,
+        0.890625
+      ]
+    ],
+    "negative_kl": [
+      [
+        0.1426140011753887,
+        0.22066925191975315
+      ],
+      [
+        0.1065329611116801,
+        0.15863746917490035
+      ],
+      [
+        -0.03480363905326269,
+        0.11752841008324313
+      ],
+      [
+        0.7654296875000001,
+        0.890625
+      ]
+    ],
+    "negative_ce": [
+      [
+        0.1426140011753887,
+        0.22066925191975315
+      ],
+      [
+        0.1065329611116801,
+        0.15863746917490035
+      ],
+      [
+        -0.03480363905326269,
+        0.11752841008324313
+      ],
+      [
+        0.7654296875000001,
+        0.890625
+      ]
+    ],
+    "positive_write": [
+      [
+        0.1432338738013641,
+        0.2230025467073574
+      ],
+      [
+        0.10314812099792084,
+        0.15135410437569247
+      ],
+      [
+        -0.04933878875595712,
+        0.11080085192673168
+      ],
+      [
+        0.7734375,
+        0.8984375
+      ]
+    ],
+    "positive_kl": [
+      [
+        0.1432338738013641,
+        0.2230025467073574
+      ],
+      [
+        0.10314812099792084,
+        0.15135410437569247
+      ],
+      [
+        -0.04933878875595712,
+        0.11080085192673168
+      ],
+      [
+        0.7734375,
+        0.8984375
+      ]
+    ],
+    "positive_ce": [
+      [
+        0.1432338738013641,
+        0.2230025467073574
+      ],
+      [
+        0.10314812099792084,
+        0.15135410437569247
+      ],
+      [
+        -0.04933878875595712,
+        0.11080085192673168
+      ],
+      [
+        0.7734375,
+        0.8984375
+      ]
+    ]
+  },
+  "latent_gauge_rotation_relative_error": {
+    "write": 6.045294369014862e-16,
+    "kl": 6.045294369014862e-16,
+    "ce": 6.045294369014862e-16
+  },
+  "comparison_interpretation": "Both objective-fitted candidates selected step0. Equal final maps are a selection outcome, not evidence objectives have equivalent optima. No confirmatory gates."
+}

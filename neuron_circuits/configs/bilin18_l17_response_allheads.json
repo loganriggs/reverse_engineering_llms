@@ -1,0 +1,73 @@
+{
+  "status": "H287 locked before outcomes",
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "ridge_strengths": [
+    0,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "learning_rates": [
+    0.3,
+    3.0
+  ],
+  "penalties": [
+    0,
+    0.1
+  ],
+  "initializations": [
+    "zero",
+    "mse"
+  ],
+  "steps": 400,
+  "checkpoints": [
+    0,
+    100,
+    200,
+    300,
+    400
+  ],
+  "train_batch": 32,
+  "seed": 20270111,
+  "design": "Same H285 initialization, seeds, rates,strengths and update budget. Sum exact response loss statistics over all9 heads and both actual/angle payloads; normalize by summed baseline response error. Validation eligibility requires intactKL<=1.02 H280 and response error<=base for EACH of actual/angle x heads0:6/6:9. Lowest intactKL eligible, else same joint fallback using worst group. Zero-strength control declared. Head groups now both supervised.",
+  "gates": {
+    "state_retention": "all-head vs validation-selected zero-strength intact KL lower95 reduction>=-.02",
+    "base_retention": "response error vs base lower95 reduction>=-.02 in all4 groups",
+    "specialist_retention": "response error vs matching split specialist lower95 reduction>=-.02 in all4 groups",
+    "response_gain": "actual response error vs H280>=5% and lower95>0 in both groups"
+  },
+  "scope": "Response regularizer uses output MSE, not downstream KL. Also report conditional response KL. Training-head exclusion applies only to this added response loss; base learned from all heads earlier. Not wholly unseen heads. No global optimum assertion.",
+  "fit_heads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "heldout_heads": [],
+  "strengths": [
+    0,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "rates": [
+    0.1,
+    0.3
+  ]
+}

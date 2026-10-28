@@ -1,0 +1,17 @@
+{
+  "experiment": "H854",
+  "hashes": {
+    "fits": "ea7c14566320abffd0895084d344bd1e27a22bf4d6f3bf18b1cc65c2f0227557",
+    "data": "62f715ceea4753fd032067b2bb3d0835e4a87e3f4e25fa3f677d22524e698aea",
+    "tasks": "b0066fb111d9d5026236320a2d02dbd9977ce96b296d59e5a01fd7da9d170ac6",
+    "task_results": "4769e3f3bc1d8a2d1583095797a8227945846a06236834211cb0c73e41ddb053",
+    "previous": "e4fabeea957a192a91c9572f8f368689cdbd8af0b365c702fe82aaf0dca932c1",
+    "runner": "c0264958ebe48b9b55cc43880f36d63a83cb5878ac0f6283fedd0ac5c20655bc",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "All frozen10 H852 fits and78H849 pairs. Diagnostic coefficient oracles, no training. Pairwise contrast projected into full512 decoder span, covered-membership span, or union of native donor/recipient active atoms. Also independent per-state least-squares reconstruction on each frozen native support, retaining decoder bias.",
+  "fairness": "Full dictionary rank up to512, active-union up to128, per-state support48/64/variable. These are capacity diagnostics, not equal-cost architecture rankings. Covered span excludes inaccessible untrained atoms in learnedshared. Independent per-state LS uses only input/known decoder/support, not task contrast or label; gates remain frozen.",
+  "intervention": "Same H853 native normalizedshape + predicted donor-minus-recipient contrast; normalize/restore recipientradius. Exactshape and identity controls. No effect-based filtering.",
+  "numerics": "Float64 SVD numerical rank threshold1e-10 times largest singularvalue. Audit projection orthogonality, nesting/reconstruction errors, per-state LS <= learned reconstruction error. Record effective ranks/condition numbers.",
+  "scope": "Reused task panel. Oracles diagnose representability, not learned semantic units. Same-token means cancel but encoding/support may be out-of-distribution."
+}

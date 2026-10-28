@@ -1,0 +1,185 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-centered-layer16-atlas-before-downstream-relevance-results",
+    "source_config": "configs/bilin18_late_mlp_tensor_canonicalization.json",
+    "seed": 20261031,
+    "batch_size": 8,
+    "layer": 12,
+    "final_layer": 17,
+    "target_layer": 16,
+    "layers": [
+      16
+    ],
+    "rank": 32,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "operator_modes": 64,
+    "inner_ranks": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "endpoint_spectral_budgets": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "axis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 16000,
+      "rows": 64
+    },
+    "atlas_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17000,
+      "rows": 128
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19800,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 700,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 700,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "D0_composed_endpoint_derivative_is_exact": "The analytic local-MLP plus Layer-17 RMS derivative agrees with an independent autograd JVP to relative error at most 1e-5.",
+      "D1_downstream_readout_compresses_contextual_variation": "The centered endpoint-operator discovery rank-90 is at least 64 smaller than the centered local-operator rank-90 of 206.",
+      "D2_endpoint_rank16_atlas_is_sufficient": "A fixed rank-16 endpoint atlas retains at least 0.90 oracle-projection fidelity on every corpus.",
+      "D3_endpoint_rank64_atlas_is_high_fidelity": "A fixed rank-64 endpoint atlas retains at least 0.95 oracle-projection fidelity on every corpus.",
+      "D4_common_local_operator_is_behaviorally_sufficient": "The frozen mean local operator retains at least 0.80 after the exact downstream map on every corpus.",
+      "D5_factorized_local_program_is_behaviorally_sufficient": "The exact-read 64-mode inner-rank-8 local program retains at least 0.90 after the downstream map on every corpus.",
+      "D6_inner_rank8_preserves_the_causal_atlas": "The inner-rank-8 local program is within 0.05 of the full-inner-rank 64-mode program on every corpus after downstream composition.",
+      "D7_downstream_program_transfers_ood": "The inner-rank-8 program's OOD fidelity is within 0.05 of FineWeb.",
+      "D8_contextual_correction_is_behaviorally_material": "The full 64-mode local program improves on the common mean operator by at least 0.05 on every corpus after downstream composition."
+    }
+  },
+  "hypotheses": {
+    "D0_composed_endpoint_derivative_is_exact": {
+      "supported": true,
+      "relative_error": 4.694392028962665e-07
+    },
+    "D1_downstream_readout_compresses_contextual_variation": {
+      "supported": true
+    },
+    "D2_endpoint_rank16_atlas_is_sufficient": {
+      "supported": true
+    },
+    "D3_endpoint_rank64_atlas_is_high_fidelity": {
+      "supported": true
+    },
+    "D4_common_local_operator_is_behaviorally_sufficient": {
+      "supported": true
+    },
+    "D5_factorized_local_program_is_behaviorally_sufficient": {
+      "supported": true
+    },
+    "D6_inner_rank8_preserves_the_causal_atlas": {
+      "supported": true
+    },
+    "D7_downstream_program_transfers_ood": {
+      "supported": true
+    },
+    "D8_contextual_correction_is_behaviorally_material": {
+      "supported": true
+    }
+  },
+  "endpoint_discovery_spectrum": {
+    "uncentered": {
+      "top_energy_share": 0.8556454590426984,
+      "rank90": 2
+    },
+    "centered": {
+      "top_energy_share": 0.3383349104010742,
+      "rank90": 26
+    }
+  },
+  "results": {
+    "fineweb": {
+      "sites": 128,
+      "endpoint_spectral_fidelity": {
+        "1": 0.8686957425534704,
+        "2": 0.9164221030535487,
+        "4": 0.9582931550809335,
+        "8": 0.9702144773337791,
+        "16": 0.9766135513654332,
+        "32": 0.9815286803112092,
+        "64": 0.9849567521588818
+      },
+      "mean_local_operator_endpoint_fidelity": 0.8677984749251167,
+      "full_rank64_local_program_endpoint_fidelity": 0.9859324344614088,
+      "inner_rank_local_program_endpoint_fidelity": {
+        "1": 0.5903651993263785,
+        "2": 0.8783093520365673,
+        "4": 0.9619783093328443,
+        "8": 0.9783653936352908,
+        "16": 0.9828715727012977,
+        "32": 0.9859324153794141
+      }
+    },
+    "wikitext": {
+      "sites": 128,
+      "endpoint_spectral_fidelity": {
+        "1": 0.8923583680898003,
+        "2": 0.9219031855059405,
+        "4": 0.9650394281525927,
+        "8": 0.9740233762893404,
+        "16": 0.9794749842382937,
+        "32": 0.9843681027538866,
+        "64": 0.9875617520373297
+      },
+      "mean_local_operator_endpoint_fidelity": 0.9077054685644053,
+      "full_rank64_local_program_endpoint_fidelity": 0.9881759165489881,
+      "inner_rank_local_program_endpoint_fidelity": {
+        "1": 0.5985697789074096,
+        "2": 0.8792369289480028,
+        "4": 0.9646258664505771,
+        "8": 0.9814846381304311,
+        "16": 0.9853124447109448,
+        "32": 0.988175897492644
+      }
+    },
+    "tinystories": {
+      "sites": 128,
+      "endpoint_spectral_fidelity": {
+        "1": 0.8757762054978262,
+        "2": 0.9142382539943067,
+        "4": 0.9601005719699287,
+        "8": 0.9731083894241132,
+        "16": 0.979418498801107,
+        "32": 0.9844573609395294,
+        "64": 0.9878698151301909
+      },
+      "mean_local_operator_endpoint_fidelity": 0.9045390300140119,
+      "full_rank64_local_program_endpoint_fidelity": 0.988876200162737,
+      "inner_rank_local_program_endpoint_fidelity": {
+        "1": 0.6111350084867322,
+        "2": 0.8713107121111408,
+        "4": 0.9636320811532212,
+        "8": 0.9807711516956601,
+        "16": 0.9858327436833533,
+        "32": 0.9888762126174276
+      }
+    }
+  }
+}

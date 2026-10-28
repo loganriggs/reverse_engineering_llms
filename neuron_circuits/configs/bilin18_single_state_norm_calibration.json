@@ -1,0 +1,16 @@
+{
+  "experiment": "H857",
+  "hashes": {
+    "fits": "ea7c14566320abffd0895084d344bd1e27a22bf4d6f3bf18b1cc65c2f0227557",
+    "data": "62f715ceea4753fd032067b2bb3d0835e4a87e3f4e25fa3f677d22524e698aea",
+    "tasks": "b0066fb111d9d5026236320a2d02dbd9977ce96b296d59e5a01fd7da9d170ac6",
+    "task_results": "4769e3f3bc1d8a2d1583095797a8227945846a06236834211cb0c73e41ddb053",
+    "runner": "33a299957733611becc039531155c87494383d43ef9325008dc250466ec9caf8",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "All10 frozenH852 models; independent single-state learned and fixed-support LS coordinates, each with/without residual-norm calibration. No task direction or gain fitting.",
+  "encoding": "C=normalizedstate-tokenmean, decoder bias beta. Calibrated C_hat=beta+(C_hat-beta)*norm(C-beta)/norm(C_hat-beta). Preserve mean and restore each states own rawRMS after fullshape normalization. One additional native residual-norm scalar, beyond tokenidentity and rawRMS already accessed. Gates/support unchanged.",
+  "causal": "Define one raw reconstruction function F(input), then edit native recipient rawstate by F(donor)-F(recipient). This is cycle-consistent before model execution. UnlikeH853/H854, normalize each reconstruction before differencing; compare variants within this experiment. Exact rawdonor is reference.",
+  "natural": "Same512 H851 development states, reconstruction and four fixed Gaussian localMLP derivative probes fromH851. Reused validation, no fitting.",
+  "scope": "Reused task panel and naturaldevelopment. Test inference rule, not fresh confirmation or semantic-unit recovery. Single-state mapping preserves recipient reconstruction error under interventions."
+}

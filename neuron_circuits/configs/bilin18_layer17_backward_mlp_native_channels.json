@@ -1,0 +1,30 @@
+{
+  "status": "hypotheses-locked-after-three-path-suffix-program-before-final-mlp-native-channel-audit",
+  "seed": 20261120,
+  "batch_size": 2,
+  "layer": 16,
+  "final_layer": 17,
+  "positions": [31, 63, 95, 127],
+  "factor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_adjoint_factors.pt",
+  "path_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_backward_suffix_paths.pt",
+  "selection_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18000, "rows": 64, "factor_dataset": "discovery", "factor_start": 0},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32, "factor_dataset": "fineweb", "factor_start": 0},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "wikitext", "factor_start": 0},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "tinystories", "factor_start": 0}
+  },
+  "fit_components": ["prediction", "target", "margin"],
+  "budgets": [32, 64, 128, 256, 512, 1024, 2048, 4096, 4608],
+  "random_budget": 512,
+  "random_replicates": 16,
+  "hypotheses": {
+    "N0_native_channels_recompose_final_mlp_path": "All 4,608 final-layer channels recompose the final-MLP direct-path behavioral effect to relative error at most 1e-5.",
+    "N1_shared_512_channel_bank_is_sufficient": "A discovery-frozen shared 512-channel bank retains at least 0.90 of prediction, target, and margin path effects on every corpus.",
+    "N2_shared_2048_channel_bank_is_sufficient": "The shared 2,048-channel bank retains at least 0.90 of all fitted path effects on every corpus.",
+    "N3_endpoint_specific_512_banks_are_sufficient": "Separately selected 512-channel banks retain at least 0.90 for their endpoint on every corpus.",
+    "N4_individual_paths_are_native_dense": "Median per-context norm-effective support is at least 512 channels for every fitted endpoint and corpus.",
+    "N5_native_path_uses_signed_cancellation": "Median absolute target-projection mass is at least 2.0 for every fitted endpoint and corpus.",
+    "N6_shared_bank_beats_random": "At 512 channels, the shared bank exceeds the random-bank p95 by at least 0.10 for every fitted endpoint and corpus.",
+    "N7_shared_native_bank_transfers_ood": "At 1,024 channels, each OOD endpoint fidelity is within 0.10 of FineWeb."
+  }
+}

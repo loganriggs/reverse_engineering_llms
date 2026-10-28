@@ -1,0 +1,34 @@
+{
+  "status": "hypotheses-locked-after-random-readout-redteam-before-basis-invariant-bottleneck-test",
+  "source_config": "configs/bilin18_layer8_frozen_fisher_quotient.json",
+  "seed": 20261029,
+  "sites_per_corpus": 24,
+  "ranks": [1, 2, 4, 8, 16, 32, 64],
+  "decoded_axes": 4,
+  "top_tokens": 8,
+  "softmax_principal_tokens": 256,
+  "rotation_check_sites": 2,
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 16950,
+      "rows": 500
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 300,
+      "rows": 500
+    }
+  },
+  "hypotheses": {
+    "C1_unit_input_rank16_is_compact": "The basis-invariant unit-input response has median rank-16 energy at least 0.90 on both corpora.",
+    "C2_unit_input_rank4_is_compact": "The basis-invariant unit-input response has median rank-4 energy at least 0.75 on both corpora.",
+    "C3_basis_rotation_invariance": "An orthogonal rotation of the input basis changes rank energies by at most 1e-4 and the leading output subspace overlap remains at least 0.999.",
+    "C4_axes_recur_globally": "Median rank-4 Fisher output-subspace overlap between random sites is at least 0.25 on both corpora.",
+    "C5_prediction_class_explains_recurrence": "Pairs sharing the native top-prediction class have at least 0.05 greater output-subspace overlap than pairs with different classes.",
+    "C6_token_labels_recur": "Median optimally aligned top-token Jaccard is at least 0.10 on both corpora.",
+    "C7_softmax_geometry_can_support_rank4": "The pure-softmax top-256 principal Fisher lower bound has at least as much rank-4 energy as the model response, within 0.10, on both corpora.",
+    "C8_unweighted_logit_axes_recur": "After removing softmax probability weighting, the median rank-4 logit-subspace overlap between random sites is at least 0.25 on both corpora.",
+    "C9_input_verbs_recur": "The leading rank-4 Layer-8 input sensitivity subspace has median overlap at least 0.25 between random sites on both corpora."
+  }
+}

@@ -1,0 +1,408 @@
+{
+  "experiment": "H467",
+  "config": {
+    "experiment": "H467",
+    "seed": 20271121,
+    "bootstrap_seed": 20271122,
+    "train": 256,
+    "validation": 128,
+    "test": 128,
+    "feature_rank": 64,
+    "output_rank": 16,
+    "steps": 256,
+    "batch_size": 64,
+    "learning_rate": 0.01,
+    "validation_every": 16,
+    "amplitudes": [
+      -1,
+      1
+    ],
+    "design": "H466 frozen split and balanced-SVD rank16 initialization, unchanged whitened64 kernel features. Exact full-training/validation factor gradients for KL and CE. Training negative gradients normalized to unit first-order relative effective-map Frobenius change. Fixed fraction sweep0,1e-5,3e-5,1e-4,3e-4,.001,.003,.01,.03,.1; evaluate all write/KL/CE objectives on train and validation only. Compute cross-split gradient cosine and directional derivatives; symmetric finite differences at1e-3 descriptive audit. No test-set objective evaluation or new corpus. Exploratory diagnosis, no equivalence/optimality claim.",
+    "hashes": {
+      "bilin18_l17_compact_operation_confirmation_rows.npz": "59380a65b22e3f99beb6d4bf35a963e199160a77e00c1de769b95b195a1d1f0b",
+      "bilin18_l17_compact_operation_confirmation_selection.json": "a1deb9b6b3d58ac60699752c5761230c566aaa1a5384d11eaeec6630f4b219b1",
+      "bilin18_l17_unprojected_finite_confirmation_rows.npz": "2f959c612483cf8bb57a5ccdfb89d6407f34fea110fa039a317fd79e3e02fe28",
+      "bilin18_l17_unprojected_finite_confirmation_selection.json": "e4b5a632c1ecd9fb287ee4563499e32bbc0bf9665f41d5220e90d11a8f336d05",
+      "bilin18_l17_covariance_source_confirmation_rows.npz": "f927bc40ce446508bfa83177394d6f667b5128878fd82364f065c81a62da512d",
+      "bilin18_l17_covariance_source_confirmation_selection.json": "e152ebf2957447290790986b5e79f24ea3f6a9b2ebf84c9404c82144530dece4",
+      "bilin18_l17_covariance_fresh_confirmation_rows.npz": "9a603677c130bde8cf1ef47f0079d430062de32e5b29402615db99e4816d0f96",
+      "bilin18_l17_covariance_fresh_confirmation_selection.json": "6e0065534246cfc0235e477bc8d1d2f23331c50f8cb52f8deac31cdf44a39628",
+      "bilin18_l17_covariance_source_confirmation_source_audit.npz": "dc9661be2b50998b81cc8d16cb1e3401cd5e65b505f0e6992487f05ac691b828",
+      "bilin18_compact_operation_confirmation_documents.npy": "0165f182eb785d302e9bd26dd04ba4dd03b8eba6b5f1497bd8b15248520f0e0f",
+      "bilin18_l17_data_canonical_pilot_canonical_maps.npz": "ac69e63ad75ddd33f00619e8b28dfe5490d26d3cf1bceb4e010cae2f5b59791d",
+      "bilin18_l17_data_canonical_pilot_selection.json": "81b6410c016f41f86931658d5da21411e77aa3e70ca0381385c4740852fde3c3",
+      "bilin18_l17_data_canonical_pilot.json": "fc43720ee7e9bc5299b1e5b8321be2e1972160a0fe1e4ee8c1ff00b9d9071f09"
+    },
+    "fractions": [
+      0,
+      1e-05,
+      3e-05,
+      0.0001,
+      0.0003,
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ]
+  },
+  "baseline": {
+    "train": {
+      "write": 0.08592689037322998,
+      "kl": 0.08926564339687654,
+      "ce": 3.0760318183409225
+    },
+    "validation": {
+      "write": 0.1523212194442749,
+      "kl": 0.14544009361249832,
+      "ce": 3.2677887949132955
+    }
+  },
+  "gradients": {
+    "kl": {
+      "train_validation_gradient_cosine": 0.0973857928276489,
+      "first_order_relative_map_step": 1.0000001192092896,
+      "directional_derivatives": {
+        "train": {
+          "kl": -1.868841290473938,
+          "ce": -2.4537346363067627
+        },
+        "validation": {
+          "kl": -0.36879146099090576,
+          "ce": -0.4137967824935913
+        }
+      },
+      "finite_difference": {
+        "train": {
+          "epsilon": 0.001,
+          "symmetric_derivative": -1.8692226919737112,
+          "analytic_derivative": -1.868841290473938
+        },
+        "validation": {
+          "epsilon": 0.001,
+          "symmetric_derivative": -0.3688738544230519,
+          "analytic_derivative": -0.36879146099090576
+        }
+      }
+    },
+    "ce": {
+      "train_validation_gradient_cosine": 0.030481147177725668,
+      "first_order_relative_map_step": 1.0,
+      "directional_derivatives": {
+        "train": {
+          "kl": -0.5162420272827148,
+          "ce": -8.130919456481934
+        },
+        "validation": {
+          "kl": -0.10283426940441132,
+          "ce": -0.3213109076023102
+        }
+      },
+      "finite_difference": {
+        "train": {
+          "epsilon": 0.001,
+          "symmetric_derivative": -8.130778610011102,
+          "analytic_derivative": -8.130919456481934
+        },
+        "validation": {
+          "epsilon": 0.001,
+          "symmetric_derivative": -0.321532725777951,
+          "analytic_derivative": -0.3213109076023102
+        }
+      }
+    }
+  },
+  "curves": {
+    "kl": [
+      {
+        "fraction": 0,
+        "actual_relative_map_change": 0.0,
+        "train": {
+          "write": 0.08592689037322998,
+          "kl": 0.08926564339687654,
+          "ce": 3.0760318183409225
+        },
+        "validation": {
+          "write": 0.1523212194442749,
+          "kl": 0.14544009361249832,
+          "ce": 3.2677887949132955
+        }
+      },
+      {
+        "fraction": 1e-05,
+        "actual_relative_map_change": 9.99770054477267e-06,
+        "train": {
+          "write": 0.08592689037322998,
+          "kl": 0.08924687441463651,
+          "ce": 3.076006753659022
+        },
+        "validation": {
+          "write": 0.15232117474079132,
+          "kl": 0.145436388616456,
+          "ce": 3.2677843328803666
+        }
+      },
+      {
+        "fraction": 3e-05,
+        "actual_relative_map_change": 2.9998516765772365e-05,
+        "train": {
+          "write": 0.08592688292264938,
+          "kl": 0.0892095083002768,
+          "ce": 3.075958293007229
+        },
+        "validation": {
+          "write": 0.15232105553150177,
+          "kl": 0.14542901768412905,
+          "ce": 3.2677759933216732
+        }
+      },
+      {
+        "fraction": 0.0001,
+        "actual_relative_map_change": 0.00010000025940826163,
+        "train": {
+          "write": 0.08592689782381058,
+          "kl": 0.08907934547757862,
+          "ce": 3.0757865752356075
+        },
+        "validation": {
+          "write": 0.15232069790363312,
+          "kl": 0.14540326682933266,
+          "ce": 3.267747276061974
+        }
+      },
+      {
+        "fraction": 0.0003,
+        "actual_relative_map_change": 0.00029999870457686484,
+        "train": {
+          "write": 0.08592697232961655,
+          "kl": 0.08870990538117937,
+          "ce": 3.0752998290235487
+        },
+        "validation": {
+          "write": 0.15231969952583313,
+          "kl": 0.14533063422746295,
+          "ce": 3.2676655724291828
+        }
+      },
+      {
+        "fraction": 0.001,
+        "actual_relative_map_change": 0.000999988871626556,
+        "train": {
+          "write": 0.0859277993440628,
+          "kl": 0.08745101724910542,
+          "ce": 3.073631629934686
+        },
+        "validation": {
+          "write": 0.1523166000843048,
+          "kl": 0.14508353281407815,
+          "ce": 3.2673867032560433
+        }
+      },
+      {
+        "fraction": 0.003,
+        "actual_relative_map_change": 0.002999912016093731,
+        "train": {
+          "write": 0.08593511581420898,
+          "kl": 0.08413902996888811,
+          "ce": 3.0691491544918517
+        },
+        "validation": {
+          "write": 0.15231145918369293,
+          "kl": 0.1444431082590589,
+          "ce": 3.2666555230649728
+        }
+      },
+      {
+        "fraction": 0.01,
+        "actual_relative_map_change": 0.009999037720263004,
+        "train": {
+          "write": 0.08601828664541245,
+          "kl": 0.0755401103225554,
+          "ce": 3.056447220925486
+        },
+        "validation": {
+          "write": 0.1523367315530777,
+          "kl": 0.14293204076497573,
+          "ce": 3.264817725544428
+        }
+      },
+      {
+        "fraction": 0.03,
+        "actual_relative_map_change": 0.02999156527221203,
+        "train": {
+          "write": 0.08674914389848709,
+          "kl": 0.06893495299962135,
+          "ce": 3.038087607857846
+        },
+        "validation": {
+          "write": 0.15277960896492004,
+          "kl": 0.14434157564094496,
+          "ce": 3.265223951262952
+        }
+      },
+      {
+        "fraction": 0.1,
+        "actual_relative_map_change": 0.09991496056318283,
+        "train": {
+          "write": 0.09505271911621094,
+          "kl": 0.146997660200256,
+          "ce": 3.075239562724514
+        },
+        "validation": {
+          "write": 0.1586492657661438,
+          "kl": 0.21876243864444994,
+          "ce": 3.335235469682858
+        }
+      }
+    ],
+    "ce": [
+      {
+        "fraction": 0,
+        "actual_relative_map_change": 0.0,
+        "train": {
+          "write": 0.08592689037322998,
+          "kl": 0.08926564339687654,
+          "ce": 3.0760318183409225
+        },
+        "validation": {
+          "write": 0.1523212194442749,
+          "kl": 0.14544009361249832,
+          "ce": 3.2677887949132955
+        }
+      },
+      {
+        "fraction": 1e-05,
+        "actual_relative_map_change": 9.999466783483513e-06,
+        "train": {
+          "write": 0.08592689037322998,
+          "kl": 0.0892604823953473,
+          "ce": 3.0759504795824277
+        },
+        "validation": {
+          "write": 0.1523212492465973,
+          "kl": 0.14543908138714745,
+          "ce": 3.2677855602179013
+        }
+      },
+      {
+        "fraction": 3e-05,
+        "actual_relative_map_change": 2.9999751859577373e-05,
+        "train": {
+          "write": 0.08592688292264938,
+          "kl": 0.08925010712942333,
+          "ce": 3.0757873998271275
+        },
+        "validation": {
+          "write": 0.15232126414775848,
+          "kl": 0.1454368592434343,
+          "ce": 3.2677784115015394
+        }
+      },
+      {
+        "fraction": 0.0001,
+        "actual_relative_map_change": 9.999985195463523e-05,
+        "train": {
+          "write": 0.08592689037322998,
+          "kl": 0.0892141642517571,
+          "ce": 3.07521830787757
+        },
+        "validation": {
+          "write": 0.15232133865356445,
+          "kl": 0.14542985973534356,
+          "ce": 3.2677559889435037
+        }
+      },
+      {
+        "fraction": 0.0003,
+        "actual_relative_map_change": 0.00029999931575730443,
+        "train": {
+          "write": 0.08592697232961655,
+          "kl": 0.08911238423654831,
+          "ce": 3.073593967760462
+        },
+        "validation": {
+          "write": 0.15232163667678833,
+          "kl": 0.14540970375554108,
+          "ce": 3.267692282291441
+        }
+      },
+      {
+        "fraction": 0.001,
+        "actual_relative_map_change": 0.0009999898029491305,
+        "train": {
+          "write": 0.0859278067946434,
+          "kl": 0.0887674913609446,
+          "ce": 3.0679205639755343
+        },
+        "validation": {
+          "write": 0.15232308208942413,
+          "kl": 0.14534307788494982,
+          "ce": 3.2674727702831383
+        }
+      },
+      {
+        "fraction": 0.003,
+        "actual_relative_map_change": 0.002999907126650214,
+        "train": {
+          "write": 0.08593510836362839,
+          "kl": 0.08788213218137057,
+          "ce": 3.0518232008982293
+        },
+        "validation": {
+          "write": 0.15233097970485687,
+          "kl": 0.14518431648268407,
+          "ce": 3.266877262302141
+        }
+      },
+      {
+        "fraction": 0.01,
+        "actual_relative_map_change": 0.009998987428843975,
+        "train": {
+          "write": 0.08601826429367065,
+          "kl": 0.08603175298631696,
+          "ce": 2.996870183897528
+        },
+        "validation": {
+          "write": 0.15240296721458435,
+          "kl": 0.14500866601333484,
+          "ce": 3.2651692172016697
+        }
+      },
+      {
+        "fraction": 0.03,
+        "actual_relative_map_change": 0.029990987852215767,
+        "train": {
+          "write": 0.08674899488687515,
+          "kl": 0.09368544323400109,
+          "ce": 2.8541129828530565
+        },
+        "validation": {
+          "write": 0.15298786759376526,
+          "kl": 0.148260052156026,
+          "ce": 3.264025749713
+        }
+      },
+      {
+        "fraction": 0.1,
+        "actual_relative_map_change": 0.099903903901577,
+        "train": {
+          "write": 0.09504935890436172,
+          "kl": 0.2418750029891752,
+          "ce": 2.4944641637250546
+        },
+        "validation": {
+          "write": 0.1594521850347519,
+          "kl": 0.24645794078462893,
+          "ce": 3.3466745126008006
+        }
+      }
+    ]
+  },
+  "initial_map_replay_relative": 0.0,
+  "numerical_gates": {
+    "initial_map_replay": true,
+    "first_order_step_normalized": true
+  },
+  "scope": "train and validation only; no test metrics inspected",
+  "unique_completed_documents": 12992
+}

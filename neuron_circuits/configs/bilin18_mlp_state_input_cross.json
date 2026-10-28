@@ -1,0 +1,11 @@
+{
+  "experiment": "H830",
+  "hashes": {
+    "trace": "265e63aed7da5ea0121b042bed7c49f9990cc8cf51644d4951ff0fa951d3a538",
+    "runner": "ae810d6ebe49df9664d9c8152c500eac10656a471a72b2121cf70612bda799fe"
+  },
+  "design": "All13 H827 groups and block/random directions. At first downstream MLP cross each of4 natural raw baselines with each of4 captured incoming central derivatives. No averaged/off-data baseline.",
+  "derivative": "u=b/r; q=v/r-b*mean(b*v)/r^3; r=sqrt(mean(b^2)+float32eps). Output D[(Lu)*(Rq)+(Lq)*(Ru)]. Double precision math with fixed model weights.",
+  "comparisons": "Own diagonal; hold each baseline fixed across4 inputs; hold each input fixed across4 baselines. Average six cosines and all4 reference choices without selecting best. Additional normalizer-vs-bilinear-state decomposition at fixed raw input direction.",
+  "scope": "Analytic local module sensitivity, not whole-model causal mediation or semantic feature discovery. Incoming v is captured finite central derivative; verify natural replay and finite differences."
+}

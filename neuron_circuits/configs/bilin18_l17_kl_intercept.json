@@ -1,0 +1,38 @@
+{
+  "status": "H278 fixed before outcomes",
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_kl_intercept_replication_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "learning_rates": [
+    0.3,
+    3.0,
+    30.0
+  ],
+  "steps": 400,
+  "checkpoints": [
+    0,
+    100,
+    200,
+    300,
+    400
+  ],
+  "train_batch": 32,
+  "seed": 20261228,
+  "design": "Only1152 output constant optimized for native-to-prediction next-token KL. Actual and mixture H275 polynomials frozen. Start H277 MSE constant; first768 discovery docs train,next256 validate. Three fixed Adam rates/family,400steps, validation checkpoint selection includes0. Exact final RMS/head/softcap; float64 KL from float32 logits. Fresh128docs exclude2112 prior hashes. No test fitting.",
+  "gates": {
+    "behavior_constant_gain": "KL constant reduces MSE-constant KL>=20% with paired95 lower>0 BOTH families",
+    "bias_dominant": "same reduction>=50% BOTH families",
+    "repair_actual": "actual_kl recovery vs compiled>=80%, CE increase<=.02nats, native top1>=.98",
+    "repair_mixture": "same mixture_kl"
+  },
+  "scope": "Nonconvex downstream optimization, no global-optimality guarantee. Native teacher used in training/ground truth only. Nonconstant coefficients and stable responses must remain unchanged."
+}

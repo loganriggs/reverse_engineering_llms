@@ -1,0 +1,32 @@
+{
+  "experiment": "H682",
+  "hashes": {
+    "data": "58c70ddb2afdc3bfcac1a98dc418669ce9fc18ce4f4d57b008736d37863ed10b",
+    "manifest": "42f62c36ad645ecb9b188295fc525dc3a398a31a402c5d0d6a489254a69fe7dc",
+    "runner": "8518b4fc92e1b5f75f1e0a48767d60f8fd6ab37d8f8a02c3c96d324318ec69b4"
+  },
+  "sites": [
+    "value0",
+    "residual0",
+    "residual1",
+    "residual2"
+  ],
+  "block_dimensions": [
+    1,
+    4,
+    16
+  ],
+  "seeds": [
+    681,
+    682,
+    683
+  ],
+  "decoder_width": 2304,
+  "active_scalar_budget": 32,
+  "steps": 1000,
+  "batch_size": 512,
+  "optimizer": "Adam lr0.0003",
+  "validation_interval": 250,
+  "design": "Signed linear encoder with block-L2 TopK, linear decoder with unit column norms. Train mean/global RMS scaling only. Same seeded minibatches across block widths. Validation checkpoint selection; test untouched. Fixed-compute pilot, not convergence claim.",
+  "limitations": "Rank1 is signed absolute-TopK sparse dictionary baseline, not ReLU SAE. Fixed scalar budget changes active-block count; no single fairness criterion. No dead-block resampling or auxiliary loss. Finite training may favor easier optimizers."
+}

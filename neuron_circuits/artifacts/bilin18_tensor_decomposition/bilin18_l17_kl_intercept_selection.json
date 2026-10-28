@@ -1,0 +1,238 @@
+{
+  "config": {
+    "status": "H278 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_kl_intercept_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "learning_rates": [
+      0.3,
+      3.0,
+      30.0
+    ],
+    "steps": 400,
+    "checkpoints": [
+      0,
+      100,
+      200,
+      300,
+      400
+    ],
+    "train_batch": 32,
+    "seed": 20261228,
+    "design": "Only1152 output constant optimized for native-to-prediction next-token KL. Actual and mixture H275 polynomials frozen. Start H277 MSE constant; first768 discovery docs train,next256 validate. Three fixed Adam rates/family,400steps, validation checkpoint selection includes0. Exact final RMS/head/softcap; float64 KL from float32 logits. Fresh128docs exclude2112 prior hashes. No test fitting.",
+    "gates": {
+      "behavior_constant_gain": "KL constant reduces MSE-constant KL>=20% with paired95 lower>0 BOTH families",
+      "bias_dominant": "same reduction>=50% BOTH families",
+      "repair_actual": "actual_kl recovery vs compiled>=80%, CE increase<=.02nats, native top1>=.98",
+      "repair_mixture": "same mixture_kl"
+    },
+    "scope": "Nonconvex downstream optimization, no global-optimality guarantee. Native teacher used in training/ground truth only. Nonconstant coefficients and stable responses must remain unchanged."
+  },
+  "curves": {
+    "actual_lr0.3": [
+      {
+        "step": 0,
+        "validation_kl": 0.0768409130870395
+      },
+      {
+        "step": 100,
+        "validation_kl": 0.07058942305111925
+      },
+      {
+        "step": 200,
+        "validation_kl": 0.06716329441595788
+      },
+      {
+        "step": 300,
+        "validation_kl": 0.06497784582105508
+      },
+      {
+        "step": 400,
+        "validation_kl": 0.06339303546475353
+      }
+    ],
+    "actual_lr3.0": [
+      {
+        "step": 0,
+        "validation_kl": 0.0768409130870395
+      },
+      {
+        "step": 100,
+        "validation_kl": 0.059028874384392145
+      },
+      {
+        "step": 200,
+        "validation_kl": 0.05724574014241239
+      },
+      {
+        "step": 300,
+        "validation_kl": 0.056852989072151874
+      },
+      {
+        "step": 400,
+        "validation_kl": 0.05669294914898664
+      }
+    ],
+    "actual_lr30.0": [
+      {
+        "step": 0,
+        "validation_kl": 0.0768409130870395
+      },
+      {
+        "step": 100,
+        "validation_kl": 0.062342276465658576
+      },
+      {
+        "step": 200,
+        "validation_kl": 0.06300995956394434
+      },
+      {
+        "step": 300,
+        "validation_kl": 0.06069401519322982
+      },
+      {
+        "step": 400,
+        "validation_kl": 0.06428213393531024
+      }
+    ],
+    "mixture_lr0.3": [
+      {
+        "step": 0,
+        "validation_kl": 0.07789023648071193
+      },
+      {
+        "step": 100,
+        "validation_kl": 0.07131161682113056
+      },
+      {
+        "step": 200,
+        "validation_kl": 0.06766579841500918
+      },
+      {
+        "step": 300,
+        "validation_kl": 0.06530590962173029
+      },
+      {
+        "step": 400,
+        "validation_kl": 0.06361162268048381
+      }
+    ],
+    "mixture_lr3.0": [
+      {
+        "step": 0,
+        "validation_kl": 0.07789023648071193
+      },
+      {
+        "step": 100,
+        "validation_kl": 0.058961752420084924
+      },
+      {
+        "step": 200,
+        "validation_kl": 0.05719553379076492
+      },
+      {
+        "step": 300,
+        "validation_kl": 0.056840518877823196
+      },
+      {
+        "step": 400,
+        "validation_kl": 0.05659901649219956
+      }
+    ],
+    "mixture_lr30.0": [
+      {
+        "step": 0,
+        "validation_kl": 0.07789023648071193
+      },
+      {
+        "step": 100,
+        "validation_kl": 0.06333754496368157
+      },
+      {
+        "step": 200,
+        "validation_kl": 0.06405027353799471
+      },
+      {
+        "step": 300,
+        "validation_kl": 0.06091096076725535
+      },
+      {
+        "step": 400,
+        "validation_kl": 0.06571286681809428
+      }
+    ]
+  },
+  "selected": {
+    "actual_lr0.3": {
+      "step": 400,
+      "validation_kl": 0.06339303546475353
+    },
+    "actual_lr3.0": {
+      "step": 400,
+      "validation_kl": 0.05669294914898664
+    },
+    "actual_lr30.0": {
+      "step": 300,
+      "validation_kl": 0.06069401519322982
+    },
+    "mixture_lr0.3": {
+      "step": 400,
+      "validation_kl": 0.06361162268048381
+    },
+    "mixture_lr3.0": {
+      "step": 400,
+      "validation_kl": 0.05659901649219956
+    },
+    "mixture_lr30.0": {
+      "step": 300,
+      "validation_kl": 0.06091096076725535
+    }
+  },
+  "winners": {
+    "actual": "actual_lr3.0",
+    "mixture": "mixture_lr3.0"
+  },
+  "audits": {
+    "actual": {
+      "mse": {
+        "train_kl": 0.07162668970718118,
+        "validation_kl": 0.0768409130870395,
+        "constant_norm": 2110.150146484375,
+        "delta_from_mse_norm": 0.0
+      },
+      "kl": {
+        "train_kl": 0.050230459141043834,
+        "validation_kl": 0.05669294914898664,
+        "constant_norm": 4120.59033203125,
+        "delta_from_mse_norm": 3549.537353515625
+      }
+    },
+    "mixture": {
+      "mse": {
+        "train_kl": 0.07264596459403716,
+        "validation_kl": 0.07789023648071193,
+        "constant_norm": 2110.150146484375,
+        "delta_from_mse_norm": 0.0
+      },
+      "kl": {
+        "train_kl": 0.050575791821015764,
+        "validation_kl": 0.05659901649219956,
+        "constant_norm": 4160.4931640625,
+        "delta_from_mse_norm": 3595.446533203125
+      }
+    }
+  },
+  "stable_response_bitwise_equal": {
+    "actual": true,
+    "mixture": true
+  }
+}

@@ -1,0 +1,9 @@
+from pathlib import Path
+import json,numpy as np
+R=Path(__file__).resolve().parents[1];A=R/'artifacts/bilin18_tensor_decomposition';stem='bilin18_l17_compiled_input_compression';j=json.loads((A/f'{stem}.json').read_text());z=np.load(A/f'{stem}_rows.npz');e=z['errors'];d=z['effects'];assert e.shape==(10,9,24,96,2) and np.isfinite(e).all() and all(j['numerical_gates'].values());rec=1-e.sum((2,3))/d.sum((0,1))
+def contrast(r,sp):return np.array([r[8,0]-r[1,0],(r[8,1+sp]-r[1,1+sp]).mean(),r[4,0]-r[1,0],(r[4,1+sp]-r[1,1+sp]).mean()])
+pt=contrast(rec[:,:,1],np.arange(8));rng=np.random.default_rng(j['config']['bootstrap_seed']);boot=[]
+for _ in range(j['config']['bootstrap_samples']):
+ pairs=rng.integers(0,12,12);sw=np.bincount(np.r_[pairs,12+pairs],minlength=24);dw=np.bincount(rng.integers(0,96,96),minlength=96);sp=rng.integers(0,8,8);rr=1-np.einsum('cbsi,s,i->cb',e[:,:,:,:,1],sw,dw,optimize=True)/np.einsum('si,s,i->',d[:,:,1],sw,dw,optimize=True);boot.append(contrast(rr,sp))
+boot=np.array(boot);radius=np.quantile(abs(boot-pt).max(1),.95);ci=np.stack([pt-radius,pt+radius],1);thresholds=np.full(4,-.02);norm=z['norms'];j.update(primary_names=['activity128_minus_dense_learned','activity128_minus_dense_random_mean','weight128_minus_dense_learned','weight128_minus_dense_random_mean'],primary=pt.tolist(),primary_joint4_ci95=ci.tolist(),primary_thresholds=thresholds.tolist(),primary_gates=(ci[:,0]>thresholds).tolist(),finite_KL_recovery=rec[:,:,1].tolist(),Fisher_recovery=rec[:,:,0].tolist(),norm_summary=np.stack([np.median(norm,axis=(2,3)),np.quantile(norm,.95,axis=(2,3)),norm.max((2,3))],-1).tolist());np.savez_compressed(A/f'{stem}_bootstrap.npz',primary=boot);(A/f'{stem}.json').write_text(json.dumps(j,indent=2)+'\n');print('primary',pt,'CI',ci,'gates',j['primary_gates'])
+for i,n in enumerate(j['conditions']):print(n,'KL learned/random',rec[i,0,1],rec[i,1:,1].mean(),'Fisher',rec[i,0,0],rec[i,1:,0].mean(),'normmax',norm[i].max())

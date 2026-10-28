@@ -1,0 +1,1355 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-exact-carrier-and-component-audits-before-depth-router-results",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261203,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "position": 127,
+    "target": "\n",
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "rank": 32,
+    "ridge_relative_penalty": 1.0,
+    "feature_families": [
+      "delta",
+      "pair",
+      "polynomial",
+      "carriers"
+    ],
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 256
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 768,
+        "rows": 256
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 768,
+        "rows": 256
+      }
+    },
+    "hypotheses": {
+      "R0_trace_and_basis_are_valid": "Independent traced logits agree with the checkpoint forward to at most 1e-5, and the pooled rank-32 oracle beats an equal-rank random basis by at least 0.30 fidelity on every corpus.",
+      "R1_pre_final_local_router_is_sufficient": "At the boundary after Layer 10, at least one frozen feature family reaches fidelity at least 0.70 and lies within 0.15 of the rank-32 oracle on every corpus.",
+      "R2_mid_depth_router_is_sufficient": "At some boundary no later than Layer 6, one feature family reaches fidelity at least 0.70 and lies within 0.15 of oracle on every corpus.",
+      "R3_context_specific_coefficients_matter": "At the earliest universally sufficient boundary, predicted coefficients exceed within-corpus permuted predicted coefficients by at least 0.15 fidelity on every corpus.",
+      "R4_nonlinear_local_features_add_value": "At some boundary on every corpus, polynomial features improve fidelity over delta-only features by at least 0.10.",
+      "R5_router_quality_generally_increases_with_depth": "For every corpus, the best-family fidelity has Spearman correlation at least 0.70 with boundary depth.",
+      "R6_one_frozen_router_transfers_ood": "The same FineWeb-trained family and depth that first pass the FineWeb gate also pass the 0.70/within-0.15 gate on WikiText and TinyStories."
+    }
+  },
+  "hypotheses": {
+    "R0_trace_and_basis_are_valid": {
+      "supported": false,
+      "maximum_trace_error": 4.38690185546875e-05
+    },
+    "R1_pre_final_local_router_is_sufficient": {
+      "supported": false
+    },
+    "R2_mid_depth_router_is_sufficient": {
+      "supported": false,
+      "earliest_universal": null
+    },
+    "R3_context_specific_coefficients_matter": {
+      "supported": false
+    },
+    "R4_nonlinear_local_features_add_value": {
+      "supported": false
+    },
+    "R5_router_quality_generally_increases_with_depth": {
+      "supported": true,
+      "correlations": {
+        "fineweb": 1.0,
+        "wikitext": 0.9440559440559443,
+        "tinystories": 0.9930069930069931
+      }
+    },
+    "R6_one_frozen_router_transfers_ood": {
+      "supported": false,
+      "fineweb_first": [
+        -1,
+        "delta"
+      ]
+    }
+  },
+  "results": {
+    "fineweb": {
+      "examples": 252,
+      "oracle": {
+        "cosine": 0.9430737495422363,
+        "fidelity": 0.8805742859840393
+      },
+      "random_oracle": {
+        "cosine": 0.3110748827457428,
+        "fidelity": 0.08753693103790283
+      },
+      "depths": {
+        "-1": {
+          "delta": {
+            "r2": 0.2921907901763916,
+            "median_cosine": 0.9787169694900513,
+            "fidelity": 0.7702200412750244,
+            "cosine": 0.8944672346115112,
+            "permuted_fidelity": 0.7072466611862183,
+            "permutation_drop": 0.06297338008880615
+          },
+          "pair": {
+            "r2": 0.2921907901763916,
+            "median_cosine": 0.9787169694900513,
+            "fidelity": 0.7702200412750244,
+            "cosine": 0.8944669961929321,
+            "permuted_fidelity": 0.707246720790863,
+            "permutation_drop": 0.06297332048416138
+          },
+          "polynomial": {
+            "r2": 0.2872942090034485,
+            "median_cosine": 0.9797359108924866,
+            "fidelity": 0.774998128414154,
+            "cosine": 0.8993585705757141,
+            "permuted_fidelity": 0.7024382948875427,
+            "permutation_drop": 0.07255983352661133
+          },
+          "carriers": {
+            "r2": 0.2921907901763916,
+            "median_cosine": 0.9787169694900513,
+            "fidelity": 0.7702198028564453,
+            "cosine": 0.8944668769836426,
+            "permuted_fidelity": 0.7072466015815735,
+            "permutation_drop": 0.06297320127487183
+          }
+        },
+        "0": {
+          "delta": {
+            "r2": 0.36371785402297974,
+            "median_cosine": 0.9836174845695496,
+            "fidelity": 0.7692526578903198,
+            "cosine": 0.9005907773971558,
+            "permuted_fidelity": 0.6781787276268005,
+            "permutation_drop": 0.09107393026351929
+          },
+          "pair": {
+            "r2": 0.3711969256401062,
+            "median_cosine": 0.9834910035133362,
+            "fidelity": 0.7730307579040527,
+            "cosine": 0.8997582793235779,
+            "permuted_fidelity": 0.6866658329963684,
+            "permutation_drop": 0.08636492490768433
+          },
+          "polynomial": {
+            "r2": 0.37069791555404663,
+            "median_cosine": 0.9834105968475342,
+            "fidelity": 0.7734287977218628,
+            "cosine": 0.8978845477104187,
+            "permuted_fidelity": 0.6945480108261108,
+            "permutation_drop": 0.07888078689575195
+          },
+          "carriers": {
+            "r2": 0.3703838586807251,
+            "median_cosine": 0.9833216071128845,
+            "fidelity": 0.7832411527633667,
+            "cosine": 0.9007611274719238,
+            "permuted_fidelity": 0.701652467250824,
+            "permutation_drop": 0.08158868551254272
+          }
+        },
+        "1": {
+          "delta": {
+            "r2": 0.39501410722732544,
+            "median_cosine": 0.9847108721733093,
+            "fidelity": 0.7806090712547302,
+            "cosine": 0.9049034714698792,
+            "permuted_fidelity": 0.6872948408126831,
+            "permutation_drop": 0.09331423044204712
+          },
+          "pair": {
+            "r2": 0.40952473878860474,
+            "median_cosine": 0.9846761226654053,
+            "fidelity": 0.7867745757102966,
+            "cosine": 0.9086640477180481,
+            "permuted_fidelity": 0.6891404986381531,
+            "permutation_drop": 0.09763407707214355
+          },
+          "polynomial": {
+            "r2": 0.4148915410041809,
+            "median_cosine": 0.984840989112854,
+            "fidelity": 0.7924004197120667,
+            "cosine": 0.9046569466590881,
+            "permuted_fidelity": 0.687454879283905,
+            "permutation_drop": 0.10494554042816162
+          },
+          "carriers": {
+            "r2": 0.41424065828323364,
+            "median_cosine": 0.9848153591156006,
+            "fidelity": 0.7898649573326111,
+            "cosine": 0.9054299592971802,
+            "permuted_fidelity": 0.6982947587966919,
+            "permutation_drop": 0.09157019853591919
+          }
+        },
+        "2": {
+          "delta": {
+            "r2": 0.41190338134765625,
+            "median_cosine": 0.9859288334846497,
+            "fidelity": 0.7877421975135803,
+            "cosine": 0.9079399704933167,
+            "permuted_fidelity": 0.6808710098266602,
+            "permutation_drop": 0.10687118768692017
+          },
+          "pair": {
+            "r2": 0.4336874485015869,
+            "median_cosine": 0.9861988425254822,
+            "fidelity": 0.7879055142402649,
+            "cosine": 0.9097049236297607,
+            "permuted_fidelity": 0.6787607669830322,
+            "permutation_drop": 0.10914474725723267
+          },
+          "polynomial": {
+            "r2": 0.43046021461486816,
+            "median_cosine": 0.9852995276451111,
+            "fidelity": 0.7967045307159424,
+            "cosine": 0.9111672639846802,
+            "permuted_fidelity": 0.6829326748847961,
+            "permutation_drop": 0.11377185583114624
+          },
+          "carriers": {
+            "r2": 0.4324985146522522,
+            "median_cosine": 0.9860022068023682,
+            "fidelity": 0.7975376844406128,
+            "cosine": 0.9078503847122192,
+            "permuted_fidelity": 0.6970558166503906,
+            "permutation_drop": 0.10048186779022217
+          }
+        },
+        "3": {
+          "delta": {
+            "r2": 0.4147099256515503,
+            "median_cosine": 0.9855836629867554,
+            "fidelity": 0.7829506397247314,
+            "cosine": 0.908052921295166,
+            "permuted_fidelity": 0.7118667364120483,
+            "permutation_drop": 0.0710839033126831
+          },
+          "pair": {
+            "r2": 0.456015408039093,
+            "median_cosine": 0.9861032962799072,
+            "fidelity": 0.7981117963790894,
+            "cosine": 0.9128475785255432,
+            "permuted_fidelity": 0.6961902379989624,
+            "permutation_drop": 0.10192155838012695
+          },
+          "polynomial": {
+            "r2": 0.43624550104141235,
+            "median_cosine": 0.9852966666221619,
+            "fidelity": 0.7915371060371399,
+            "cosine": 0.9062300324440002,
+            "permuted_fidelity": 0.7039215564727783,
+            "permutation_drop": 0.08761554956436157
+          },
+          "carriers": {
+            "r2": 0.45210498571395874,
+            "median_cosine": 0.9867787957191467,
+            "fidelity": 0.7977192997932434,
+            "cosine": 0.9119845628738403,
+            "permuted_fidelity": 0.7068080902099609,
+            "permutation_drop": 0.09091120958328247
+          }
+        },
+        "4": {
+          "delta": {
+            "r2": 0.4297459125518799,
+            "median_cosine": 0.986183762550354,
+            "fidelity": 0.7933157682418823,
+            "cosine": 0.9159020781517029,
+            "permuted_fidelity": 0.6887804269790649,
+            "permutation_drop": 0.10453534126281738
+          },
+          "pair": {
+            "r2": 0.47147178649902344,
+            "median_cosine": 0.9866474866867065,
+            "fidelity": 0.7942283153533936,
+            "cosine": 0.917400062084198,
+            "permuted_fidelity": 0.6910334229469299,
+            "permutation_drop": 0.10319489240646362
+          },
+          "polynomial": {
+            "r2": 0.45722532272338867,
+            "median_cosine": 0.9867987036705017,
+            "fidelity": 0.8029516339302063,
+            "cosine": 0.9175078272819519,
+            "permuted_fidelity": 0.7009636163711548,
+            "permutation_drop": 0.10198801755905151
+          },
+          "carriers": {
+            "r2": 0.47528213262557983,
+            "median_cosine": 0.98674476146698,
+            "fidelity": 0.8058450818061829,
+            "cosine": 0.9145297408103943,
+            "permuted_fidelity": 0.7142504453659058,
+            "permutation_drop": 0.0915946364402771
+          }
+        },
+        "5": {
+          "delta": {
+            "r2": 0.49787867069244385,
+            "median_cosine": 0.9883576035499573,
+            "fidelity": 0.7938446402549744,
+            "cosine": 0.9159844517707825,
+            "permuted_fidelity": 0.6922298669815063,
+            "permutation_drop": 0.10161477327346802
+          },
+          "pair": {
+            "r2": 0.5357985496520996,
+            "median_cosine": 0.9885636568069458,
+            "fidelity": 0.7984817028045654,
+            "cosine": 0.9185612797737122,
+            "permuted_fidelity": 0.6940551996231079,
+            "permutation_drop": 0.10442650318145752
+          },
+          "polynomial": {
+            "r2": 0.5198144316673279,
+            "median_cosine": 0.9887546896934509,
+            "fidelity": 0.8018506765365601,
+            "cosine": 0.919217586517334,
+            "permuted_fidelity": 0.703041672706604,
+            "permutation_drop": 0.09880900382995605
+          },
+          "carriers": {
+            "r2": 0.5268584489822388,
+            "median_cosine": 0.9880576729774475,
+            "fidelity": 0.811260998249054,
+            "cosine": 0.9211800694465637,
+            "permuted_fidelity": 0.7021870613098145,
+            "permutation_drop": 0.1090739369392395
+          }
+        },
+        "6": {
+          "delta": {
+            "r2": 0.5468300580978394,
+            "median_cosine": 0.9897717237472534,
+            "fidelity": 0.8153640031814575,
+            "cosine": 0.9249958395957947,
+            "permuted_fidelity": 0.6916390657424927,
+            "permutation_drop": 0.12372493743896484
+          },
+          "pair": {
+            "r2": 0.5860424637794495,
+            "median_cosine": 0.9903550148010254,
+            "fidelity": 0.8132832050323486,
+            "cosine": 0.9276376962661743,
+            "permuted_fidelity": 0.6928167939186096,
+            "permutation_drop": 0.12046641111373901
+          },
+          "polynomial": {
+            "r2": 0.5601849555969238,
+            "median_cosine": 0.9901589155197144,
+            "fidelity": 0.8084026575088501,
+            "cosine": 0.9295929670333862,
+            "permuted_fidelity": 0.6904352903366089,
+            "permutation_drop": 0.11796736717224121
+          },
+          "carriers": {
+            "r2": 0.5560799837112427,
+            "median_cosine": 0.989351749420166,
+            "fidelity": 0.8165547847747803,
+            "cosine": 0.9227535724639893,
+            "permuted_fidelity": 0.7075679898262024,
+            "permutation_drop": 0.10898679494857788
+          }
+        },
+        "7": {
+          "delta": {
+            "r2": 0.5800269842147827,
+            "median_cosine": 0.9902999997138977,
+            "fidelity": 0.8134354948997498,
+            "cosine": 0.9233956933021545,
+            "permuted_fidelity": 0.6848002672195435,
+            "permutation_drop": 0.1286352276802063
+          },
+          "pair": {
+            "r2": 0.61285400390625,
+            "median_cosine": 0.9908971190452576,
+            "fidelity": 0.817490816116333,
+            "cosine": 0.9265475869178772,
+            "permuted_fidelity": 0.6909294128417969,
+            "permutation_drop": 0.12656140327453613
+          },
+          "polynomial": {
+            "r2": 0.5737748146057129,
+            "median_cosine": 0.9908857941627502,
+            "fidelity": 0.8213324546813965,
+            "cosine": 0.9276882410049438,
+            "permuted_fidelity": 0.6997253894805908,
+            "permutation_drop": 0.12160706520080566
+          },
+          "carriers": {
+            "r2": 0.5659604072570801,
+            "median_cosine": 0.9899550080299377,
+            "fidelity": 0.8212315440177917,
+            "cosine": 0.9209112524986267,
+            "permuted_fidelity": 0.7117592096328735,
+            "permutation_drop": 0.10947233438491821
+          }
+        },
+        "8": {
+          "delta": {
+            "r2": 0.5989870429039001,
+            "median_cosine": 0.9910963177680969,
+            "fidelity": 0.8166640996932983,
+            "cosine": 0.925717294216156,
+            "permuted_fidelity": 0.6978498697280884,
+            "permutation_drop": 0.11881422996520996
+          },
+          "pair": {
+            "r2": 0.6263766288757324,
+            "median_cosine": 0.9913226366043091,
+            "fidelity": 0.8220353126525879,
+            "cosine": 0.9257164597511292,
+            "permuted_fidelity": 0.7099354267120361,
+            "permutation_drop": 0.11209988594055176
+          },
+          "polynomial": {
+            "r2": 0.5919924974441528,
+            "median_cosine": 0.9912975430488586,
+            "fidelity": 0.8194426894187927,
+            "cosine": 0.9273359179496765,
+            "permuted_fidelity": 0.7118173837661743,
+            "permutation_drop": 0.10762530565261841
+          },
+          "carriers": {
+            "r2": 0.5661739110946655,
+            "median_cosine": 0.9899123311042786,
+            "fidelity": 0.8278661370277405,
+            "cosine": 0.9211544394493103,
+            "permuted_fidelity": 0.7040743827819824,
+            "permutation_drop": 0.12379175424575806
+          }
+        },
+        "9": {
+          "delta": {
+            "r2": 0.6539942026138306,
+            "median_cosine": 0.9918168783187866,
+            "fidelity": 0.8252138495445251,
+            "cosine": 0.9222907423973083,
+            "permuted_fidelity": 0.694495677947998,
+            "permutation_drop": 0.1307181715965271
+          },
+          "pair": {
+            "r2": 0.6744571924209595,
+            "median_cosine": 0.9923532605171204,
+            "fidelity": 0.8249392509460449,
+            "cosine": 0.9253560900688171,
+            "permuted_fidelity": 0.7049431800842285,
+            "permutation_drop": 0.1199960708618164
+          },
+          "polynomial": {
+            "r2": 0.6433433294296265,
+            "median_cosine": 0.9921923279762268,
+            "fidelity": 0.8328073024749756,
+            "cosine": 0.9251002669334412,
+            "permuted_fidelity": 0.7145888209342957,
+            "permutation_drop": 0.11821848154067993
+          },
+          "carriers": {
+            "r2": 0.5968936085700989,
+            "median_cosine": 0.9903279542922974,
+            "fidelity": 0.8270279169082642,
+            "cosine": 0.9194815158843994,
+            "permuted_fidelity": 0.7088315486907959,
+            "permutation_drop": 0.11819636821746826
+          }
+        },
+        "10": {
+          "delta": {
+            "r2": 0.7468892335891724,
+            "median_cosine": 0.9935327172279358,
+            "fidelity": 0.8314882516860962,
+            "cosine": 0.9247072339057922,
+            "permuted_fidelity": 0.6962656378746033,
+            "permutation_drop": 0.13522261381149292
+          },
+          "pair": {
+            "r2": 0.7404333353042603,
+            "median_cosine": 0.9932567477226257,
+            "fidelity": 0.8292914628982544,
+            "cosine": 0.9247060418128967,
+            "permuted_fidelity": 0.7022339105606079,
+            "permutation_drop": 0.12705755233764648
+          },
+          "polynomial": {
+            "r2": 0.7100412845611572,
+            "median_cosine": 0.9924797415733337,
+            "fidelity": 0.8351344466209412,
+            "cosine": 0.9254003167152405,
+            "permuted_fidelity": 0.6990193128585815,
+            "permutation_drop": 0.13611513376235962
+          },
+          "carriers": {
+            "r2": 0.6575717926025391,
+            "median_cosine": 0.9912694692611694,
+            "fidelity": 0.8311464786529541,
+            "cosine": 0.9217644929885864,
+            "permuted_fidelity": 0.7066695094108582,
+            "permutation_drop": 0.12447696924209595
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "examples": 253,
+      "oracle": {
+        "cosine": 0.9201382398605347,
+        "fidelity": 0.8169747591018677
+      },
+      "random_oracle": {
+        "cosine": 0.3461029529571533,
+        "fidelity": 0.10647052526473999
+      },
+      "depths": {
+        "-1": {
+          "delta": {
+            "r2": -0.5011330842971802,
+            "median_cosine": 0.8802729249000549,
+            "fidelity": 0.4700136184692383,
+            "cosine": 0.8095703125,
+            "permuted_fidelity": 0.4036577343940735,
+            "permutation_drop": 0.0663558840751648
+          },
+          "pair": {
+            "r2": -0.5011330842971802,
+            "median_cosine": 0.8802729249000549,
+            "fidelity": 0.4700136184692383,
+            "cosine": 0.8095703125,
+            "permuted_fidelity": 0.4036577343940735,
+            "permutation_drop": 0.0663558840751648
+          },
+          "polynomial": {
+            "r2": -0.502266526222229,
+            "median_cosine": 0.8822451233863831,
+            "fidelity": 0.4413645267486572,
+            "cosine": 0.8076514601707458,
+            "permuted_fidelity": 0.40629494190216064,
+            "permutation_drop": 0.03506958484649658
+          },
+          "carriers": {
+            "r2": -0.5011330842971802,
+            "median_cosine": 0.8802728652954102,
+            "fidelity": 0.4700140357017517,
+            "cosine": 0.8095700740814209,
+            "permuted_fidelity": 0.4036577343940735,
+            "permutation_drop": 0.06635630130767822
+          }
+        },
+        "0": {
+          "delta": {
+            "r2": -0.47446537017822266,
+            "median_cosine": 0.8721373081207275,
+            "fidelity": 0.45794135332107544,
+            "cosine": 0.8132612705230713,
+            "permuted_fidelity": 0.37497150897979736,
+            "permutation_drop": 0.08296984434127808
+          },
+          "pair": {
+            "r2": -0.47281086444854736,
+            "median_cosine": 0.8745474219322205,
+            "fidelity": 0.4555840492248535,
+            "cosine": 0.816487193107605,
+            "permuted_fidelity": 0.38552284240722656,
+            "permutation_drop": 0.07006120681762695
+          },
+          "polynomial": {
+            "r2": -0.42781853675842285,
+            "median_cosine": 0.8706902861595154,
+            "fidelity": 0.4667595624923706,
+            "cosine": 0.816648006439209,
+            "permuted_fidelity": 0.3857596516609192,
+            "permutation_drop": 0.08099991083145142
+          },
+          "carriers": {
+            "r2": -0.4490375518798828,
+            "median_cosine": 0.8762080669403076,
+            "fidelity": 0.4735564589500427,
+            "cosine": 0.8210203647613525,
+            "permuted_fidelity": 0.39064091444015503,
+            "permutation_drop": 0.0829155445098877
+          }
+        },
+        "1": {
+          "delta": {
+            "r2": -0.3412364721298218,
+            "median_cosine": 0.8818997144699097,
+            "fidelity": 0.5171817541122437,
+            "cosine": 0.8265389800071716,
+            "permuted_fidelity": 0.3867104649543762,
+            "permutation_drop": 0.13047128915786743
+          },
+          "pair": {
+            "r2": -0.3508366346359253,
+            "median_cosine": 0.8809015154838562,
+            "fidelity": 0.5054771304130554,
+            "cosine": 0.8267296552658081,
+            "permuted_fidelity": 0.3952938914299011,
+            "permutation_drop": 0.1101832389831543
+          },
+          "polynomial": {
+            "r2": -0.34206080436706543,
+            "median_cosine": 0.8769007325172424,
+            "fidelity": 0.4927346110343933,
+            "cosine": 0.8221337199211121,
+            "permuted_fidelity": 0.3713184595108032,
+            "permutation_drop": 0.12141615152359009
+          },
+          "carriers": {
+            "r2": -0.36560654640197754,
+            "median_cosine": 0.8781900405883789,
+            "fidelity": 0.5000543594360352,
+            "cosine": 0.819706380367279,
+            "permuted_fidelity": 0.3848336935043335,
+            "permutation_drop": 0.11522066593170166
+          }
+        },
+        "2": {
+          "delta": {
+            "r2": -0.34915685653686523,
+            "median_cosine": 0.8864644765853882,
+            "fidelity": 0.49671077728271484,
+            "cosine": 0.8274630904197693,
+            "permuted_fidelity": 0.360603928565979,
+            "permutation_drop": 0.13610684871673584
+          },
+          "pair": {
+            "r2": -0.3206160068511963,
+            "median_cosine": 0.8883711695671082,
+            "fidelity": 0.5079307556152344,
+            "cosine": 0.828057587146759,
+            "permuted_fidelity": 0.38962119817733765,
+            "permutation_drop": 0.11830955743789673
+          },
+          "polynomial": {
+            "r2": -0.30843138694763184,
+            "median_cosine": 0.8839842677116394,
+            "fidelity": 0.5046385526657104,
+            "cosine": 0.8317466974258423,
+            "permuted_fidelity": 0.40181803703308105,
+            "permutation_drop": 0.1028205156326294
+          },
+          "carriers": {
+            "r2": -0.3309577703475952,
+            "median_cosine": 0.87943035364151,
+            "fidelity": 0.5018632411956787,
+            "cosine": 0.829066276550293,
+            "permuted_fidelity": 0.40675586462020874,
+            "permutation_drop": 0.09510737657546997
+          }
+        },
+        "3": {
+          "delta": {
+            "r2": -0.26709628105163574,
+            "median_cosine": 0.8816467523574829,
+            "fidelity": 0.5154557228088379,
+            "cosine": 0.8259355425834656,
+            "permuted_fidelity": 0.35829782485961914,
+            "permutation_drop": 0.15715789794921875
+          },
+          "pair": {
+            "r2": -0.23307693004608154,
+            "median_cosine": 0.8921616673469543,
+            "fidelity": 0.512022852897644,
+            "cosine": 0.8349284529685974,
+            "permuted_fidelity": 0.38713353872299194,
+            "permutation_drop": 0.1248893141746521
+          },
+          "polynomial": {
+            "r2": -0.24823129177093506,
+            "median_cosine": 0.8836259245872498,
+            "fidelity": 0.5086989402770996,
+            "cosine": 0.8333881497383118,
+            "permuted_fidelity": 0.38651901483535767,
+            "permutation_drop": 0.12217992544174194
+          },
+          "carriers": {
+            "r2": -0.27487385272979736,
+            "median_cosine": 0.8830127120018005,
+            "fidelity": 0.5198976993560791,
+            "cosine": 0.8319017291069031,
+            "permuted_fidelity": 0.40121161937713623,
+            "permutation_drop": 0.11868607997894287
+          }
+        },
+        "4": {
+          "delta": {
+            "r2": -0.18209218978881836,
+            "median_cosine": 0.8915403485298157,
+            "fidelity": 0.4951072335243225,
+            "cosine": 0.831599771976471,
+            "permuted_fidelity": 0.41548144817352295,
+            "permutation_drop": 0.07962578535079956
+          },
+          "pair": {
+            "r2": -0.18999922275543213,
+            "median_cosine": 0.8931063413619995,
+            "fidelity": 0.46913039684295654,
+            "cosine": 0.8302534818649292,
+            "permuted_fidelity": 0.4270555377006531,
+            "permutation_drop": 0.04207485914230347
+          },
+          "polynomial": {
+            "r2": -0.19099366664886475,
+            "median_cosine": 0.8881402611732483,
+            "fidelity": 0.46970224380493164,
+            "cosine": 0.8354141116142273,
+            "permuted_fidelity": 0.4442320466041565,
+            "permutation_drop": 0.025470197200775146
+          },
+          "carriers": {
+            "r2": -0.2318117618560791,
+            "median_cosine": 0.8892174959182739,
+            "fidelity": 0.511083722114563,
+            "cosine": 0.8388658761978149,
+            "permuted_fidelity": 0.41860431432724,
+            "permutation_drop": 0.092479407787323
+          }
+        },
+        "5": {
+          "delta": {
+            "r2": 0.069416344165802,
+            "median_cosine": 0.8994636535644531,
+            "fidelity": 0.5177581310272217,
+            "cosine": 0.8406903147697449,
+            "permuted_fidelity": 0.4061569571495056,
+            "permutation_drop": 0.11160117387771606
+          },
+          "pair": {
+            "r2": -0.009755134582519531,
+            "median_cosine": 0.9010683298110962,
+            "fidelity": 0.4997655153274536,
+            "cosine": 0.8454635143280029,
+            "permuted_fidelity": 0.3901482820510864,
+            "permutation_drop": 0.10961723327636719
+          },
+          "polynomial": {
+            "r2": 0.004734992980957031,
+            "median_cosine": 0.9009367823600769,
+            "fidelity": 0.5248558521270752,
+            "cosine": 0.8396030068397522,
+            "permuted_fidelity": 0.39926445484161377,
+            "permutation_drop": 0.12559139728546143
+          },
+          "carriers": {
+            "r2": -0.11055159568786621,
+            "median_cosine": 0.893707811832428,
+            "fidelity": 0.5323057174682617,
+            "cosine": 0.8461082577705383,
+            "permuted_fidelity": 0.4034579396247864,
+            "permutation_drop": 0.12884777784347534
+          }
+        },
+        "6": {
+          "delta": {
+            "r2": 0.1937233805656433,
+            "median_cosine": 0.9100580215454102,
+            "fidelity": 0.5490964651107788,
+            "cosine": 0.8535611033439636,
+            "permuted_fidelity": 0.3982427716255188,
+            "permutation_drop": 0.15085369348526
+          },
+          "pair": {
+            "r2": 0.11026650667190552,
+            "median_cosine": 0.9114930629730225,
+            "fidelity": 0.5092509984970093,
+            "cosine": 0.8591727018356323,
+            "permuted_fidelity": 0.39533770084381104,
+            "permutation_drop": 0.11391329765319824
+          },
+          "polynomial": {
+            "r2": 0.10559588670730591,
+            "median_cosine": 0.9142287969589233,
+            "fidelity": 0.5330919027328491,
+            "cosine": 0.8533113598823547,
+            "permuted_fidelity": 0.39476871490478516,
+            "permutation_drop": 0.13832318782806396
+          },
+          "carriers": {
+            "r2": -0.00545048713684082,
+            "median_cosine": 0.903895378112793,
+            "fidelity": 0.5520178079605103,
+            "cosine": 0.8540372252464294,
+            "permuted_fidelity": 0.4124906063079834,
+            "permutation_drop": 0.13952720165252686
+          }
+        },
+        "7": {
+          "delta": {
+            "r2": 0.24283581972122192,
+            "median_cosine": 0.9151068925857544,
+            "fidelity": 0.5332235097885132,
+            "cosine": 0.855354905128479,
+            "permuted_fidelity": 0.4086974859237671,
+            "permutation_drop": 0.1245260238647461
+          },
+          "pair": {
+            "r2": 0.14154362678527832,
+            "median_cosine": 0.9112944006919861,
+            "fidelity": 0.510491132736206,
+            "cosine": 0.8599740266799927,
+            "permuted_fidelity": 0.40005582571029663,
+            "permutation_drop": 0.11043530702590942
+          },
+          "polynomial": {
+            "r2": 0.12568628787994385,
+            "median_cosine": 0.909856915473938,
+            "fidelity": 0.5268412232398987,
+            "cosine": 0.8624452948570251,
+            "permuted_fidelity": 0.41797971725463867,
+            "permutation_drop": 0.10886150598526001
+          },
+          "carriers": {
+            "r2": 0.018309414386749268,
+            "median_cosine": 0.9111378788948059,
+            "fidelity": 0.5522773265838623,
+            "cosine": 0.8506571650505066,
+            "permuted_fidelity": 0.42129653692245483,
+            "permutation_drop": 0.13098078966140747
+          }
+        },
+        "8": {
+          "delta": {
+            "r2": 0.2088146209716797,
+            "median_cosine": 0.9103041291236877,
+            "fidelity": 0.5518151521682739,
+            "cosine": 0.8462303876876831,
+            "permuted_fidelity": 0.4028845429420471,
+            "permutation_drop": 0.1489306092262268
+          },
+          "pair": {
+            "r2": 0.11314445734024048,
+            "median_cosine": 0.9114562273025513,
+            "fidelity": 0.5299174189567566,
+            "cosine": 0.8522599339485168,
+            "permuted_fidelity": 0.41058772802352905,
+            "permutation_drop": 0.11932969093322754
+          },
+          "polynomial": {
+            "r2": 0.07968568801879883,
+            "median_cosine": 0.9036293029785156,
+            "fidelity": 0.5447492003440857,
+            "cosine": 0.8544626235961914,
+            "permuted_fidelity": 0.40753525495529175,
+            "permutation_drop": 0.13721394538879395
+          },
+          "carriers": {
+            "r2": -0.022585749626159668,
+            "median_cosine": 0.9059779047966003,
+            "fidelity": 0.5392318964004517,
+            "cosine": 0.8523866534233093,
+            "permuted_fidelity": 0.4028579592704773,
+            "permutation_drop": 0.13637393712997437
+          }
+        },
+        "9": {
+          "delta": {
+            "r2": 0.27043259143829346,
+            "median_cosine": 0.917294442653656,
+            "fidelity": 0.5811572074890137,
+            "cosine": 0.860160768032074,
+            "permuted_fidelity": 0.41417986154556274,
+            "permutation_drop": 0.16697734594345093
+          },
+          "pair": {
+            "r2": 0.14934009313583374,
+            "median_cosine": 0.9131472706794739,
+            "fidelity": 0.5406102538108826,
+            "cosine": 0.8607212901115417,
+            "permuted_fidelity": 0.4114740490913391,
+            "permutation_drop": 0.12913620471954346
+          },
+          "polynomial": {
+            "r2": 0.12414669990539551,
+            "median_cosine": 0.9102676510810852,
+            "fidelity": 0.5474824905395508,
+            "cosine": 0.856372594833374,
+            "permuted_fidelity": 0.4128851294517517,
+            "permutation_drop": 0.13459736108779907
+          },
+          "carriers": {
+            "r2": 0.005083799362182617,
+            "median_cosine": 0.9084812998771667,
+            "fidelity": 0.5474140644073486,
+            "cosine": 0.855106770992279,
+            "permuted_fidelity": 0.4234575629234314,
+            "permutation_drop": 0.12395650148391724
+          }
+        },
+        "10": {
+          "delta": {
+            "r2": 0.4644043445587158,
+            "median_cosine": 0.9272915720939636,
+            "fidelity": 0.6073118448257446,
+            "cosine": 0.8672705888748169,
+            "permuted_fidelity": 0.4541627764701843,
+            "permutation_drop": 0.1531490683555603
+          },
+          "pair": {
+            "r2": 0.30508124828338623,
+            "median_cosine": 0.9170342087745667,
+            "fidelity": 0.5561704635620117,
+            "cosine": 0.8579030632972717,
+            "permuted_fidelity": 0.4129226803779602,
+            "permutation_drop": 0.1432477831840515
+          },
+          "polynomial": {
+            "r2": 0.2498159408569336,
+            "median_cosine": 0.9140621423721313,
+            "fidelity": 0.553954541683197,
+            "cosine": 0.8581030368804932,
+            "permuted_fidelity": 0.41895633935928345,
+            "permutation_drop": 0.13499820232391357
+          },
+          "carriers": {
+            "r2": 0.11785262823104858,
+            "median_cosine": 0.9068440198898315,
+            "fidelity": 0.5474510192871094,
+            "cosine": 0.8528333306312561,
+            "permuted_fidelity": 0.42424672842025757,
+            "permutation_drop": 0.1232042908668518
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "examples": 240,
+      "oracle": {
+        "cosine": 0.9426535964012146,
+        "fidelity": 0.8728803396224976
+      },
+      "random_oracle": {
+        "cosine": 0.31186801195144653,
+        "fidelity": 0.08793890476226807
+      },
+      "depths": {
+        "-1": {
+          "delta": {
+            "r2": 0.23006397485733032,
+            "median_cosine": 0.9806833863258362,
+            "fidelity": 0.7757605314254761,
+            "cosine": 0.9002988338470459,
+            "permuted_fidelity": 0.642551839351654,
+            "permutation_drop": 0.13320869207382202
+          },
+          "pair": {
+            "r2": 0.23006397485733032,
+            "median_cosine": 0.9806833863258362,
+            "fidelity": 0.7757604718208313,
+            "cosine": 0.9002988338470459,
+            "permuted_fidelity": 0.6425518989562988,
+            "permutation_drop": 0.13320857286453247
+          },
+          "polynomial": {
+            "r2": 0.2301715612411499,
+            "median_cosine": 0.9803521633148193,
+            "fidelity": 0.7718949913978577,
+            "cosine": 0.9024987816810608,
+            "permuted_fidelity": 0.6527447700500488,
+            "permutation_drop": 0.11915022134780884
+          },
+          "carriers": {
+            "r2": 0.23006397485733032,
+            "median_cosine": 0.9806833863258362,
+            "fidelity": 0.7757605314254761,
+            "cosine": 0.9002987742424011,
+            "permuted_fidelity": 0.6425514221191406,
+            "permutation_drop": 0.13320910930633545
+          }
+        },
+        "0": {
+          "delta": {
+            "r2": 0.2163863182067871,
+            "median_cosine": 0.9828615188598633,
+            "fidelity": 0.7839280366897583,
+            "cosine": 0.9033249020576477,
+            "permuted_fidelity": 0.6474639177322388,
+            "permutation_drop": 0.13646411895751953
+          },
+          "pair": {
+            "r2": 0.21867233514785767,
+            "median_cosine": 0.982982873916626,
+            "fidelity": 0.7840665578842163,
+            "cosine": 0.9022231698036194,
+            "permuted_fidelity": 0.6525833010673523,
+            "permutation_drop": 0.131483256816864
+          },
+          "polynomial": {
+            "r2": 0.22113746404647827,
+            "median_cosine": 0.9830989837646484,
+            "fidelity": 0.7736043930053711,
+            "cosine": 0.9062157273292542,
+            "permuted_fidelity": 0.650443434715271,
+            "permutation_drop": 0.1231609582901001
+          },
+          "carriers": {
+            "r2": 0.244482159614563,
+            "median_cosine": 0.98274827003479,
+            "fidelity": 0.7847393155097961,
+            "cosine": 0.9039748907089233,
+            "permuted_fidelity": 0.6605808734893799,
+            "permutation_drop": 0.12415844202041626
+          }
+        },
+        "1": {
+          "delta": {
+            "r2": 0.22626078128814697,
+            "median_cosine": 0.9827287793159485,
+            "fidelity": 0.7773334980010986,
+            "cosine": 0.9038162231445312,
+            "permuted_fidelity": 0.6462833285331726,
+            "permutation_drop": 0.13105016946792603
+          },
+          "pair": {
+            "r2": 0.23483580350875854,
+            "median_cosine": 0.9831686615943909,
+            "fidelity": 0.7690083980560303,
+            "cosine": 0.9051148891448975,
+            "permuted_fidelity": 0.6407307386398315,
+            "permutation_drop": 0.12827765941619873
+          },
+          "polynomial": {
+            "r2": 0.24632322788238525,
+            "median_cosine": 0.9836832880973816,
+            "fidelity": 0.7833943963050842,
+            "cosine": 0.904670000076294,
+            "permuted_fidelity": 0.6621854901313782,
+            "permutation_drop": 0.12120890617370605
+          },
+          "carriers": {
+            "r2": 0.2704196572303772,
+            "median_cosine": 0.9836238026618958,
+            "fidelity": 0.7854758501052856,
+            "cosine": 0.9064638018608093,
+            "permuted_fidelity": 0.6521357297897339,
+            "permutation_drop": 0.13334012031555176
+          }
+        },
+        "2": {
+          "delta": {
+            "r2": 0.22460252046585083,
+            "median_cosine": 0.9840967655181885,
+            "fidelity": 0.7781145572662354,
+            "cosine": 0.8990827798843384,
+            "permuted_fidelity": 0.659751296043396,
+            "permutation_drop": 0.11836326122283936
+          },
+          "pair": {
+            "r2": 0.2538532018661499,
+            "median_cosine": 0.9849124550819397,
+            "fidelity": 0.782349705696106,
+            "cosine": 0.8999465107917786,
+            "permuted_fidelity": 0.6525617837905884,
+            "permutation_drop": 0.12978792190551758
+          },
+          "polynomial": {
+            "r2": 0.2787829637527466,
+            "median_cosine": 0.9843893051147461,
+            "fidelity": 0.7892930507659912,
+            "cosine": 0.9045577645301819,
+            "permuted_fidelity": 0.6652472615242004,
+            "permutation_drop": 0.12404578924179077
+          },
+          "carriers": {
+            "r2": 0.29358744621276855,
+            "median_cosine": 0.9846073389053345,
+            "fidelity": 0.7896385192871094,
+            "cosine": 0.9034336805343628,
+            "permuted_fidelity": 0.6556475162506104,
+            "permutation_drop": 0.13399100303649902
+          }
+        },
+        "3": {
+          "delta": {
+            "r2": 0.3244478702545166,
+            "median_cosine": 0.9859310984611511,
+            "fidelity": 0.7851369380950928,
+            "cosine": 0.9028924703598022,
+            "permuted_fidelity": 0.6546015739440918,
+            "permutation_drop": 0.13053536415100098
+          },
+          "pair": {
+            "r2": 0.3504146933555603,
+            "median_cosine": 0.9858042597770691,
+            "fidelity": 0.7814124822616577,
+            "cosine": 0.9059271812438965,
+            "permuted_fidelity": 0.6531834602355957,
+            "permutation_drop": 0.128229022026062
+          },
+          "polynomial": {
+            "r2": 0.3459005355834961,
+            "median_cosine": 0.9859552979469299,
+            "fidelity": 0.7810472846031189,
+            "cosine": 0.9066003561019897,
+            "permuted_fidelity": 0.6632817983627319,
+            "permutation_drop": 0.11776548624038696
+          },
+          "carriers": {
+            "r2": 0.3493039608001709,
+            "median_cosine": 0.9856351017951965,
+            "fidelity": 0.7916831374168396,
+            "cosine": 0.9059599041938782,
+            "permuted_fidelity": 0.6637817621231079,
+            "permutation_drop": 0.1279013752937317
+          }
+        },
+        "4": {
+          "delta": {
+            "r2": 0.38218122720718384,
+            "median_cosine": 0.9862791299819946,
+            "fidelity": 0.7773886919021606,
+            "cosine": 0.9040220975875854,
+            "permuted_fidelity": 0.6622171401977539,
+            "permutation_drop": 0.11517155170440674
+          },
+          "pair": {
+            "r2": 0.4249643087387085,
+            "median_cosine": 0.9874731302261353,
+            "fidelity": 0.7867005467414856,
+            "cosine": 0.909670352935791,
+            "permuted_fidelity": 0.6548670530319214,
+            "permutation_drop": 0.1318334937095642
+          },
+          "polynomial": {
+            "r2": 0.39368700981140137,
+            "median_cosine": 0.9872016906738281,
+            "fidelity": 0.7936977744102478,
+            "cosine": 0.9071320295333862,
+            "permuted_fidelity": 0.6755485534667969,
+            "permutation_drop": 0.11814922094345093
+          },
+          "carriers": {
+            "r2": 0.39560872316360474,
+            "median_cosine": 0.9863926768302917,
+            "fidelity": 0.7946314811706543,
+            "cosine": 0.9067103266716003,
+            "permuted_fidelity": 0.6615777015686035,
+            "permutation_drop": 0.13305377960205078
+          }
+        },
+        "5": {
+          "delta": {
+            "r2": 0.4923854470252991,
+            "median_cosine": 0.988759458065033,
+            "fidelity": 0.7941799163818359,
+            "cosine": 0.912196695804596,
+            "permuted_fidelity": 0.6748313903808594,
+            "permutation_drop": 0.11934852600097656
+          },
+          "pair": {
+            "r2": 0.5174926519393921,
+            "median_cosine": 0.9888383150100708,
+            "fidelity": 0.8061710596084595,
+            "cosine": 0.912932276725769,
+            "permuted_fidelity": 0.6729452013969421,
+            "permutation_drop": 0.13322585821151733
+          },
+          "polynomial": {
+            "r2": 0.49208778142929077,
+            "median_cosine": 0.9888537526130676,
+            "fidelity": 0.8040828108787537,
+            "cosine": 0.914696455001831,
+            "permuted_fidelity": 0.6829900741577148,
+            "permutation_drop": 0.12109273672103882
+          },
+          "carriers": {
+            "r2": 0.4850727319717407,
+            "median_cosine": 0.9876458644866943,
+            "fidelity": 0.8003878593444824,
+            "cosine": 0.9119046926498413,
+            "permuted_fidelity": 0.6805263757705688,
+            "permutation_drop": 0.11986148357391357
+          }
+        },
+        "6": {
+          "delta": {
+            "r2": 0.5074713826179504,
+            "median_cosine": 0.9878361821174622,
+            "fidelity": 0.814395010471344,
+            "cosine": 0.915803849697113,
+            "permuted_fidelity": 0.6823352575302124,
+            "permutation_drop": 0.1320597529411316
+          },
+          "pair": {
+            "r2": 0.5854361057281494,
+            "median_cosine": 0.9898080229759216,
+            "fidelity": 0.8211555480957031,
+            "cosine": 0.9226539731025696,
+            "permuted_fidelity": 0.671409547328949,
+            "permutation_drop": 0.14974600076675415
+          },
+          "polynomial": {
+            "r2": 0.5497472286224365,
+            "median_cosine": 0.9892250895500183,
+            "fidelity": 0.8167797923088074,
+            "cosine": 0.9229228496551514,
+            "permuted_fidelity": 0.6894769668579102,
+            "permutation_drop": 0.12730282545089722
+          },
+          "carriers": {
+            "r2": 0.5440127849578857,
+            "median_cosine": 0.9885525703430176,
+            "fidelity": 0.8205164074897766,
+            "cosine": 0.9199509024620056,
+            "permuted_fidelity": 0.6868960857391357,
+            "permutation_drop": 0.13362032175064087
+          }
+        },
+        "7": {
+          "delta": {
+            "r2": 0.535571813583374,
+            "median_cosine": 0.988679051399231,
+            "fidelity": 0.8228594064712524,
+            "cosine": 0.9227408170700073,
+            "permuted_fidelity": 0.6641135215759277,
+            "permutation_drop": 0.1587458848953247
+          },
+          "pair": {
+            "r2": 0.5980261564254761,
+            "median_cosine": 0.9903708696365356,
+            "fidelity": 0.8303971290588379,
+            "cosine": 0.9272218346595764,
+            "permuted_fidelity": 0.6763298511505127,
+            "permutation_drop": 0.1540672779083252
+          },
+          "polynomial": {
+            "r2": 0.5664002299308777,
+            "median_cosine": 0.9902147650718689,
+            "fidelity": 0.8238487839698792,
+            "cosine": 0.9243260622024536,
+            "permuted_fidelity": 0.6828432083129883,
+            "permutation_drop": 0.14100557565689087
+          },
+          "carriers": {
+            "r2": 0.5470249652862549,
+            "median_cosine": 0.9889163374900818,
+            "fidelity": 0.8253800868988037,
+            "cosine": 0.923822820186615,
+            "permuted_fidelity": 0.6877434253692627,
+            "permutation_drop": 0.13763666152954102
+          }
+        },
+        "8": {
+          "delta": {
+            "r2": 0.5525867938995361,
+            "median_cosine": 0.9895814061164856,
+            "fidelity": 0.8261915445327759,
+            "cosine": 0.9251313209533691,
+            "permuted_fidelity": 0.6694292426109314,
+            "permutation_drop": 0.15676230192184448
+          },
+          "pair": {
+            "r2": 0.6038661003112793,
+            "median_cosine": 0.9906810522079468,
+            "fidelity": 0.8276413083076477,
+            "cosine": 0.927568256855011,
+            "permuted_fidelity": 0.6732821464538574,
+            "permutation_drop": 0.15435916185379028
+          },
+          "polynomial": {
+            "r2": 0.5728535056114197,
+            "median_cosine": 0.9902082681655884,
+            "fidelity": 0.828755795955658,
+            "cosine": 0.9271251559257507,
+            "permuted_fidelity": 0.6859222650527954,
+            "permutation_drop": 0.14283353090286255
+          },
+          "carriers": {
+            "r2": 0.5435051321983337,
+            "median_cosine": 0.9896388649940491,
+            "fidelity": 0.8232361674308777,
+            "cosine": 0.9218754768371582,
+            "permuted_fidelity": 0.671188473701477,
+            "permutation_drop": 0.15204769372940063
+          }
+        },
+        "9": {
+          "delta": {
+            "r2": 0.6204745769500732,
+            "median_cosine": 0.9917250871658325,
+            "fidelity": 0.8336384892463684,
+            "cosine": 0.9287813305854797,
+            "permuted_fidelity": 0.662790060043335,
+            "permutation_drop": 0.17084842920303345
+          },
+          "pair": {
+            "r2": 0.647354006767273,
+            "median_cosine": 0.9921442270278931,
+            "fidelity": 0.8357861042022705,
+            "cosine": 0.928672194480896,
+            "permuted_fidelity": 0.6735593676567078,
+            "permutation_drop": 0.16222673654556274
+          },
+          "polynomial": {
+            "r2": 0.6074780225753784,
+            "median_cosine": 0.9912967681884766,
+            "fidelity": 0.8330107927322388,
+            "cosine": 0.9297407269477844,
+            "permuted_fidelity": 0.681376576423645,
+            "permutation_drop": 0.15163421630859375
+          },
+          "carriers": {
+            "r2": 0.5629236698150635,
+            "median_cosine": 0.989947497844696,
+            "fidelity": 0.8257466554641724,
+            "cosine": 0.924342155456543,
+            "permuted_fidelity": 0.665139377117157,
+            "permutation_drop": 0.16060727834701538
+          }
+        },
+        "10": {
+          "delta": {
+            "r2": 0.7265433073043823,
+            "median_cosine": 0.9933520555496216,
+            "fidelity": 0.8448911905288696,
+            "cosine": 0.9325281977653503,
+            "permuted_fidelity": 0.6538146734237671,
+            "permutation_drop": 0.19107651710510254
+          },
+          "pair": {
+            "r2": 0.7113703489303589,
+            "median_cosine": 0.9935615062713623,
+            "fidelity": 0.8458762168884277,
+            "cosine": 0.9282177090644836,
+            "permuted_fidelity": 0.6655526161193848,
+            "permutation_drop": 0.18032360076904297
+          },
+          "polynomial": {
+            "r2": 0.6874467134475708,
+            "median_cosine": 0.9921666979789734,
+            "fidelity": 0.843919038772583,
+            "cosine": 0.9309422969818115,
+            "permuted_fidelity": 0.6684722900390625,
+            "permutation_drop": 0.1754467487335205
+          },
+          "carriers": {
+            "r2": 0.6171902418136597,
+            "median_cosine": 0.9909815192222595,
+            "fidelity": 0.8334619998931885,
+            "cosine": 0.9265419244766235,
+            "permuted_fidelity": 0.6655577421188354,
+            "permutation_drop": 0.16790425777435303
+          }
+        }
+      }
+    }
+  }
+}

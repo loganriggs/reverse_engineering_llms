@@ -1,0 +1,526 @@
+{
+  "config": {
+    "status": "H274 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_partner_rank_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "initializations": [
+      "weighted",
+      "random0"
+    ],
+    "learning_rates": [
+      0.003,
+      0.01
+    ],
+    "steps": 400,
+    "checkpoints": [
+      0,
+      100,
+      200,
+      300,
+      400
+    ],
+    "train_batch": 256,
+    "seed": 20261216,
+    "payload_seed": 20261219,
+    "test_payload_seed": 20261220,
+    "design": "Fixed natural core32, partner32. Actual-only, angle-only, equal normalized mixture. Each family loss divided by its TRAINING mean cross-target squared norm, even in validation. Mixture batches128 each, single-family256; same400 updates/total examples, not identical kernel cost. Twelve fixed runs; validation objective chooses checkpoints, including0. First768 discovery train, next256 validation. Separate seeded same-head norm/angle payloads on test. Native coefficients fixed.",
+    "gates": {
+      "angle_rescue": "Mixture minus actual-only angle cross fidelity>=10pt with paired95 lower>0 BOTH scales.",
+      "actual_retention": "Mixture minus actual-only actual cross paired95 lower>\u22123pt BOTH scales.",
+      "near_specialists": "Mixture minus respective specialist cross paired95 lower>\u22125pt BOTH families/scales.",
+      "both_half": "Mixture cross fidelity>=50% BOTH families/scales."
+    },
+    "scope": "Reused H273128 docs, new angle draws; not fresh document replication. Nonconvex fixed-budget optimization, no global optimum claim. Cross fidelity is not total/downstream performance."
+  },
+  "winners": {
+    "actual": "actual_weighted_lr0.003",
+    "angle": "angle_weighted_lr0.003",
+    "mixture": "mixture_weighted_lr0.003"
+  },
+  "audits": {
+    "weighted": {
+      "train": {
+        "actual": 0.44975847005844116,
+        "angle": 0.2946535348892212
+      },
+      "validation": {
+        "actual": 0.4688078761100769,
+        "angle": 0.3120429515838623
+      }
+    },
+    "actual": {
+      "train": {
+        "actual": 0.54430091381073,
+        "angle": 0.27325552701950073
+      },
+      "validation": {
+        "actual": 0.5445232391357422,
+        "angle": 0.2841641306877136
+      }
+    },
+    "angle": {
+      "train": {
+        "actual": 0.42754316329956055,
+        "angle": 0.30352455377578735
+      },
+      "validation": {
+        "actual": 0.4409167766571045,
+        "angle": 0.3395204544067383
+      }
+    },
+    "mixture": {
+      "train": {
+        "actual": 0.502921462059021,
+        "angle": 0.30801868438720703
+      },
+      "validation": {
+        "actual": 0.5132154226303101,
+        "angle": 0.33636683225631714
+      }
+    }
+  },
+  "results": {
+    "actual_s0.1": {
+      "weighted_cross": {
+        "fidelity": 0.4441883580256214,
+        "document_bootstrap95": [
+          0.4143002045149265,
+          0.4772511740057778
+        ]
+      },
+      "actual_cross": {
+        "fidelity": 0.5191133806528514,
+        "document_bootstrap95": [
+          0.4922639132360992,
+          0.5468275615536835
+        ]
+      },
+      "angle_cross": {
+        "fidelity": 0.418089491110587,
+        "document_bootstrap95": [
+          0.39019080110563803,
+          0.4486401051444427
+        ]
+      },
+      "mixture_cross": {
+        "fidelity": 0.4898583564595378,
+        "document_bootstrap95": [
+          0.4606625639151329,
+          0.5214601261885947
+        ]
+      },
+      "weighted_total": {
+        "fidelity": 0.36021971310829326,
+        "document_bootstrap95": [
+          0.3378870157054079,
+          0.38406070604288134
+        ]
+      },
+      "actual_total": {
+        "fidelity": 0.3952520679376107,
+        "document_bootstrap95": [
+          0.3726042882080397,
+          0.4185745296740699
+        ]
+      },
+      "angle_total": {
+        "fidelity": 0.3487910515461138,
+        "document_bootstrap95": [
+          0.3273080754026487,
+          0.37152741121008154
+        ]
+      },
+      "mixture_total": {
+        "fidelity": 0.3794026937392566,
+        "document_bootstrap95": [
+          0.3572572992191448,
+          0.40270297628566665
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "weighted_cross": {
+        "fidelity": 0.432649621226467,
+        "document_bootstrap95": [
+          0.4039301141571962,
+          0.4644526237013752
+        ]
+      },
+      "actual_cross": {
+        "fidelity": 0.5079422059835617,
+        "document_bootstrap95": [
+          0.4815253969273235,
+          0.5351705762916
+        ]
+      },
+      "angle_cross": {
+        "fidelity": 0.4081431294552501,
+        "document_bootstrap95": [
+          0.38033435611383315,
+          0.4388079496943807
+        ]
+      },
+      "mixture_cross": {
+        "fidelity": 0.4787152013541157,
+        "document_bootstrap95": [
+          0.44976110059181507,
+          0.5099241557104177
+        ]
+      },
+      "weighted_total": {
+        "fidelity": 0.35650902205236257,
+        "document_bootstrap95": [
+          0.333784026137404,
+          0.3813212382895355
+        ]
+      },
+      "actual_total": {
+        "fidelity": 0.3909017018721941,
+        "document_bootstrap95": [
+          0.3672909378081144,
+          0.4147271235490338
+        ]
+      },
+      "angle_total": {
+        "fidelity": 0.34553761635346913,
+        "document_bootstrap95": [
+          0.32294053262526706,
+          0.3693047975570164
+        ]
+      },
+      "mixture_total": {
+        "fidelity": 0.3754334381990184,
+        "document_bootstrap95": [
+          0.35248025284575973,
+          0.3994757169319818
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "weighted_cross": {
+        "fidelity": 0.285221742550514,
+        "document_bootstrap95": [
+          0.2615516084843012,
+          0.3117364939888269
+        ]
+      },
+      "actual_cross": {
+        "fidelity": 0.26271847822943983,
+        "document_bootstrap95": [
+          0.24199236218921935,
+          0.2869103195315603
+        ]
+      },
+      "angle_cross": {
+        "fidelity": 0.31017328443049685,
+        "document_bootstrap95": [
+          0.28508892392380714,
+          0.33561256275377277
+        ]
+      },
+      "mixture_cross": {
+        "fidelity": 0.31230188600868125,
+        "document_bootstrap95": [
+          0.2894210401804045,
+          0.33881649343154346
+        ]
+      },
+      "weighted_total": {
+        "fidelity": 0.2883355187578178,
+        "document_bootstrap95": [
+          0.2722496024166528,
+          0.30760979647566616
+        ]
+      },
+      "actual_total": {
+        "fidelity": 0.28074544306876703,
+        "document_bootstrap95": [
+          0.26492438294813364,
+          0.29957109010317906
+        ]
+      },
+      "angle_total": {
+        "fidelity": 0.2930727235654613,
+        "document_bootstrap95": [
+          0.2769626222408534,
+          0.31186756297607976
+        ]
+      },
+      "mixture_total": {
+        "fidelity": 0.29536754845030444,
+        "document_bootstrap95": [
+          0.278317965529783,
+          0.31581281489219737
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "weighted_cross": {
+        "fidelity": 0.2884007715473067,
+        "document_bootstrap95": [
+          0.2645743030140949,
+          0.3148160307644275
+        ]
+      },
+      "actual_cross": {
+        "fidelity": 0.26571741261821114,
+        "document_bootstrap95": [
+          0.2452318320316673,
+          0.2889319758281147
+        ]
+      },
+      "angle_cross": {
+        "fidelity": 0.3149736303389131,
+        "document_bootstrap95": [
+          0.2870979075703398,
+          0.34131904794041423
+        ]
+      },
+      "mixture_cross": {
+        "fidelity": 0.3162170502448489,
+        "document_bootstrap95": [
+          0.29331808707105134,
+          0.3420126992774189
+        ]
+      },
+      "weighted_total": {
+        "fidelity": 0.2843762967593072,
+        "document_bootstrap95": [
+          0.2691169355267378,
+          0.30199474075092975
+        ]
+      },
+      "actual_total": {
+        "fidelity": 0.276677765286256,
+        "document_bootstrap95": [
+          0.26090224414367086,
+          0.2941391764161903
+        ]
+      },
+      "angle_total": {
+        "fidelity": 0.2889148116047162,
+        "document_bootstrap95": [
+          0.2732263436477918,
+          0.3063220254334679
+        ]
+      },
+      "mixture_total": {
+        "fidelity": 0.2911802455168867,
+        "document_bootstrap95": [
+          0.27511592569831195,
+          0.30954528557147204
+        ]
+      }
+    }
+  },
+  "contrasts": {
+    "actual_s0.1": {
+      "actual_cross": {
+        "gain": -0.029255024193313543,
+        "paired95": [
+          -0.034739115635498176,
+          -0.022934984377012652
+        ]
+      },
+      "angle_cross": {
+        "gain": 0.07176886534895095,
+        "paired95": [
+          0.06778972743100097,
+          0.07571446772663101
+        ]
+      },
+      "weighted_cross": {
+        "gain": 0.045669998433916455,
+        "paired95": [
+          0.042057367780215425,
+          0.049466687255071064
+        ]
+      },
+      "actual_total": {
+        "gain": -0.01584937419835403,
+        "paired95": [
+          -0.018029468416636923,
+          -0.0137560947569916
+        ]
+      },
+      "angle_total": {
+        "gain": 0.030611642193142878,
+        "paired95": [
+          0.027204410507813286,
+          0.03402087561251179
+        ]
+      },
+      "weighted_total": {
+        "gain": 0.0191829806309634,
+        "paired95": [
+          0.01632680375660045,
+          0.022347503767825006
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "actual_cross": {
+        "gain": -0.029227004629445854,
+        "paired95": [
+          -0.03436492736379818,
+          -0.023595055436163165
+        ]
+      },
+      "angle_cross": {
+        "gain": 0.07057207189886572,
+        "paired95": [
+          0.06659166195145083,
+          0.07444518301676602
+        ]
+      },
+      "weighted_cross": {
+        "gain": 0.04606558012764871,
+        "paired95": [
+          0.04236240510329636,
+          0.04982985870787914
+        ]
+      },
+      "actual_total": {
+        "gain": -0.015468263673175633,
+        "paired95": [
+          -0.017687597067774154,
+          -0.013337604572674258
+        ]
+      },
+      "angle_total": {
+        "gain": 0.02989582184554916,
+        "paired95": [
+          0.026960563355399904,
+          0.03283197368675806
+        ]
+      },
+      "weighted_total": {
+        "gain": 0.018924416146655854,
+        "paired95": [
+          0.015873795852628932,
+          0.022288043997989792
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "actual_cross": {
+        "gain": 0.049583407779241404,
+        "paired95": [
+          0.040254271658362255,
+          0.05854631526908374
+        ]
+      },
+      "angle_cross": {
+        "gain": 0.002128601578184415,
+        "paired95": [
+          -0.009814853123916913,
+          0.01852343272738095
+        ]
+      },
+      "weighted_cross": {
+        "gain": 0.02708014345816723,
+        "paired95": [
+          0.0192123839861205,
+          0.03390521395400227
+        ]
+      },
+      "actual_total": {
+        "gain": 0.014622105381537489,
+        "paired95": [
+          0.011060426470621524,
+          0.01803838651882991
+        ]
+      },
+      "angle_total": {
+        "gain": 0.0022948248848432716,
+        "paired95": [
+          -0.001416020167840011,
+          0.006666247829611119
+        ]
+      },
+      "weighted_total": {
+        "gain": 0.007032029692486821,
+        "paired95": [
+          0.004417660749175517,
+          0.009269528973731563
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "actual_cross": {
+        "gain": 0.05049963762663761,
+        "paired95": [
+          0.04074559873261533,
+          0.05948698029514233
+        ]
+      },
+      "angle_cross": {
+        "gain": 0.001243419905935872,
+        "paired95": [
+          -0.010980220583247257,
+          0.018013044807866134
+        ]
+      },
+      "weighted_cross": {
+        "gain": 0.02781627869754219,
+        "paired95": [
+          0.01916421285192855,
+          0.03531135299842286
+        ]
+      },
+      "actual_total": {
+        "gain": 0.014502480230630745,
+        "paired95": [
+          0.010277394201428142,
+          0.01861508718787048
+        ]
+      },
+      "angle_total": {
+        "gain": 0.002265433912170538,
+        "paired95": [
+          -0.0018851809192416604,
+          0.007240513415694337
+        ]
+      },
+      "weighted_total": {
+        "gain": 0.006803948757579498,
+        "paired95": [
+          0.0034893828117599475,
+          0.009505003844459549
+        ]
+      }
+    }
+  },
+  "gates": {
+    "angle_rescue": false,
+    "actual_retention": false,
+    "near_specialists": true,
+    "both_half": false
+  },
+  "head_replay": 4.264634896155145e-07
+}

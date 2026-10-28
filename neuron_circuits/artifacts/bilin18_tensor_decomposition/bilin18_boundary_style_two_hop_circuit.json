@@ -1,0 +1,733 @@
+{
+  "config": {
+    "status": "locked-after-layer8-builder-before-native-two-hop-intervention",
+    "seed": 20261424,
+    "source_config": "configs/bilin18_boundary_dialect_state_test.json",
+    "folds": 3,
+    "target_pairs_per_fold": 4,
+    "examples_per_label_per_split": 64,
+    "batch_size": 8,
+    "random_contrasts": 31,
+    "hypotheses": {
+      "C0_native_branch_recomposes": "The unedited manual branch reproduces native final logits within 1e-4 maximum absolute error.",
+      "C1_native_L8H2_cue_edge_transfers_style": "Replacing the native L8H2 cue edge by its counterfactual write shifts the disjoint spelling contrast correctly in at least 75% of examples in every cell.",
+      "C2_upstream_effect_is_specific": "The L8H2 cue-edge mean exceeds both the L8H1 cue and matched noncue L8H2 means by at least 5x in every cell.",
+      "C3_L9H8_boundary_change_mediates": "Freezing the L9H8 boundary edge to its pre-upstream value removes at least 50% of the L8H2 cue-edge signed mean in every cell.",
+      "C4_downstream_mediation_is_specific": "L9H8 boundary freezing removes at least 0.20 more fractional effect than both L9H7 boundary and L9H8 matched-nonboundary freezing in at least five of six cells.",
+      "C5_declared_contrast_beats_random": "The native L8H2 cue-edge shift and its L9H8-mediated component each exceed the 95th percentile of balanced random target-token contrasts in at least five of six cells.",
+      "C6_native_two_hop_circuit_is_supported": "C0 through C5 all hold."
+    }
+  },
+  "hypotheses": {
+    "C0_native_branch_recomposes": {
+      "supported": true,
+      "max_logit_error": 4.649162292480469e-05
+    },
+    "C1_native_L8H2_cue_edge_transfers_style": {
+      "supported": true
+    },
+    "C2_upstream_effect_is_specific": {
+      "supported": true
+    },
+    "C3_L9H8_boundary_change_mediates": {
+      "supported": true
+    },
+    "C4_downstream_mediation_is_specific": {
+      "supported": true,
+      "cells": 6
+    },
+    "C5_declared_contrast_beats_random": {
+      "supported": true,
+      "cells": 6
+    },
+    "C6_native_two_hop_circuit_is_supported": {
+      "supported": true
+    }
+  },
+  "results": [
+    {
+      "fold": 0,
+      "split": 0,
+      "programs": {
+        "L8H2_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.8671875,
+          "native_mean": 0.07104973495006561,
+          "frozen_win": 0.8671875,
+          "frozen_mean": 0.030208062380552292,
+          "mediated_win": 0.8671875,
+          "mediated_mean": 0.04084166884422302,
+          "mediation_fraction": 0.5748321070152748,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.8671875,
+          "native_mean": 0.07104973495006561,
+          "frozen_win": 0.8671875,
+          "frozen_mean": 0.07102825492620468,
+          "mediated_win": 0.5546875,
+          "mediated_mean": 2.14817700907588e-05,
+          "mediation_fraction": 0.00030234834944643183,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.5806451439857483
+        },
+        "L8H2_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.8671875,
+          "native_mean": 0.07104973495006561,
+          "frozen_win": 0.8671875,
+          "frozen_mean": 0.07104973495006561,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H1_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.484375,
+          "native_mean": 1.528381835669279e-05,
+          "frozen_win": 0.4609375,
+          "frozen_mean": -3.5921111702919006e-06,
+          "mediated_win": 0.515625,
+          "mediated_mean": 1.887592952698469e-05,
+          "mediation_fraction": 1.2350270780808459,
+          "native_random_percentile": 0.9354838728904724,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H1_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.484375,
+          "native_mean": 1.528381835669279e-05,
+          "frozen_win": 0.4921875,
+          "frozen_mean": 1.5595112927258015e-05,
+          "mediated_win": 0.5390625,
+          "mediated_mean": -3.112945705652237e-07,
+          "mediation_fraction": -0.020367591612269302,
+          "native_random_percentile": 0.9354838728904724,
+          "mediated_random_percentile": 0.35483869910240173
+        },
+        "L8H1_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.484375,
+          "native_mean": 1.528381835669279e-05,
+          "frozen_win": 0.484375,
+          "frozen_mean": 1.528381835669279e-05,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 0.9354838728904724,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.5,
+          "native_mean": -2.029002644121647e-05,
+          "frozen_win": 0.5078125,
+          "frozen_mean": -5.59631735086441e-06,
+          "mediated_win": 0.484375,
+          "mediated_mean": -1.4693709090352058e-05,
+          "mediation_fraction": -0.7241838315451259,
+          "native_random_percentile": 0.09677419066429138,
+          "mediated_random_percentile": 0.09677419066429138
+        },
+        "L8H2_noncue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.5,
+          "native_mean": -2.029002644121647e-05,
+          "frozen_win": 0.484375,
+          "frozen_mean": -2.0091538317501545e-05,
+          "mediated_win": 0.484375,
+          "mediated_mean": -1.9848812371492386e-07,
+          "mediation_fraction": -0.00978254633082793,
+          "native_random_percentile": 0.09677419066429138,
+          "mediated_random_percentile": 0.32258063554763794
+        },
+        "L8H2_noncue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.5,
+          "native_mean": -2.029002644121647e-05,
+          "frozen_win": 0.5,
+          "frozen_mean": -2.029002644121647e-05,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 0.09677419066429138,
+          "mediated_random_percentile": 0.0
+        }
+      }
+    },
+    {
+      "fold": 0,
+      "split": 1,
+      "programs": {
+        "L8H2_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.84375,
+          "native_mean": 0.07159312814474106,
+          "frozen_win": 0.84375,
+          "frozen_mean": 0.030193433165550232,
+          "mediated_win": 0.8125,
+          "mediated_mean": 0.041399694979190826,
+          "mediation_fraction": 0.5782635296434087,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.84375,
+          "native_mean": 0.07159312814474106,
+          "frozen_win": 0.84375,
+          "frozen_mean": 0.07157966494560242,
+          "mediated_win": 0.5390625,
+          "mediated_mean": 1.3461336493492126e-05,
+          "mediation_fraction": 0.0001880255387958061,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.5483871102333069
+        },
+        "L8H2_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.84375,
+          "native_mean": 0.07159312814474106,
+          "frozen_win": 0.84375,
+          "frozen_mean": 0.07159312814474106,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H1_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.5546875,
+          "native_mean": 0.00021820736583322287,
+          "frozen_win": 0.578125,
+          "frozen_mean": 0.00012683949898928404,
+          "mediated_win": 0.5703125,
+          "mediated_mean": 9.136786684393883e-05,
+          "mediation_fraction": 0.41872036030979726,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H1_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.5546875,
+          "native_mean": 0.00021820736583322287,
+          "frozen_win": 0.5625,
+          "frozen_mean": 0.00021841481793671846,
+          "mediated_win": 0.46875,
+          "mediated_mean": -2.0745210349559784e-07,
+          "mediation_fraction": -0.0009507108190571104,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.6774193644523621
+        },
+        "L8H1_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.5546875,
+          "native_mean": 0.00021820736583322287,
+          "frozen_win": 0.5546875,
+          "frozen_mean": 0.00021820736583322287,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.5234375,
+          "native_mean": 0.00010727206245064735,
+          "frozen_win": 0.5703125,
+          "frozen_mean": 4.751479718834162e-05,
+          "mediated_win": 0.53125,
+          "mediated_mean": 5.9757265262305737e-05,
+          "mediation_fraction": 0.5570627048379745,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_noncue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.5234375,
+          "native_mean": 0.00010727206245064735,
+          "frozen_win": 0.5078125,
+          "frozen_mean": 0.00010694400407373905,
+          "mediated_win": 0.4609375,
+          "mediated_mean": 3.280583769083023e-07,
+          "mediation_fraction": 0.0030581902632778415,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.8064516186714172
+        },
+        "L8H2_noncue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.5234375,
+          "native_mean": 0.00010727206245064735,
+          "frozen_win": 0.5234375,
+          "frozen_mean": 0.00010727206245064735,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "split": 0,
+      "programs": {
+        "L8H2_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.90625,
+          "native_mean": 0.08215495198965073,
+          "frozen_win": 0.8984375,
+          "frozen_mean": 0.03998538479208946,
+          "mediated_win": 0.8984375,
+          "mediated_mean": 0.04216955974698067,
+          "mediation_fraction": 0.5132929753557993,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.90625,
+          "native_mean": 0.08215495198965073,
+          "frozen_win": 0.90625,
+          "frozen_mean": 0.08213847875595093,
+          "mediated_win": 0.5546875,
+          "mediated_mean": 1.6462639905512333e-05,
+          "mediation_fraction": 0.00020038524162957548,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.5806451439857483
+        },
+        "L8H2_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.90625,
+          "native_mean": 0.08215495198965073,
+          "frozen_win": 0.90625,
+          "frozen_mean": 0.08215495198965073,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H1_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.5625,
+          "native_mean": 0.0002611285890452564,
+          "frozen_win": 0.5703125,
+          "frozen_mean": 0.000121084856800735,
+          "mediated_win": 0.546875,
+          "mediated_mean": 0.00014004373224452138,
+          "mediation_fraction": 0.5363017996480283,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H1_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.5625,
+          "native_mean": 0.0002611285890452564,
+          "frozen_win": 0.546875,
+          "frozen_mean": 0.00025712320348247886,
+          "mediated_win": 0.53125,
+          "mediated_mean": 4.005385562777519e-06,
+          "mediation_fraction": 0.015338747769526465,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.9032257795333862
+        },
+        "L8H1_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.5625,
+          "native_mean": 0.0002611285890452564,
+          "frozen_win": 0.5625,
+          "frozen_mean": 0.0002611285890452564,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.546875,
+          "native_mean": 1.36898597702384e-05,
+          "frozen_win": 0.546875,
+          "frozen_mean": 2.2702792193740606e-05,
+          "mediated_win": 0.515625,
+          "mediated_mean": -9.012932423502207e-06,
+          "mediation_fraction": -0.6583655767677197,
+          "native_random_percentile": 0.8709677457809448,
+          "mediated_random_percentile": 0.032258063554763794
+        },
+        "L8H2_noncue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.546875,
+          "native_mean": 1.36898597702384e-05,
+          "frozen_win": 0.546875,
+          "frozen_mean": 1.4808087144047022e-05,
+          "mediated_win": 0.4453125,
+          "mediated_mean": -1.1182273738086224e-06,
+          "mediation_fraction": -0.08168289468089629,
+          "native_random_percentile": 0.8709677457809448,
+          "mediated_random_percentile": 0.09677419066429138
+        },
+        "L8H2_noncue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.546875,
+          "native_mean": 1.36898597702384e-05,
+          "frozen_win": 0.546875,
+          "frozen_mean": 1.36898597702384e-05,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 0.8709677457809448,
+          "mediated_random_percentile": 0.0
+        }
+      }
+    },
+    {
+      "fold": 1,
+      "split": 1,
+      "programs": {
+        "L8H2_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.8671875,
+          "native_mean": 0.06522182375192642,
+          "frozen_win": 0.8671875,
+          "frozen_mean": 0.0295487642288208,
+          "mediated_win": 0.84375,
+          "mediated_mean": 0.03567305952310562,
+          "mediation_fraction": 0.546949739688197,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.8671875,
+          "native_mean": 0.06522182375192642,
+          "frozen_win": 0.8671875,
+          "frozen_mean": 0.0652007907629013,
+          "mediated_win": 0.515625,
+          "mediated_mean": 2.102617872878909e-05,
+          "mediation_fraction": 0.0003223794969113855,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.6129032373428345
+        },
+        "L8H2_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.8671875,
+          "native_mean": 0.06522182375192642,
+          "frozen_win": 0.8671875,
+          "frozen_mean": 0.06522182375192642,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H1_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.578125,
+          "native_mean": 0.00012434698874130845,
+          "frozen_win": 0.5546875,
+          "frozen_mean": 3.0342955142259598e-05,
+          "mediated_win": 0.59375,
+          "mediated_mean": 9.400403359904885e-05,
+          "mediation_fraction": 0.7559815846816758,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H1_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.578125,
+          "native_mean": 0.00012434698874130845,
+          "frozen_win": 0.578125,
+          "frozen_mean": 0.00012465001782402396,
+          "mediated_win": 0.453125,
+          "mediated_mean": -3.030290827155113e-07,
+          "mediation_fraction": -0.0024369635789567305,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.6774193644523621
+        },
+        "L8H1_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.578125,
+          "native_mean": 0.00012434698874130845,
+          "frozen_win": 0.578125,
+          "frozen_mean": 0.00012434698874130845,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.5,
+          "native_mean": 0.0001407910604029894,
+          "frozen_win": 0.53125,
+          "frozen_mean": 4.802312469109893e-05,
+          "mediated_win": 0.4921875,
+          "mediated_mean": 9.276793571189046e-05,
+          "mediation_fraction": 0.6589050146107198,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_noncue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.5,
+          "native_mean": 0.0001407910604029894,
+          "frozen_win": 0.484375,
+          "frozen_mean": 0.00013981509255245328,
+          "mediated_win": 0.5546875,
+          "mediated_mean": 9.75967850536108e-07,
+          "mediation_fraction": 0.006932029972233844,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.9677419066429138
+        },
+        "L8H2_noncue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.5,
+          "native_mean": 0.0001407910604029894,
+          "frozen_win": 0.5,
+          "frozen_mean": 0.0001407910604029894,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "split": 0,
+      "programs": {
+        "L8H2_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.890625,
+          "native_mean": 0.08347251266241074,
+          "frozen_win": 0.8828125,
+          "frozen_mean": 0.03875192999839783,
+          "mediated_win": 0.890625,
+          "mediated_mean": 0.04472058266401291,
+          "mediation_fraction": 0.5357522043798669,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.890625,
+          "native_mean": 0.08347251266241074,
+          "frozen_win": 0.890625,
+          "frozen_mean": 0.08342540264129639,
+          "mediated_win": 0.5078125,
+          "mediated_mean": 4.710827488452196e-05,
+          "mediation_fraction": 0.0005643567371098883,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.9677419066429138
+        },
+        "L8H2_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.890625,
+          "native_mean": 0.08347251266241074,
+          "frozen_win": 0.890625,
+          "frozen_mean": 0.08347251266241074,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H1_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.515625,
+          "native_mean": 4.036456812173128e-05,
+          "frozen_win": 0.5234375,
+          "frozen_mean": 1.3291952200233936e-05,
+          "mediated_win": 0.5,
+          "mediated_mean": 2.7072615921497345e-05,
+          "mediation_fraction": 0.6707024794580205,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H1_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.515625,
+          "native_mean": 4.036456812173128e-05,
+          "frozen_win": 0.5078125,
+          "frozen_mean": 4.2140018194913864e-05,
+          "mediated_win": 0.4296875,
+          "mediated_mean": -1.7754500731825829e-06,
+          "mediation_fraction": -0.04398536032463394,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.25806450843811035
+        },
+        "L8H1_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.515625,
+          "native_mean": 4.036456812173128e-05,
+          "frozen_win": 0.515625,
+          "frozen_mean": 4.036456812173128e-05,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.515625,
+          "native_mean": -4.401989281177521e-05,
+          "frozen_win": 0.5,
+          "frozen_mean": -2.877158112823963e-05,
+          "mediated_win": 0.5,
+          "mediated_mean": -1.5248311683535576e-05,
+          "mediation_fraction": -0.3463959294207253,
+          "native_random_percentile": 0.0,
+          "mediated_random_percentile": 0.06451612710952759
+        },
+        "L8H2_noncue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.515625,
+          "native_mean": -4.401989281177521e-05,
+          "frozen_win": 0.5078125,
+          "frozen_mean": -4.416867159307003e-05,
+          "mediated_win": 0.484375,
+          "mediated_mean": 1.487787812948227e-07,
+          "mediation_fraction": 0.003379807895739009,
+          "native_random_percentile": 0.0,
+          "mediated_random_percentile": 0.6129032373428345
+        },
+        "L8H2_noncue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.515625,
+          "native_mean": -4.401989281177521e-05,
+          "frozen_win": 0.515625,
+          "frozen_mean": -4.401989281177521e-05,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 0.0,
+          "mediated_random_percentile": 0.0
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "split": 1,
+      "programs": {
+        "L8H2_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.90625,
+          "native_mean": 0.09762147068977356,
+          "frozen_win": 0.8828125,
+          "frozen_mean": 0.04545508325099945,
+          "mediated_win": 0.8828125,
+          "mediated_mean": 0.05216638743877411,
+          "mediation_fraction": 0.534374119445005,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H2_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.90625,
+          "native_mean": 0.09762147068977356,
+          "frozen_win": 0.90625,
+          "frozen_mean": 0.09763801842927933,
+          "mediated_win": 0.5078125,
+          "mediated_mean": -1.65493693202734e-05,
+          "mediation_fraction": -0.00016952591682279424,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.4838709533214569
+        },
+        "L8H2_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.90625,
+          "native_mean": 0.09762147068977356,
+          "frozen_win": 0.90625,
+          "frozen_mean": 0.09762147068977356,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H1_cue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.6015625,
+          "native_mean": 0.0004481669166125357,
+          "frozen_win": 0.59375,
+          "frozen_mean": 0.0002000027452595532,
+          "mediated_win": 0.578125,
+          "mediated_mean": 0.0002481641713529825,
+          "mediation_fraction": 0.5537315722202979,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 1.0
+        },
+        "L8H1_cue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.6015625,
+          "native_mean": 0.0004481669166125357,
+          "frozen_win": 0.6015625,
+          "frozen_mean": 0.00044765224447473884,
+          "mediated_win": 0.5078125,
+          "mediated_mean": 5.146721377968788e-07,
+          "mediation_fraction": 0.001148393865587005,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.5161290168762207
+        },
+        "L8H1_cue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.6015625,
+          "native_mean": 0.0004481669166125357,
+          "frozen_win": 0.6015625,
+          "frozen_mean": 0.0004481669166125357,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 1.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H8_boundary": {
+          "examples": 128,
+          "native_win": 0.40625,
+          "native_mean": -0.0001611417974345386,
+          "frozen_win": 0.4609375,
+          "frozen_mean": -5.960298585705459e-05,
+          "mediated_win": 0.4140625,
+          "mediated_mean": -0.00010153881157748401,
+          "mediation_fraction": -0.6301208823162879,
+          "native_random_percentile": 0.0,
+          "mediated_random_percentile": 0.0
+        },
+        "L8H2_noncue__L9H7_boundary": {
+          "examples": 128,
+          "native_win": 0.40625,
+          "native_mean": -0.0001611417974345386,
+          "frozen_win": 0.4453125,
+          "frozen_mean": -0.00016047642566263676,
+          "mediated_win": 0.40625,
+          "mediated_mean": -6.653717719018459e-07,
+          "mediation_fraction": -0.004129107298633324,
+          "native_random_percentile": 0.0,
+          "mediated_random_percentile": 0.22580644488334656
+        },
+        "L8H2_noncue__L9H8_nonboundary": {
+          "examples": 128,
+          "native_win": 0.40625,
+          "native_mean": -0.0001611417974345386,
+          "frozen_win": 0.40625,
+          "frozen_mean": -0.0001611417974345386,
+          "mediated_win": 0.0,
+          "mediated_mean": 0.0,
+          "mediation_fraction": 0.0,
+          "native_random_percentile": 0.0,
+          "mediated_random_percentile": 0.0
+        }
+      }
+    }
+  ]
+}

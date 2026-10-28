@@ -1,0 +1,2694 @@
+{
+  "config": {
+    "status": "locked-after-layer17-conditional-compactness-before-middle-layer-quantization",
+    "seed": 20261107,
+    "layer": 8,
+    "dimension": 512,
+    "local_rank": 4,
+    "clusters": [
+      1,
+      4,
+      16
+    ],
+    "kmeans_iterations": 10,
+    "edit_norm_fraction": 0.01,
+    "batch_size": 4,
+    "causal_position": 127,
+    "tensor_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10000,
+      "rows": 300
+    },
+    "prototype_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 15000,
+      "rows": 64
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 17000,
+        "rows": 24
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 900,
+        "rows": 24
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 900,
+        "rows": 24
+      }
+    },
+    "hypotheses": {
+      "M1_sixteen_prototypes_cover_local_subspaces": "An oracle over 16 rank-four prototypes captures at least 50% of local optimal rank-four Fisher energy on every corpus.",
+      "M2_state_router_recovers_prototype": "Nearest state-centroid routing captures at least 40% of local optimal rank-four Fisher energy on every corpus.",
+      "M3_routed_prototype_has_finite_causal_fidelity": "The routed 16-prototype direction has median finite Fisher fidelity at least 0.50 to the local leading direction on every corpus.",
+      "M4_quantization_beats_single_global_space": "Sixteen-prototype routed capture is at least twice the one-prototype capture on every corpus.",
+      "M5_middle_conditional_code_transfers_ood": "Routed 16-prototype capture drops by at most 0.15 from FineWeb to either OOD corpus.",
+      "M6_state_router_matches_oracle_cluster": "The state-centroid router selects the oracle-capture prototype on at least 40% of sites on every corpus."
+    }
+  },
+  "hypotheses": {
+    "M1_sixteen_prototypes_cover_local_subspaces": {
+      "supported": false
+    },
+    "M2_state_router_recovers_prototype": {
+      "supported": false
+    },
+    "M3_routed_prototype_has_finite_causal_fidelity": {
+      "supported": false
+    },
+    "M4_quantization_beats_single_global_space": {
+      "supported": false
+    },
+    "M5_middle_conditional_code_transfers_ood": {
+      "supported": true
+    },
+    "M6_state_router_matches_oracle_cluster": {
+      "supported": false
+    }
+  },
+  "results": {
+    "fineweb": {
+      "summary": {
+        "1": {
+          "oracle_capture": 0.03359406255185604,
+          "routed_capture": 0.03359406255185604,
+          "random_capture": 0.012440701480954885,
+          "finite_fidelity": 0.22804272174835205,
+          "finite_cosine": 0.6548114717006683,
+          "finite_kl_ratio": 0.03767785433938081,
+          "route_match": 1.0
+        },
+        "4": {
+          "oracle_capture": 0.03358646482229233,
+          "routed_capture": 0.027400600723922253,
+          "random_capture": 0.020424986258149147,
+          "finite_fidelity": 0.19554239511489868,
+          "finite_cosine": 0.6796257495880127,
+          "finite_kl_ratio": 0.02642305592257948,
+          "route_match": 0.3333333333333333
+        },
+        "16": {
+          "oracle_capture": 0.030473587103188038,
+          "routed_capture": 0.02388838306069374,
+          "random_capture": 0.02104916051030159,
+          "finite_fidelity": 0.1507318913936615,
+          "finite_cosine": 0.6533285081386566,
+          "finite_kl_ratio": 0.02462518995074902,
+          "route_match": 0.125
+        }
+      },
+      "records": [
+        {
+          "1": {
+            "oracle_capture": 0.06973288953304291,
+            "routed_capture": 0.06973288953304291,
+            "random_capture": 0.014790838584303856,
+            "route_match": true,
+            "finite_fidelity": 0.41712790727615356,
+            "finite_cosine": 0.8105153441429138,
+            "finite_kl_ratio": 0.10509298976579394,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04233401268720627,
+            "routed_capture": 0.04233401268720627,
+            "random_capture": 0.02107168920338154,
+            "route_match": true,
+            "finite_fidelity": 0.249067485332489,
+            "finite_cosine": 0.6428315043449402,
+            "finite_kl_ratio": 0.05782667464677915,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.042588334530591965,
+            "routed_capture": 0.035350266844034195,
+            "random_capture": 0.022278031334280968,
+            "route_match": false,
+            "finite_fidelity": 0.3068663477897644,
+            "finite_cosine": 0.7797344326972961,
+            "finite_kl_ratio": 0.05392904456726303,
+            "oracle_cluster": 13,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.016615116968750954,
+            "routed_capture": 0.016615116968750954,
+            "random_capture": 0.010740673169493675,
+            "route_match": true,
+            "finite_fidelity": 0.0865781307220459,
+            "finite_cosine": 0.4392417371273041,
+            "finite_kl_ratio": 0.013117802704441826,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02395634353160858,
+            "routed_capture": 0.01320641115307808,
+            "random_capture": 0.015737049281597137,
+            "route_match": false,
+            "finite_fidelity": 0.08079314231872559,
+            "finite_cosine": 0.4315631687641144,
+            "finite_kl_ratio": 0.011636660877694313,
+            "oracle_cluster": 3,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.026014402508735657,
+            "routed_capture": 0.018979793414473534,
+            "random_capture": 0.0185424592345953,
+            "route_match": false,
+            "finite_fidelity": 0.05802541971206665,
+            "finite_cosine": 0.2834828794002533,
+            "finite_kl_ratio": 0.018261882192490635,
+            "oracle_cluster": 5,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04682151973247528,
+            "routed_capture": 0.04682151973247528,
+            "random_capture": 0.02340100333094597,
+            "route_match": true,
+            "finite_fidelity": 0.09700548648834229,
+            "finite_cosine": 0.3218733072280884,
+            "finite_kl_ratio": 0.0587417056043777,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04169808700680733,
+            "routed_capture": 0.02971488982439041,
+            "random_capture": 0.02633385919034481,
+            "route_match": false,
+            "finite_fidelity": 0.08490598201751709,
+            "finite_cosine": 0.33073189854621887,
+            "finite_kl_ratio": 0.03123567073286267,
+            "oracle_cluster": 2,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.040594007819890976,
+            "routed_capture": 0.03222057968378067,
+            "random_capture": 0.025969846174120903,
+            "route_match": false,
+            "finite_fidelity": -0.010680913925170898,
+            "finite_cosine": 0.07928679138422012,
+            "finite_kl_ratio": 0.044619679933910104,
+            "oracle_cluster": 7,
+            "routed_cluster": 3
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04525527358055115,
+            "routed_capture": 0.04525527358055115,
+            "random_capture": 0.011686050333082676,
+            "route_match": true,
+            "finite_fidelity": 0.22823292016983032,
+            "finite_cosine": 0.5654999017715454,
+            "finite_kl_ratio": 0.06961464340812522,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.0352141372859478,
+            "routed_capture": 0.03140892833471298,
+            "random_capture": 0.02017035335302353,
+            "route_match": false,
+            "finite_fidelity": 0.21246123313903809,
+            "finite_cosine": 0.656768798828125,
+            "finite_kl_ratio": 0.036160519278959004,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.027806676924228668,
+            "routed_capture": 0.02179679274559021,
+            "random_capture": 0.02141350321471691,
+            "route_match": false,
+            "finite_fidelity": 0.11875540018081665,
+            "finite_cosine": 0.4348245859146118,
+            "finite_kl_ratio": 0.02910551989248879,
+            "oracle_cluster": 3,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02869839407503605,
+            "routed_capture": 0.02869839407503605,
+            "random_capture": 0.009461803361773491,
+            "route_match": true,
+            "finite_fidelity": 0.17969614267349243,
+            "finite_cosine": 0.6286171078681946,
+            "finite_kl_ratio": 0.02634739684287535,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.027698703110218048,
+            "routed_capture": 0.027698703110218048,
+            "random_capture": 0.01713430881500244,
+            "route_match": true,
+            "finite_fidelity": 0.2465808391571045,
+            "finite_cosine": 0.784304141998291,
+            "finite_kl_ratio": 0.03067273051811739,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.029904838651418686,
+            "routed_capture": 0.026220889762043953,
+            "random_capture": 0.02103111892938614,
+            "route_match": false,
+            "finite_fidelity": 0.14154726266860962,
+            "finite_cosine": 0.5200396180152893,
+            "finite_kl_ratio": 0.025336377829231687,
+            "oracle_cluster": 9,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.024787839502096176,
+            "routed_capture": 0.024787839502096176,
+            "random_capture": 0.01437290944159031,
+            "route_match": true,
+            "finite_fidelity": 0.23403114080429077,
+            "finite_cosine": 0.834520161151886,
+            "finite_kl_ratio": 0.024563052061872957,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.021695367991924286,
+            "routed_capture": 0.010535819455981255,
+            "random_capture": 0.016896812245249748,
+            "route_match": false,
+            "finite_fidelity": 0.045690059661865234,
+            "finite_cosine": 0.3382674753665924,
+            "finite_kl_ratio": 0.005877693208654606,
+            "oracle_cluster": 3,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.025841884315013885,
+            "routed_capture": 0.01737791672348976,
+            "random_capture": 0.021030984818935394,
+            "route_match": false,
+            "finite_fidelity": 0.21480125188827515,
+            "finite_cosine": 0.9427961111068726,
+            "finite_kl_ratio": 0.015184288425756315,
+            "oracle_cluster": 7,
+            "routed_cluster": 13
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.051745910197496414,
+            "routed_capture": 0.051745910197496414,
+            "random_capture": 0.016313400119543076,
+            "route_match": true,
+            "finite_fidelity": 0.23454880714416504,
+            "finite_cosine": 0.6076350808143616,
+            "finite_kl_ratio": 0.054568580104534,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03620895743370056,
+            "routed_capture": 0.033025532960891724,
+            "random_capture": 0.018180226907134056,
+            "route_match": false,
+            "finite_fidelity": -0.013376474380493164,
+            "finite_cosine": 0.0442892462015152,
+            "finite_kl_ratio": 0.02735400171512638,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.053540121763944626,
+            "routed_capture": 0.053540121763944626,
+            "random_capture": 0.024245580658316612,
+            "route_match": true,
+            "finite_fidelity": 0.2615261673927307,
+            "finite_cosine": 0.6247198581695557,
+            "finite_kl_ratio": 0.06849116007599784,
+            "oracle_cluster": 13,
+            "routed_cluster": 13
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.034313928335905075,
+            "routed_capture": 0.034313928335905075,
+            "random_capture": 0.026508817449212074,
+            "route_match": true,
+            "finite_fidelity": 0.24917179346084595,
+            "finite_cosine": 0.6554189920425415,
+            "finite_kl_ratio": 0.05448992139778732,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04453293979167938,
+            "routed_capture": 0.02747465670108795,
+            "random_capture": 0.0231029000133276,
+            "route_match": false,
+            "finite_fidelity": 0.1566687822341919,
+            "finite_cosine": 0.5311568975448608,
+            "finite_kl_ratio": 0.03207724423182081,
+            "oracle_cluster": 2,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.03863047808408737,
+            "routed_capture": 0.028352437540888786,
+            "random_capture": 0.02254447713494301,
+            "route_match": false,
+            "finite_fidelity": 0.24973613023757935,
+            "finite_cosine": 0.7601917386054993,
+            "finite_kl_ratio": 0.036008391492405416,
+            "oracle_cluster": 2,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03326202556490898,
+            "routed_capture": 0.03326202556490898,
+            "random_capture": 0.009919184260070324,
+            "route_match": true,
+            "finite_fidelity": 0.24763184785842896,
+            "finite_cosine": 0.8612613677978516,
+            "finite_kl_ratio": 0.024973657603344995,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03230435028672218,
+            "routed_capture": 0.023577993735671043,
+            "random_capture": 0.021023480221629143,
+            "route_match": false,
+            "finite_fidelity": 0.19650495052337646,
+            "finite_cosine": 0.8171531558036804,
+            "finite_kl_ratio": 0.016964643193285413,
+            "oracle_cluster": 2,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.02347520738840103,
+            "routed_capture": 0.018267787992954254,
+            "random_capture": 0.018780799582600594,
+            "route_match": false,
+            "finite_fidelity": 0.1788756251335144,
+            "finite_cosine": 0.7886350750923157,
+            "finite_kl_ratio": 0.01500285084823216,
+            "oracle_cluster": 8,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04206344112753868,
+            "routed_capture": 0.04206344112753868,
+            "random_capture": 0.020429253578186035,
+            "route_match": true,
+            "finite_fidelity": 0.14943403005599976,
+            "finite_cosine": 0.4821593463420868,
+            "finite_kl_ratio": 0.03708722298719898,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03746872395277023,
+            "routed_capture": 0.03310238942503929,
+            "random_capture": 0.023612430319190025,
+            "route_match": false,
+            "finite_fidelity": 0.1945798397064209,
+            "finite_cosine": 0.7024827003479004,
+            "finite_kl_ratio": 0.023928419331131302,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.03534634783864021,
+            "routed_capture": 0.03534634783864021,
+            "random_capture": 0.03073006495833397,
+            "route_match": true,
+            "finite_fidelity": 0.11179018020629883,
+            "finite_cosine": 0.44638919830322266,
+            "finite_kl_ratio": 0.022311930694025546,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03511415794491768,
+            "routed_capture": 0.03511415794491768,
+            "random_capture": 0.016724232584238052,
+            "route_match": true,
+            "finite_fidelity": 0.23365086317062378,
+            "finite_cosine": 0.6619033217430115,
+            "finite_kl_ratio": 0.04372918432417161,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03624068200588226,
+            "routed_capture": 0.03624068200588226,
+            "random_capture": 0.021949023008346558,
+            "route_match": true,
+            "finite_fidelity": 0.27121877670288086,
+            "finite_cosine": 0.7494974136352539,
+            "finite_kl_ratio": 0.04394603866489082,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.03330431133508682,
+            "routed_capture": 0.01653362810611725,
+            "random_capture": 0.020982028916478157,
+            "route_match": false,
+            "finite_fidelity": 0.1498764157295227,
+            "finite_cosine": 0.6340353488922119,
+            "finite_kl_ratio": 0.017265922024458168,
+            "oracle_cluster": 13,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03632953017950058,
+            "routed_capture": 0.03632953017950058,
+            "random_capture": 0.011934606358408928,
+            "route_match": true,
+            "finite_fidelity": 0.22785252332687378,
+            "finite_cosine": 0.6771078109741211,
+            "finite_kl_ratio": 0.03974073359187175,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.029414232820272446,
+            "routed_capture": 0.027326544746756554,
+            "random_capture": 0.022912556305527687,
+            "route_match": false,
+            "finite_fidelity": 0.23533594608306885,
+            "finite_cosine": 0.7309637069702148,
+            "finite_kl_ratio": 0.03486045564384551,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.032060783356428146,
+            "routed_capture": 0.028918884694576263,
+            "random_capture": 0.02335435152053833,
+            "route_match": false,
+            "finite_fidelity": 0.17706775665283203,
+            "finite_cosine": 0.6365358829498291,
+            "finite_kl_ratio": 0.025900238416204816,
+            "oracle_cluster": 13,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.048460714519023895,
+            "routed_capture": 0.048460714519023895,
+            "random_capture": 0.01217914093285799,
+            "route_match": true,
+            "finite_fidelity": 0.3548339009284973,
+            "finite_cosine": 0.9279559850692749,
+            "finite_kl_ratio": 0.05375889098580699,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03418109938502312,
+            "routed_capture": 0.015985975041985512,
+            "random_capture": 0.011545469053089619,
+            "route_match": false,
+            "finite_fidelity": 0.1551063060760498,
+            "finite_cosine": 0.7718231678009033,
+            "finite_kl_ratio": 0.01295968236220885,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.041011400520801544,
+            "routed_capture": 0.011886677704751492,
+            "random_capture": 0.029213711619377136,
+            "route_match": false,
+            "finite_fidelity": 0.13685745000839233,
+            "finite_cosine": 0.8496732711791992,
+            "finite_kl_ratio": 0.009077118917784567,
+            "oracle_cluster": 7,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03329744189977646,
+            "routed_capture": 0.03329744189977646,
+            "random_capture": 0.0109818484634161,
+            "route_match": true,
+            "finite_fidelity": 0.3215378522872925,
+            "finite_cosine": 0.8776047229766846,
+            "finite_kl_ratio": 0.04215510119330083,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.041218873113393784,
+            "routed_capture": 0.041218873113393784,
+            "random_capture": 0.020734556019306183,
+            "route_match": true,
+            "finite_fidelity": 0.2894650101661682,
+            "finite_cosine": 0.7590073943138123,
+            "finite_kl_ratio": 0.04876093483638209,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.02939910627901554,
+            "routed_capture": 0.026593690738081932,
+            "random_capture": 0.017063211649656296,
+            "route_match": false,
+            "finite_fidelity": 0.15228605270385742,
+            "finite_cosine": 0.48622703552246094,
+            "finite_kl_ratio": 0.0375891963841031,
+            "oracle_cluster": 2,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.009716988541185856,
+            "routed_capture": 0.009716988541185856,
+            "random_capture": 0.006800551433116198,
+            "route_match": true,
+            "finite_fidelity": 0.06392139196395874,
+            "finite_cosine": 0.4256867468357086,
+            "finite_kl_ratio": 0.006187955589504804,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.019808821380138397,
+            "routed_capture": 0.019808821380138397,
+            "random_capture": 0.012728460133075714,
+            "route_match": true,
+            "finite_fidelity": 0.25759339332580566,
+            "finite_cosine": 0.9395721554756165,
+            "finite_kl_ratio": 0.02029636473689587,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.02005244977772236,
+            "routed_capture": 0.007807045243680477,
+            "random_capture": 0.015018404461443424,
+            "route_match": false,
+            "finite_fidelity": 0.1489749550819397,
+            "finite_cosine": 0.8915388584136963,
+            "finite_kl_ratio": 0.006957150001295966,
+            "oracle_cluster": 2,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02541116066277027,
+            "routed_capture": 0.02541116066277027,
+            "random_capture": 0.01270226202905178,
+            "route_match": true,
+            "finite_fidelity": 0.22414183616638184,
+            "finite_cosine": 0.8133611679077148,
+            "finite_kl_ratio": 0.02368770402917824,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.042682137340307236,
+            "routed_capture": 0.042682137340307236,
+            "random_capture": 0.021336564794182777,
+            "route_match": true,
+            "finite_fidelity": 0.3963199257850647,
+            "finite_cosine": 0.9584136009216309,
+            "finite_kl_ratio": 0.056918643068303285,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.028698734939098358,
+            "routed_capture": 0.008621498011052608,
+            "random_capture": 0.01785099133849144,
+            "route_match": false,
+            "finite_fidelity": 0.13893979787826538,
+            "finite_cosine": 0.8536874651908875,
+            "finite_kl_ratio": 0.007529727829738244,
+            "oracle_cluster": 2,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.01736454851925373,
+            "routed_capture": 0.01736454851925373,
+            "random_capture": 0.008706936612725258,
+            "route_match": true,
+            "finite_fidelity": 0.1534530520439148,
+            "finite_cosine": 0.6527862548828125,
+            "finite_kl_ratio": 0.01755285198052212,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02382780611515045,
+            "routed_capture": 0.018006930127739906,
+            "random_capture": 0.017928030341863632,
+            "route_match": false,
+            "finite_fidelity": 0.1808975338935852,
+            "finite_cosine": 0.7149664759635925,
+            "finite_kl_ratio": 0.02009660044208453,
+            "oracle_cluster": 3,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.025641538202762604,
+            "routed_capture": 0.01624385453760624,
+            "random_capture": 0.02106720209121704,
+            "route_match": false,
+            "finite_fidelity": 0.1515873670578003,
+            "finite_cosine": 0.7253566980361938,
+            "finite_kl_ratio": 0.013141739152881108,
+            "oracle_cluster": 8,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03800002112984657,
+            "routed_capture": 0.03800002112984657,
+            "random_capture": 0.014424196444451809,
+            "route_match": true,
+            "finite_fidelity": 0.14010769128799438,
+            "finite_cosine": 0.45337769389152527,
+            "finite_kl_ratio": 0.04010152574695231,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03767422214150429,
+            "routed_capture": 0.03767422214150429,
+            "random_capture": 0.016462013125419617,
+            "route_match": true,
+            "finite_fidelity": 0.18566572666168213,
+            "finite_cosine": 0.5849534273147583,
+            "finite_kl_ratio": 0.03682728959968452,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.04172627627849579,
+            "routed_capture": 0.030425559729337692,
+            "random_capture": 0.02461322210729122,
+            "route_match": false,
+            "finite_fidelity": 0.21356385946273804,
+            "finite_cosine": 0.6701211333274841,
+            "finite_kl_ratio": 0.035150011024882785,
+            "oracle_cluster": 2,
+            "routed_cluster": 13
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03681357577443123,
+            "routed_capture": 0.03681357577443123,
+            "random_capture": 0.008805041201412678,
+            "route_match": true,
+            "finite_fidelity": 0.3114203214645386,
+            "finite_cosine": 0.9046396613121033,
+            "finite_kl_ratio": 0.03826848569156265,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03530418872833252,
+            "routed_capture": 0.024830888956785202,
+            "random_capture": 0.021074770018458366,
+            "route_match": false,
+            "finite_fidelity": 0.19808340072631836,
+            "finite_cosine": 0.7098444700241089,
+            "finite_kl_ratio": 0.025492110130032573,
+            "oracle_cluster": 3,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.0332491472363472,
+            "routed_capture": 0.030088461935520172,
+            "random_capture": 0.01657845638692379,
+            "route_match": false,
+            "finite_fidelity": 0.25978511571884155,
+            "finite_cosine": 0.8642251491546631,
+            "finite_kl_ratio": 0.02852924274963836,
+            "oracle_cluster": 3,
+            "routed_cluster": 9
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02765345387160778,
+            "routed_capture": 0.02765345387160778,
+            "random_capture": 0.014966567046940327,
+            "route_match": true,
+            "finite_fidelity": 0.10985821485519409,
+            "finite_cosine": 0.43073365092277527,
+            "finite_kl_ratio": 0.02420946308430923,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02659470960497856,
+            "routed_capture": 0.01890319027006626,
+            "random_capture": 0.017740847542881966,
+            "route_match": false,
+            "finite_fidelity": 0.06405770778656006,
+            "finite_cosine": 0.29489371180534363,
+            "finite_kl_ratio": 0.020645253650474052,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.027215514332056046,
+            "routed_capture": 0.027215514332056046,
+            "random_capture": 0.0207907073199749,
+            "route_match": true,
+            "finite_fidelity": 0.2383243441581726,
+            "finite_cosine": 0.7749419212341309,
+            "finite_kl_ratio": 0.03014187696045331,
+            "oracle_cluster": 11,
+            "routed_cluster": 11
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02997986227273941,
+            "routed_capture": 0.02997986227273941,
+            "random_capture": 0.011904786340892315,
+            "route_match": true,
+            "finite_fidelity": 0.2456568479537964,
+            "finite_cosine": 0.7358845472335815,
+            "finite_kl_ratio": 0.036367511731360075,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.030495300889015198,
+            "routed_capture": 0.023153429850935936,
+            "random_capture": 0.02362987771630287,
+            "route_match": false,
+            "finite_fidelity": 0.09186482429504395,
+            "finite_cosine": 0.4060332775115967,
+            "finite_kl_ratio": 0.018285797365492937,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.02942836284637451,
+            "routed_capture": 0.022758973762392998,
+            "random_capture": 0.022651517763733864,
+            "route_match": false,
+            "finite_fidelity": 0.12172549962997437,
+            "finite_cosine": 0.4691692590713501,
+            "finite_kl_ratio": 0.02391400207226635,
+            "oracle_cluster": 15,
+            "routed_cluster": 8
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.018427453935146332,
+            "routed_capture": 0.018427453935146332,
+            "random_capture": 0.00818272028118372,
+            "route_match": true,
+            "finite_fidelity": -0.012171149253845215,
+            "finite_cosine": 0.01094461977481842,
+            "finite_kl_ratio": 0.016015507322480405,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.013027045875787735,
+            "routed_capture": 0.009000459685921669,
+            "random_capture": 0.015019689686596394,
+            "route_match": false,
+            "finite_fidelity": 0.08422470092773438,
+            "finite_cosine": 0.5558351278305054,
+            "finite_kl_ratio": 0.007120751230399736,
+            "oracle_cluster": 1,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.019318487495183945,
+            "routed_capture": 0.012197249568998814,
+            "random_capture": 0.011212365701794624,
+            "route_match": false,
+            "finite_fidelity": 0.15931165218353271,
+            "finite_cosine": 0.8440122604370117,
+            "finite_kl_ratio": 0.010922606317022873,
+            "oracle_cluster": 5,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02928650937974453,
+            "routed_capture": 0.02928650937974453,
+            "random_capture": 0.013848292641341686,
+            "route_match": true,
+            "finite_fidelity": 0.18640202283859253,
+            "finite_cosine": 0.6601892113685608,
+            "finite_kl_ratio": 0.026241353209158522,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.024291804060339928,
+            "routed_capture": 0.021150661632418633,
+            "random_capture": 0.019975442439317703,
+            "route_match": false,
+            "finite_fidelity": 0.2281823754310608,
+            "finite_cosine": 0.8056826591491699,
+            "finite_kl_ratio": 0.02489558531777797,
+            "oracle_cluster": 2,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.03104233555495739,
+            "routed_capture": 0.025017792358994484,
+            "random_capture": 0.020807940512895584,
+            "route_match": false,
+            "finite_fidelity": 0.12493616342544556,
+            "finite_cosine": 0.454301655292511,
+            "finite_kl_ratio": 0.028877015449914892,
+            "oracle_cluster": 9,
+            "routed_cluster": 7
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03389068320393562,
+            "routed_capture": 0.03389068320393562,
+            "random_capture": 0.013423062860965729,
+            "route_match": true,
+            "finite_fidelity": 0.23293286561965942,
+            "finite_cosine": 0.6542039513587952,
+            "finite_kl_ratio": 0.04520564079745909,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03299183025956154,
+            "routed_capture": 0.03299183025956154,
+            "random_capture": 0.020679619163274765,
+            "route_match": true,
+            "finite_fidelity": 0.21598953008651733,
+            "finite_cosine": 0.6500735878944397,
+            "finite_kl_ratio": 0.038385826995667664,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.03580475598573685,
+            "routed_capture": 0.015927666798233986,
+            "random_capture": 0.024142004549503326,
+            "route_match": false,
+            "finite_fidelity": 0.10383576154708862,
+            "finite_cosine": 0.48545190691947937,
+            "finite_kl_ratio": 0.01501090765083227,
+            "oracle_cluster": 14,
+            "routed_cluster": 5
+          }
+        }
+      ]
+    },
+    "wikitext": {
+      "summary": {
+        "1": {
+          "oracle_capture": 0.03759309649467468,
+          "routed_capture": 0.03759309649467468,
+          "random_capture": 0.016186706721782684,
+          "finite_fidelity": 0.17377981543540955,
+          "finite_cosine": 0.5635516345500946,
+          "finite_kl_ratio": 0.039529719084936674,
+          "route_match": 1.0
+        },
+        "4": {
+          "oracle_capture": 0.03694208338856697,
+          "routed_capture": 0.03260664828121662,
+          "random_capture": 0.019623687490820885,
+          "finite_fidelity": 0.14293166995048523,
+          "finite_cosine": 0.5275887250900269,
+          "finite_kl_ratio": 0.029768230322284144,
+          "route_match": 0.20833333333333334
+        },
+        "16": {
+          "oracle_capture": 0.03470860980451107,
+          "routed_capture": 0.026555653661489487,
+          "random_capture": 0.023373328149318695,
+          "finite_fidelity": 0.14684662222862244,
+          "finite_cosine": 0.6918835043907166,
+          "finite_kl_ratio": 0.023936323079584307,
+          "route_match": 0.041666666666666664
+        }
+      },
+      "records": [
+        {
+          "1": {
+            "oracle_capture": 0.060933034867048264,
+            "routed_capture": 0.060933034867048264,
+            "random_capture": 0.022142548114061356,
+            "route_match": true,
+            "finite_fidelity": 0.22470110654830933,
+            "finite_cosine": 0.580636203289032,
+            "finite_kl_ratio": 0.06019858188973443,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.050356425344944,
+            "routed_capture": 0.03459393233060837,
+            "random_capture": 0.022512659430503845,
+            "route_match": false,
+            "finite_fidelity": 0.14273667335510254,
+            "finite_cosine": 0.5469367504119873,
+            "finite_kl_ratio": 0.023014667880923465,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.0407293476164341,
+            "routed_capture": 0.029492212459445,
+            "random_capture": 0.02845402993261814,
+            "route_match": false,
+            "finite_fidelity": 0.15224939584732056,
+            "finite_cosine": 0.5880627036094666,
+            "finite_kl_ratio": 0.02188487290636667,
+            "oracle_cluster": 4,
+            "routed_cluster": 11
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.035158030688762665,
+            "routed_capture": 0.035158030688762665,
+            "random_capture": 0.016921792179346085,
+            "route_match": true,
+            "finite_fidelity": 0.14645451307296753,
+            "finite_cosine": 0.571833074092865,
+            "finite_kl_ratio": 0.022495800461679438,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.05485600605607033,
+            "routed_capture": 0.03347749263048172,
+            "random_capture": 0.019995158538222313,
+            "route_match": false,
+            "finite_fidelity": 0.22137343883514404,
+            "finite_cosine": 0.7746281623840332,
+            "finite_kl_ratio": 0.026284265130253132,
+            "oracle_cluster": 2,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.038871411234140396,
+            "routed_capture": 0.03084556944668293,
+            "random_capture": 0.02333625592291355,
+            "route_match": false,
+            "finite_fidelity": 0.2240222692489624,
+            "finite_cosine": 0.7737187147140503,
+            "finite_kl_ratio": 0.027220028155791182,
+            "oracle_cluster": 13,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04692557081580162,
+            "routed_capture": 0.04692557081580162,
+            "random_capture": 0.012316868640482426,
+            "route_match": true,
+            "finite_fidelity": 0.16948860883712769,
+            "finite_cosine": 0.49990469217300415,
+            "finite_kl_ratio": 0.04778500852507432,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03635607659816742,
+            "routed_capture": 0.019080905243754387,
+            "random_capture": 0.017553750425577164,
+            "route_match": false,
+            "finite_fidelity": 0.11537909507751465,
+            "finite_cosine": 0.48469093441963196,
+            "finite_kl_ratio": 0.01973545281622596,
+            "oracle_cluster": 1,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.03301583603024483,
+            "routed_capture": 0.02188035100698471,
+            "random_capture": 0.028682749718427658,
+            "route_match": false,
+            "finite_fidelity": 0.08025026321411133,
+            "finite_cosine": 0.3492530584335327,
+            "finite_kl_ratio": 0.0214658115205879,
+            "oracle_cluster": 11,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.05340712144970894,
+            "routed_capture": 0.05340712144970894,
+            "random_capture": 0.023643800988793373,
+            "route_match": true,
+            "finite_fidelity": 0.32823747396469116,
+            "finite_cosine": 0.8386737704277039,
+            "finite_kl_ratio": 0.05065505170885116,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.05920922011137009,
+            "routed_capture": 0.03243013098835945,
+            "random_capture": 0.02959795668721199,
+            "route_match": false,
+            "finite_fidelity": 0.08097302913665771,
+            "finite_cosine": 0.33788639307022095,
+            "finite_kl_ratio": 0.024003206427528644,
+            "oracle_cluster": 1,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.06265685707330704,
+            "routed_capture": 0.047612015157938004,
+            "random_capture": 0.0270891971886158,
+            "route_match": false,
+            "finite_fidelity": 0.35501009225845337,
+            "finite_cosine": 0.8597427606582642,
+            "finite_kl_ratio": 0.05723512193067103,
+            "oracle_cluster": 1,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02062429115176201,
+            "routed_capture": 0.02062429115176201,
+            "random_capture": 0.015268085524439812,
+            "route_match": true,
+            "finite_fidelity": 0.2029615044593811,
+            "finite_cosine": 0.8432452082633972,
+            "finite_kl_ratio": 0.018127599159617,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.028303319588303566,
+            "routed_capture": 0.028303319588303566,
+            "random_capture": 0.014614448882639408,
+            "route_match": true,
+            "finite_fidelity": 0.302295446395874,
+            "finite_cosine": 0.9380632638931274,
+            "finite_kl_ratio": 0.033511079931764484,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.02491774596273899,
+            "routed_capture": 0.012300683185458183,
+            "random_capture": 0.020113997161388397,
+            "route_match": false,
+            "finite_fidelity": 0.11480653285980225,
+            "finite_cosine": 0.6976787447929382,
+            "finite_kl_ratio": 0.008286836857601364,
+            "oracle_cluster": 13,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.0363222099840641,
+            "routed_capture": 0.0363222099840641,
+            "random_capture": 0.01986170932650566,
+            "route_match": true,
+            "finite_fidelity": 0.15969634056091309,
+            "finite_cosine": 0.5512559413909912,
+            "finite_kl_ratio": 0.030227530512878516,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02837473899126053,
+            "routed_capture": 0.02636112831532955,
+            "random_capture": 0.020117659121751785,
+            "route_match": false,
+            "finite_fidelity": 0.2024233341217041,
+            "finite_cosine": 0.69529128074646,
+            "finite_kl_ratio": 0.027947818643670044,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.028696680441498756,
+            "routed_capture": 0.0254579558968544,
+            "random_capture": 0.022538483142852783,
+            "route_match": false,
+            "finite_fidelity": 0.18843317031860352,
+            "finite_cosine": 0.7421260476112366,
+            "finite_kl_ratio": 0.02014004251084045,
+            "oracle_cluster": 1,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.0544668547809124,
+            "routed_capture": 0.0544668547809124,
+            "random_capture": 0.017441896721720695,
+            "route_match": true,
+            "finite_fidelity": 0.217687726020813,
+            "finite_cosine": 0.5243860483169556,
+            "finite_kl_ratio": 0.07924568212351481,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.043646715581417084,
+            "routed_capture": 0.029188139364123344,
+            "random_capture": 0.020589809864759445,
+            "route_match": false,
+            "finite_fidelity": -0.019537925720214844,
+            "finite_cosine": 0.04166806861758232,
+            "finite_kl_ratio": 0.034333192453297336,
+            "oracle_cluster": 0,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.03856589272618294,
+            "routed_capture": 0.028376629576086998,
+            "random_capture": 0.02399379573762417,
+            "route_match": false,
+            "finite_fidelity": 0.1111481785774231,
+            "finite_cosine": 0.40362802147865295,
+            "finite_kl_ratio": 0.030171737655658823,
+            "oracle_cluster": 11,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.010379434563219547,
+            "routed_capture": 0.010379434563219547,
+            "random_capture": 0.008251572027802467,
+            "route_match": true,
+            "finite_fidelity": 0.14460450410842896,
+            "finite_cosine": 0.7535254955291748,
+            "finite_kl_ratio": 0.010351004629384777,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.013647192157804966,
+            "routed_capture": 0.013485475443303585,
+            "random_capture": 0.015208587981760502,
+            "route_match": false,
+            "finite_fidelity": 0.20438450574874878,
+            "finite_cosine": 0.8900299072265625,
+            "finite_kl_ratio": 0.014855346216751957,
+            "oracle_cluster": 1,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.0169801227748394,
+            "routed_capture": 0.011955959722399712,
+            "random_capture": 0.01587669365108013,
+            "route_match": false,
+            "finite_fidelity": 0.19836682081222534,
+            "finite_cosine": 0.8772304654121399,
+            "finite_kl_ratio": 0.014428164620804703,
+            "oracle_cluster": 7,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.036841392517089844,
+            "routed_capture": 0.036841392517089844,
+            "random_capture": 0.016589608043432236,
+            "route_match": true,
+            "finite_fidelity": 0.34825581312179565,
+            "finite_cosine": 0.7671204209327698,
+            "finite_kl_ratio": 0.07726176748086802,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03371294215321541,
+            "routed_capture": 0.03371294215321541,
+            "random_capture": 0.015185206197202206,
+            "route_match": true,
+            "finite_fidelity": 0.3037109375,
+            "finite_cosine": 0.7296888828277588,
+            "finite_kl_ratio": 0.06343566393381299,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.027013175189495087,
+            "routed_capture": 0.025774100795388222,
+            "random_capture": 0.018044667318463326,
+            "route_match": false,
+            "finite_fidelity": 0.21112549304962158,
+            "finite_cosine": 0.6315881609916687,
+            "finite_kl_ratio": 0.03951371911042668,
+            "oracle_cluster": 13,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.013261685147881508,
+            "routed_capture": 0.013261685147881508,
+            "random_capture": 0.012361551634967327,
+            "route_match": true,
+            "finite_fidelity": 0.1780710220336914,
+            "finite_cosine": 0.8646361827850342,
+            "finite_kl_ratio": 0.01304101490695442,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.016257723793387413,
+            "routed_capture": 0.009264477528631687,
+            "random_capture": 0.01186020765453577,
+            "route_match": false,
+            "finite_fidelity": 0.1092832088470459,
+            "finite_cosine": 0.7767094969749451,
+            "finite_kl_ratio": 0.0058891788899833545,
+            "oracle_cluster": 3,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.025926169008016586,
+            "routed_capture": 0.008605191484093666,
+            "random_capture": 0.02341040037572384,
+            "route_match": false,
+            "finite_fidelity": 0.09262579679489136,
+            "finite_cosine": 0.6889124512672424,
+            "finite_kl_ratio": 0.005423540636854405,
+            "oracle_cluster": 7,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.025364892557263374,
+            "routed_capture": 0.025364892557263374,
+            "random_capture": 0.022106055170297623,
+            "route_match": true,
+            "finite_fidelity": 0.08424127101898193,
+            "finite_cosine": 0.3784969449043274,
+            "finite_kl_ratio": 0.019026762558679803,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.036649640649557114,
+            "routed_capture": 0.036649640649557114,
+            "random_capture": 0.01766122877597809,
+            "route_match": true,
+            "finite_fidelity": 0.291820764541626,
+            "finite_cosine": 0.8677588701248169,
+            "finite_kl_ratio": 0.03657168592902144,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.02857668697834015,
+            "routed_capture": 0.015277029946446419,
+            "random_capture": 0.017079370096325874,
+            "route_match": false,
+            "finite_fidelity": 0.13433271646499634,
+            "finite_cosine": 0.6691842675209045,
+            "finite_kl_ratio": 0.0123896094981216,
+            "oracle_cluster": 2,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03608088567852974,
+            "routed_capture": 0.03608088567852974,
+            "random_capture": 0.021155165508389473,
+            "route_match": true,
+            "finite_fidelity": 0.08115309476852417,
+            "finite_cosine": 0.30450719594955444,
+            "finite_kl_ratio": 0.03800001010910481,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04406365007162094,
+            "routed_capture": 0.03245650976896286,
+            "random_capture": 0.028295094147324562,
+            "route_match": false,
+            "finite_fidelity": 0.09014588594436646,
+            "finite_cosine": 0.3442503809928894,
+            "finite_kl_ratio": 0.030242306052229148,
+            "oracle_cluster": 3,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.040143243968486786,
+            "routed_capture": 0.02734307199716568,
+            "random_capture": 0.027845650911331177,
+            "route_match": false,
+            "finite_fidelity": 0.04242408275604248,
+            "finite_cosine": 0.21607084572315216,
+            "finite_kl_ratio": 0.022402494237810256,
+            "oracle_cluster": 2,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03834480047225952,
+            "routed_capture": 0.03834480047225952,
+            "random_capture": 0.014098093844950199,
+            "route_match": true,
+            "finite_fidelity": 0.009273767471313477,
+            "finite_cosine": 0.11672145873308182,
+            "finite_kl_ratio": 0.03178924593983607,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03871197625994682,
+            "routed_capture": 0.035647861659526825,
+            "random_capture": 0.025362370535731316,
+            "route_match": false,
+            "finite_fidelity": 0.113941490650177,
+            "finite_cosine": 0.4122210144996643,
+            "finite_kl_ratio": 0.029294154592339135,
+            "oracle_cluster": 1,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.034847624599933624,
+            "routed_capture": 0.0316612608730793,
+            "random_capture": 0.02659909799695015,
+            "route_match": false,
+            "finite_fidelity": 0.041384875774383545,
+            "finite_cosine": 0.20561181008815765,
+            "finite_kl_ratio": 0.029150888560214454,
+            "oracle_cluster": 1,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.020288990810513496,
+            "routed_capture": 0.020288990810513496,
+            "random_capture": 0.008985493332147598,
+            "route_match": true,
+            "finite_fidelity": 0.2030593752861023,
+            "finite_cosine": 0.8208820819854736,
+            "finite_kl_ratio": 0.019827159065586863,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02806420810520649,
+            "routed_capture": 0.017672520130872726,
+            "random_capture": 0.015659702941775322,
+            "route_match": false,
+            "finite_fidelity": 0.24177813529968262,
+            "finite_cosine": 0.8315296769142151,
+            "finite_kl_ratio": 0.02828238273072838,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.021466342732310295,
+            "routed_capture": 0.017383283004164696,
+            "random_capture": 0.017062589526176453,
+            "route_match": false,
+            "finite_fidelity": 0.17299753427505493,
+            "finite_cosine": 0.7523092031478882,
+            "finite_kl_ratio": 0.017198852721928812,
+            "oracle_cluster": 0,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.029093338176608086,
+            "routed_capture": 0.029093338176608086,
+            "random_capture": 0.014597958885133266,
+            "route_match": true,
+            "finite_fidelity": 0.1601281762123108,
+            "finite_cosine": 0.5552701950073242,
+            "finite_kl_ratio": 0.028816731603574612,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03265925124287605,
+            "routed_capture": 0.018229683861136436,
+            "random_capture": 0.02041705884039402,
+            "route_match": false,
+            "finite_fidelity": 0.16579389572143555,
+            "finite_cosine": 0.7483620047569275,
+            "finite_kl_ratio": 0.014449134875964144,
+            "oracle_cluster": 1,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.03362114354968071,
+            "routed_capture": 0.021100616082549095,
+            "random_capture": 0.025123976171016693,
+            "route_match": false,
+            "finite_fidelity": 0.23305022716522217,
+            "finite_cosine": 0.8008869290351868,
+            "finite_kl_ratio": 0.026077159922917394,
+            "oracle_cluster": 1,
+            "routed_cluster": 8
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.052054982632398605,
+            "routed_capture": 0.052054982632398605,
+            "random_capture": 0.03358563035726547,
+            "route_match": true,
+            "finite_fidelity": 0.21147853136062622,
+            "finite_cosine": 0.5295419692993164,
+            "finite_kl_ratio": 0.07079179872974116,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.0497233048081398,
+            "routed_capture": 0.043707892298698425,
+            "random_capture": 0.027712132781744003,
+            "route_match": false,
+            "finite_fidelity": 0.14312666654586792,
+            "finite_cosine": 0.4263061285018921,
+            "finite_kl_ratio": 0.052028349644833286,
+            "oracle_cluster": 2,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.05194798856973648,
+            "routed_capture": 0.038752567023038864,
+            "random_capture": 0.03441924229264259,
+            "route_match": false,
+            "finite_fidelity": 0.2365298867225647,
+            "finite_cosine": 0.6948545575141907,
+            "finite_kl_ratio": 0.038592651898877506,
+            "oracle_cluster": 7,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.019473901018500328,
+            "routed_capture": 0.019473901018500328,
+            "random_capture": 0.0073571172542870045,
+            "route_match": true,
+            "finite_fidelity": 0.2047940492630005,
+            "finite_cosine": 0.7835649847984314,
+            "finite_kl_ratio": 0.01908331269519126,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02453484758734703,
+            "routed_capture": 0.014913690276443958,
+            "random_capture": 0.009143893606960773,
+            "route_match": false,
+            "finite_fidelity": 0.19772374629974365,
+            "finite_cosine": 0.810992956161499,
+            "finite_kl_ratio": 0.01623620952199204,
+            "oracle_cluster": 3,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.029010118916630745,
+            "routed_capture": 0.01937808468937874,
+            "random_capture": 0.016669539734721184,
+            "route_match": false,
+            "finite_fidelity": 0.2465047836303711,
+            "finite_cosine": 0.9024749398231506,
+            "finite_kl_ratio": 0.020676432360767587,
+            "oracle_cluster": 3,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.06031953915953636,
+            "routed_capture": 0.06031953915953636,
+            "random_capture": 0.015783805400133133,
+            "route_match": true,
+            "finite_fidelity": 0.08658874034881592,
+            "finite_cosine": 0.3129630982875824,
+            "finite_kl_ratio": 0.041059428060768545,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.034627776592969894,
+            "routed_capture": 0.034627776592969894,
+            "random_capture": 0.014194873161613941,
+            "route_match": true,
+            "finite_fidelity": 0.10825586318969727,
+            "finite_cosine": 0.3745729327201843,
+            "finite_kl_ratio": 0.037129468275245756,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.038987770676612854,
+            "routed_capture": 0.02733720652759075,
+            "random_capture": 0.020341521129012108,
+            "route_match": false,
+            "finite_fidelity": 0.25989341735839844,
+            "finite_cosine": 0.8832334876060486,
+            "finite_kl_ratio": 0.025470151921358354,
+            "oracle_cluster": 1,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.07995890080928802,
+            "routed_capture": 0.07995890080928802,
+            "random_capture": 0.02575409598648548,
+            "route_match": true,
+            "finite_fidelity": 0.3598296642303467,
+            "finite_cosine": 0.7017943859100342,
+            "finite_kl_ratio": 0.11233968358316505,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04862641543149948,
+            "routed_capture": 0.043167319148778915,
+            "random_capture": 0.024964913725852966,
+            "route_match": false,
+            "finite_fidelity": 0.09081262350082397,
+            "finite_cosine": 0.3104426860809326,
+            "finite_kl_ratio": 0.054431125483024236,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.05084120109677315,
+            "routed_capture": 0.03499079495668411,
+            "random_capture": 0.027055516839027405,
+            "route_match": false,
+            "finite_fidelity": 0.14144384860992432,
+            "finite_cosine": 0.46060922741889954,
+            "finite_kl_ratio": 0.03747045499775052,
+            "oracle_cluster": 12,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.038850992918014526,
+            "routed_capture": 0.038850992918014526,
+            "random_capture": 0.010458908975124359,
+            "route_match": true,
+            "finite_fidelity": 0.34812092781066895,
+            "finite_cosine": 0.915215253829956,
+            "finite_kl_ratio": 0.046339994785479,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.034648347645998,
+            "routed_capture": 0.00813961960375309,
+            "random_capture": 0.010496897622942924,
+            "route_match": false,
+            "finite_fidelity": 0.0074866414070129395,
+            "finite_cosine": 0.08688881248235703,
+            "finite_kl_ratio": 0.006253298627517821,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.03850806504487991,
+            "routed_capture": 0.010558717884123325,
+            "random_capture": 0.02037299983203411,
+            "route_match": false,
+            "finite_fidelity": 0.1270366907119751,
+            "finite_cosine": 0.758266270160675,
+            "finite_kl_ratio": 0.00789645547575332,
+            "oracle_cluster": 4,
+            "routed_cluster": 8
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.041506584733724594,
+            "routed_capture": 0.041506584733724594,
+            "random_capture": 0.014896668493747711,
+            "route_match": true,
+            "finite_fidelity": 0.3285220265388489,
+            "finite_cosine": 0.8922377824783325,
+            "finite_kl_ratio": 0.042984419278888256,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03723452612757683,
+            "routed_capture": 0.03275678679347038,
+            "random_capture": 0.013574912212789059,
+            "route_match": false,
+            "finite_fidelity": 0.24083834886550903,
+            "finite_cosine": 0.7682595252990723,
+            "finite_kl_ratio": 0.031146025514516514,
+            "oracle_cluster": 3,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.033814962953329086,
+            "routed_capture": 0.033814962953329086,
+            "random_capture": 0.01821894757449627,
+            "route_match": true,
+            "finite_fidelity": 0.3551449179649353,
+            "finite_cosine": 0.9544252753257751,
+            "finite_kl_ratio": 0.043179182111164956,
+            "oracle_cluster": 12,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.036195240914821625,
+            "routed_capture": 0.036195240914821625,
+            "random_capture": 0.013501085340976715,
+            "route_match": true,
+            "finite_fidelity": 0.1342175006866455,
+            "finite_cosine": 0.4658905863761902,
+            "finite_kl_ratio": 0.031394306643206214,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03737698495388031,
+            "routed_capture": 0.03737698495388031,
+            "random_capture": 0.019252216443419456,
+            "route_match": true,
+            "finite_fidelity": 0.12227636575698853,
+            "finite_cosine": 0.4169597923755646,
+            "finite_kl_ratio": 0.03565796956121616,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.036740902811288834,
+            "routed_capture": 0.02060783840715885,
+            "random_capture": 0.022323250770568848,
+            "route_match": false,
+            "finite_fidelity": 0.12809902429580688,
+            "finite_cosine": 0.5512554049491882,
+            "finite_kl_ratio": 0.01723000820923022,
+            "oracle_cluster": 4,
+            "routed_cluster": 13
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04615962877869606,
+            "routed_capture": 0.04615962877869606,
+            "random_capture": 0.017427509650588036,
+            "route_match": true,
+            "finite_fidelity": 0.043678104877471924,
+            "finite_cosine": 0.2093886286020279,
+            "finite_kl_ratio": 0.050856117502445286,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04306435212492943,
+            "routed_capture": 0.03603782132267952,
+            "random_capture": 0.02500581368803978,
+            "route_match": false,
+            "finite_fidelity": 0.17225265502929688,
+            "finite_cosine": 0.5082406997680664,
+            "finite_kl_ratio": 0.0476301931515641,
+            "oracle_cluster": 1,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.034569595009088516,
+            "routed_capture": 0.03446192666888237,
+            "random_capture": 0.02790423482656479,
+            "route_match": false,
+            "finite_fidelity": -0.023311495780944824,
+            "finite_cosine": 0.032579343765974045,
+            "finite_kl_ratio": 0.03678336948000998,
+            "oracle_cluster": 14,
+            "routed_cluster": 8
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.052201464772224426,
+            "routed_capture": 0.052201464772224426,
+            "random_capture": 0.02435464784502983,
+            "route_match": true,
+            "finite_fidelity": 0.13978147506713867,
+            "finite_cosine": 0.4126448631286621,
+            "finite_kl_ratio": 0.05688642662282223,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.06690039485692978,
+            "routed_capture": 0.04270349070429802,
+            "random_capture": 0.03664206713438034,
+            "route_match": false,
+            "finite_fidelity": 0.048014163970947266,
+            "finite_cosine": 0.21921050548553467,
+            "finite_kl_ratio": 0.05090916203098459,
+            "oracle_cluster": 1,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.07078838348388672,
+            "routed_capture": 0.05111778900027275,
+            "random_capture": 0.030804840847849846,
+            "route_match": false,
+            "finite_fidelity": 0.14130663871765137,
+            "finite_cosine": 0.39885497093200684,
+            "finite_kl_ratio": 0.07068018629438916,
+            "oracle_cluster": 1,
+            "routed_cluster": 14
+          }
+        }
+      ]
+    },
+    "tinystories": {
+      "summary": {
+        "1": {
+          "oracle_capture": 0.033351775258779526,
+          "routed_capture": 0.033351775258779526,
+          "random_capture": 0.015085686929523945,
+          "finite_fidelity": 0.14833253622055054,
+          "finite_cosine": 0.6025085747241974,
+          "finite_kl_ratio": 0.032933187183268764,
+          "route_match": 1.0
+        },
+        "4": {
+          "oracle_capture": 0.02970120869576931,
+          "routed_capture": 0.025066564790904522,
+          "random_capture": 0.018921894021332264,
+          "finite_fidelity": 0.1464638113975525,
+          "finite_cosine": 0.5424236357212067,
+          "finite_kl_ratio": 0.028296551693401797,
+          "route_match": 0.375
+        },
+        "16": {
+          "oracle_capture": 0.031236284412443638,
+          "routed_capture": 0.02339737955480814,
+          "random_capture": 0.020832575857639313,
+          "finite_fidelity": 0.18491604924201965,
+          "finite_cosine": 0.7127823233604431,
+          "finite_kl_ratio": 0.021825547854493445,
+          "route_match": 0.25
+        }
+      },
+      "records": [
+        {
+          "1": {
+            "oracle_capture": 0.07616483420133591,
+            "routed_capture": 0.07616483420133591,
+            "random_capture": 0.00939159095287323,
+            "route_match": true,
+            "finite_fidelity": 0.5088661909103394,
+            "finite_cosine": 0.9381781220436096,
+            "finite_kl_ratio": 0.10846543535044524,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.047462090849876404,
+            "routed_capture": 0.047462090849876404,
+            "random_capture": 0.011996602639555931,
+            "route_match": true,
+            "finite_fidelity": 0.43353205919265747,
+            "finite_cosine": 0.9638362526893616,
+            "finite_kl_ratio": 0.06795119632531905,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.03675256296992302,
+            "routed_capture": 0.024951202794909477,
+            "random_capture": 0.01577925682067871,
+            "route_match": false,
+            "finite_fidelity": 0.3158619999885559,
+            "finite_cosine": 0.9501252174377441,
+            "finite_kl_ratio": 0.03414294101715372,
+            "oracle_cluster": 2,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04354999586939812,
+            "routed_capture": 0.04354999586939812,
+            "random_capture": 0.012835528701543808,
+            "route_match": true,
+            "finite_fidelity": 0.34470170736312866,
+            "finite_cosine": 0.9075248837471008,
+            "finite_kl_ratio": 0.04966386061642506,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.034864459186792374,
+            "routed_capture": 0.034864459186792374,
+            "random_capture": 0.0139484703540802,
+            "route_match": true,
+            "finite_fidelity": 0.30290305614471436,
+            "finite_cosine": 0.8582863807678223,
+            "finite_kl_ratio": 0.04276244152537938,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.03141165152192116,
+            "routed_capture": 0.03141165152192116,
+            "random_capture": 0.01583990454673767,
+            "route_match": true,
+            "finite_fidelity": 0.2961670160293579,
+            "finite_cosine": 0.8865616917610168,
+            "finite_kl_ratio": 0.03742460129213929,
+            "oracle_cluster": 6,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02954982779920101,
+            "routed_capture": 0.02954982779920101,
+            "random_capture": 0.018709924072027206,
+            "route_match": true,
+            "finite_fidelity": 0.0382770299911499,
+            "finite_cosine": 0.19591045379638672,
+            "finite_kl_ratio": 0.03313396604896536,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02921864204108715,
+            "routed_capture": 0.026548104360699654,
+            "random_capture": 0.020160755142569542,
+            "route_match": false,
+            "finite_fidelity": 0.14636367559432983,
+            "finite_cosine": 0.5197485089302063,
+            "finite_kl_ratio": 0.027091491351839816,
+            "oracle_cluster": 3,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.03082307241857052,
+            "routed_capture": 0.018161384388804436,
+            "random_capture": 0.023813072592020035,
+            "route_match": false,
+            "finite_fidelity": 0.20284616947174072,
+            "finite_cosine": 0.8136968016624451,
+            "finite_kl_ratio": 0.01779927707405235,
+            "oracle_cluster": 14,
+            "routed_cluster": 6
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.01876908913254738,
+            "routed_capture": 0.01876908913254738,
+            "random_capture": 0.019344400614500046,
+            "route_match": true,
+            "finite_fidelity": 0.08379119634628296,
+            "finite_cosine": 0.3449456989765167,
+            "finite_kl_ratio": 0.024508634150645883,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.022409658879041672,
+            "routed_capture": 0.022409658879041672,
+            "random_capture": 0.0152645418420434,
+            "route_match": true,
+            "finite_fidelity": -0.0005606412887573242,
+            "finite_cosine": 0.08675901591777802,
+            "finite_kl_ratio": 0.030883058188919284,
+            "oracle_cluster": 3,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.023268787190318108,
+            "routed_capture": 0.017061643302440643,
+            "random_capture": 0.01693575456738472,
+            "route_match": false,
+            "finite_fidelity": 0.12572485208511353,
+            "finite_cosine": 0.556953489780426,
+            "finite_kl_ratio": 0.016056743499929024,
+            "oracle_cluster": 12,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.020937593653798103,
+            "routed_capture": 0.020937593653798103,
+            "random_capture": 0.011529646813869476,
+            "route_match": true,
+            "finite_fidelity": 0.26768821477890015,
+            "finite_cosine": 0.9349770545959473,
+            "finite_kl_ratio": 0.02416586145428496,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03127948194742203,
+            "routed_capture": 0.013462995178997517,
+            "random_capture": 0.01586715318262577,
+            "route_match": false,
+            "finite_fidelity": 0.16644328832626343,
+            "finite_cosine": 0.7906950116157532,
+            "finite_kl_ratio": 0.012737964058175207,
+            "oracle_cluster": 3,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.022951209917664528,
+            "routed_capture": 0.009244893677532673,
+            "random_capture": 0.017343031242489815,
+            "route_match": false,
+            "finite_fidelity": 0.013775467872619629,
+            "finite_cosine": 0.12834225594997406,
+            "finite_kl_ratio": 0.005769207885210827,
+            "oracle_cluster": 3,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.049109529703855515,
+            "routed_capture": 0.049109529703855515,
+            "random_capture": 0.027438649907708168,
+            "route_match": true,
+            "finite_fidelity": -0.04352843761444092,
+            "finite_cosine": 0.042885392904281616,
+            "finite_kl_ratio": 0.06525114265137902,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04238937422633171,
+            "routed_capture": 0.04238937422633171,
+            "random_capture": 0.024118060246109962,
+            "route_match": true,
+            "finite_fidelity": 0.19590520858764648,
+            "finite_cosine": 0.5078128576278687,
+            "finite_kl_ratio": 0.06636790165711189,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.03689064458012581,
+            "routed_capture": 0.03689064458012581,
+            "random_capture": 0.02457675337791443,
+            "route_match": true,
+            "finite_fidelity": 0.20914828777313232,
+            "finite_cosine": 0.5488566756248474,
+            "finite_kl_ratio": 0.05955985639314338,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.027800945565104485,
+            "routed_capture": 0.027800945565104485,
+            "random_capture": 0.012947160750627518,
+            "route_match": true,
+            "finite_fidelity": 0.16761136054992676,
+            "finite_cosine": 0.6122293472290039,
+            "finite_kl_ratio": 0.02611121737285242,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.028515281155705452,
+            "routed_capture": 0.012143869884312153,
+            "random_capture": 0.018344992771744728,
+            "route_match": false,
+            "finite_fidelity": 0.09351330995559692,
+            "finite_cosine": 0.565098762512207,
+            "finite_kl_ratio": 0.008642215411680828,
+            "oracle_cluster": 0,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.04152378812432289,
+            "routed_capture": 0.010624698363244534,
+            "random_capture": 0.021068025380373,
+            "route_match": false,
+            "finite_fidelity": 0.021357417106628418,
+            "finite_cosine": 0.1830977201461792,
+            "finite_kl_ratio": 0.0060325638876794225,
+            "oracle_cluster": 7,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.05661781504750252,
+            "routed_capture": 0.05661781504750252,
+            "random_capture": 0.028482560068368912,
+            "route_match": true,
+            "finite_fidelity": 0.2762329578399658,
+            "finite_cosine": 0.7089444398880005,
+            "finite_kl_ratio": 0.05327331441221645,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.043777838349342346,
+            "routed_capture": 0.043777838349342346,
+            "random_capture": 0.026253890246152878,
+            "route_match": true,
+            "finite_fidelity": 0.00705265998840332,
+            "finite_cosine": 0.1235588863492012,
+            "finite_kl_ratio": 0.045493686780486584,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.05146275833249092,
+            "routed_capture": 0.05146275833249092,
+            "random_capture": 0.030928397551178932,
+            "route_match": true,
+            "finite_fidelity": 0.3292574882507324,
+            "finite_cosine": 0.7820232510566711,
+            "finite_kl_ratio": 0.062124693092412496,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.032440509647130966,
+            "routed_capture": 0.032440509647130966,
+            "random_capture": 0.013920876197516918,
+            "route_match": true,
+            "finite_fidelity": 0.34518593549728394,
+            "finite_cosine": 0.9264388084411621,
+            "finite_kl_ratio": 0.04562883926081517,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.026861604303121567,
+            "routed_capture": 0.026861604303121567,
+            "random_capture": 0.01406433992087841,
+            "route_match": true,
+            "finite_fidelity": 0.3195122480392456,
+            "finite_cosine": 0.9349251985549927,
+            "finite_kl_ratio": 0.03738021165131176,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.024369554594159126,
+            "routed_capture": 0.024369554594159126,
+            "random_capture": 0.02125951275229454,
+            "route_match": true,
+            "finite_fidelity": 0.2904190421104431,
+            "finite_cosine": 0.9375441670417786,
+            "finite_kl_ratio": 0.030110934010126312,
+            "oracle_cluster": 5,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.039367396384477615,
+            "routed_capture": 0.039367396384477615,
+            "random_capture": 0.01811961643397808,
+            "route_match": true,
+            "finite_fidelity": 0.11338263750076294,
+            "finite_cosine": 0.4202917814254761,
+            "finite_kl_ratio": 0.02847354602567333,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.031063320115208626,
+            "routed_capture": 0.027817752212285995,
+            "random_capture": 0.02972680702805519,
+            "route_match": false,
+            "finite_fidelity": 0.14656394720077515,
+            "finite_cosine": 0.5126136541366577,
+            "finite_kl_ratio": 0.029501612034963775,
+            "oracle_cluster": 3,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.032773494720458984,
+            "routed_capture": 0.0222689900547266,
+            "random_capture": 0.021985480561852455,
+            "route_match": false,
+            "finite_fidelity": 0.030544579029083252,
+            "finite_cosine": 0.17832055687904358,
+            "finite_kl_ratio": 0.020505311052680532,
+            "oracle_cluster": 11,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.02545497566461563,
+            "routed_capture": 0.02545497566461563,
+            "random_capture": 0.016547836363315582,
+            "route_match": true,
+            "finite_fidelity": -0.01018369197845459,
+            "finite_cosine": 0.04769280552864075,
+            "finite_kl_ratio": 0.025277417018974478,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02798178791999817,
+            "routed_capture": 0.020465437322854996,
+            "random_capture": 0.02112733945250511,
+            "route_match": false,
+            "finite_fidelity": 0.048349201679229736,
+            "finite_cosine": 0.24672698974609375,
+            "finite_kl_ratio": 0.018160891697647157,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.03147874027490616,
+            "routed_capture": 0.02164321020245552,
+            "random_capture": 0.02551002986729145,
+            "route_match": false,
+            "finite_fidelity": 0.16698592901229858,
+            "finite_cosine": 0.6966670751571655,
+            "finite_kl_ratio": 0.01749835678151624,
+            "oracle_cluster": 11,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.032743729650974274,
+            "routed_capture": 0.032743729650974274,
+            "random_capture": 0.012246472761034966,
+            "route_match": true,
+            "finite_fidelity": 0.14307379722595215,
+            "finite_cosine": 0.5110993385314941,
+            "finite_kl_ratio": 0.02769682472894492,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.020475851371884346,
+            "routed_capture": 0.014701350592076778,
+            "random_capture": 0.013886436820030212,
+            "route_match": false,
+            "finite_fidelity": 0.040319621562957764,
+            "finite_cosine": 0.22261859476566315,
+            "finite_kl_ratio": 0.015847703323897233,
+            "oracle_cluster": 2,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.02525267004966736,
+            "routed_capture": 0.01873750612139702,
+            "random_capture": 0.019711801782250404,
+            "route_match": false,
+            "finite_fidelity": 0.13456279039382935,
+            "finite_cosine": 0.6044561266899109,
+            "finite_kl_ratio": 0.015223814486358962,
+            "oracle_cluster": 6,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.01289692334830761,
+            "routed_capture": 0.01289692334830761,
+            "random_capture": 0.006355539429932833,
+            "route_match": true,
+            "finite_fidelity": 0.13215434551239014,
+            "finite_cosine": 0.7641373872756958,
+            "finite_kl_ratio": 0.008674876716516004,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.014097746461629868,
+            "routed_capture": 0.009657217189669609,
+            "random_capture": 0.0195830836892128,
+            "route_match": false,
+            "finite_fidelity": 0.1341211199760437,
+            "finite_cosine": 0.8372328281402588,
+            "finite_kl_ratio": 0.007396709070775721,
+            "oracle_cluster": 3,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.019542185589671135,
+            "routed_capture": 0.010418053716421127,
+            "random_capture": 0.02335379086434841,
+            "route_match": false,
+            "finite_fidelity": 0.11620944738388062,
+            "finite_cosine": 0.7288975715637207,
+            "finite_kl_ratio": 0.007386210157938146,
+            "oracle_cluster": 13,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04109795764088631,
+            "routed_capture": 0.04109795764088631,
+            "random_capture": 0.018620837479829788,
+            "route_match": true,
+            "finite_fidelity": 0.13917380571365356,
+            "finite_cosine": 0.44379016757011414,
+            "finite_kl_ratio": 0.041765112933652496,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.038428839296102524,
+            "routed_capture": 0.030305929481983185,
+            "random_capture": 0.02390536107122898,
+            "route_match": false,
+            "finite_fidelity": 0.11735612154006958,
+            "finite_cosine": 0.40027832984924316,
+            "finite_kl_ratio": 0.037826528473407305,
+            "oracle_cluster": 2,
+            "routed_cluster": 0
+          },
+          "16": {
+            "oracle_capture": 0.032648373395204544,
+            "routed_capture": 0.02404930256307125,
+            "random_capture": 0.023019321262836456,
+            "route_match": false,
+            "finite_fidelity": 0.20611172914505005,
+            "finite_cosine": 0.7888144254684448,
+            "finite_kl_ratio": 0.02095534433302674,
+            "oracle_cluster": 4,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03832235559821129,
+            "routed_capture": 0.03832235559821129,
+            "random_capture": 0.014522634446620941,
+            "route_match": true,
+            "finite_fidelity": 0.3385778069496155,
+            "finite_cosine": 0.8385111093521118,
+            "finite_kl_ratio": 0.055878188677820004,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.027983585372567177,
+            "routed_capture": 0.018343323841691017,
+            "random_capture": 0.016773249953985214,
+            "route_match": false,
+            "finite_fidelity": 0.06712895631790161,
+            "finite_cosine": 0.3257516622543335,
+            "finite_kl_ratio": 0.01663039612312173,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.028103647753596306,
+            "routed_capture": 0.02589869499206543,
+            "random_capture": 0.015712041407823563,
+            "route_match": false,
+            "finite_fidelity": 0.2794177532196045,
+            "finite_cosine": 0.7914425134658813,
+            "finite_kl_ratio": 0.04123714247045024,
+            "oracle_cluster": 9,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.029716720804572105,
+            "routed_capture": 0.029716720804572105,
+            "random_capture": 0.01564873941242695,
+            "route_match": true,
+            "finite_fidelity": 0.2437266707420349,
+            "finite_cosine": 0.7731773853302002,
+            "finite_kl_ratio": 0.0321214372586923,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.04273979365825653,
+            "routed_capture": 0.04273979365825653,
+            "random_capture": 0.015329573303461075,
+            "route_match": true,
+            "finite_fidelity": 0.3863135576248169,
+            "finite_cosine": 0.9077481031417847,
+            "finite_kl_ratio": 0.06148536218847128,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.04052409902215004,
+            "routed_capture": 0.04052409902215004,
+            "random_capture": 0.020597126334905624,
+            "route_match": true,
+            "finite_fidelity": 0.3415592908859253,
+            "finite_cosine": 0.9110376834869385,
+            "finite_kl_ratio": 0.045782708376469305,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.029785586521029472,
+            "routed_capture": 0.029785586521029472,
+            "random_capture": 0.016500232741236687,
+            "route_match": true,
+            "finite_fidelity": 0.15359127521514893,
+            "finite_cosine": 0.602938711643219,
+            "finite_kl_ratio": 0.02030520156651612,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03018377535045147,
+            "routed_capture": 0.015461663715541363,
+            "random_capture": 0.019989805296063423,
+            "route_match": false,
+            "finite_fidelity": 0.12896019220352173,
+            "finite_cosine": 0.6996339559555054,
+            "finite_kl_ratio": 0.009519227792588758,
+            "oracle_cluster": 0,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.025686241686344147,
+            "routed_capture": 0.012922263704240322,
+            "random_capture": 0.020373940467834473,
+            "route_match": false,
+            "finite_fidelity": 0.05497300624847412,
+            "finite_cosine": 0.36671072244644165,
+            "finite_kl_ratio": 0.0069437383736736325,
+            "oracle_cluster": 8,
+            "routed_cluster": 14
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04796904698014259,
+            "routed_capture": 0.04796904698014259,
+            "random_capture": 0.02040231227874756,
+            "route_match": true,
+            "finite_fidelity": 0.061932146549224854,
+            "finite_cosine": 0.24892020225524902,
+            "finite_kl_ratio": 0.058456161603465596,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03952731192111969,
+            "routed_capture": 0.02864944003522396,
+            "random_capture": 0.017794808372855186,
+            "route_match": false,
+            "finite_fidelity": -0.008927464485168457,
+            "finite_cosine": 0.07804393023252487,
+            "finite_kl_ratio": 0.039503559970137644,
+            "oracle_cluster": 0,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.031060917302966118,
+            "routed_capture": 0.023858776316046715,
+            "random_capture": 0.022213172167539597,
+            "route_match": false,
+            "finite_fidelity": 0.05475783348083496,
+            "finite_cosine": 0.25611066818237305,
+            "finite_kl_ratio": 0.022695751375960152,
+            "oracle_cluster": 4,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03585796430706978,
+            "routed_capture": 0.03585796430706978,
+            "random_capture": 0.007550319656729698,
+            "route_match": true,
+            "finite_fidelity": 0.336698055267334,
+            "finite_cosine": 0.9402847290039062,
+            "finite_kl_ratio": 0.04012651633087578,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.021783238276839256,
+            "routed_capture": 0.016544854268431664,
+            "random_capture": 0.013326475396752357,
+            "route_match": false,
+            "finite_fidelity": 0.2222611904144287,
+            "finite_cosine": 0.9640821218490601,
+            "finite_kl_ratio": 0.01516722944386508,
+            "oracle_cluster": 1,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.04416023567318916,
+            "routed_capture": 0.03342292830348015,
+            "random_capture": 0.01801047846674919,
+            "route_match": false,
+            "finite_fidelity": 0.334505558013916,
+            "finite_cosine": 0.9809011220932007,
+            "finite_kl_ratio": 0.035606585512156785,
+            "oracle_cluster": 9,
+            "routed_cluster": 13
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.04658942669630051,
+            "routed_capture": 0.04658942669630051,
+            "random_capture": 0.010990978218615055,
+            "route_match": true,
+            "finite_fidelity": 0.3217344284057617,
+            "finite_cosine": 0.8155881762504578,
+            "finite_kl_ratio": 0.05281076631039947,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02845795266330242,
+            "routed_capture": 0.02358502522110939,
+            "random_capture": 0.01916614919900894,
+            "route_match": false,
+            "finite_fidelity": 0.20569121837615967,
+            "finite_cosine": 0.7303890585899353,
+            "finite_kl_ratio": 0.02506523801461439,
+            "oracle_cluster": 3,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.027163013815879822,
+            "routed_capture": 0.022190190851688385,
+            "random_capture": 0.016754329204559326,
+            "route_match": false,
+            "finite_fidelity": 0.21407091617584229,
+            "finite_cosine": 0.7777891159057617,
+            "finite_kl_ratio": 0.023364189816867734,
+            "oracle_cluster": 8,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.057786982506513596,
+            "routed_capture": 0.057786982506513596,
+            "random_capture": 0.017339425161480904,
+            "route_match": true,
+            "finite_fidelity": 0.25704723596572876,
+            "finite_cosine": 0.6020784378051758,
+            "finite_kl_ratio": 0.07837092404503289,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03797611966729164,
+            "routed_capture": 0.03797611966729164,
+            "random_capture": 0.024498557671904564,
+            "route_match": true,
+            "finite_fidelity": 0.15084147453308105,
+            "finite_cosine": 0.43055546283721924,
+            "finite_kl_ratio": 0.06115777139883934,
+            "oracle_cluster": 2,
+            "routed_cluster": 2
+          },
+          "16": {
+            "oracle_capture": 0.04029860720038414,
+            "routed_capture": 0.03299614414572716,
+            "random_capture": 0.021888012066483498,
+            "route_match": false,
+            "finite_fidelity": 0.0630539059638977,
+            "finite_cosine": 0.2533312737941742,
+            "finite_kl_ratio": 0.049232552715277454,
+            "oracle_cluster": 4,
+            "routed_cluster": 13
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.019291769713163376,
+            "routed_capture": 0.019291769713163376,
+            "random_capture": 0.008001131936907768,
+            "route_match": true,
+            "finite_fidelity": -0.03135025501251221,
+            "finite_cosine": -0.0543452650308609,
+            "finite_kl_ratio": 0.01686620092749213,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.02250763587653637,
+            "routed_capture": 0.02250763587653637,
+            "random_capture": 0.018677638843655586,
+            "route_match": true,
+            "finite_fidelity": 0.29594308137893677,
+            "finite_cosine": 0.9308703541755676,
+            "finite_kl_ratio": 0.0304291026192983,
+            "oracle_cluster": 1,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.027896730229258537,
+            "routed_capture": 0.027896730229258537,
+            "random_capture": 0.014971775934100151,
+            "route_match": true,
+            "finite_fidelity": 0.2858343720436096,
+            "finite_cosine": 0.8415094017982483,
+            "finite_kl_ratio": 0.036356665467557794,
+            "oracle_cluster": 12,
+            "routed_cluster": 12
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.03395982086658478,
+            "routed_capture": 0.03395982086658478,
+            "random_capture": 0.022880885750055313,
+            "route_match": true,
+            "finite_fidelity": 0.11905533075332642,
+            "finite_cosine": 0.4214276373386383,
+            "finite_kl_ratio": 0.03273240831757216,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.03613939508795738,
+            "routed_capture": 0.028630375862121582,
+            "random_capture": 0.026635706424713135,
+            "route_match": false,
+            "finite_fidelity": 0.18406206369400024,
+            "finite_cosine": 0.7164261341094971,
+            "finite_kl_ratio": 0.020631334206010116,
+            "oracle_cluster": 0,
+            "routed_cluster": 1
+          },
+          "16": {
+            "oracle_capture": 0.03507082909345627,
+            "routed_capture": 0.022935982793569565,
+            "random_capture": 0.024051425978541374,
+            "route_match": false,
+            "finite_fidelity": 0.1445714235305786,
+            "finite_cosine": 0.5829474329948425,
+            "finite_kl_ratio": 0.020154198918940547,
+            "oracle_cluster": 2,
+            "routed_cluster": 5
+          }
+        },
+        {
+          "1": {
+            "oracle_capture": 0.016765005886554718,
+            "routed_capture": 0.016765005886554718,
+            "random_capture": 0.013503321446478367,
+            "route_match": true,
+            "finite_fidelity": 0.05409109592437744,
+            "finite_cosine": 0.29038742184638977,
+            "finite_kl_ratio": 0.01411151246257842,
+            "oracle_cluster": 0,
+            "routed_cluster": 0
+          },
+          "4": {
+            "oracle_capture": 0.013588485307991505,
+            "routed_capture": 0.012075774371623993,
+            "random_capture": 0.020033210515975952,
+            "route_match": false,
+            "finite_fidelity": 0.06462645530700684,
+            "finite_cosine": 0.36889395117759705,
+            "finite_kl_ratio": 0.010707795245882473,
+            "oracle_cluster": 1,
+            "routed_cluster": 3
+          },
+          "16": {
+            "oracle_capture": 0.028947502374649048,
+            "routed_capture": 0.009655470959842205,
+            "random_capture": 0.019328445196151733,
+            "route_match": false,
+            "finite_fidelity": 0.017092108726501465,
+            "finite_cosine": 0.14628422260284424,
+            "finite_kl_ratio": 0.006761157438317852,
+            "oracle_cluster": 5,
+            "routed_cluster": 6
+          }
+        }
+      ]
+    }
+  }
+}

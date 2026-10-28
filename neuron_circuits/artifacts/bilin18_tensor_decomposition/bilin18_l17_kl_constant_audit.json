@@ -1,0 +1,268 @@
+{
+  "config": {
+    "status": "H279 fixed before restart outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_kl_constant_audit_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "learning_rates": [
+      0.1,
+      0.3,
+      1.0
+    ],
+    "steps": 1200,
+    "checkpoints": [
+      0,
+      400,
+      800,
+      1200
+    ],
+    "train_batch": 64,
+    "seed": 20261230,
+    "design": "Restart H278 selected constants with fresh Adam moments. Base rates.1/.3/1; factor1 through399,.3 through799,.1 thereafter.1200 updates, checkpoints0/400/800/1200. First768 docs train,next256 validation. Previous constant step0 eligible. Full-discovery mean gradients at previous/selected constants; probes along negative selected gradient of norms1/10/100 on discovery/validation only, not selection candidates. No coefficient changes. Fresh128docs exclude2240 prior hashes.",
+    "gates": {
+      "material_restart": "refined vs previous KL reduction>=5%, paired95 lower>0 BOTH families",
+      "repair_actual": "refined actual recovery vs compiler>=80%, CE<=.02, top1>=.98",
+      "repair_mixture": "same mixture"
+    },
+    "scope": "Operational stability audit, not global-optimality certificate. Gradient units and boundary selection reported. Probes not selected or evaluated on test."
+  },
+  "winners": {
+    "actual": "actual_lr1.0",
+    "mixture": "mixture_lr1.0"
+  },
+  "audits": {
+    "actual": {
+      "previous": {
+        "train_kl": 0.050230459141043834,
+        "validation_kl": 0.05669294914898664,
+        "constant_norm": 4120.59033203125,
+        "delta_from_previous_norm": 0.0
+      },
+      "refined": {
+        "train_kl": 0.04895460690346155,
+        "validation_kl": 0.056146852130425154,
+        "constant_norm": 4545.97998046875,
+        "delta_from_previous_norm": 1024.3717041015625
+      }
+    },
+    "mixture": {
+      "previous": {
+        "train_kl": 0.050575791821015764,
+        "validation_kl": 0.05659901649219956,
+        "constant_norm": 4160.4931640625,
+        "delta_from_previous_norm": 0.0
+      },
+      "refined": {
+        "train_kl": 0.04926118761271474,
+        "validation_kl": 0.0561393215769663,
+        "constant_norm": 4579.50439453125,
+        "delta_from_previous_norm": 1034.7789306640625
+      }
+    }
+  },
+  "gradient_audit": {
+    "actual": {
+      "previous": {
+        "gradient_l2": 2.7012358714273432e-06,
+        "gradient_linf": 6.024959589012724e-07,
+        "relative_gradient_scale": 0.22159238159656525
+      },
+      "refined": {
+        "gradient_l2": 1.127345058193896e-06,
+        "gradient_linf": 5.313162887432554e-07,
+        "relative_gradient_scale": 0.10468652844429016,
+        "negative_gradient_probes": {
+          "1.0": {
+            "train_kl": 0.04895348627967203,
+            "validation_kl": 0.056147074259241356
+          },
+          "10.0": {
+            "train_kl": 0.048943914636304243,
+            "validation_kl": 0.056149598100424525
+          },
+          "100.0": {
+            "train_kl": 0.04889945343076453,
+            "validation_kl": 0.056223480872845226
+          }
+        }
+      }
+    },
+    "mixture": {
+      "previous": {
+        "gradient_l2": 3.0789938136877026e-06,
+        "gradient_linf": 5.277900072542252e-07,
+        "relative_gradient_scale": 0.25328585505485535
+      },
+      "refined": {
+        "gradient_l2": 1.1380536761862459e-06,
+        "gradient_linf": 5.485088649948011e-07,
+        "relative_gradient_scale": 0.10579772293567657,
+        "negative_gradient_probes": {
+          "1.0": {
+            "train_kl": 0.049260061448964845,
+            "validation_kl": 0.05613955756475347
+          },
+          "10.0": {
+            "train_kl": 0.04925030944308294,
+            "validation_kl": 0.05614221080405345
+          },
+          "100.0": {
+            "train_kl": 0.04919767551478666,
+            "validation_kl": 0.056211114909319064
+          }
+        }
+      }
+    }
+  },
+  "results": {
+    "compiled": {
+      "residual_fidelity": 0.0,
+      "mean_kl": 0.0929275341190601,
+      "kl_recovery": 0.0,
+      "kl_recovery_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "mean_ce_increase": 0.08808638761146499,
+      "ce_bootstrap95": [
+        0.0522644407409215,
+        0.12663183138542966
+      ],
+      "top1_agreement": 0.837890625,
+      "top1_bootstrap95": [
+        0.802734375,
+        0.873046875
+      ]
+    },
+    "native": {
+      "residual_fidelity": 1.0,
+      "mean_kl": 0.0,
+      "kl_recovery": 1.0,
+      "kl_recovery_bootstrap95": [
+        1.0,
+        1.0
+      ],
+      "mean_ce_increase": 0.0,
+      "ce_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "top1_agreement": 1.0,
+      "top1_bootstrap95": [
+        1.0,
+        1.0
+      ]
+    },
+    "actual_previous": {
+      "residual_fidelity": 0.4192504286766052,
+      "mean_kl": 0.05594806115210266,
+      "kl_recovery": 0.3979388167082838,
+      "kl_recovery_bootstrap95": [
+        0.3440282293222528,
+        0.4488249548193646
+      ],
+      "mean_ce_increase": 0.06689127836179688,
+      "ce_bootstrap95": [
+        0.03758360263976779,
+        0.0965482570523018
+      ],
+      "top1_agreement": 0.859375,
+      "top1_bootstrap95": [
+        0.828125,
+        0.88671875
+      ]
+    },
+    "actual_refined": {
+      "residual_fidelity": 0.3854215741157532,
+      "mean_kl": 0.05543915733078812,
+      "kl_recovery": 0.4034151679979082,
+      "kl_recovery_bootstrap95": [
+        0.3504460207784579,
+        0.4547645394539395
+      ],
+      "mean_ce_increase": 0.06702090681632472,
+      "ce_bootstrap95": [
+        0.03730941248734804,
+        0.09689230090668005
+      ],
+      "top1_agreement": 0.859375,
+      "top1_bootstrap95": [
+        0.830078125,
+        0.88671875
+      ]
+    },
+    "mixture_previous": {
+      "residual_fidelity": 0.41334521770477295,
+      "mean_kl": 0.05511836744923626,
+      "kl_recovery": 0.4068672114056334,
+      "kl_recovery_bootstrap95": [
+        0.35540147251558857,
+        0.455309139591281
+      ],
+      "mean_ce_increase": 0.06967392302885632,
+      "ce_bootstrap95": [
+        0.04164970917113126,
+        0.09839486365497323
+      ],
+      "top1_agreement": 0.859375,
+      "top1_bootstrap95": [
+        0.828125,
+        0.888671875
+      ]
+    },
+    "mixture_refined": {
+      "residual_fidelity": 0.37946367263793945,
+      "mean_kl": 0.05468765996294127,
+      "kl_recovery": 0.411502086207575,
+      "kl_recovery_bootstrap95": [
+        0.3606587482115232,
+        0.4602193703060123
+      ],
+      "mean_ce_increase": 0.06989637522404371,
+      "ce_bootstrap95": [
+        0.04128848186563038,
+        0.09896354534041195
+      ],
+      "top1_agreement": 0.865234375,
+      "top1_bootstrap95": [
+        0.8359375,
+        0.892578125
+      ]
+    }
+  },
+  "contrasts": {
+    "actual": {
+      "relative_kl_reduction": 0.009096004594887009,
+      "paired95": [
+        -0.0005448246389211541,
+        0.01962101499519457
+      ]
+    },
+    "mixture": {
+      "relative_kl_reduction": 0.007814227928497276,
+      "paired95": [
+        -0.001745453214809641,
+        0.01818962136119855
+      ]
+    }
+  },
+  "gates": {
+    "material_restart": false,
+    "repair_actual": false,
+    "repair_mixture": false
+  },
+  "stable_response_bitwise_equal": {
+    "actual": true,
+    "mixture": true
+  },
+  "head_replay": 4.23467579645591e-07
+}

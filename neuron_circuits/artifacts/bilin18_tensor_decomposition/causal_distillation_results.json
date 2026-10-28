@@ -1,0 +1,2324 @@
+{
+  "distillation_config": {
+    "schema_version": 1,
+    "created_before_training": true,
+    "base_checkpoint": "artifacts/bilin18_tensor_decomposition/cp_r2048_activation.pt",
+    "layer": 1,
+    "train_rows": {
+      "start": 0,
+      "stop": 16000
+    },
+    "validation_rows": {
+      "start": 17000,
+      "stop": 17008
+    },
+    "evaluation_rows_start": 18064,
+    "sequence_length": 128,
+    "batch_size": 1,
+    "steps": 300,
+    "validation_every": 50,
+    "learning_rate": 3e-05,
+    "weight_decay": 1e-06,
+    "effect_weight": 0.25,
+    "interventions": {
+      "gaussian_scales": [
+        0.02,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "natural_mix_scales": [
+        0.05,
+        0.1,
+        0.25,
+        0.5
+      ]
+    },
+    "variants": {
+      "cp2048_kl": {
+        "intervention_kl_weight": 0.0,
+        "effect_weight": 0.0,
+        "tensor_weight": 0.0
+      },
+      "cp2048_causal": {
+        "intervention_kl_weight": 1.0,
+        "effect_weight": 0.25,
+        "tensor_weight": 0.0
+      },
+      "cp2048_causal_tensor": {
+        "intervention_kl_weight": 1.0,
+        "effect_weight": 0.25,
+        "tensor_weight": 0.01
+      }
+    },
+    "seed": 20261019,
+    "hypotheses": {
+      "H1_kl_behavior": "KL-only distillation improves FineWeb KL relative to activation-refined CP-2048 without worsening either OOD KL by more than 0.005.",
+      "H2_causal_training": "Causal distillation improves Fisher effect fidelity for both preregistered intervention families relative to activation-refined CP-2048.",
+      "H3_tensor_anchor": "A 0.01 tensor anchor improves isotropic tensor fidelity without costing more than 0.005 mean KL or 0.05 causal fidelity relative to unanchored causal distillation.",
+      "H4_scale_transfer": "Any causal improvement appears at held-out intervention scales and on both OOD corpora, rather than only at the sampled training condition.",
+      "H5_causal_gate": "At least one trained model reaches 0.90 Fisher effect fidelity and 0.95 effect cosine for Gaussian 0.10 and natural-mix 0.25 interventions."
+    }
+  },
+  "score_config": {
+    "schema_version": 1,
+    "created_before_confirmatory_run": true,
+    "layer": 1,
+    "corpora": {
+      "fineweb": {
+        "start": 18064,
+        "rows": 128
+      },
+      "wikitext103": {
+        "start": 768,
+        "rows": 128
+      },
+      "tinystories": {
+        "start": 768,
+        "rows": 128
+      }
+    },
+    "models": [
+      "cp2048_weight",
+      "cp2048_activation",
+      "routed_mixed",
+      "cp512_activation",
+      "ll1_activation"
+    ],
+    "primary_models": [
+      "cp2048_weight",
+      "cp2048_activation",
+      "routed_mixed"
+    ],
+    "interventions": {
+      "gaussian_rms_0.10": {
+        "kind": "gaussian",
+        "scale": 0.1
+      },
+      "natural_mix_0.25": {
+        "kind": "natural_mix",
+        "scale": 0.25
+      }
+    },
+    "causal_rows": 32,
+    "semantic_train_tokens": 16384,
+    "semantic_test_tokens": 8192,
+    "stability_tokens": 2048,
+    "gates": {
+      "fineweb_mean_kl_max": 0.02,
+      "ood_mean_kl_max": 0.05,
+      "top1_agreement_min": 0.95,
+      "causal_effect_fidelity_min": 0.9,
+      "causal_effect_cosine_min": 0.95,
+      "parameter_fraction_max": 0.5,
+      "routed_active_fraction_max": 0.125,
+      "semantic_ood_auc_min": 0.6,
+      "collective_stability_gap_min": 0.1
+    },
+    "bootstrap_resamples": 2000,
+    "seed": 20261019,
+    "hypotheses": {
+      "H1_manifold_gap": "Activation-refined CP-2048 has better natural-language fidelity but worse isotropic tensor fidelity than direct CP-2048.",
+      "H2_causal_gap": "The behavioral advantage of activation-refined CP-2048 over direct CP-2048 shrinks under held-out MLP-input interventions or OOD text.",
+      "H3_sparse_conditional_program": "Mixed routed CP-2048/K128 uses no more than 6.25% of factors per token while using more than half of the dictionary across a corpus.",
+      "H4_collective_over_component_stability": "Cross-objective activation-space similarity is substantially higher than median individual CP-term similarity.",
+      "H5_semantic_transfer": "Factors selected on FineWeb for token-form categories retain an oriented mean held-out AUROC above 0.60 on both OOD corpora.",
+      "H6_no_current_full_pass": "No existing decomposition passes all behavioral, OOD, causal, and parsimony gates simultaneously."
+    }
+  },
+  "behavior": {
+    "fineweb": {
+      "baseline_cross_entropy": {
+        "mean": 3.4510778402909636,
+        "ci_low": 3.3484488434623927,
+        "ci_high": 3.545451002428308,
+        "rows": 128
+      },
+      "models": {
+        "activation_baseline": {
+          "cross_entropy_delta": {
+            "mean": 0.013887254521250725,
+            "ci_low": 0.010434888559393585,
+            "ci_high": 0.017626672331243754,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.017384902905178024,
+            "ci_low": 0.016156061974834303,
+            "ci_high": 0.018747095055368847,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.92333984375,
+            "ci_low": 0.918701171875,
+            "ci_high": 0.927734375,
+            "rows": 128
+          }
+        },
+        "cp2048_kl": {
+          "cross_entropy_delta": {
+            "mean": 0.01689129788428545,
+            "ci_low": 0.013243257929570974,
+            "ci_high": 0.02099445075727999,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.019151889508066233,
+            "ci_low": 0.017982550298984278,
+            "ci_high": 0.0203928065362561,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.91693115234375,
+            "ci_low": 0.9113143920898438,
+            "ci_high": 0.922607421875,
+            "rows": 128
+          }
+        },
+        "cp2048_causal": {
+          "cross_entropy_delta": {
+            "mean": 0.017774096690118313,
+            "ci_low": 0.014205633406527342,
+            "ci_high": 0.0215368544915691,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.01925368072988931,
+            "ci_low": 0.017939737283450087,
+            "ci_high": 0.020742445146788666,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.9193115234375,
+            "ci_low": 0.9140609741210938,
+            "ci_high": 0.9241958618164062,
+            "rows": 128
+          }
+        },
+        "cp2048_causal_tensor": {
+          "cross_entropy_delta": {
+            "mean": 0.016030628234148026,
+            "ci_low": 0.012520178919658065,
+            "ci_high": 0.01967032616958022,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.019353737501660362,
+            "ci_low": 0.01815512063312781,
+            "ci_high": 0.020696746253815942,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.91705322265625,
+            "ci_low": 0.91180419921875,
+            "ci_high": 0.9224853515625,
+            "rows": 128
+          }
+        }
+      }
+    },
+    "wikitext103": {
+      "baseline_cross_entropy": {
+        "mean": 4.149170322343707,
+        "ci_low": 4.082948059635237,
+        "ci_high": 4.223269877908751,
+        "rows": 128
+      },
+      "models": {
+        "activation_baseline": {
+          "cross_entropy_delta": {
+            "mean": 0.03328436240553856,
+            "ci_low": 0.028855370171368123,
+            "ci_high": 0.03812941908836365,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.023069253184075933,
+            "ci_low": 0.02022913997043361,
+            "ci_high": 0.02729907927478052,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.91217041015625,
+            "ci_low": 0.90673828125,
+            "ci_high": 0.91717529296875,
+            "rows": 128
+          }
+        },
+        "cp2048_kl": {
+          "cross_entropy_delta": {
+            "mean": 0.039449481293559074,
+            "ci_low": 0.032892337813973424,
+            "ci_high": 0.047659765323624016,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.027951243791903835,
+            "ci_low": 0.02407111100237671,
+            "ci_high": 0.03431977084546814,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.904052734375,
+            "ci_low": 0.898193359375,
+            "ci_high": 0.909423828125,
+            "rows": 128
+          }
+        },
+        "cp2048_causal": {
+          "cross_entropy_delta": {
+            "mean": 0.04178861528635025,
+            "ci_low": 0.03625338901765644,
+            "ci_high": 0.047694244189187884,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.02626563961530337,
+            "ci_low": 0.022991613202793814,
+            "ci_high": 0.031480926899894256,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.90673828125,
+            "ci_low": 0.9008773803710938,
+            "ci_high": 0.91204833984375,
+            "rows": 128
+          }
+        },
+        "cp2048_causal_tensor": {
+          "cross_entropy_delta": {
+            "mean": 0.04258619248867035,
+            "ci_low": 0.03720935275778175,
+            "ci_high": 0.047995536727830766,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.026657842718122993,
+            "ci_low": 0.02335666111557657,
+            "ci_high": 0.031041471989374257,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.9052734375,
+            "ci_low": 0.8997802734375,
+            "ci_high": 0.91070556640625,
+            "rows": 128
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "baseline_cross_entropy": {
+        "mean": 2.889341562986374,
+        "ci_low": 2.8486394025851043,
+        "ci_high": 2.931066039716825,
+        "rows": 128
+      },
+      "models": {
+        "activation_baseline": {
+          "cross_entropy_delta": {
+            "mean": 0.014246359467506409,
+            "ci_low": 0.01133074471727014,
+            "ci_high": 0.017223412310704588,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.01180548605043441,
+            "ci_low": 0.010658653920472716,
+            "ci_high": 0.013422887577689835,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.93365478515625,
+            "ci_low": 0.9287704467773438,
+            "ci_high": 0.93829345703125,
+            "rows": 128
+          }
+        },
+        "cp2048_kl": {
+          "cross_entropy_delta": {
+            "mean": 0.01806236058473587,
+            "ci_low": 0.014956670301035046,
+            "ci_high": 0.02115513728931546,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.012757063508615829,
+            "ci_low": 0.011601887510096276,
+            "ci_high": 0.014380001987683497,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.9305419921875,
+            "ci_low": 0.9259033203125,
+            "ci_high": 0.93499755859375,
+            "rows": 128
+          }
+        },
+        "cp2048_causal": {
+          "cross_entropy_delta": {
+            "mean": 0.019504325464367867,
+            "ci_low": 0.016487927921116353,
+            "ci_high": 0.022385893249884242,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.012665965707128635,
+            "ci_low": 0.011473565617143322,
+            "ci_high": 0.014442812077140842,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.93017578125,
+            "ci_low": 0.9252304077148438,
+            "ci_high": 0.9352432250976562,
+            "rows": 128
+          }
+        },
+        "cp2048_causal_tensor": {
+          "cross_entropy_delta": {
+            "mean": 0.019126448780298233,
+            "ci_low": 0.01607546568848193,
+            "ci_high": 0.022563413484022018,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.013381340129853925,
+            "ci_low": 0.01189567550081847,
+            "ci_high": 0.015200233519135506,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.93182373046875,
+            "ci_low": 0.9268783569335938,
+            "ci_high": 0.93670654296875,
+            "rows": 128
+          }
+        }
+      }
+    }
+  },
+  "causal_primary": {
+    "activation_baseline": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": 0.08609110437407652,
+        "effect_cosine": 0.5167859236977946,
+        "effect_gain": 0.48691536209667513,
+        "error_energy": 1677342.859375,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 1629313.0703125,
+        "dot": 893660.19921875,
+        "fisher_effect_fidelity": 0.15702935896600456,
+        "fisher_effect_cosine": 0.5573957940739118,
+        "fisher_effect_gain": 0.5291868885432616,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": 0.07914890355909293,
+          "ci_low": 0.05129889578206343,
+          "ci_high": 0.10645712215230083,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.5130274564412233,
+          "ci_low": 0.4989526598561888,
+          "ci_high": 0.5273395472271607,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.68895348533988,
+        "margin_effect_correlation": 0.5193128306418657
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.5638673374022454,
+        "effect_cosine": 0.7987175873145054,
+        "effect_gain": 0.8553454550706273,
+        "error_energy": 3261425.6328125,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 8576013.90625,
+        "dot": 6396323.484375,
+        "fisher_effect_fidelity": 0.5835442133638873,
+        "fisher_effect_cosine": 0.8065721390135419,
+        "fisher_effect_gain": 0.8593570785017829,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.5561916741605527,
+          "ci_low": 0.45542928142904154,
+          "ci_high": 0.6156981240256385,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.8036036898430644,
+          "ci_low": 0.7817465709610633,
+          "ci_high": 0.8196779324185524,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.914244182407856,
+        "margin_effect_correlation": 0.8008910492062569
+      }
+    },
+    "cp2048_kl": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": 0.01998272438842552,
+        "effect_cosine": 0.5040037861646558,
+        "effect_gain": 0.49784363464680864,
+        "error_energy": 1798674.88671875,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 1790759.48046875,
+        "dot": 913717.40625,
+        "fisher_effect_fidelity": 0.0802356339304332,
+        "fisher_effect_cosine": 0.5351199852932558,
+        "fisher_effect_gain": 0.5292989050936607,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": 0.01261028935203395,
+          "ci_low": -0.018373305832031547,
+          "ci_high": 0.04320148480849448,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.5001339121571526,
+          "ci_low": 0.48570155234867135,
+          "ci_high": 0.5150512939582315,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.664244182407856,
+        "margin_effect_correlation": 0.5032540000975132
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.5284391031183282,
+        "effect_cosine": 0.7808678264056419,
+        "effect_gain": 0.8324257594646358,
+        "error_energy": 3526360.046875,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 8498158.578125,
+        "dot": 6224928.65625,
+        "fisher_effect_fidelity": 0.5536844825774668,
+        "fisher_effect_cosine": 0.7889077731176358,
+        "fisher_effect_gain": 0.8291400389283482,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.5242531924859625,
+          "ci_low": 0.4972466712959113,
+          "ci_high": 0.5500031320899966,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.7811144354419317,
+          "ci_low": 0.7706701281166345,
+          "ci_high": 0.7908210277073611,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.8958333432674408,
+        "margin_effect_correlation": 0.7861849628388882
+      }
+    },
+    "cp2048_causal": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": 0.02386114594654576,
+        "effect_cosine": 0.49447340178710447,
+        "effect_gain": 0.47677110099010034,
+        "error_energy": 1791556.625,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 1706290.2734375,
+        "dot": 875041.927734375,
+        "fisher_effect_fidelity": 0.09454479898011314,
+        "fisher_effect_cosine": 0.5335556732418736,
+        "fisher_effect_gain": 0.5173369163747481,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": 0.01743931958398513,
+          "ci_low": -0.012211911592264455,
+          "ci_high": 0.04638126514264789,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.49077639104831366,
+          "ci_low": 0.47490018770677284,
+          "ci_high": 0.5063900753445324,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.6976744085550308,
+        "margin_effect_correlation": 0.5325235947966576
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.5319003530064749,
+        "effect_cosine": 0.7839496359264038,
+        "effect_gain": 0.8399904295849645,
+        "error_energy": 3500476.6171875,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 8585413.515625,
+        "dot": 6281497.703125,
+        "fisher_effect_fidelity": 0.546233646031093,
+        "fisher_effect_cosine": 0.790033617688824,
+        "fisher_effect_gain": 0.8446835525589602,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.5282517739937995,
+          "ci_low": 0.5041114990208992,
+          "ci_high": 0.551850455398118,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.7837569345236381,
+          "ci_low": 0.7739889442558938,
+          "ci_high": 0.7936444984633346,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.9055232517421246,
+        "margin_effect_correlation": 0.7802230902016163
+      }
+    },
+    "cp2048_causal_tensor": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": 0.024325698812326713,
+        "effect_cosine": 0.5002679833733285,
+        "effect_gain": 0.4880624077599871,
+        "error_energy": 1790704.0078125,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 1746884.68359375,
+        "dot": 895765.4296875,
+        "fisher_effect_fidelity": 0.09267524626268464,
+        "fisher_effect_cosine": 0.5357931069883417,
+        "fisher_effect_gain": 0.523309186792097,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": 0.017843940861678252,
+          "ci_low": -0.012202459874181802,
+          "ci_high": 0.04737548234204523,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.4962612281739364,
+          "ci_low": 0.4816233140114256,
+          "ci_high": 0.5118759490023056,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.6879844963550568,
+        "margin_effect_correlation": 0.5221715569496155
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.5383572562994363,
+        "effect_cosine": 0.7827252164359321,
+        "effect_gain": 0.8260164234553573,
+        "error_energy": 3452191.515625,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 8328131.640625,
+        "dot": 6176999.265625,
+        "fisher_effect_fidelity": 0.5482004350060888,
+        "fisher_effect_cosine": 0.7884214609961572,
+        "fisher_effect_gain": 0.8352225397709341,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.535643635511954,
+          "ci_low": 0.5028787599816958,
+          "ci_high": 0.5639520509099426,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.7831046032023093,
+          "ci_low": 0.7712107463333844,
+          "ci_high": 0.7951035087887708,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.8958333358168602,
+        "margin_effect_correlation": 0.7817382365465164
+      }
+    }
+  },
+  "causal_transfer": {
+    "fineweb_held_out_scales": {
+      "activation_baseline": {
+        "gaussian_0.075": {
+          "effect_fidelity": -0.09230825158900036,
+          "effect_cosine": 0.4327608054067042,
+          "effect_gain": 0.4161097594628017,
+          "error_energy": 920248.984375,
+          "teacher_effect_energy": 842481.033203125,
+          "student_effect_energy": 778897.115234375,
+          "dot": 350564.580078125,
+          "fisher_effect_fidelity": -0.010405673743890231,
+          "fisher_effect_cosine": 0.4772446981551843,
+          "fisher_effect_gain": 0.46066972368643166,
+          "fisher_teacher_effect_energy": 13.301466166973114,
+          "row_effect_fidelity": {
+            "mean": -0.09981787710385315,
+            "ci_low": -0.13186799627057136,
+            "ci_high": -0.06567494166652268,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.42869264197492063,
+            "ci_low": 0.411860488286957,
+            "ci_high": 0.44460744574660654,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.6201550414164861,
+          "margin_effect_correlation": 0.42597058912118274
+        },
+        "gaussian_0.150": {
+          "effect_fidelity": 0.2783424176242678,
+          "effect_cosine": 0.6164640366327613,
+          "effect_gain": 0.5766069674034018,
+          "error_energy": 2131199.6796875,
+          "teacher_effect_energy": 2953200.703125,
+          "student_effect_energy": 2583671.1953125,
+          "dot": 1702836.1015625,
+          "fisher_effect_fidelity": 0.31404502658912925,
+          "fisher_effect_cosine": 0.6370521038533431,
+          "fisher_effect_gain": 0.598842574452772,
+          "fisher_teacher_effect_energy": 48.98039269447327,
+          "row_effect_fidelity": {
+            "mean": 0.26941991315931874,
+            "ci_low": 0.23668302839598682,
+            "ci_high": 0.3030044896504951,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.6123756867484663,
+            "ci_low": 0.5956618762492278,
+            "ci_high": 0.6288584453637922,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.7693798542022705,
+          "margin_effect_correlation": 0.6109731942415237
+        },
+        "natural_mix_0.175": {
+          "effect_fidelity": 0.43570876912093515,
+          "effect_cosine": 0.7345862040871093,
+          "effect_gain": 0.7764091130413054,
+          "error_energy": 1326445.265625,
+          "teacher_effect_energy": 2350639.515625,
+          "student_effect_energy": 2625921.5390625,
+          "dot": 1825057.94140625,
+          "fisher_effect_fidelity": 0.48640633894523666,
+          "fisher_effect_cosine": 0.7566160421888798,
+          "fisher_effect_gain": 0.7944305033533317,
+          "fisher_teacher_effect_energy": 38.18930697441101,
+          "row_effect_fidelity": {
+            "mean": 0.4307334263238058,
+            "ci_low": 0.3490504778483925,
+            "ci_high": 0.4860364080899655,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.73844122784585,
+            "ci_low": 0.7168583109948626,
+            "ci_high": 0.7539514684163273,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.8598191241423289,
+          "margin_effect_correlation": 0.759638324379921
+        },
+        "natural_mix_0.375": {
+          "effect_fidelity": 0.6511651433405096,
+          "effect_cosine": 0.8424701941673838,
+          "effect_gain": 0.9136805884582598,
+          "error_energy": 6902535.453125,
+          "teacher_effect_energy": 19787401.75,
+          "student_effect_energy": 23273863.25,
+          "dot": 18079364.875,
+          "fisher_effect_fidelity": 0.654699070226158,
+          "fisher_effect_cosine": 0.8428625808097068,
+          "fisher_effect_gain": 0.9093726124345537,
+          "fisher_teacher_effect_energy": 304.24871826171875,
+          "row_effect_fidelity": {
+            "mean": 0.6451175396115452,
+            "ci_low": 0.46763520055657437,
+            "ci_high": 0.7487349403966898,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.8605802136527082,
+            "ci_low": 0.8269929408334478,
+            "ci_high": 0.8827813314261593,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.9457364132006963,
+          "margin_effect_correlation": 0.8567277093728384
+        }
+      },
+      "cp2048_kl": {
+        "gaussian_0.075": {
+          "effect_fidelity": -0.15073552668930756,
+          "effect_cosine": 0.42185621278181185,
+          "effect_gain": 0.41982213787273015,
+          "error_energy": 969472.85546875,
+          "teacher_effect_energy": 842481.033203125,
+          "student_effect_energy": 834376.1953125,
+          "dot": 353692.1884765625,
+          "fisher_effect_fidelity": -0.08587365608749908,
+          "fisher_effect_cosine": 0.45929668738593743,
+          "fisher_effect_gain": 0.46118672802316846,
+          "fisher_teacher_effect_energy": 13.301466166973114,
+          "row_effect_fidelity": {
+            "mean": -0.1583198203716106,
+            "ci_low": -0.196359808301115,
+            "ci_high": -0.11902778535398023,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.41769946799056806,
+            "ci_low": 0.3989913704160453,
+            "ci_high": 0.4361594371617866,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.5956072360277176,
+          "margin_effect_correlation": 0.4164946327606837
+        },
+        "gaussian_0.150": {
+          "effect_fidelity": 0.2088164697576933,
+          "effect_cosine": 0.5949524471310719,
+          "effect_gain": 0.5806382304644095,
+          "error_energy": 2336523.7578125,
+          "teacher_effect_energy": 2953200.703125,
+          "student_effect_energy": 2812805.53125,
+          "dot": 1714741.23046875,
+          "fisher_effect_fidelity": 0.25848701639438776,
+          "fisher_effect_cosine": 0.6188712495380281,
+          "fisher_effect_gain": 0.6013804013526043,
+          "fisher_teacher_effect_energy": 48.98039269447327,
+          "row_effect_fidelity": {
+            "mean": 0.20009159398257173,
+            "ci_low": 0.1658296040570305,
+            "ci_high": 0.2371111363516285,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.5906301229355023,
+            "ci_low": 0.5737957602734555,
+            "ci_high": 0.6076742107615336,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.7661498785018921,
+          "margin_effect_correlation": 0.5953308766086897
+        },
+        "natural_mix_0.175": {
+          "effect_fidelity": 0.4001978643724009,
+          "effect_cosine": 0.7174251505516995,
+          "effect_gain": 0.7574610962419676,
+          "error_energy": 1409918.6015625,
+          "teacher_effect_energy": 2350639.515625,
+          "student_effect_energy": 2620314.9921875,
+          "dot": 1780517.984375,
+          "fisher_effect_fidelity": 0.4525528772091507,
+          "fisher_effect_cosine": 0.739283202838159,
+          "fisher_effect_gain": 0.7731836527566598,
+          "fisher_teacher_effect_energy": 38.18930697441101,
+          "row_effect_fidelity": {
+            "mean": 0.3973477850641876,
+            "ci_low": 0.3731120878117711,
+            "ci_high": 0.4219190829022797,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.7181710449532805,
+            "ci_low": 0.7103598241418523,
+            "ci_high": 0.7267792878032658,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.85012919207414,
+          "margin_effect_correlation": 0.7377237876256307
+        },
+        "natural_mix_0.375": {
+          "effect_fidelity": 0.6726291412602972,
+          "effect_cosine": 0.8448230510259499,
+          "effect_gain": 0.8849915515057453,
+          "error_energy": 6477818.703125,
+          "teacher_effect_energy": 19787401.75,
+          "student_effect_energy": 21713783.875,
+          "dot": 17511683.375,
+          "fisher_effect_fidelity": 0.6747019125950813,
+          "fisher_effect_cosine": 0.8440353186660448,
+          "fisher_effect_gain": 0.8762639411629649,
+          "fisher_teacher_effect_energy": 304.24871826171875,
+          "row_effect_fidelity": {
+            "mean": 0.6732622532563965,
+            "ci_low": 0.6500755980571331,
+            "ci_high": 0.6980513607389494,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.8479279797530072,
+            "ci_low": 0.8366999348660206,
+            "ci_high": 0.8586302947396887,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.9366924911737442,
+          "margin_effect_correlation": 0.8471466898918152
+        }
+      },
+      "cp2048_causal": {
+        "gaussian_0.075": {
+          "effect_fidelity": -0.1387702304286622,
+          "effect_cosine": 0.4177876062389504,
+          "effect_gain": 0.40840184182651607,
+          "error_energy": 959392.3203125,
+          "teacher_effect_energy": 842481.033203125,
+          "student_effect_energy": 805052.88671875,
+          "dot": 344070.8056640625,
+          "fisher_effect_fidelity": -0.07344592721118648,
+          "fisher_effect_cosine": 0.45521348675550455,
+          "fisher_effect_gain": 0.44838162906641305,
+          "fisher_teacher_effect_energy": 13.301466166973114,
+          "row_effect_fidelity": {
+            "mean": -0.14676922020014702,
+            "ci_low": -0.18028483605947163,
+            "ci_high": -0.11315306365493667,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.4130137901127105,
+            "ci_low": 0.39458036735776425,
+            "ci_high": 0.4312240446400159,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.6324289341767629,
+          "margin_effect_correlation": 0.4245537320772807
+        },
+        "gaussian_0.150": {
+          "effect_fidelity": 0.21905646916088317,
+          "effect_cosine": 0.5916371545897313,
+          "effect_gain": 0.5641532866525194,
+          "error_energy": 2306282.984375,
+          "teacher_effect_energy": 2953200.703125,
+          "student_effect_energy": 2685198.0859375,
+          "dot": 1666057.8828125,
+          "fisher_effect_fidelity": 0.26374240511122504,
+          "fisher_effect_cosine": 0.6140664341191927,
+          "fisher_effect_gain": 0.5838048362047071,
+          "fisher_teacher_effect_energy": 48.98039269447327,
+          "row_effect_fidelity": {
+            "mean": 0.2088842924911443,
+            "ci_low": 0.17047229604230688,
+            "ci_high": 0.24498238991338847,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.5865601742597019,
+            "ci_low": 0.5675191743351903,
+            "ci_high": 0.6054797219299536,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.7726098249355952,
+          "margin_effect_correlation": 0.6126988083124161
+        },
+        "natural_mix_0.175": {
+          "effect_fidelity": 0.40282336331491275,
+          "effect_cosine": 0.7209571268890828,
+          "effect_gain": 0.7663378893386121,
+          "error_energy": 1403747.0,
+          "teacher_effect_energy": 2350639.515625,
+          "student_effect_energy": 2655875.734375,
+          "dot": 1801384.125,
+          "fisher_effect_fidelity": 0.4469665813931756,
+          "fisher_effect_cosine": 0.7425628770243928,
+          "fisher_effect_gain": 0.7913669906440017,
+          "fisher_teacher_effect_energy": 38.18930697441101,
+          "row_effect_fidelity": {
+            "mean": 0.39965914101753025,
+            "ci_low": 0.37662956010265985,
+            "ci_high": 0.4238314640108593,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.7202740569913239,
+            "ci_low": 0.7107584096718901,
+            "ci_high": 0.7316540431813247,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.8449612359205881,
+          "margin_effect_correlation": 0.7320053577423096
+        },
+        "natural_mix_0.375": {
+          "effect_fidelity": 0.679512735925524,
+          "effect_cosine": 0.8500956174239099,
+          "effect_gain": 0.8992489785830522,
+          "error_energy": 6341610.25,
+          "teacher_effect_energy": 19787401.75,
+          "student_effect_energy": 22141810.1875,
+          "dot": 17793800.8125,
+          "fisher_effect_fidelity": 0.672755103265199,
+          "fisher_effect_cosine": 0.8460738068146166,
+          "fisher_effect_gain": 0.8914613218284505,
+          "fisher_teacher_effect_energy": 304.24871826171875,
+          "row_effect_fidelity": {
+            "mean": 0.6773297385772065,
+            "ci_low": 0.6510476523883855,
+            "ci_high": 0.7019496982333516,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.8520408109628873,
+            "ci_low": 0.8413024541682831,
+            "ci_high": 0.862111650983593,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.941214457154274,
+          "margin_effect_correlation": 0.8413654913504919
+        }
+      },
+      "cp2048_causal_tensor": {
+        "gaussian_0.075": {
+          "effect_fidelity": -0.15086872238075633,
+          "effect_cosine": 0.416457453799571,
+          "effect_gain": 0.41060029752292576,
+          "error_energy": 969585.0703125,
+          "teacher_effect_energy": 842481.033203125,
+          "student_effect_energy": 818949.97265625,
+          "dot": 345922.962890625,
+          "fisher_effect_fidelity": -0.06994529761577994,
+          "fisher_effect_cosine": 0.460042054483919,
+          "fisher_effect_gain": 0.45575764139964764,
+          "fisher_teacher_effect_energy": 13.301466166973114,
+          "row_effect_fidelity": {
+            "mean": -0.15910924353774836,
+            "ci_low": -0.19461221548221694,
+            "ci_high": -0.1220073018084906,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.4118163836212345,
+            "ci_low": 0.39563999230192065,
+            "ci_high": 0.4295746375131058,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.6246770073970159,
+          "margin_effect_correlation": 0.4367314428091049
+        },
+        "gaussian_0.150": {
+          "effect_fidelity": 0.20171338464894906,
+          "effect_cosine": 0.5882774819923462,
+          "effect_gain": 0.5695825548810667,
+          "error_energy": 2357500.59375,
+          "teacher_effect_energy": 2953200.703125,
+          "student_effect_energy": 2768483.0703125,
+          "dot": 1682091.6015625,
+          "fisher_effect_fidelity": 0.22919888684825274,
+          "fisher_effect_cosine": 0.6022694417668764,
+          "fisher_effect_gain": 0.58280795103718,
+          "fisher_teacher_effect_energy": 48.98039269447327,
+          "row_effect_fidelity": {
+            "mean": 0.19406751648924994,
+            "ci_low": 0.1549803983568885,
+            "ci_high": 0.2339365144958496,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.5843704957283986,
+            "ci_low": 0.5670397823745691,
+            "ci_high": 0.6030947926498009,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.7616279125213623,
+          "margin_effect_correlation": 0.5928105662266413
+        },
+        "natural_mix_0.175": {
+          "effect_fidelity": 0.4155354208827041,
+          "effect_cosine": 0.720994319892069,
+          "effect_gain": 0.7526786776223643,
+          "error_energy": 1373865.53515625,
+          "teacher_effect_energy": 2350639.515625,
+          "student_effect_energy": 2561778.4765625,
+          "dot": 1769276.2421875,
+          "fisher_effect_fidelity": 0.45548186108937117,
+          "fisher_effect_cosine": 0.7410364577991371,
+          "fisher_effect_gain": 0.7759129363829814,
+          "fisher_teacher_effect_energy": 38.18930697441101,
+          "row_effect_fidelity": {
+            "mean": 0.41254328625115194,
+            "ci_low": 0.3815380398749836,
+            "ci_high": 0.4420293323930126,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.7208590046302117,
+            "ci_low": 0.7085202457499001,
+            "ci_high": 0.7327334742688899,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.8546511630217234,
+          "margin_effect_correlation": 0.73344158132871
+        },
+        "natural_mix_0.375": {
+          "effect_fidelity": 0.6758441935472908,
+          "effect_cosine": 0.8452692428398318,
+          "effect_gain": 0.880626371903527,
+          "error_energy": 6414201.171875,
+          "teacher_effect_energy": 19787401.75,
+          "student_effect_energy": 21477415.1875,
+          "dot": 17425307.8125,
+          "fisher_effect_fidelity": 0.6697653992673944,
+          "fisher_effect_cosine": 0.8432021145367952,
+          "fisher_effect_gain": 0.8821917157440874,
+          "fisher_teacher_effect_energy": 304.24871826171875,
+          "row_effect_fidelity": {
+            "mean": 0.6740797465278762,
+            "ci_low": 0.6262882975803686,
+            "ci_high": 0.7099593678519277,
+            "rows": 24
+          },
+          "row_effect_cosine": {
+            "mean": 0.8492099778571104,
+            "ci_low": 0.8350054050619965,
+            "ci_high": 0.862162866386627,
+            "rows": 24
+          },
+          "margin_effect_sign_agreement": 0.9392764717340469,
+          "margin_effect_correlation": 0.8460473666588465
+        }
+      }
+    },
+    "ood_primary_scales": {
+      "wikitext103": {
+        "activation_baseline": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.0037792645497856103,
+            "effect_cosine": 0.49162117688146445,
+            "effect_gain": 0.4852650669841273,
+            "error_energy": 1476054.73046875,
+            "teacher_effect_energy": 1470497.33203125,
+            "student_effect_energy": 1432719.375,
+            "dot": 713580.986328125,
+            "fisher_effect_fidelity": 0.07563196886259749,
+            "fisher_effect_cosine": 0.5367966991177691,
+            "fisher_effect_gain": 0.5356126361432842,
+            "fisher_teacher_effect_energy": 29.76575791835785,
+            "row_effect_fidelity": {
+              "mean": 0.05661499705306743,
+              "ci_low": -0.02642602103937399,
+              "ci_high": 0.11945798791612083,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.5156797652380258,
+              "ci_low": 0.4862133209864541,
+              "ci_high": 0.5403888054271355,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.7215762237707773,
+            "margin_effect_correlation": 0.5522393981615702
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.5198839291268984,
+            "effect_cosine": 0.7573679686046425,
+            "effect_gain": 0.7491495836836455,
+            "error_energy": 5839133.3046875,
+            "teacher_effect_energy": 12161920.125,
+            "student_effect_energy": 11899408.25,
+            "dot": 9111097.3984375,
+            "fisher_effect_fidelity": 0.6311205059641238,
+            "fisher_effect_cosine": 0.8127384106297318,
+            "fisher_effect_gain": 0.7999544606679581,
+            "fisher_teacher_effect_energy": 281.0867486000061,
+            "row_effect_fidelity": {
+              "mean": 0.5556097766958651,
+              "ci_low": 0.5192947707634714,
+              "ci_high": 0.5896188915312058,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7965158216574579,
+              "ci_low": 0.7797380217509347,
+              "ci_high": 0.8128009123076462,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.9069767494996389,
+            "margin_effect_correlation": 0.8182921558618546
+          }
+        },
+        "cp2048_kl": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.16892197427986977,
+            "effect_cosine": 0.45086312830553577,
+            "effect_gain": 0.4783408444374701,
+            "error_energy": 1718896.64453125,
+            "teacher_effect_energy": 1470497.33203125,
+            "student_effect_energy": 1655197.16015625,
+            "dot": 703398.935546875,
+            "fisher_effect_fidelity": -0.11446117040997605,
+            "fisher_effect_cosine": 0.49475535498859924,
+            "fisher_effect_gain": 0.5413242086716192,
+            "fisher_teacher_effect_energy": 29.76575791835785,
+            "row_effect_fidelity": {
+              "mean": -0.056102328836004134,
+              "ci_low": -0.19343883622482438,
+              "ci_high": 0.0320376343469798,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.4896500235029899,
+              "ci_low": 0.4538859109956716,
+              "ci_high": 0.5201124054091789,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.7131782919168472,
+            "margin_effect_correlation": 0.5398704459269842
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.2961680240078456,
+            "effect_cosine": 0.6563080711222112,
+            "effect_gain": 0.671500938775488,
+            "error_energy": 8559948.2734375,
+            "teacher_effect_energy": 12161920.125,
+            "student_effect_energy": 12731509.6875,
+            "dot": 8166740.78125,
+            "fisher_effect_fidelity": 0.4518871853339852,
+            "fisher_effect_cosine": 0.7238776310374385,
+            "fisher_effect_gain": 0.7183861055539547,
+            "fisher_teacher_effect_energy": 281.0867486000061,
+            "row_effect_fidelity": {
+              "mean": 0.44688437270312226,
+              "ci_low": 0.4034495825598864,
+              "ci_high": 0.48578704860520644,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7531394460726606,
+              "ci_low": 0.7304836013001849,
+              "ci_high": 0.7710052985418501,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.8869509100914001,
+            "margin_effect_correlation": 0.7734842995802561
+          }
+        },
+        "cp2048_causal": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.21954626920611053,
+            "effect_cosine": 0.4325870899467524,
+            "effect_gain": 0.4629980003284231,
+            "error_energy": 1793339.53515625,
+            "teacher_effect_energy": 1470497.33203125,
+            "student_effect_energy": 1684516.86328125,
+            "dot": 680837.32421875,
+            "fisher_effect_fidelity": -0.07557413790980161,
+            "fisher_effect_cosine": 0.49360478527015067,
+            "fisher_effect_gain": 0.522530130216763,
+            "fisher_teacher_effect_energy": 29.76575791835785,
+            "row_effect_fidelity": {
+              "mean": -0.06464663522576514,
+              "ci_low": -0.24037472312457778,
+              "ci_high": 0.04826674741272098,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.48765166596827275,
+              "ci_low": 0.44454974875485126,
+              "ci_high": 0.5195032163520873,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.720930223663648,
+            "margin_effect_correlation": 0.5306540007392565
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.3677651175475879,
+            "effect_cosine": 0.6868671269098695,
+            "effect_gain": 0.6933171073798677,
+            "error_energy": 7689190.140625,
+            "teacher_effect_energy": 12161920.125,
+            "student_effect_energy": 12391403.984375,
+            "dot": 8432067.28125,
+            "fisher_effect_fidelity": 0.5101622351299808,
+            "fisher_effect_cosine": 0.7516193762386781,
+            "fisher_effect_gain": 0.7408322271453555,
+            "fisher_teacher_effect_energy": 281.0867486000061,
+            "row_effect_fidelity": {
+              "mean": 0.4558382495806252,
+              "ci_low": 0.4123950577139863,
+              "ci_high": 0.49718618163345474,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7531296319065522,
+              "ci_low": 0.7329558801915025,
+              "ci_high": 0.7705374059500205,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.8843669295310974,
+            "margin_effect_correlation": 0.7907385577758154
+          }
+        },
+        "cp2048_causal_tensor": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.1566807474417462,
+            "effect_cosine": 0.44790892287886136,
+            "effect_gain": 0.468359248526667,
+            "error_energy": 1700895.953125,
+            "teacher_effect_energy": 1470497.33203125,
+            "student_effect_energy": 1607840.68359375,
+            "dot": 688721.025390625,
+            "fisher_effect_fidelity": -0.0420295740844443,
+            "fisher_effect_cosine": 0.5081303921922599,
+            "fisher_effect_gain": 0.536615814943354,
+            "fisher_teacher_effect_energy": 29.76575791835785,
+            "row_effect_fidelity": {
+              "mean": -0.042960475268711516,
+              "ci_low": -0.18233666941771498,
+              "ci_high": 0.044792731639211235,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.4902085785529899,
+              "ci_low": 0.4513106456738353,
+              "ci_high": 0.5214111674024102,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.7260981847842535,
+            "margin_effect_correlation": 0.5450282817085584
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.3675178761863066,
+            "effect_cosine": 0.6883466951048648,
+            "effect_gain": 0.6982510014018037,
+            "error_energy": 7692197.0703125,
+            "teacher_effect_energy": 12161920.125,
+            "student_effect_energy": 12514422.640625,
+            "dot": 8492072.90625,
+            "fisher_effect_fidelity": 0.5299196041792902,
+            "fisher_effect_cosine": 0.7629830981908376,
+            "fisher_effect_gain": 0.7565037153142058,
+            "fisher_teacher_effect_energy": 281.0867486000061,
+            "row_effect_fidelity": {
+              "mean": 0.4769358633707879,
+              "ci_low": 0.4274840062997808,
+              "ci_high": 0.518969854663596,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7634659345503924,
+              "ci_low": 0.7428011017506214,
+              "ci_high": 0.7819947782917843,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.881136953830719,
+            "margin_effect_correlation": 0.7885329673687617
+          }
+        }
+      },
+      "tinystories": {
+        "activation_baseline": {
+          "gaussian_0.10": {
+            "effect_fidelity": 0.005058908699135944,
+            "effect_cosine": 0.4820542822289522,
+            "effect_gain": 0.4622092975960416,
+            "error_energy": 913716.6015625,
+            "teacher_effect_energy": 918362.513671875,
+            "student_effect_energy": 844305.48828125,
+            "dot": 424475.6923828125,
+            "fisher_effect_fidelity": 0.1367481561486391,
+            "fisher_effect_cosine": 0.540862756458998,
+            "fisher_effect_gain": 0.506008496462924,
+            "fisher_teacher_effect_energy": 14.947982728481293,
+            "row_effect_fidelity": {
+              "mean": -0.0020095186634466835,
+              "ci_low": -0.06434156983625883,
+              "ci_high": 0.04975324989924373,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.4804813267896048,
+              "ci_low": 0.4580919987119837,
+              "ci_high": 0.5038454854321041,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.6687885075807571,
+            "margin_effect_correlation": 0.5497133309642473
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.499559242188615,
+            "effect_cosine": 0.7786926366003165,
+            "effect_gain": 0.8608446389007612,
+            "error_energy": 1927198.54296875,
+            "teacher_effect_energy": 3851002.3671875,
+            "student_effect_energy": 4706425.7109375,
+            "dot": 3315114.7421875,
+            "fisher_effect_fidelity": 0.5588563699050048,
+            "fisher_effect_cosine": 0.7952090741326053,
+            "fisher_effect_gain": 0.8479473171789152,
+            "fisher_teacher_effect_energy": 59.835532426834106,
+            "row_effect_fidelity": {
+              "mean": 0.5107754632132001,
+              "ci_low": 0.3806359876940867,
+              "ci_high": 0.583592323100615,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7897798855745352,
+              "ci_low": 0.7597913985860697,
+              "ci_high": 0.8105377437362485,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.8772609879573187,
+            "margin_effect_correlation": 0.794132187962532
+          }
+        },
+        "cp2048_kl": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.061831751672426716,
+            "effect_cosine": 0.4670012714359408,
+            "effect_gain": 0.4651695916045646,
+            "error_energy": 975146.4765625,
+            "teacher_effect_energy": 918362.513671875,
+            "student_effect_energy": 911172.609375,
+            "dot": 427194.3154296875,
+            "fisher_effect_fidelity": 0.0547101909207004,
+            "fisher_effect_cosine": 0.5192472872324311,
+            "fisher_effect_gain": 0.5103310344434339,
+            "fisher_teacher_effect_energy": 14.947982728481293,
+            "row_effect_fidelity": {
+              "mean": -0.0689872736260948,
+              "ci_low": -0.14556349638340593,
+              "ci_high": -0.00953618857473132,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.46647561313922964,
+              "ci_low": 0.44215362912038164,
+              "ci_high": 0.4898854563596445,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.6707215259472529,
+            "margin_effect_correlation": 0.5228404924273491
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.45952376668458417,
+            "effect_cosine": 0.7531906219152725,
+            "effect_gain": 0.8145588061312844,
+            "error_energy": 2081375.25390625,
+            "teacher_effect_energy": 3851002.3671875,
+            "student_effect_energy": 4504108.7109375,
+            "dot": 3136867.890625,
+            "fisher_effect_fidelity": 0.5061816603988327,
+            "fisher_effect_cosine": 0.7663378528414584,
+            "fisher_effect_gain": 0.8055011508559844,
+            "fisher_teacher_effect_energy": 59.835532426834106,
+            "row_effect_fidelity": {
+              "mean": 0.4709994475527491,
+              "ci_low": 0.348337274827493,
+              "ci_high": 0.5420551377280365,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7632476551647197,
+              "ci_low": 0.7342483610592925,
+              "ci_high": 0.7851962672901401,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.8675710608561834,
+            "margin_effect_correlation": 0.7550187359253565
+          }
+        },
+        "cp2048_causal": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.0465312595156655,
+            "effect_cosine": 0.47034496666402165,
+            "effect_gain": 0.464604915737772,
+            "error_energy": 961095.078125,
+            "teacher_effect_energy": 918362.513671875,
+            "student_effect_energy": 896084.05078125,
+            "dot": 426675.73828125,
+            "fisher_effect_fidelity": 0.07128981940684898,
+            "fisher_effect_cosine": 0.5224153708999069,
+            "fisher_effect_gain": 0.5074980341270481,
+            "fisher_teacher_effect_energy": 14.947982728481293,
+            "row_effect_fidelity": {
+              "mean": -0.05425308355812506,
+              "ci_low": -0.12576854542282012,
+              "ci_high": 0.007938028625361814,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.46976788636092,
+              "ci_low": 0.4471604404844598,
+              "ci_high": 0.49247829695493683,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.6803716917832693,
+            "margin_effect_correlation": 0.5308233425021172
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.45438693241357664,
+            "effect_cosine": 0.7581684513220487,
+            "effect_gain": 0.8379294889058135,
+            "error_energy": 2101157.21484375,
+            "teacher_effect_energy": 3851002.3671875,
+            "student_effect_energy": 4703891.734375,
+            "dot": 3226868.4453125,
+            "fisher_effect_fidelity": 0.5069544877346777,
+            "fisher_effect_cosine": 0.7704181470683072,
+            "fisher_effect_gain": 0.820248243750101,
+            "fisher_teacher_effect_energy": 59.835532426834106,
+            "row_effect_fidelity": {
+              "mean": 0.463406360135931,
+              "ci_low": 0.348333189778961,
+              "ci_high": 0.5360454449065193,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7672077309024306,
+              "ci_low": 0.74048056715473,
+              "ci_high": 0.7877723003494921,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.8746769974629084,
+            "margin_effect_correlation": 0.7614475041627884
+          }
+        },
+        "cp2048_causal_tensor": {
+          "gaussian_0.10": {
+            "effect_fidelity": -0.056465338707360146,
+            "effect_cosine": 0.4651120837940296,
+            "effect_gain": 0.4592560930996563,
+            "error_energy": 970218.1640625,
+            "teacher_effect_energy": 918362.513671875,
+            "student_effect_energy": 895382.818359375,
+            "dot": 421763.580078125,
+            "fisher_effect_fidelity": 0.049272385267356,
+            "fisher_effect_cosine": 0.5108541436846669,
+            "fisher_effect_gain": 0.4960201472545057,
+            "fisher_teacher_effect_energy": 14.947982728481293,
+            "row_effect_fidelity": {
+              "mean": -0.062281475976850485,
+              "ci_low": -0.1442453995596544,
+              "ci_high": -0.001899640332275391,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.46537384281022537,
+              "ci_low": 0.44037688335224673,
+              "ci_high": 0.48719875390843415,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.6635957062244415,
+            "margin_effect_correlation": 0.5092573141058286
+          },
+          "natural_mix_0.25": {
+            "effect_fidelity": 0.47688984902942366,
+            "effect_cosine": 0.7565581934350655,
+            "effect_gain": 0.8061683465556653,
+            "error_energy": 2014498.4296875,
+            "teacher_effect_energy": 3851002.3671875,
+            "student_effect_energy": 4372608.46875,
+            "dot": 3104556.2109375,
+            "fisher_effect_fidelity": 0.507934203656139,
+            "fisher_effect_cosine": 0.7639611312503372,
+            "fisher_effect_gain": 0.7938334016560084,
+            "fisher_teacher_effect_energy": 59.835532426834106,
+            "row_effect_fidelity": {
+              "mean": 0.48528175816286856,
+              "ci_low": 0.3776449158372899,
+              "ci_high": 0.5502625923220971,
+              "rows": 24
+            },
+            "row_effect_cosine": {
+              "mean": 0.7661100329604285,
+              "ci_low": 0.737360557803331,
+              "ci_high": 0.7871400860466089,
+              "rows": 24
+            },
+            "margin_effect_sign_agreement": 0.8565891484419504,
+            "margin_effect_correlation": 0.7420525600512823
+          }
+        }
+      }
+    }
+  },
+  "tensor_and_write": {
+    "activation_baseline": {
+      "tensor": {
+        "median_fidelity": 0.3625221848487854,
+        "mean_fidelity": 0.3617714047431946,
+        "median_cosine": 0.6133332252502441
+      },
+      "natural": {
+        "fineweb_test": {
+          "median_fidelity": 0.8701468706130981,
+          "mean_fidelity": 0.8611109256744385,
+          "median_cosine": 0.93504399061203
+        },
+        "wikitext103": {
+          "median_fidelity": 0.8491902351379395,
+          "mean_fidelity": 0.8417271971702576,
+          "median_cosine": 0.9243139028549194
+        },
+        "tinystories": {
+          "median_fidelity": 0.8821307420730591,
+          "mean_fidelity": 0.8751987218856812,
+          "median_cosine": 0.9408669471740723
+        }
+      }
+    },
+    "cp2048_kl": {
+      "tensor": {
+        "median_fidelity": 0.3615086078643799,
+        "mean_fidelity": 0.3613356649875641,
+        "median_cosine": 0.6130324006080627
+      },
+      "natural": {
+        "fineweb_test": {
+          "median_fidelity": 0.8172256946563721,
+          "mean_fidelity": 0.8104813098907471,
+          "median_cosine": 0.9077881574630737
+        },
+        "wikitext103": {
+          "median_fidelity": 0.7959674596786499,
+          "mean_fidelity": 0.790684700012207,
+          "median_cosine": 0.8970125317573547
+        },
+        "tinystories": {
+          "median_fidelity": 0.8338841199874878,
+          "mean_fidelity": 0.8277376890182495,
+          "median_cosine": 0.9155474901199341
+        }
+      }
+    },
+    "cp2048_causal": {
+      "tensor": {
+        "median_fidelity": 0.3626387119293213,
+        "mean_fidelity": 0.3623967468738556,
+        "median_cosine": 0.6131629943847656
+      },
+      "natural": {
+        "fineweb_test": {
+          "median_fidelity": 0.8203522562980652,
+          "mean_fidelity": 0.8135476112365723,
+          "median_cosine": 0.91010582447052
+        },
+        "wikitext103": {
+          "median_fidelity": 0.797864556312561,
+          "mean_fidelity": 0.7925314903259277,
+          "median_cosine": 0.8986984491348267
+        },
+        "tinystories": {
+          "median_fidelity": 0.8375500440597534,
+          "mean_fidelity": 0.8313928246498108,
+          "median_cosine": 0.9183217287063599
+        }
+      }
+    },
+    "cp2048_causal_tensor": {
+      "tensor": {
+        "median_fidelity": 0.3618336319923401,
+        "mean_fidelity": 0.3611574172973633,
+        "median_cosine": 0.6130911111831665
+      },
+      "natural": {
+        "fineweb_test": {
+          "median_fidelity": 0.8219169974327087,
+          "mean_fidelity": 0.8149583339691162,
+          "median_cosine": 0.9104925990104675
+        },
+        "wikitext103": {
+          "median_fidelity": 0.8003805875778198,
+          "mean_fidelity": 0.7953368425369263,
+          "median_cosine": 0.8990622162818909
+        },
+        "tinystories": {
+          "median_fidelity": 0.8395623564720154,
+          "mean_fidelity": 0.8334959149360657,
+          "median_cosine": 0.9190506935119629
+        }
+      }
+    }
+  },
+  "stability": {
+    "cp2048_kl": {
+      "a_to_b_median_best_abs_cosine": 0.9998859763145447,
+      "b_to_a_median_best_abs_cosine": 0.9998859763145447,
+      "mutual_nearest_fraction": 1.0,
+      "mutual_median_abs_cosine": 0.9998859763145447,
+      "index_aligned_median_abs_cosine": 0.9998859763145447,
+      "index_aligned_mean_signed_cosine": 0.9998793005943298,
+      "activation_linear_cka": 0.9946973919868469
+    },
+    "cp2048_causal": {
+      "a_to_b_median_best_abs_cosine": 0.9998258352279663,
+      "b_to_a_median_best_abs_cosine": 0.9998258352279663,
+      "mutual_nearest_fraction": 1.0,
+      "mutual_median_abs_cosine": 0.9998258352279663,
+      "index_aligned_median_abs_cosine": 0.9998258352279663,
+      "index_aligned_mean_signed_cosine": 0.9998192191123962,
+      "activation_linear_cka": 0.9945400357246399
+    },
+    "cp2048_causal_tensor": {
+      "a_to_b_median_best_abs_cosine": 0.9998575448989868,
+      "b_to_a_median_best_abs_cosine": 0.9998575448989868,
+      "mutual_nearest_fraction": 1.0,
+      "mutual_median_abs_cosine": 0.9998575448989868,
+      "index_aligned_median_abs_cosine": 0.9998575448989868,
+      "index_aligned_mean_signed_cosine": 0.9998506903648376,
+      "activation_linear_cka": 0.9947683811187744
+    }
+  },
+  "semantics": {
+    "activation_baseline": {
+      "categories": {
+        "newline": {
+          "feature": 1201,
+          "train_standardized_gap": 4.016129970550537,
+          "auc": {
+            "fineweb_test": 0.9869379940711462,
+            "wikitext103": 0.981523578591094,
+            "tinystories": 0.993740117802735
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -12.679651260375977,
+          "auc": {
+            "fineweb_test": 0.9999443640814509,
+            "wikitext103": 1.0,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 11.5791597366333,
+          "auc": {
+            "fineweb_test": 0.869374126617167,
+            "wikitext103": 0.9955130566470203,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 537,
+          "train_standardized_gap": 3.753654718399048,
+          "auc": {
+            "fineweb_test": 0.6689231438436234,
+            "wikitext103": 0.7750381882828598,
+            "tinystories": 0.9999986285965057
+          }
+        },
+        "code_operator": {
+          "feature": 992,
+          "train_standardized_gap": 4.033639430999756,
+          "auc": {
+            "fineweb_test": 0.9166122806161305,
+            "wikitext103": 0.8656262918087577,
+            "tinystories": 0.8247312484730027
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 10.451492309570312,
+          "auc": {
+            "fineweb_test": 0.9991044897626898,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1115,
+          "train_standardized_gap": -3.663039207458496,
+          "auc": {
+            "fineweb_test": 0.9016911627736536,
+            "wikitext103": 0.8540924202028182,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -1.7483464479446411,
+          "auc": {
+            "fineweb_test": 0.8063299131416574,
+            "wikitext103": 0.8800442633462262,
+            "tinystories": 0.8315363720018533
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.159156799316406,
+          "auc": {
+            "fineweb_test": 0.9135755548799027,
+            "wikitext103": 0.9560446137321195,
+            "tinystories": 0.9430554545674883
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 4.196343421936035,
+          "auc": {
+            "fineweb_test": 0.9641704999634925,
+            "wikitext103": 0.9747956168844795,
+            "tinystories": 0.9795401720862666
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -5.092235088348389,
+          "auc": {
+            "fineweb_test": 0.9216589712329123,
+            "wikitext103": 0.9073241652983032,
+            "tinystories": 0.8337637156208827
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -4.499795913696289,
+          "auc": {
+            "fineweb_test": 0.9773157892280625,
+            "wikitext103": 0.9001057625555441,
+            "tinystories": 0.8136141636141636
+          }
+        },
+        "comma_period": {
+          "feature": 1731,
+          "train_standardized_gap": 1.9375346899032593,
+          "auc": {
+            "fineweb_test": 0.7440789088138772,
+            "wikitext103": 0.6649862145679177,
+            "tinystories": 0.8692980202320371
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -4.089371681213379,
+          "auc": {
+            "fineweb_test": 0.9677713795638324,
+            "wikitext103": 0.942311185458355,
+            "tinystories": 0.9771700647051642
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.9026777556135428,
+          "median_oriented_auc": 0.9191356259245214,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.8998004121058074,
+          "median_oriented_auc": 0.9073241652983032,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.9066447957700101,
+          "median_oriented_auc": 0.9061767373997627,
+          "categories": 10
+        }
+      }
+    },
+    "cp2048_kl": {
+      "categories": {
+        "newline": {
+          "feature": 1201,
+          "train_standardized_gap": 4.096089839935303,
+          "auc": {
+            "fineweb_test": 0.9870000922990053,
+            "wikitext103": 0.9814641473775234,
+            "tinystories": 0.9938241846753283
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -9.88840103149414,
+          "auc": {
+            "fineweb_test": 0.9995354400801157,
+            "wikitext103": 0.9999903658798,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 11.624760627746582,
+          "auc": {
+            "fineweb_test": 0.8628249628107955,
+            "wikitext103": 0.995551428454486,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 2012,
+          "train_standardized_gap": 4.248293876647949,
+          "auc": {
+            "fineweb_test": 0.9506803414620885,
+            "wikitext103": 0.9982040131822703,
+            "tinystories": 0.983030253161085
+          }
+        },
+        "code_operator": {
+          "feature": 1569,
+          "train_standardized_gap": 3.780503988265991,
+          "auc": {
+            "fineweb_test": 0.82071160789379,
+            "wikitext103": 0.804287295975402,
+            "tinystories": 0.807903738089421
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 9.061835289001465,
+          "auc": {
+            "fineweb_test": 0.9991044897626898,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1115,
+          "train_standardized_gap": -3.630450487136841,
+          "auc": {
+            "fineweb_test": 0.8819771152513077,
+            "wikitext103": 0.795453797379343,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -1.4199798107147217,
+          "auc": {
+            "fineweb_test": 0.7619547418844728,
+            "wikitext103": 0.7967889994957431,
+            "tinystories": 0.8180802711300699
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.075530052185059,
+          "auc": {
+            "fineweb_test": 0.9107638285627416,
+            "wikitext103": 0.9591746301015858,
+            "tinystories": 0.9425125427179525
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 4.187440872192383,
+          "auc": {
+            "fineweb_test": 0.9641009768160939,
+            "wikitext103": 0.9742750065050068,
+            "tinystories": 0.9793503929675569
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -5.1056294441223145,
+          "auc": {
+            "fineweb_test": 0.9272643705740448,
+            "wikitext103": 0.916036364258347,
+            "tinystories": 0.8555395153985508
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -4.576033592224121,
+          "auc": {
+            "fineweb_test": 0.9778081379883237,
+            "wikitext103": 0.907262278606641,
+            "tinystories": 0.8086996336996337
+          }
+        },
+        "comma_period": {
+          "feature": 1731,
+          "train_standardized_gap": 2.0763726234436035,
+          "auc": {
+            "fineweb_test": 0.7375706374321881,
+            "wikitext103": 0.6824053017655781,
+            "tinystories": 0.874374201897881
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -2.959559679031372,
+          "auc": {
+            "fineweb_test": 0.945093114432737,
+            "wikitext103": 0.8902554419225521,
+            "tinystories": 0.9374923696740325
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.9090278469464568,
+          "median_oriented_auc": 0.936178742503391,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.9000883900695599,
+          "median_oriented_auc": 0.916036364258347,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.9000807103411512,
+          "median_oriented_auc": 0.9059332857859568,
+          "categories": 10
+        }
+      }
+    },
+    "cp2048_causal": {
+      "categories": {
+        "newline": {
+          "feature": 1201,
+          "train_standardized_gap": 3.8332340717315674,
+          "auc": {
+            "fineweb_test": 0.9852515012161751,
+            "wikitext103": 0.979547490739874,
+            "tinystories": 0.9928240616748303
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -11.745243072509766,
+          "auc": {
+            "fineweb_test": 0.9999054189384666,
+            "wikitext103": 1.0,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 11.551706314086914,
+          "auc": {
+            "fineweb_test": 0.8545209837269057,
+            "wikitext103": 0.9804444478552717,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 2012,
+          "train_standardized_gap": 4.192399024963379,
+          "auc": {
+            "fineweb_test": 0.9562909496234674,
+            "wikitext103": 0.997972608438473,
+            "tinystories": 0.978509421542006
+          }
+        },
+        "code_operator": {
+          "feature": 1569,
+          "train_standardized_gap": 3.4987354278564453,
+          "auc": {
+            "fineweb_test": 0.8005974709635241,
+            "wikitext103": 0.7707409566701077,
+            "tinystories": 0.7795524879876211
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 10.546961784362793,
+          "auc": {
+            "fineweb_test": 0.9991858997842634,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1115,
+          "train_standardized_gap": -3.6643548011779785,
+          "auc": {
+            "fineweb_test": 0.9014554138279582,
+            "wikitext103": 0.8302632327022571,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -1.8524609804153442,
+          "auc": {
+            "fineweb_test": 0.822149042445371,
+            "wikitext103": 0.9345955745212591,
+            "tinystories": 0.7719515598791116
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.20624303817749,
+          "auc": {
+            "fineweb_test": 0.916331290991617,
+            "wikitext103": 0.9479993975402201,
+            "tinystories": 0.9373869943527473
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 4.249551296234131,
+          "auc": {
+            "fineweb_test": 0.9662441310082761,
+            "wikitext103": 0.9757535315891521,
+            "tinystories": 0.9791049279249078
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -4.728550910949707,
+          "auc": {
+            "fineweb_test": 0.9010482866851703,
+            "wikitext103": 0.8337395662287904,
+            "tinystories": 0.7787790009469697
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -4.5430827140808105,
+          "auc": {
+            "fineweb_test": 0.9770865320446708,
+            "wikitext103": 0.8975180886550862,
+            "tinystories": 0.8044871794871795
+          }
+        },
+        "comma_period": {
+          "feature": 1179,
+          "train_standardized_gap": 2.0210683345794678,
+          "auc": {
+            "fineweb_test": 0.7623421907440895,
+            "wikitext103": 0.5449809181079471,
+            "tinystories": 0.8542490482113019
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -4.554557800292969,
+          "auc": {
+            "fineweb_test": 0.9805909499305726,
+            "wikitext103": 0.9537505227540585,
+            "tinystories": 0.9912098644854108
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.9159285758521806,
+          "median_oriented_auc": 0.9363111203075423,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.8959466412155768,
+          "median_oriented_auc": 0.9479993975402201,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.8868054546492086,
+          "median_oriented_auc": 0.8958180212820246,
+          "categories": 10
+        }
+      }
+    },
+    "cp2048_causal_tensor": {
+      "categories": {
+        "newline": {
+          "feature": 1201,
+          "train_standardized_gap": 4.058971881866455,
+          "auc": {
+            "fineweb_test": 0.9864096501324762,
+            "wikitext103": 0.9807896031034979,
+            "tinystories": 0.9934437758772217
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -11.956939697265625,
+          "auc": {
+            "fineweb_test": 0.999938800489596,
+            "wikitext103": 1.0,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 11.642407417297363,
+          "auc": {
+            "fineweb_test": 0.8685820448588742,
+            "wikitext103": 0.996303515880812,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 537,
+          "train_standardized_gap": 4.422268390655518,
+          "auc": {
+            "fineweb_test": 0.6699766196340701,
+            "wikitext103": 0.9054841624253297,
+            "tinystories": 1.0
+          }
+        },
+        "code_operator": {
+          "feature": 1766,
+          "train_standardized_gap": 3.5131916999816895,
+          "auc": {
+            "fineweb_test": 0.8678453022369975,
+            "wikitext103": 0.7065885398559058,
+            "tinystories": 0.9927823927029888
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 9.170282363891602,
+          "auc": {
+            "fineweb_test": 0.9991451947734766,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1115,
+          "train_standardized_gap": -3.696282148361206,
+          "auc": {
+            "fineweb_test": 0.9045283952276107,
+            "wikitext103": 0.8233420409286905,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -1.6921436786651611,
+          "auc": {
+            "fineweb_test": 0.80158844133678,
+            "wikitext103": 0.871785451153051,
+            "tinystories": 0.8204045765173922
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.176449775695801,
+          "auc": {
+            "fineweb_test": 0.9150441949354993,
+            "wikitext103": 0.9519581924621183,
+            "tinystories": 0.942061126057345
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 3.9151179790496826,
+          "auc": {
+            "fineweb_test": 0.9428253064256531,
+            "wikitext103": 0.9661531908107337,
+            "tinystories": 0.9775736581368496
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -5.091347694396973,
+          "auc": {
+            "fineweb_test": 0.9246120398952038,
+            "wikitext103": 0.9074858032293377,
+            "tinystories": 0.8502629899538867
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -4.472899913787842,
+          "auc": {
+            "fineweb_test": 0.9758474932214543,
+            "wikitext103": 0.9060492673060874,
+            "tinystories": 0.8171855921855922
+          }
+        },
+        "comma_period": {
+          "feature": 1399,
+          "train_standardized_gap": -2.100348949432373,
+          "auc": {
+            "fineweb_test": 0.9123067150559239,
+            "wikitext103": 0.845677256232488,
+            "tinystories": 0.9575727875066459
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -3.6224732398986816,
+          "auc": {
+            "fineweb_test": 0.9550743281875357,
+            "wikitext103": 0.923682131738247,
+            "tinystories": 0.9634965205713588
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.908837466172225,
+          "median_oriented_auc": 0.9198281174153515,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.9065614734712538,
+          "median_oriented_auc": 0.9074858032293377,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.931478341950928,
+          "median_oriented_auc": 0.9605346540390023,
+          "categories": 10
+        }
+      }
+    }
+  },
+  "hypotheses": {
+    "H1_kl_behavior": {
+      "supported": false,
+      "fineweb_improved": false,
+      "ood_within_tolerance": true
+    },
+    "H2_causal_training": {
+      "supported": false,
+      "fidelity_improvements": {
+        "gaussian_rms_0.10": -0.06248455998589142,
+        "natural_mix_0.25": -0.03731056733279425
+      }
+    },
+    "H3_tensor_anchor": {
+      "supported": false,
+      "causal_tensor_fidelity": 0.3626387119293213,
+      "anchored_tensor_fidelity": 0.3618336319923401,
+      "kl_costs": {
+        "fineweb": 0.00010005677177105099,
+        "wikitext103": 0.00039220310281962156,
+        "tinystories": 0.0007153744227252901
+      },
+      "causal_fidelity_costs": {
+        "gaussian_rms_0.10": 0.001869552717428502,
+        "natural_mix_0.25": -0.0019667889749958034
+      }
+    },
+    "H4_scale_transfer": {
+      "supported": false,
+      "fidelity_improvements": {
+        "fineweb/gaussian_0.075": -0.06304025346729625,
+        "fineweb/gaussian_0.150": -0.05030262147790421,
+        "fineweb/natural_mix_0.175": -0.03943975755206108,
+        "fineweb/natural_mix_0.375": 0.01805603303904102,
+        "wikitext103/gaussian_0.10": -0.1512061067723991,
+        "wikitext103/natural_mix_0.25": -0.12095827083414301,
+        "tinystories/gaussian_0.10": -0.06545833674179014,
+        "tinystories/natural_mix_0.25": -0.051901882170327096
+      }
+    },
+    "H5_causal_gate": {
+      "supported": false,
+      "models": {
+        "activation_baseline": {
+          "checks": {
+            "gaussian_rms_0.10_fidelity": false,
+            "gaussian_rms_0.10_cosine": false,
+            "natural_mix_0.25_fidelity": false,
+            "natural_mix_0.25_cosine": false
+          },
+          "passes": false
+        },
+        "cp2048_kl": {
+          "checks": {
+            "gaussian_rms_0.10_fidelity": false,
+            "gaussian_rms_0.10_cosine": false,
+            "natural_mix_0.25_fidelity": false,
+            "natural_mix_0.25_cosine": false
+          },
+          "passes": false
+        },
+        "cp2048_causal": {
+          "checks": {
+            "gaussian_rms_0.10_fidelity": false,
+            "gaussian_rms_0.10_cosine": false,
+            "natural_mix_0.25_fidelity": false,
+            "natural_mix_0.25_cosine": false
+          },
+          "passes": false
+        },
+        "cp2048_causal_tensor": {
+          "checks": {
+            "gaussian_rms_0.10_fidelity": false,
+            "gaussian_rms_0.10_cosine": false,
+            "natural_mix_0.25_fidelity": false,
+            "natural_mix_0.25_cosine": false
+          },
+          "passes": false
+        }
+      }
+    }
+  }
+}

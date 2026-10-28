@@ -1,0 +1,439 @@
+{
+  "config": {
+    "status": "locked-after-global-and-suffix-weighted-basis-results-before-router-test",
+    "seed": 20261030,
+    "layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "rank": 64,
+    "embedding_dimension": 128,
+    "state_dimensions": [
+      64,
+      256
+    ],
+    "ridge_alphas": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "lookup_prior": 4.0,
+    "operator_eval_probes": 2048,
+    "bases": "artifacts/bilin18_tensor_decomposition/bilin18_operator_probe_convergence_bases.pt",
+    "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "discovery_start": 11000,
+    "evaluation_start": 11256,
+    "rows_per_split": 256,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "sequence_length": 128,
+    "batch_size": 8,
+    "hypotheses": {
+      "R0_current_token_routes_operator_state": "Exact current-token lookup explains at least 0.20 of top-64 operator-coordinate energy at every layer.",
+      "R1_embedding_geometry_generalizes_router": "A 128D current-embedding ridge router is within 0.05 weighted R2 of exact-token lookup at every layer.",
+      "R2_short_context_improves_routing": "Adding previous-token and previous-eight-token embedding summaries improves weighted R2 by at least 0.05 over current embedding at Layers 4 and 5.",
+      "R3_contextual_routing_strengthens_with_depth": "The mean short-context gain at Layers 4-5 exceeds the mean gain at Layers 0-1 by at least 0.03.",
+      "R4_state64_is_a_compact_router": "A 64D natural-state router explains at least 0.70 of top-64 operator-coordinate energy at every layer.",
+      "R5_short_context_recovers_half_oracle_operator_gain": "The short-context router recovers at least half of the top-64 oracle's total held-out operator R2 at every layer.",
+      "R6_position_is_not_the_primary_router": "Position lookup remains at least 0.05 weighted R2 below short-context routing at every layer."
+    }
+  },
+  "hypotheses": {
+    "R0_current_token_routes_operator_state": {
+      "supported": false
+    },
+    "R1_embedding_geometry_generalizes_router": {
+      "supported": true
+    },
+    "R2_short_context_improves_routing": {
+      "supported": true
+    },
+    "R3_contextual_routing_strengthens_with_depth": {
+      "supported": false
+    },
+    "R4_state64_is_a_compact_router": {
+      "supported": true
+    },
+    "R5_short_context_recovers_half_oracle_operator_gain": {
+      "supported": false
+    },
+    "R6_position_is_not_the_primary_router": {
+      "supported": true
+    }
+  },
+  "context_gain": {
+    "0": 0.24547231197357178,
+    "1": 0.19974768161773682,
+    "2": 0.14721310138702393,
+    "3": 0.1121324896812439,
+    "4": 0.1134873628616333,
+    "5": 0.10717839002609253
+  },
+  "results": {
+    "0": {
+      "metrics": {
+        "embedding": {
+          "coordinate_weighted_r2": 0.502310037612915,
+          "total_operator_r2": 0.24842894077301025,
+          "oracle_gain_fraction": 0.5132046475672913
+        },
+        "short_context": {
+          "coordinate_weighted_r2": 0.7477823495864868,
+          "total_operator_r2": 0.3727184534072876,
+          "oracle_gain_fraction": 0.7676965710021815
+        },
+        "embedding_position": {
+          "coordinate_weighted_r2": 0.5017764568328857,
+          "total_operator_r2": 0.24817466735839844,
+          "oracle_gain_fraction": 0.5126840040391979
+        },
+        "state_pca_64": {
+          "coordinate_weighted_r2": 0.8726620674133301,
+          "total_operator_r2": 0.44230538606643677,
+          "oracle_gain_fraction": 0.9101809364407266
+        },
+        "state_pca_256": {
+          "coordinate_weighted_r2": 0.9807302355766296,
+          "total_operator_r2": 0.4841037392616272,
+          "oracle_gain_fraction": 0.9957661404985729
+        },
+        "token": {
+          "coordinate_weighted_r2": 0.3530987501144409,
+          "total_operator_r2": 0.1733858585357666,
+          "oracle_gain_fraction": 0.35954841435609236
+        },
+        "position": {
+          "coordinate_weighted_r2": -0.0026897192001342773,
+          "total_operator_r2": -0.0036089420318603516,
+          "oracle_gain_fraction": -0.0028614646412746564
+        },
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.002211451530456543,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.4861714839935303,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "selected_alpha": {
+        "embedding": 0.01,
+        "short_context": 0.1,
+        "embedding_position": 0.01,
+        "state_pca_64": 0.01,
+        "state_pca_256": 0.001
+      },
+      "token_coverage": 0.6201171875
+    },
+    "1": {
+      "metrics": {
+        "embedding": {
+          "coordinate_weighted_r2": 0.4516991376876831,
+          "total_operator_r2": 0.21915596723556519,
+          "oracle_gain_fraction": 0.4705382017830078
+        },
+        "short_context": {
+          "coordinate_weighted_r2": 0.6514468193054199,
+          "total_operator_r2": 0.31566596031188965,
+          "oracle_gain_fraction": 0.6746004439749445
+        },
+        "embedding_position": {
+          "coordinate_weighted_r2": 0.4512931704521179,
+          "total_operator_r2": 0.21863079071044922,
+          "oracle_gain_fraction": 0.46942776030595806
+        },
+        "state_pca_64": {
+          "coordinate_weighted_r2": 0.9154986143112183,
+          "total_operator_r2": 0.4484832286834717,
+          "oracle_gain_fraction": 0.9554313581817141
+        },
+        "state_pca_256": {
+          "coordinate_weighted_r2": 0.9838025569915771,
+          "total_operator_r2": 0.4705212712287903,
+          "oracle_gain_fraction": 1.0020289407943506
+        },
+        "token": {
+          "coordinate_weighted_r2": 0.2817333936691284,
+          "total_operator_r2": 0.13532382249832153,
+          "oracle_gain_fraction": 0.293282200849385
+        },
+        "position": {
+          "coordinate_weighted_r2": -0.0025805234909057617,
+          "total_operator_r2": -0.004665970802307129,
+          "oracle_gain_fraction": -0.0027144124994549247
+        },
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0033822059631347656,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.46956169605255127,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "selected_alpha": {
+        "embedding": 0.01,
+        "short_context": 0.1,
+        "embedding_position": 0.1,
+        "state_pca_64": 0.01,
+        "state_pca_256": 0.001
+      },
+      "token_coverage": 0.6201171875
+    },
+    "2": {
+      "metrics": {
+        "embedding": {
+          "coordinate_weighted_r2": 0.376314640045166,
+          "total_operator_r2": 0.16931074857711792,
+          "oracle_gain_fraction": 0.3972312633178528
+        },
+        "short_context": {
+          "coordinate_weighted_r2": 0.5235277414321899,
+          "total_operator_r2": 0.23343026638031006,
+          "oracle_gain_fraction": 0.5453293658671435
+        },
+        "embedding_position": {
+          "coordinate_weighted_r2": 0.3754027485847473,
+          "total_operator_r2": 0.16882461309432983,
+          "oracle_gain_fraction": 0.39610842669884105
+        },
+        "state_pca_64": {
+          "coordinate_weighted_r2": 0.8803645372390747,
+          "total_operator_r2": 0.3986942768096924,
+          "oracle_gain_fraction": 0.927042878426641
+        },
+        "state_pca_256": {
+          "coordinate_weighted_r2": 0.9786030054092407,
+          "total_operator_r2": 0.4299067258834839,
+          "oracle_gain_fraction": 0.9991348816437139
+        },
+        "token": {
+          "coordinate_weighted_r2": 0.21047329902648926,
+          "total_operator_r2": 0.09302639961242676,
+          "oracle_gain_fraction": 0.22103581265093797
+        },
+        "position": {
+          "coordinate_weighted_r2": -0.0027736425399780273,
+          "total_operator_r2": -0.00400543212890625,
+          "oracle_gain_fraction": -0.0030805041916388597
+        },
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0026717185974121094,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.43028128147125244,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "selected_alpha": {
+        "embedding": 0.1,
+        "short_context": 0.1,
+        "embedding_position": 0.1,
+        "state_pca_64": 0.01,
+        "state_pca_256": 0.001
+      },
+      "token_coverage": 0.6201171875
+    },
+    "3": {
+      "metrics": {
+        "embedding": {
+          "coordinate_weighted_r2": 0.33396995067596436,
+          "total_operator_r2": 0.14443671703338623,
+          "oracle_gain_fraction": 0.3441485438070934
+        },
+        "short_context": {
+          "coordinate_weighted_r2": 0.44610244035720825,
+          "total_operator_r2": 0.194585382938385,
+          "oracle_gain_fraction": 0.46200257796726074
+        },
+        "embedding_position": {
+          "coordinate_weighted_r2": 0.3339025378227234,
+          "total_operator_r2": 0.1442614197731018,
+          "oracle_gain_fraction": 0.34373657892370285
+        },
+        "state_pca_64": {
+          "coordinate_weighted_r2": 0.8737261295318604,
+          "total_operator_r2": 0.39021432399749756,
+          "oracle_gain_fraction": 0.921748804237257
+        },
+        "state_pca_256": {
+          "coordinate_weighted_r2": 0.9738327860832214,
+          "total_operator_r2": 0.4217407703399658,
+          "oracle_gain_fraction": 0.9958388885324722
+        },
+        "token": {
+          "coordinate_weighted_r2": 0.1811344027519226,
+          "total_operator_r2": 0.07661962509155273,
+          "oracle_gain_fraction": 0.18477206337395458
+        },
+        "position": {
+          "coordinate_weighted_r2": -0.0020291805267333984,
+          "total_operator_r2": -0.0030183792114257812,
+          "oracle_gain_fraction": -0.0023846617391501674
+        },
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0020036697387695312,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.4235113859176636,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "selected_alpha": {
+        "embedding": 0.1,
+        "short_context": 0.1,
+        "embedding_position": 0.1,
+        "state_pca_64": 0.01,
+        "state_pca_256": 0.001
+      },
+      "token_coverage": 0.6201171875
+    },
+    "4": {
+      "metrics": {
+        "embedding": {
+          "coordinate_weighted_r2": 0.25512224435806274,
+          "total_operator_r2": 0.10838514566421509,
+          "oracle_gain_fraction": 0.26640435420764846
+        },
+        "short_context": {
+          "coordinate_weighted_r2": 0.36860960721969604,
+          "total_operator_r2": 0.15637421607971191,
+          "oracle_gain_fraction": 0.38273893278102356
+        },
+        "embedding_position": {
+          "coordinate_weighted_r2": 0.2560303807258606,
+          "total_operator_r2": 0.10896068811416626,
+          "oracle_gain_fraction": 0.2677995779072627
+        },
+        "state_pca_64": {
+          "coordinate_weighted_r2": 0.847678542137146,
+          "total_operator_r2": 0.3663523197174072,
+          "oracle_gain_fraction": 0.8917655504010112
+        },
+        "state_pca_256": {
+          "coordinate_weighted_r2": 0.9671002626419067,
+          "total_operator_r2": 0.40691858530044556,
+          "oracle_gain_fraction": 0.9901058468484792
+        },
+        "token": {
+          "coordinate_weighted_r2": 0.1402735710144043,
+          "total_operator_r2": 0.058650195598602295,
+          "oracle_gain_fraction": 0.1458374333201267
+        },
+        "position": {
+          "coordinate_weighted_r2": -0.0008330345153808594,
+          "total_operator_r2": -0.001650094985961914,
+          "oracle_gain_fraction": -0.0003418702644249456
+        },
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0015090703964233398,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.41100001335144043,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "selected_alpha": {
+        "embedding": 0.1,
+        "short_context": 0.1,
+        "embedding_position": 0.1,
+        "state_pca_64": 0.01,
+        "state_pca_256": 0.001
+      },
+      "token_coverage": 0.6201171875
+    },
+    "5": {
+      "metrics": {
+        "embedding": {
+          "coordinate_weighted_r2": 0.22616714239120483,
+          "total_operator_r2": 0.09936577081680298,
+          "oracle_gain_fraction": 0.2369589898762583
+        },
+        "short_context": {
+          "coordinate_weighted_r2": 0.33334553241729736,
+          "total_operator_r2": 0.14723843336105347,
+          "oracle_gain_fraction": 0.3483940993238583
+        },
+        "embedding_position": {
+          "coordinate_weighted_r2": 0.23096215724945068,
+          "total_operator_r2": 0.10173958539962769,
+          "oracle_gain_fraction": 0.24248461293097912
+        },
+        "state_pca_64": {
+          "coordinate_weighted_r2": 0.8725606799125671,
+          "total_operator_r2": 0.39197659492492676,
+          "oracle_gain_fraction": 0.9180808969751425
+        },
+        "state_pca_256": {
+          "coordinate_weighted_r2": 0.9697778820991516,
+          "total_operator_r2": 0.4237596392631531,
+          "oracle_gain_fraction": 0.9920635592332612
+        },
+        "token": {
+          "coordinate_weighted_r2": 0.12047088146209717,
+          "total_operator_r2": 0.051369428634643555,
+          "oracle_gain_fraction": 0.1252359863936423
+        },
+        "position": {
+          "coordinate_weighted_r2": 0.003249824047088623,
+          "total_operator_r2": -0.0007225275039672852,
+          "oracle_gain_fraction": 0.003979458656543526
+        },
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.002432107925415039,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.42716914415359497,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "selected_alpha": {
+        "embedding": 0.1,
+        "short_context": 0.1,
+        "embedding_position": 0.1,
+        "state_pca_64": 0.001,
+        "state_pca_256": 0.001
+      },
+      "token_coverage": 0.6201171875
+    }
+  }
+}

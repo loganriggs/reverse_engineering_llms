@@ -1,0 +1,453 @@
+{
+  "config": {
+    "status": "H266 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "train_documents": 768,
+    "validation_start": 768,
+    "quadratic_width": 32,
+    "linear_features": 624,
+    "basis_families": [
+      "natural",
+      "source",
+      "residual_jacobian"
+    ],
+    "gradient_probes": 8,
+    "seed": 20261210,
+    "ridge_strengths": [
+      0,
+      1e-06,
+      0.0001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "basis": "Natural=H259 first32 state PCs. Source=top32 of mean normalized-source-displacement outer products, training actual full edits all9 heads, uncentered. Residual_jacobian=top32 of sampled E[J_E(x).T J_E(x)] for native-minus-compiled polynomial E on normalized input x;8 Gaussian output probes per training site, exact pullbacks, no RMS derivative because x is feature input. No validation/test basis fitting. Linear624 state PCs fixed across all. Products528, readout1152+intercept identical; other bases can add32 input reads outside linear span, so total read span not guaranteed equal.",
+    "gates": {
+      "source_basis_gain": "Source basis exceeds natural selected actual test response fidelity by>=.05 at BOTH scales, paired document-bootstrap95 lower bound>0.",
+      "jacobian_basis_gain": "Residual Jacobian basis meets same criterion.",
+      "half_response": "Jacobian selected fidelity>=.50 at BOTH actual scales."
+    },
+    "scope": "Same768 response train/256 validation and reused128 test. All heads supervised. Fixed equal readout coefficient count, explicit basis-construction/read-span caveat. MC gradient covariance is not exact tensor decomposition or semantic labeling. All18 ridge candidates retained; validation selects alpha per basis, no winning basis selected."
+  },
+  "selected": {
+    "natural": "natural_a0.1",
+    "source": "source_a0.01",
+    "residual_jacobian": "residual_jacobian_a0.1"
+  },
+  "audits": {
+    "natural": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.37045305605037404,
+      "max_eigenvalue": 4112.902023978477,
+      "retained_condition": 11102.356848742547,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 9.564511250520209e-15,
+          "training_fidelity": 0.5280008783245274
+        },
+        "1e-06": {
+          "normal_relative_residual": 9.857974350860461e-15,
+          "training_fidelity": 0.5280008782681704
+        },
+        "0.0001": {
+          "normal_relative_residual": 9.540411923465606e-15,
+          "training_fidelity": 0.5280003260474354
+        },
+        "0.01": {
+          "normal_relative_residual": 6.547586396130754e-15,
+          "training_fidelity": 0.5261191374569406
+        },
+        "0.1": {
+          "normal_relative_residual": 4.075765932607355e-15,
+          "training_fidelity": 0.5023194905118322
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0358485850658554e-15,
+          "training_fidelity": 0.40195711220940344
+        }
+      }
+    },
+    "source": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.40150061657378167,
+      "max_eigenvalue": 3978.771863722162,
+      "retained_condition": 9909.752811029628,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 1.2223805846543316e-14,
+          "training_fidelity": 0.4990368779503316
+        },
+        "1e-06": {
+          "normal_relative_residual": 1.2229126231838991e-14,
+          "training_fidelity": 0.49903687779217576
+        },
+        "0.0001": {
+          "normal_relative_residual": 1.1976261714409981e-14,
+          "training_fidelity": 0.49903534471131483
+        },
+        "0.01": {
+          "normal_relative_residual": 7.724102584628367e-15,
+          "training_fidelity": 0.49461652928847644
+        },
+        "0.1": {
+          "normal_relative_residual": 4.264464038247821e-15,
+          "training_fidelity": 0.44830707231856826
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0914504023844797e-15,
+          "training_fidelity": 0.3255841278948668
+        }
+      }
+    },
+    "residual_jacobian": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.6151903555881983,
+      "max_eigenvalue": 4334.230069304432,
+      "retained_condition": 7045.347882868498,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.840743565445355e-15,
+          "training_fidelity": 0.5519533345602547
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.883911419293788e-15,
+          "training_fidelity": 0.5519533345334964
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.848600308615381e-15,
+          "training_fidelity": 0.5519530699920099
+        },
+        "0.01": {
+          "normal_relative_residual": 6.0134635112855544e-15,
+          "training_fidelity": 0.5506655837586911
+        },
+        "0.1": {
+          "normal_relative_residual": 3.89916339251525e-15,
+          "training_fidelity": 0.5301893080559167
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0274714124852487e-15,
+          "training_fidelity": 0.4378720034011431
+        }
+      }
+    }
+  },
+  "validation": {
+    "natural_a0": 0.3742098808288574,
+    "natural_a1e-06": 0.3742109537124634,
+    "natural_a0.0001": 0.3743095397949219,
+    "natural_a0.01": 0.38022953271865845,
+    "natural_a0.1": 0.3886304497718811,
+    "natural_a1.0": 0.3454047441482544,
+    "source_a0": 0.3399226665496826,
+    "source_a1e-06": 0.3399239778518677,
+    "source_a0.0001": 0.34005463123321533,
+    "source_a0.01": 0.34576135873794556,
+    "source_a0.1": 0.33790791034698486,
+    "source_a1.0": 0.2724817395210266,
+    "residual_jacobian_a0": 0.4097956418991089,
+    "residual_jacobian_a1e-06": 0.4097965955734253,
+    "residual_jacobian_a0.0001": 0.4098947048187256,
+    "residual_jacobian_a0.01": 0.41679221391677856,
+    "residual_jacobian_a0.1": 0.4308328628540039,
+    "residual_jacobian_a1.0": 0.39741575717926025
+  },
+  "basis_diagnostics": {
+    "natural": {
+      "orthogonality_error": 2.980232238769531e-07,
+      "fraction_basis_energy_outside_linear624": 0.0
+    },
+    "source": {
+      "orthogonality_error": 1.1920928955078125e-07,
+      "fraction_basis_energy_outside_linear624": 0.19189763069152832
+    },
+    "residual_jacobian": {
+      "orthogonality_error": 2.384185791015625e-07,
+      "fraction_basis_energy_outside_linear624": 0.2562263011932373
+    },
+    "jacobian_top32_trace_fraction": 0.1398670281273717
+  },
+  "results": {
+    "actual_s0.1": {
+      "natural_selected": {
+        "fidelity": 0.3779481053352356,
+        "document_bootstrap95": [
+          0.3491937145590782,
+          0.4073999285697937
+        ]
+      },
+      "natural_unregularized": {
+        "fidelity": 0.35938167572021484,
+        "document_bootstrap95": [
+          0.33024935722351073,
+          0.38976378887891766
+        ]
+      },
+      "source_selected": {
+        "fidelity": 0.3358083963394165,
+        "document_bootstrap95": [
+          0.30550674349069595,
+          0.3659649446606636
+        ]
+      },
+      "source_unregularized": {
+        "fidelity": 0.32925844192504883,
+        "document_bootstrap95": [
+          0.2983815684914589,
+          0.3606658726930618
+        ]
+      },
+      "residual_jacobian_selected": {
+        "fidelity": 0.4190075993537903,
+        "document_bootstrap95": [
+          0.3911626309156418,
+          0.4470463454723358
+        ]
+      },
+      "residual_jacobian_unregularized": {
+        "fidelity": 0.3978995680809021,
+        "document_bootstrap95": [
+          0.3677741810679436,
+          0.42806851416826247
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "natural_selected": {
+        "fidelity": 0.3787168264389038,
+        "document_bootstrap95": [
+          0.3503060400485992,
+          0.4080315887928009
+        ]
+      },
+      "natural_unregularized": {
+        "fidelity": 0.36122989654541016,
+        "document_bootstrap95": [
+          0.3323035925626755,
+          0.3923096120357513
+        ]
+      },
+      "source_selected": {
+        "fidelity": 0.3356393575668335,
+        "document_bootstrap95": [
+          0.3050100296735764,
+          0.36578609645366666
+        ]
+      },
+      "source_unregularized": {
+        "fidelity": 0.32920652627944946,
+        "document_bootstrap95": [
+          0.2974700450897217,
+          0.3609100267291069
+        ]
+      },
+      "residual_jacobian_selected": {
+        "fidelity": 0.4165467619895935,
+        "document_bootstrap95": [
+          0.3877456530928612,
+          0.445673893392086
+        ]
+      },
+      "residual_jacobian_unregularized": {
+        "fidelity": 0.39611417055130005,
+        "document_bootstrap95": [
+          0.36529055535793303,
+          0.42773779481649393
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "natural_selected": {
+        "fidelity": 0.034477055072784424,
+        "document_bootstrap95": [
+          0.02142336666584015,
+          0.04970211684703826
+        ]
+      },
+      "natural_unregularized": {
+        "fidelity": -0.160547137260437,
+        "document_bootstrap95": [
+          -0.17877371311187745,
+          -0.14226759076118473
+        ]
+      },
+      "source_selected": {
+        "fidelity": -0.14021503925323486,
+        "document_bootstrap95": [
+          -0.16505598723888398,
+          -0.11377814710140231
+        ]
+      },
+      "source_unregularized": {
+        "fidelity": -0.23219633102416992,
+        "document_bootstrap95": [
+          -0.26098798513412474,
+          -0.2024366229772568
+        ]
+      },
+      "residual_jacobian_selected": {
+        "fidelity": 0.07370173931121826,
+        "document_bootstrap95": [
+          0.0588132843375206,
+          0.09162243008613581
+        ]
+      },
+      "residual_jacobian_unregularized": {
+        "fidelity": -0.09466350078582764,
+        "document_bootstrap95": [
+          -0.11564899981021881,
+          -0.06963871717453005
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "natural_selected": {
+        "fidelity": 0.03761321306228638,
+        "document_bootstrap95": [
+          0.02658797651529312,
+          0.048790252208709715
+        ]
+      },
+      "natural_unregularized": {
+        "fidelity": -0.14699077606201172,
+        "document_bootstrap95": [
+          -0.16705644726753235,
+          -0.1265602797269821
+        ]
+      },
+      "source_selected": {
+        "fidelity": -0.13044333457946777,
+        "document_bootstrap95": [
+          -0.15564083456993102,
+          -0.10097130239009859
+        ]
+      },
+      "source_unregularized": {
+        "fidelity": -0.21420252323150635,
+        "document_bootstrap95": [
+          -0.24377456605434417,
+          -0.18109344840049746
+        ]
+      },
+      "residual_jacobian_selected": {
+        "fidelity": 0.08305460214614868,
+        "document_bootstrap95": [
+          0.06292416751384736,
+          0.10832291245460504
+        ]
+      },
+      "residual_jacobian_unregularized": {
+        "fidelity": -0.07978665828704834,
+        "document_bootstrap95": [
+          -0.10426331460475921,
+          -0.048306405544281006
+        ]
+      }
+    }
+  },
+  "contrasts": {
+    "actual_s0.1": {
+      "source": {
+        "gain": -0.04213971272110939,
+        "paired_document_bootstrap95": [
+          -0.04950247965753078,
+          -0.034410358779132365
+        ]
+      },
+      "residual_jacobian": {
+        "gain": 0.04105942323803902,
+        "paired_document_bootstrap95": [
+          0.03253896813839674,
+          0.049247147422283886
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "source": {
+        "gain": -0.04307747632265091,
+        "paired_document_bootstrap95": [
+          -0.05003134133294225,
+          -0.036079753935337064
+        ]
+      },
+      "residual_jacobian": {
+        "gain": 0.03782998397946358,
+        "paired_document_bootstrap95": [
+          0.03022554740309715,
+          0.04572867192327976
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "source": {
+        "gain": -0.17469193041324615,
+        "paired_document_bootstrap95": [
+          -0.195400096103549,
+          -0.15081433840095998
+        ]
+      },
+      "residual_jacobian": {
+        "gain": 0.039224714040756226,
+        "paired_document_bootstrap95": [
+          0.02432823497802019,
+          0.057456083968281745
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "source": {
+        "gain": -0.1680566519498825,
+        "paired_document_bootstrap95": [
+          -0.18869652636349202,
+          -0.1429066926240921
+        ]
+      },
+      "residual_jacobian": {
+        "gain": 0.045441437512636185,
+        "paired_document_bootstrap95": [
+          0.026813320955261587,
+          0.06877418886870143
+        ]
+      }
+    }
+  },
+  "gates": {
+    "source_basis_gain": false,
+    "jacobian_basis_gain": false,
+    "half_response": false
+  },
+  "head_replay": 4.217769751555023e-07
+}

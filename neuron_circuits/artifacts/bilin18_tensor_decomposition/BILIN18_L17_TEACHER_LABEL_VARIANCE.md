@@ -1,0 +1,24 @@
+## H528 — Observed label-gradient variability has approximately the teacher-implied scale
+
+On the2,048 H527 contexts, freeze both gain directions and the same rank36 compressed map. Let p be the original model's token distribution and J_y the derivative of the compressed model's soft-capped logit for token y along a gain direction. The observed-label contrast CE−KL is E_p[J]−J_y: normalization terms cancel. If y were drawn from p, its conditional mean would be zero and its conditional covariance would be Cov_p(J). Compute this covariance exactly by summing over the vocabulary, not sampling labels.
+
+This is a model-implied reference, not the assumption that p is the true next-token distribution. Under independent teacher-label draws conditional on these contexts, the covariance of the average is sum_i Cov_i/n². Actual empirical across-document variability may also include context-dependent mean differences and distributional mismatch.
+
+| Gain direction | Observed mean contrast | Teacher-implied mean SE | Empirical mean SE | Empirical / teacher variance | Mean / teacher SE |
+|---|---:|---:|---:|---:|---:|
+|KL_direction|-0.00094460|0.00125643|0.00127646|1.032|-0.752|
+|contrast_direction|+0.00098199|0.00086313|0.00092499|1.148|+1.138|
+
+Observed contrast variance is about1.03 times the teacher reference along the KL direction and1.15 times along the contrast direction. The corresponding means are−0.75 and+1.14 reference standard errors from zero. Thus the observed failure to reproduce a CE-specific direction has roughly the noise scale expected from one observed token per context. This does not establish calibration, prove a zero task signal, or show that KL and CE share an optimum. The ratios have not been tested for equivalence; reference-SE standardized means are descriptive, not calibrated p-values.
+
+The table concerns CE−KL along both directions. In particular, its negative mean along the KL direction does not contradict H527's positive KL-gradient projection; these are different gradients. CE gradients combine both terms.
+
+Conditional variance is concentrated across contexts: the highest21 of2,048 contexts contribute21.6% (KL direction) and16.0% (contrast direction); the highest205 contribute63.5% and51.2%. No contexts are discarded. A few contexts can therefore materially affect a one-label estimate even when the overall reference variance is accurate.
+
+The fourth512-document block has a contrast-direction mean about3.14 teacher-reference SEs above zero. It was not prespecified as a subgroup and must not be selected as evidence of a distinct semantic regime. Aggregate variance agreement does not explain every block fluctuation; heavy tails, multiplicity and true context effects remain possible. All four blocks and both-direction covariances are archived.
+
+Audits: all inputs hash checked; probability-weighted centered derivatives have residual mean below1.74e−15; conditional covariance matrices are positive semidefinite within tolerance. Observed target contrasts replay H527's autograd values to2.08e−6 relative RMS, and KL directional derivatives to2.18e−6. All arrays finite. No new data:26,112 tracked documents. This is a diagnostic on the H527 panel, not another fresh confirmation.
+
+Interpretation for the user's objective hierarchy: prediction fidelity and observed-token task loss are mathematically different objectives, but detecting a reliable CE-specific correction can demand more information than detecting a KL correction. The present36-gain experiment supports that practical distinction. It does not justify optimizing noisy observed-token losses and interpreting the resulting directions as model features. Equally, it does not rule out a useful CE-oriented replacement with a proper training/validation design.
+
+Next H529 returns to generality of the proposed computational units. Freeze H522's pooled3,072-source PCA/Fisher maps at ranks36/144/576 and the shared reconstruction mean; evaluate them at positions31,63,95,127 on all2,048 H527 documents using their129-token windows. Collect native pre-MLP states and summed attention writes at all four positions, with the corresponding next-token labels32,64,96,128. Refit nothing. Measure full-path finite prediction KL, mean-source baseline recovery, raw reconstruction error, and descriptive CE at each position; retain per-document pairing for comparisons. Replay position63 Fisher36 against H527 before interpreting other positions. This tests transfer across context lengths/positions beyond the single calibration position, while controlling document identity and representation. The documents are reused and positions are correlated, so label the comparison diagnostic and do not treat it as independent replication or isolate position from context length. A failure would limit claims of reusable units; a success would still not establish uniqueness or cross-layer generality.

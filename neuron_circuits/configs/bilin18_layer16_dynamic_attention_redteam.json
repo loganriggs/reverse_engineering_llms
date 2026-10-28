@@ -1,0 +1,33 @@
+{
+  "status": "hypotheses-locked-after-frozen-downstream-compression-before-dynamic-attention-red-team",
+  "seed": 20261101,
+  "batch_size": 2,
+  "tangent_chunk": 8,
+  "layer": 12,
+  "final_layer": 17,
+  "layers": [16],
+  "target_layer": 16,
+  "rank": 32,
+  "positions": [31, 63, 95, 127],
+  "operator_modes": 64,
+  "inner_ranks": [4, 8],
+  "endpoint_spectral_budgets": [1, 2, 4, 8, 16, 32, 64],
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "local_atlas_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17000, "rows": 128},
+  "dynamic_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19200, "rows": 16},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19920, "rows": 8},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 780, "rows": 8},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 780, "rows": 8}
+  },
+  "hypotheses": {
+    "E0_dynamic_composition_is_exact": "The complete analytic Layer-16 MLP plus dynamic Layer-17 two-QK derivative agrees with an independent autograd JVP to relative error at most 1e-5.",
+    "E1_dynamic_attention_is_a_small_boundary_change": "The complete dynamic and frozen-attention endpoint derivatives have fidelity at least 0.95 on every corpus.",
+    "E2_dynamic_endpoint_rank16_atlas_is_sufficient": "A fixed rank-16 dynamic endpoint atlas retains at least 0.90 oracle-projection fidelity on every corpus.",
+    "E3_common_local_operator_survives_dynamic_routing": "The frozen mean local operator retains at least 0.80 through dynamic attention on every corpus.",
+    "E4_factorized_local_program_survives_dynamic_routing": "The exact-read 64-mode inner-rank-8 local program retains at least 0.90 through dynamic attention on every corpus.",
+    "E5_inner_rank8_preserves_the_dynamic_program": "The inner-rank-8 program is within 0.05 of the full-inner-rank 64-mode program on every corpus.",
+    "E6_dynamic_program_transfers_ood": "The inner-rank-8 OOD fidelity is within 0.05 of FineWeb.",
+    "E7_contextual_correction_remains_material": "The full 64-mode local program improves on the common mean operator by at least 0.05 on every corpus under dynamic attention."
+  }
+}

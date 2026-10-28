@@ -1,0 +1,29 @@
+{
+  "status": "hypotheses-locked-after-compact-mlp-and-attention-path-results-before-native-channel-bank-test",
+  "source_config": "configs/bilin18_mlp_path_highcount_replication.json",
+  "seed": 20261028,
+  "batch_size": 8,
+  "layers": [13, 14, 15, 16],
+  "rank": 32,
+  "budgets": [32, 128, 512, 1024, 2048, 4096, 4608],
+  "oracle_budget": 512,
+  "random_replicates": 16,
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "bank_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17800, "rows": 64},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19800, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 700, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 700, "rows": 32}
+  },
+  "hypotheses": {
+    "N0_native_channel_sum_is_exact": "All 4,608 native channels reconstruct every local bilinear derivative with fidelity at least 0.999999.",
+    "N1_static_512_channels_are_sufficient": "A discovery-frozen 512-channel bank retains at least 0.80 local derivative fidelity at every layer and corpus.",
+    "N2_static_1024_channels_are_high_fidelity": "A frozen 1,024-channel bank retains at least 0.90 fidelity at every layer and corpus.",
+    "N3_ranked_channels_beat_random": "At 512 channels, the frozen bank exceeds the matched random-bank 95th percentile by at least 0.10 at every layer and corpus.",
+    "N4_context_specific_channel_selection_is_material": "At 512 channels, the per-example oracle exceeds the frozen bank by at least 0.05 for at least one layer/corpus.",
+    "N5_static_bank_transfers_ood": "At 512 channels, each OOD fidelity is within 0.05 of FineWeb at every layer.",
+    "N6_native_neuron_sparsity_is_sufficient": "Every layer and corpus reaches 90% fidelity with at most 512 of 4,608 channels.",
+    "N7_some_local_operators_are_broad": "At least one layer/corpus remains below 90% fidelity with 1,024 channels.",
+    "N8_factor_swap_is_invariant": "Swapping every native channel's Left and Right factors changes the reconstructed derivative by relative error at most 1e-6."
+  }
+}

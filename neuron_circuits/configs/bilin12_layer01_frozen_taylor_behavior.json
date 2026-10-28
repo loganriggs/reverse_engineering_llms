@@ -1,0 +1,38 @@
+{
+  "status": "locked-after-directional-order-transfer-before-random-token-behavior-evaluation",
+  "source_config": "configs/bilin12_layer01_dynamic_alignment_replication.json",
+  "order_transfer_results": "artifacts/bilin18_tensor_decomposition/bilin12_layer01_directional_order_transfer.json",
+  "frozen_orders": {"0": 3, "1": 5},
+  "sites_per_corpus": 96,
+  "sequence_length": 64,
+  "edit_position": 47,
+  "prediction_position": 63,
+  "ranks": [64, 128, 256, 512],
+  "comparison_rank": 256,
+  "sampling_seed": 20261601,
+  "random_control_seed": 20261602,
+  "bootstrap_seed": 20261603,
+  "bootstrap_samples": 5000,
+  "methods": [
+    "taylor_local",
+    "taylor_magnitude",
+    "base_activation",
+    "static_weight",
+    "random",
+    "endpoint_magnitude",
+    "endpoint_local",
+    "behavior_oracle"
+  ],
+  "hypotheses": {
+    "B0_full_patch_recomposition_is_exact": "The independently recomposed full product patch changes every logit by at most 1e-4 relative to the full-patch reference.",
+    "B1_frozen_taylor_preserves_behavior": "At rank 256, frozen Taylor selection recovers at least 0.50 of full-patch KL and at least 0.40 in the highest-effect quartile in every layer/corpus cell.",
+    "B2_taylor_beats_unconditioned_controls": "At rank 256, frozen Taylor selection exceeds both random and static-weight KL recovery by at least 0.20 in every cell.",
+    "B3_taylor_approaches_endpoint_local": "At rank 256, frozen Taylor selection is within 0.15 KL recovery of endpoint-local selection in every cell.",
+    "B4_behavioral_compiler_transfers_ood": "Taylor rank-256 KL recovery differs by at most 0.15 between FineWeb and TinyStories in each layer.",
+    "B5_output_connectivity_matters": "Taylor-local exceeds Taylor-magnitude rank-256 KL recovery by at least 0.03 in every cell.",
+    "B6_behavior_oracle_is_an_upper_control": "Behavior-oracle rank-256 recovery is no worse than Taylor-local by more than 0.02 in every cell.",
+    "B7_ce_effect_is_preserved": "Taylor rank-256 CE-effect fidelity is at least 0.40 in every cell.",
+    "B8_high_effect_results_are_not_baseline_triviality": "In the highest-effect quartile, Taylor rank-256 recovery exceeds random by at least 0.15 in every cell.",
+    "B9_orders_and_sampling_are_frozen": "Layer orders, random-token edit sampling, ranks, metrics, and thresholds are declared before behavior outcomes are evaluated."
+  }
+}

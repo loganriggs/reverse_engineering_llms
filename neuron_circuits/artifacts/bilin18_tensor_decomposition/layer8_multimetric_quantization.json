@@ -1,0 +1,2463 @@
+{
+  "config": {
+    "status": "locked-after-fisher-quantization-failure-before-multimetric-localization",
+    "seed": 20261109,
+    "layer": 8,
+    "dimension": 512,
+    "local_rank": 4,
+    "clusters": 64,
+    "kmeans_iterations": 10,
+    "batch_size": 4,
+    "causal_position": 127,
+    "tensor_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10000,
+      "rows": 300
+    },
+    "prototype_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14756,
+      "rows": 128
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 17400,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 800,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 800,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "T1_direct_tensor_axes_are_quantizable": "A 64-prototype oracle captures at least 25% of the optimal rank-four direct-MLP Jacobian energy on every corpus.",
+      "T2_unweighted_logit_axes_are_quantizable": "A 64-prototype oracle captures at least 25% of the optimal rank-four unweighted-logit Jacobian energy on every corpus.",
+      "T3_fisher_axes_remain_nonquantizable": "Softmax-Fisher oracle capture remains below 10% on every corpus.",
+      "T4_downstream_geometry_creates_variability": "Direct-MLP oracle capture exceeds Fisher capture by at least 0.10 on every corpus.",
+      "T5_native_state_routes_direct_axes": "State-centroid routing captures at least 15% of direct-MLP optimal rank-four energy on every corpus.",
+      "T6_metric_regime_transfers": "For each metric, oracle capture varies by at most 0.10 across the three corpora."
+    }
+  },
+  "hypotheses": {
+    "T1_direct_tensor_axes_are_quantizable": {
+      "supported": true
+    },
+    "T2_unweighted_logit_axes_are_quantizable": {
+      "supported": false
+    },
+    "T3_fisher_axes_remain_nonquantizable": {
+      "supported": true
+    },
+    "T4_downstream_geometry_creates_variability": {
+      "supported": true
+    },
+    "T5_native_state_routes_direct_axes": {
+      "supported": true
+    },
+    "T6_metric_regime_transfers": {
+      "supported": true
+    }
+  },
+  "training_similarity": {
+    "direct_mlp": 0.6777912378311157,
+    "unweighted_logit": 0.5779179334640503,
+    "softmax_fisher": 0.5647804737091064
+  },
+  "results": {
+    "fineweb": {
+      "summary": {
+        "metrics": {
+          "direct_mlp": {
+            "oracle_capture": 0.46567298471927643,
+            "routed_capture": 0.37924566864967346,
+            "route_match": 0.28125
+          },
+          "unweighted_logit": {
+            "oracle_capture": 0.06976568698883057,
+            "routed_capture": 0.05414408817887306,
+            "route_match": 0.1875
+          },
+          "softmax_fisher": {
+            "oracle_capture": 0.0412752591073513,
+            "routed_capture": 0.03167643956840038,
+            "route_match": 0.1875
+          }
+        },
+        "cross_metric_overlap": {
+          "direct_mlp__unweighted_logit": 0.11202086508274078,
+          "direct_mlp__softmax_fisher": 0.09020570665597916,
+          "softmax_fisher__unweighted_logit": 0.4359910190105438
+        }
+      },
+      "records": [
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4555853605270386,
+              "routed_capture": 0.3086053431034088,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09005796909332275,
+              "routed_capture": 0.06814900785684586,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.10242678970098495,
+              "routed_capture": 0.10242678970098495,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08346570283174515,
+            "direct_mlp__softmax_fisher": 0.08656853437423706,
+            "softmax_fisher__unweighted_logit": 0.542715311050415
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.40144577622413635,
+              "routed_capture": 0.3509947955608368,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06055617704987526,
+              "routed_capture": 0.06055617704987526,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04165342450141907,
+              "routed_capture": 0.03881068527698517,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.16872812807559967,
+            "direct_mlp__softmax_fisher": 0.09613245725631714,
+            "softmax_fisher__unweighted_logit": 0.2714262902736664
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.6279690265655518,
+              "routed_capture": 0.41779765486717224,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08528802543878555,
+              "routed_capture": 0.034759312868118286,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.10628025978803635,
+              "routed_capture": 0.10628025978803635,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12326674908399582,
+            "direct_mlp__softmax_fisher": 0.07815580815076828,
+            "softmax_fisher__unweighted_logit": 0.5035947561264038
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4080609679222107,
+              "routed_capture": 0.4080609679222107,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06673774123191833,
+              "routed_capture": 0.03960094228386879,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.024470865726470947,
+              "routed_capture": 0.023438692092895508,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.03511876240372658,
+            "direct_mlp__softmax_fisher": 0.03599891811609268,
+            "softmax_fisher__unweighted_logit": 0.39638209342956543
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.449268639087677,
+              "routed_capture": 0.449268639087677,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.10795913636684418,
+              "routed_capture": 0.08450736105442047,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.10212927311658859,
+              "routed_capture": 0.10212927311658859,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.21372222900390625,
+            "direct_mlp__softmax_fisher": 0.16052153706550598,
+            "softmax_fisher__unweighted_logit": 0.4349491596221924
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5609763264656067,
+              "routed_capture": 0.5609763264656067,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07711131125688553,
+              "routed_capture": 0.07711131125688553,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05615968257188797,
+              "routed_capture": 0.0382121279835701,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.22193670272827148,
+            "direct_mlp__softmax_fisher": 0.15357759594917297,
+            "softmax_fisher__unweighted_logit": 0.5351698398590088
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.647000253200531,
+              "routed_capture": 0.647000253200531,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08663125336170197,
+              "routed_capture": 0.03837914764881134,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05278291553258896,
+              "routed_capture": 0.024969929829239845,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.20427590608596802,
+            "direct_mlp__softmax_fisher": 0.11505410820245743,
+            "softmax_fisher__unweighted_logit": 0.5627580881118774
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.47894617915153503,
+              "routed_capture": 0.43387672305107117,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0615614615380764,
+              "routed_capture": 0.05104179307818413,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05032160505652428,
+              "routed_capture": 0.042500466108322144,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08432668447494507,
+            "direct_mlp__softmax_fisher": 0.06770547479391098,
+            "softmax_fisher__unweighted_logit": 0.5586549043655396
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5830634832382202,
+              "routed_capture": 0.5830634832382202,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06036302074790001,
+              "routed_capture": 0.05982838571071625,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03466419503092766,
+              "routed_capture": 0.025004414841532707,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1045871302485466,
+            "direct_mlp__softmax_fisher": 0.07456504553556442,
+            "softmax_fisher__unweighted_logit": 0.5889482498168945
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5512675642967224,
+              "routed_capture": 0.5423964858055115,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.10551097244024277,
+              "routed_capture": 0.09391357004642487,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.09650607407093048,
+              "routed_capture": 0.07077307254076004,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10222584754228592,
+            "direct_mlp__softmax_fisher": 0.09997740387916565,
+            "softmax_fisher__unweighted_logit": 0.4977337718009949
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4627034366130829,
+              "routed_capture": 0.3404187262058258,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.05642510578036308,
+              "routed_capture": 0.04086734727025032,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03715830296278,
+              "routed_capture": 0.03641662001609802,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.06747648119926453,
+            "direct_mlp__softmax_fisher": 0.041861552745103836,
+            "softmax_fisher__unweighted_logit": 0.2658691704273224
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5302266478538513,
+              "routed_capture": 0.5302266478538513,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.084788016974926,
+              "routed_capture": 0.084788016974926,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.043377067893743515,
+              "routed_capture": 0.030947275459766388,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1525624692440033,
+            "direct_mlp__softmax_fisher": 0.06503893435001373,
+            "softmax_fisher__unweighted_logit": 0.33688464760780334
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.729967474937439,
+              "routed_capture": 0.729967474937439,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0814419686794281,
+              "routed_capture": 0.041549697518348694,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04134564846754074,
+              "routed_capture": 0.03809875249862671,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10733561217784882,
+            "direct_mlp__softmax_fisher": 0.05336695909500122,
+            "softmax_fisher__unweighted_logit": 0.5563549399375916
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.6198104023933411,
+              "routed_capture": 0.6198104023933411,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08089659363031387,
+              "routed_capture": 0.05007227882742882,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05582815408706665,
+              "routed_capture": 0.03240560367703438,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.11562733352184296,
+            "direct_mlp__softmax_fisher": 0.09384287893772125,
+            "softmax_fisher__unweighted_logit": 0.4629552364349365
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5407788753509521,
+              "routed_capture": 0.4024627208709717,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.05703184753656387,
+              "routed_capture": 0.046557869762182236,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.041204869747161865,
+              "routed_capture": 0.041204869747161865,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.06571989506483078,
+            "direct_mlp__softmax_fisher": 0.057236455380916595,
+            "softmax_fisher__unweighted_logit": 0.291786253452301
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.44996723532676697,
+              "routed_capture": 0.36434006690979004,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0649932324886322,
+              "routed_capture": 0.06253720074892044,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.056003328412771225,
+              "routed_capture": 0.05273238196969032,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.2939823269844055,
+            "direct_mlp__softmax_fisher": 0.21515093743801117,
+            "softmax_fisher__unweighted_logit": 0.41410553455352783
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5826502442359924,
+              "routed_capture": 0.5529870390892029,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.21230196952819824,
+              "routed_capture": 0.21230196952819824,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.08677935600280762,
+              "routed_capture": 0.05350048094987869,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.26345646381378174,
+            "direct_mlp__softmax_fisher": 0.16907143592834473,
+            "softmax_fisher__unweighted_logit": 0.4509721100330353
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5098997950553894,
+              "routed_capture": 0.5098997950553894,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06970413774251938,
+              "routed_capture": 0.04949308931827545,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.050434451550245285,
+              "routed_capture": 0.04755775257945061,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.07719998806715012,
+            "direct_mlp__softmax_fisher": 0.04328644275665283,
+            "softmax_fisher__unweighted_logit": 0.5418700575828552
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4556788504123688,
+              "routed_capture": 0.2529112696647644,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.061346013098955154,
+              "routed_capture": 0.02769879810512066,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02746581844985485,
+              "routed_capture": 0.02746581844985485,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.14075462520122528,
+            "direct_mlp__softmax_fisher": 0.08267508447170258,
+            "softmax_fisher__unweighted_logit": 0.4804723858833313
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.323202908039093,
+              "routed_capture": 0.2992531657218933,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0432799756526947,
+              "routed_capture": 0.029520493000745773,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.038184646517038345,
+              "routed_capture": 0.024011000990867615,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.18042734265327454,
+            "direct_mlp__softmax_fisher": 0.15974047780036926,
+            "softmax_fisher__unweighted_logit": 0.5921697020530701
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.46864253282546997,
+              "routed_capture": 0.43382275104522705,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06035185977816582,
+              "routed_capture": 0.0432211272418499,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.022947438061237335,
+              "routed_capture": 0.012468889355659485,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.06770278513431549,
+            "direct_mlp__softmax_fisher": 0.04324084520339966,
+            "softmax_fisher__unweighted_logit": 0.10548520088195801
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4106684923171997,
+              "routed_capture": 0.2593245506286621,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06982723623514175,
+              "routed_capture": 0.0623595155775547,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.030312933027744293,
+              "routed_capture": 0.023367563262581825,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1032056212425232,
+            "direct_mlp__softmax_fisher": 0.111585333943367,
+            "softmax_fisher__unweighted_logit": 0.10348652303218842
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3791016936302185,
+              "routed_capture": 0.31458261609077454,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08446112275123596,
+              "routed_capture": 0.07099273055791855,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03218856081366539,
+              "routed_capture": 0.02357790619134903,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.07235031574964523,
+            "direct_mlp__softmax_fisher": 0.053109217435121536,
+            "softmax_fisher__unweighted_logit": 0.40719759464263916
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5536680221557617,
+              "routed_capture": 0.38266098499298096,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.11044759303331375,
+              "routed_capture": 0.0834176242351532,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.027089273557066917,
+              "routed_capture": 0.013859465718269348,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10841439664363861,
+            "direct_mlp__softmax_fisher": 0.03823208808898926,
+            "softmax_fisher__unweighted_logit": 0.15085570514202118
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5430102944374084,
+              "routed_capture": 0.29966431856155396,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06195719540119171,
+              "routed_capture": 0.04097028821706772,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.025734635069966316,
+              "routed_capture": 0.003516371129080653,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.07234476506710052,
+            "direct_mlp__softmax_fisher": 0.03149160370230675,
+            "softmax_fisher__unweighted_logit": 0.40105438232421875
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3944690525531769,
+              "routed_capture": 0.33523207902908325,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.057990655303001404,
+              "routed_capture": 0.05350907891988754,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05480395630002022,
+              "routed_capture": 0.029429160058498383,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.18152667582035065,
+            "direct_mlp__softmax_fisher": 0.13762453198432922,
+            "softmax_fisher__unweighted_logit": 0.43703287839889526
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.44415587186813354,
+              "routed_capture": 0.3460446298122406,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08188683539628983,
+              "routed_capture": 0.066842220723629,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03454217314720154,
+              "routed_capture": 0.02258884347975254,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.24780799448490143,
+            "direct_mlp__softmax_fisher": 0.11923311650753021,
+            "softmax_fisher__unweighted_logit": 0.34586405754089355
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.39971980452537537,
+              "routed_capture": 0.3328854739665985,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06029346212744713,
+              "routed_capture": 0.021961823105812073,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03598380088806152,
+              "routed_capture": 0.03598380088806152,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.14412975311279297,
+            "direct_mlp__softmax_fisher": 0.09527694433927536,
+            "softmax_fisher__unweighted_logit": 0.45838814973831177
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4322880506515503,
+              "routed_capture": 0.37583035230636597,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.070668064057827,
+              "routed_capture": 0.05477909743785858,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.033693574368953705,
+              "routed_capture": 0.025485670194029808,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.06587143242359161,
+            "direct_mlp__softmax_fisher": 0.0489659383893013,
+            "softmax_fisher__unweighted_logit": 0.06520166993141174
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3898310363292694,
+              "routed_capture": 0.24873293936252594,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.062767893075943,
+              "routed_capture": 0.038130056113004684,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.049460165202617645,
+              "routed_capture": 0.01709868758916855,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08855338394641876,
+            "direct_mlp__softmax_fisher": 0.21068289875984192,
+            "softmax_fisher__unweighted_logit": 0.33475202322006226
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5249112844467163,
+              "routed_capture": 0.20509491860866547,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0641721561551094,
+              "routed_capture": 0.0641721561551094,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.038539472967386246,
+              "routed_capture": 0.035167451947927475,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.20846182107925415,
+            "direct_mlp__softmax_fisher": 0.1381739228963852,
+            "softmax_fisher__unweighted_logit": 0.5751991868019104
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3950580656528473,
+              "routed_capture": 0.33910849690437317,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.12284784764051437,
+              "routed_capture": 0.12284784764051437,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.035675548017024994,
+              "routed_capture": 0.026392968371510506,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.2416462004184723,
+            "direct_mlp__softmax_fisher": 0.11173384636640549,
+            "softmax_fisher__unweighted_logit": 0.16796186566352844
+          }
+        }
+      ]
+    },
+    "wikitext": {
+      "summary": {
+        "metrics": {
+          "direct_mlp": {
+            "oracle_capture": 0.4131605327129364,
+            "routed_capture": 0.3341589719057083,
+            "route_match": 0.1875
+          },
+          "unweighted_logit": {
+            "oracle_capture": 0.0777708925306797,
+            "routed_capture": 0.05837578326463699,
+            "route_match": 0.3125
+          },
+          "softmax_fisher": {
+            "oracle_capture": 0.03952455334365368,
+            "routed_capture": 0.020922081544995308,
+            "route_match": 0.03125
+          }
+        },
+        "cross_metric_overlap": {
+          "direct_mlp__unweighted_logit": 0.12411202117800713,
+          "direct_mlp__softmax_fisher": 0.0805562324821949,
+          "softmax_fisher__unweighted_logit": 0.23711229860782623
+        }
+      },
+      "records": [
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.29725879430770874,
+              "routed_capture": 0.28235918283462524,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.04616926982998848,
+              "routed_capture": 0.02321854792535305,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.0393335185945034,
+              "routed_capture": 0.030428361147642136,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.2663165330886841,
+            "direct_mlp__softmax_fisher": 0.22131212055683136,
+            "softmax_fisher__unweighted_logit": 0.3361435532569885
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.373192697763443,
+              "routed_capture": 0.3409324586391449,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08140856772661209,
+              "routed_capture": 0.062223196029663086,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02942621149122715,
+              "routed_capture": 0.00935307051986456,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.17450788617134094,
+            "direct_mlp__softmax_fisher": 0.05086476355791092,
+            "softmax_fisher__unweighted_logit": 0.25616174936294556
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5193320512771606,
+              "routed_capture": 0.4481591284275055,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.13070058822631836,
+              "routed_capture": 0.13070058822631836,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.08247032016515732,
+              "routed_capture": 0.04231029376387596,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.19685623049736023,
+            "direct_mlp__softmax_fisher": 0.10611014068126678,
+            "softmax_fisher__unweighted_logit": 0.08903367817401886
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5045763850212097,
+              "routed_capture": 0.42598479986190796,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07657040655612946,
+              "routed_capture": 0.05009843409061432,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03653237968683243,
+              "routed_capture": 0.021676966920495033,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.0793897807598114,
+            "direct_mlp__softmax_fisher": 0.05480826646089554,
+            "softmax_fisher__unweighted_logit": 0.2369738519191742
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4639446437358856,
+              "routed_capture": 0.28433462977409363,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08470463007688522,
+              "routed_capture": 0.057548318058252335,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.047752495855093,
+              "routed_capture": 0.01745419017970562,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.21401163935661316,
+            "direct_mlp__softmax_fisher": 0.10554877668619156,
+            "softmax_fisher__unweighted_logit": 0.23725074529647827
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4554353654384613,
+              "routed_capture": 0.3997015953063965,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09187980741262436,
+              "routed_capture": 0.09187980741262436,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.041635703295469284,
+              "routed_capture": 0.018216339871287346,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.17663492262363434,
+            "direct_mlp__softmax_fisher": 0.0458771213889122,
+            "softmax_fisher__unweighted_logit": 0.13870476186275482
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3664850890636444,
+              "routed_capture": 0.3664850890636444,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.070527583360672,
+              "routed_capture": 0.070527583360672,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03556763380765915,
+              "routed_capture": 0.010487480089068413,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1892797201871872,
+            "direct_mlp__softmax_fisher": 0.12757714092731476,
+            "softmax_fisher__unweighted_logit": 0.19406092166900635
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4158875644207001,
+              "routed_capture": 0.401420533657074,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07272118330001831,
+              "routed_capture": 0.046585049480199814,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04041586071252823,
+              "routed_capture": 0.014083814807236195,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12999841570854187,
+            "direct_mlp__softmax_fisher": 0.056373678147792816,
+            "softmax_fisher__unweighted_logit": 0.16394928097724915
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5356533527374268,
+              "routed_capture": 0.5356533527374268,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09525492042303085,
+              "routed_capture": 0.06393390148878098,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04491512104868889,
+              "routed_capture": 0.02944893017411232,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.0423014797270298,
+            "direct_mlp__softmax_fisher": 0.05871139094233513,
+            "softmax_fisher__unweighted_logit": 0.31479954719543457
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.41043350100517273,
+              "routed_capture": 0.32738548517227173,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08327976614236832,
+              "routed_capture": 0.05751298367977142,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04276122525334358,
+              "routed_capture": 0.033447183668613434,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.11674503982067108,
+            "direct_mlp__softmax_fisher": 0.05177925154566765,
+            "softmax_fisher__unweighted_logit": 0.1969076693058014
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3244690001010895,
+              "routed_capture": 0.24473316967487335,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0809260681271553,
+              "routed_capture": 0.05920324847102165,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.050300322473049164,
+              "routed_capture": 0.049123115837574005,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10747227072715759,
+            "direct_mlp__softmax_fisher": 0.1317826807498932,
+            "softmax_fisher__unweighted_logit": 0.20566457509994507
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3943484127521515,
+              "routed_capture": 0.28209424018859863,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0938442051410675,
+              "routed_capture": 0.0938442051410675,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.024221207946538925,
+              "routed_capture": 0.017898129299283028,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12486705183982849,
+            "direct_mlp__softmax_fisher": 0.07122321426868439,
+            "softmax_fisher__unweighted_logit": 0.28234565258026123
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.509675920009613,
+              "routed_capture": 0.44893863797187805,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0797572061419487,
+              "routed_capture": 0.038940396159887314,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.046585310250520706,
+              "routed_capture": 0.03332286700606346,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1355080008506775,
+            "direct_mlp__softmax_fisher": 0.06501832604408264,
+            "softmax_fisher__unweighted_logit": 0.10310608148574829
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.500437319278717,
+              "routed_capture": 0.24142569303512573,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0716763511300087,
+              "routed_capture": 0.0716763511300087,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05265200510621071,
+              "routed_capture": 0.020223116502165794,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12698590755462646,
+            "direct_mlp__softmax_fisher": 0.15488368272781372,
+            "softmax_fisher__unweighted_logit": 0.25323686003685
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.35181722044944763,
+              "routed_capture": 0.28559622168540955,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06907743960618973,
+              "routed_capture": 0.06861761957406998,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02193625271320343,
+              "routed_capture": 0.017507493495941162,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08342837542295456,
+            "direct_mlp__softmax_fisher": 0.0810406357049942,
+            "softmax_fisher__unweighted_logit": 0.17751750349998474
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.43882453441619873,
+              "routed_capture": 0.43882453441619873,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06342945247888565,
+              "routed_capture": 0.04468250647187233,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.035996537655591965,
+              "routed_capture": 0.02776211127638817,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.06568410992622375,
+            "direct_mlp__softmax_fisher": 0.10342471301555634,
+            "softmax_fisher__unweighted_logit": 0.54427170753479
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4761122465133667,
+              "routed_capture": 0.37509584426879883,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.05473148822784424,
+              "routed_capture": 0.05473148822784424,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.040631748735904694,
+              "routed_capture": 0.02162104658782482,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.14174853265285492,
+            "direct_mlp__softmax_fisher": 0.11122386157512665,
+            "softmax_fisher__unweighted_logit": 0.2039850950241089
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3474988043308258,
+              "routed_capture": 0.2705438435077667,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06702004373073578,
+              "routed_capture": 0.046083249151706696,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04230338707566261,
+              "routed_capture": 0.036864399909973145,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.09811513125896454,
+            "direct_mlp__softmax_fisher": 0.12012577056884766,
+            "softmax_fisher__unweighted_logit": 0.3509828746318817
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.356233149766922,
+              "routed_capture": 0.356233149766922,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.04190893471240997,
+              "routed_capture": 0.04069724678993225,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.028417477384209633,
+              "routed_capture": 0.008775278925895691,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.13414326310157776,
+            "direct_mlp__softmax_fisher": 0.1559736281633377,
+            "softmax_fisher__unweighted_logit": 0.5109490752220154
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4686669409275055,
+              "routed_capture": 0.25700846314430237,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06039660796523094,
+              "routed_capture": 0.06039660796523094,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03292924910783768,
+              "routed_capture": 0.01490301825106144,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10572288930416107,
+            "direct_mlp__softmax_fisher": 0.06887400895357132,
+            "softmax_fisher__unweighted_logit": 0.5004807710647583
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3492680788040161,
+              "routed_capture": 0.30344855785369873,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08365611732006073,
+              "routed_capture": 0.07240188121795654,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03201477974653244,
+              "routed_capture": 0.027102066203951836,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.21015006303787231,
+            "direct_mlp__softmax_fisher": 0.0738748237490654,
+            "softmax_fisher__unweighted_logit": 0.20425033569335938
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4080190360546112,
+              "routed_capture": 0.28149843215942383,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07897137850522995,
+              "routed_capture": 0.07675360143184662,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03133011609315872,
+              "routed_capture": 0.024266349151730537,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.09707926213741302,
+            "direct_mlp__softmax_fisher": 0.06416010856628418,
+            "softmax_fisher__unweighted_logit": 0.3255995512008667
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.6368405222892761,
+              "routed_capture": 0.24082767963409424,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.11545194685459137,
+              "routed_capture": 0.04526636004447937,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03325710445642471,
+              "routed_capture": 0.028444446623325348,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08585812151432037,
+            "direct_mlp__softmax_fisher": 0.03889073058962822,
+            "softmax_fisher__unweighted_logit": 0.22048181295394897
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3854282796382904,
+              "routed_capture": 0.3110068142414093,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06363943964242935,
+              "routed_capture": 0.06363943964242935,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.027922919020056725,
+              "routed_capture": 0.018915459513664246,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.11664925515651703,
+            "direct_mlp__softmax_fisher": 0.06989390403032303,
+            "softmax_fisher__unweighted_logit": 0.25554096698760986
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.38964998722076416,
+              "routed_capture": 0.2799798250198364,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.05647782236337662,
+              "routed_capture": 0.038273196667432785,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.028845496475696564,
+              "routed_capture": 0.017835691571235657,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10829884558916092,
+            "direct_mlp__softmax_fisher": 0.0800718292593956,
+            "softmax_fisher__unweighted_logit": 0.27671951055526733
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5360939502716064,
+              "routed_capture": 0.2434026598930359,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.12771104276180267,
+              "routed_capture": 0.060880422592163086,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.06611770391464233,
+              "routed_capture": 0.0180505458265543,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.35742127895355225,
+            "direct_mlp__softmax_fisher": 0.0981692522764206,
+            "softmax_fisher__unweighted_logit": 0.23506902158260345
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4330545961856842,
+              "routed_capture": 0.3850364685058594,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.10156913101673126,
+              "routed_capture": 0.05729851871728897,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.035680122673511505,
+              "routed_capture": 0.016878873109817505,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.09800461679697037,
+            "direct_mlp__softmax_fisher": 0.08106037974357605,
+            "softmax_fisher__unweighted_logit": 0.46279972791671753
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5521637797355652,
+              "routed_capture": 0.5215342044830322,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.14630500972270966,
+              "routed_capture": 0.14630500972270966,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.039715588092803955,
+              "routed_capture": 0.039715588092803955,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.21173317730426788,
+            "direct_mlp__softmax_fisher": 0.09170441329479218,
+            "softmax_fisher__unweighted_logit": 0.19604623317718506
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3848131000995636,
+              "routed_capture": 0.3848131000995636,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06634201109409332,
+              "routed_capture": 0.039901189506053925,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04375458136200905,
+              "routed_capture": 0.03233559802174568,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.0794706642627716,
+            "direct_mlp__softmax_fisher": 0.054432205855846405,
+            "softmax_fisher__unweighted_logit": 0.1290103644132614
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5967414975166321,
+              "routed_capture": 0.5967414975166321,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.18621298670768738,
+              "routed_capture": 0.18621298670768738,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.0281094741076231,
+              "routed_capture": 0.018087895587086678,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.16442397236824036,
+            "direct_mlp__softmax_fisher": 0.13543784618377686,
+            "softmax_fisher__unweighted_logit": 0.2134183943271637
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3589859902858734,
+              "routed_capture": 0.3207041621208191,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07316134124994278,
+              "routed_capture": 0.04661501944065094,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.09257207810878754,
+              "routed_capture": 0.014353957027196884,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.05198482424020767,
+            "direct_mlp__softmax_fisher": 0.18191184103488922,
+            "softmax_fisher__unweighted_logit": 0.24153506755828857
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4016725718975067,
+              "routed_capture": 0.35148072242736816,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07570841908454895,
+              "routed_capture": 0.048328250646591187,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.054100025445222855,
+              "routed_capture": 0.03191092610359192,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12335699051618576,
+            "direct_mlp__softmax_fisher": 0.07885205745697021,
+            "softmax_fisher__unweighted_logit": 0.28774604201316833
+          }
+        }
+      ]
+    },
+    "tinystories": {
+      "summary": {
+        "metrics": {
+          "direct_mlp": {
+            "oracle_capture": 0.42096440494060516,
+            "routed_capture": 0.3333173245191574,
+            "route_match": 0.1875
+          },
+          "unweighted_logit": {
+            "oracle_capture": 0.08764685690402985,
+            "routed_capture": 0.06382858380675316,
+            "route_match": 0.34375
+          },
+          "softmax_fisher": {
+            "oracle_capture": 0.03297826461493969,
+            "routed_capture": 0.018872186541557312,
+            "route_match": 0.1875
+          }
+        },
+        "cross_metric_overlap": {
+          "direct_mlp__unweighted_logit": 0.13959776610136032,
+          "direct_mlp__softmax_fisher": 0.06660938262939453,
+          "softmax_fisher__unweighted_logit": 0.24342863261699677
+        }
+      },
+      "records": [
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4539271891117096,
+              "routed_capture": 0.2936537563800812,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0967361330986023,
+              "routed_capture": 0.0685698613524437,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05045150965452194,
+              "routed_capture": 0.017062047496438026,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.14809204638004303,
+            "direct_mlp__softmax_fisher": 0.10855886340141296,
+            "softmax_fisher__unweighted_logit": 0.13943129777908325
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5633716583251953,
+              "routed_capture": 0.22699378430843353,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.11023063957691193,
+              "routed_capture": 0.08330994099378586,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05150366947054863,
+              "routed_capture": 0.05150366947054863,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.19833561778068542,
+            "direct_mlp__softmax_fisher": 0.11911822855472565,
+            "softmax_fisher__unweighted_logit": 0.33992114663124084
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4287968873977661,
+              "routed_capture": 0.39191335439682007,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.050267696380615234,
+              "routed_capture": 0.03765518590807915,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.027049582451581955,
+              "routed_capture": 0.006159545388072729,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.14072999358177185,
+            "direct_mlp__softmax_fisher": 0.06997121870517731,
+            "softmax_fisher__unweighted_logit": 0.21658125519752502
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.38592588901519775,
+              "routed_capture": 0.31815168261528015,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.04869046434760094,
+              "routed_capture": 0.0454743430018425,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03497742488980293,
+              "routed_capture": 0.030184855684638023,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.06310553848743439,
+            "direct_mlp__softmax_fisher": 0.058018919080495834,
+            "softmax_fisher__unweighted_logit": 0.4005162715911865
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4043370485305786,
+              "routed_capture": 0.3088231086730957,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06679823994636536,
+              "routed_capture": 0.04441108927130699,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02882562205195427,
+              "routed_capture": 0.01799873821437359,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1384655386209488,
+            "direct_mlp__softmax_fisher": 0.04464270919561386,
+            "softmax_fisher__unweighted_logit": 0.3199425935745239
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.436290442943573,
+              "routed_capture": 0.33546701073646545,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.07041466981172562,
+              "routed_capture": 0.07041466981172562,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.029012812301516533,
+              "routed_capture": 0.022197309881448746,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.09239521622657776,
+            "direct_mlp__softmax_fisher": 0.11391331255435944,
+            "softmax_fisher__unweighted_logit": 0.2621971368789673
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.34550318121910095,
+              "routed_capture": 0.25166556239128113,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.041454315185546875,
+              "routed_capture": 0.02523428574204445,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.024710630998015404,
+              "routed_capture": 0.01660606823861599,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.22942501306533813,
+            "direct_mlp__softmax_fisher": 0.1270156055688858,
+            "softmax_fisher__unweighted_logit": 0.26085540652275085
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.41874000430107117,
+              "routed_capture": 0.41874000430107117,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08121972531080246,
+              "routed_capture": 0.07106984406709671,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.026436734944581985,
+              "routed_capture": 0.01310827024281025,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1608847677707672,
+            "direct_mlp__softmax_fisher": 0.055091604590415955,
+            "softmax_fisher__unweighted_logit": 0.0696091428399086
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.36720192432403564,
+              "routed_capture": 0.34111660718917847,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.0668804943561554,
+              "routed_capture": 0.05468130484223366,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.027975967153906822,
+              "routed_capture": 0.013503174297511578,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.18327279388904572,
+            "direct_mlp__softmax_fisher": 0.05099498853087425,
+            "softmax_fisher__unweighted_logit": 0.24359282851219177
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.47608956694602966,
+              "routed_capture": 0.27728134393692017,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08848646283149719,
+              "routed_capture": 0.06421966105699539,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.028180642053484917,
+              "routed_capture": 0.015114854089915752,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12387010455131531,
+            "direct_mlp__softmax_fisher": 0.037496015429496765,
+            "softmax_fisher__unweighted_logit": 0.24415481090545654
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.39200565218925476,
+              "routed_capture": 0.31826815009117126,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08327662199735641,
+              "routed_capture": 0.08327662199735641,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.15859679877758026,
+              "routed_capture": 0.15859679877758026,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1376207023859024,
+            "direct_mlp__softmax_fisher": 0.07935753464698792,
+            "softmax_fisher__unweighted_logit": 0.36301955580711365
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3740878999233246,
+              "routed_capture": 0.3226843774318695,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09592675417661667,
+              "routed_capture": 0.09592675417661667,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.0367274284362793,
+              "routed_capture": 0.030381564050912857,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12469285726547241,
+            "direct_mlp__softmax_fisher": 0.0941561684012413,
+            "softmax_fisher__unweighted_logit": 0.41452541947364807
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3808037042617798,
+              "routed_capture": 0.27561116218566895,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08762822300195694,
+              "routed_capture": 0.08762822300195694,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03586343675851822,
+              "routed_capture": 0.0321931391954422,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1486954391002655,
+            "direct_mlp__softmax_fisher": 0.07036261260509491,
+            "softmax_fisher__unweighted_logit": 0.17595364153385162
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.48095348477363586,
+              "routed_capture": 0.2824810743331909,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.10195180773735046,
+              "routed_capture": 0.06343750655651093,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.028072059154510498,
+              "routed_capture": 0.015015006065368652,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12107422202825546,
+            "direct_mlp__softmax_fisher": 0.047102488577365875,
+            "softmax_fisher__unweighted_logit": 0.21490594744682312
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5362916588783264,
+              "routed_capture": 0.4933912456035614,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.1463475078344345,
+              "routed_capture": 0.1463475078344345,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.04394356161355972,
+              "routed_capture": 0.04394356161355972,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.25015878677368164,
+            "direct_mlp__softmax_fisher": 0.0909309834241867,
+            "softmax_fisher__unweighted_logit": 0.22940568625926971
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.46775802969932556,
+              "routed_capture": 0.46775802969932556,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08031582087278366,
+              "routed_capture": 0.05082808807492256,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03912622854113579,
+              "routed_capture": 0.03912622854113579,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.18649208545684814,
+            "direct_mlp__softmax_fisher": 0.1351453959941864,
+            "softmax_fisher__unweighted_logit": 0.1927046775817871
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.36458203196525574,
+              "routed_capture": 0.33116763830184937,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.047626886516809464,
+              "routed_capture": 0.026419492438435555,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.05069402605295181,
+              "routed_capture": 0.05069402605295181,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08652395009994507,
+            "direct_mlp__softmax_fisher": 0.05041349306702614,
+            "softmax_fisher__unweighted_logit": 0.14100101590156555
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.44404876232147217,
+              "routed_capture": 0.44404876232147217,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.1027626246213913,
+              "routed_capture": 0.1027626246213913,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02330285869538784,
+              "routed_capture": 0.017717968672513962,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1928403228521347,
+            "direct_mlp__softmax_fisher": 0.11565689742565155,
+            "softmax_fisher__unweighted_logit": 0.16020794212818146
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.47797301411628723,
+              "routed_capture": 0.34240296483039856,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09752575308084488,
+              "routed_capture": 0.09752575308084488,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03502367064356804,
+              "routed_capture": 0.020253395661711693,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.09404844045639038,
+            "direct_mlp__softmax_fisher": 0.03752977401018143,
+            "softmax_fisher__unweighted_logit": 0.02483055554330349
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5299692153930664,
+              "routed_capture": 0.3500269651412964,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.059529826045036316,
+              "routed_capture": 0.05087478458881378,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.028728852048516273,
+              "routed_capture": 0.014510994777083397,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12047263979911804,
+            "direct_mlp__softmax_fisher": 0.01685187965631485,
+            "softmax_fisher__unweighted_logit": 0.24326443672180176
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3561743199825287,
+              "routed_capture": 0.3561743199825287,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.10654386878013611,
+              "routed_capture": 0.060092706233263016,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03507782891392708,
+              "routed_capture": 0.02180596813559532,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.16051149368286133,
+            "direct_mlp__softmax_fisher": 0.06324754655361176,
+            "softmax_fisher__unweighted_logit": 0.4454203248023987
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.40713247656822205,
+              "routed_capture": 0.32938045263290405,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09098275750875473,
+              "routed_capture": 0.09098275750875473,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03088511899113655,
+              "routed_capture": 0.03088511899113655,
+              "route_match": true
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1616823971271515,
+            "direct_mlp__softmax_fisher": 0.0603611096739769,
+            "softmax_fisher__unweighted_logit": 0.11757157742977142
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4191027879714966,
+              "routed_capture": 0.3094989061355591,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08960365504026413,
+              "routed_capture": 0.05490226671099663,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03713439032435417,
+              "routed_capture": 0.007000133395195007,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.07826532423496246,
+            "direct_mlp__softmax_fisher": 0.05641110986471176,
+            "softmax_fisher__unweighted_logit": 0.25963181257247925
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.36099472641944885,
+              "routed_capture": 0.24549607932567596,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.05467749014496803,
+              "routed_capture": 0.032938987016677856,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03234601020812988,
+              "routed_capture": 0.015534370206296444,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12953799962997437,
+            "direct_mlp__softmax_fisher": 0.08319409191608429,
+            "softmax_fisher__unweighted_logit": 0.15804794430732727
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.6109070181846619,
+              "routed_capture": 0.38655564188957214,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.11923162639141083,
+              "routed_capture": 0.06795453280210495,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.028317967429757118,
+              "routed_capture": 0.0281564649194479,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.12611320614814758,
+            "direct_mlp__softmax_fisher": 0.04051826149225235,
+            "softmax_fisher__unweighted_logit": 0.10221332311630249
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.41293951869010925,
+              "routed_capture": 0.33937332034111023,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08766549080610275,
+              "routed_capture": 0.08766549080610275,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03869377076625824,
+              "routed_capture": 0.01678471826016903,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.13420329988002777,
+            "direct_mlp__softmax_fisher": 0.1280895471572876,
+            "softmax_fisher__unweighted_logit": 0.49129581451416016
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.4510181248188019,
+              "routed_capture": 0.4510181248188019,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06169534847140312,
+              "routed_capture": 0.04808527231216431,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03142567351460457,
+              "routed_capture": 0.010028679855167866,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.08845356851816177,
+            "direct_mlp__softmax_fisher": 0.05715955048799515,
+            "softmax_fisher__unweighted_logit": 0.3020700216293335
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.42282602190971375,
+              "routed_capture": 0.3410520851612091,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.08325903117656708,
+              "routed_capture": 0.03681586682796478,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.038430213928222656,
+              "routed_capture": 0.02025088295340538,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.15253478288650513,
+            "direct_mlp__softmax_fisher": 0.04123843461275101,
+            "softmax_fisher__unweighted_logit": 0.35926955938339233
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.38246065378189087,
+              "routed_capture": 0.2804175615310669,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.06587031483650208,
+              "routed_capture": 0.044460900127887726,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02949151024222374,
+              "routed_capture": 0.019745634868741035,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.10579396784305573,
+            "direct_mlp__softmax_fisher": 0.10746125876903534,
+            "softmax_fisher__unweighted_logit": 0.4775691628456116
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.3778160810470581,
+              "routed_capture": 0.3079567551612854,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.11063448339700699,
+              "routed_capture": 0.11063448339700699,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.02914598397910595,
+              "routed_capture": 0.01152157224714756,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.1780456006526947,
+            "direct_mlp__softmax_fisher": 0.07417787611484528,
+            "softmax_fisher__unweighted_logit": 0.21970492601394653
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.6956669688224792,
+              "routed_capture": 0.6956669688224792,
+              "route_match": true
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.10986696183681488,
+              "routed_capture": 0.10986696183681488,
+              "route_match": true
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.03809373825788498,
+              "routed_capture": 0.01084921695291996,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.24183034896850586,
+            "direct_mlp__softmax_fisher": 0.048512812703847885,
+            "softmax_fisher__unweighted_logit": 0.30450788140296936
+          }
+        },
+        {
+          "metrics": {
+            "direct_mlp": {
+              "oracle_capture": 0.5508246421813965,
+              "routed_capture": 0.37803950905799866,
+              "route_match": false
+            },
+            "unweighted_logit": {
+              "oracle_capture": 0.09582763910293579,
+              "routed_capture": 0.05870771035552025,
+              "route_match": false
+            },
+            "softmax_fisher": {
+              "oracle_capture": 0.033610519021749496,
+              "routed_capture": 0.02771770767867565,
+              "route_match": false
+            }
+          },
+          "cross_metric_overlap": {
+            "direct_mlp__unweighted_logit": 0.21436095237731934,
+            "direct_mlp__softmax_fisher": 0.09339754283428192,
+            "softmax_fisher__unweighted_logit": 0.175567626953125
+          }
+        }
+      ]
+    }
+  }
+}

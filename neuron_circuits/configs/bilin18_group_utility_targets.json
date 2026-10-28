@@ -1,0 +1,17 @@
+{
+  "experiment": "H1008",
+  "hashes": {
+    "runner": "341933f75dfaa33a4e3e6f2fbf8e3a6f8aba269026a17f28057abc751a3c99f8",
+    "forward": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+    "geometry": "6c2bf3f06a7eaa521d41e5bcd3db36b4cde788c228922db88ebb4911053bab7e",
+    "old": "b7d437b308131e633abc939812455f6ed4cec09234dba3ac706d7c2a77ab768e",
+    "noun": "2556fe7ce38db74d5b5c119601d53346f7e1b753578073d31e033768512d029b",
+    "nounscreen": "a52c2e7b7ff485b6357be657c73443be6b05792d0aa41fc373bfbfd4db65c53f",
+    "natural": "5bf87b192bb04709107d1a9e320a42469e35648e7094fdd46ccde97dc7e29077",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "Discovery-only utility targets. Deduplicate132old training prompts,8noun discovery endpoints,768natural discovery states. Fixed multi-anchor dictionary and mean. Exactly32active coordinates: scalarTop32 or one forced anchor group plus remaining highest-energy coordinates. Seven real groups, two atom-permuted panels preserving sizes/overlap. Identity and dense128 references.",
+  "selection": "Per-state lowest native-outputKL among scalar and seven panel choices is an in-sample oracle; it uses the native downstream output and is not a deployable encoder. All candidates saved for future training. No evaluation/confirmation states used.",
+  "metric": "KL(native || candidate). No paired-edit optimization in this target collection; whole-state and paired validation required for later learned router.",
+  "limits": "Only8nounstates, repeated task vocabulary,192natural training documents. Oracle includes scalar and therefore cannot be worse by construction; compare gain size against equal-choice shuffled panels. Group-plus-fill is hybrid sparsity, not pure group sparsity. No neural gate trained."
+}

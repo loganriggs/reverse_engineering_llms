@@ -1,0 +1,999 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-shared-manifold-redteam-before-semantic-residual-interventions",
+    "models": [
+      {
+        "seed": 0,
+        "root": "artifacts/grammar_regimes/bilinear_pilot"
+      },
+      {
+        "seed": 101,
+        "root": "artifacts/grammar_regimes/same_manifest_mixed_init101_bilinear"
+      },
+      {
+        "seed": 104,
+        "root": "artifacts/grammar_regimes/same_manifest_mixed_init104_bilinear"
+      }
+    ],
+    "rho": 0.5,
+    "discovery_template": 0,
+    "evaluation_templates": [
+      0,
+      6
+    ],
+    "discovery_per_relation_answer_status": 20,
+    "validation_per_relation_answer_status": 8,
+    "evaluation_per_relation_answer_status": 12,
+    "minimum_fisher_effect_norm": 0.1,
+    "seed": 20270116,
+    "hypotheses": {
+      "D0_native_tensor_is_exact": "The native state reconstructed through the original tensor reaches fidelity at least 0.9999 everywhere.",
+      "D1_semantic_prototype_is_an_answer_actuator_not_full_mechanism": "On selected held-out-template facts, the oracle relation-answer prototype reaches at least 0.95 answer accuracy but less than 0.80 effect fidelity in every run.",
+      "D2_residual_alone_does_not_specify_the_answer": "Replacing the prototype by the global mean while retaining the exact residual gives at most 0.60 selected answer accuracy in every run.",
+      "D3_within_cell_residual_identity_is_not_required_for_answer": "Swapping residuals within the same relation-answer cell retains at least 0.90 answer accuracy on selected facts in every run.",
+      "D4_residual_identity_is_required_for_precise_effect": "Within-cell residual swaps lose at least 0.15 effect fidelity relative to the native state on selected facts in every run.",
+      "D5_cross_cell_residuals_are_more_disruptive": "Globally shuffled residuals lose at least 0.10 more fidelity than within-cell residual swaps on selected facts in every run.",
+      "D6_half_residual_preserves_the_answer": "Scaling the exact residual to one half retains at least 0.90 selected answer accuracy in every run.",
+      "D7_wrong_answer_prototype_flips_control": "Changing only the prototype to the next answer reduces selected accuracy below 0.30 in every run.",
+      "D8_rule_and_arbitrary_facts_use_the_same_decomposition": "The selected-versus-unselected gap for within-cell residual-swap fidelity is at most 0.15 in every run.",
+      "D9_template_transfer_is_stable": "Selected within-cell residual-swap fidelity differs by at most 0.10 across templates in every run.",
+      "D10_signal_gate_passes": "Every scored cell contains at least 64 effectful examples."
+    }
+  },
+  "correction": {
+    "date": "2026-10-20",
+    "issue": "The first execution iterated over only relations 0-3 in the within-cell residual swap, leaving half the examples native and forcing a misleading median fidelity of approximately 1. This rerun covers all eight relations and asserts full coverage. Locked hypotheses were not changed."
+  },
+  "hypotheses": {
+    "D0_native_tensor_is_exact": {
+      "supported": true
+    },
+    "D1_semantic_prototype_is_an_answer_actuator_not_full_mechanism": {
+      "supported": false
+    },
+    "D2_residual_alone_does_not_specify_the_answer": {
+      "supported": false
+    },
+    "D3_within_cell_residual_identity_is_not_required_for_answer": {
+      "supported": true
+    },
+    "D4_residual_identity_is_required_for_precise_effect": {
+      "supported": true
+    },
+    "D5_cross_cell_residuals_are_more_disruptive": {
+      "supported": true
+    },
+    "D6_half_residual_preserves_the_answer": {
+      "supported": false
+    },
+    "D7_wrong_answer_prototype_flips_control": {
+      "supported": false
+    },
+    "D8_rule_and_arbitrary_facts_use_the_same_decomposition": {
+      "supported": false
+    },
+    "D9_template_transfer_is_stable": {
+      "supported": false
+    },
+    "D10_signal_gate_passes": {
+      "supported": true
+    }
+  },
+  "runs": [
+    {
+      "seed": 0,
+      "results": {
+        "unselected": {
+          "0": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 726,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.27958524227142334,
+              "oracle_relation_answer_residual_r2": -0.32919371128082275,
+              "median_write_cosine": 0.6945456266403198,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.962603747844696,
+              "median_effect_fidelity": 0.707850456237793,
+              "answer_accuracy": 0.9738292098045349
+            },
+            "residual_only": {
+              "write_r2": 0.5135389566421509,
+              "oracle_relation_answer_residual_r2": 0.10246014595031738,
+              "median_write_cosine": 0.8063293695449829,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.944435715675354,
+              "median_effect_fidelity": 0.7100290060043335,
+              "answer_accuracy": 0.9228650331497192
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.028162717819213867,
+              "oracle_relation_answer_residual_r2": -0.897000789642334,
+              "median_write_cosine": 0.5840014815330505,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.938001275062561,
+              "median_effect_fidelity": 0.7064192295074463,
+              "answer_accuracy": 0.9683195352554321
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.5832836627960205,
+              "oracle_relation_answer_residual_r2": -1.9212210178375244,
+              "median_write_cosine": 0.3704082667827606,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.7314557433128357,
+              "median_effect_fidelity": 0.2907927632331848,
+              "answer_accuracy": 0.6157024502754211
+            },
+            "half_residual": {
+              "write_r2": 0.6580253839492798,
+              "oracle_relation_answer_residual_r2": 0.36904340982437134,
+              "median_write_cosine": 0.9353739023208618,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.9906439781188965,
+              "median_effect_fidelity": 0.8928510546684265,
+              "answer_accuracy": 0.9889807105064392
+            },
+            "one_and_half_residual": {
+              "write_r2": 0.10053765773773193,
+              "oracle_relation_answer_residual_r2": -0.659543514251709,
+              "median_write_cosine": 0.9805964231491089,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.9955376982688904,
+              "median_effect_fidelity": 0.9434429407119751,
+              "answer_accuracy": 0.9573002457618713
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.0301169753074646,
+              "oracle_relation_answer_residual_r2": -0.7894724607467651,
+              "median_write_cosine": 0.6457173824310303,
+              "effectful_examples": 726,
+              "median_effect_cosine": 0.8290935158729553,
+              "median_effect_fidelity": 0.47702574729919434,
+              "answer_accuracy": 0.6652892827987671
+            }
+          },
+          "6": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 732,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.25928300619125366,
+              "oracle_relation_answer_residual_r2": -0.28004419803619385,
+              "median_write_cosine": 0.6652036309242249,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.953137993812561,
+              "median_effect_fidelity": 0.6897040605545044,
+              "answer_accuracy": 0.9822404384613037
+            },
+            "residual_only": {
+              "write_r2": 0.5076941251754761,
+              "oracle_relation_answer_residual_r2": 0.14923876523971558,
+              "median_write_cosine": 0.8065191507339478,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9387285113334656,
+              "median_effect_fidelity": 0.6736544370651245,
+              "answer_accuracy": 0.8592896461486816
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.0825730562210083,
+              "oracle_relation_answer_residual_r2": -0.8708107471466064,
+              "median_write_cosine": 0.5669877529144287,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9201510548591614,
+              "median_effect_fidelity": 0.6623307466506958,
+              "answer_accuracy": 0.9658470153808594
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.6247920989990234,
+              "oracle_relation_answer_residual_r2": -1.8078277111053467,
+              "median_write_cosine": 0.37273916602134705,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.6535035967826843,
+              "median_effect_fidelity": 0.15777093172073364,
+              "answer_accuracy": 0.5969945192337036
+            },
+            "half_residual": {
+              "write_r2": 0.6478151082992554,
+              "oracle_relation_answer_residual_r2": 0.39138394594192505,
+              "median_write_cosine": 0.9327250719070435,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9889891147613525,
+              "median_effect_fidelity": 0.8866820335388184,
+              "answer_accuracy": 0.9849726557731628
+            },
+            "one_and_half_residual": {
+              "write_r2": 0.06834620237350464,
+              "oracle_relation_answer_residual_r2": -0.6100049018859863,
+              "median_write_cosine": 0.9802489280700684,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9943608045578003,
+              "median_effect_fidelity": 0.9396344423294067,
+              "answer_accuracy": 0.9153005480766296
+            },
+            "wrong_answer_prototype": {
+              "write_r2": -0.0053910017013549805,
+              "oracle_relation_answer_residual_r2": -0.7374312877655029,
+              "median_write_cosine": 0.6413026452064514,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.7790555953979492,
+              "median_effect_fidelity": 0.39229220151901245,
+              "answer_accuracy": 0.625683069229126
+            }
+          }
+        },
+        "selected": {
+          "0": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 758,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.03457158803939819,
+              "oracle_relation_answer_residual_r2": -0.876632571220398,
+              "median_write_cosine": 0.5708969831466675,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.8688629865646362,
+              "median_effect_fidelity": 0.245333731174469,
+              "answer_accuracy": 0.5567282438278198
+            },
+            "residual_only": {
+              "write_r2": 0.797583818435669,
+              "oracle_relation_answer_residual_r2": 0.6065365672111511,
+              "median_write_cosine": 0.9343855977058411,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9790487885475159,
+              "median_effect_fidelity": 0.9046275019645691,
+              "answer_accuracy": 0.9775725603103638
+            },
+            "within_cell_residual_swap": {
+              "write_r2": 0.029872775077819824,
+              "oracle_relation_answer_residual_r2": -0.8857663869857788,
+              "median_write_cosine": 0.5973013639450073,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.8822585940361023,
+              "median_effect_fidelity": 0.5574046969413757,
+              "answer_accuracy": 0.940633237361908
+            },
+            "global_residual_shuffle": {
+              "write_r2": -1.1121461391448975,
+              "oracle_relation_answer_residual_r2": -3.105661392211914,
+              "median_write_cosine": 0.14831863343715668,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.12016623467206955,
+              "median_effect_fidelity": -0.5614136457443237,
+              "answer_accuracy": 0.21767809987068176
+            },
+            "half_residual": {
+              "write_r2": 0.46066975593566895,
+              "oracle_relation_answer_residual_r2": -0.04836845397949219,
+              "median_write_cosine": 0.9502133727073669,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9855342507362366,
+              "median_effect_fidelity": 0.6693356037139893,
+              "answer_accuracy": 0.7968337535858154
+            },
+            "one_and_half_residual": {
+              "write_r2": -0.5474807024002075,
+              "oracle_relation_answer_residual_r2": -2.0080456733703613,
+              "median_write_cosine": 0.9917632341384888,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9973167777061462,
+              "median_effect_fidelity": 0.8935478925704956,
+              "answer_accuracy": 0.9881266355514526
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.710176944732666,
+              "oracle_relation_answer_residual_r2": 0.43663209676742554,
+              "median_write_cosine": 0.9082767963409424,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9679857492446899,
+              "median_effect_fidelity": 0.8487728834152222,
+              "answer_accuracy": 0.9195250868797302
+            }
+          },
+          "6": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 762,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.025943458080291748,
+              "oracle_relation_answer_residual_r2": -0.7618845701217651,
+              "median_write_cosine": 0.5601328611373901,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.8474061489105225,
+              "median_effect_fidelity": 0.24617063999176025,
+              "answer_accuracy": 0.5367454290390015
+            },
+            "residual_only": {
+              "write_r2": 0.7935468554496765,
+              "oracle_relation_answer_residual_r2": 0.6265652179718018,
+              "median_write_cosine": 0.9308047294616699,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.9755685925483704,
+              "median_effect_fidelity": 0.8866839408874512,
+              "answer_accuracy": 0.9619422554969788
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.034607887268066406,
+              "oracle_relation_answer_residual_r2": -0.871410608291626,
+              "median_write_cosine": 0.579275906085968,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.850908637046814,
+              "median_effect_fidelity": 0.41966861486434937,
+              "answer_accuracy": 0.9251968264579773
+            },
+            "global_residual_shuffle": {
+              "write_r2": -1.036919116973877,
+              "oracle_relation_answer_residual_r2": -2.6844024658203125,
+              "median_write_cosine": 0.2056087851524353,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.2154189497232437,
+              "median_effect_fidelity": -0.515993595123291,
+              "answer_accuracy": 0.22440944612026215
+            },
+            "half_residual": {
+              "write_r2": 0.4571336507797241,
+              "oracle_relation_answer_residual_r2": 0.018057167530059814,
+              "median_write_cosine": 0.9493623971939087,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.9818888902664185,
+              "median_effect_fidelity": 0.6675072312355042,
+              "answer_accuracy": 0.7677165269851685
+            },
+            "one_and_half_residual": {
+              "write_r2": -0.5556267499923706,
+              "oracle_relation_answer_residual_r2": -1.813835620880127,
+              "median_write_cosine": 0.9918127059936523,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.9967482089996338,
+              "median_effect_fidelity": 0.8937324285507202,
+              "answer_accuracy": 0.9855642914772034
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.7021852135658264,
+              "oracle_relation_answer_residual_r2": 0.46130919456481934,
+              "median_write_cosine": 0.904387891292572,
+              "effectful_examples": 762,
+              "median_effect_cosine": 0.9592203497886658,
+              "median_effect_fidelity": 0.818856954574585,
+              "answer_accuracy": 0.8897637724876404
+            }
+          }
+        }
+      }
+    },
+    {
+      "seed": 101,
+      "results": {
+        "unselected": {
+          "0": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 732,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.29944491386413574,
+              "oracle_relation_answer_residual_r2": -0.32463037967681885,
+              "median_write_cosine": 0.6969307065010071,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9624057412147522,
+              "median_effect_fidelity": 0.7579391002655029,
+              "answer_accuracy": 0.9795082211494446
+            },
+            "residual_only": {
+              "write_r2": 0.5035369396209717,
+              "oracle_relation_answer_residual_r2": 0.06127297878265381,
+              "median_write_cosine": 0.7944692373275757,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9412484765052795,
+              "median_effect_fidelity": 0.7057588696479797,
+              "answer_accuracy": 0.8934426307678223
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.013904094696044922,
+              "oracle_relation_answer_residual_r2": -0.917120099067688,
+              "median_write_cosine": 0.584397554397583,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9343162178993225,
+              "median_effect_fidelity": 0.7247000932693481,
+              "answer_accuracy": 0.9795082211494446
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.6010617017745972,
+              "oracle_relation_answer_residual_r2": -2.0273351669311523,
+              "median_write_cosine": 0.36263707280158997,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.7067743539810181,
+              "median_effect_fidelity": 0.295526385307312,
+              "answer_accuracy": 0.6120218634605408
+            },
+            "half_residual": {
+              "write_r2": 0.6605542302131653,
+              "oracle_relation_answer_residual_r2": 0.3581658601760864,
+              "median_write_cosine": 0.9344878196716309,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9911094307899475,
+              "median_effect_fidelity": 0.9031414985656738,
+              "answer_accuracy": 0.9877049326896667
+            },
+            "one_and_half_residual": {
+              "write_r2": 0.08400833606719971,
+              "oracle_relation_answer_residual_r2": -0.7319842576980591,
+              "median_write_cosine": 0.9793753623962402,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.9954207539558411,
+              "median_effect_fidelity": 0.9501263499259949,
+              "answer_accuracy": 0.9658470153808594
+            },
+            "wrong_answer_prototype": {
+              "write_r2": -0.0009791851043701172,
+              "oracle_relation_answer_residual_r2": -0.8926812410354614,
+              "median_write_cosine": 0.6348103880882263,
+              "effectful_examples": 732,
+              "median_effect_cosine": 0.8207506537437439,
+              "median_effect_fidelity": 0.4692344665527344,
+              "answer_accuracy": 0.6475409865379333
+            }
+          },
+          "6": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 740,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.2797343134880066,
+              "oracle_relation_answer_residual_r2": -0.2642580270767212,
+              "median_write_cosine": 0.6723769307136536,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.9481590390205383,
+              "median_effect_fidelity": 0.7170296907424927,
+              "answer_accuracy": 0.9770269989967346
+            },
+            "residual_only": {
+              "write_r2": 0.4985632300376892,
+              "oracle_relation_answer_residual_r2": 0.11984503269195557,
+              "median_write_cosine": 0.7976855635643005,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.9305117130279541,
+              "median_effect_fidelity": 0.6712044477462769,
+              "answer_accuracy": 0.841891884803772
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.07350480556488037,
+              "oracle_relation_answer_residual_r2": -0.8842867612838745,
+              "median_write_cosine": 0.5490610003471375,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.9109619855880737,
+              "median_effect_fidelity": 0.6509478092193604,
+              "answer_accuracy": 0.9567567706108093
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.6911073923110962,
+              "oracle_relation_answer_residual_r2": -1.9683434963226318,
+              "median_write_cosine": 0.3502567708492279,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.6360996961593628,
+              "median_effect_fidelity": 0.161249577999115,
+              "answer_accuracy": 0.5635135173797607
+            },
+            "half_residual": {
+              "write_r2": 0.648362398147583,
+              "oracle_relation_answer_residual_r2": 0.38278234004974365,
+              "median_write_cosine": 0.9271103739738464,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.9877679347991943,
+              "median_effect_fidelity": 0.8839845657348633,
+              "answer_accuracy": 0.9810810685157776
+            },
+            "one_and_half_residual": {
+              "write_r2": 0.04136085510253906,
+              "oracle_relation_answer_residual_r2": -0.6826668977737427,
+              "median_write_cosine": 0.9780122637748718,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.9939374327659607,
+              "median_effect_fidelity": 0.9417386651039124,
+              "answer_accuracy": 0.8945946097373962
+            },
+            "wrong_answer_prototype": {
+              "write_r2": -0.03497314453125,
+              "oracle_relation_answer_residual_r2": -0.8166534900665283,
+              "median_write_cosine": 0.6389870643615723,
+              "effectful_examples": 740,
+              "median_effect_cosine": 0.7848289012908936,
+              "median_effect_fidelity": 0.4184539318084717,
+              "answer_accuracy": 0.5891891717910767
+            }
+          }
+        },
+        "selected": {
+          "0": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 766,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.04555201530456543,
+              "oracle_relation_answer_residual_r2": -0.942391037940979,
+              "median_write_cosine": 0.5909969806671143,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.8488789200782776,
+              "median_effect_fidelity": 0.2288740873336792,
+              "answer_accuracy": 0.5456919074058533
+            },
+            "residual_only": {
+              "write_r2": 0.8324247598648071,
+              "oracle_relation_answer_residual_r2": 0.6589687466621399,
+              "median_write_cosine": 0.9464207887649536,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9800655841827393,
+              "median_effect_fidelity": 0.9013785123825073,
+              "answer_accuracy": 0.9595300555229187
+            },
+            "within_cell_residual_swap": {
+              "write_r2": 0.07452446222305298,
+              "oracle_relation_answer_residual_r2": -0.8834295272827148,
+              "median_write_cosine": 0.6190774440765381,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.8827236294746399,
+              "median_effect_fidelity": 0.5677069425582886,
+              "answer_accuracy": 0.9543080925941467
+            },
+            "global_residual_shuffle": {
+              "write_r2": -1.0697848796844482,
+              "oracle_relation_answer_residual_r2": -3.2122063636779785,
+              "median_write_cosine": 0.15811920166015625,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.21795722842216492,
+              "median_effect_fidelity": -0.5045510530471802,
+              "answer_accuracy": 0.20496083796024323
+            },
+            "half_residual": {
+              "write_r2": 0.46157723665237427,
+              "oracle_relation_answer_residual_r2": -0.09574079513549805,
+              "median_write_cosine": 0.9560593366622925,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9830704927444458,
+              "median_effect_fidelity": 0.6731716394424438,
+              "answer_accuracy": 0.8041775226593018
+            },
+            "one_and_half_residual": {
+              "write_r2": -0.5473607778549194,
+              "oracle_relation_answer_residual_r2": -2.14902400970459,
+              "median_write_cosine": 0.9933310747146606,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.996992290019989,
+              "median_effect_fidelity": 0.9106822609901428,
+              "answer_accuracy": 0.9908615946769714
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.7417796850204468,
+              "oracle_relation_answer_residual_r2": 0.4744974970817566,
+              "median_write_cosine": 0.9194196462631226,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9710720181465149,
+              "median_effect_fidelity": 0.8707817792892456,
+              "answer_accuracy": 0.9295039176940918
+            }
+          },
+          "6": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 766,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.03929460048675537,
+              "oracle_relation_answer_residual_r2": -0.8069530725479126,
+              "median_write_cosine": 0.5779343247413635,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.8066681623458862,
+              "median_effect_fidelity": 0.21918827295303345,
+              "answer_accuracy": 0.5443864464759827
+            },
+            "residual_only": {
+              "write_r2": 0.8269013166427612,
+              "oracle_relation_answer_residual_r2": 0.674425482749939,
+              "median_write_cosine": 0.9424475431442261,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9731632471084595,
+              "median_effect_fidelity": 0.8893206715583801,
+              "answer_accuracy": 0.9321148991584778
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.0033025741577148438,
+              "oracle_relation_answer_residual_r2": -0.8870723247528076,
+              "median_write_cosine": 0.592994749546051,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.8441386818885803,
+              "median_effect_fidelity": 0.425783634185791,
+              "answer_accuracy": 0.9308093786239624
+            },
+            "global_residual_shuffle": {
+              "write_r2": -1.0788135528564453,
+              "oracle_relation_answer_residual_r2": -2.909958600997925,
+              "median_write_cosine": 0.17646846175193787,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.1659488081932068,
+              "median_effect_fidelity": -0.5296984910964966,
+              "answer_accuracy": 0.2167101800441742
+            },
+            "half_residual": {
+              "write_r2": 0.45763158798217773,
+              "oracle_relation_answer_residual_r2": -0.020119428634643555,
+              "median_write_cosine": 0.9540408253669739,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9800649285316467,
+              "median_effect_fidelity": 0.6668219566345215,
+              "answer_accuracy": 0.7859007716178894
+            },
+            "one_and_half_residual": {
+              "write_r2": -0.5615031719207764,
+              "oracle_relation_answer_residual_r2": -1.9369697570800781,
+              "median_write_cosine": 0.9926573634147644,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9961339235305786,
+              "median_effect_fidelity": 0.9057203531265259,
+              "answer_accuracy": 0.977806806564331
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.7308328747749329,
+              "oracle_relation_answer_residual_r2": 0.49373412132263184,
+              "median_write_cosine": 0.9166316986083984,
+              "effectful_examples": 766,
+              "median_effect_cosine": 0.9617302417755127,
+              "median_effect_fidelity": 0.8426967859268188,
+              "answer_accuracy": 0.8851174712181091
+            }
+          }
+        }
+      }
+    },
+    {
+      "seed": 104,
+      "results": {
+        "unselected": {
+          "0": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 723,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.3140223026275635,
+              "oracle_relation_answer_residual_r2": -0.213417649269104,
+              "median_write_cosine": 0.7025050520896912,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.958394467830658,
+              "median_effect_fidelity": 0.7590611577033997,
+              "answer_accuracy": 0.9834024906158447
+            },
+            "residual_only": {
+              "write_r2": 0.43733686208724976,
+              "oracle_relation_answer_residual_r2": 0.0047119855880737305,
+              "median_write_cosine": 0.7554383873939514,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.8884175419807434,
+              "median_effect_fidelity": 0.5671830773353577,
+              "answer_accuracy": 0.8575380444526672
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.08738577365875244,
+              "oracle_relation_answer_residual_r2": -0.9234635829925537,
+              "median_write_cosine": 0.5734490752220154,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.9238713979721069,
+              "median_effect_fidelity": 0.6507953405380249,
+              "answer_accuracy": 0.9820193648338318
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.46734046936035156,
+              "oracle_relation_answer_residual_r2": -1.5955610275268555,
+              "median_write_cosine": 0.43643078207969666,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.7905025482177734,
+              "median_effect_fidelity": 0.3350841999053955,
+              "answer_accuracy": 0.7773167490959167
+            },
+            "half_residual": {
+              "write_r2": 0.6903159618377686,
+              "oracle_relation_answer_residual_r2": 0.452203631401062,
+              "median_write_cosine": 0.9322491884231567,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.9887711405754089,
+              "median_effect_fidelity": 0.9108552932739258,
+              "answer_accuracy": 0.9944674968719482
+            },
+            "one_and_half_residual": {
+              "write_r2": 0.21009206771850586,
+              "oracle_relation_answer_residual_r2": -0.3972586393356323,
+              "median_write_cosine": 0.9758888483047485,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.9921568036079407,
+              "median_effect_fidelity": 0.9369087219238281,
+              "answer_accuracy": 0.9225449562072754
+            },
+            "wrong_answer_prototype": {
+              "write_r2": -0.1769939661026001,
+              "oracle_relation_answer_residual_r2": -1.081970453262329,
+              "median_write_cosine": 0.5569058656692505,
+              "effectful_examples": 723,
+              "median_effect_cosine": 0.5631757378578186,
+              "median_effect_fidelity": 0.15158462524414062,
+              "answer_accuracy": 0.6141079068183899
+            }
+          },
+          "6": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 731,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.291418194770813,
+              "oracle_relation_answer_residual_r2": -0.1808246374130249,
+              "median_write_cosine": 0.6808929443359375,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.9494554400444031,
+              "median_effect_fidelity": 0.7500118017196655,
+              "answer_accuracy": 0.9822161197662354
+            },
+            "residual_only": {
+              "write_r2": 0.4328034520149231,
+              "oracle_relation_answer_residual_r2": 0.05478847026824951,
+              "median_write_cosine": 0.7624114155769348,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.8844738006591797,
+              "median_effect_fidelity": 0.5479478240013123,
+              "answer_accuracy": 0.8248974084854126
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.14669740200042725,
+              "oracle_relation_answer_residual_r2": -0.9109276533126831,
+              "median_write_cosine": 0.542044460773468,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.9099205732345581,
+              "median_effect_fidelity": 0.6259732246398926,
+              "answer_accuracy": 0.9712722301483154
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.5820561647415161,
+              "oracle_relation_answer_residual_r2": -1.6364364624023438,
+              "median_write_cosine": 0.4144234359264374,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.7558767795562744,
+              "median_effect_fidelity": 0.25136619806289673,
+              "answer_accuracy": 0.7400820851325989
+            },
+            "half_residual": {
+              "write_r2": 0.6773144006729126,
+              "oracle_relation_answer_residual_r2": 0.46225666999816895,
+              "median_write_cosine": 0.9251041412353516,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.986409604549408,
+              "median_effect_fidelity": 0.9068522453308105,
+              "answer_accuracy": 0.9904240965843201
+            },
+            "one_and_half_residual": {
+              "write_r2": 0.1656198501586914,
+              "oracle_relation_answer_residual_r2": -0.39046287536621094,
+              "median_write_cosine": 0.9752898812294006,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.9906845092773438,
+              "median_effect_fidelity": 0.9241362810134888,
+              "answer_accuracy": 0.9001368284225464
+            },
+            "wrong_answer_prototype": {
+              "write_r2": -0.20389795303344727,
+              "oracle_relation_answer_residual_r2": -1.0062503814697266,
+              "median_write_cosine": 0.5690258741378784,
+              "effectful_examples": 731,
+              "median_effect_cosine": 0.6175031661987305,
+              "median_effect_fidelity": 0.15538936853408813,
+              "answer_accuracy": 0.5827633142471313
+            }
+          }
+        },
+        "selected": {
+          "0": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 759,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.06078958511352539,
+              "oracle_relation_answer_residual_r2": -0.6432476043701172,
+              "median_write_cosine": 0.5839633941650391,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.8940590023994446,
+              "median_effect_fidelity": 0.39830678701400757,
+              "answer_accuracy": 0.7272727489471436
+            },
+            "residual_only": {
+              "write_r2": 0.7815827131271362,
+              "oracle_relation_answer_residual_r2": 0.6178559064865112,
+              "median_write_cosine": 0.9235057234764099,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.9707428812980652,
+              "median_effect_fidelity": 0.8588468432426453,
+              "answer_accuracy": 0.9314888119697571
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.10370957851409912,
+              "oracle_relation_answer_residual_r2": -0.9310562610626221,
+              "median_write_cosine": 0.5563615560531616,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.8664251565933228,
+              "median_effect_fidelity": 0.4846782088279724,
+              "answer_accuracy": 0.9301712512969971
+            },
+            "global_residual_shuffle": {
+              "write_r2": -1.0030219554901123,
+              "oracle_relation_answer_residual_r2": -2.50449800491333,
+              "median_write_cosine": 0.2049085795879364,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.1617359071969986,
+              "median_effect_fidelity": -0.44019603729248047,
+              "answer_accuracy": 0.3188405930995941
+            },
+            "half_residual": {
+              "write_r2": 0.48982179164886475,
+              "oracle_relation_answer_residual_r2": 0.10738945007324219,
+              "median_write_cosine": 0.9448575973510742,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.982406497001648,
+              "median_effect_fidelity": 0.7243250608444214,
+              "answer_accuracy": 0.8405796885490417
+            },
+            "one_and_half_residual": {
+              "write_r2": -0.4398965835571289,
+              "oracle_relation_answer_residual_r2": -1.5192508697509766,
+              "median_write_cosine": 0.9900466799736023,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.9958298206329346,
+              "median_effect_fidelity": 0.9013041257858276,
+              "answer_accuracy": 0.9696969985961914
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.6869168281555176,
+              "oracle_relation_answer_residual_r2": 0.4522280693054199,
+              "median_write_cosine": 0.8899694085121155,
+              "effectful_examples": 759,
+              "median_effect_cosine": 0.939372181892395,
+              "median_effect_fidelity": 0.7773895859718323,
+              "answer_accuracy": 0.8458498120307922
+            }
+          },
+          "6": {
+            "native": {
+              "write_r2": 1.0,
+              "oracle_relation_answer_residual_r2": 1.0,
+              "median_write_cosine": 1.0,
+              "effectful_examples": 758,
+              "median_effect_cosine": 1.0,
+              "median_effect_fidelity": 1.0,
+              "answer_accuracy": 1.0
+            },
+            "prototype_only": {
+              "write_r2": 0.05147874355316162,
+              "oracle_relation_answer_residual_r2": -0.5901468992233276,
+              "median_write_cosine": 0.5759024024009705,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.8777915835380554,
+              "median_effect_fidelity": 0.39705246686935425,
+              "answer_accuracy": 0.7110818028450012
+            },
+            "residual_only": {
+              "write_r2": 0.7749239206314087,
+              "oracle_relation_answer_residual_r2": 0.6226714849472046,
+              "median_write_cosine": 0.9236502051353455,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9661259055137634,
+              "median_effect_fidelity": 0.8480128645896912,
+              "answer_accuracy": 0.8984168767929077
+            },
+            "within_cell_residual_swap": {
+              "write_r2": -0.1387629508972168,
+              "oracle_relation_answer_residual_r2": -0.9090772867202759,
+              "median_write_cosine": 0.5390170812606812,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.8465808629989624,
+              "median_effect_fidelity": 0.42667829990386963,
+              "answer_accuracy": 0.9261213541030884
+            },
+            "global_residual_shuffle": {
+              "write_r2": -0.9657279253005981,
+              "oracle_relation_answer_residual_r2": -2.2954413890838623,
+              "median_write_cosine": 0.2051001638174057,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.26882874965667725,
+              "median_effect_fidelity": -0.42094528675079346,
+              "answer_accuracy": 0.33245381712913513
+            },
+            "half_residual": {
+              "write_r2": 0.4818940758705139,
+              "oracle_relation_answer_residual_r2": 0.131422221660614,
+              "median_write_cosine": 0.9416288137435913,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9793758392333984,
+              "median_effect_fidelity": 0.7258598804473877,
+              "answer_accuracy": 0.8364115953445435
+            },
+            "one_and_half_residual": {
+              "write_r2": -0.4700273275375366,
+              "oracle_relation_answer_residual_r2": -1.4644248485565186,
+              "median_write_cosine": 0.9895341396331787,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9951257705688477,
+              "median_effect_fidelity": 0.895483672618866,
+              "answer_accuracy": 0.9498680830001831
+            },
+            "wrong_answer_prototype": {
+              "write_r2": 0.6765903234481812,
+              "oracle_relation_answer_residual_r2": 0.45782041549682617,
+              "median_write_cosine": 0.8887423872947693,
+              "effectful_examples": 758,
+              "median_effect_cosine": 0.9378324151039124,
+              "median_effect_fidelity": 0.7810107469558716,
+              "answer_accuracy": 0.8218997120857239
+            }
+          }
+        }
+      }
+    }
+  ]
+}

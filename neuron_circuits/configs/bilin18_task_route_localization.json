@@ -1,0 +1,50 @@
+{
+  "experiment": "H536",
+  "manifest_sha256": "346b48326c317d4daa3eb43fd5986b9e8900bd0bb91fd91e7b8fd15a58231905",
+  "families": [
+    "entity_binding",
+    "sequence_copy"
+  ],
+  "components": [
+    "attention",
+    "residual",
+    "value_bus"
+  ],
+  "discovery_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "layer_selection": "Max mean bidirectional donor-directed contrast over discovery pairs, separately per family/component. Residual excludes layer17 (trivial terminal readout control); value_bus excludes layer17 (no downstream consumers). Attention includes17. No individual pair selection.",
+  "transfer": "All transfer pairs at frozen component-specific layer.",
+  "scope": "Attention write or residual last position only; entire persistent value bus by aligned positions only when donor/recipient token lengths match. Other upstream states remain recipient-native. Bus injection occurs after the patched layer attention, influencing only later attention. The scopes differ and are not equal-size replacements.",
+  "controls": [
+    "both task directions",
+    "base-to-nuisance",
+    "self donor",
+    "terminal residual positive control",
+    "terminal bus negative control"
+  ],
+  "hypotheses": [
+    "Attention or residual patches carry substantially more binding/copying contrast than previously selected MLP writes.",
+    "Correct task donors produce greater changes than nuisance donors.",
+    "Persistent raw-value bus is sufficient to transmit some task change."
+  ],
+  "precision": "float32 compute after bfloat16-rounded shared loader",
+  "fineweb_new_documents": 0
+}

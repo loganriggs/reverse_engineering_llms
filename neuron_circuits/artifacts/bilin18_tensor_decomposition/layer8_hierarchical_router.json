@@ -1,0 +1,315 @@
+{
+  "config": {
+    "status": "locked-after-router-dimension-sweep-before-hierarchical-address-factorization",
+    "layer": 8,
+    "dimension": 512,
+    "coarse_dimension": 64,
+    "refine_dimension": 256,
+    "queries": 16,
+    "budget": 16,
+    "shortlist_sizes": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "batch_size": 4,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10000,
+      "rows": 300
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 10300,
+        "rows": 300
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 600,
+        "rows": 300
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 600,
+        "rows": 300
+      }
+    },
+    "hypotheses": {
+      "H1_shortlist64_matches_flat256": "On every corpus, shortlist-64 exact routed correlation is within 0.02 of the flat 256D router.",
+      "H2_shortlist64_is_predictive": "Shortlist-64 exact routed correlation is at least 0.87 on every corpus.",
+      "H3_shortlist64_recovers_support": "Shortlist-64 recalls at least 55% of oracle top-16 support on every corpus.",
+      "H4_shortlist64_reduces_router_compute": "Shortlist-64 candidate-projection multiplies are at most 40% of the flat 256D scan.",
+      "H5_shortlist128_nearly_equals_flat": "On every corpus, shortlist-128 exact correlation is within 0.01 of flat 256D.",
+      "H6_shortlist64_reduced_score_is_predictive": "Shortlist-64 reduced-context score correlation is at least 0.80 on every corpus."
+    }
+  },
+  "compute": {
+    "32": {
+      "candidate_projection_multiplies": 622592,
+      "fraction_of_flat256": 0.296875,
+      "flat256_multiplies": 2097152
+    },
+    "64": {
+      "candidate_projection_multiplies": 720896,
+      "fraction_of_flat256": 0.34375,
+      "flat256_multiplies": 2097152
+    },
+    "128": {
+      "candidate_projection_multiplies": 917504,
+      "fraction_of_flat256": 0.4375,
+      "flat256_multiplies": 2097152
+    },
+    "256": {
+      "candidate_projection_multiplies": 1310720,
+      "fraction_of_flat256": 0.625,
+      "flat256_multiplies": 2097152
+    }
+  },
+  "hypotheses": {
+    "H1_shortlist64_matches_flat256": {
+      "supported": false
+    },
+    "H2_shortlist64_is_predictive": {
+      "supported": false
+    },
+    "H3_shortlist64_recovers_support": {
+      "supported": true
+    },
+    "H4_shortlist64_reduces_router_compute": {
+      "supported": true,
+      "fraction": 0.34375
+    },
+    "H5_shortlist128_nearly_equals_flat": {
+      "supported": false
+    },
+    "H6_shortlist64_reduced_score_is_predictive": {
+      "supported": false
+    }
+  },
+  "results": {
+    "fineweb": {
+      "oracle": {
+        "median_correlation": 0.9309163093566895,
+        "median_centered_r2": 0.862382173538208
+      },
+      "flat256": {
+        "exact_routed": {
+          "median_correlation": 0.8962393999099731,
+          "median_centered_r2": 0.7949633002281189
+        },
+        "approximate_routed": {
+          "median_correlation": 0.8388524055480957,
+          "median_centered_r2": 0.6882308721542358
+        },
+        "median_oracle_support_recall": 0.625,
+        "median_absolute_mass_coverage": 0.2733008563518524
+      },
+      "shortlists": {
+        "32": {
+          "exact_routed": {
+            "median_correlation": 0.8355245590209961,
+            "median_centered_r2": 0.6932106614112854
+          },
+          "approximate_routed": {
+            "median_correlation": 0.7805976867675781,
+            "median_centered_r2": 0.5996123552322388
+          },
+          "median_oracle_support_recall": 0.5,
+          "median_absolute_mass_coverage": 0.2430180311203003
+        },
+        "64": {
+          "exact_routed": {
+            "median_correlation": 0.8653202056884766,
+            "median_centered_r2": 0.7443701028823853
+          },
+          "approximate_routed": {
+            "median_correlation": 0.8091460466384888,
+            "median_centered_r2": 0.6434193849563599
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.25820308923721313
+        },
+        "128": {
+          "exact_routed": {
+            "median_correlation": 0.881085991859436,
+            "median_centered_r2": 0.7710669040679932
+          },
+          "approximate_routed": {
+            "median_correlation": 0.8249514102935791,
+            "median_centered_r2": 0.6677854657173157
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.26591336727142334
+        },
+        "256": {
+          "exact_routed": {
+            "median_correlation": 0.8893965482711792,
+            "median_centered_r2": 0.7860226631164551
+          },
+          "approximate_routed": {
+            "median_correlation": 0.8315092325210571,
+            "median_centered_r2": 0.6777656674385071
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.2702443301677704
+        }
+      }
+    },
+    "wikitext": {
+      "oracle": {
+        "median_correlation": 0.9265332221984863,
+        "median_centered_r2": 0.8432776927947998
+      },
+      "flat256": {
+        "exact_routed": {
+          "median_correlation": 0.8858605623245239,
+          "median_centered_r2": 0.7764348983764648
+        },
+        "approximate_routed": {
+          "median_correlation": 0.8377119302749634,
+          "median_centered_r2": 0.6760789155960083
+        },
+        "median_oracle_support_recall": 0.625,
+        "median_absolute_mass_coverage": 0.26551851630210876
+      },
+      "shortlists": {
+        "32": {
+          "exact_routed": {
+            "median_correlation": 0.8251420259475708,
+            "median_centered_r2": 0.6702889204025269
+          },
+          "approximate_routed": {
+            "median_correlation": 0.777428150177002,
+            "median_centered_r2": 0.5932167172431946
+          },
+          "median_oracle_support_recall": 0.5,
+          "median_absolute_mass_coverage": 0.23565466701984406
+        },
+        "64": {
+          "exact_routed": {
+            "median_correlation": 0.8590246438980103,
+            "median_centered_r2": 0.7237809896469116
+          },
+          "approximate_routed": {
+            "median_correlation": 0.813330888748169,
+            "median_centered_r2": 0.6399269700050354
+          },
+          "median_oracle_support_recall": 0.5625,
+          "median_absolute_mass_coverage": 0.25079047679901123
+        },
+        "128": {
+          "exact_routed": {
+            "median_correlation": 0.8716074228286743,
+            "median_centered_r2": 0.7440311908721924
+          },
+          "approximate_routed": {
+            "median_correlation": 0.825482964515686,
+            "median_centered_r2": 0.6568564176559448
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.25830668210983276
+        },
+        "256": {
+          "exact_routed": {
+            "median_correlation": 0.8781776428222656,
+            "median_centered_r2": 0.7598631381988525
+          },
+          "approximate_routed": {
+            "median_correlation": 0.8306446075439453,
+            "median_centered_r2": 0.6639664173126221
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.2625747621059418
+        }
+      }
+    },
+    "tinystories": {
+      "oracle": {
+        "median_correlation": 0.9252227544784546,
+        "median_centered_r2": 0.8487855792045593
+      },
+      "flat256": {
+        "exact_routed": {
+          "median_correlation": 0.8838970065116882,
+          "median_centered_r2": 0.775525689125061
+        },
+        "approximate_routed": {
+          "median_correlation": 0.8246946334838867,
+          "median_centered_r2": 0.6590220928192139
+        },
+        "median_oracle_support_recall": 0.625,
+        "median_absolute_mass_coverage": 0.2711646258831024
+      },
+      "shortlists": {
+        "32": {
+          "exact_routed": {
+            "median_correlation": 0.8148646354675293,
+            "median_centered_r2": 0.6572486162185669
+          },
+          "approximate_routed": {
+            "median_correlation": 0.7538147568702698,
+            "median_centered_r2": 0.5554531812667847
+          },
+          "median_oracle_support_recall": 0.5,
+          "median_absolute_mass_coverage": 0.24113784730434418
+        },
+        "64": {
+          "exact_routed": {
+            "median_correlation": 0.8476070165634155,
+            "median_centered_r2": 0.7131521701812744
+          },
+          "approximate_routed": {
+            "median_correlation": 0.7872801423072815,
+            "median_centered_r2": 0.6070578694343567
+          },
+          "median_oracle_support_recall": 0.5625,
+          "median_absolute_mass_coverage": 0.2564777731895447
+        },
+        "128": {
+          "exact_routed": {
+            "median_correlation": 0.8656919002532959,
+            "median_centered_r2": 0.7439064979553223
+          },
+          "approximate_routed": {
+            "median_correlation": 0.8040612936019897,
+            "median_centered_r2": 0.6331275701522827
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.26424309611320496
+        },
+        "256": {
+          "exact_routed": {
+            "median_correlation": 0.8756009936332703,
+            "median_centered_r2": 0.7581100463867188
+          },
+          "approximate_routed": {
+            "median_correlation": 0.8158286809921265,
+            "median_centered_r2": 0.6436120271682739
+          },
+          "median_oracle_support_recall": 0.625,
+          "median_absolute_mass_coverage": 0.26834776997566223
+        }
+      }
+    }
+  }
+}

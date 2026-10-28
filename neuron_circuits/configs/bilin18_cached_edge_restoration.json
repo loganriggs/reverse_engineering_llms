@@ -1,0 +1,17 @@
+{
+  "experiment": "H1027",
+  "panel": "All128 H1026 neutral mention examples, four discovery pairs; no selection on outputs.",
+  "intervention": "Add (baseline coefficient - recipient coefficient)*lambda13*W_O13_head0*v1_head0(source) at final position after attention13. Only cached target edge changed. Baseline coefficient per target from H1026 is an oracle counterfactual, not learned predictor.",
+  "arms": [
+    "native",
+    "restore",
+    "reverse",
+    "random0",
+    "random1",
+    "wrong_country"
+  ],
+  "controls": "reverse sign; two fixed Gaussian head-space vectors projected through same W_O and normalized to same output write norm; opposite-pair country cache payload, normalized to same write norm. Seeds1027,1028.",
+  "metrics": "Correct answer paired margin, full-vocabulary log probability/top1, recovery relative to no-prefix baseline. No removal of failures.",
+  "audit": "Replay native H1026 margins; compare post-projection write with pre-projection head-output installation for first8rows.",
+  "fit_rows": 0
+}

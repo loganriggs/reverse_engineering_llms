@@ -1,0 +1,1087 @@
+{
+  "config": {
+    "status": "locked-after-carrier-metric-redteam-before-residual-component-audit",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261026,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "position": 127,
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19148,
+        "rows": 48
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 1024,
+        "rows": 48
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 1024,
+        "rows": 48
+      }
+    },
+    "hypotheses": {
+      "D1_exact_component_recomposition": "At every layer and corpus, carried-state, current embedding injection, attention-write, and MLP-write deltas exactly recompose the changed residual, and all-component hybrid logits match the residual-only intervention to at most 1e-4.",
+      "D2_some_attention_write_is_behaviorally_material": "At some layer on every corpus, attention receives at least 0.10 absolute within-residual Fisher Shapley projection.",
+      "D3_some_mlp_write_is_behaviorally_material": "At some layer on every corpus, the MLP receives at least 0.10 absolute within-residual Fisher Shapley projection.",
+      "D4_current_embedding_injection_is_locally_material": "At some nonfinal layer on every corpus, the current block's embedding injection receives at least 0.10 absolute within-residual Shapley projection.",
+      "D5_late_residual_is_not_just_carried_state": "At Layer 10 on every corpus, attention plus MLP receive at least 0.10 absolute within-residual Shapley projection.",
+      "D6_component_depth_order_transfers_ood": "The identity of the largest non-carried component at every layer is the same on FineWeb, WikiText, and TinyStories.",
+      "D7_state_energy_is_not_behavioral_credit": "At some layer and corpus, a component's Euclidean state projection and within-residual behavioral Shapley projection differ by at least 0.15.",
+      "D8_attention_is_not_the_dominant_noncarried_source": "The MLP has greater within-residual Shapley projection than attention at at least eight of twelve layers on every corpus."
+    }
+  },
+  "hypotheses": {
+    "D1_exact_component_recomposition": {
+      "supported": false
+    },
+    "D2_some_attention_write_is_behaviorally_material": {
+      "supported": false
+    },
+    "D3_some_mlp_write_is_behaviorally_material": {
+      "supported": true
+    },
+    "D4_current_embedding_injection_is_locally_material": {
+      "supported": false
+    },
+    "D5_late_residual_is_not_just_carried_state": {
+      "supported": true
+    },
+    "D6_component_depth_order_transfers_ood": {
+      "supported": true,
+      "largest_noncarried": {
+        "fineweb": [
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write"
+        ],
+        "wikitext": [
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write"
+        ],
+        "tinystories": [
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write",
+          "mlp_write"
+        ]
+      }
+    },
+    "D7_state_energy_is_not_behavioral_credit": {
+      "supported": true
+    },
+    "D8_attention_is_not_the_dominant_noncarried_source": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "0": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.004650994286811494,
+          "current_embedding_injection": 0.004650994286811494,
+          "attention_write": -9.117852634693217e-05,
+          "mlp_write": 0.9907891839526447
+        },
+        "full_target_projection": {
+          "carried_state": 0.003011095536387809,
+          "current_embedding_injection": 0.003011095536387809,
+          "attention_write": -0.00018233970500900165,
+          "mlp_write": 0.3267220921922527
+        },
+        "state_projection": {
+          "carried_state": 0.0041138462972304685,
+          "current_embedding_injection": 0.0041138462972304685,
+          "attention_write": 0.00010002300963739723,
+          "mlp_write": 0.9916722914896077
+        },
+        "within_residual_sum": 0.9999999939999208,
+        "full_projection_sum": 0.3325619435600193,
+        "state_projection_sum": 1.000000007093706,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 2.86102294921875e-05,
+        "mean_residual_route_kl": 1.3750841516129515
+      },
+      "1": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.2221221608644962,
+          "current_embedding_injection": 0.018487829124634557,
+          "attention_write": 0.026814331707576505,
+          "mlp_write": 0.732575716961737
+        },
+        "full_target_projection": {
+          "carried_state": 0.10190721606723233,
+          "current_embedding_injection": 0.009890062341110095,
+          "attention_write": 0.013679249927569057,
+          "mlp_write": 0.28896542500578726
+        },
+        "state_projection": {
+          "carried_state": 0.24775975030814226,
+          "current_embedding_injection": 0.016010046513592696,
+          "attention_write": 0.024647062714628912,
+          "mlp_write": 0.7115831403489651
+        },
+        "within_residual_sum": 1.0000000386584442,
+        "full_projection_sum": 0.41444195334169875,
+        "state_projection_sum": 0.999999999885329,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 2.6702880859375e-05,
+        "mean_residual_route_kl": 1.8014573645084462
+      },
+      "2": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.3544145435409434,
+          "current_embedding_injection": 0.017213935663688406,
+          "attention_write": 0.018416486411728775,
+          "mlp_write": 0.6099550660998997
+        },
+        "full_target_projection": {
+          "carried_state": 0.1738585436220916,
+          "current_embedding_injection": 0.010104384525418812,
+          "attention_write": 0.007082438325466277,
+          "mlp_write": 0.26145796115845155
+        },
+        "state_projection": {
+          "carried_state": 0.3495466720113864,
+          "current_embedding_injection": 0.01411952217110052,
+          "attention_write": 0.019810449058022293,
+          "mlp_write": 0.6165233735397281
+        },
+        "within_residual_sum": 1.0000000317162603,
+        "full_projection_sum": 0.45250332763142825,
+        "state_projection_sum": 1.0000000167802372,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 3.4332275390625e-05,
+        "mean_residual_route_kl": 2.022052876492764
+      },
+      "3": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.38902033567982985,
+          "current_embedding_injection": 0.017448345008889733,
+          "attention_write": 0.027169743093797386,
+          "mlp_write": 0.5663615754393675
+        },
+        "full_target_projection": {
+          "carried_state": 0.20774706173389665,
+          "current_embedding_injection": 0.012096039693952454,
+          "attention_write": 0.009438937631924837,
+          "mlp_write": 0.26445428773473356
+        },
+        "state_projection": {
+          "carried_state": 0.2962609274296476,
+          "current_embedding_injection": 0.01251402460876172,
+          "attention_write": 0.017263941615873444,
+          "mlp_write": 0.6739611165542188
+        },
+        "within_residual_sum": 0.9999999992218844,
+        "full_projection_sum": 0.4937363267945075,
+        "state_projection_sum": 1.0000000102085016,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 2.7120113372802734e-05,
+        "mean_residual_route_kl": 2.2774328348484447
+      },
+      "4": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.38109124567713515,
+          "current_embedding_injection": 0.022872774888788153,
+          "attention_write": 0.038629831959562946,
+          "mlp_write": 0.5574061668077933
+        },
+        "full_target_projection": {
+          "carried_state": 0.2212260578808888,
+          "current_embedding_injection": 0.018119423389931607,
+          "attention_write": 0.018460949317132092,
+          "mlp_write": 0.302030966918383
+        },
+        "state_projection": {
+          "carried_state": 0.31379219583981477,
+          "current_embedding_injection": 0.0167169526359739,
+          "attention_write": 0.0413022659004389,
+          "mlp_write": 0.6281885949530097
+        },
+        "within_residual_sum": 1.0000000193332796,
+        "full_projection_sum": 0.5598373975063355,
+        "state_projection_sum": 1.0000000093292374,
+        "maximum_state_recomposition_error": 6.103515625e-05,
+        "maximum_logit_recomposition_error": 2.3365020751953125e-05,
+        "mean_residual_route_kl": 2.7642163469436323
+      },
+      "5": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.4139809509167148,
+          "current_embedding_injection": 0.00701138923279913,
+          "attention_write": 0.06654659995808057,
+          "mlp_write": 0.5124610723993025
+        },
+        "full_target_projection": {
+          "carried_state": 0.2541159716335963,
+          "current_embedding_injection": 0.006687620567295679,
+          "attention_write": 0.0363204143110065,
+          "mlp_write": 0.28662328195772746
+        },
+        "state_projection": {
+          "carried_state": 0.36345137236985536,
+          "current_embedding_injection": 0.005464296240409729,
+          "attention_write": 0.05550807013391175,
+          "mlp_write": 0.5755762780493223
+        },
+        "within_residual_sum": 1.000000012506897,
+        "full_projection_sum": 0.5837472884696259,
+        "state_projection_sum": 1.0000000167934993,
+        "maximum_state_recomposition_error": 6.103515625e-05,
+        "maximum_logit_recomposition_error": 2.2411346435546875e-05,
+        "mean_residual_route_kl": 2.9795593505210065
+      },
+      "6": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.4997518190162956,
+          "current_embedding_injection": 0.026037748290931292,
+          "attention_write": 0.08055729979338698,
+          "mlp_write": 0.39365315368091336
+        },
+        "full_target_projection": {
+          "carried_state": 0.3339408508595219,
+          "current_embedding_injection": 0.02740767314706853,
+          "attention_write": 0.05465091893728765,
+          "mlp_write": 0.24988603950832122
+        },
+        "state_projection": {
+          "carried_state": 0.4423060089405534,
+          "current_embedding_injection": 0.018393641842051313,
+          "attention_write": 0.07721131011452174,
+          "mlp_write": 0.4620890334874611
+        },
+        "within_residual_sum": 1.0000000207815272,
+        "full_projection_sum": 0.6658854824521994,
+        "state_projection_sum": 0.9999999943845875,
+        "maximum_state_recomposition_error": 9.1552734375e-05,
+        "maximum_logit_recomposition_error": 1.9550323486328125e-05,
+        "mean_residual_route_kl": 3.871442439708304
+      },
+      "7": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.6347492877413494,
+          "current_embedding_injection": 0.057985168336100214,
+          "attention_write": 0.043320038841859296,
+          "mlp_write": 0.2639455013177768
+        },
+        "full_target_projection": {
+          "carried_state": 0.508325188465176,
+          "current_embedding_injection": 0.06070707087816638,
+          "attention_write": 0.03424934080126579,
+          "mlp_write": 0.2034809398660239
+        },
+        "state_projection": {
+          "carried_state": 0.6137451205540835,
+          "current_embedding_injection": 0.03789003293354655,
+          "attention_write": 0.0444916557605317,
+          "mlp_write": 0.30387319735043783
+        },
+        "within_residual_sum": 0.9999999962370857,
+        "full_projection_sum": 0.8067625400106321,
+        "state_projection_sum": 1.0000000065985994,
+        "maximum_state_recomposition_error": 0.0001678466796875,
+        "maximum_logit_recomposition_error": 1.5497207641601562e-05,
+        "mean_residual_route_kl": 5.984180004038709
+      },
+      "8": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.6778381316088993,
+          "current_embedding_injection": 0.039916221507375386,
+          "attention_write": 0.068919837496822,
+          "mlp_write": 0.21332579302598656
+        },
+        "full_target_projection": {
+          "carried_state": 0.6123970142735095,
+          "current_embedding_injection": 0.04211873999644961,
+          "attention_write": 0.062460573199144,
+          "mlp_write": 0.19051837191460408
+        },
+        "state_projection": {
+          "carried_state": 0.6799252087495262,
+          "current_embedding_injection": 0.03066189709899609,
+          "attention_write": 0.05577419396152525,
+          "mlp_write": 0.23363871422911603
+        },
+        "within_residual_sum": 0.9999999836390833,
+        "full_projection_sum": 0.9074946993837072,
+        "state_projection_sum": 1.0000000140391636,
+        "maximum_state_recomposition_error": 0.0002593994140625,
+        "maximum_logit_recomposition_error": 1.4781951904296875e-05,
+        "mean_residual_route_kl": 7.419448649629634
+      },
+      "9": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.7329193168930235,
+          "current_embedding_injection": 0.02773853939578672,
+          "attention_write": 0.02863797015027465,
+          "mlp_write": 0.21070418628403048
+        },
+        "full_target_projection": {
+          "carried_state": 0.701290190625354,
+          "current_embedding_injection": 0.029140972718021036,
+          "attention_write": 0.02704726790697816,
+          "mlp_write": 0.19701478602209616
+        },
+        "state_projection": {
+          "carried_state": 0.6782231322353877,
+          "current_embedding_injection": 0.02062150656299236,
+          "attention_write": 0.02525314783475073,
+          "mlp_write": 0.2759022035197521
+        },
+        "within_residual_sum": 1.0000000127231152,
+        "full_projection_sum": 0.9544932172724494,
+        "state_projection_sum": 0.9999999901528829,
+        "maximum_state_recomposition_error": 0.00048828125,
+        "maximum_logit_recomposition_error": 1.430511474609375e-05,
+        "mean_residual_route_kl": 8.229711451429003
+      },
+      "10": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.7402406882133777,
+          "current_embedding_injection": 0.013857278398096159,
+          "attention_write": 0.02260925373889112,
+          "mlp_write": 0.2232927539377952
+        },
+        "full_target_projection": {
+          "carried_state": 0.7331273508933226,
+          "current_embedding_injection": 0.014574274089798125,
+          "attention_write": 0.021904517343099384,
+          "mlp_write": 0.21867581927155938
+        },
+        "state_projection": {
+          "carried_state": 0.5399850742904962,
+          "current_embedding_injection": 0.0100909398909602,
+          "attention_write": 0.012832708114290348,
+          "mlp_write": 0.4370912551128325
+        },
+        "within_residual_sum": 0.9999999742881602,
+        "full_projection_sum": 0.9882819615977795,
+        "state_projection_sum": 0.9999999774085793,
+        "maximum_state_recomposition_error": 0.0009765625,
+        "maximum_logit_recomposition_error": 1.52587890625e-05,
+        "mean_residual_route_kl": 8.811541009456553
+      },
+      "11": {
+        "examples": 47,
+        "within_residual_shapley": {
+          "carried_state": 0.7953385858578671,
+          "current_embedding_injection": 0.0066057654974758535,
+          "attention_write": 0.014089317792631836,
+          "mlp_write": 0.1839663187204317
+        },
+        "full_target_projection": {
+          "carried_state": 0.7953386260309127,
+          "current_embedding_injection": 0.006605766120726883,
+          "attention_write": 0.01408931349263049,
+          "mlp_write": 0.18396630785724818
+        },
+        "state_projection": {
+          "carried_state": 0.34386624197070603,
+          "current_embedding_injection": 0.00116966916991057,
+          "attention_write": 0.0035448864743530236,
+          "mlp_write": 0.6514191576516614
+        },
+        "within_residual_sum": 0.9999999878684065,
+        "full_projection_sum": 1.0000000135015181,
+        "state_projection_sum": 0.999999955266631,
+        "maximum_state_recomposition_error": 0.0009765625,
+        "maximum_logit_recomposition_error": 9.5367431640625e-06,
+        "mean_residual_route_kl": 9.087152846316075
+      }
+    },
+    "wikitext": {
+      "0": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.0047109805540284455,
+          "current_embedding_injection": 0.0047109805540284455,
+          "attention_write": 0.0002687048922918833,
+          "mlp_write": 0.9903093098034748
+        },
+        "full_target_projection": {
+          "carried_state": 0.003172312134389614,
+          "current_embedding_injection": 0.003172312134389614,
+          "attention_write": 0.00028643619974339445,
+          "mlp_write": 0.3276108622618524
+        },
+        "state_projection": {
+          "carried_state": 0.0038549547823955475,
+          "current_embedding_injection": 0.0038549547823955475,
+          "attention_write": 0.0009391485956786161,
+          "mlp_write": 0.99135094242584
+        },
+        "within_residual_sum": 0.9999999758038235,
+        "full_projection_sum": 0.334241922730375,
+        "state_projection_sum": 1.0000000005863097,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 2.47955322265625e-05,
+        "mean_residual_route_kl": 1.0585975696643193
+      },
+      "1": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.24029452417128433,
+          "current_embedding_injection": 0.021147114088894168,
+          "attention_write": 0.02173263850828652,
+          "mlp_write": 0.7168257381816644
+        },
+        "full_target_projection": {
+          "carried_state": 0.10073224939313012,
+          "current_embedding_injection": 0.011273526634326419,
+          "attention_write": 0.01445020739649628,
+          "mlp_write": 0.2815719015510604
+        },
+        "state_projection": {
+          "carried_state": 0.23405155917538795,
+          "current_embedding_injection": 0.014427219198607297,
+          "attention_write": 0.02087136044227614,
+          "mlp_write": 0.7306498554416453
+        },
+        "within_residual_sum": 1.0000000149501294,
+        "full_projection_sum": 0.4080278849750132,
+        "state_projection_sum": 0.9999999942579166,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 2.574920654296875e-05,
+        "mean_residual_route_kl": 1.3964138329029083
+      },
+      "2": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.3440779677650161,
+          "current_embedding_injection": 0.017659533297044887,
+          "attention_write": 0.021223860242689248,
+          "mlp_write": 0.6170386604230734
+        },
+        "full_target_projection": {
+          "carried_state": 0.16171162103100536,
+          "current_embedding_injection": 0.010266341240968173,
+          "attention_write": 0.007673396295404526,
+          "mlp_write": 0.26575989067419
+        },
+        "state_projection": {
+          "carried_state": 0.33631610865407,
+          "current_embedding_injection": 0.013006849177667541,
+          "attention_write": 0.019746989380986534,
+          "mlp_write": 0.630930031676408
+        },
+        "within_residual_sum": 1.0000000217278235,
+        "full_projection_sum": 0.44541124924156805,
+        "state_projection_sum": 0.9999999788891322,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 2.7179718017578125e-05,
+        "mean_residual_route_kl": 1.5552508582671483
+      },
+      "3": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.3348701513443761,
+          "current_embedding_injection": 0.016451863084819537,
+          "attention_write": 0.020531464417493445,
+          "mlp_write": 0.6281465394234944
+        },
+        "full_target_projection": {
+          "carried_state": 0.17084245244615953,
+          "current_embedding_injection": 0.010873277006373798,
+          "attention_write": 0.009437768972508953,
+          "mlp_write": 0.29174684768346776
+        },
+        "state_projection": {
+          "carried_state": 0.29160756734585724,
+          "current_embedding_injection": 0.010608098653536577,
+          "attention_write": 0.013808305459719528,
+          "mlp_write": 0.6839760410938435
+        },
+        "within_residual_sum": 1.0000000182701836,
+        "full_projection_sum": 0.48290034610851,
+        "state_projection_sum": 1.000000012552957,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 2.288818359375e-05,
+        "mean_residual_route_kl": 1.7082541237274806
+      },
+      "4": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.39802356920383153,
+          "current_embedding_injection": 0.022375925028735724,
+          "attention_write": 0.05888583842948499,
+          "mlp_write": 0.5207146808729761
+        },
+        "full_target_projection": {
+          "carried_state": 0.21875199199034281,
+          "current_embedding_injection": 0.016895912856043,
+          "attention_write": 0.026336606968961934,
+          "mlp_write": 0.27528281092351065
+        },
+        "state_projection": {
+          "carried_state": 0.2930931349748082,
+          "current_embedding_injection": 0.011722059967073963,
+          "attention_write": 0.025407332948271175,
+          "mlp_write": 0.6697774736511585
+        },
+        "within_residual_sum": 1.0000000135350284,
+        "full_projection_sum": 0.5372673227388584,
+        "state_projection_sum": 1.0000000015413117,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 2.288818359375e-05,
+        "mean_residual_route_kl": 1.9547378718852997
+      },
+      "5": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.38001053376725064,
+          "current_embedding_injection": 0.005556074977071507,
+          "attention_write": 0.10940465470399023,
+          "mlp_write": 0.505028734896581
+        },
+        "full_target_projection": {
+          "carried_state": 0.2392535264540564,
+          "current_embedding_injection": 0.005872300932281174,
+          "attention_write": 0.036648002363892415,
+          "mlp_write": 0.277079603690938
+        },
+        "state_projection": {
+          "carried_state": 0.37422261850544686,
+          "current_embedding_injection": 0.004121930429624972,
+          "attention_write": 0.07048592740224302,
+          "mlp_write": 0.5511695161038419
+        },
+        "within_residual_sum": 0.9999999983448933,
+        "full_projection_sum": 0.558853433441168,
+        "state_projection_sum": 0.9999999924411568,
+        "maximum_state_recomposition_error": 6.103515625e-05,
+        "maximum_logit_recomposition_error": 2.288818359375e-05,
+        "mean_residual_route_kl": 2.054710566997528
+      },
+      "6": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.482685942647101,
+          "current_embedding_injection": 0.019565781375910977,
+          "attention_write": 0.10722108149368066,
+          "mlp_write": 0.390527247259442
+        },
+        "full_target_projection": {
+          "carried_state": 0.30310487802826974,
+          "current_embedding_injection": 0.025010764737214197,
+          "attention_write": 0.06083673841744787,
+          "mlp_write": 0.24133607336297216
+        },
+        "state_projection": {
+          "carried_state": 0.4349598208259232,
+          "current_embedding_injection": 0.01471817537157517,
+          "attention_write": 0.093358515036492,
+          "mlp_write": 0.4569634875058555
+        },
+        "within_residual_sum": 1.0000000527761346,
+        "full_projection_sum": 0.630288454545904,
+        "state_projection_sum": 0.9999999987398459,
+        "maximum_state_recomposition_error": 8.7738037109375e-05,
+        "maximum_logit_recomposition_error": 1.9788742065429688e-05,
+        "mean_residual_route_kl": 2.415300816297531
+      },
+      "7": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.6447937934140581,
+          "current_embedding_injection": 0.051190990140726686,
+          "attention_write": 0.05562958815756098,
+          "mlp_write": 0.24838564630783455
+        },
+        "full_target_projection": {
+          "carried_state": 0.48844957745502754,
+          "current_embedding_injection": 0.06038233860396425,
+          "attention_write": 0.03645667738044331,
+          "mlp_write": 0.1811141962843936
+        },
+        "state_projection": {
+          "carried_state": 0.6211565712149901,
+          "current_embedding_injection": 0.03172730170416399,
+          "attention_write": 0.060155956654181816,
+          "mlp_write": 0.28696016812789993
+        },
+        "within_residual_sum": 1.0000000180201802,
+        "full_projection_sum": 0.7664027897238287,
+        "state_projection_sum": 0.9999999977012358,
+        "maximum_state_recomposition_error": 0.00018310546875,
+        "maximum_logit_recomposition_error": 1.8835067749023438e-05,
+        "mean_residual_route_kl": 3.1439593533674874
+      },
+      "8": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.7093924877817269,
+          "current_embedding_injection": 0.04373919538854373,
+          "attention_write": 0.058614007538261674,
+          "mlp_write": 0.1882543510590039
+        },
+        "full_target_projection": {
+          "carried_state": 0.6060519697577359,
+          "current_embedding_injection": 0.04835446684127084,
+          "attention_write": 0.049003744619856175,
+          "mlp_write": 0.15646476369804446
+        },
+        "state_projection": {
+          "carried_state": 0.7062227862909309,
+          "current_embedding_injection": 0.027086262302717698,
+          "attention_write": 0.06801182877354219,
+          "mlp_write": 0.19867911551894943
+        },
+        "within_residual_sum": 1.0000000417675363,
+        "full_projection_sum": 0.8598749449169074,
+        "state_projection_sum": 0.9999999928861403,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 1.71661376953125e-05,
+        "mean_residual_route_kl": 3.906890392303467
+      },
+      "9": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.7535188780186948,
+          "current_embedding_injection": 0.03616389034364128,
+          "attention_write": 0.04044165823098124,
+          "mlp_write": 0.1698755632976156
+        },
+        "full_target_projection": {
+          "carried_state": 0.6981823605097301,
+          "current_embedding_injection": 0.038259672557439395,
+          "attention_write": 0.03493338785292901,
+          "mlp_write": 0.15132944991664368
+        },
+        "state_projection": {
+          "carried_state": 0.7202724404727583,
+          "current_embedding_injection": 0.019767677959325533,
+          "attention_write": 0.02097316516371804,
+          "mlp_write": 0.2389866879301173
+        },
+        "within_residual_sum": 0.9999999898909329,
+        "full_projection_sum": 0.9227048708367422,
+        "state_projection_sum": 0.9999999715259191,
+        "maximum_state_recomposition_error": 0.0006103515625,
+        "maximum_logit_recomposition_error": 1.71661376953125e-05,
+        "mean_residual_route_kl": 4.6470991770426435
+      },
+      "10": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.8115977487413075,
+          "current_embedding_injection": 0.024590774489481156,
+          "attention_write": 0.01378749455045595,
+          "mlp_write": 0.15002403476875853
+        },
+        "full_target_projection": {
+          "carried_state": 0.7941729018809556,
+          "current_embedding_injection": 0.025611294115789603,
+          "attention_write": 0.010721421483680932,
+          "mlp_write": 0.14030253053022818
+        },
+        "state_projection": {
+          "carried_state": 0.6041968096299486,
+          "current_embedding_injection": 0.011412738258158353,
+          "attention_write": 0.021429671294676947,
+          "mlp_write": 0.36296076715626996
+        },
+        "within_residual_sum": 1.0000000525500032,
+        "full_projection_sum": 0.9708081480106543,
+        "state_projection_sum": 0.9999999863390538,
+        "maximum_state_recomposition_error": 0.001220703125,
+        "maximum_logit_recomposition_error": 1.239776611328125e-05,
+        "mean_residual_route_kl": 5.279596507549286
+      },
+      "11": {
+        "examples": 48,
+        "within_residual_shapley": {
+          "carried_state": 0.8985212258279006,
+          "current_embedding_injection": 0.014518888761658742,
+          "attention_write": -0.005714465671748164,
+          "mlp_write": 0.09267439392530213
+        },
+        "full_target_projection": {
+          "carried_state": 0.8985212982120798,
+          "current_embedding_injection": 0.01451888772111976,
+          "attention_write": -0.0057144635563446166,
+          "mlp_write": 0.09267441825185803
+        },
+        "state_projection": {
+          "carried_state": 0.3754637107643315,
+          "current_embedding_injection": 0.0015273612707646686,
+          "attention_write": 0.004566652906143814,
+          "mlp_write": 0.6184423068226564
+        },
+        "within_residual_sum": 1.0000000428431133,
+        "full_projection_sum": 1.000000140628713,
+        "state_projection_sum": 1.0000000317638964,
+        "maximum_state_recomposition_error": 0.001953125,
+        "maximum_logit_recomposition_error": 1.239776611328125e-05,
+        "mean_residual_route_kl": 5.59938230117162
+      }
+    },
+    "tinystories": {
+      "0": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.0058808871129472536,
+          "current_embedding_injection": 0.0058808871129472536,
+          "attention_write": -0.0006160062237319991,
+          "mlp_write": 0.9888542479295888
+        },
+        "full_target_projection": {
+          "carried_state": 0.00354999511921495,
+          "current_embedding_injection": 0.00354999511921495,
+          "attention_write": -0.00051205161689985,
+          "mlp_write": 0.25462523827628725
+        },
+        "state_projection": {
+          "carried_state": 0.00418272697646455,
+          "current_embedding_injection": 0.00418272697646455,
+          "attention_write": 0.0001861272277898978,
+          "mlp_write": 0.99144839340517
+        },
+        "within_residual_sum": 1.0000000159317513,
+        "full_projection_sum": 0.2612131768978173,
+        "state_projection_sum": 0.999999974585889,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 3.0040740966796875e-05,
+        "mean_residual_route_kl": 0.8721554512562959
+      },
+      "1": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.255820866083185,
+          "current_embedding_injection": 0.022343673983589486,
+          "attention_write": 0.02717866928576068,
+          "mlp_write": 0.6946567611640491
+        },
+        "full_target_projection": {
+          "carried_state": 0.10700970733907163,
+          "current_embedding_injection": 0.011271824397487619,
+          "attention_write": 0.009773830880575346,
+          "mlp_write": 0.22326384518568726
+        },
+        "state_projection": {
+          "carried_state": 0.24996113123530586,
+          "current_embedding_injection": 0.015923392537247096,
+          "attention_write": 0.020610730428851528,
+          "mlp_write": 0.7135047368934596
+        },
+        "within_residual_sum": 0.9999999705165842,
+        "full_projection_sum": 0.35131920780282183,
+        "state_projection_sum": 0.9999999910948641,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 2.6404857635498047e-05,
+        "mean_residual_route_kl": 1.3548363162123638
+      },
+      "2": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.36443344425329977,
+          "current_embedding_injection": 0.021606076002956946,
+          "attention_write": 0.020434693459994147,
+          "mlp_write": 0.5935257804179018
+        },
+        "full_target_projection": {
+          "carried_state": 0.15530255855727457,
+          "current_embedding_injection": 0.012214637248230523,
+          "attention_write": 0.005766998804628368,
+          "mlp_write": 0.22814574762360115
+        },
+        "state_projection": {
+          "carried_state": 0.3532349886444727,
+          "current_embedding_injection": 0.014748769141170317,
+          "attention_write": 0.0145301696250811,
+          "mlp_write": 0.6174860501924011
+        },
+        "within_residual_sum": 0.9999999941341526,
+        "full_projection_sum": 0.4014299422337346,
+        "state_projection_sum": 0.9999999776031252,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 3.4809112548828125e-05,
+        "mean_residual_route_kl": 1.6731505212576494
+      },
+      "3": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.3661469350194833,
+          "current_embedding_injection": 0.0210536831549204,
+          "attention_write": 0.028031150967531667,
+          "mlp_write": 0.5847682400764996
+        },
+        "full_target_projection": {
+          "carried_state": 0.18071811842284544,
+          "current_embedding_injection": 0.013500432823514237,
+          "attention_write": 0.011627627410165702,
+          "mlp_write": 0.24905018041947866
+        },
+        "state_projection": {
+          "carried_state": 0.2841715906903619,
+          "current_embedding_injection": 0.012405180492504702,
+          "attention_write": 0.01761913862026016,
+          "mlp_write": 0.6858041006435444
+        },
+        "within_residual_sum": 1.000000009218435,
+        "full_projection_sum": 0.454896359076004,
+        "state_projection_sum": 1.000000010446671,
+        "maximum_state_recomposition_error": 0.0001220703125,
+        "maximum_logit_recomposition_error": 2.6702880859375e-05,
+        "mean_residual_route_kl": 2.0262203994004624
+      },
+      "4": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.3853139838252524,
+          "current_embedding_injection": 0.027203419703213372,
+          "attention_write": 0.05780239610321045,
+          "mlp_write": 0.5296802435740108
+        },
+        "full_target_projection": {
+          "carried_state": 0.20842220737786787,
+          "current_embedding_injection": 0.020294600686791734,
+          "attention_write": 0.02796828028682858,
+          "mlp_write": 0.27307137266359016
+        },
+        "state_projection": {
+          "carried_state": 0.33051733947565476,
+          "current_embedding_injection": 0.017951909991924017,
+          "attention_write": 0.032450223622688755,
+          "mlp_write": 0.6190805177706528
+        },
+        "within_residual_sum": 1.000000043205687,
+        "full_projection_sum": 0.5297564610150783,
+        "state_projection_sum": 0.9999999908609203,
+        "maximum_state_recomposition_error": 6.103515625e-05,
+        "maximum_logit_recomposition_error": 2.491474151611328e-05,
+        "mean_residual_route_kl": 2.5508490826772605
+      },
+      "5": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.42260285719798235,
+          "current_embedding_injection": 0.008409467712363004,
+          "attention_write": 0.07478885344917753,
+          "mlp_write": 0.4941988363647125
+        },
+        "full_target_projection": {
+          "carried_state": 0.26067681804465503,
+          "current_embedding_injection": 0.007239588208621721,
+          "attention_write": 0.037606561727767544,
+          "mlp_write": 0.2513024704037467
+        },
+        "state_projection": {
+          "carried_state": 0.370491981926134,
+          "current_embedding_injection": 0.005761198862754079,
+          "attention_write": 0.05348293772406918,
+          "mlp_write": 0.5702638750036146
+        },
+        "within_residual_sum": 1.0000000147242354,
+        "full_projection_sum": 0.556825438384791,
+        "state_projection_sum": 0.9999999935165719,
+        "maximum_state_recomposition_error": 6.103515625e-05,
+        "maximum_logit_recomposition_error": 2.6226043701171875e-05,
+        "mean_residual_route_kl": 2.7687672039736873
+      },
+      "6": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.4945351487017177,
+          "current_embedding_injection": 0.028059027444940977,
+          "attention_write": 0.06379466263658314,
+          "mlp_write": 0.4136111500239389
+        },
+        "full_target_projection": {
+          "carried_state": 0.32486948655197984,
+          "current_embedding_injection": 0.028363940908260835,
+          "attention_write": 0.0346481468644354,
+          "mlp_write": 0.25919407299568853
+        },
+        "state_projection": {
+          "carried_state": 0.44630948747216964,
+          "current_embedding_injection": 0.01957817495523362,
+          "attention_write": 0.07415560890201697,
+          "mlp_write": 0.4599567204253314
+        },
+        "within_residual_sum": 0.9999999888071808,
+        "full_projection_sum": 0.6470756473203646,
+        "state_projection_sum": 0.9999999917547516,
+        "maximum_state_recomposition_error": 7.62939453125e-05,
+        "maximum_logit_recomposition_error": 2.09808349609375e-05,
+        "mean_residual_route_kl": 3.6903680148332016
+      },
+      "7": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.6161997863443088,
+          "current_embedding_injection": 0.05734996008260913,
+          "attention_write": 0.05677302183152216,
+          "mlp_write": 0.26967726366426303
+        },
+        "full_target_projection": {
+          "carried_state": 0.4784735621862405,
+          "current_embedding_injection": 0.062442759547836756,
+          "attention_write": 0.04908366447497179,
+          "mlp_write": 0.2018994706245419
+        },
+        "state_projection": {
+          "carried_state": 0.6198845533263417,
+          "current_embedding_injection": 0.04105437776850863,
+          "attention_write": 0.035425946946002373,
+          "mlp_write": 0.3036351097386266
+        },
+        "within_residual_sum": 1.0000000319227031,
+        "full_projection_sum": 0.7918994568335909,
+        "state_projection_sum": 0.9999999877794794,
+        "maximum_state_recomposition_error": 0.000152587890625,
+        "maximum_logit_recomposition_error": 1.621246337890625e-05,
+        "mean_residual_route_kl": 6.051497127698815
+      },
+      "8": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.6979761906346794,
+          "current_embedding_injection": 0.04129876289501021,
+          "attention_write": 0.057852539078830464,
+          "mlp_write": 0.20287255776025143
+        },
+        "full_target_projection": {
+          "carried_state": 0.6192343280524921,
+          "current_embedding_injection": 0.04589419724044889,
+          "attention_write": 0.046288547451744176,
+          "mlp_write": 0.17334813120997145
+        },
+        "state_projection": {
+          "carried_state": 0.6885886638581193,
+          "current_embedding_injection": 0.03271005353902369,
+          "attention_write": 0.0424341167718689,
+          "mlp_write": 0.23626717925519952
+        },
+        "within_residual_sum": 1.0000000503687716,
+        "full_projection_sum": 0.8847652039546566,
+        "state_projection_sum": 1.0000000134242115,
+        "maximum_state_recomposition_error": 0.000244140625,
+        "maximum_logit_recomposition_error": 1.430511474609375e-05,
+        "mean_residual_route_kl": 7.876503488291865
+      },
+      "9": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.7545456857861489,
+          "current_embedding_injection": 0.0319281364602934,
+          "attention_write": 0.03445443880788406,
+          "mlp_write": 0.17907174395654413
+        },
+        "full_target_projection": {
+          "carried_state": 0.7137165879323133,
+          "current_embedding_injection": 0.0349397850050668,
+          "attention_write": 0.03221774724535346,
+          "mlp_write": 0.16169981988060508
+        },
+        "state_projection": {
+          "carried_state": 0.7068418295473867,
+          "current_embedding_injection": 0.023339076801191582,
+          "attention_write": 0.024961784244024034,
+          "mlp_write": 0.24485729722885607
+        },
+        "within_residual_sum": 1.0000000050108704,
+        "full_projection_sum": 0.9425739400633386,
+        "state_projection_sum": 0.9999999878214584,
+        "maximum_state_recomposition_error": 0.00042724609375,
+        "maximum_logit_recomposition_error": 1.049041748046875e-05,
+        "mean_residual_route_kl": 8.96324821140455
+      },
+      "10": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.8049439383779999,
+          "current_embedding_injection": 0.02092643875993504,
+          "attention_write": 0.002178025392092285,
+          "mlp_write": 0.17195162356776977
+        },
+        "full_target_projection": {
+          "carried_state": 0.7955220103641878,
+          "current_embedding_injection": 0.022472847217062365,
+          "attention_write": -0.0004042820555626186,
+          "mlp_write": 0.16477290778522996
+        },
+        "state_projection": {
+          "carried_state": 0.5335759161084738,
+          "current_embedding_injection": 0.011042653851509541,
+          "attention_write": 0.012164126545469127,
+          "mlp_write": 0.44321730794250996
+        },
+        "within_residual_sum": 1.000000026097797,
+        "full_projection_sum": 0.9823634833109175,
+        "state_projection_sum": 1.0000000044479624,
+        "maximum_state_recomposition_error": 0.0008544921875,
+        "maximum_logit_recomposition_error": 1.52587890625e-05,
+        "mean_residual_route_kl": 9.730601061945377
+      },
+      "11": {
+        "examples": 46,
+        "within_residual_shapley": {
+          "carried_state": 0.8863992371250197,
+          "current_embedding_injection": 0.010601902432666932,
+          "attention_write": 0.017348483220609178,
+          "mlp_write": 0.08565038399563912
+        },
+        "full_target_projection": {
+          "carried_state": 0.8863992388177555,
+          "current_embedding_injection": 0.010601901080754806,
+          "attention_write": 0.017348484804926203,
+          "mlp_write": 0.08565033055294603
+        },
+        "state_projection": {
+          "carried_state": 0.3451974309874216,
+          "current_embedding_injection": 0.0011762401719965568,
+          "attention_write": 0.0040758681070839796,
+          "mlp_write": 0.6495504712178637
+        },
+        "within_residual_sum": 1.000000006773935,
+        "full_projection_sum": 0.9999999552563825,
+        "state_projection_sum": 1.0000000104843658,
+        "maximum_state_recomposition_error": 0.0009765625,
+        "maximum_logit_recomposition_error": 7.62939453125e-06,
+        "mean_residual_route_kl": 10.082502862681514
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "experiment": "H560",
+  "source_sha256": "ea84c4fa2279bd436a7910b1997ba995aecb39f128efc5861af122d2958ebec0",
+  "train_items": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "test_items": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "global_ranks": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "scales": [
+    0.0625,
+    1.0
+  ],
+  "design": "Same 40 training contexts and ranks 4/8/16/32 for Euclidean PCA versus response-weighted context projection in the identical 39-dimensional training span. Metric averages squared bilinear responses over unit normalized displacements from the 40 training prompts at +1/16. No test outputs or contexts used in fitting.",
+  "metrics": [
+    "relative internal response error",
+    "answer margin MAE",
+    "KL(exact perturbed distribution || approximate perturbed distribution)",
+    "KL ratio to zero MLP response baseline"
+  ],
+  "scope": "Response-weighted metric uses the training-direction cross-product with training contexts, not output KL. Retrospective split on previously inspected prompts; withheld from fitting, not prospective fresh evidence. Only local context modulation compressed, not full MLP or downstream circuit. PCA optimizes context reconstruction, not response or KL."
+}

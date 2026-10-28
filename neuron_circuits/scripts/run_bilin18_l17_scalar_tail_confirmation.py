@@ -1,0 +1,44 @@
+"""H450 scalar tail and between-group factorial confirmation."""
+import json,hashlib
+import numpy as np
+import torch
+import torch.nn.functional as F
+from run_bilin18_l17_local_residual_charts import ROOT,ART,load_full_model,collect_sources
+from run_bilin18_l17_fisher_ranked_factors import native_drms
+STEM=ART/'bilin18_l17_scalar_tail_confirmation'
+@torch.inference_mode()
+def main():
+ torch.set_num_threads(6);cfg=json.loads((ROOT/'configs'/f'{STEM.name}.json').read_text())
+ for n,h in cfg['hashes'].items():assert hashlib.sha256((ART/n).read_bytes()).hexdigest()==h
+ oldcfg=json.loads((ROOT/'configs/bilin18_l17_operator_transfer_confirmation.json').read_text());assert hashlib.sha256((ROOT/oldcfg['corpus']).read_bytes()).hexdigest()==oldcfg['corpus_sha256'];oldsel=json.loads((ART/'bilin18_l17_operator_transfer_confirmation_selection.json').read_text());excluded=np.r_[oldsel['low'],oldsel['median'],json.loads((ART/'bilin18_l17_context_projection_transfer_selection.json').read_text())['sites'],json.loads((ART/'bilin18_l17_condition_rule_confirmation_selection.json').read_text())['sites']];remaining=np.setdiff1d(np.arange(512),excluded);sites=np.random.default_rng(cfg['context_seed']).permutation(remaining)[:cfg['context_count']];assert not set(sites)&set(excluded);STEM.with_name(STEM.name+'_selection.json').write_text(json.dumps({'sites':sites.tolist(),'excluded':excluded.tolist(),'scope':'Previously baseline-collected but intervention-unused complete documents within H438 panel; random sample of remaining224. Not new corpus documents.'},indent=2)+'\n')
+ model=load_full_model('cuda');model.embedding.float();model.blocks.float();model.lm_head.float();Lf,Rf,Df=[m.weight.detach() for m in [model.blocks[17].mlp.Left,model.blocks[17].mlp.Right,model.blocks[17].mlp.Down]];L,R,D=Lf.double(),Rf.double(),Df.double();W=model.lm_head.weight.double();allpre,_,_=collect_sources(model,np.load(ROOT/oldcfg['corpus']),oldcfg);pre=allpre[sites];xf=F.rms_norm(pre,(1152,));phi=(xf@Lf.T)*(xf@Rf.T);st=pre+phi@Df.T+model.blocks[17].mlp.Down_bias;base=F.rms_norm(st,(1152,));_,dh,_=collect_sources(model,np.load(ROOT/oldcfg['donor_corpus']),oldcfg);Q=torch.linalg.qr(model.blocks[17].attn.c_proj.weight.reshape(1152,9,128)[:,6]).Q.double();m=np.load(ART/'bilin18_l17_unmatched_moment_controls_moments.npz');mu=torch.tensor(m['mean'][1],device='cuda');cov=torch.tensor(m['covariance'][1],device='cuda');gr=torch.tensor(m['root'][1],device='cuda');ev,U=torch.linalg.eigh(cov+mu[:,None]*mu[None,:]);inv=(U*ev.rsqrt())@U.T;V=torch.tensor(np.load(ART/'bilin18_l17_omitted_operator_shared_frozen.npz')['basis'][:,:16],device='cuda');H=torch.tensor(np.load(ART/'bilin18_l17_compiled_omitted_maps_weight_compilation.npz')['source_directions'],device='cuda');T=torch.tensor(np.load(ART/'bilin18_l17_compiled_omitted_maps_weight_compilation.npz')['maps'],device='cuda');sources=[];donors=[]
+ for seed in cfg['source_seeds']:
+  di=int(np.random.default_rng(seed).integers(512));donors.append(di);sources.append(dh[di,6].double())
+ for seed in cfg['source_seeds']:
+  noise=torch.tensor(np.random.default_rng(seed+100000).standard_normal(128),device='cuda');sources.append((mu+noise@gr.T)@Q.T)
+ sources=torch.stack(sources);coeff=sources@Q@inv@V;ix=torch.tensor(np.load(ART/'bilin18_l17_residual_factor_rescue_frozen_sets.npz')['sets128'][0],device='cuda');s=(pre.double().square().mean(-1,keepdim=True)+torch.finfo(torch.float32).eps).sqrt();x=pre.double()/s;phid=(x@L.T)*(x@R.T);mo=phid@D.T-phid[:,ix]@D[:,ix].T;A=torch.einsum('roi,ni->nro',T,x);linear=-torch.einsum('ar,nro->ano',coeff,A)/s[None];rad=2*torch.einsum('ar,nr->an',coeff,x@H/1152)[:,:,None]*mo[None]/s[None];full=[];ret=[]
+ for h in sources:
+  xt=F.rms_norm(pre-h.float(),(1152,));phit=(xt@Lf.T)*(xt@Rf.T);full.append(phit@Df.T-phi@Df.T);ret.append((phit-phi)[:,ix]@Df[:,ix].T)
+ full=torch.stack(full).double();ret=torch.stack(ret).double();pj=np.load(ART/'bilin18_l17_metric_compiled_selection_frozen_projection.npz');sel=json.loads((ART/'bilin18_l17_metric_compiled_selection_selection.json').read_text())['selected'];enc=torch.tensor(pj['encoders'][sel],device='cuda');dec=torch.tensor(pj['decoders'][sel],device='cuda');bases=[torch.linalg.qr(dec).Q]+[torch.linalg.qr(torch.tensor(np.random.default_rng(seed).standard_normal((1152,64)),device='cuda')).Q for seed in cfg['random_seeds']]
+ wnorm=W.square().sum(-1);calstate=torch.tensor(np.load(ART/'bilin18_l17_context_projection_transfer_rows.npz')['state'],device='cuda');caltrace=[]
+ for cs in calstate:
+  ct=torch.tanh(F.rms_norm(cs[None],(1152,)).double()@W.T/30);cp=(30*ct).softmax(-1)[0];cc=(1-ct.square())[0];tail=cp.argsort(descending=True)[128:];wt=cp[tail]/cp[tail].sum();mg=(wt*cc[tail])@W[tail];caltrace.append(.5*((wt*cc[tail].square()*wnorm[tail]).sum()-mg.square().sum()))
+ constant=torch.stack(caltrace).mean();np.savez_compressed(STEM.with_name(STEM.name+'_calibration.npz'),traces=torch.stack(caltrace).cpu().numpy(),constant=constant.cpu().numpy());print('calibration complete',float(constant),flush=True)
+ labels=['full_condition','top128_condition','isotropic_own_between','isotropic_constant_between','isotropic_own_no_between','isotropic_constant_no_between'];ns=len(sites);nb=len(bases);errors=np.empty((6,nb,24,ns,2));effects=np.empty((24,ns,2));norms=np.empty((6,nb,24,ns));split=np.empty((6,nb,24,ns,2));trace=[];mass=[];audit=0.;decomp=0.;condmax=0.
+ for si in range(ns):
+  ss=st[si:si+1];th=torch.tanh(base[si:si+1].double()@W.T/30);p=(30*th).softmax(-1);cap=1-th.square();lp0=(30*th).log_softmax(-1);order=p[0].argsort(descending=True);head=order[:128];tail=order[128:];mh=p[0,head].sum();mt=p[0,tail].sum();wh=p[0,head]/mh;wt=p[0,tail]/mt;mg=(wt*cap[0,tail])@W[tail];tr=.5*((wt*cap[0,tail].square()*wnorm[tail]).sum()-mg.square().sum());trace.append(float(tr));mass.append(float(mh))
+  def tangent_raw(v):return (native_drms(ss.double(),v)@W.T)*cap
+  def tangent(v):
+   t=tangent_raw(v);return t-(p*t).sum(-1,keepdim=True)
+  def lp(v):return (30*torch.tanh(F.rms_norm(ss+v.float(),(1152,)).double()@W.T/30)).log_softmax(-1)
+  tl=tangent_raw(linear[:,si]);tf=tangent(full[:,si]);lt=lp(full[:,si]);pt=lt.exp();effects[:,si]=torch.stack([.5*(p*tf.square()).sum(-1),(pt*(lt-lp0)).sum(-1)],-1).cpu().numpy()
+  for bi,b in enumerate(bases):
+   tb=tangent_raw(b.T)
+   def stats(ids,w):
+    bb=tb[:,ids];ll=tl[:,ids];bm=(bb*w).sum(-1);lm=(ll*w).sum(-1);bc=bb-bm[:,None];lc=ll-lm[:,None];return .5*(bc*w)@bc.T,.5*(bc*w)@lc.T,bm,lm
+   gh,rh,bh,lh=stats(head,wh);gt,rt,bt,ltail=stats(tail,wt);db=bh-bt;dl=lh-ltail;gb=.5*mh*mt*db[:,None]*db[None,:];rb=.5*mh*mt*db[:,None]*dl[None,:];gf=mh*gh+mt*gt+gb;rf=mh*rh+mt*rt+rb;bc=tb-(tb*p).sum(-1,keepdim=True);lc=tl-(tl*p).sum(-1,keepdim=True);gd=.5*(bc*p)@bc.T;rd=.5*(bc*p)@lc.T;decomp=max(decomp,float((gf-gd).norm()/gd.norm()),float((rf-rd).norm()/rd.norm()));dzb=native_drms(ss.double(),b.T);dzl=native_drms(ss.double(),linear[:,si]);gi=dzb@dzb.T/1152;ri=dzb@dzl.T/1152;systems=[(gf,rf),(gh,rh),(mh*gh+mt*tr*gi+gb,mh*rh+mt*tr*ri+rb),(mh*gh+mt*constant*gi+gb,mh*rh+mt*constant*ri+rb),(mh*gh+mt*tr*gi,mh*rh+mt*tr*ri),(mh*gh+mt*constant*gi,mh*rh+mt*constant*ri)]
+   for ci,(g,rhs) in enumerate(systems):
+    ev=torch.linalg.eigvalsh(g);lam=torch.maximum(cfg['ridge']*g.trace()/64,(ev[-1]-cfg['condition_cap']*ev[0])/(cfg['condition_cap']-1));reg=g+lam*torch.eye(64,device='cuda');c=torch.linalg.solve(reg,rhs);audit=max(audit,float((reg@c-rhs).norm()/rhs.norm()));condmax=max(condmax,float((ev[-1]+lam)/(ev[0]+lam)));cor=c.T@b.T;v=ret[:,si]+rad[:,si]+cor;res=tf-tangent(v);lg=lp(v);errors[ci,bi,:,si]=torch.stack([.5*(p*res.square()).sum(-1),(pt*(lt-lg)).sum(-1)],-1).cpu().numpy();norms[ci,bi,:,si]=(cor.norm(dim=-1)/linear[:,si].norm(dim=-1)).cpu().numpy();en=.5*p*res.square();inside=en[:,head].sum(-1);split[ci,bi,:,si]=torch.stack([inside,en.sum(-1)-inside],-1).cpu().numpy()
+  np.savez_compressed(STEM.with_name(STEM.name+'_partial_rows.npz'),errors=errors[:,:,:,:si+1],effects=effects[:,:si+1]);print('site',si,'complete',flush=True)
+ assert all(np.isfinite(v).all() for v in [errors,effects,norms,split]);np.savez_compressed(STEM.with_name(STEM.name+'_rows.npz'),errors=errors,effects=effects,norms=norms,split_error=split,traces=trace,masses=mass,sources=sources.cpu().numpy(),pre=pre.cpu().numpy(),state=st.cpu().numpy(),full=full.cpu().numpy(),retained=ret.cpu().numpy());j={'experiment':'H450','config':cfg,'conditions':labels,'sites':sites.tolist(),'donor_ids':donors,'calibration_trace':float(constant),'solve_relative_max':audit,'decomposition_relative_max':decomp,'condition_max':condmax,'numerical_gates':{'solve':audit<1e-8,'decomposition':decomp<1e-10,'condition':condmax<cfg['condition_cap']*(1+1e-8)},'unique_completed_documents':12480};STEM.with_suffix('.json').write_text(json.dumps(j,indent=2)+'\n');print('FINISHED',j['numerical_gates'],flush=True)
+if __name__=='__main__':main()

@@ -1,0 +1,53 @@
+{
+  "experiment": "H754",
+  "hashes": {
+    "data": "3ebd5f4914f1d1fe7a74a06ceb7d5d49f05122d7ee28b487d3314bb8a4d8f5e0",
+    "task_heads": "621bc78974d1542ce3f109e58fbbacc2d2fc3f6aa7c5326bdc1ec496cfa39f94",
+    "task_contexts": "3a13168db40b73eeb4230ff389a5027f777ee7860b2747642014f1ad05a1ba81",
+    "task_results": "2f632e71c7e96635ef079827ac450ff400fba7227bf2f18a8a198bb930b81847",
+    "runner": "abdbe7b782d85c3457b156d30ad8f6d33115aaf4c1ef2620d0d3f8a7ae787120",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+    "source": "49ecdbd6c060ff5b3e57f3134d87ba32841390c891c42e6ae23b71d8627612b2"
+  },
+  "sites": {
+    "L5H3": 3,
+    "L5H5": 5
+  },
+  "ranks": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128
+  ],
+  "random_seeds": [
+    7541,
+    7542,
+    7543
+  ],
+  "train_documents": 2048,
+  "validation_documents": 256,
+  "positions": [
+    7,
+    15,
+    23,
+    31,
+    39,
+    47,
+    55,
+    63,
+    71,
+    79,
+    87,
+    95,
+    103,
+    111,
+    119,
+    127
+  ],
+  "design": "Reuse H722 natural train/validation token documents, no task examples in fits. Capture L5 pre-output-projection head activations using exact six-block prefix. Fit train-centered coordinate PCA and residual-write-metric PCA, plus adaptive top-K in write PCA and three random orthogonal write-coordinate controls. All128 directions retained in fit objects; linear rank and adaptive active-coordinate budget distinguished. Natural validation MSE and reused H747 operation-difference write MSE, separately by native competence/format/query or source position. Adaptive difference is F(donor)-F(receiver), never F(delta).",
+  "limitations": "Task-informed head selection, task-blind fits. Reused validation and task panels. No new causal fidelity evaluations or manifold conclusions from reconstruction. Fixed PCA subspaces have rankK; adaptive topK can use all128 directions across examples. Original reserved test untouched."
+}

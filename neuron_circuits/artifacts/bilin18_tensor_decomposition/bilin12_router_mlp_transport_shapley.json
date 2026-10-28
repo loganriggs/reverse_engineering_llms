@@ -1,0 +1,192 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-operator-decomposition-before-layerwise-mlp-shapley",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261217,
+    "batch_size": 2,
+    "targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "output_rank": 32,
+    "input_rank": 32,
+    "steps": 1500,
+    "learning_rate": 0.02,
+    "scale": 0.02,
+    "boundary_layer": 6,
+    "mlp_layers": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "basis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "natural": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 13000,
+      "rows": 768
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "M0_shapley_recomposition_is_exact": "Residual response plus four exact MLP-layer Shapley vectors reconstructs the all-MLP response to maximum absolute error at most 1e-5.",
+      "M1_one_mlp_layer_dominates": "At least one layer receives at least 50 percent target projection on every corpus.",
+      "M2_late_mlp_layers_dominate": "Layers 9 and 10 together receive at least 70 percent target projection on every corpus.",
+      "M3_progressive_unfreezing_is_monotonic": "Cumulative chronological unfreezing never lowers response fidelity by more than 0.02 on any corpus.",
+      "M4_mlp_layer_interactions_are_material": "The difference between the all-dynamic response and the additive sum of four single-layer responses has norm at least 10 percent of the target on every corpus.",
+      "M5_layer_profile_transfers_ood": "Every OOD Shapley projection differs from FineWeb by at most 0.10 for each layer.",
+      "M6_early_late_cancellation_is_material": "The sum of absolute MLP-layer target projections is at least 1.20 on every corpus."
+    }
+  },
+  "hypotheses": {
+    "M0_shapley_recomposition_is_exact": {
+      "supported": true
+    },
+    "M1_one_mlp_layer_dominates": {
+      "supported": false
+    },
+    "M2_late_mlp_layers_dominate": {
+      "supported": false
+    },
+    "M3_progressive_unfreezing_is_monotonic": {
+      "supported": true
+    },
+    "M4_mlp_layer_interactions_are_material": {
+      "supported": true
+    },
+    "M5_layer_profile_transfers_ood": {
+      "supported": true
+    },
+    "M6_early_late_cancellation_is_material": {
+      "supported": false
+    }
+  },
+  "results": {
+    "fineweb": {
+      "sites": 128,
+      "maximum_recomposition_error": 9.313225746154785e-10,
+      "residual_projection": 0.7069442868232727,
+      "layer_target_projection": {
+        "7": 0.060740239918231964,
+        "8": 0.0348273366689682,
+        "9": 0.0691448301076889,
+        "10": 0.12834329903125763
+      },
+      "layer_norm_ratio": {
+        "7": 0.19799871292184903,
+        "8": 0.16516360626993265,
+        "9": 0.16881266958759994,
+        "10": 0.2624657265945591
+      },
+      "absolute_projection_sum": 0.2930557057261467,
+      "additive_interaction_norm_ratio": 0.3198819744754044,
+      "cumulative_fidelity": {
+        "7": 0.7900211066007614,
+        "8": 0.8380277007818222,
+        "9": 0.8925575539469719,
+        "10": 1.0
+      },
+      "single_layer_fidelity": {
+        "7": 0.7900211066007614,
+        "8": 0.7841625809669495,
+        "9": 0.7902131080627441,
+        "10": 0.816488966345787
+      }
+    },
+    "wikitext": {
+      "sites": 128,
+      "maximum_recomposition_error": 9.313225746154785e-10,
+      "residual_projection": 0.6730635762214661,
+      "layer_target_projection": {
+        "7": 0.06762250512838364,
+        "8": 0.051703568547964096,
+        "9": 0.07540355622768402,
+        "10": 0.13220679759979248
+      },
+      "layer_norm_ratio": {
+        "7": 0.1878595846421973,
+        "8": 0.15500570006536363,
+        "9": 0.1566206062830399,
+        "10": 0.25588861724207396
+      },
+      "absolute_projection_sum": 0.32693642750382423,
+      "additive_interaction_norm_ratio": 0.28994446710164384,
+      "cumulative_fidelity": {
+        "7": 0.8015290200710297,
+        "8": 0.8489972501993179,
+        "9": 0.9002136886119843,
+        "10": 1.0
+      },
+      "single_layer_fidelity": {
+        "7": 0.8015290200710297,
+        "8": 0.7946803122758865,
+        "9": 0.7987498492002487,
+        "10": 0.8292653560638428
+      }
+    },
+    "tinystories": {
+      "sites": 128,
+      "maximum_recomposition_error": 9.313225746154785e-10,
+      "residual_projection": 0.6850152611732483,
+      "layer_target_projection": {
+        "7": 0.07024823874235153,
+        "8": 0.048164039850234985,
+        "9": 0.07146243751049042,
+        "10": 0.12511008977890015
+      },
+      "layer_norm_ratio": {
+        "7": 0.18353730981282276,
+        "8": 0.15341340556367333,
+        "9": 0.15757906495133503,
+        "10": 0.2444631212827435
+      },
+      "absolute_projection_sum": 0.3149848058819771,
+      "additive_interaction_norm_ratio": 0.29135976909791067,
+      "cumulative_fidelity": {
+        "7": 0.8136183619499207,
+        "8": 0.8600173443555832,
+        "9": 0.9097281321883202,
+        "10": 1.0
+      },
+      "single_layer_fidelity": {
+        "7": 0.8136183619499207,
+        "8": 0.8055745512247086,
+        "9": 0.8120770454406738,
+        "10": 0.8367881029844284
+      }
+    }
+  }
+}

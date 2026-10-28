@@ -1,0 +1,24 @@
+## H1019 — Cached first-layer values carry most of the language donor effect across the layer11 boundary
+
+Previous turn was progress: H1018found that last-position residual projection covered only11–20%of language lookup's natural donor effect, invalidating that boundary as a full-task benchmark. This turn audits the complete suffix interface with exact finite interventions before further featurizer training.
+
+Five ports at preL11: source-country residual; final-position residual; all other residual positions; normalized embedding recurrence x0; cached first-layer attention values v1. Enumerate all32recipient/donor corners for each of32historical language examples, with identical answer contrasts and donor pairing. Every port is a measured native tensor. Full-boundary donor transfer and no-transfer recipient controls reproduce independent native margins exactly. Earlier positions are identical by causal masking, so the other-residual port is a deliberate null control and every corresponding corner agrees exactly.
+
+| Cohort | Cached-values-only aligned recovery | Final-residual-only recovery | Source-residual-only recovery | Main-effects prediction error | Main+pair prediction error |
+|---|---:|---:|---:|---:|---:|
+| Discovery |75.6%|17.4%|6.1%|6.1%|1.4%|
+| Familiar countries,templateB |72.7%|20.3%|5.6%|8.8%|2.4%|
+| New countries/languages,A |84.5%|10.8%|4.2%|3.9%|0.5%|
+| New countries/languages,B |82.1%|13.0%|4.1%|4.2%|1.0%|
+
+Aligned recovery is dot(single-port output change,natural donor change)/squared-norm(natural donor change), not accuracy or a percentage of the entire model understood. Full-boundary recovery is100%by exact native replay. Embedding-recurrence-only recovery is0.25–0.28%. Exact Shapley allocations (averaging marginal effect over all port subsets) attribute73.1–84.6%to cached values,10.8–20.5%to final residual,4.3–6.3%to source residual,0.33–0.38%to embedding recurrence. These are intervention-game allocations, not uniquely privileged ontological parts; interactions are distributed by the chosen allocation rule.
+
+Mechanism: jacclust/tt_model.py CausalBilinearSelfAttention.forward initializes v1from the first block's value projection, then later blocks mix their current value vectors with v1via v=(1-lamb)*v+lamb*v1. This architectural bypass is already explicit in the old repo's exported executors; the new evidence is its dominance for this specific finite language intervention at this boundary. It was wrong to assume the layer11residual contained the whole relevant state. This experiment swaps v1only for downstream blocks11–17 while retaining recipient prefix residuals in the single-port arm; it does not ablate the first layer's influence throughout the entire network.
+
+Boundary implications: a residual-only feature dictionary can be faithful for one chosen response channel and still omit most of another task's computation. The relevant state here is at least(residual,x0,v1), with positions and native attention transport explicit. Language lookup may use token-specific cached content read through later attention; distinguishing its payload from routing is the next mechanistic question. This does not yet establish a low-dimensional cache feature, shared task atom, or manifold.
+
+Main/pair scores are calculated from measured native intervention corners by exact Mobius decomposition. They establish simple finite port interactions for this panel but are not executable predictions from activations; each example still requires native suffix queries to obtain its coefficients. No compression or student inference claim follows. Full effects RMS14.1–15.0logit-margin units; the last-position channel was only~1.6–3.0, explaining why its impressive-looking relative projection scores were incomplete.
+
+Audits: recipient and donor native replay both0absolute; Mobius closure0; Shapley closure1.78e-15; independent subset-weight Shapley replay3.55e-15; independent inclusion-exclusion Mobius replay0; null-port corner difference0;all finite.32prefix sequences,32native full sequences,1024suffix sequences. Saved all corners, decomposition, row identities, source positions, donor indices and native boundary tensors for re-use. No fitting/backwards, no reservedBSFtest data, natural-document pool26112unchanged. No live job;H961pending;broad goal active.
+
+Next construct discovery-only features at the cached-value source port and test finite v1patch fidelity across countries/templates, charging its separate coordinate budget. Compare weight-derived lexical value directions with causal/read-gradient and reconstruction directions; preserve full-boundary coverage and quantify interactions with residual routing. Use the complete state tuple when returning to multitask featurizers. Do not compensate for a missing native input by fitting more residual-only features or claiming one task's boundary is universal.

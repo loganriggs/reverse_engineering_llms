@@ -1,0 +1,35 @@
+{
+  "status": "hypotheses-locked-after-euclidean-tucker16-score-success-margin-gap-before-behavior-optimized-core-results",
+  "seed": 20261126,
+  "batch_size": 2,
+  "evaluation_batch_size": 4,
+  "layer": 16,
+  "final_layer": 17,
+  "positions": [31, 63, 95, 127],
+  "factor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_adjoint_factors.pt",
+  "base_tensor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_quotient.pt",
+  "discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18000, "rows": 64, "factor_dataset": "discovery", "factor_start": 0},
+  "fit_sites": 192,
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32, "factor_dataset": "fineweb", "factor_start": 0},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "wikitext", "factor_start": 0},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "tinystories", "factor_start": 0}
+  },
+  "components": ["prediction", "target", "margin"],
+  "rank": 16,
+  "objectives": {"scores": ["prediction", "target"], "all": ["prediction", "target", "margin"]},
+  "optimization_seeds": [0, 1, 2],
+  "steps": 300,
+  "validation_interval": 10,
+  "learning_rate": 0.03,
+  "hypotheses": {
+    "O0_hosvd_baseline_matches_prior_result": "The recomputed Euclidean HOSVD-16 baseline is within 0.01 of the prior head-split external fidelities.",
+    "O1_score_objective_improves_scores": "Every score-optimized seed improves mean external prediction/target fidelity over HOSVD-16 by at least 0.02.",
+    "O2_all_objective_improves_margin": "Every all-endpoint seed improves mean external margin fidelity over HOSVD-16 by at least 0.08.",
+    "O3_margin_gain_does_not_destroy_scores": "Every all-endpoint seed retains at least 0.80 prediction and target fidelity on every external corpus.",
+    "O4_validation_selection_transfers": "For both objectives, the seed with best validation objective is no worse than 0.03 below the best seed on the corresponding mean external objective.",
+    "O5_behavior_cores_are_seed_stable": "Within each objective, the external objective range across seeds is at most 0.05.",
+    "O6_score_and_margin_cores_are_distinct": "The best-validation score and all-endpoint cores have projector overlap below 0.90 in at least one tensor role.",
+    "O7_optimized_core_is_a_heldout_claim": "Optimization uses only the first 192 discovery sites; the final 64 sites select checkpoints and all external corpora remain untouched until evaluation."
+  }
+}

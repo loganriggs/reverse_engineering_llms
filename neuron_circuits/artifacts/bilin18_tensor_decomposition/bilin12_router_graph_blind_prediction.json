@@ -1,0 +1,90 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-natural-aggregate-reconstruction-before-sitewise-blind-prediction",
+    "parent_config": "configs/bilin12_router_graph_natural_causality.json",
+    "parent_result": "artifacts/bilin18_tensor_decomposition/bilin12_router_graph_natural_causality.json",
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 1200
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 1200
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 1200
+      }
+    },
+    "hypotheses": {
+      "B0_local_jacobian_predicts_logit_direction": "Median Fisher cosine between Jacobian-predicted and finite graph-replacement logit effects is at least 0.90 on every corpus.",
+      "B1_fisher_energy_ranks_finite_kl": "Spearman correlation between local Fisher energy and finite KL is at least 0.80 on every corpus.",
+      "B2_top_decile_localizes_error": "The 10% of sites with largest predicted Fisher energy contain at least 50% of total finite KL on every corpus.",
+      "B3_predicted_margin_identifies_top1_flips": "The predicted post-edit top1 margin score has AUROC at least 0.85 for finite top1 flips on every corpus.",
+      "B4_output_geometry_beats_hidden_norm": "Fisher-energy versus KL Spearman exceeds hidden-delta-norm versus KL Spearman by at least 0.20 on every corpus.",
+      "B5_second_order_scale_is_calibrated": "Median finite KL divided by one-half Fisher variance lies between 0.5 and 2.0 on every corpus."
+    }
+  },
+  "hypotheses": {
+    "B0_local_jacobian_predicts_logit_direction": {
+      "supported": true
+    },
+    "B1_fisher_energy_ranks_finite_kl": {
+      "supported": true
+    },
+    "B2_top_decile_localizes_error": {
+      "supported": false
+    },
+    "B3_predicted_margin_identifies_top1_flips": {
+      "supported": true
+    },
+    "B4_output_geometry_beats_hidden_norm": {
+      "supported": true
+    },
+    "B5_second_order_scale_is_calibrated": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "sites": 9600,
+      "median_fisher_cosine": 0.9978727102279663,
+      "fisher_kl_spearman": 0.9842401791231574,
+      "hidden_norm_kl_spearman": 0.3930871061397256,
+      "top_decile_kl_share": 0.36008867621421814,
+      "flip_rate": 0.11291666666666667,
+      "flip_auc": 0.9996978771455164,
+      "median_actual_over_predicted_kl": 1.0169521570205688,
+      "mean_actual_kl": 0.04664166271686554,
+      "mean_predicted_kl": 0.0447486974298954
+    },
+    "wikitext": {
+      "sites": 9600,
+      "median_fisher_cosine": 0.9984174966812134,
+      "fisher_kl_spearman": 0.9845811209806979,
+      "hidden_norm_kl_spearman": 0.5324051116119262,
+      "top_decile_kl_share": 0.3294030427932739,
+      "flip_rate": 0.12375,
+      "flip_auc": 0.9990598847886056,
+      "median_actual_over_predicted_kl": 1.0225169658660889,
+      "mean_actual_kl": 0.07012755423784256,
+      "mean_predicted_kl": 0.06690164655447006
+    },
+    "tinystories": {
+      "sites": 9600,
+      "median_fisher_cosine": 0.9974055886268616,
+      "fisher_kl_spearman": 0.9785567251362493,
+      "hidden_norm_kl_spearman": 0.34169288334627695,
+      "top_decile_kl_share": 0.3301541805267334,
+      "flip_rate": 0.10333333333333333,
+      "flip_auc": 0.9998197709932246,
+      "median_actual_over_predicted_kl": 0.9872288107872009,
+      "mean_actual_kl": 0.040011633187532425,
+      "mean_predicted_kl": 0.042157940566539764
+    }
+  }
+}

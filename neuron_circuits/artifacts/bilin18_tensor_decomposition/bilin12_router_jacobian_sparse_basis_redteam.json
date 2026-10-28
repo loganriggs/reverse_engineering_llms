@@ -1,0 +1,783 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-pca-semantic-audit-before-sparse-basis-redteam",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261222,
+    "batch_size": 4,
+    "targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "steps": 1500,
+    "learning_rate": 0.02,
+    "scale": 1.0,
+    "layer": 6,
+    "rank": 16,
+    "random_rotations": 20,
+    "ica_starts": 5,
+    "ica_iterations": 500,
+    "minimum_train_positive": 20,
+    "minimum_eval_positive": 5,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "basis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "natural": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 13000,
+      "rows": 768
+    },
+    "mode_train": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14000,
+      "rows": 256
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 128
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 128
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 128
+      }
+    },
+    "hypotheses": {
+      "R0_pca_result_survives_coverage_control": "Using only predicates with adequate positives and negatives on every corpus, PCA-mode median AUROC remains at least 0.70 everywhere.",
+      "R1_ica_improves_individual_semantics": "ICA improves median AUROC over PCA by at least 0.05 on every corpus.",
+      "R2_ica_is_privileged_over_random_rotations": "ICA exceeds the 95th percentile of matched whitened random rotations by at least 0.05 on every corpus.",
+      "R3_varimax_improves_individual_semantics": "Varimax improves median AUROC over PCA by at least 0.05 on every corpus.",
+      "R4_ica_coordinates_are_reproducible": "The selected ICA solution has mean greedy absolute-axis overlap at least 0.80 with every other start.",
+      "R5_sparse_basis_labels_are_diverse": "The better sparse basis selects at least five distinct robust predicates."
+    }
+  },
+  "hypotheses": {
+    "R0_pca_result_survives_coverage_control": {
+      "supported": true
+    },
+    "R1_ica_improves_individual_semantics": {
+      "supported": false
+    },
+    "R2_ica_is_privileged_over_random_rotations": {
+      "supported": false
+    },
+    "R3_varimax_improves_individual_semantics": {
+      "supported": false
+    },
+    "R4_ica_coordinates_are_reproducible": {
+      "supported": false
+    },
+    "R5_sparse_basis_labels_are_diverse": {
+      "supported": true
+    }
+  },
+  "robust_label_indices": [
+    0,
+    7,
+    8,
+    9,
+    12,
+    14,
+    15,
+    17,
+    18,
+    19,
+    27,
+    29,
+    32,
+    34,
+    35,
+    37,
+    38,
+    39,
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "robust_label_names": [
+    "current:newline",
+    "current:word_continuation",
+    "current:suffix_ing",
+    "current:suffix_ed",
+    "current:comma_period",
+    "current:leading_space",
+    "current:alphabetic",
+    "current:punctuation",
+    "current:single_char",
+    "current:capitalized",
+    "next:word_continuation",
+    "next:suffix_ed",
+    "next:comma_period",
+    "next:leading_space",
+    "next:alphabetic",
+    "next:punctuation",
+    "next:single_char",
+    "next:capitalized",
+    "next_exact: the",
+    "position:31",
+    "position:63",
+    "position:95",
+    "position:127"
+  ],
+  "ica": {
+    "iterations": 113,
+    "convergence": 5.364418029785156e-07,
+    "absolute_excess_kurtosis": 2.1755051612854004,
+    "selected_start": 3
+  },
+  "ica_cross_start_overlap": [
+    0.7206604480743408,
+    0.7357785701751709,
+    0.7418793439865112,
+    0.7352516651153564
+  ],
+  "varimax": {
+    "iterations": 78,
+    "objective": 72885.828125,
+    "absolute_excess_kurtosis": 2.4466452598571777
+  },
+  "better_sparse_basis": "ica",
+  "selections": {
+    "pca": [
+      {
+        "mode": 0,
+        "label_index": 32,
+        "label": "next:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.7241048286454833
+      },
+      {
+        "mode": 1,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": -1,
+        "discovery_auc": 0.9890275387263339
+      },
+      {
+        "mode": 2,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": 1,
+        "discovery_auc": 0.861732644865175
+      },
+      {
+        "mode": 3,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": -1,
+        "discovery_auc": 0.9387191623637406
+      },
+      {
+        "mode": 4,
+        "label_index": 27,
+        "label": "next:word_continuation",
+        "sign": -1,
+        "discovery_auc": 0.7706303488338206
+      },
+      {
+        "mode": 5,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": -1,
+        "discovery_auc": 0.7241824440619622
+      },
+      {
+        "mode": 6,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": 1,
+        "discovery_auc": 0.8538080895008606
+      },
+      {
+        "mode": 7,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": 1,
+        "discovery_auc": 0.8812751004016064
+      },
+      {
+        "mode": 8,
+        "label_index": 12,
+        "label": "current:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.7124438334115754
+      },
+      {
+        "mode": 9,
+        "label_index": 29,
+        "label": "next:suffix_ed",
+        "sign": -1,
+        "discovery_auc": 0.5995975855130784
+      },
+      {
+        "mode": 10,
+        "label_index": 12,
+        "label": "current:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.6054758232177587
+      },
+      {
+        "mode": 11,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": 1,
+        "discovery_auc": 0.6440404475043029
+      },
+      {
+        "mode": 12,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": 1,
+        "discovery_auc": 0.6786431440045898
+      },
+      {
+        "mode": 13,
+        "label_index": 43,
+        "label": "next_exact: the",
+        "sign": -1,
+        "discovery_auc": 0.6020855667088978
+      },
+      {
+        "mode": 14,
+        "label_index": 29,
+        "label": "next:suffix_ed",
+        "sign": -1,
+        "discovery_auc": 0.7102951039570757
+      },
+      {
+        "mode": 15,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": -1,
+        "discovery_auc": 0.6227051061388411
+      }
+    ],
+    "ica": [
+      {
+        "mode": 0,
+        "label_index": 19,
+        "label": "current:capitalized",
+        "sign": 1,
+        "discovery_auc": 0.6504822586311519
+      },
+      {
+        "mode": 1,
+        "label_index": 17,
+        "label": "current:punctuation",
+        "sign": -1,
+        "discovery_auc": 0.6019046926683872
+      },
+      {
+        "mode": 2,
+        "label_index": 43,
+        "label": "next_exact: the",
+        "sign": -1,
+        "discovery_auc": 0.7424552512750544
+      },
+      {
+        "mode": 3,
+        "label_index": 32,
+        "label": "next:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.8111054731962863
+      },
+      {
+        "mode": 4,
+        "label_index": 43,
+        "label": "next_exact: the",
+        "sign": -1,
+        "discovery_auc": 0.75418250332976
+      },
+      {
+        "mode": 5,
+        "label_index": 9,
+        "label": "current:suffix_ed",
+        "sign": 1,
+        "discovery_auc": 0.8000694957216696
+      },
+      {
+        "mode": 6,
+        "label_index": 19,
+        "label": "current:capitalized",
+        "sign": 1,
+        "discovery_auc": 0.61420107949283
+      },
+      {
+        "mode": 7,
+        "label_index": 29,
+        "label": "next:suffix_ed",
+        "sign": -1,
+        "discovery_auc": 0.658316566063045
+      },
+      {
+        "mode": 8,
+        "label_index": 29,
+        "label": "next:suffix_ed",
+        "sign": -1,
+        "discovery_auc": 0.6442655935613681
+      },
+      {
+        "mode": 9,
+        "label_index": 43,
+        "label": "next_exact: the",
+        "sign": 1,
+        "discovery_auc": 0.6741383231004126
+      },
+      {
+        "mode": 10,
+        "label_index": 29,
+        "label": "next:suffix_ed",
+        "sign": 1,
+        "discovery_auc": 0.6797116029510396
+      },
+      {
+        "mode": 11,
+        "label_index": 9,
+        "label": "current:suffix_ed",
+        "sign": -1,
+        "discovery_auc": 0.6215957955088389
+      },
+      {
+        "mode": 12,
+        "label_index": 39,
+        "label": "next:capitalized",
+        "sign": 1,
+        "discovery_auc": 0.6543193942522801
+      },
+      {
+        "mode": 13,
+        "label_index": 12,
+        "label": "current:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.8755113674468513
+      },
+      {
+        "mode": 14,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": 1,
+        "discovery_auc": 0.9931870338496844
+      },
+      {
+        "mode": 15,
+        "label_index": 27,
+        "label": "next:word_continuation",
+        "sign": -1,
+        "discovery_auc": 0.8071651302176933
+      }
+    ],
+    "varimax": [
+      {
+        "mode": 0,
+        "label_index": 12,
+        "label": "current:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.8555093555093555
+      },
+      {
+        "mode": 1,
+        "label_index": 0,
+        "label": "current:newline",
+        "sign": -1,
+        "discovery_auc": 0.994872346528973
+      },
+      {
+        "mode": 2,
+        "label_index": 43,
+        "label": "next_exact: the",
+        "sign": 1,
+        "discovery_auc": 0.8060942728129162
+      },
+      {
+        "mode": 3,
+        "label_index": 19,
+        "label": "current:capitalized",
+        "sign": 1,
+        "discovery_auc": 0.7117706237424547
+      },
+      {
+        "mode": 4,
+        "label_index": 27,
+        "label": "next:word_continuation",
+        "sign": -1,
+        "discovery_auc": 0.7548643424030774
+      },
+      {
+        "mode": 5,
+        "label_index": 12,
+        "label": "current:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.6412212460599558
+      },
+      {
+        "mode": 6,
+        "label_index": 27,
+        "label": "next:word_continuation",
+        "sign": 1,
+        "discovery_auc": 0.7138610687467822
+      },
+      {
+        "mode": 7,
+        "label_index": 43,
+        "label": "next_exact: the",
+        "sign": 1,
+        "discovery_auc": 0.7966410031510899
+      },
+      {
+        "mode": 8,
+        "label_index": 12,
+        "label": "current:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.6221916705787673
+      },
+      {
+        "mode": 9,
+        "label_index": 32,
+        "label": "next:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.6324414761584772
+      },
+      {
+        "mode": 10,
+        "label_index": 27,
+        "label": "next:word_continuation",
+        "sign": 1,
+        "discovery_auc": 0.6492622130693685
+      },
+      {
+        "mode": 11,
+        "label_index": 32,
+        "label": "next:comma_period",
+        "sign": 1,
+        "discovery_auc": 0.7177278898503819
+      },
+      {
+        "mode": 12,
+        "label_index": 8,
+        "label": "current:suffix_ing",
+        "sign": 1,
+        "discovery_auc": 0.6737089201877934
+      },
+      {
+        "mode": 13,
+        "label_index": 9,
+        "label": "current:suffix_ed",
+        "sign": 1,
+        "discovery_auc": 0.6269817139382357
+      },
+      {
+        "mode": 14,
+        "label_index": 27,
+        "label": "next:word_continuation",
+        "sign": -1,
+        "discovery_auc": 0.6394315300700388
+      },
+      {
+        "mode": 15,
+        "label_index": 29,
+        "label": "next:suffix_ed",
+        "sign": -1,
+        "discovery_auc": 0.6894030851777331
+      }
+    ]
+  },
+  "results": {
+    "fineweb": {
+      "pca": {
+        "median_auc": 0.7818431568431569,
+        "modes_above_080": 6,
+        "mode_aucs": [
+          0.7849164724164724,
+          0.9930555555555556,
+          0.8231646825396826,
+          0.9407242063492064,
+          0.7958554087586346,
+          0.7787698412698413,
+          0.9104662698412699,
+          0.8695436507936508,
+          0.6763102725366876,
+          0.653351814516129,
+          0.5937106918238994,
+          0.8439980158730159,
+          0.6865079365079365,
+          0.5454183266932271,
+          0.6324344758064516,
+          0.5287698412698413
+        ]
+      },
+      "ica": {
+        "median_auc": 0.690184605087965,
+        "modes_above_080": 5,
+        "mode_aucs": [
+          0.66890756302521,
+          0.5966840177366494,
+          0.7589641434262948,
+          0.8263888888888888,
+          0.8597609561752988,
+          0.6814667550254031,
+          0.5577246283128636,
+          0.6168094758064516,
+          0.7452116935483871,
+          0.4292828685258964,
+          0.6078629032258065,
+          0.5237464104263309,
+          0.6989024551505267,
+          0.8339023659778376,
+          0.9972718253968254,
+          0.8309301857688954
+        ]
+      },
+      "varimax": {
+        "median_auc": 0.6650463922869583,
+        "modes_above_080": 3,
+        "mode_aucs": [
+          0.8104222821203954,
+          0.9975198412698413,
+          0.6587649402390439,
+          0.679185520361991,
+          0.809201260814164,
+          0.6693021862833184,
+          0.7655422171551204,
+          0.6752988047808764,
+          0.611560347409404,
+          0.6607905982905983,
+          0.6266514653611428,
+          0.7483003108003108,
+          0.6111553784860557,
+          0.4486414844267727,
+          0.6263832070283684,
+          0.6449092741935484
+        ]
+      },
+      "random_rotation_medians": [
+        0.7058095419464312,
+        0.7806765484793483,
+        0.7671820996543779,
+        0.7521440821605295,
+        0.7860863095238095,
+        0.8128720238095238,
+        0.7241915043602924,
+        0.7329786238394729,
+        0.75,
+        0.7291288276066146,
+        0.7875252592994528,
+        0.7967509920634921,
+        0.7989236882886077,
+        0.7380878701426699,
+        0.8118799603174603,
+        0.8046160858660859,
+        0.8066912810721774,
+        0.7525967096650208,
+        0.7707093253968254,
+        0.7663386137987731
+      ],
+      "random_p95": 0.8119295634920636
+    },
+    "wikitext": {
+      "pca": {
+        "median_auc": 0.749732390643584,
+        "modes_above_080": 6,
+        "mode_aucs": [
+          0.7603343465045592,
+          0.9835309617918313,
+          0.9617918313570487,
+          0.9723320158102767,
+          0.8327800829875519,
+          0.7740447957839263,
+          0.9295125164690382,
+          0.8412384716732543,
+          0.6086924439197167,
+          0.5706864564007421,
+          0.4869391971664699,
+          0.6874176548089591,
+          0.4864953886693017,
+          0.5774419398907104,
+          0.57708719851577,
+          0.7391304347826086
+        ]
+      },
+      "ica": {
+        "median_auc": 0.6753435119063133,
+        "modes_above_080": 4,
+        "mode_aucs": [
+          0.5542859035506095,
+          0.5865821738531478,
+          0.6064719945355191,
+          0.768338399189463,
+          0.804047131147541,
+          0.7520242914979757,
+          0.6753113407525172,
+          0.6760667903525046,
+          0.549721706864564,
+          0.6753756830601093,
+          0.6639146567717996,
+          0.3738191632928475,
+          0.6649228020926375,
+          0.9542502951593861,
+          0.9950592885375494,
+          0.9340940525587829
+        ]
+      },
+      "varimax": {
+        "median_auc": 0.7024742011270211,
+        "modes_above_080": 4,
+        "mode_aucs": [
+          0.943034238488784,
+          0.9934123847167325,
+          0.8218920765027322,
+          0.6168852676205617,
+          0.8748271092669433,
+          0.6688311688311688,
+          0.7669432918395575,
+          0.7742486338797814,
+          0.5329102715466352,
+          0.6682370820668693,
+          0.7432226832641771,
+          0.6578520770010132,
+          0.7296222664015904,
+          0.6753261358524516,
+          0.5879668049792531,
+          0.6021335807050093
+        ]
+      },
+      "random_rotation_medians": [
+        0.754118351886209,
+        0.8024901732460816,
+        0.8005599472990776,
+        0.8010126743031067,
+        0.8310276679841897,
+        0.8058676918236855,
+        0.7590645555742959,
+        0.7799130820521195,
+        0.7769659112297452,
+        0.7740323948586967,
+        0.824747292517453,
+        0.7772067725712227,
+        0.8431912485854395,
+        0.7784808599548321,
+        0.8079710144927537,
+        0.7598684299336919,
+        0.839262187088274,
+        0.7775598217564095,
+        0.7636305008138589,
+        0.8274344108594515
+      ],
+      "random_p95": 0.8394586401631323
+    },
+    "tinystories": {
+      "pca": {
+        "median_auc": 0.7405832262340665,
+        "modes_above_080": 6,
+        "mode_aucs": [
+          0.774859209931352,
+          0.9896673387096774,
+          0.9464465725806451,
+          0.9497227822580645,
+          0.6739977090492555,
+          0.9151965725806451,
+          0.9466985887096774,
+          0.8137600806451613,
+          0.7584848484848485,
+          0.7226816039832844,
+          0.5598268398268398,
+          0.5567036290322581,
+          0.6794354838709677,
+          0.5385436116297679,
+          0.5510802880768205,
+          0.6852318548387096
+        ]
+      },
+      "ica": {
+        "median_auc": 0.7360112194778761,
+        "modes_above_080": 5,
+        "mode_aucs": [
+          0.7469375886009233,
+          0.6532356068661704,
+          0.7845647728283097,
+          0.8366835203683151,
+          0.7917666933404464,
+          0.7112114989733059,
+          0.387772163861728,
+          0.5966924513203521,
+          0.5452120565484129,
+          0.7065884235796213,
+          0.8195074242020094,
+          0.39523613963039017,
+          0.7250848503548287,
+          0.9657142857142857,
+          0.9972278225806451,
+          0.8082474226804124
+        ]
+      },
+      "varimax": {
+        "median_auc": 0.7315307195066196,
+        "modes_above_080": 4,
+        "mode_aucs": [
+          0.9620779220779221,
+          0.9976058467741935,
+          0.852760736196319,
+          0.5410563047508269,
+          0.7570064910271096,
+          0.8034632034632034,
+          0.7986254295532647,
+          0.7832310838445807,
+          0.5704329004329004,
+          0.6073909647716529,
+          0.6836197021764032,
+          0.7797097874789328,
+          0.44466534128561963,
+          0.6105133470225873,
+          0.6445971744940817,
+          0.7060549479861297
+        ]
+      },
+      "random_rotation_medians": [
+        0.8372054900801893,
+        0.8654003957096741,
+        0.8297745214135956,
+        0.8610707726118634,
+        0.8409733699127709,
+        0.8418992729230785,
+        0.836178671119029,
+        0.8627064786691803,
+        0.8092867943548387,
+        0.7912937009457002,
+        0.8211773737618734,
+        0.8261245461977608,
+        0.8612778564907192,
+        0.8720314463762044,
+        0.8808906532904703,
+        0.8358781333139342,
+        0.8567918346774194,
+        0.7898185483870968,
+        0.8717706722240626,
+        0.8158824076391098
+      ],
+      "random_p95": 0.8724744067219178
+    }
+  }
+}

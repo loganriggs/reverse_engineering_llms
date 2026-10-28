@@ -1,0 +1,94 @@
+{
+  "status": "H287 locked before outcomes",
+  "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "ridge_strengths": [
+    0,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "learning_rates": [
+    0.3,
+    3.0
+  ],
+  "penalties": [
+    0,
+    0.1
+  ],
+  "initializations": [
+    "zero",
+    "mse"
+  ],
+  "steps": 400,
+  "checkpoints": [
+    0,
+    100,
+    200,
+    300,
+    400
+  ],
+  "train_batch": 32,
+  "seed": 20270117,
+  "design": "Restart H280 KL adapter, same64 reads and normalizers. Loss intactKL+.1 correctionEnergy/baseStateErrorEnergy+lambda*baseTrainingKL*responseMSE/baseResponseErrorEnergy. Exact response quadratic statistics over actual/angle full removals, fit heads0:6. First768 train,next256 validation. All8 runs retained. Select min validation intactKL among checkpoints with <=2% loss vs H280 and responseMSE<=base separately for actual/angle fit heads. If none, select minimum intactKL/H280KL+max response ratio and label fallback. Heldout heads6:9 never select.",
+  "gates": {
+    "state_retention": "all-head vs validation-selected zero-strength intact KL lower95 reduction>=-.02",
+    "base_retention": "response error vs base lower95 reduction>=-.02 in all4 groups",
+    "specialist_retention": "response error vs matching split specialist lower95 reduction>=-.02 in all4 groups",
+    "response_gain": "actual response error vs H280>=5% and lower95>0 in both groups"
+  },
+  "scope": "Compare all-head readout with forward/reverse specialists, zero-strength control,H280 and base. All9 heads supervised; separate former head groups. One fixed readout family, not intrinsic capacity bound.",
+  "fit_heads": [
+    6,
+    7,
+    8
+  ],
+  "heldout_heads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "strengths": [
+    0,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "rates": [
+    0.1,
+    0.3
+  ],
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_response_allheads_documents.npy",
+  "scales": [
+    1.0
+  ],
+  "payloads": [
+    "actual",
+    "angle"
+  ],
+  "heads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "fixed_candidate": "lambda10.0_lr0.1_s300 in both fits, chosen from H285 before H286 outcomes; secondary diagnostic"
+}

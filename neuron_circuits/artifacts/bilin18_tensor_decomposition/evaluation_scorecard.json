@@ -1,0 +1,1211 @@
+{
+  "config": {
+    "schema_version": 1,
+    "created_before_confirmatory_run": true,
+    "layer": 1,
+    "corpora": {
+      "fineweb": {
+        "start": 18064,
+        "rows": 128
+      },
+      "wikitext103": {
+        "start": 768,
+        "rows": 128
+      },
+      "tinystories": {
+        "start": 768,
+        "rows": 128
+      }
+    },
+    "models": [
+      "cp2048_weight",
+      "cp2048_activation",
+      "routed_mixed",
+      "cp512_activation",
+      "ll1_activation"
+    ],
+    "primary_models": [
+      "cp2048_weight",
+      "cp2048_activation",
+      "routed_mixed"
+    ],
+    "interventions": {
+      "gaussian_rms_0.10": {
+        "kind": "gaussian",
+        "scale": 0.1
+      },
+      "natural_mix_0.25": {
+        "kind": "natural_mix",
+        "scale": 0.25
+      }
+    },
+    "causal_rows": 32,
+    "semantic_train_tokens": 16384,
+    "semantic_test_tokens": 8192,
+    "stability_tokens": 2048,
+    "gates": {
+      "fineweb_mean_kl_max": 0.02,
+      "ood_mean_kl_max": 0.05,
+      "top1_agreement_min": 0.95,
+      "causal_effect_fidelity_min": 0.9,
+      "causal_effect_cosine_min": 0.95,
+      "parameter_fraction_max": 0.5,
+      "routed_active_fraction_max": 0.125,
+      "semantic_ood_auc_min": 0.6,
+      "collective_stability_gap_min": 0.1
+    },
+    "bootstrap_resamples": 2000,
+    "seed": 20261019,
+    "hypotheses": {
+      "H1_manifold_gap": "Activation-refined CP-2048 has better natural-language fidelity but worse isotropic tensor fidelity than direct CP-2048.",
+      "H2_causal_gap": "The behavioral advantage of activation-refined CP-2048 over direct CP-2048 shrinks under held-out MLP-input interventions or OOD text.",
+      "H3_sparse_conditional_program": "Mixed routed CP-2048/K128 uses no more than 6.25% of factors per token while using more than half of the dictionary across a corpus.",
+      "H4_collective_over_component_stability": "Cross-objective activation-space similarity is substantially higher than median individual CP-term similarity.",
+      "H5_semantic_transfer": "Factors selected on FineWeb for token-form categories retain an oriented mean held-out AUROC above 0.60 on both OOD corpora.",
+      "H6_no_current_full_pass": "No existing decomposition passes all behavioral, OOD, causal, and parsimony gates simultaneously."
+    }
+  },
+  "behavior": {
+    "fineweb": {
+      "baseline_cross_entropy": {
+        "mean": 3.4510778402909636,
+        "ci_low": 3.3484488434623927,
+        "ci_high": 3.545451002428308,
+        "rows": 128
+      },
+      "models": {
+        "cp2048_weight": {
+          "cross_entropy_delta": {
+            "mean": 0.047808509320020676,
+            "ci_low": 0.041669404972344636,
+            "ci_high": 0.053465773793868715,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.04978178882447537,
+            "ci_low": 0.047403513290919366,
+            "ci_high": 0.05232735746722028,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.86907958984375,
+            "ci_low": 0.861572265625,
+            "ci_high": 0.8763427734375,
+            "rows": 128
+          }
+        },
+        "cp2048_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.013887254521250725,
+            "ci_low": 0.010273802722804249,
+            "ci_high": 0.017761352565139527,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.017384902905178024,
+            "ci_low": 0.016142628360375964,
+            "ci_high": 0.01872196706062823,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.92333984375,
+            "ci_low": 0.9186370849609375,
+            "ci_high": 0.9278579711914062,
+            "rows": 128
+          }
+        },
+        "routed_mixed": {
+          "cross_entropy_delta": {
+            "mean": 0.04116280563175678,
+            "ci_low": 0.0324629947077483,
+            "ci_high": 0.05210563098080456,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.04345067009853665,
+            "ci_low": 0.03774769375668256,
+            "ci_high": 0.05391397649691498,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.888427734375,
+            "ci_low": 0.8824447631835938,
+            "ci_high": 0.8945938110351562,
+            "rows": 128
+          }
+        },
+        "cp512_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.08669530507177114,
+            "ci_low": 0.07257455782964825,
+            "ci_high": 0.10658974945545195,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.08733998949173838,
+            "ci_low": 0.07591675774747274,
+            "ci_high": 0.1059858074011572,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.84429931640625,
+            "ci_low": 0.8367294311523438,
+            "ci_high": 0.8518692016601562,
+            "rows": 128
+          }
+        },
+        "ll1_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.13997680228203535,
+            "ci_low": 0.11777449313085527,
+            "ci_high": 0.1745816397946328,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.13855265695019625,
+            "ci_low": 0.12012623760310817,
+            "ci_high": 0.16837808552809286,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.8082275390625,
+            "ci_low": 0.7992538452148438,
+            "ci_high": 0.8165954589843749,
+            "rows": 128
+          }
+        }
+      }
+    },
+    "wikitext103": {
+      "baseline_cross_entropy": {
+        "mean": 4.149170322343707,
+        "ci_low": 4.082948059635237,
+        "ci_high": 4.223269877908751,
+        "rows": 128
+      },
+      "models": {
+        "cp2048_weight": {
+          "cross_entropy_delta": {
+            "mean": 0.06402158550918102,
+            "ci_low": 0.044274109834805134,
+            "ci_high": 0.07811987535096704,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.07093169455765747,
+            "ci_low": 0.062005402836075516,
+            "ci_high": 0.08660235347488195,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.84320068359375,
+            "ci_low": 0.8348968505859375,
+            "ci_high": 0.85101318359375,
+            "rows": 128
+          }
+        },
+        "cp2048_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.03328436240553856,
+            "ci_low": 0.02854366456158459,
+            "ci_high": 0.03829825110733509,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.023069253184075933,
+            "ci_low": 0.020255014895883505,
+            "ci_high": 0.027185347179147355,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.91217041015625,
+            "ci_low": 0.906982421875,
+            "ci_high": 0.9171142578125,
+            "rows": 128
+          }
+        },
+        "routed_mixed": {
+          "cross_entropy_delta": {
+            "mean": 0.07372046448290348,
+            "ci_low": 0.06599068776704371,
+            "ci_high": 0.08172698961570858,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.05041382562194485,
+            "ci_low": 0.0460467165990849,
+            "ci_high": 0.05594233360570797,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.86895751953125,
+            "ci_low": 0.86175537109375,
+            "ci_high": 0.8753662109375,
+            "rows": 128
+          }
+        },
+        "cp512_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.11198787949979305,
+            "ci_low": 0.0947545440401882,
+            "ci_high": 0.12553609223105014,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.09332212252775207,
+            "ci_low": 0.08527885230796528,
+            "ci_high": 0.1039252947033674,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.83123779296875,
+            "ci_low": 0.823486328125,
+            "ci_high": 0.8389297485351562,
+            "rows": 128
+          }
+        },
+        "ll1_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.140735836699605,
+            "ci_low": 0.11755289267748596,
+            "ci_high": 0.15941236088983715,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.13049004288041033,
+            "ci_low": 0.11898885034825071,
+            "ci_high": 0.14694435732890268,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.80084228515625,
+            "ci_low": 0.7913818359375,
+            "ci_high": 0.80987548828125,
+            "rows": 128
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "baseline_cross_entropy": {
+        "mean": 2.889341562986374,
+        "ci_low": 2.8486394025851043,
+        "ci_high": 2.931066039716825,
+        "rows": 128
+      },
+      "models": {
+        "cp2048_weight": {
+          "cross_entropy_delta": {
+            "mean": 0.029833951964974403,
+            "ci_low": 0.024896846152842045,
+            "ci_high": 0.034759631380438805,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.033197859418578446,
+            "ci_low": 0.03198653656145325,
+            "ci_high": 0.03444728891226987,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.88739013671875,
+            "ci_low": 0.882080078125,
+            "ci_high": 0.892578125,
+            "rows": 128
+          }
+        },
+        "cp2048_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.014246359467506409,
+            "ci_low": 0.011436506593599917,
+            "ci_high": 0.01712070317007601,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.01180548605043441,
+            "ci_low": 0.010663545072839042,
+            "ci_high": 0.013541018273645022,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.93365478515625,
+            "ci_low": 0.9288925170898438,
+            "ci_high": 0.9378067016601562,
+            "rows": 128
+          }
+        },
+        "routed_mixed": {
+          "cross_entropy_delta": {
+            "mean": 0.035569509491324425,
+            "ci_low": 0.030956174060702325,
+            "ci_high": 0.04041166324168444,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.028636487484618556,
+            "ci_low": 0.026261694938330037,
+            "ci_high": 0.03185023624155292,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.89849853515625,
+            "ci_low": 0.8926986694335938,
+            "ci_high": 0.90399169921875,
+            "rows": 128
+          }
+        },
+        "cp512_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.08261467516422272,
+            "ci_low": 0.07554635950364173,
+            "ci_high": 0.09008812755346297,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.0631155828887131,
+            "ci_low": 0.05890935580973746,
+            "ci_high": 0.06773195114874397,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.8551025390625,
+            "ci_low": 0.8485107421875,
+            "ci_high": 0.862060546875,
+            "rows": 128
+          }
+        },
+        "ll1_activation": {
+          "cross_entropy_delta": {
+            "mean": 0.12655425444245338,
+            "ci_low": 0.11786104096099735,
+            "ci_high": 0.13559249914251267,
+            "rows": 128
+          },
+          "mean_kl": {
+            "mean": 0.09838631594902836,
+            "ci_low": 0.09289756378348102,
+            "ci_high": 0.1044349798481562,
+            "rows": 128
+          },
+          "top1_agreement": {
+            "mean": 0.82489013671875,
+            "ci_low": 0.81781005859375,
+            "ci_high": 0.8320327758789062,
+            "rows": 128
+          }
+        }
+      }
+    }
+  },
+  "causal": {
+    "cp2048_weight": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": -0.6170249926781364,
+        "effect_cosine": 0.4360976831884857,
+        "effect_gain": 0.5819916461488797,
+        "error_energy": 2967807.1171875,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 3268773.90625,
+        "dot": 1068158.474609375,
+        "fisher_effect_fidelity": -0.5029485311673818,
+        "fisher_effect_cosine": 0.4717425098731023,
+        "fisher_effect_gain": 0.6243508450269717,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": -0.6099118100730465,
+          "ci_low": -0.7126190998783024,
+          "ci_high": -0.5178271049628904,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.4370267083919578,
+          "ci_low": 0.4194429316234188,
+          "ci_high": 0.454624581426238,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.6894379779696465,
+        "margin_effect_correlation": 0.4672896694391966
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.07566564829992206,
+        "effect_cosine": 0.577940265200167,
+        "effect_gain": 0.6277708650545195,
+        "error_energy": 6912226.5,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 8823182.734375,
+        "dot": 4694507.3515625,
+        "fisher_effect_fidelity": 0.09594051096619716,
+        "fisher_effect_cosine": 0.5889020614969525,
+        "fisher_effect_gain": 0.6417657145840535,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.07431598163280384,
+          "ci_low": 0.022335739970782545,
+          "ci_high": 0.12068664264310859,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.5814271371449995,
+          "ci_low": 0.5647980318288808,
+          "ci_high": 0.598617325118105,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.7931201606988907,
+        "margin_effect_correlation": 0.5903935097157955
+      }
+    },
+    "cp2048_activation": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": 0.08609110437407652,
+        "effect_cosine": 0.5167859236977946,
+        "effect_gain": 0.48691536209667513,
+        "error_energy": 1677342.859375,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 1629313.0703125,
+        "dot": 893660.19921875,
+        "fisher_effect_fidelity": 0.15702935896600456,
+        "fisher_effect_cosine": 0.5573957940739118,
+        "fisher_effect_gain": 0.5291868885432616,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": 0.07914890355909293,
+          "ci_low": 0.052809273328463455,
+          "ci_high": 0.10468309180320318,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.5130274564412233,
+          "ci_low": 0.4997547330194223,
+          "ci_high": 0.5272651027926346,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.68895348533988,
+        "margin_effect_correlation": 0.5193128306418657
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.5638673374022454,
+        "effect_cosine": 0.7987175873145054,
+        "effect_gain": 0.8553454550706273,
+        "error_energy": 3261425.6328125,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 8576013.90625,
+        "dot": 6396323.484375,
+        "fisher_effect_fidelity": 0.5835442133638873,
+        "fisher_effect_cosine": 0.8065721390135419,
+        "fisher_effect_gain": 0.8593570785017829,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.5561916741605527,
+          "ci_low": 0.4549693182032681,
+          "ci_high": 0.6163257319137615,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.8036036898430644,
+          "ci_low": 0.7800672179945305,
+          "ci_high": 0.8204193366145407,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.914244182407856,
+        "margin_effect_correlation": 0.8008910492062569
+      }
+    },
+    "routed_mixed": {
+      "gaussian_rms_0.10": {
+        "effect_fidelity": -0.6374781313818887,
+        "effect_cosine": 0.27459912901071604,
+        "effect_gain": 0.3072552824542188,
+        "error_energy": 3005345.7890625,
+        "teacher_effect_energy": 1835350.18359375,
+        "student_effect_energy": 2297837.671875,
+        "dot": 563921.0390625,
+        "fisher_effect_fidelity": -0.5922390169043394,
+        "fisher_effect_cosine": 0.29786997800519294,
+        "fisher_effect_gain": 0.3345307185365745,
+        "fisher_teacher_effect_energy": 30.492583096027374,
+        "row_effect_fidelity": {
+          "mean": -0.6460457183860207,
+          "ci_low": -0.7203056600123128,
+          "ci_high": -0.5736921716463157,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.2737117079971408,
+          "ci_low": 0.25594571322785165,
+          "ci_high": 0.290985552352659,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.5959302298724651,
+        "margin_effect_correlation": 0.2912567532621324
+      },
+      "natural_mix_0.25": {
+        "effect_fidelity": 0.19716458245051627,
+        "effect_cosine": 0.6612672620098938,
+        "effect_gain": 0.7613019817973563,
+        "error_energy": 6003650.34375,
+        "teacher_effect_energy": 7478058.65625,
+        "student_effect_energy": 9911713.578125,
+        "dot": 5693060.875,
+        "fisher_effect_fidelity": 0.2232713563598463,
+        "fisher_effect_cosine": 0.6717216401982417,
+        "fisher_effect_gain": 0.7719094609205683,
+        "fisher_teacher_effect_energy": 124.61301517486572,
+        "row_effect_fidelity": {
+          "mean": 0.19519855390222055,
+          "ci_low": 0.12384007645512182,
+          "ci_high": 0.26011728832154163,
+          "rows": 32
+        },
+        "row_effect_cosine": {
+          "mean": 0.6651109818607646,
+          "ci_low": 0.6441583801849163,
+          "ci_high": 0.6841923997451653,
+          "rows": 32
+        },
+        "margin_effect_sign_agreement": 0.8250969015061855,
+        "margin_effect_correlation": 0.6436654757708311
+      }
+    }
+  },
+  "parsimony": {
+    "native_parameters": 15926400,
+    "models": {
+      "cp2048_weight": {
+        "parameters": 7081088,
+        "parameter_fraction_of_native": 0.44461322081575244,
+        "checkpoint_bytes": 28327140,
+        "operations": {
+          "native_multiplies": 15925248,
+          "dense_student_multiplies": 7077888,
+          "dense_fraction_of_native": 0.4444444444444444
+        }
+      },
+      "cp2048_activation": {
+        "parameters": 7081088,
+        "parameter_fraction_of_native": 0.44461322081575244,
+        "checkpoint_bytes": 28327261,
+        "operations": {
+          "native_multiplies": 15925248,
+          "dense_student_multiplies": 7077888,
+          "dense_fraction_of_native": 0.4444444444444444
+        }
+      },
+      "routed_mixed": {
+        "parameters": 7081088,
+        "parameter_fraction_of_native": 0.44461322081575244,
+        "checkpoint_bytes": 28327184,
+        "operations": {
+          "native_multiplies": 15925248,
+          "dense_student_multiplies": 7077888,
+          "dense_fraction_of_native": 0.4444444444444444,
+          "active_factors": 128,
+          "active_fraction": 0.0625,
+          "current_routed_multiplies": 4866048,
+          "current_routed_fraction_of_native": 0.3055555555555556,
+          "ideal_indexed_multiplies": 442368,
+          "ideal_indexed_fraction_of_native": 0.027777777777777776
+        },
+        "routing_usage": {
+          "features_ever_used": 2048,
+          "effective_support_simpson": 1527.6491948545806,
+          "effective_support_entropy": 1838.3472003903607,
+          "normalized_entropy": 0.9858357774876775
+        }
+      },
+      "cp512_activation": {
+        "parameters": 1771136,
+        "parameter_fraction_of_native": 0.11120755475185855,
+        "checkpoint_bytes": 7087442,
+        "operations": {
+          "native_multiplies": 15925248,
+          "dense_student_multiplies": 1769472,
+          "dense_fraction_of_native": 0.1111111111111111
+        }
+      },
+      "ll1_activation": {
+        "parameters": 5016704,
+        "parameter_fraction_of_native": 0.3149929676511955,
+        "checkpoint_bytes": 20069886,
+        "operations": {
+          "native_multiplies": 15925248,
+          "dense_student_multiplies": 5013504,
+          "dense_fraction_of_native": 0.3148148148148148
+        }
+      }
+    }
+  },
+  "stability": {
+    "cp2048_weight__vs__cp2048_activation": {
+      "a_to_b_median_best_abs_cosine": 0.8071099519729614,
+      "b_to_a_median_best_abs_cosine": 0.8071099519729614,
+      "mutual_nearest_fraction": 1.0,
+      "mutual_median_abs_cosine": 0.8071099519729614,
+      "index_aligned_median_abs_cosine": 0.8071099519729614,
+      "index_aligned_mean_signed_cosine": 0.806432843208313,
+      "activation_linear_cka": 0.9433971047401428
+    },
+    "cp2048_weight__vs__routed_mixed": {
+      "a_to_b_median_best_abs_cosine": 0.8326974511146545,
+      "b_to_a_median_best_abs_cosine": 0.8326974511146545,
+      "mutual_nearest_fraction": 1.0,
+      "mutual_median_abs_cosine": 0.8326974511146545,
+      "index_aligned_median_abs_cosine": 0.8326974511146545,
+      "index_aligned_mean_signed_cosine": 0.8185899257659912,
+      "activation_linear_cka": 0.894015908241272
+    },
+    "cp2048_activation__vs__routed_mixed": {
+      "a_to_b_median_best_abs_cosine": 0.8255730271339417,
+      "b_to_a_median_best_abs_cosine": 0.8255730271339417,
+      "mutual_nearest_fraction": 1.0,
+      "mutual_median_abs_cosine": 0.8255730271339417,
+      "index_aligned_median_abs_cosine": 0.8255730271339417,
+      "index_aligned_mean_signed_cosine": 0.8247207403182983,
+      "activation_linear_cka": 0.968939483165741
+    }
+  },
+  "semantics": {
+    "cp2048_weight": {
+      "categories": {
+        "newline": {
+          "feature": 683,
+          "train_standardized_gap": -2.215412139892578,
+          "auc": {
+            "fineweb_test": 0.6725350057551145,
+            "wikitext103": 0.911536638600276,
+            "tinystories": 0.7657036422034548
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -6.299773693084717,
+          "auc": {
+            "fineweb_test": 0.9963057750083454,
+            "wikitext103": 0.994358018357816,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 9.46823787689209,
+          "auc": {
+            "fineweb_test": 0.8762903527017716,
+            "wikitext103": 0.9355097822527833,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 2012,
+          "train_standardized_gap": 3.3780667781829834,
+          "auc": {
+            "fineweb_test": 0.8829418481363673,
+            "wikitext103": 0.9857003568573156,
+            "tinystories": 0.7045928303025316
+          }
+        },
+        "code_operator": {
+          "feature": 992,
+          "train_standardized_gap": 2.145110845565796,
+          "auc": {
+            "fineweb_test": 0.8013647399060436,
+            "wikitext103": 0.5672825577832504,
+            "tinystories": 0.7902821891033471
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 7.8872504234313965,
+          "auc": {
+            "fineweb_test": 0.9993894248381976,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1115,
+          "train_standardized_gap": -3.321467161178589,
+          "auc": {
+            "fineweb_test": 0.811695529625886,
+            "wikitext103": 0.8437495324529984,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -1.366506814956665,
+          "auc": {
+            "fineweb_test": 0.7272349268917523,
+            "wikitext103": 0.7417560765814375,
+            "tinystories": 0.6882364969985142
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.153733253479004,
+          "auc": {
+            "fineweb_test": 0.9064352766798419,
+            "wikitext103": 0.9526807478428373,
+            "tinystories": 0.9269874451634795
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 3.9827613830566406,
+          "auc": {
+            "fineweb_test": 0.9552410611962425,
+            "wikitext103": 0.9733674531429675,
+            "tinystories": 0.9801629604797557
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -3.9461400508880615,
+          "auc": {
+            "fineweb_test": 0.8403802754792353,
+            "wikitext103": 0.8376163108921729,
+            "tinystories": 0.4694222712862319
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -3.312140941619873,
+          "auc": {
+            "fineweb_test": 0.891120338437271,
+            "wikitext103": 0.7960236286581438,
+            "tinystories": 0.7652014652014651
+          }
+        },
+        "comma_period": {
+          "feature": 1179,
+          "train_standardized_gap": 1.1136231422424316,
+          "auc": {
+            "fineweb_test": 0.6779253315250151,
+            "wikitext103": 0.25957353434877783,
+            "tinystories": 0.7593784416299559
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -2.3269824981689453,
+          "auc": {
+            "fineweb_test": 0.9268765825369599,
+            "wikitext103": 0.6710915949595948,
+            "tinystories": 0.9120986448541082
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.8546954620512889,
+          "median_oriented_auc": 0.8796161004190695,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.8054035563638747,
+          "median_oriented_auc": 0.8437495324529984,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.7762066387222843,
+          "median_oriented_auc": 0.7654525537024599,
+          "categories": 10
+        }
+      }
+    },
+    "cp2048_activation": {
+      "categories": {
+        "newline": {
+          "feature": 1201,
+          "train_standardized_gap": 4.016129970550537,
+          "auc": {
+            "fineweb_test": 0.9869379940711462,
+            "wikitext103": 0.981523578591094,
+            "tinystories": 0.993740117802735
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -12.679651260375977,
+          "auc": {
+            "fineweb_test": 0.9999443640814509,
+            "wikitext103": 1.0,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 11.5791597366333,
+          "auc": {
+            "fineweb_test": 0.869374126617167,
+            "wikitext103": 0.9955130566470203,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 537,
+          "train_standardized_gap": 3.753654718399048,
+          "auc": {
+            "fineweb_test": 0.6689231438436234,
+            "wikitext103": 0.7750381882828598,
+            "tinystories": 0.9999986285965057
+          }
+        },
+        "code_operator": {
+          "feature": 992,
+          "train_standardized_gap": 4.033639430999756,
+          "auc": {
+            "fineweb_test": 0.9166122806161305,
+            "wikitext103": 0.8656262918087577,
+            "tinystories": 0.8247312484730027
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 10.451492309570312,
+          "auc": {
+            "fineweb_test": 0.9991044897626898,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1115,
+          "train_standardized_gap": -3.663039207458496,
+          "auc": {
+            "fineweb_test": 0.9016911627736536,
+            "wikitext103": 0.8540924202028182,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -1.7483464479446411,
+          "auc": {
+            "fineweb_test": 0.8063299131416574,
+            "wikitext103": 0.8800442633462262,
+            "tinystories": 0.8315363720018533
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.159156799316406,
+          "auc": {
+            "fineweb_test": 0.9135755548799027,
+            "wikitext103": 0.9560446137321195,
+            "tinystories": 0.9430554545674883
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 4.196343421936035,
+          "auc": {
+            "fineweb_test": 0.9641704999634925,
+            "wikitext103": 0.9747956168844795,
+            "tinystories": 0.9795401720862666
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -5.092235088348389,
+          "auc": {
+            "fineweb_test": 0.9216589712329123,
+            "wikitext103": 0.9073241652983032,
+            "tinystories": 0.8337637156208827
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -4.499795913696289,
+          "auc": {
+            "fineweb_test": 0.9773157892280625,
+            "wikitext103": 0.9001057625555441,
+            "tinystories": 0.8136141636141636
+          }
+        },
+        "comma_period": {
+          "feature": 1731,
+          "train_standardized_gap": 1.9375346899032593,
+          "auc": {
+            "fineweb_test": 0.7440789088138772,
+            "wikitext103": 0.6649862145679177,
+            "tinystories": 0.8692980202320371
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -4.089371681213379,
+          "auc": {
+            "fineweb_test": 0.9677713795638324,
+            "wikitext103": 0.942311185458355,
+            "tinystories": 0.9771700647051642
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.9026777556135428,
+          "median_oriented_auc": 0.9191356259245214,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.8998004121058074,
+          "median_oriented_auc": 0.9073241652983032,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.9066447957700101,
+          "median_oriented_auc": 0.9061767373997627,
+          "categories": 10
+        }
+      }
+    },
+    "routed_mixed": {
+      "categories": {
+        "newline": {
+          "feature": 1199,
+          "train_standardized_gap": -5.030051231384277,
+          "auc": {
+            "fineweb_test": 0.9929795069061373,
+            "wikitext103": 0.9906849001629902,
+            "tinystories": 0.9945713631034216
+          }
+        },
+        "opening_delimiter": {
+          "feature": 1271,
+          "train_standardized_gap": -16.030406951904297,
+          "auc": {
+            "fineweb_test": 1.0,
+            "wikitext103": 1.0,
+            "tinystories": null
+          }
+        },
+        "closing_delimiter": {
+          "feature": 1177,
+          "train_standardized_gap": 13.694814682006836,
+          "auc": {
+            "fineweb_test": 0.9189629524686548,
+            "wikitext103": 0.9994077951047806,
+            "tinystories": null
+          }
+        },
+        "quote": {
+          "feature": 2012,
+          "train_standardized_gap": 5.298476219177246,
+          "auc": {
+            "fineweb_test": 0.8891335671369927,
+            "wikitext103": 0.9944956871615868,
+            "tinystories": 0.8895320771277325
+          }
+        },
+        "code_operator": {
+          "feature": 1569,
+          "train_standardized_gap": 5.226128578186035,
+          "auc": {
+            "fineweb_test": 0.8279473172259822,
+            "wikitext103": 0.7015661020212771,
+            "tinystories": 0.8322135353041779
+          }
+        },
+        "url_web": {
+          "feature": 1408,
+          "train_standardized_gap": 22.089183807373047,
+          "auc": {
+            "fineweb_test": 1.0,
+            "wikitext103": null,
+            "tinystories": null
+          }
+        },
+        "non_ascii": {
+          "feature": 1968,
+          "train_standardized_gap": 3.7907614707946777,
+          "auc": {
+            "fineweb_test": 0.8834374150677778,
+            "wikitext103": 0.5146158933065224,
+            "tinystories": null
+          }
+        },
+        "word_continuation": {
+          "feature": 1484,
+          "train_standardized_gap": -2.2296018600463867,
+          "auc": {
+            "fineweb_test": 0.8218423476512593,
+            "wikitext103": 0.9654076706966805,
+            "tinystories": 0.7197105702469874
+          }
+        },
+        "suffix_ing": {
+          "feature": 47,
+          "train_standardized_gap": 5.176869869232178,
+          "auc": {
+            "fineweb_test": 0.8944781441384703,
+            "wikitext103": 0.9384222688159684,
+            "tinystories": 0.9108000678639812
+          }
+        },
+        "suffix_ed": {
+          "feature": 1215,
+          "train_standardized_gap": 4.359622001647949,
+          "auc": {
+            "fineweb_test": 0.9238572331057164,
+            "wikitext103": 0.9657603723381932,
+            "tinystories": 0.9550970313256603
+          }
+        },
+        "suffix_ly": {
+          "feature": 1880,
+          "train_standardized_gap": -5.818359375,
+          "auc": {
+            "fineweb_test": 0.9021385632019921,
+            "wikitext103": 0.7996373836891079,
+            "tinystories": 0.5780490880270093
+          }
+        },
+        "all_caps": {
+          "feature": 1566,
+          "train_standardized_gap": -6.378332138061523,
+          "auc": {
+            "fineweb_test": 0.9887722315299212,
+            "wikitext103": 0.9390311448170082,
+            "tinystories": 0.7495421245421245
+          }
+        },
+        "comma_period": {
+          "feature": 1399,
+          "train_standardized_gap": -2.431393623352051,
+          "auc": {
+            "fineweb_test": 0.9095582387314982,
+            "wikitext103": 0.7910883859335537,
+            "tinystories": 0.9741768718906654
+          }
+        },
+        "colon_semicolon": {
+          "feature": 1874,
+          "train_standardized_gap": -8.482904434204102,
+          "auc": {
+            "fineweb_test": 0.9970595442293555,
+            "wikitext103": 0.9747789647991146,
+            "tinystories": 1.0
+          }
+        }
+      },
+      "summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.9250119329566969,
+          "median_oriented_auc": 0.9142605956000764,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.8903766591420603,
+          "median_oriented_auc": 0.9654076706966805,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.860369272943176,
+          "median_oriented_auc": 0.9001660724958569,
+          "categories": 10
+        }
+      }
+    }
+  },
+  "gates": {
+    "cp2048_weight": {
+      "checks": {
+        "fineweb_kl": false,
+        "fineweb_top1": false,
+        "wikitext103_kl": false,
+        "wikitext103_top1": false,
+        "tinystories_kl": true,
+        "tinystories_top1": false,
+        "gaussian_rms_0.10_fidelity": false,
+        "gaussian_rms_0.10_cosine": false,
+        "natural_mix_0.25_fidelity": false,
+        "natural_mix_0.25_cosine": false,
+        "parameter_fraction": true
+      },
+      "passes_all": false
+    },
+    "cp2048_activation": {
+      "checks": {
+        "fineweb_kl": true,
+        "fineweb_top1": false,
+        "wikitext103_kl": true,
+        "wikitext103_top1": false,
+        "tinystories_kl": true,
+        "tinystories_top1": false,
+        "gaussian_rms_0.10_fidelity": false,
+        "gaussian_rms_0.10_cosine": false,
+        "natural_mix_0.25_fidelity": false,
+        "natural_mix_0.25_cosine": false,
+        "parameter_fraction": true
+      },
+      "passes_all": false
+    },
+    "routed_mixed": {
+      "checks": {
+        "fineweb_kl": false,
+        "fineweb_top1": false,
+        "wikitext103_kl": false,
+        "wikitext103_top1": false,
+        "tinystories_kl": true,
+        "tinystories_top1": false,
+        "gaussian_rms_0.10_fidelity": false,
+        "gaussian_rms_0.10_cosine": false,
+        "natural_mix_0.25_fidelity": false,
+        "natural_mix_0.25_cosine": false,
+        "parameter_fraction": true,
+        "active_fraction": true
+      },
+      "passes_all": false
+    }
+  },
+  "hypotheses": {
+    "H1_manifold_gap": {
+      "supported": true,
+      "direct_tensor": 0.5403133630752563,
+      "activation_tensor": 0.3604690432548523,
+      "direct_fineweb_kl": 0.04978178882447537,
+      "activation_fineweb_kl": 0.017384902905178024
+    },
+    "H2_causal_gap": {
+      "supported": false,
+      "fineweb_kl_advantage": 0.03239688591929735,
+      "mean_ood_kl_advantage": 0.034627407370862784,
+      "causal_reversal": false
+    },
+    "H3_sparse_conditional_program": {
+      "supported": true,
+      "active_fraction": 0.0625,
+      "features_ever_used": 2048,
+      "effective_support_simpson": 1527.6491948545806,
+      "effective_support_entropy": 1838.3472003903607,
+      "normalized_entropy": 0.9858357774876775
+    },
+    "H4_collective_over_component_stability": {
+      "supported": true,
+      "mean_collective_minus_component_gap": 0.11365735530853271
+    },
+    "H5_semantic_transfer": {
+      "supported": true,
+      "ood_summary": {
+        "fineweb_test": {
+          "mean_oriented_auc": 0.9250119329566969,
+          "median_oriented_auc": 0.9142605956000764,
+          "categories": 14
+        },
+        "wikitext103": {
+          "mean_oriented_auc": 0.8903766591420603,
+          "median_oriented_auc": 0.9654076706966805,
+          "categories": 13
+        },
+        "tinystories": {
+          "mean_oriented_auc": 0.860369272943176,
+          "median_oriented_auc": 0.9001660724958569,
+          "categories": 10
+        }
+      }
+    },
+    "H6_no_current_full_pass": {
+      "supported": true
+    }
+  },
+  "elapsed_seconds": 20.246521949768066
+}

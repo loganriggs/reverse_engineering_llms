@@ -1,0 +1,20 @@
+{
+  "experiment": "H1031",
+  "train": "H1030 60discovery pairs,120endpoint occurrences across five historical families",
+  "development": "context0 lexical fourpairs/family except three equal-length capital pairs,38endpoints; exact prompts disjoint, historically opened. Capital prior competence fails and stays diagnostic. Original whole-task holdouts not accessed.",
+  "ports": [
+    "pre-attention11 residual",
+    "x0 embedding recurrence",
+    "cached value bus"
+  ],
+  "architecture": "Per stream128unit decoder atoms. ScalarTop16; block32disjoint groups of4 withTop4groups; overlapping32groups of8 withTop2groups and degree2 fixed membership. Shared union<=16 per stream; block/scalar exactly16. Three streams combined<=48 per token.",
+  "steps": 400,
+  "seeds": [
+    10311,
+    10312
+  ],
+  "objective": "Equal-family/equal-prompt/equal-stream normalized reconstruction plus0.1 normalized paired-state difference loss. Pair differences are activation supervision, NOT downstream causal supervision. Fixed Adam0.001 and final step, no model selection.",
+  "parameters": "Block/shared use identical SharedGroups encoder dimensions and same initial state; scalar uses coordinate encoder directly and has unused group encoder. Registered storage equal, effective trainable parameter count differs and is reported. Fixed membership logits unused in all.",
+  "metrics": "Normalized reconstruction and paired-state delta error; full-output KL and answer margin after replacing all three ports; paired decoded-difference interventions compared to full natural donor. All use native suffix with costs explicit.",
+  "stop": "No further architecture/rank sweep on this panel. Preserve all seeds and diagnostics; choose next objective based on fidelity failures, not best reconstruction alone."
+}

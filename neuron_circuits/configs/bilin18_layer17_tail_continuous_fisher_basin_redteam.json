@@ -1,0 +1,50 @@
+{
+  "status": "locked-after-prefix-initialized-continuous-fisher-result-before-basin-redteam",
+  "seed": 20261030,
+  "layer": 17,
+  "components": 4,
+  "candidate_pool_rank": 128,
+  "rank": 8,
+  "optimization_steps": 900,
+  "optimization_batch_size": 2048,
+  "learning_rate": 0.03,
+  "covariance_floor_fraction": 0.0001,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 12000,
+    "rows": 1000
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 15600,
+      "rows": 400
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 600,
+      "rows": 400
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 600,
+      "rows": 400
+    }
+  },
+  "fits": [
+    {"name": "random_even_a", "initialization": "random", "train_half": "even", "seed_offset": 0},
+    {"name": "random_even_b", "initialization": "random", "train_half": "even", "seed_offset": 1},
+    {"name": "random_odd", "initialization": "random", "train_half": "odd", "seed_offset": 2},
+    {"name": "orthogonal_even", "initialization": "orthogonal_to_prefix", "train_half": "even", "seed_offset": 3}
+  ],
+  "hypotheses": {
+    "B1_random_starts_improve_heldout_fisher": "Every random-start fit reduces its opposite-half Fisher error by at least 15% relative to Frobenius rank eight.",
+    "B2_random_fits_recover_same_subspace": "Every pair of random-start fits has mean canonical cosine at least 0.80.",
+    "B3_random_fits_match_prefix_solution": "Every random-start fit has mean canonical cosine at least 0.80 to the primary prefix-initialized solution.",
+    "B4_random_improvement_transfers": "Every random-start fit has lower mean exact KL than Frobenius rank eight on every evaluation corpus.",
+    "B5_adversarial_start_escapes": "The orthogonal-to-prefix start improves held-out Fisher by at least 15% and reaches mean canonical cosine at least 0.80 to the prefix solution.",
+    "B6_random_solution_reaches_gate": "At least one random-start rank-eight fit has median exact KL at most 0.005 on every corpus."
+  }
+}

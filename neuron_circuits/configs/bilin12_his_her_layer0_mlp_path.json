@@ -1,0 +1,22 @@
+{
+  "status": "locked-after-qk-normalization-falsified-before-layer0-mlp-path-audit",
+  "source_config": "configs/bilin12_semantic_source_jvp_predictor.json",
+  "source_output": "artifacts/bilin18_tensor_decomposition/bilin12_semantic_source_jvp_predictor.json",
+  "family": "gender",
+  "anomalous_pair": "465->607",
+  "layer": 0,
+  "dense_points": 129,
+  "channel_budgets": [8, 16, 32, 64, 128, 256, 512, 1024],
+  "hypotheses": {
+    "M1_layer0_mlp_derivative_is_unusually_sharp": "The anomalous pair's maximum edited-position MLP derivative peak ratio is at least twice the matched-control median maximum.",
+    "M2_the_mlp_dominates_the_sharp_layer0_update": "At the anomalous layer-0 output-derivative peak, the MLP supplies at least 60% of embedding-plus-attention-plus-MLP norm mass in both corpora.",
+    "M3_both_bilinear_sides_matter_at_the_peak": "Left- and right-factor product derivatives each supply at least 20% of their combined norm mass in both corpora.",
+    "M4_the_pre_mlp_state_does_not_collapse": "The minimum pre-MLP residual norm is at least 80% of its endpoint median in both corpora.",
+    "M5_sixtyfour_native_channels_are_sufficient_for_the_peak_mlp_derivative": "The largest 64 native channel contributions reproduce at least 90% of peak MLP-derivative squared norm in both corpora.",
+    "M6_the_peak_mlp_derivative_is_not_single_neuron_aligned": "At least 8 native channels are required for 90% peak-derivative fidelity in both corpora.",
+    "M7_the_same_native_channels_recur_across_corpora": "FineWeb and TinyStories anomalous top-64 channel sets have Jaccard overlap at least 0.25.",
+    "M8_dense_channel_integrals_recompose_the_finite_mlp_change": "Integrating all native channel derivatives recovers the finite MLP change to relative error at most 1e-3.",
+    "M9_the_mlp_is_a_major_finite_layer0_component": "The integrated MLP change has projection at least 0.50 onto the full finite layer-0 edited-position output change in both corpora.",
+    "M10_controls_require_no_more_channels_than_the_anomaly": "The anomalous median channels-to-90%-fidelity is at least the matched-control median."
+  }
+}

@@ -1,0 +1,23 @@
+import json,hashlib,numpy as np,torch
+import torch.nn.functional as F
+from run_bilin18_l17_local_residual_charts import ROOT,ART,load_full_model,collect_sources
+STEM=ART/'bilin18_l17_fisher_source_confirmation'
+@torch.inference_mode()
+def main():
+ torch.set_num_threads(6);cfg=json.loads((ROOT/'configs'/f'{STEM.name}.json').read_text())
+ for n,h in cfg['hashes'].items():assert hashlib.sha256((ART/n).read_bytes()).hexdigest()==h
+ model=load_full_model('cuda');model.embedding.float();model.blocks.float();model.lm_head.float();p,_,_=collect_sources(model,np.load(ROOT/cfg['corpus']),cfg);L,R,D=[m.weight.detach() for m in [model.blocks[17].mlp.Left,model.blocks[17].mlp.Right,model.blocks[17].mlp.Down]];bias=model.blocks[17].mlp.Down_bias.detach();W=model.lm_head.weight.detach();compiled=np.load(ART/'bilin18_l17_fisher_source_rank_compiled.npz');sources=np.load(ART/'bilin18_l17_structured_allheads_compiled.npz');saved={};metrics={}
+ def native(x):
+  v=F.rms_norm(x,(1152,));return ((v@L.T)*(v@R.T))@D.T+bias
+ def lp(x):return (30*torch.tanh(F.rms_norm(x,(1152,))@W.T/30)).double().log_softmax(-1)
+ y0=native(p)
+ for head in cfg['heads']:
+  B=torch.tensor(compiled[f'h{head}_basis'],device='cuda');cs=torch.tensor(compiled[f'h{head}_covariance'],device='cuda').sqrt();U=torch.tensor(compiled[f'h{head}_weighted_eigenvectors'][:,:4],device='cuda');h=torch.tensor(sources[f'h{head}_sources'],device='cuda');hc=h@B;hp0=hc[:,:4]@B[:,:4].T;hf0=(((hc/cs)@U)@U.T*cs)@B.T;hh=h[np.arange(512)%64];hp=hp0[np.arange(512)%64];hf=hf0[np.arange(512)%64];metrics[str(head)]={}
+  for sign,alpha in [('negative',-1),('positive',1)]:
+   yf=native(p-alpha*hh.float());yp=native(p-alpha*hp.float());ym=native(p-alpha*hf.float());uf=(yf-y0).double();up=(yp-y0).double();um=(ym-y0).double();rows=[]
+   for start in range(0,512,16):
+    sl=slice(start,start+16);tf=lp(p[sl]+yf[sl]);tp=lp(p[sl]+yp[sl]);tm=lp(p[sl]+ym[sl]);pb=lp(p[sl]+y0[sl]);pf=tf.exp();rows.append(torch.stack([(pf*(tf-pb)).sum(-1),(pf*(tf-tp)).sum(-1),(pf*(tf-tm)).sum(-1),uf[sl].square().sum(-1),(uf[sl]-up[sl]).square().sum(-1),(uf[sl]-um[sl]).square().sum(-1)],-1).cpu().numpy())
+   rr=np.concatenate(rows);saved[f'h{head}_{sign}']=rr;v=rr.sum(0);metrics[str(head)][sign]={'mean_effect_KL':float(v[0]/512),'PCA_KL_recovery':float(1-v[1]/v[0]),'Fisher_KL_recovery':float(1-v[2]/v[0]),'gain':float((v[1]-v[2])/v[0]),'PCA_raw_recovery':float(1-v[4]/v[3]),'Fisher_raw_recovery':float(1-v[5]/v[3])}
+  print('head',head,metrics[str(head)],flush=True)
+ assert all(np.isfinite(v).all() for v in saved.values());rng=np.random.default_rng(cfg['bootstrap_seed']);idx=(rng.integers(0,8,(cfg['bootstrap_draws'],64,8))*64+np.arange(64)[None,:,None]).reshape(cfg['bootstrap_draws'],512);names=list(saved);est=np.array([metrics[n.split('_')[0][1:]][n.split('_')[1]]['gain'] for n in names]);draw=np.stack([(saved[n][idx,1].sum(1)-saved[n][idx,2].sum(1))/saved[n][idx,0].sum(1) for n in names],1);sd=draw.std(0,ddof=1);assert (sd>0).all();q=float(np.quantile(np.max(np.abs((draw-est)/sd),axis=1),.95));joint={'names':names,'estimates':est.tolist(),'standard_errors':sd.tolist(),'critical_value':q,'lower':(est-q*sd).tolist(),'upper':(est+q*sd).tolist(),'positive_lower_gates':(est-q*sd>0).tolist(),'scope':'95% simultaneous standardized receiver-within-donor bootstrap; conditional on frozen calibration, metric fit, and donor pool'};np.savez_compressed(STEM.with_name(STEM.name+'_rows.npz'),**saved,pre=p.cpu().numpy());STEM.with_suffix('.json').write_text(json.dumps({'experiment':'H499','config':cfg,'metrics':metrics,'joint_gains':joint,'columns':['effect_KL','PCA_error_KL','Fisher_error_KL','effect_raw','PCA_raw_error','Fisher_raw_error'],'unique_documents':19392},indent=2)+'\n');print('joint',joint,flush=True)
+if __name__=='__main__':main()

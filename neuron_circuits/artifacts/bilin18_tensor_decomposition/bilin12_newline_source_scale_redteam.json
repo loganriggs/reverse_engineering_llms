@@ -1,0 +1,4198 @@
+{
+  "config": {
+    "status": "locked-after-semantic-individual-result-before-newline-scale-redteam",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "semantic_reference": "artifacts/bilin18_tensor_decomposition/bilin12_semantic_source_program_transfer.json",
+    "seed": 20261110,
+    "batch_size": 2,
+    "sequence_length": 128,
+    "prediction_position": 127,
+    "edit_positions": [
+      63,
+      95,
+      119
+    ],
+    "layers": [
+      5,
+      6,
+      8,
+      10
+    ],
+    "scales": [
+      0.125,
+      0.25,
+      0.5,
+      1.0,
+      1.5
+    ],
+    "methods": [
+      "state16",
+      "state32",
+      "pattern32",
+      "recency32"
+    ],
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19688,
+        "rows": 8
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 264,
+        "rows": 8
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 264,
+        "rows": 8
+      }
+    },
+    "hypotheses": {
+      "A1_small_newline_edits_match_semantic_state32_fidelity": "At scale 0.125, state-norm top-32 mean fidelity is at least 0.97.",
+      "A2_state32_fidelity_improves_as_scale_shrinks": "Mean state-norm top-32 fidelity is nonincreasing with intervention scale.",
+      "A3_small_scale_repairs_the_worst_conditions": "Scale 0.125 state-norm top-32 minimum fidelity exceeds scale 1.0 minimum by at least 0.10.",
+      "A4_pattern32_improves_as_scale_shrinks": "Mean pattern-change top-32 fidelity is nonincreasing with intervention scale.",
+      "A5_fisher_target_energy_is_locally_quadratic": "Across scales 0.125 through 0.5, target Fisher energy divided by scale squared has coefficient of variation at most 0.10.",
+      "A6_state_rule_still_beats_recency_at_small_scale": "At scale 0.125, state-norm top-32 exceeds recency top-32 by at least 0.20 mean fidelity.",
+      "A7_state16_remains_less_robust_than_state32": "At every scale, state-norm top-16 has lower mean fidelity than top-32.",
+      "A8_large_scale_exposes_nonlinear_metric_failure": "At scale 1.5, at least one method-condition fidelity is negative.",
+      "A9_scale_does_not_fully_explain_semantic_transfer": "Even at scale 0.125, newline state-norm top-32 mean fidelity remains at least 0.02 below the semantic state-norm top-32 reference.",
+      "A10_source_geometry_and_effect_scale_both_matter": "A1 and A9 are both supported: shrinking helps materially but does not close the semantic gap."
+    }
+  },
+  "hypotheses": {
+    "A1_small_newline_edits_match_semantic_state32_fidelity": {
+      "supported": true,
+      "small_scale": 0.9756404091169811
+    },
+    "A2_state32_fidelity_improves_as_scale_shrinks": {
+      "supported": false
+    },
+    "A3_small_scale_repairs_the_worst_conditions": {
+      "supported": false,
+      "improvement": -0.005870656417488962
+    },
+    "A4_pattern32_improves_as_scale_shrinks": {
+      "supported": false
+    },
+    "A5_fisher_target_energy_is_locally_quadratic": {
+      "supported": true,
+      "coefficient_of_variation": 0.045033469116524075
+    },
+    "A6_state_rule_still_beats_recency_at_small_scale": {
+      "supported": false,
+      "advantage": 0.11456110255197005
+    },
+    "A7_state16_remains_less_robust_than_state32": {
+      "supported": true
+    },
+    "A8_large_scale_exposes_nonlinear_metric_failure": {
+      "supported": true
+    },
+    "A9_scale_does_not_fully_explain_semantic_transfer": {
+      "supported": false,
+      "semantic_fidelity": 0.9925798669823706,
+      "small_newline_fidelity": 0.9756404091169811,
+      "gap": 0.016939457865389418
+    },
+    "A10_source_geometry_and_effect_scale_both_matter": {
+      "supported": false
+    }
+  },
+  "frontier": {
+    "state16": [
+      0.9406363632049448,
+      0.9428499181783321,
+      0.9469324332859812,
+      0.9527839282383521,
+      0.9548133559244532
+    ],
+    "state32": [
+      0.9756404091169811,
+      0.9765990967450652,
+      0.9783754340806343,
+      0.9809907429901412,
+      0.9819961971793588
+    ],
+    "pattern32": [
+      0.9742202092528437,
+      0.9751337892624934,
+      0.9768467084618798,
+      0.9794386709960214,
+      0.9804632240287035
+    ],
+    "recency32": [
+      0.8610793065650111,
+      0.865919039144643,
+      0.8748572505074691,
+      0.887751019230656,
+      0.8924064520043424
+    ]
+  },
+  "target_energy": {
+    "0.125": 0.024097120528665528,
+    "0.25": 0.0998737852235081,
+    "0.5": 0.4292591203338816,
+    "1.0": 1.9421647089911858,
+    "1.5": 4.653198304164107
+  },
+  "results": {
+    "fineweb": {
+      "63": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 3.981108329753624e-05,
+              "fisher_fidelity": 0.8064558556740404
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 3.981108329753624e-05,
+              "fisher_fidelity": 0.9494348270198886
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 3.981108329753624e-05,
+              "fisher_fidelity": 0.9424395972366277
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 3.981108329753624e-05,
+              "fisher_fidelity": 0.09463519186332114
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0001589303519722307,
+              "fisher_fidelity": 0.8070157005803344
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0001589303519722307,
+              "fisher_fidelity": 0.9495345709941935
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0001589303519722307,
+              "fisher_fidelity": 0.942366536254354
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0001589303519722307,
+              "fisher_fidelity": 0.0945900664719953
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0006334689751383848,
+              "fisher_fidelity": 0.8073055983982599
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0006334689751383848,
+              "fisher_fidelity": 0.9492606453822864
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0006334689751383848,
+              "fisher_fidelity": 0.9422035519139962
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0006334689751383848,
+              "fisher_fidelity": 0.09502281402960167
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0025152437738142908,
+              "fisher_fidelity": 0.8077046728399686
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0025152437738142908,
+              "fisher_fidelity": 0.9487368081882905
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0025152437738142908,
+              "fisher_fidelity": 0.9418607016990523
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0025152437738142908,
+              "fisher_fidelity": 0.0961083526285178
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0056176462094299495,
+              "fisher_fidelity": 0.8080960360894476
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0056176462094299495,
+              "fisher_fidelity": 0.9481954453740009
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0056176462094299495,
+              "fisher_fidelity": 0.9415026342179587
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0056176462094299495,
+              "fisher_fidelity": 0.0969683410477502
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 8.344231446244521e-05,
+              "fisher_fidelity": 0.806056885222914
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 8.344231446244521e-05,
+              "fisher_fidelity": 0.8637340259027675
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 8.344231446244521e-05,
+              "fisher_fidelity": 0.8705374916637869
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 8.344231446244521e-05,
+              "fisher_fidelity": 0.12486666010142478
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0003346477442391915,
+              "fisher_fidelity": 0.8074400434847119
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0003346477442391915,
+              "fisher_fidelity": 0.8645930173611031
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0003346477442391915,
+              "fisher_fidelity": 0.8715454534380879
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0003346477442391915,
+              "fisher_fidelity": 0.12749000278804878
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.001345702024991624,
+              "fisher_fidelity": 0.8100987409276266
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.001345702024991624,
+              "fisher_fidelity": 0.8659073456393884
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.001345702024991624,
+              "fisher_fidelity": 0.873119992055447
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.001345702024991624,
+              "fisher_fidelity": 0.13222586471925413
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0054514819057658315,
+              "fisher_fidelity": 0.815729800497238
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0054514819057658315,
+              "fisher_fidelity": 0.8691079776354566
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0054514819057658315,
+              "fisher_fidelity": 0.8768827475358533
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0054514819057658315,
+              "fisher_fidelity": 0.14282324973419147
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.012461046921089292,
+              "fisher_fidelity": 0.8216647958010448
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.012461046921089292,
+              "fisher_fidelity": 0.8727451774893955
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.012461046921089292,
+              "fisher_fidelity": 0.8809619431141629
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.012461046921089292,
+              "fisher_fidelity": 0.15473218700469837
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 4.56679968010576e-05,
+              "fisher_fidelity": 0.9111495509827648
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 4.56679968010576e-05,
+              "fisher_fidelity": 0.9587689139432002
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 4.56679968010576e-05,
+              "fisher_fidelity": 0.9617812761703419
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 4.56679968010576e-05,
+              "fisher_fidelity": -0.15143476941649991
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00018109643315256108,
+              "fisher_fidelity": 0.9105206774403517
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00018109643315256108,
+              "fisher_fidelity": 0.9584282211288228
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00018109643315256108,
+              "fisher_fidelity": 0.9614169594341403
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00018109643315256108,
+              "fisher_fidelity": -0.15174430005531314
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0007119542315194849,
+              "fisher_fidelity": 0.9089356075906382
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0007119542315194849,
+              "fisher_fidelity": 0.9576028253434767
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0007119542315194849,
+              "fisher_fidelity": 0.9607249528257439
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0007119542315194849,
+              "fisher_fidelity": -0.1524461086042559
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0027525458863237873,
+              "fisher_fidelity": 0.9057997180840094
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0027525458863237873,
+              "fisher_fidelity": 0.9560113735833708
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0027525458863237873,
+              "fisher_fidelity": 0.9592691793543374
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0027525458863237873,
+              "fisher_fidelity": -0.15364536211389312
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.005990276986267418,
+              "fisher_fidelity": 0.9025850306341305
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.005990276986267418,
+              "fisher_fidelity": 0.9543649767386609
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.005990276986267418,
+              "fisher_fidelity": 0.9577918271088917
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.005990276986267418,
+              "fisher_fidelity": -0.15469305259557475
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 4.4109517830293044e-05,
+              "fisher_fidelity": 0.9676785083666102
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 4.4109517830293044e-05,
+              "fisher_fidelity": 0.990089150572767
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 4.4109517830293044e-05,
+              "fisher_fidelity": 0.9879744178500163
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 4.4109517830293044e-05,
+              "fisher_fidelity": 0.20819188110813436
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00017568510384080582,
+              "fisher_fidelity": 0.9676082677582916
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00017568510384080582,
+              "fisher_fidelity": 0.9900541631768578
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00017568510384080582,
+              "fisher_fidelity": 0.9879496182514919
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00017568510384080582,
+              "fisher_fidelity": 0.20635563229401244
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0006970410977373831,
+              "fisher_fidelity": 0.9673434743476917
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0006970410977373831,
+              "fisher_fidelity": 0.9899780441351937
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0006970410977373831,
+              "fisher_fidelity": 0.9878476188794498
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0006970410977373831,
+              "fisher_fidelity": 0.20243769039481685
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.002745367877651006,
+              "fisher_fidelity": 0.9668119373364109
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.002745367877651006,
+              "fisher_fidelity": 0.9898142494319047
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.002745367877651006,
+              "fisher_fidelity": 0.9876565701654928
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.002745367877651006,
+              "fisher_fidelity": 0.1945812415041719
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0060863420949317515,
+              "fisher_fidelity": 0.9662768158480739
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0060863420949317515,
+              "fisher_fidelity": 0.9896568679586951
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0060863420949317515,
+              "fisher_fidelity": 0.9874635451198924
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0060863420949317515,
+              "fisher_fidelity": 0.1866574762835046
+            }
+          }
+        }
+      },
+      "95": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00023011565826891456,
+              "fisher_fidelity": 0.8556094201382858
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00023011565826891456,
+              "fisher_fidelity": 0.953769691552324
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00023011565826891456,
+              "fisher_fidelity": 0.9444586456315476
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00023011565826891456,
+              "fisher_fidelity": 0.8363239062473655
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0009216744656441733,
+              "fisher_fidelity": 0.8550568613644347
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0009216744656441733,
+              "fisher_fidelity": 0.9538409424969962
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0009216744656441733,
+              "fisher_fidelity": 0.9445277690782796
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0009216744656441733,
+              "fisher_fidelity": 0.8366996167657927
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0036950171925127506,
+              "fisher_fidelity": 0.8541589168397083
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0036950171925127506,
+              "fisher_fidelity": 0.9540264945842237
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0036950171925127506,
+              "fisher_fidelity": 0.944694489533949
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0036950171925127506,
+              "fisher_fidelity": 0.8373017081372136
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.014855266083031893,
+              "fisher_fidelity": 0.8521562268535142
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.014855266083031893,
+              "fisher_fidelity": 0.9543580866868209
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.014855266083031893,
+              "fisher_fidelity": 0.944955954340746
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.014855266083031893,
+              "fisher_fidelity": 0.8384422685639812
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0336105152964592,
+              "fisher_fidelity": 0.8499755819055859
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0336105152964592,
+              "fisher_fidelity": 0.9546279956154111
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0336105152964592,
+              "fisher_fidelity": 0.9450935873050681
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0336105152964592,
+              "fisher_fidelity": 0.8394462909434827
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00020791650786122773,
+              "fisher_fidelity": 0.7696937080797897
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00020791650786122773,
+              "fisher_fidelity": 0.8761794070196165
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00020791650786122773,
+              "fisher_fidelity": 0.8965472256144396
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00020791650786122773,
+              "fisher_fidelity": 0.5283063371332496
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0008319092157762498,
+              "fisher_fidelity": 0.7703028279660817
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0008319092157762498,
+              "fisher_fidelity": 0.8762831560989517
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0008319092157762498,
+              "fisher_fidelity": 0.8966740638082956
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0008319092157762498,
+              "fisher_fidelity": 0.52944089743618
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.003328608436277136,
+              "fisher_fidelity": 0.7713481139719061
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.003328608436277136,
+              "fisher_fidelity": 0.8765795505233164
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.003328608436277136,
+              "fisher_fidelity": 0.8969227057260544
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.003328608436277136,
+              "fisher_fidelity": 0.5315598834538201
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.013322565471753478,
+              "fisher_fidelity": 0.773535744059903
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.013322565471753478,
+              "fisher_fidelity": 0.877235751931279
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.013322565471753478,
+              "fisher_fidelity": 0.8974733300340197
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.013322565471753478,
+              "fisher_fidelity": 0.5356765135704427
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.030002434505149722,
+              "fisher_fidelity": 0.7757116890317922
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.030002434505149722,
+              "fisher_fidelity": 0.8779417428365279
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.030002434505149722,
+              "fisher_fidelity": 0.8980734400788145
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.030002434505149722,
+              "fisher_fidelity": 0.5395956137490083
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00011451124419181724,
+              "fisher_fidelity": 0.9442880706753656
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00011451124419181724,
+              "fisher_fidelity": 0.9791850741007939
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00011451124419181724,
+              "fisher_fidelity": 0.9808459456974024
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00011451124419181724,
+              "fisher_fidelity": 0.19951100279064748
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.000456340752862161,
+              "fisher_fidelity": 0.9440764520853974
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.000456340752862161,
+              "fisher_fidelity": 0.9791063538318308
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.000456340752862161,
+              "fisher_fidelity": 0.9808075895742782
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.000456340752862161,
+              "fisher_fidelity": 0.20246999571286184
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0018115884959115647,
+              "fisher_fidelity": 0.9435768786977424
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0018115884959115647,
+              "fisher_fidelity": 0.9789876251184183
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0018115884959115647,
+              "fisher_fidelity": 0.9806607234401753
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0018115884959115647,
+              "fisher_fidelity": 0.20829430939026172
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.007142998219933361,
+              "fisher_fidelity": 0.9426597385299486
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.007142998219933361,
+              "fisher_fidelity": 0.9787318735101498
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.007142998219933361,
+              "fisher_fidelity": 0.9803978046526618
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.007142998219933361,
+              "fisher_fidelity": 0.2198692507136919
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.015859168372116983,
+              "fisher_fidelity": 0.941773947738774
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.015859168372116983,
+              "fisher_fidelity": 0.9785162925473426
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.015859168372116983,
+              "fisher_fidelity": 0.9801358436915064
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.015859168372116983,
+              "fisher_fidelity": 0.23135741165777368
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 5.393991705204826e-05,
+              "fisher_fidelity": 0.9320896474026602
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 5.393991705204826e-05,
+              "fisher_fidelity": 0.9804755506184067
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 5.393991705204826e-05,
+              "fisher_fidelity": 0.9667771393619492
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 5.393991705204826e-05,
+              "fisher_fidelity": 0.07829824992312107
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00021544556875596754,
+              "fisher_fidelity": 0.9320424604677644
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00021544556875596754,
+              "fisher_fidelity": 0.9804714310883832
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00021544556875596754,
+              "fisher_fidelity": 0.9667353022126678
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00021544556875596754,
+              "fisher_fidelity": 0.07717481098458157
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0008595999606768601,
+              "fisher_fidelity": 0.931860493532392
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0008595999606768601,
+              "fisher_fidelity": 0.9803895970234899
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0008595999606768601,
+              "fisher_fidelity": 0.9666682973595645
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0008595999606768601,
+              "fisher_fidelity": 0.0757262865708831
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.003421253524720669,
+              "fisher_fidelity": 0.9315898262675162
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.003421253524720669,
+              "fisher_fidelity": 0.9802839935026622
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.003421253524720669,
+              "fisher_fidelity": 0.9665679624973085
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.003421253524720669,
+              "fisher_fidelity": 0.07256136778241062
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0076604371424764395,
+              "fisher_fidelity": 0.9313192334347183
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0076604371424764395,
+              "fisher_fidelity": 0.9801721346366592
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0076604371424764395,
+              "fisher_fidelity": 0.9664638673806378
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0076604371424764395,
+              "fisher_fidelity": 0.06941412651836198
+            }
+          }
+        }
+      },
+      "119": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0029525879363063723,
+              "fisher_fidelity": 0.971815877397085
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0029525879363063723,
+              "fisher_fidelity": 0.9922031671005728
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0029525879363063723,
+              "fisher_fidelity": 0.989180824901684
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0029525879363063723,
+              "fisher_fidelity": 0.9366210670868507
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.011658262112177908,
+              "fisher_fidelity": 0.9714660589663201
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.011658262112177908,
+              "fisher_fidelity": 0.9920922153700888
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.011658262112177908,
+              "fisher_fidelity": 0.988944042468509
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.011658262112177908,
+              "fisher_fidelity": 0.9360968907692444
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.04539404343813658,
+              "fisher_fidelity": 0.9706597108847714
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.04539404343813658,
+              "fisher_fidelity": 0.9918448368488552
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.04539404343813658,
+              "fisher_fidelity": 0.9884722008685984
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.04539404343813658,
+              "fisher_fidelity": 0.9350418602876732
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.17266343533992767,
+              "fisher_fidelity": 0.9688007011137438
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.17266343533992767,
+              "fisher_fidelity": 0.9913225213986873
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.17266343533992767,
+              "fisher_fidelity": 0.987622911310248
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.17266343533992767,
+              "fisher_fidelity": 0.9330851729572822
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.37471896037459373,
+              "fisher_fidelity": 0.9666127654029405
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.37471896037459373,
+              "fisher_fidelity": 0.9908298940357909
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.37471896037459373,
+              "fisher_fidelity": 0.9869834847202726
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.37471896037459373,
+              "fisher_fidelity": 0.9311690430967039
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.002896502352086827,
+              "fisher_fidelity": 0.9345421296971135
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.002896502352086827,
+              "fisher_fidelity": 0.9649682636563849
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.002896502352086827,
+              "fisher_fidelity": 0.9639818980639191
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.002896502352086827,
+              "fisher_fidelity": 0.8681454041461727
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.011593628907576203,
+              "fisher_fidelity": 0.9350471619146762
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.011593628907576203,
+              "fisher_fidelity": 0.965384670107388
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.011593628907576203,
+              "fisher_fidelity": 0.9643610020755004
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.011593628907576203,
+              "fisher_fidelity": 0.8700320601229174
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.04639903106726706,
+              "fisher_fidelity": 0.9359252607761428
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.04639903106726706,
+              "fisher_fidelity": 0.9661538701543927
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.04639903106726706,
+              "fisher_fidelity": 0.9650332755809282
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.04639903106726706,
+              "fisher_fidelity": 0.8735852288673414
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.1850952673703432,
+              "fisher_fidelity": 0.9369736175883684
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.1850952673703432,
+              "fisher_fidelity": 0.9673885378442868
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.1850952673703432,
+              "fisher_fidelity": 0.966095086994344
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.1850952673703432,
+              "fisher_fidelity": 0.8796724870868144
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.4130050353705883,
+              "fisher_fidelity": 0.9370238062540728
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.4130050353705883,
+              "fisher_fidelity": 0.9682044776879705
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.4130050353705883,
+              "fisher_fidelity": 0.9667720709991535
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.4130050353705883,
+              "fisher_fidelity": 0.8843426537066028
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0006151859088276979,
+              "fisher_fidelity": 0.9682697351047834
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0006151859088276979,
+              "fisher_fidelity": 0.9824690185922302
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0006151859088276979,
+              "fisher_fidelity": 0.9825638426460658
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0006151859088276979,
+              "fisher_fidelity": 0.8835518994371501
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.002427806262858212,
+              "fisher_fidelity": 0.967730726095541
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.002427806262858212,
+              "fisher_fidelity": 0.9821753842341847
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.002427806262858212,
+              "fisher_fidelity": 0.9821295663746338
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.002427806262858212,
+              "fisher_fidelity": 0.8812282297244597
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.009465463692322373,
+              "fisher_fidelity": 0.9666629298082344
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.009465463692322373,
+              "fisher_fidelity": 0.9815846251531558
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.009465463692322373,
+              "fisher_fidelity": 0.9812222535167451
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.009465463692322373,
+              "fisher_fidelity": 0.8764814792050358
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.03629099018871784,
+              "fisher_fidelity": 0.9646466053981002
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.03629099018871784,
+              "fisher_fidelity": 0.9805025817785538
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.03629099018871784,
+              "fisher_fidelity": 0.9793436527979437
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.03629099018871784,
+              "fisher_fidelity": 0.8674302769840466
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.07985671423375607,
+              "fisher_fidelity": 0.9631045459076835
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.07985671423375607,
+              "fisher_fidelity": 0.9797915752940324
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.07985671423375607,
+              "fisher_fidelity": 0.9776120638989496
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.07985671423375607,
+              "fisher_fidelity": 0.8605961928156831
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00018611824634717777,
+              "fisher_fidelity": 0.9272936472095646
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00018611824634717777,
+              "fisher_fidelity": 0.9799540805544487
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00018611824634717777,
+              "fisher_fidelity": 0.9681998197280661
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00018611824634717777,
+              "fisher_fidelity": 0.49718399227721677
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0007364694720308762,
+              "fisher_fidelity": 0.926013078127507
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0007364694720308762,
+              "fisher_fidelity": 0.9797196009288458
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0007364694720308762,
+              "fisher_fidelity": 0.9678968374586487
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0007364694720308762,
+              "fisher_fidelity": 0.4864883546484505
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.002886785310693085,
+              "fisher_fidelity": 0.9235960655434542
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.002886785310693085,
+              "fisher_fidelity": 0.9793225228149363
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.002886785310693085,
+              "fisher_fidelity": 0.9672949277243806
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.002886785310693085,
+              "fisher_fidelity": 0.46488099842091657
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.01117941626580432,
+              "fisher_fidelity": 0.9190023684101172
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.01117941626580432,
+              "fisher_fidelity": 0.9786601956635017
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.01117941626580432,
+              "fisher_fidelity": 0.9663173327608274
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.01117941626580432,
+              "fisher_fidelity": 0.42305937435712127
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.024656142108142376,
+              "fisher_fidelity": 0.9150425581103447
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.024656142108142376,
+              "fisher_fidelity": 0.9782303528746392
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.024656142108142376,
+              "fisher_fidelity": 0.9657265178214041
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.024656142108142376,
+              "fisher_fidelity": 0.3849354446388088
+            }
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "63": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 3.776531855237408e-05,
+              "fisher_fidelity": 0.8248417071269034
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 3.776531855237408e-05,
+              "fisher_fidelity": 0.9092185565638272
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 3.776531855237408e-05,
+              "fisher_fidelity": 0.9121717158444264
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 3.776531855237408e-05,
+              "fisher_fidelity": 0.13965649735719088
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0001509293156232161,
+              "fisher_fidelity": 0.8242659881832342
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0001509293156232161,
+              "fisher_fidelity": 0.9088269631481386
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0001509293156232161,
+              "fisher_fidelity": 0.9117624484940098
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0001509293156232161,
+              "fisher_fidelity": 0.13799819567557203
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0006025895672792103,
+              "fisher_fidelity": 0.8232115853531423
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0006025895672792103,
+              "fisher_fidelity": 0.9080770947633032
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0006025895672792103,
+              "fisher_fidelity": 0.9106827486195409
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0006025895672792103,
+              "fisher_fidelity": 0.13312322404350307
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0024015081507968716,
+              "fisher_fidelity": 0.8210443048506884
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0024015081507968716,
+              "fisher_fidelity": 0.9066743102187604
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0024015081507968716,
+              "fisher_fidelity": 0.9088517910703395
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0024015081507968716,
+              "fisher_fidelity": 0.12502879053177507
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.005381805938668549,
+              "fisher_fidelity": 0.8186151545551321
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.005381805938668549,
+              "fisher_fidelity": 0.90521629952337
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.005381805938668549,
+              "fisher_fidelity": 0.9069107813592752
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.005381805938668549,
+              "fisher_fidelity": 0.1165851719213683
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 2.885166304622544e-05,
+              "fisher_fidelity": 0.686995226042745
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 2.885166304622544e-05,
+              "fisher_fidelity": 0.8749391229269327
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 2.885166304622544e-05,
+              "fisher_fidelity": 0.8708923431863812
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 2.885166304622544e-05,
+              "fisher_fidelity": -0.17004032974580152
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00011572441417229129,
+              "fisher_fidelity": 0.6871012501782159
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00011572441417229129,
+              "fisher_fidelity": 0.875219787806444
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00011572441417229129,
+              "fisher_fidelity": 0.8711016932295347
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00011572441417229129,
+              "fisher_fidelity": -0.1704995870059729
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00046537046364392154,
+              "fisher_fidelity": 0.6873963644747849
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00046537046364392154,
+              "fisher_fidelity": 0.8756890289583121
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00046537046364392154,
+              "fisher_fidelity": 0.8713426680017401
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00046537046364392154,
+              "fisher_fidelity": -0.17108101474531057
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0018812407361110672,
+              "fisher_fidelity": 0.6881974757645892
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0018812407361110672,
+              "fisher_fidelity": 0.876661586472965
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0018812407361110672,
+              "fisher_fidelity": 0.8717671064204263
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0018812407361110672,
+              "fisher_fidelity": -0.17266506979125174
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.004275394254364073,
+              "fisher_fidelity": 0.6888846989288626
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.004275394254364073,
+              "fisher_fidelity": 0.8775698014317465
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.004275394254364073,
+              "fisher_fidelity": 0.8721489793822834
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.004275394254364073,
+              "fisher_fidelity": -0.17466687423896254
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 1.1648666486507864e-05,
+              "fisher_fidelity": 0.8000957264309917
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 1.1648666486507864e-05,
+              "fisher_fidelity": 0.9367669442961684
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 1.1648666486507864e-05,
+              "fisher_fidelity": 0.9357531225444126
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 1.1648666486507864e-05,
+              "fisher_fidelity": 0.3173686874549556
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 4.659091291614459e-05,
+              "fisher_fidelity": 0.8004758497628133
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 4.659091291614459e-05,
+              "fisher_fidelity": 0.9369575325258283
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 4.659091291614459e-05,
+              "fisher_fidelity": 0.9358966260789265
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 4.659091291614459e-05,
+              "fisher_fidelity": 0.3175553751415958
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00018628681391419377,
+              "fisher_fidelity": 0.8006996503099302
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00018628681391419377,
+              "fisher_fidelity": 0.9370136852342061
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00018628681391419377,
+              "fisher_fidelity": 0.9360833361023704
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00018628681391419377,
+              "fisher_fidelity": 0.31858042990732194
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.000744114975532284,
+              "fisher_fidelity": 0.8007443059016202
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.000744114975532284,
+              "fisher_fidelity": 0.9370908974163082
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.000744114975532284,
+              "fisher_fidelity": 0.9362133429860464
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.000744114975532284,
+              "fisher_fidelity": 0.32011801344227875
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.001672064398007933,
+              "fisher_fidelity": 0.8009433020168365
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.001672064398007933,
+              "fisher_fidelity": 0.9371990498944416
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.001672064398007933,
+              "fisher_fidelity": 0.9364459446694917
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.001672064398007933,
+              "fisher_fidelity": 0.3216745179507997
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 5.476454305153311e-06,
+              "fisher_fidelity": 0.7790605282680015
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 5.476454305153311e-06,
+              "fisher_fidelity": 0.9149045369014227
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 5.476454305153311e-06,
+              "fisher_fidelity": 0.9342298595204874
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 5.476454305153311e-06,
+              "fisher_fidelity": -0.8397295229203576
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 2.19288283460628e-05,
+              "fisher_fidelity": 0.7794352685906134
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 2.19288283460628e-05,
+              "fisher_fidelity": 0.9151933392035443
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 2.19288283460628e-05,
+              "fisher_fidelity": 0.93436972579333
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 2.19288283460628e-05,
+              "fisher_fidelity": -0.8401327518463642
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 8.783521298028063e-05,
+              "fisher_fidelity": 0.7800435977060847
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 8.783521298028063e-05,
+              "fisher_fidelity": 0.9155274531503418
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 8.783521298028063e-05,
+              "fisher_fidelity": 0.9344666351743176
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 8.783521298028063e-05,
+              "fisher_fidelity": -0.8413814436691711
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00035260569347883575,
+              "fisher_fidelity": 0.7812592356973435
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00035260569347883575,
+              "fisher_fidelity": 0.9160996050597215
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00035260569347883575,
+              "fisher_fidelity": 0.9346611404105598
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00035260569347883575,
+              "fisher_fidelity": -0.8411800944280652
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0007963812022353522,
+              "fisher_fidelity": 0.7825001259207093
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0007963812022353522,
+              "fisher_fidelity": 0.91652762550526
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0007963812022353522,
+              "fisher_fidelity": 0.9348771947376628
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0007963812022353522,
+              "fisher_fidelity": -0.8407216591906508
+            }
+          }
+        }
+      },
+      "95": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00016008725106075872,
+              "fisher_fidelity": 0.9386058974242115
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00016008725106075872,
+              "fisher_fidelity": 0.9800169617368344
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00016008725106075872,
+              "fisher_fidelity": 0.9824886939058559
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00016008725106075872,
+              "fisher_fidelity": 0.5082407179810469
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0006435489995055832,
+              "fisher_fidelity": 0.9390829917332534
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0006435489995055832,
+              "fisher_fidelity": 0.9800960525483015
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0006435489995055832,
+              "fisher_fidelity": 0.9824999521474035
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0006435489995055832,
+              "fisher_fidelity": 0.5077351107734188
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0026012470916612074,
+              "fisher_fidelity": 0.9398830717829816
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0026012470916612074,
+              "fisher_fidelity": 0.9802098637044698
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0026012470916612074,
+              "fisher_fidelity": 0.9825715642173675
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0026012470916612074,
+              "fisher_fidelity": 0.506804130733512
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.010636846534907818,
+              "fisher_fidelity": 0.9415075543109335
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.010636846534907818,
+              "fisher_fidelity": 0.980482074969375
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.010636846534907818,
+              "fisher_fidelity": 0.9827158087414776
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.010636846534907818,
+              "fisher_fidelity": 0.504638046989172
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.024501313571818173,
+              "fisher_fidelity": 0.9430385923042356
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.024501313571818173,
+              "fisher_fidelity": 0.9807295561743208
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.024501313571818173,
+              "fisher_fidelity": 0.9828454221732339
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.024501313571818173,
+              "fisher_fidelity": 0.5024845427627831
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0002720665688684676,
+              "fisher_fidelity": 0.6499144936499306
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0002720665688684676,
+              "fisher_fidelity": 0.8502818247297934
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0002720665688684676,
+              "fisher_fidelity": 0.835972889428533
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0002720665688684676,
+              "fisher_fidelity": 0.009826517689910053
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0011061103141400963,
+              "fisher_fidelity": 0.6544800934392379
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0011061103141400963,
+              "fisher_fidelity": 0.8525693095102332
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0011061103141400963,
+              "fisher_fidelity": 0.8383605668639732
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0011061103141400963,
+              "fisher_fidelity": 0.002561608519320302
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.004575644736178219,
+              "fisher_fidelity": 0.6640049165249293
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.004575644736178219,
+              "fisher_fidelity": 0.8571139808292636
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.004575644736178219,
+              "fisher_fidelity": 0.8431979526880504
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.004575644736178219,
+              "fisher_fidelity": -0.01151464531188795
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.019659525249153376,
+              "fisher_fidelity": 0.6837205483737003
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.019659525249153376,
+              "fisher_fidelity": 0.8664362893831707
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.019659525249153376,
+              "fisher_fidelity": 0.8530995034073799
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.019659525249153376,
+              "fisher_fidelity": -0.03523990508523167
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.04762517800554633,
+              "fisher_fidelity": 0.7034860745209175
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.04762517800554633,
+              "fisher_fidelity": 0.8755104392510529
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.04762517800554633,
+              "fisher_fidelity": 0.8627997296505336
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.04762517800554633,
+              "fisher_fidelity": -0.05050350825702621
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0001100328454413102,
+              "fisher_fidelity": 0.8714911619412256
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0001100328454413102,
+              "fisher_fidelity": 0.9436142641847066
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0001100328454413102,
+              "fisher_fidelity": 0.9586626142884279
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0001100328454413102,
+              "fisher_fidelity": 0.18392532539838258
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00043886302591999993,
+              "fisher_fidelity": 0.8712410913198007
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00043886302591999993,
+              "fisher_fidelity": 0.943501095775436
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00043886302591999993,
+              "fisher_fidelity": 0.9585723165159004
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00043886302591999993,
+              "fisher_fidelity": 0.1852457459044422
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0017457047215430066,
+              "fisher_fidelity": 0.8708969245043395
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0017457047215430066,
+              "fisher_fidelity": 0.9433575384939713
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0017457047215430066,
+              "fisher_fidelity": 0.9584303619029939
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0017457047215430066,
+              "fisher_fidelity": 0.18765987255417593
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.006907670700456947,
+              "fisher_fidelity": 0.8702161458053108
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.006907670700456947,
+              "fisher_fidelity": 0.9429908591414555
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.006907670700456947,
+              "fisher_fidelity": 0.9581022328088122
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.006907670700456947,
+              "fisher_fidelity": 0.19205945108991584
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.015378066804260015,
+              "fisher_fidelity": 0.8695668231415636
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.015378066804260015,
+              "fisher_fidelity": 0.9426424440463216
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.015378066804260015,
+              "fisher_fidelity": 0.9577920468789852
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.015378066804260015,
+              "fisher_fidelity": 0.19591365978355169
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 9.084057069230767e-05,
+              "fisher_fidelity": 0.9313779044761483
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 9.084057069230767e-05,
+              "fisher_fidelity": 0.977974043977482
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 9.084057069230767e-05,
+              "fisher_fidelity": 0.9746928904034857
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 9.084057069230767e-05,
+              "fisher_fidelity": 0.14459899491404782
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00036512074802885763,
+              "fisher_fidelity": 0.9315141704673546
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00036512074802885763,
+              "fisher_fidelity": 0.9780732160815591
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00036512074802885763,
+              "fisher_fidelity": 0.9747721371956795
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00036512074802885763,
+              "fisher_fidelity": 0.1468736079057804
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0014744100699317642,
+              "fisher_fidelity": 0.9319241727468127
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0014744100699317642,
+              "fisher_fidelity": 0.9782509686743295
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0014744100699317642,
+              "fisher_fidelity": 0.9749151730497765
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0014744100699317642,
+              "fisher_fidelity": 0.15096650275920698
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.006013215490384027,
+              "fisher_fidelity": 0.9326928379956623
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.006013215490384027,
+              "fisher_fidelity": 0.9786050351701596
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.006013215490384027,
+              "fisher_fidelity": 0.975187744983652
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.006013215490384027,
+              "fisher_fidelity": 0.15916259301451496
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.013799827574985102,
+              "fisher_fidelity": 0.9334451205041757
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.013799827574985102,
+              "fisher_fidelity": 0.9789508732592173
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.013799827574985102,
+              "fisher_fidelity": 0.9754575485117618
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.013799827574985102,
+              "fisher_fidelity": 0.1673654629365311
+            }
+          }
+        }
+      },
+      "119": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.005684617201040965,
+              "fisher_fidelity": 0.9878496728879713
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.005684617201040965,
+              "fisher_fidelity": 0.9961754046001476
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.005684617201040965,
+              "fisher_fidelity": 0.9958428054692273
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.005684617201040965,
+              "fisher_fidelity": 0.9846695945116329
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.024974396626930684,
+              "fisher_fidelity": 0.988523138472458
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.024974396626930684,
+              "fisher_fidelity": 0.9965095110938407
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.024974396626930684,
+              "fisher_fidelity": 0.9961946555763901
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.024974396626930684,
+              "fisher_fidelity": 0.9854688214616083
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.11861318931914866,
+              "fisher_fidelity": 0.9894648760847918
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.11861318931914866,
+              "fisher_fidelity": 0.9970187283440174
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.11861318931914866,
+              "fisher_fidelity": 0.9967343507920658
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.11861318931914866,
+              "fisher_fidelity": 0.9864026363193095
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.589881909545511,
+              "fisher_fidelity": 0.9896226076465341
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.589881909545511,
+              "fisher_fidelity": 0.9973729750883583
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.589881909545511,
+              "fisher_fidelity": 0.9970963721439869
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.589881909545511,
+              "fisher_fidelity": 0.9854872068070921
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 1.2933465922251344,
+              "fisher_fidelity": 0.9869936786872657
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 1.2933465922251344,
+              "fisher_fidelity": 0.9964593290106218
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 1.2933465922251344,
+              "fisher_fidelity": 0.9960134000862962
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 1.2933465922251344,
+              "fisher_fidelity": 0.9800586464951216
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.006385019965819083,
+              "fisher_fidelity": 0.9725182027480945
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.006385019965819083,
+              "fisher_fidelity": 0.9924275828816953
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.006385019965819083,
+              "fisher_fidelity": 0.9922352909482886
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.006385019965819083,
+              "fisher_fidelity": 0.9651721786114221
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.026835288503207266,
+              "fisher_fidelity": 0.9743851951595884
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.026835288503207266,
+              "fisher_fidelity": 0.9930394011240293
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.026835288503207266,
+              "fisher_fidelity": 0.9925805111261375
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.026835288503207266,
+              "fisher_fidelity": 0.967132993082358
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.11875531123951077,
+              "fisher_fidelity": 0.9775146135229855
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.11875531123951077,
+              "fisher_fidelity": 0.994021103433842
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.11875531123951077,
+              "fisher_fidelity": 0.99314514560737
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.11875531123951077,
+              "fisher_fidelity": 0.9701323165698414
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.5856771105900407,
+              "fisher_fidelity": 0.9818939039285871
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.5856771105900407,
+              "fisher_fidelity": 0.9953126355788614
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.5856771105900407,
+              "fisher_fidelity": 0.9941427786750715
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.5856771105900407,
+              "fisher_fidelity": 0.9744739823026434
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 1.6250053513795137,
+              "fisher_fidelity": 0.9844290069495979
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 1.6250053513795137,
+              "fisher_fidelity": 0.9961284196805785
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 1.6250053513795137,
+              "fisher_fidelity": 0.9952019739559824
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 1.6250053513795137,
+              "fisher_fidelity": 0.9785201319125536
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00036079574783798307,
+              "fisher_fidelity": 0.9360354744421918
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00036079574783798307,
+              "fisher_fidelity": 0.9731089039849647
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00036079574783798307,
+              "fisher_fidelity": 0.962293723389152
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00036079574783798307,
+              "fisher_fidelity": 0.7997605641272912
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0014575666282325983,
+              "fisher_fidelity": 0.9365916488244547
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0014575666282325983,
+              "fisher_fidelity": 0.9733556447259042
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0014575666282325983,
+              "fisher_fidelity": 0.9625063774659551
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0014575666282325983,
+              "fisher_fidelity": 0.8012928892978037
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.005948353209532797,
+              "fisher_fidelity": 0.9376958202570399
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.005948353209532797,
+              "fisher_fidelity": 0.9738234421372607
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.005948353209532797,
+              "fisher_fidelity": 0.9629206267192527
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.005948353209532797,
+              "fisher_fidelity": 0.8043896274392703
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.024788851384073496,
+              "fisher_fidelity": 0.9398797493288691
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.024788851384073496,
+              "fisher_fidelity": 0.9747608810539453
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.024788851384073496,
+              "fisher_fidelity": 0.9637908385227668
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.024788851384073496,
+              "fisher_fidelity": 0.8106278231554014
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.058175289537757635,
+              "fisher_fidelity": 0.9420479497785981
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.058175289537757635,
+              "fisher_fidelity": 0.9756789807056137
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.058175289537757635,
+              "fisher_fidelity": 0.9647143851492994
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.058175289537757635,
+              "fisher_fidelity": 0.8168706831942689
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0005007097706766217,
+              "fisher_fidelity": 0.9580097364711966
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0005007097706766217,
+              "fisher_fidelity": 0.9854362655325045
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0005007097706766217,
+              "fisher_fidelity": 0.9806437165990979
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0005007097706766217,
+              "fisher_fidelity": 0.5629503156300081
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.001998907271627104,
+              "fisher_fidelity": 0.9578481683520375
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.001998907271627104,
+              "fisher_fidelity": 0.985415971770319
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.001998907271627104,
+              "fisher_fidelity": 0.9806019397328861
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.001998907271627104,
+              "fisher_fidelity": 0.5625830587134029
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.007965802913531661,
+              "fisher_fidelity": 0.9575097698817254
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.007965802913531661,
+              "fisher_fidelity": 0.9853881121955506
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.007965802913531661,
+              "fisher_fidelity": 0.9805164587786033
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.007965802913531661,
+              "fisher_fidelity": 0.5618800988315418
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.031640782370232046,
+              "fisher_fidelity": 0.9568482164894392
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.031640782370232046,
+              "fisher_fidelity": 0.9853199608880682
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.031640782370232046,
+              "fisher_fidelity": 0.9803367161210935
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.031640782370232046,
+              "fisher_fidelity": 0.5605390190097803
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.07074886537156999,
+              "fisher_fidelity": 0.9562348287628867
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.07074886537156999,
+              "fisher_fidelity": 0.9852687910646413
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.07074886537156999,
+              "fisher_fidelity": 0.9801834225128491
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.07074886537156999,
+              "fisher_fidelity": 0.5593091984029714
+            }
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "63": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00010828551603481174,
+              "fisher_fidelity": 0.7398336451114076
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00010828551603481174,
+              "fisher_fidelity": 0.9263503345053246
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00010828551603481174,
+              "fisher_fidelity": 0.9236156071654722
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00010828551603481174,
+              "fisher_fidelity": 0.5799128538819167
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0004379395359137561,
+              "fisher_fidelity": 0.7426802836018235
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0004379395359137561,
+              "fisher_fidelity": 0.9271546721548696
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0004379395359137561,
+              "fisher_fidelity": 0.92449582095111
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0004379395359137561,
+              "fisher_fidelity": 0.5805464430387521
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0017953518545255065,
+              "fisher_fidelity": 0.7483062965266076
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0017953518545255065,
+              "fisher_fidelity": 0.9288390834284629
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0017953518545255065,
+              "fisher_fidelity": 0.9261588024994237
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0017953518545255065,
+              "fisher_fidelity": 0.5828021074500607
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0076173628913238645,
+              "fisher_fidelity": 0.7617038857772669
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0076173628913238645,
+              "fisher_fidelity": 0.9327061642040505
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0076173628913238645,
+              "fisher_fidelity": 0.9300637954456039
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0076173628913238645,
+              "fisher_fidelity": 0.5897747659581992
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.01850658794865012,
+              "fisher_fidelity": 0.7781771657713845
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.01850658794865012,
+              "fisher_fidelity": 0.9372731361968185
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.01850658794865012,
+              "fisher_fidelity": 0.9347528121276429
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.01850658794865012,
+              "fisher_fidelity": 0.5996202563018344
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00028441740414564265,
+              "fisher_fidelity": 0.6800072421279104
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00028441740414564265,
+              "fisher_fidelity": 0.8506396194505388
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00028441740414564265,
+              "fisher_fidelity": 0.8310551573407418
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00028441740414564265,
+              "fisher_fidelity": 0.4557277093187728
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0011314347357256338,
+              "fisher_fidelity": 0.6783225839086559
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0011314347357256338,
+              "fisher_fidelity": 0.8499194302784986
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0011314347357256338,
+              "fisher_fidelity": 0.8303112967651612
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0011314347357256338,
+              "fisher_fidelity": 0.4529544345857409
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.004470794621738605,
+              "fisher_fidelity": 0.6744392967776227
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.004470794621738605,
+              "fisher_fidelity": 0.8483144067125304
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.004470794621738605,
+              "fisher_fidelity": 0.8286291273780947
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.004470794621738605,
+              "fisher_fidelity": 0.4466017889418572
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.017402168246917427,
+              "fisher_fidelity": 0.6654052263311198
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.017402168246917427,
+              "fisher_fidelity": 0.8444836920348265
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.017402168246917427,
+              "fisher_fidelity": 0.8246390159804072
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.017402168246917427,
+              "fisher_fidelity": 0.43208992375191246
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.03798885573633015,
+              "fisher_fidelity": 0.654804763786136
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.03798885573633015,
+              "fisher_fidelity": 0.8399198467858349
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.03798885573633015,
+              "fisher_fidelity": 0.8199212709016002
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.03798885573633015,
+              "fisher_fidelity": 0.4154240808181897
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 2.6737256348496885e-05,
+              "fisher_fidelity": 0.8312068538308449
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 2.6737256348496885e-05,
+              "fisher_fidelity": 0.9244330915642794
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 2.6737256348496885e-05,
+              "fisher_fidelity": 0.9157540758383647
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 2.6737256348496885e-05,
+              "fisher_fidelity": 0.2181148895231948
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00010670430492609739,
+              "fisher_fidelity": 0.8311398138776712
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00010670430492609739,
+              "fisher_fidelity": 0.9243986932349894
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00010670430492609739,
+              "fisher_fidelity": 0.9157386648844472
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00010670430492609739,
+              "fisher_fidelity": 0.2194963607360163
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00042495644447626546,
+              "fisher_fidelity": 0.830478042684594
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00042495644447626546,
+              "fisher_fidelity": 0.9240576367383734
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00042495644447626546,
+              "fisher_fidelity": 0.9153207959715279
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00042495644447626546,
+              "fisher_fidelity": 0.22184944812368834
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0016851893451530486,
+              "fisher_fidelity": 0.8293205567481221
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0016851893451530486,
+              "fisher_fidelity": 0.9233107119292351
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0016851893451530486,
+              "fisher_fidelity": 0.9146507845321109
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0016851893451530486,
+              "fisher_fidelity": 0.22657134175085036
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0037598705093842,
+              "fisher_fidelity": 0.8281672480885962
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0037598705093842,
+              "fisher_fidelity": 0.9225740581952835
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0037598705093842,
+              "fisher_fidelity": 0.9139697213909692
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0037598705093842,
+              "fisher_fidelity": 0.2312855712241818
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 2.2940772510082752e-05,
+              "fisher_fidelity": 0.930757796272009
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 2.2940772510082752e-05,
+              "fisher_fidelity": 0.9545887557027404
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 2.2940772510082752e-05,
+              "fisher_fidelity": 0.9606734839172661
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 2.2940772510082752e-05,
+              "fisher_fidelity": -1.1350657725341047
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 9.145481999439653e-05,
+              "fisher_fidelity": 0.9305496748973936
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 9.145481999439653e-05,
+              "fisher_fidelity": 0.9542443442480073
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 9.145481999439653e-05,
+              "fisher_fidelity": 0.9605300487974627
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 9.145481999439653e-05,
+              "fisher_fidelity": -1.1414457387262562
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00036333083153294865,
+              "fisher_fidelity": 0.9299997976902717
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00036333083153294865,
+              "fisher_fidelity": 0.9540289635688641
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00036333083153294865,
+              "fisher_fidelity": 0.9602540181998753
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00036333083153294865,
+              "fisher_fidelity": -1.1543794346338743
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.001433947923942469,
+              "fisher_fidelity": 0.929150236688799
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.001433947923942469,
+              "fisher_fidelity": 0.9534423961609314
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.001433947923942469,
+              "fisher_fidelity": 0.9597175793601128
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.001433947923942469,
+              "fisher_fidelity": -1.1798663419949498
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0031844662444200367,
+              "fisher_fidelity": 0.9282706349647575
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0031844662444200367,
+              "fisher_fidelity": 0.9528261874819995
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0031844662444200367,
+              "fisher_fidelity": 0.9591944137929692
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0031844662444200367,
+              "fisher_fidelity": -1.204642456087
+            }
+          }
+        }
+      },
+      "95": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00025255762739107013,
+              "fisher_fidelity": 0.9381411735000312
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00025255762739107013,
+              "fisher_fidelity": 0.9561734518840228
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00025255762739107013,
+              "fisher_fidelity": 0.9508018486856252
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00025255762739107013,
+              "fisher_fidelity": 0.6756436298358088
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0010148262372240424,
+              "fisher_fidelity": 0.9383959563814034
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0010148262372240424,
+              "fisher_fidelity": 0.9562716932358918
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0010148262372240424,
+              "fisher_fidelity": 0.951016336875398
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0010148262372240424,
+              "fisher_fidelity": 0.6751734032109287
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0041038507770281285,
+              "fisher_fidelity": 0.9389496751297995
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0041038507770281285,
+              "fisher_fidelity": 0.9564731885857293
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0041038507770281285,
+              "fisher_fidelity": 0.9515521087892516
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0041038507770281285,
+              "fisher_fidelity": 0.6742907380095571
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.016965912422165275,
+              "fisher_fidelity": 0.9406764517843001
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.016965912422165275,
+              "fisher_fidelity": 0.9573445100361491
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.016965912422165275,
+              "fisher_fidelity": 0.9530484532371593
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.016965912422165275,
+              "fisher_fidelity": 0.671859915154297
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.04046006128191948,
+              "fisher_fidelity": 0.9436853710357277
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.04046006128191948,
+              "fisher_fidelity": 0.959170350245007
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.04046006128191948,
+              "fisher_fidelity": 0.9555007192073596
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.04046006128191948,
+              "fisher_fidelity": 0.6623929935921605
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00022912937492947094,
+              "fisher_fidelity": 0.6201154785552448
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00022912937492947094,
+              "fisher_fidelity": 0.8112974466933354
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00022912937492947094,
+              "fisher_fidelity": 0.8102023704863389
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00022912937492947094,
+              "fisher_fidelity": 0.29214199832293375
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0009177094761980698,
+              "fisher_fidelity": 0.6222638119075363
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0009177094761980698,
+              "fisher_fidelity": 0.8121040473394586
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0009177094761980698,
+              "fisher_fidelity": 0.8110992588304216
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0009177094761980698,
+              "fisher_fidelity": 0.3000927661141928
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0036822592664975673,
+              "fisher_fidelity": 0.6265647018867511
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0036822592664975673,
+              "fisher_fidelity": 0.81389380054997
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0036822592664975673,
+              "fisher_fidelity": 0.813062236119381
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0036822592664975673,
+              "fisher_fidelity": 0.3164443677600477
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.014826869242824614,
+              "fisher_fidelity": 0.6348019187254657
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.014826869242824614,
+              "fisher_fidelity": 0.8171681031108243
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.014826869242824614,
+              "fisher_fidelity": 0.8168232529497828
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.014826869242824614,
+              "fisher_fidelity": 0.34680843995678234
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.033607007935643196,
+              "fisher_fidelity": 0.6427112878530701
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.033607007935643196,
+              "fisher_fidelity": 0.8202422076887371
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.033607007935643196,
+              "fisher_fidelity": 0.8205479056539722
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.033607007935643196,
+              "fisher_fidelity": 0.37414469554734964
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 2.7270732061879244e-05,
+              "fisher_fidelity": 0.9003983564067646
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 2.7270732061879244e-05,
+              "fisher_fidelity": 0.9506052084741353
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 2.7270732061879244e-05,
+              "fisher_fidelity": 0.9185178687149125
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 2.7270732061879244e-05,
+              "fisher_fidelity": 0.5110182058475772
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00010900119559664745,
+              "fisher_fidelity": 0.9003176016617438
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00010900119559664745,
+              "fisher_fidelity": 0.9505537664757956
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00010900119559664745,
+              "fisher_fidelity": 0.9183626046681331
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00010900119559664745,
+              "fisher_fidelity": 0.5119310211405803
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.00043523143540369347,
+              "fisher_fidelity": 0.9001570769049115
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.00043523143540369347,
+              "fisher_fidelity": 0.950449375267406
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.00043523143540369347,
+              "fisher_fidelity": 0.9181715679373647
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.00043523143540369347,
+              "fisher_fidelity": 0.5135475834406551
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0017355602467432618,
+              "fisher_fidelity": 0.8998862011397104
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0017355602467432618,
+              "fisher_fidelity": 0.950316804236673
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0017355602467432618,
+              "fisher_fidelity": 0.9179053241827784
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0017355602467432618,
+              "fisher_fidelity": 0.5166544011680971
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0038942989194765687,
+              "fisher_fidelity": 0.8996078361825545
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0038942989194765687,
+              "fisher_fidelity": 0.9501625990982601
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0038942989194765687,
+              "fisher_fidelity": 0.9176170936814022
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0038942989194765687,
+              "fisher_fidelity": 0.5196963177407667
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 2.359347809033352e-05,
+              "fisher_fidelity": 0.9494668740817129
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 2.359347809033352e-05,
+              "fisher_fidelity": 0.9763944440715941
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 2.359347809033352e-05,
+              "fisher_fidelity": 0.9654273727754275
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 2.359347809033352e-05,
+              "fisher_fidelity": 0.725608420178269
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 9.441966176382266e-05,
+              "fisher_fidelity": 0.9494197999988749
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 9.441966176382266e-05,
+              "fisher_fidelity": 0.976397863302052
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 9.441966176382266e-05,
+              "fisher_fidelity": 0.9654031797135219
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 9.441966176382266e-05,
+              "fisher_fidelity": 0.7261570515143421
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.0003779885355470469,
+              "fisher_fidelity": 0.9495355685653603
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.0003779885355470469,
+              "fisher_fidelity": 0.9764319285488916
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.0003779885355470469,
+              "fisher_fidelity": 0.9654814787215457
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.0003779885355470469,
+              "fisher_fidelity": 0.727093295018544
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.001514492032583803,
+              "fisher_fidelity": 0.9497470144155519
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.001514492032583803,
+              "fisher_fidelity": 0.9765347252849145
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.001514492032583803,
+              "fisher_fidelity": 0.9656124123349389
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.001514492032583803,
+              "fisher_fidelity": 0.7290220907786781
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 8,
+              "target_energy": 0.003413952814298682,
+              "fisher_fidelity": 0.9499293048042687
+            },
+            "state32": {
+              "examples": 8,
+              "target_energy": 0.003413952814298682,
+              "fisher_fidelity": 0.9766177812386486
+            },
+            "pattern32": {
+              "examples": 8,
+              "target_energy": 0.003413952814298682,
+              "fisher_fidelity": 0.9657359641630222
+            },
+            "recency32": {
+              "examples": 8,
+              "target_energy": 0.003413952814298682,
+              "fisher_fidelity": 0.7309608351100676
+            }
+          }
+        }
+      },
+      "119": {
+        "5": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0009708558791317046,
+              "fisher_fidelity": 0.9149762061851133
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0009708558791317046,
+              "fisher_fidelity": 0.9736837716123523
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0009708558791317046,
+              "fisher_fidelity": 0.9716867053377394
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0009708558791317046,
+              "fisher_fidelity": 0.9271352415574822
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.003944166819564998,
+              "fisher_fidelity": 0.9172192311217178
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.003944166819564998,
+              "fisher_fidelity": 0.9742034035025244
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.003944166819564998,
+              "fisher_fidelity": 0.9723588791411251
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.003944166819564998,
+              "fisher_fidelity": 0.928327247939685
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0162736508063972,
+              "fisher_fidelity": 0.921651640655718
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0162736508063972,
+              "fisher_fidelity": 0.9752018477290685
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0162736508063972,
+              "fisher_fidelity": 0.973679512064689
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0162736508063972,
+              "fisher_fidelity": 0.9306013276195462
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.06925701815634966,
+              "fisher_fidelity": 0.9300223140430409
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.06925701815634966,
+              "fisher_fidelity": 0.9770970332858073
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.06925701815634966,
+              "fisher_fidelity": 0.9760513694957909
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.06925701815634966,
+              "fisher_fidelity": 0.9348648032142689
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.16596458107233047,
+              "fisher_fidelity": 0.9376789222401458
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.16596458107233047,
+              "fisher_fidelity": 0.9788425173517733
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.16596458107233047,
+              "fisher_fidelity": 0.9780264797648427
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.16596458107233047,
+              "fisher_fidelity": 0.9390608713107098
+            }
+          }
+        },
+        "6": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0008834679174469784,
+              "fisher_fidelity": 0.7232495160344787
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0008834679174469784,
+              "fisher_fidelity": 0.8820249749664203
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0008834679174469784,
+              "fisher_fidelity": 0.8831739504117946
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0008834679174469784,
+              "fisher_fidelity": 0.6597853620798698
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0035789730027318,
+              "fisher_fidelity": 0.7270190387814597
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0035789730027318,
+              "fisher_fidelity": 0.8832434314460486
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0035789730027318,
+              "fisher_fidelity": 0.8842794388563512
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0035789730027318,
+              "fisher_fidelity": 0.6653085684730228
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.014677310828119516,
+              "fisher_fidelity": 0.7344594904357761
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.014677310828119516,
+              "fisher_fidelity": 0.885697275295109
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.014677310828119516,
+              "fisher_fidelity": 0.8864739545567103
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.014677310828119516,
+              "fisher_fidelity": 0.6759968381262456
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.06202892120927572,
+              "fisher_fidelity": 0.7502012633145748
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.06202892120927572,
+              "fisher_fidelity": 0.8914455548482639
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.06202892120927572,
+              "fisher_fidelity": 0.8917421375631658
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.06202892120927572,
+              "fisher_fidelity": 0.6973241517013478
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.1501728817820549,
+              "fisher_fidelity": 0.7699294834212755
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.1501728817820549,
+              "fisher_fidelity": 0.8993755269248457
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.1501728817820549,
+              "fisher_fidelity": 0.8992286954235102
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.1501728817820549,
+              "fisher_fidelity": 0.7225464434343496
+            }
+          }
+        },
+        "8": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00012396364218147937,
+              "fisher_fidelity": 0.9362693775153895
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00012396364218147937,
+              "fisher_fidelity": 0.9724274005730514
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00012396364218147937,
+              "fisher_fidelity": 0.9683076713686465
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00012396364218147937,
+              "fisher_fidelity": 0.8241052774924298
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0004959128636983223,
+              "fisher_fidelity": 0.936318238668254
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0004959128636983223,
+              "fisher_fidelity": 0.972491134238486
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0004959128636983223,
+              "fisher_fidelity": 0.9683159414329949
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0004959128636983223,
+              "fisher_fidelity": 0.8236256422509284
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.001986355142435059,
+              "fisher_fidelity": 0.9364326171989324
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.001986355142435059,
+              "fisher_fidelity": 0.9725956750784751
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.001986355142435059,
+              "fisher_fidelity": 0.9682971033968867
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.001986355142435059,
+              "fisher_fidelity": 0.8225935093021761
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.007999825524166226,
+              "fisher_fidelity": 0.9368879835746913
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.007999825524166226,
+              "fisher_fidelity": 0.97289364307165
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.007999825524166226,
+              "fisher_fidelity": 0.9683708738672433
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.007999825524166226,
+              "fisher_fidelity": 0.8206812406136281
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.018233026610687375,
+              "fisher_fidelity": 0.9376531141298956
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.018233026610687375,
+              "fisher_fidelity": 0.9732959001869143
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.018233026610687375,
+              "fisher_fidelity": 0.9685886057043513
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.018233026610687375,
+              "fisher_fidelity": 0.8190014004296474
+            }
+          }
+        },
+        "10": {
+          "0.125": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 2.6080221232405165e-05,
+              "fisher_fidelity": 0.8459801311617634
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 2.6080221232405165e-05,
+              "fisher_fidelity": 0.9201661627581016
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 2.6080221232405165e-05,
+              "fisher_fidelity": 0.8977714744114459
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 2.6080221232405165e-05,
+              "fisher_fidelity": 0.5430395056840582
+            }
+          },
+          "0.25": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.00010437059063406195,
+              "fisher_fidelity": 0.8460518132112538
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.00010437059063406195,
+              "fisher_fidelity": 0.9202586466253406
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.00010437059063406195,
+              "fisher_fidelity": 0.8978710769450821
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.00010437059063406195,
+              "fisher_fidelity": 0.5430223720836533
+            }
+          },
+          "0.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0004179905081400648,
+              "fisher_fidelity": 0.8465867555451454
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0004179905081400648,
+              "fisher_fidelity": 0.920460069899867
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0004179905081400648,
+              "fisher_fidelity": 0.898274796025733
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0004179905081400648,
+              "fisher_fidelity": 0.5432320325285164
+            }
+          },
+          "1.0": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0016762284212745726,
+              "fisher_fidelity": 0.8474625039738851
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0016762284212745726,
+              "fisher_fidelity": 0.9207934212168918
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0016762284212745726,
+              "fisher_fidelity": 0.8990123560698307
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0016762284212745726,
+              "fisher_fidelity": 0.5433813521609687
+            }
+          },
+          "1.5": {
+            "state16": {
+              "examples": 7,
+              "target_energy": 0.0037818634300492704,
+              "fisher_fidelity": 0.8483736200711572
+            },
+            "state32": {
+              "examples": 7,
+              "target_energy": 0.0037818634300492704,
+              "fisher_fidelity": 0.9211996820503332
+            },
+            "pattern32": {
+              "examples": 7,
+              "target_energy": 0.0037818634300492704,
+              "fisher_fidelity": 0.8997826285922077
+            },
+            "recency32": {
+              "examples": 7,
+              "target_energy": 0.0037818634300492704,
+              "fisher_fidelity": 0.5435460895036823
+            }
+          }
+        }
+      }
+    }
+  }
+}

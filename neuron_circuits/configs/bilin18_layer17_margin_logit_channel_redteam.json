@@ -1,0 +1,27 @@
+{
+  "status": "hypotheses-locked-after-margin-native-density-before-top1-runnerup-decomposition",
+  "seed": 20261121,
+  "batch_size": 2,
+  "layer": 16,
+  "final_layer": 17,
+  "positions": [31, 63, 95, 127],
+  "factor_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_ce_adjoint_factors.pt",
+  "path_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer16_backward_suffix_paths.pt",
+  "selection_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 18000, "rows": 64, "factor_dataset": "discovery", "factor_start": 0},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19600, "rows": 32, "factor_dataset": "fineweb", "factor_start": 0},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "wikitext", "factor_start": 0},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 900, "rows": 32, "factor_dataset": "tinystories", "factor_start": 0}
+  },
+  "budgets_per_logit": [16, 32, 64, 128, 256, 512],
+  "direct_margin_budgets": [32, 64, 128, 256, 512, 1024, 2048, 4096, 4608],
+  "hypotheses": {
+    "R0_margin_equals_top1_minus_runnerup": "Per-channel and aggregate margin effects equal top1-minus-runner-up effects to relative error at most 1e-5.",
+    "R1_top1_logit_path_is_native_sparse": "A frozen 128-channel top1-logit bank retains at least 0.90 on every corpus.",
+    "R2_runnerup_logit_path_is_native_sparse": "A frozen 128-channel runner-up-logit bank retains at least 0.90 on every corpus.",
+    "R3_margin_density_is_created_by_combining_logit_roles": "Direct margin K90 is at least four times the larger individual-logit K90 on every corpus.",
+    "R4_union_of_logit_banks_compresses_margin": "The union of the top 128 channels for each individual logit retains at least 0.90 of the margin on every corpus.",
+    "R5_logit_banks_are_distinct": "Top1 and runner-up top-128 discovery banks overlap in fewer than 96 channels.",
+    "R6_margin_cancellation_exceeds_individual_logits": "Median margin absolute projection mass exceeds each individual-logit mass by at least 1.0 on every corpus."
+  }
+}

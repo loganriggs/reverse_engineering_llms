@@ -1,0 +1,27 @@
+{
+  "experiment": "H795",
+  "hashes": {
+    "captures": "67714b7262d906bc7186c5683329cf0b8abd015fd7a700190a8578bfa262abc7",
+    "early": "119b26bc2cf72904cc5426e3c45ead425cbee753717da87cd965229169351dbf",
+    "reference": "637ddffbbe0adede863c550f46bdc91cd0b669b090085e0957f0b19262cdf5c4",
+    "runner": "18ddca3229eebd919d8ec7e43454610f0f2f084d3745be40b4a91cef1080c7a6",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "arms": [
+    "none",
+    "all_edges",
+    "full_module",
+    "head0",
+    "head1",
+    "head2",
+    "head3",
+    "head4",
+    "head5",
+    "head6",
+    "head7",
+    "head8"
+  ],
+  "design": "Replay source factorial; capture actual L2 post-normalization/RoPE Q,K,Q2,K2 and mixedV. Reconstruct first-source\u2192second-source signed edge per head, project factorial interaction through c_proj. Remove one head interaction, all edge interactions, or full-module interaction at second-source output.",
+  "prediction": "First-to-second source edge accounts for the L2 second-source factorial interaction. Individual heads may differ in causal output effect; test all9, not only large-norm heads.",
+  "limitations": "Head decomposition under this parametrization; nonlinear downstream effects need not sum. Reused panel. Removal is a local hybrid intervention, not unique mediation."
+}

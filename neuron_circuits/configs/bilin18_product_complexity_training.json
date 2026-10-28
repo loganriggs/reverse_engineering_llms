@@ -1,0 +1,28 @@
+{
+  "experiment": "H949",
+  "hashes": {
+    "runner": "764ace378a5cf6a0cbc91f466df0197af00de7494ee4f21b7e0d776666e0c1f8",
+    "student": "007cc44821c47df8ec7eed1edf9187a169809a8182bdf5d8f41f669d42624c26",
+    "greedy": "f3c332e8280de04f670890c5fb0d2d04cab5da206dea6c6d52c1fefe9bca6ddd",
+    "natural": "b2968880d2b745d806c6cdc73430b8a3cc139bcf8a0af9e6ebdc0a9e780951fc",
+    "normalizers": "b035c8ab03df6b2da854e19e8b51a191b46178d3e3b9f6fc1a6794f30340aaeb",
+    "initial": "932400bc6ab3f559ca01699ae686bd2169bba26d12a608c370f3e24d7c185b1b",
+    "anchors": "b736992a61b13d5e6583d51ff6f6d5027a1bcb547d5a9cdb009687b33b73e373",
+    "evaluation": "eef72c235106e94354dcc936120a74b731a4b76237d1a11cfc8d194ec96aac88"
+  },
+  "lambdas": [
+    0.0,
+    0.01,
+    0.1,
+    1.0
+  ],
+  "seeds": [
+    0,
+    1
+  ],
+  "steps": 2000,
+  "objective": "H946 natural native/random effects + equal-task discovery-anchor effectMSE; add lambda*sum_j[(E_j+1e-12)^.25-1e-3], E_j=mean across tasks of sum squared whole-product finite contributions / sum squared teacher effects. Dimensionless, invariant to factor/output scale gauges.",
+  "why_quarter_power": "A sum of contribution norms is unchanged by splitting a product into identical smaller copies. The quarter power of squared norm is concave and penalizes such splitting; smoothing avoids singular derivatives. It is a sparsity surrogate, not exact product count.",
+  "scope": "Complexity charged only on known discovery-anchor interventions, not all states or model storage. Same64products/parameters for all fits. Train from same-seed H946 anchor_effects checkpoint, fresh Adam .003 and matched batches; allfinalfits retained. No evaluation-based selection.",
+  "evaluation": "Natural independent probes and H849 taskeffects; discovery-greedy wholeproduct subsets1..64; no coefficient refit. Full-output causal fidelity remains required before promotion."
+}

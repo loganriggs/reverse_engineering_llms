@@ -1,0 +1,27 @@
+{
+  "status": "locked-after-context-router-before-prospective-cross-layer-test",
+  "seed": 20261031,
+  "layers": [0, 1, 2, 3, 4, 5],
+  "rank": 64,
+  "source_dimensions": [64, 256],
+  "ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0],
+  "operator_eval_probes": 2048,
+  "bases": "artifacts/bilin18_tensor_decomposition/bilin18_operator_probe_convergence_bases.pt",
+  "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+  "discovery_start": 11000,
+  "evaluation_start": 11256,
+  "rows_per_split": 256,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "sequence_length": 128,
+  "batch_size": 8,
+  "hypotheses": {
+    "P0_previous_operator_is_markovian": "Previous-layer top-64 operator coordinates predict at least 0.50 of next-layer weighted operator-coordinate variance at Layers 1-5.",
+    "P1_prior_residual_is_a_compact_router": "A rank-64 summary of the prior residual predicts at least 0.60 of weighted coordinates at every layer.",
+    "P2_attention_adds_contextual_routing": "Adding a rank-64 attention-write summary improves weighted coordinate R2 by at least 0.05 over the prior residual alone at Layers 1-5.",
+    "P3_rank128_composed_router_recovers_half_oracle": "The 64+64 prior-residual/attention router recovers at least half of the rank-64 oracle gain in total operator R2 at every layer.",
+    "P4_rank512_composed_router_is_near_oracle": "The 256+256 prior-residual/attention router recovers at least 90 percent of the rank-64 oracle gain at every layer.",
+    "P5_attention_routing_grows_with_depth": "The mean attention increment at Layers 4-5 exceeds that at Layers 0-1 by at least 0.03.",
+    "P6_direct_rank512_composition_recovers_most_oracle": "Without a target-fitted decoder, adding rank-256 reconstructions of the native mixed residual and attention write recovers at least 80 percent of the rank-64 oracle gain at every layer.",
+    "P7_attention_pairing_is_specific": "Correct residual-attention pairing beats a same-position, different-sequence attention write by at least 0.10 weighted coordinate R2 at every layer."
+  }
+}

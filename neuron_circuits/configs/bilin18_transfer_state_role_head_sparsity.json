@@ -1,0 +1,22 @@
+{
+  "status": "locked-after-four-layer-qv-sufficiency-before-head-sparsity-test",
+  "source_config": "configs/bilin18_transfer_state_role_layer_localization.json",
+  "artifact_stem": "bilin18_transfer_state_role_head_sparsity",
+  "boundary": 6,
+  "role_layers": [7, 8, 9, 10],
+  "roles": ["q1", "q2", "value"],
+  "exact_top_tokens": 8,
+  "tail_samples_per_split": 8,
+  "seed": 20261324,
+  "ranks": [4, 8, 16, 24, 36],
+  "discovery_rows": 2,
+  "hypotheses": {
+    "H0_all_head_program_recomposes_near4_qv": "The masked all-head recurrence matches the ordinary near-four Q+V recurrence within 1e-5 and the all-head local role derivative matches native selected roles within 1e-5.",
+    "H1_head_importance_is_context_stable": "Leave-one-head-out importance over 36 layer-head invocations has discovery/evaluation Spearman correlation at least 0.50.",
+    "H2_top8_heads_are_behaviorally_sufficient": "The frozen top-eight invocation program is within 0.10 causal fidelity of all 36 heads for every target on held-out contexts.",
+    "H3_top8_heads_beat_random": "The frozen top-eight program exceeds the matched random-eight program by at least 0.10 for every target.",
+    "H4_top16_heads_are_behaviorally_sufficient": "The frozen top-sixteen program is within 0.05 of all heads for every target.",
+    "H5_selected_heads_span_multiple_layers": "The frozen top-eight set contains heads from at least three of the four role layers.",
+    "H6_native_head_sparsity_is_supported": "H1, H2, H3, and H5 all hold."
+  }
+}

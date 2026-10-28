@@ -1,0 +1,266 @@
+{
+  "config": {
+    "status": "locked-after-cluster-router-failure-before-quadratic-router",
+    "layer": 8,
+    "dimension": 512,
+    "router_dimensions": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "queries": 16,
+    "budget": 16,
+    "batch_size": 4,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10000,
+      "rows": 300
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 10300,
+        "rows": 300
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 600,
+        "rows": 300
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 600,
+        "rows": 300
+      }
+    },
+    "hypotheses": {
+      "P1_quadratic64_is_predictive": "At router dimension 64, exact selected modes reach median full-score correlation at least 0.85 on every corpus.",
+      "P2_quadratic64_beats_cluster64": "At router dimension 64, exact routed correlation exceeds the prior 64-cluster router by at least 0.10 on every corpus.",
+      "P3_quadratic128_approaches_oracle": "At router dimension 128, exact routed correlation is within 0.05 of oracle adaptive selection on every corpus.",
+      "P4_quadratic64_recovers_support": "At router dimension 64, predicted top-16 support recall is at least 0.40 on every corpus.",
+      "P5_quadratic64_is_executable": "At router dimension 64, summing the reduced-context predicted contributions of selected modes reaches correlation at least 0.80 on every corpus.",
+      "P6_router_improves_monotonically": "On every corpus, exact routed correlation is nondecreasing across router dimensions 16, 32, 64, and 128."
+    }
+  },
+  "hypotheses": {
+    "P1_quadratic64_is_predictive": {
+      "supported": false
+    },
+    "P2_quadratic64_beats_cluster64": {
+      "supported": false
+    },
+    "P3_quadratic128_approaches_oracle": {
+      "supported": false
+    },
+    "P4_quadratic64_recovers_support": {
+      "supported": true
+    },
+    "P5_quadratic64_is_executable": {
+      "supported": false
+    },
+    "P6_router_improves_monotonically": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "oracle": {
+        "median_correlation": 0.9309163093566895,
+        "median_centered_r2": 0.862382173538208
+      },
+      "prior_cluster64": {
+        "median_correlation": 0.7272058725357056,
+        "median_centered_r2": 0.5228802561759949
+      },
+      "router_dimensions": {
+        "16": {
+          "exact_routed": {
+            "median_correlation": 0.6233410835266113,
+            "median_centered_r2": 0.3855075538158417
+          },
+          "approximate_routed": {
+            "median_correlation": 0.3344125747680664,
+            "median_centered_r2": 0.10047143697738647
+          },
+          "median_oracle_support_recall": 0.25,
+          "median_absolute_mass_coverage": 0.15671922266483307
+        },
+        "32": {
+          "exact_routed": {
+            "median_correlation": 0.7134149670600891,
+            "median_centered_r2": 0.5010575652122498
+          },
+          "approximate_routed": {
+            "median_correlation": 0.436446875333786,
+            "median_centered_r2": 0.18129971623420715
+          },
+          "median_oracle_support_recall": 0.3125,
+          "median_absolute_mass_coverage": 0.18033958971500397
+        },
+        "64": {
+          "exact_routed": {
+            "median_correlation": 0.7818924188613892,
+            "median_centered_r2": 0.6038662195205688
+          },
+          "approximate_routed": {
+            "median_correlation": 0.5762618184089661,
+            "median_centered_r2": 0.3161470592021942
+          },
+          "median_oracle_support_recall": 0.4375,
+          "median_absolute_mass_coverage": 0.2076423317193985
+        },
+        "128": {
+          "exact_routed": {
+            "median_correlation": 0.8474308848381042,
+            "median_centered_r2": 0.7110286951065063
+          },
+          "approximate_routed": {
+            "median_correlation": 0.7127013206481934,
+            "median_centered_r2": 0.48843854665756226
+          },
+          "median_oracle_support_recall": 0.5,
+          "median_absolute_mass_coverage": 0.23979906737804413
+        }
+      }
+    },
+    "wikitext": {
+      "oracle": {
+        "median_correlation": 0.9265332221984863,
+        "median_centered_r2": 0.8432776927947998
+      },
+      "prior_cluster64": {
+        "median_correlation": 0.6862779855728149,
+        "median_centered_r2": 0.4677806794643402
+      },
+      "router_dimensions": {
+        "16": {
+          "exact_routed": {
+            "median_correlation": 0.5956771373748779,
+            "median_centered_r2": 0.34083691239356995
+          },
+          "approximate_routed": {
+            "median_correlation": 0.3358210325241089,
+            "median_centered_r2": 0.10090413689613342
+          },
+          "median_oracle_support_recall": 0.25,
+          "median_absolute_mass_coverage": 0.15131543576717377
+        },
+        "32": {
+          "exact_routed": {
+            "median_correlation": 0.6944213509559631,
+            "median_centered_r2": 0.48001864552497864
+          },
+          "approximate_routed": {
+            "median_correlation": 0.44223177433013916,
+            "median_centered_r2": 0.18685171008110046
+          },
+          "median_oracle_support_recall": 0.3125,
+          "median_absolute_mass_coverage": 0.17525136470794678
+        },
+        "64": {
+          "exact_routed": {
+            "median_correlation": 0.7702090740203857,
+            "median_centered_r2": 0.5877460241317749
+          },
+          "approximate_routed": {
+            "median_correlation": 0.5792046785354614,
+            "median_centered_r2": 0.31615278124809265
+          },
+          "median_oracle_support_recall": 0.4375,
+          "median_absolute_mass_coverage": 0.20137383043766022
+        },
+        "128": {
+          "exact_routed": {
+            "median_correlation": 0.828585147857666,
+            "median_centered_r2": 0.6708968877792358
+          },
+          "approximate_routed": {
+            "median_correlation": 0.7108930349349976,
+            "median_centered_r2": 0.4820910394191742
+          },
+          "median_oracle_support_recall": 0.5,
+          "median_absolute_mass_coverage": 0.23157063126564026
+        }
+      }
+    },
+    "tinystories": {
+      "oracle": {
+        "median_correlation": 0.9252227544784546,
+        "median_centered_r2": 0.8487855792045593
+      },
+      "prior_cluster64": {
+        "median_correlation": 0.696797788143158,
+        "median_centered_r2": 0.47467586398124695
+      },
+      "router_dimensions": {
+        "16": {
+          "exact_routed": {
+            "median_correlation": 0.6304401159286499,
+            "median_centered_r2": 0.3906916081905365
+          },
+          "approximate_routed": {
+            "median_correlation": 0.34447693824768066,
+            "median_centered_r2": 0.1153007447719574
+          },
+          "median_oracle_support_recall": 0.25,
+          "median_absolute_mass_coverage": 0.15442179143428802
+        },
+        "32": {
+          "exact_routed": {
+            "median_correlation": 0.6895433664321899,
+            "median_centered_r2": 0.4684883654117584
+          },
+          "approximate_routed": {
+            "median_correlation": 0.42729640007019043,
+            "median_centered_r2": 0.1730714738368988
+          },
+          "median_oracle_support_recall": 0.3125,
+          "median_absolute_mass_coverage": 0.1793237030506134
+        },
+        "64": {
+          "exact_routed": {
+            "median_correlation": 0.7602043151855469,
+            "median_centered_r2": 0.5698463916778564
+          },
+          "approximate_routed": {
+            "median_correlation": 0.5482348203659058,
+            "median_centered_r2": 0.2905886471271515
+          },
+          "median_oracle_support_recall": 0.4375,
+          "median_absolute_mass_coverage": 0.20565980672836304
+        },
+        "128": {
+          "exact_routed": {
+            "median_correlation": 0.8223368525505066,
+            "median_centered_r2": 0.6716052293777466
+          },
+          "approximate_routed": {
+            "median_correlation": 0.6886013746261597,
+            "median_centered_r2": 0.4577541947364807
+          },
+          "median_oracle_support_recall": 0.5,
+          "median_absolute_mass_coverage": 0.23661789298057556
+        }
+      }
+    }
+  }
+}

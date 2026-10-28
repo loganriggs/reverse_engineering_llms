@@ -1,0 +1,35 @@
+{
+  "status": "H256 locked before new-panel outcomes",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_local_chart_replication_documents.npy",
+  "candidate_tokens": 256,
+  "ranks": [
+    16,
+    64
+  ],
+  "scales": [
+    0.1,
+    1.0
+  ],
+  "seeds": [
+    20261123,
+    20261124,
+    20261125
+  ],
+  "design": "At fixed compiled states, compare native residual with three isotropic equal-site-norm draws and three shuffled-document residuals rescaled to each site's native error norm. Charts selected before errors. Target distribution is head(state+scale*error_family); approximate distribution head(state+scale*projected_error_family). No observed next-token labels. Matched and wrong-context charts. Each family normalized by its own uncorrected exact KL. Synthetic targets are NOT native predictions.",
+  "gates": {
+    "generic_sufficiency": "At both scales, seed-averaged isotropic rank16 KL recovery >=0.60 and matched-minus-wrong recovery >=0.40.",
+    "native_specialness": "At both scales, native rank16 recovery exceeds BOTH seed-averaged isotropic and shuffled recovery by >=0.10 with paired document-bootstrap lower bound >0.",
+    "entropy_dependence": "At full scale/native/rank16, low minus high recovery >=.15 with document-bootstrap95 lower bound >0, both bins >=30 sites.",
+    "directional_native_alignment": "Native-minus-isotropic and native-minus-shuffled rank16 recovery have paired document-bootstrap95 lower bounds >0 at both scales. Separate from original >=.10 specialness gate."
+  },
+  "scope": "New128 documents exclude1024 discovery,64 original test,128 H252 test. Same cached corpus, not training holdout. Original support256, ranks16/64, scales .1/1, three control seeds unchanged. Ratio of sums across seeds, document bootstrap. Fixed compiled entropy bins <2,[2,4),>=4 nats."
+}

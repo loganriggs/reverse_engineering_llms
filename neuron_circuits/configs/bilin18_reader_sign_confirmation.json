@@ -1,0 +1,112 @@
+{
+  "experiment": "H540",
+  "source_sha256": "f6f742f53bee165ccb4a55eafa20d8f7ef79067378198a20e07ac5014b6de9b0",
+  "heads": [
+    [
+      14,
+      4
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      14,
+      0
+    ],
+    [
+      8,
+      0
+    ]
+  ],
+  "head_roles": [
+    "binding leader",
+    "copying leader",
+    "same-layer control",
+    "same-layer control"
+  ],
+  "third_tokens": {
+    "entity_binding": [
+      [
+        "Kevin",
+        "Brian"
+      ],
+      [
+        "Ben",
+        "Zoe"
+      ],
+      [
+        "Charles",
+        "Nancy"
+      ],
+      [
+        "Edward",
+        "Helen"
+      ],
+      [
+        "Harry",
+        "Betty"
+      ],
+      [
+        "Louis",
+        "Anne"
+      ],
+      [
+        "Martin",
+        "Joan"
+      ],
+      [
+        "Walter",
+        "Carol"
+      ]
+    ],
+    "sequence_copy": [
+      [
+        "stone",
+        "glass"
+      ],
+      [
+        "wood",
+        "steel"
+      ],
+      [
+        "oil",
+        "wine"
+      ],
+      [
+        "sand",
+        "ice"
+      ],
+      [
+        "food",
+        "fruit"
+      ],
+      [
+        "hand",
+        "foot"
+      ],
+      [
+        "eye",
+        "ear"
+      ],
+      [
+        "leaf",
+        "root"
+      ]
+    ]
+  },
+  "discovery": "No fitting: H539 discovery identity-map signs frozen. Coefficient sign comes from each native prompt before intervention.",
+  "fresh_design": "Eight different lexical pairs per task, three formats; eight third-token pairs per family. Some third-token words may have appeared previously in other roles.",
+  "gate": "At least four pairs, >=75% both-endpoint candidate correctness, >=50% full-vocabulary top1.",
+  "decomposition": "Unweighted core = output_head @ (initial value_after-initial value_before). Identity alignment = (unembedding_after-unembedding_before) dot core. Coefficient = native attention pattern summed over changed source positions * bus_mix. Residual gain for frozen final effect reported separately.",
+  "causal_test": "Replace the changed source-position bus contribution of one head by gate_scale times a third-token value. All downstream computation remains live. Gate sign reversal changes only this source-to-head bus contribution, not whole attention or QK.",
+  "third_test": "Predict sign(identity_map_sign_locked * native_coefficient * gate_scale) for third0-vs-third1 margin under third0 injection minus third1 injection. Zero gate is an exact invariance control.",
+  "scope": "Head/source interventions, not replacement of all bus uses. No necessity or population claim.",
+  "precision": "float32 compute after bfloat16-rounded loader",
+  "gate_scales": [
+    -1,
+    0,
+    1
+  ],
+  "sign_source_sha256": "d61fdc2a62566097d2fdfe6cda4f69aea20222cae728f02ab6f3569f7f8b5b58"
+}

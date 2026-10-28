@@ -1,0 +1,1503 @@
+{
+  "config": {
+    "status": "locked-after-residual-component-audit-before-squared-attention-qkov-audit",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261027,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "position": 127,
+    "layers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19196,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 1056,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 1056,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "Q1_manual_attention_and_factor_recomposition_are_exact": "Manual squared attention matches the native attention write, and all four changed factors recompose the changed attention write, to maximum absolute error at most 1e-4.",
+      "Q2_query_routing_dominates_self_key_routing": "At every audited layer and corpus, query allocation exceeds key allocation in absolute local attention-write projection.",
+      "Q3_routing_dominates_values": "At at least eight of eleven layers on every corpus, absolute query-plus-key local allocation exceeds current-value-plus-bus allocation.",
+      "Q4_persistent_bus_is_not_the_main_value_source": "At every layer and corpus, current-value allocation is at least as large as persistent-bus allocation in absolute local projection.",
+      "Q5_insertion_and_removal_agree_on_top_factor": "At every layer and corpus, insertion and removal causal Shapley select the same largest absolute factor.",
+      "Q6_attention_effect_is_head_concentrated": "At some layer on every corpus, one head receives at least 0.50 of absolute local head projection mass.",
+      "Q7_isolated_heads_add_approximately": "At every layer and corpus, summing isolated head logit effects has Fisher fidelity at least 0.80 to the complete attention-change intervention.",
+      "Q8_attention_only_behavior_is_small": "At every layer and corpus, insertion of the complete changed attention write causes at most 0.10 of the native full-token forward KL."
+    }
+  },
+  "hypotheses": {
+    "Q1_manual_attention_and_factor_recomposition_are_exact": {
+      "supported": true
+    },
+    "Q2_query_routing_dominates_self_key_routing": {
+      "supported": true
+    },
+    "Q3_routing_dominates_values": {
+      "supported": true
+    },
+    "Q4_persistent_bus_is_not_the_main_value_source": {
+      "supported": false
+    },
+    "Q5_insertion_and_removal_agree_on_top_factor": {
+      "supported": false
+    },
+    "Q6_attention_effect_is_head_concentrated": {
+      "supported": true
+    },
+    "Q7_isolated_heads_add_approximately": {
+      "supported": false
+    },
+    "Q8_attention_only_behavior_is_small": {
+      "supported": true
+    }
+  },
+  "results": {
+    "fineweb": {
+      "1": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.327964502599645,
+          "key": 0.014050521858531333,
+          "current_value": 0.5669807188624083,
+          "value_bus": 0.09100426317917255
+        },
+        "insertion_causal_shapley": {
+          "query": 0.18060073101041094,
+          "key": 0.05821931154718624,
+          "current_value": 0.6407448654122996,
+          "value_bus": 0.12043515116655837
+        },
+        "removal_causal_shapley": {
+          "query": 0.10690350619083043,
+          "key": -0.021712545827311178,
+          "current_value": 0.8234615236095777,
+          "value_bus": 0.09134752809553277
+        },
+        "local_head_projection": [
+          0.01040705691874996,
+          0.0886970961952514,
+          0.08733576770952363,
+          0.06645815688565733,
+          0.1078788448961465,
+          0.6392230737856416
+        ],
+        "insertion_head_projection": [
+          -0.010057209029429222,
+          -0.008037785519979447,
+          0.01302642372953992,
+          0.013228647830841368,
+          0.05214570623897283,
+          0.7525268087182062
+        ],
+        "top_local_head": 5,
+        "top_local_head_absolute_share": 0.6392230760926166,
+        "isolated_head_sum_fidelity": 0.8308477933163858,
+        "attention_insertion_to_full_kl": 0.005515219934204349,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "2": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.672237181136829,
+          "key": 0.060421834749804317,
+          "current_value": 0.21364215215110047,
+          "value_bus": 0.05369884354733241
+        },
+        "insertion_causal_shapley": {
+          "query": 0.7552401145889853,
+          "key": 0.02619409011080939,
+          "current_value": 0.16521720094627507,
+          "value_bus": 0.05334853753649248
+        },
+        "removal_causal_shapley": {
+          "query": 0.6677510364887338,
+          "key": 0.09245734503233952,
+          "current_value": 0.2312933810593979,
+          "value_bus": 0.008498252769910421
+        },
+        "local_head_projection": [
+          0.06263993779582333,
+          0.15949088414636603,
+          0.20132913752419523,
+          0.10225759199146695,
+          0.3216481425499538,
+          0.15263431356704563
+        ],
+        "insertion_head_projection": [
+          0.035862247392340674,
+          0.4501177142965557,
+          0.05459774609761759,
+          0.0885283604360003,
+          0.1414996651683242,
+          0.12904083406506506
+        ],
+        "top_local_head": 4,
+        "top_local_head_absolute_share": 0.32164814011351706,
+        "isolated_head_sum_fidelity": 0.7948502851369572,
+        "attention_insertion_to_full_kl": 0.013924239250402828,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "3": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.697633337983631,
+          "key": 0.07715493796860932,
+          "current_value": 0.22593893574533647,
+          "value_bus": -0.0007271887206965585
+        },
+        "insertion_causal_shapley": {
+          "query": 0.674428041563575,
+          "key": 0.05075445223259665,
+          "current_value": 0.27872538509767913,
+          "value_bus": -0.00390791206183564
+        },
+        "removal_causal_shapley": {
+          "query": 0.5729332222389655,
+          "key": 0.125756218823053,
+          "current_value": 0.2966885721785733,
+          "value_bus": 0.004621992007090384
+        },
+        "local_head_projection": [
+          0.09232956483280859,
+          0.15340880136095153,
+          0.19097914519389034,
+          0.2787728748989707,
+          0.15351241178395666,
+          0.13099720298336973
+        ],
+        "insertion_head_projection": [
+          0.10836500822270723,
+          0.16793944922627835,
+          0.10516884479517268,
+          0.2525717874292523,
+          0.14295385446878875,
+          0.22609656318856491
+        ],
+        "top_local_head": 3,
+        "top_local_head_absolute_share": 0.2787728746051587,
+        "isolated_head_sum_fidelity": 0.8708386448597357,
+        "attention_insertion_to_full_kl": 0.0013128616268381402,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "4": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.6013867689778625,
+          "key": 0.014467692903872679,
+          "current_value": 0.38696091311042363,
+          "value_bus": -0.002815321542343312
+        },
+        "insertion_causal_shapley": {
+          "query": 0.87446633574334,
+          "key": -0.011603808539736514,
+          "current_value": 0.13969173962558565,
+          "value_bus": -0.0025541200027402377
+        },
+        "removal_causal_shapley": {
+          "query": 0.696504809750313,
+          "key": -0.01660251554230463,
+          "current_value": 0.32164907426062067,
+          "value_bus": -0.0015513337170189473
+        },
+        "local_head_projection": [
+          0.16579266276547172,
+          0.38159871538778867,
+          0.00965866649468452,
+          0.09438456518819184,
+          0.262008875972695,
+          0.08655652218759734
+        ],
+        "insertion_head_projection": [
+          0.08323091689196263,
+          0.08345292098863537,
+          0.02725241780025887,
+          0.03107354332496856,
+          0.03305072576688581,
+          0.6788513209078445
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.3815987123363616,
+        "isolated_head_sum_fidelity": 0.9653202073488305,
+        "attention_insertion_to_full_kl": 0.008882011312181972,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "5": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.745731345127461,
+          "key": 0.04096705685494007,
+          "current_value": 0.20604480959512492,
+          "value_bus": 0.007256789142360001
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8624465817633157,
+          "key": 0.001004862442960268,
+          "current_value": 0.13523230822610957,
+          "value_bus": 0.0013163164359715571
+        },
+        "removal_causal_shapley": {
+          "query": 0.8601118000533233,
+          "key": 0.03142458461662057,
+          "current_value": 0.10774919467585241,
+          "value_bus": 0.000714349973432434
+        },
+        "local_head_projection": [
+          0.12075447430173594,
+          0.09874024113758771,
+          0.31505926071567864,
+          0.17265575394774496,
+          0.06274502581215036,
+          0.23004520173886836
+        ],
+        "insertion_head_projection": [
+          0.12830444753302062,
+          0.1860283814310103,
+          0.1711619746041763,
+          0.05204547764341812,
+          -0.04131481792763015,
+          0.4503763617391021
+        ],
+        "top_local_head": 2,
+        "top_local_head_absolute_share": 0.3150592740572524,
+        "isolated_head_sum_fidelity": 0.9781381377462329,
+        "attention_insertion_to_full_kl": 0.011522343659280936,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "6": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.6075308881129493,
+          "key": 0.15020940995083948,
+          "current_value": 0.11338187216825757,
+          "value_bus": 0.1288778396961954
+        },
+        "insertion_causal_shapley": {
+          "query": 0.6841340053395024,
+          "key": 0.09870494322890318,
+          "current_value": 0.10677221076546937,
+          "value_bus": 0.11038885010946554
+        },
+        "removal_causal_shapley": {
+          "query": 0.4961151268794471,
+          "key": 0.21945428227020616,
+          "current_value": 0.10808052803297098,
+          "value_bus": 0.17635004459460238
+        },
+        "local_head_projection": [
+          0.4291040461224018,
+          0.1602101936862468,
+          0.15556839315829568,
+          0.06435243648510316,
+          0.08633787391874559,
+          0.10442705476766159
+        ],
+        "insertion_head_projection": [
+          0.5719230532328715,
+          0.17969703152635189,
+          0.0767102432332919,
+          0.04315227031062348,
+          0.05201223332849355,
+          0.050499818370934244
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.42910404692119847,
+        "isolated_head_sum_fidelity": 0.9834487706741304,
+        "attention_insertion_to_full_kl": 0.007425767372787144,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "7": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.715774249384733,
+          "key": 0.07649692794071493,
+          "current_value": 0.004729551619347309,
+          "value_bus": 0.20299928227734831
+        },
+        "insertion_causal_shapley": {
+          "query": 0.5887632063865487,
+          "key": 0.13822627441094437,
+          "current_value": -0.005174441318190418,
+          "value_bus": 0.27818495046495184
+        },
+        "removal_causal_shapley": {
+          "query": 0.7681192904983514,
+          "key": 0.09792479736556912,
+          "current_value": -0.01862651796465999,
+          "value_bus": 0.15258250872464468
+        },
+        "local_head_projection": [
+          0.17143408557038747,
+          0.45953720231978906,
+          0.1099185758872501,
+          0.029495399918634146,
+          0.09404626907091515,
+          0.1355684617456058
+        ],
+        "insertion_head_projection": [
+          0.06611878221556106,
+          0.6629120076940183,
+          0.09312452530657757,
+          -0.0017309500006722684,
+          0.06756392838883964,
+          0.1263702224721481
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.45953720484146193,
+        "isolated_head_sum_fidelity": 0.9888068825917543,
+        "attention_insertion_to_full_kl": 0.0023705831025197847,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "8": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.5244824025467413,
+          "key": 0.18699205171961228,
+          "current_value": -0.0015470417049094154,
+          "value_bus": 0.2900726141257523
+        },
+        "insertion_causal_shapley": {
+          "query": 0.3198969083665221,
+          "key": 0.27528102481255934,
+          "current_value": -0.009377956508604408,
+          "value_bus": 0.414200052104059
+        },
+        "removal_causal_shapley": {
+          "query": 0.533996077959289,
+          "key": 0.17575642337646732,
+          "current_value": -0.0036925140085357334,
+          "value_bus": 0.2939400141312432
+        },
+        "local_head_projection": [
+          0.09743439292164556,
+          0.06698550348342741,
+          0.14243679612023027,
+          0.10480433686161086,
+          0.5392281084302,
+          0.04911089316469804
+        ],
+        "insertion_head_projection": [
+          0.03656854086688018,
+          0.03868152864216263,
+          0.03322032073760828,
+          0.09916870860006233,
+          0.6901825322347017,
+          0.05538687949538657
+        ],
+        "top_local_head": 4,
+        "top_local_head_absolute_share": 0.5392280917239365,
+        "isolated_head_sum_fidelity": 0.9664857421899539,
+        "attention_insertion_to_full_kl": 0.010421499404865501,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "9": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.7510675210306069,
+          "key": 0.057546476586942105,
+          "current_value": 0.18846754669580942,
+          "value_bus": 0.002918483517785066
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8906733790302125,
+          "key": 0.013297490841374696,
+          "current_value": 0.0924660083156264,
+          "value_bus": 0.003563167583720988
+        },
+        "removal_causal_shapley": {
+          "query": 0.785083815296857,
+          "key": 0.05152755847085615,
+          "current_value": 0.16004734653476332,
+          "value_bus": 0.003341308081508919
+        },
+        "local_head_projection": [
+          0.29139797907089776,
+          0.45704749097590347,
+          0.08742544694108763,
+          0.11089448864874177,
+          0.027873679726154798,
+          0.025360886371481057
+        ],
+        "insertion_head_projection": [
+          0.46617764897449804,
+          0.1987793628404812,
+          0.06342185960162508,
+          0.16400865515735302,
+          0.03749791208638825,
+          0.04901171490580015
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.4570475038946864,
+        "isolated_head_sum_fidelity": 0.9870767031323715,
+        "attention_insertion_to_full_kl": 0.0026210087081061516,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "10": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.9729663023627797,
+          "key": 0.0038077575509822313,
+          "current_value": 0.0003587632481988877,
+          "value_bus": 0.022867185970092456
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9495511449585264,
+          "key": 0.013786030716757222,
+          "current_value": 0.001651244227055896,
+          "value_bus": 0.03501155546099681
+        },
+        "removal_causal_shapley": {
+          "query": 0.9573360923000848,
+          "key": 0.011459652812865867,
+          "current_value": 0.0018138381850106315,
+          "value_bus": 0.029390458448064594
+        },
+        "local_head_projection": [
+          0.3346788892642532,
+          0.03356655472085901,
+          0.28343109258265353,
+          0.11044047813128617,
+          0.034786736662966646,
+          0.2030962465418587
+        ],
+        "insertion_head_projection": [
+          0.29322267398847424,
+          0.053805811189103575,
+          0.1618981744394306,
+          0.04538046195651819,
+          0.027922968405870094,
+          0.4089491736822033
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.3346788899657812,
+        "isolated_head_sum_fidelity": 0.9910859714026418,
+        "attention_insertion_to_full_kl": 0.0020385342807636123,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "11": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.923485279800077,
+          "key": 0.01986450060570963,
+          "current_value": 0.002153548375096706,
+          "value_bus": 0.05449665901178591
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9322776582542392,
+          "key": 0.003107584298007066,
+          "current_value": 0.00040231104256242676,
+          "value_bus": 0.06421249426441943
+        },
+        "removal_causal_shapley": {
+          "query": 0.9021572896278097,
+          "key": 0.03931527600587046,
+          "current_value": -0.000484081762099172,
+          "value_bus": 0.059011578581483155
+        },
+        "local_head_projection": [
+          0.1606815606107137,
+          0.07038143674421367,
+          0.28943973026607384,
+          0.25566309038154367,
+          0.07080134010433763,
+          0.1530328310295833
+        ],
+        "insertion_head_projection": [
+          0.27097693480052965,
+          0.09906798611018855,
+          0.2823539390558871,
+          0.22759536973543576,
+          0.048602416216408095,
+          0.08340073611421017
+        ],
+        "top_local_head": 2,
+        "top_local_head_absolute_share": 0.2894397334104123,
+        "isolated_head_sum_fidelity": 0.998468376702855,
+        "attention_insertion_to_full_kl": 0.0017817046297039967,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      }
+    },
+    "wikitext": {
+      "1": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.3005139518691411,
+          "key": 0.0023705301354355625,
+          "current_value": 0.5993559930889987,
+          "value_bus": 0.09775953731188944
+        },
+        "insertion_causal_shapley": {
+          "query": 0.26435819546393363,
+          "key": 0.053454907794977836,
+          "current_value": 0.62468603402821,
+          "value_bus": 0.057500857837320195
+        },
+        "removal_causal_shapley": {
+          "query": 0.15956217210897328,
+          "key": -0.033375246840121345,
+          "current_value": 0.7865297553107048,
+          "value_bus": 0.08728333201757024
+        },
+        "local_head_projection": [
+          0.031338921828917295,
+          0.06940010586227963,
+          0.11356430582784448,
+          0.05957174902570074,
+          0.05093993121439244,
+          0.6751849963640861
+        ],
+        "insertion_head_projection": [
+          0.06517796859539761,
+          0.23495594117308188,
+          0.014832470697584582,
+          0.02052186071443696,
+          0.008868584134669791,
+          0.710828296497263
+        ],
+        "top_local_head": 5,
+        "top_local_head_absolute_share": 0.6751849895290395,
+        "isolated_head_sum_fidelity": 0.8976891609716388,
+        "attention_insertion_to_full_kl": 0.022906580267710343,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "2": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.7138636486294537,
+          "key": 0.053233369534867264,
+          "current_value": 0.18863847552072038,
+          "value_bus": 0.04426451276271897
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8531436848952111,
+          "key": 0.005765695966996276,
+          "current_value": 0.12231528740961864,
+          "value_bus": 0.01877529015597534
+        },
+        "removal_causal_shapley": {
+          "query": 0.8116147574993843,
+          "key": 0.04416011871347491,
+          "current_value": 0.10337185836636137,
+          "value_bus": 0.040853309506276664
+        },
+        "local_head_projection": [
+          0.020753329484364275,
+          0.18017536357041627,
+          0.19441427056347,
+          0.23706278068574635,
+          0.20034878643865184,
+          0.16724546706971827
+        ],
+        "insertion_head_projection": [
+          -0.013298274960808827,
+          0.29752491780331186,
+          0.10869348253155554,
+          0.2767816711276736,
+          0.017050153081793355,
+          0.019641373666979437
+        ],
+        "top_local_head": 3,
+        "top_local_head_absolute_share": 0.2370627812043527,
+        "isolated_head_sum_fidelity": 0.7676933110195943,
+        "attention_insertion_to_full_kl": 0.02890248850336897,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "3": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.6961294518722749,
+          "key": 0.07528895135970202,
+          "current_value": 0.2291309742017996,
+          "value_bus": -0.0005493701007179447
+        },
+        "insertion_causal_shapley": {
+          "query": 0.813234561861804,
+          "key": 0.04070847197263126,
+          "current_value": 0.14705324244009849,
+          "value_bus": -0.0009962550404176032
+        },
+        "removal_causal_shapley": {
+          "query": 0.4751216241321399,
+          "key": 0.20929480810551124,
+          "current_value": 0.31546514021262234,
+          "value_bus": 0.00011845096426956917
+        },
+        "local_head_projection": [
+          0.13278979001113161,
+          0.1269339646201817,
+          0.193548900836775,
+          0.2354800285539719,
+          0.16102942252453722,
+          0.15021786037982507
+        ],
+        "insertion_head_projection": [
+          0.010086214070341866,
+          0.12564815595699438,
+          0.25552445991567263,
+          0.3138947026308205,
+          0.20346932787098496,
+          0.07567206682524706
+        ],
+        "top_local_head": 3,
+        "top_local_head_absolute_share": 0.23548003634213913,
+        "isolated_head_sum_fidelity": 0.9275468435456007,
+        "attention_insertion_to_full_kl": 0.003412811401810853,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "4": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.5682202330599834,
+          "key": 0.0429725592233791,
+          "current_value": 0.39221239934158425,
+          "value_bus": -0.003405165393907288
+        },
+        "insertion_causal_shapley": {
+          "query": 0.5298884669190963,
+          "key": 0.04518072452380986,
+          "current_value": 0.4278900544946802,
+          "value_bus": -0.0029591832366210884
+        },
+        "removal_causal_shapley": {
+          "query": 0.5106444427225532,
+          "key": 0.022405531006199717,
+          "current_value": 0.47410190235693855,
+          "value_bus": -0.007151909279814562
+        },
+        "local_head_projection": [
+          0.23661140569883227,
+          0.4123548678279605,
+          0.004441527115534519,
+          0.06873695377374306,
+          0.18272273453476334,
+          0.0951324873298849
+        ],
+        "insertion_head_projection": [
+          0.285840177044523,
+          0.3796595837584924,
+          0.005736599602536024,
+          0.061971557615314185,
+          0.23025893824209703,
+          0.05621944414913846
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.41235487760872186,
+        "isolated_head_sum_fidelity": 0.948373565904063,
+        "attention_insertion_to_full_kl": 0.0067046271434483195,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "5": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.8964294078591164,
+          "key": 0.016038337131218598,
+          "current_value": 0.08522501172222635,
+          "value_bus": 0.0023072843830169126
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9771266201502619,
+          "key": -0.0015055934925216623,
+          "current_value": 0.025751838633834255,
+          "value_bus": -0.001372833797486846
+        },
+        "removal_causal_shapley": {
+          "query": 0.9040484111332988,
+          "key": 0.012344919706618267,
+          "current_value": 0.0829318978058197,
+          "value_bus": 0.0006747578608895776
+        },
+        "local_head_projection": [
+          0.04422733243637287,
+          0.08027870009925023,
+          0.12330717361290365,
+          0.10274487771867044,
+          0.0497870889323035,
+          0.5996548414092305
+        ],
+        "insertion_head_projection": [
+          0.07098451969714635,
+          0.08451964464404263,
+          0.03841427241338526,
+          0.02582671704957716,
+          -0.013228344555417559,
+          0.8239144994024293
+        ],
+        "top_local_head": 5,
+        "top_local_head_absolute_share": 0.5996548328888961,
+        "isolated_head_sum_fidelity": 0.9801164287929546,
+        "attention_insertion_to_full_kl": 0.03040935110320537,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "6": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.6364765995789663,
+          "key": 0.09936472147955179,
+          "current_value": 0.1614125333700411,
+          "value_bus": 0.1027461178271179
+        },
+        "insertion_causal_shapley": {
+          "query": 0.7286129416859323,
+          "key": 0.08328598742022746,
+          "current_value": 0.10708538528516241,
+          "value_bus": 0.08101571151413127
+        },
+        "removal_causal_shapley": {
+          "query": 0.6891828958094807,
+          "key": 0.09557961528832871,
+          "current_value": 0.1008140015739112,
+          "value_bus": 0.11442352924404783
+        },
+        "local_head_projection": [
+          0.27265857030301793,
+          0.19911940319474722,
+          0.15864442829916947,
+          0.05576477232768585,
+          0.09745226623601398,
+          0.2163605739833692
+        ],
+        "insertion_head_projection": [
+          0.18741543901581525,
+          0.19995563236602795,
+          0.10637578372714306,
+          0.07954725142779938,
+          0.11137103302067558,
+          0.3244428377947765
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.2726585663920025,
+        "isolated_head_sum_fidelity": 0.9757248025678076,
+        "attention_insertion_to_full_kl": 0.010394422646039727,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "7": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.8854292410897058,
+          "key": 0.02577497629275834,
+          "current_value": 0.006776302393226677,
+          "value_bus": 0.08201952136778558
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9416281661919809,
+          "key": 0.0180376432192962,
+          "current_value": -0.0034081225594806024,
+          "value_bus": 0.04374239192041595
+        },
+        "removal_causal_shapley": {
+          "query": 0.8663797712953248,
+          "key": 0.03927070991550294,
+          "current_value": -0.002687195228907219,
+          "value_bus": 0.09703673952317435
+        },
+        "local_head_projection": [
+          0.216362370448878,
+          0.25391988013914213,
+          0.07131234984306344,
+          0.009059779449877707,
+          0.08859939952787295,
+          0.3607462697422874
+        ],
+        "insertion_head_projection": [
+          0.12827722602079808,
+          0.45942069386463613,
+          0.03014852342102174,
+          0.003690367149028021,
+          0.03200490684718175,
+          0.30734761851595405
+        ],
+        "top_local_head": 5,
+        "top_local_head_absolute_share": 0.3607462520112045,
+        "isolated_head_sum_fidelity": 0.9861407015300747,
+        "attention_insertion_to_full_kl": 0.012006711118290372,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "8": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.5510267184293224,
+          "key": 0.16471663330449982,
+          "current_value": -0.00010387361743488402,
+          "value_bus": 0.2843605392626104
+        },
+        "insertion_causal_shapley": {
+          "query": 0.4441524223332248,
+          "key": 0.1811692409122834,
+          "current_value": -0.002218141867148439,
+          "value_bus": 0.37689655663368504
+        },
+        "removal_causal_shapley": {
+          "query": 0.5603165981027661,
+          "key": 0.2097644313694795,
+          "current_value": -0.002189669302817511,
+          "value_bus": 0.23210865409587006
+        },
+        "local_head_projection": [
+          0.122102038643324,
+          0.14612197460189816,
+          0.048993068639140575,
+          0.05095166877125055,
+          0.5296029934979986,
+          0.10222826597082085
+        ],
+        "insertion_head_projection": [
+          0.0788936957517835,
+          0.18619743520969242,
+          0.04858892489299456,
+          0.06321316520167021,
+          0.5396584784293462,
+          0.07315113864209727
+        ],
+        "top_local_head": 4,
+        "top_local_head_absolute_share": 0.5296029881360688,
+        "isolated_head_sum_fidelity": 0.9769188267268086,
+        "attention_insertion_to_full_kl": 0.00900318314994329,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "9": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.7239318858287637,
+          "key": 0.033720286679708805,
+          "current_value": 0.23624903133385047,
+          "value_bus": 0.006098831525184903
+        },
+        "insertion_causal_shapley": {
+          "query": 0.7135330343466423,
+          "key": 0.026076119076755968,
+          "current_value": 0.26194491575555623,
+          "value_bus": -0.0015540513375500878
+        },
+        "removal_causal_shapley": {
+          "query": 0.7404041123719031,
+          "key": 0.04801813279655428,
+          "current_value": 0.2108797950843153,
+          "value_bus": 0.0006979745163866557
+        },
+        "local_head_projection": [
+          0.23149036736970904,
+          0.3972006197533333,
+          0.1500231352136514,
+          0.15519650238824828,
+          0.02467323562550239,
+          0.04141616470615989
+        ],
+        "insertion_head_projection": [
+          0.2619918476237585,
+          0.3419336436524441,
+          0.10160245340209417,
+          0.12397663154472742,
+          0.015609898058858873,
+          0.14917155769755056
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.39720060980083477,
+        "isolated_head_sum_fidelity": 0.9987216840252229,
+        "attention_insertion_to_full_kl": 0.002553228604999775,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "10": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.9691270069200247,
+          "key": -0.0017230750713200258,
+          "current_value": 0.0002855087584394234,
+          "value_bus": 0.03231059219488563
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9607634486742369,
+          "key": 0.0044313456147350464,
+          "current_value": 0.00020678197994181613,
+          "value_bus": 0.034598442736292395
+        },
+        "removal_causal_shapley": {
+          "query": 0.9491521452375107,
+          "key": 0.00939936005441392,
+          "current_value": -0.00018564636523588223,
+          "value_bus": 0.041634151509802216
+        },
+        "local_head_projection": [
+          0.3163373353353074,
+          0.05023109892463425,
+          0.2649109663139858,
+          0.08230055325124436,
+          0.13608090747618537,
+          0.15013913073700189
+        ],
+        "insertion_head_projection": [
+          0.2271601649508446,
+          0.09542566155122834,
+          0.16424133781832026,
+          0.14134718561689918,
+          0.2054048657228412,
+          0.1557814509733226
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.3163373378538717,
+        "isolated_head_sum_fidelity": 0.9955761647147806,
+        "attention_insertion_to_full_kl": 0.006366624928000929,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "11": {
+        "examples": 32,
+        "local_write_shapley": {
+          "query": 0.9291348154777531,
+          "key": 0.014797792497279165,
+          "current_value": 0.0024080214569099498,
+          "value_bus": 0.05365936516793647
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9724613788083457,
+          "key": 0.005817225624855989,
+          "current_value": 0.002924840242277107,
+          "value_bus": 0.018796570384327638
+        },
+        "removal_causal_shapley": {
+          "query": 0.918977262509305,
+          "key": 0.03926269988091641,
+          "current_value": 0.0007437491663128466,
+          "value_bus": 0.04101634661854187
+        },
+        "local_head_projection": [
+          0.10484589638757814,
+          0.1363508490499479,
+          0.24191889699782343,
+          0.2656453617922384,
+          0.12081692910712952,
+          0.13042206263425282
+        ],
+        "insertion_head_projection": [
+          0.14080053677050042,
+          0.07369519607459472,
+          0.19935625381960764,
+          0.30301532312870305,
+          0.14982823572721526,
+          0.1339443646821706
+        ],
+        "top_local_head": 3,
+        "top_local_head_absolute_share": 0.2656453628630628,
+        "isolated_head_sum_fidelity": 0.9993936060410927,
+        "attention_insertion_to_full_kl": 0.0025855605329637944,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      }
+    },
+    "tinystories": {
+      "1": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.34851660295564413,
+          "key": 0.010903782906767998,
+          "current_value": 0.5568361219363587,
+          "value_bus": 0.083743497453666
+        },
+        "insertion_causal_shapley": {
+          "query": 0.33801302685791607,
+          "key": 0.10803716294178084,
+          "current_value": 0.46674360522586344,
+          "value_bus": 0.08720626140296785
+        },
+        "removal_causal_shapley": {
+          "query": 0.04287894085326446,
+          "key": -0.05517297927050155,
+          "current_value": 0.9048604845088746,
+          "value_bus": 0.10743358991164957
+        },
+        "local_head_projection": [
+          0.006420198685539077,
+          0.12647661474288166,
+          0.08890161882291536,
+          0.08616457282934749,
+          0.06485163993682351,
+          0.6271853581450517
+        ],
+        "insertion_head_projection": [
+          -0.0006266208223008729,
+          0.11209040801835501,
+          0.047294577881422765,
+          0.008179615802980097,
+          0.05760131217078838,
+          0.6805055211662951
+        ],
+        "top_local_head": 5,
+        "top_local_head_absolute_share": 0.6271853561615411,
+        "isolated_head_sum_fidelity": 0.8425058175629953,
+        "attention_insertion_to_full_kl": 0.010047414169420857,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "2": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.7145724332578256,
+          "key": 0.06453083949583094,
+          "current_value": 0.1756242530447062,
+          "value_bus": 0.04527250476395292
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8590488693003977,
+          "key": 0.02671866083279051,
+          "current_value": 0.09600002980359458,
+          "value_bus": 0.01823244735793935
+        },
+        "removal_causal_shapley": {
+          "query": 0.4740470019346372,
+          "key": 0.13972252811543162,
+          "current_value": 0.2932922407541697,
+          "value_bus": 0.0929382426599238
+        },
+        "local_head_projection": [
+          0.03770701173599219,
+          0.12018685073195204,
+          0.1732716547808177,
+          0.09091083884769831,
+          0.4109735570387727,
+          0.1669500829291771
+        ],
+        "insertion_head_projection": [
+          0.0009978310048328377,
+          0.22633606289811425,
+          0.04002329101117674,
+          0.06074328877117183,
+          0.3491452772149359,
+          0.1100708194354936
+        ],
+        "top_local_head": 4,
+        "top_local_head_absolute_share": 0.4109735586561961,
+        "isolated_head_sum_fidelity": 0.8041757472108639,
+        "attention_insertion_to_full_kl": 0.004848028701958915,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "3": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.7059110290694636,
+          "key": 0.07567934992013772,
+          "current_value": 0.22022022380283995,
+          "value_bus": -0.0018105563789630253
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8314919328925657,
+          "key": 0.00894155147856906,
+          "current_value": 0.168994387331733,
+          "value_bus": -0.009427857039492919
+        },
+        "removal_causal_shapley": {
+          "query": 0.506572278864294,
+          "key": 0.14957624280194604,
+          "current_value": 0.34731771412977297,
+          "value_bus": -0.003466213096119193
+        },
+        "local_head_projection": [
+          0.20148431539019326,
+          0.11809675187262,
+          0.19396861144541364,
+          0.23009327773565566,
+          0.1633574085794457,
+          0.09299965420588396
+        ],
+        "insertion_head_projection": [
+          0.220976619556797,
+          0.15298397381717102,
+          0.11566335957698338,
+          0.2632939517834848,
+          0.1450245547215387,
+          0.08471569122308885
+        ],
+        "top_local_head": 3,
+        "top_local_head_absolute_share": 0.23009327331114326,
+        "isolated_head_sum_fidelity": 0.9300847553992141,
+        "attention_insertion_to_full_kl": 0.0012224688475442373,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "4": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.5415985916616081,
+          "key": 0.02582080116801819,
+          "current_value": 0.43561618178335354,
+          "value_bus": -0.0030355456888005827
+        },
+        "insertion_causal_shapley": {
+          "query": 0.6238261412601124,
+          "key": 0.0717402498524549,
+          "current_value": 0.30834179479681867,
+          "value_bus": -0.003908161238247981
+        },
+        "removal_causal_shapley": {
+          "query": 0.38180509264379203,
+          "key": 0.10329250712152171,
+          "current_value": 0.5166161478815768,
+          "value_bus": -0.0017137398513626231
+        },
+        "local_head_projection": [
+          0.17910375004651602,
+          0.3829935359244705,
+          0.009532885992654063,
+          0.09479698637280892,
+          0.24950619089435822,
+          0.0840666628637209
+        ],
+        "insertion_head_projection": [
+          0.19708003407806246,
+          0.3180261109038905,
+          0.03845262830113749,
+          0.044945767218545644,
+          0.3047758030080889,
+          0.07288281979640647
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.38299353129234426,
+        "isolated_head_sum_fidelity": 0.9613557322447405,
+        "attention_insertion_to_full_kl": 0.0020915181488034367,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "5": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.7240591728753318,
+          "key": 0.05542620836452615,
+          "current_value": 0.21266281261341477,
+          "value_bus": 0.007851817597128004
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8721043638581648,
+          "key": 0.03770005175321858,
+          "current_value": 0.08861287628289494,
+          "value_bus": 0.0015827487706223933
+        },
+        "removal_causal_shapley": {
+          "query": 0.7331211773758929,
+          "key": 0.04888717929007704,
+          "current_value": 0.20744782808116108,
+          "value_bus": 0.010543881071445011
+        },
+        "local_head_projection": [
+          0.09903224307228199,
+          0.07633979130240151,
+          0.21400715740342408,
+          0.22637014240822248,
+          0.1239137722609185,
+          0.2603368721914996
+        ],
+        "insertion_head_projection": [
+          0.2747550305746397,
+          0.14291393650743936,
+          0.11463728373351999,
+          0.04692809612109099,
+          0.07040979354409956,
+          0.35664189403099483
+        ],
+        "top_local_head": 5,
+        "top_local_head_absolute_share": 0.2603368777526212,
+        "isolated_head_sum_fidelity": 0.9838453190756031,
+        "attention_insertion_to_full_kl": 0.0068095150403701165,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "6": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.5518268624923679,
+          "key": 0.18533561510563196,
+          "current_value": 0.10946773133802344,
+          "value_bus": 0.15336982293449217
+        },
+        "insertion_causal_shapley": {
+          "query": 0.5989103154609983,
+          "key": 0.18101906991898645,
+          "current_value": 0.08631776414326096,
+          "value_bus": 0.13375287007437706
+        },
+        "removal_causal_shapley": {
+          "query": 0.4385572589150532,
+          "key": 0.24097949420086617,
+          "current_value": 0.10989100349819113,
+          "value_bus": 0.2105722822132735
+        },
+        "local_head_projection": [
+          0.4210584084161377,
+          0.15013201025325904,
+          0.17075916719423948,
+          0.035295552900860186,
+          0.09592209836482082,
+          0.12683275051638185
+        ],
+        "insertion_head_projection": [
+          0.4290280754185716,
+          0.16645415247677248,
+          0.18717531084078018,
+          0.022903894789606485,
+          0.07628189863016527,
+          0.09365491284103651
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.42105841361802004,
+        "isolated_head_sum_fidelity": 0.9711072235555087,
+        "attention_insertion_to_full_kl": 0.004343755114219558,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "7": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.8530763829419142,
+          "key": 0.037100211599400926,
+          "current_value": 0.005078210458913313,
+          "value_bus": 0.10474521774384264
+        },
+        "insertion_causal_shapley": {
+          "query": 0.8048423588170902,
+          "key": 0.03224317248527994,
+          "current_value": -0.003347329669140327,
+          "value_bus": 0.1662618083839166
+        },
+        "removal_causal_shapley": {
+          "query": 0.8750032988283803,
+          "key": 0.04082108603450751,
+          "current_value": 0.0006285064575039451,
+          "value_bus": 0.08354715964939506
+        },
+        "local_head_projection": [
+          0.09407928049276118,
+          0.31709135251199827,
+          0.13752329874179486,
+          0.23645994138970577,
+          0.134463162753247,
+          0.08038296367727253
+        ],
+        "insertion_head_projection": [
+          0.018388972469209376,
+          0.538514469986435,
+          0.16315832913356698,
+          0.05724451138076274,
+          0.14271928542418494,
+          0.07874961337138499
+        ],
+        "top_local_head": 1,
+        "top_local_head_absolute_share": 0.3170913526493687,
+        "isolated_head_sum_fidelity": 0.9941411339010432,
+        "attention_insertion_to_full_kl": 0.0011918230943210213,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "8": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.6359449521943314,
+          "key": 0.1528996789361196,
+          "current_value": 0.0006101606941468508,
+          "value_bus": 0.2105452122955644
+        },
+        "insertion_causal_shapley": {
+          "query": 0.44442892586782307,
+          "key": 0.20613294726271775,
+          "current_value": -0.014340412553759067,
+          "value_bus": 0.3637786121453999
+        },
+        "removal_causal_shapley": {
+          "query": 0.602597293898225,
+          "key": 0.1686413462732492,
+          "current_value": -0.0003058858978700908,
+          "value_bus": 0.229067245306881
+        },
+        "local_head_projection": [
+          0.20267722493062318,
+          0.1373367284723721,
+          0.13427944614101242,
+          0.06695522481264805,
+          0.38280693673829264,
+          0.07594442321213726
+        ],
+        "insertion_head_projection": [
+          0.07210480895979263,
+          0.14403250623143338,
+          0.0961791682612282,
+          0.1113425986530557,
+          0.38683528408400486,
+          0.14679502259099536
+        ],
+        "top_local_head": 4,
+        "top_local_head_absolute_share": 0.3828069427456492,
+        "isolated_head_sum_fidelity": 0.9873653222704474,
+        "attention_insertion_to_full_kl": 0.00458108923033262,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "9": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.7983442369093363,
+          "key": 0.028856271731415806,
+          "current_value": 0.1684882575028975,
+          "value_bus": 0.0043112597828374715
+        },
+        "insertion_causal_shapley": {
+          "query": 0.7740617872655647,
+          "key": 0.03426109939532613,
+          "current_value": 0.19323281557992392,
+          "value_bus": -0.0015556890797205054
+        },
+        "removal_causal_shapley": {
+          "query": 0.7512710639522212,
+          "key": 0.0316553443554708,
+          "current_value": 0.21358550717752148,
+          "value_bus": 0.0034880891895134455
+        },
+        "local_head_projection": [
+          0.3919222711083343,
+          0.3203435057894928,
+          0.15436254373258967,
+          0.06699729503774197,
+          0.03554247885480145,
+          0.030831928134830277
+        ],
+        "insertion_head_projection": [
+          0.4322902267536863,
+          0.30078751092266365,
+          0.09796494301433153,
+          0.07131873568508541,
+          0.03323091066666804,
+          0.061812050265153705
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.3919222622282417,
+        "isolated_head_sum_fidelity": 0.9977065216750982,
+        "attention_insertion_to_full_kl": 0.0008799891843810914,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "10": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.977032819987114,
+          "key": 0.0011206313072658163,
+          "current_value": 0.00010965740743764781,
+          "value_bus": 0.021736880032725527
+        },
+        "insertion_causal_shapley": {
+          "query": 0.9144210343464249,
+          "key": 0.010833450413681073,
+          "current_value": -0.00034969372722824647,
+          "value_bus": 0.07509523729456472
+        },
+        "removal_causal_shapley": {
+          "query": 0.9756481302929273,
+          "key": -0.002832579770590995,
+          "current_value": -0.0006895432595916518,
+          "value_bus": 0.027874053604926792
+        },
+        "local_head_projection": [
+          0.42423060506780924,
+          0.047159782390654194,
+          0.2994693495862452,
+          0.06836455926900928,
+          0.031675822382563876,
+          0.1290998679722646
+        ],
+        "insertion_head_projection": [
+          0.5857600475815682,
+          0.0965224054121883,
+          0.1411068646511898,
+          0.055187224242895516,
+          0.0289585623694432,
+          0.07000746154824601
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.42423061072341994,
+        "isolated_head_sum_fidelity": 0.9914140088382061,
+        "attention_insertion_to_full_kl": 0.002048933302285412,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      },
+      "11": {
+        "examples": 30,
+        "local_write_shapley": {
+          "query": 0.9460470883503282,
+          "key": 0.011274786252422005,
+          "current_value": 0.00029662092034383325,
+          "value_bus": 0.04238153155662411
+        },
+        "insertion_causal_shapley": {
+          "query": 1.005609974701039,
+          "key": -0.006211696712927258,
+          "current_value": -0.0004968143798868178,
+          "value_bus": 0.001098409787113539
+        },
+        "removal_causal_shapley": {
+          "query": 0.9493013018521835,
+          "key": -0.0018738141628686581,
+          "current_value": -0.00045338036473081974,
+          "value_bus": 0.053025944965013325
+        },
+        "local_head_projection": [
+          0.27808915918649074,
+          0.10005134148133982,
+          0.17961185978125296,
+          0.25835356006260507,
+          0.06810110099636883,
+          0.1157929752705635
+        ],
+        "insertion_head_projection": [
+          0.5988768296585857,
+          0.01949109807771712,
+          0.051965769812698175,
+          0.2573700587697267,
+          0.09318413980187844,
+          0.017071374974760134
+        ],
+        "top_local_head": 0,
+        "top_local_head_absolute_share": 0.2780891600823213,
+        "isolated_head_sum_fidelity": 0.9973286332936351,
+        "attention_insertion_to_full_kl": 0.005875974518427734,
+        "maximum_native_write_error": 0.0,
+        "maximum_factor_write_error": 0.0
+      }
+    }
+  }
+}

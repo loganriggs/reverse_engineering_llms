@@ -1,0 +1,22 @@
+{
+  "experiment": "H833",
+  "hashes": {
+    "data": "bfeacc8e52b3c5c68e27ad226a8b19f2b0e8ec9b854da0dfe588e1fbb1c6af8b",
+    "previous": "53523a08f13897d284f25f3c4aaf85f9bdf46faeb5bb3a1c36107e6574248ba1",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+    "runner": "b9963ae0fbebcbd7792fd741e9b6575e2574347b1bd35199ceb48f4795a182a9"
+  },
+  "fit": "Training-only normalized-state residual after subtracting training token mean;9016 token means retained. Global mean fallback unseen validation tokens.",
+  "models": [
+    "residual_pca4",
+    "residual_pca16",
+    "residual_pca64",
+    "response_weighted4",
+    "response_weighted16",
+    "response_weighted64"
+  ],
+  "weighted_objective": "For8 independent orthonormal fit probes seed833+layer, T_v=D[diag(Rv)L+diag(Lv)R]. W=mean(T_v^T T_v)+.001*trace(mean)/1152*I. Minimize weighted residual reconstruction via PCA of W^1/2 residual; encode E=W^1/2 B, decode F=W^-1/2 B. Fit excludes full RMS derivative and final shape normalization, so objective is a surrogate.",
+  "evaluation": "Same H832512-document development validation and independent8 probes seed832+layer. Reconstruct token shape plus rank-r residual; normalize shape, restore exact recorded radius, recompute full RMS/bilinear derivative. No true-state derivative access.",
+  "budget": "r context coordinates plus one radius scalar and token identity; same token table across candidates. Weighted encoder/decoder differ and store2*1152*r entries versus shared PCA basis1152*r. No overall storage parity claim.",
+  "scope": "Post-H832 development comparison; unused confirmation documents and reserved test untouched."
+}

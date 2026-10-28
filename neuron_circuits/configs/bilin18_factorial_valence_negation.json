@@ -1,0 +1,16 @@
+{
+  "experiment": "H966",
+  "hashes": {
+    "runner": "78a73b876b0f509dd13574f7fcbf0157d1ca8626a3811334308c8441d4e14248",
+    "directions": "47407e3ded7a9c6cea45af297a480d2b454c5caea558ce34ff84403542df42e7",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+    "forward": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+    "oldscreen": "24fb60e0d23b206e0bc155db20948dbce80bd8dad729af7ee356031dc9766a26"
+  },
+  "design": "8 adjective pairs x3 output contexts x4 states (positive/negative adjective crossed with absent/present not). Frozen H965 sentiment/negation directions; no fitting. All12 directed edges per quartet, with full-write, identity, both frozen rank1 projections and their complements at final-token MLP12.",
+  "native_gate": "Per format and adjective cohort: >=4 quartets, >=.75 all-four binary correct, >=.5 pooled full-vocabulary intended group top1. No individual native-correct filtering. Failed cohorts remain diagnostics.",
+  "factors": "a=+1 positive adjective,-1 negative; n=+1 plain,-1 not. Ideal binary valence=a*n is an operational expectation, not a claim that linguistic negation always reverses evaluative polarity. In particular not bad can be weakly positive or neutral.",
+  "cohorts": "First4 adjective pairs appear in H965 discovery; last4 adjective pairs absent from H965 task-bank examples. All directions frozen. Some familiar format A prompts deliberately overlap prior data; explicit overlap counts. Not the original reserved test.",
+  "interpretation": "Hadamard decomposition of four writes separates lexical adjective (a), presence of not (n), and interaction (a*n). Interaction is a necessary signature of ideal valence reversal on this panel but is not sufficient evidence of a reusable negation operator.",
+  "fidelity": "KL(full donor write patch||candidate), relative to native baseline; projection coefficient uses true donor delta. Counterfactual span adequacy only; no deployable encoder or unsupervised-manifold claim."
+}

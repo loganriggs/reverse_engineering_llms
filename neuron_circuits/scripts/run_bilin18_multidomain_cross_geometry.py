@@ -1,0 +1,23 @@
+"""H904 fixed L12 cross-domain geometry, no semantic inference from endpoint order."""
+from run_bilin18_agreement_partner_number import ROOT,ART,SNAPSHOT,sha,load_full_model
+from pathlib import Path
+import json,time,torch,numpy as np
+S='bilin18_multidomain_cross_geometry'
+@torch.inference_mode()
+def main():
+ start=time.time();torch.set_num_threads(6);paths={'runner':Path(__file__),'model':SNAPSHOT/'pytorch_model.bin','panel':ART/'bilin18_multidomain_matched_competence_captures.pt','mapping':ART/'bilin18_partner_subspace_fidelity.json','states':ART/'bilin18_partner_subspace_fidelity_native_mlp_states.pt'};hashes={k:sha(p) for k,p in paths.items()};cfg=dict(experiment='H904',hashes=hashes,layer=12,domains=['agreement','language','binding'],ranks=[0,1,2,4,7],design='For each domain/template use first4 taskpairs as discovery, last4 as transfer. Leading centered inputPC fixed by rule, same eight discovery endpoints fit output C PCs. Evaluate transfer task/copy both templates. Axis mean-centered; no cross-domain semantic interpretation of pair order. Existing cached diagnostic data.');(ROOT/f'configs/{S}.json').write_text(json.dumps(cfg,indent=2)+'\n');panel=torch.load(paths['panel'],weights_only=False);mapping=json.loads(paths['mapping'].read_text());ex=[panel['examples'][i] for i in mapping['selection_original_indices']];states=torch.load(paths['states'],weights_only=False);model=load_full_model('cuda');mod=model.blocks[12].mlp;L,R,D=[m.weight.double() for m in [mod.Left,mod.Right,mod.Down]];raw=torch.stack([states[i,(12,'raw')] for i in range(len(ex))]).double().cuda();u=raw/(raw.square().mean(-1,keepdim=True)+torch.finfo(torch.float32).eps).sqrt();fits={};records=[];contrasts=[];geometry=[];compiler=0.;orth=0.;gen=torch.Generator(device='cuda').manual_seed(904);random=torch.linalg.qr(torch.randn(1152,7,dtype=torch.double,device='cuda',generator=gen)).Q.T
+ for dom in cfg['domains']:
+  pairs=sorted({e['pair'] for e in ex if e['domain']==dom});discovery=pairs[:4];transfer=pairs[4:]
+  for fmt in ['A','B']:
+   ix=[i for i,e in enumerate(ex) if e['domain']==dom and e['family']=='task' and e['format']==fmt and e['pair'] in discovery];assert len(ix)==8;X=u[ix];mean=X.mean(0);_,s,V=torch.linalg.svd(X-mean,full_matrices=False);b=V[0];origin=mean@b;t=u@b-origin;w=u-t[:,None]*b;C=((w@L.T)*(b@R.T)+(w@R.T)*(b@L.T))@D.T;mu=C[ix].mean(0);_,cs,B=torch.linalg.svd(C[ix]-mu,full_matrices=False);B=B[:7];orth=max(orth,abs(float(b.norm()-1)),float((B@B.T-torch.eye(7,device='cuda')).abs().max()));key=dom+'_'+fmt;fits[key]=dict(b=b.cpu(),origin=origin.cpu(),mu=mu.cpu(),basis=B.cpu(),discovery_indices=ix,input_variance_fraction=float(s[0].square()/s.square().sum()),output_variance_fraction=float(cs[0].square()/cs.square().sum()))
+   jj=[i for i,e in enumerate(ex) if e['domain']==dom and e['pair'] in transfer];assert len(jj)==32
+   for family in ['task','copy']:
+    for targetfmt in ['A','B']:
+     for pair in transfer:
+      kk=sorted([i for i in jj if ex[i]['family']==family and ex[i]['format']==targetfmt and ex[i]['pair']==pair],key=lambda i:ex[i]['order']);assert len(kk)==2;delta=u[kk[1]]-u[kk[0]];contrasts.append(dict(fit=key,family=family,format=targetfmt,pair=pair,axis_capture=float((delta@b).square()/delta.square().sum())))
+   for mode in ['rank0','rank1','rank2','rank4','rank7','random7']:
+    BB=random if mode=='random7' else B[:int(mode[4:])];aa=((BB@D)*(R@b))@L+((BB@D)*(L@b))@R;E=aa-(aa@b)[:,None]*b;off=origin*(aa@b)-BB@mu;hat=mu+(u@E.T+off)@BB;ref=mu+(C-mu)@BB.T@BB;compiler=max(compiler,float((hat-ref).norm()/ref.norm()))
+    for i in jj:records.append(dict(fit=key,domain=dom,family=ex[i]['family'],format=ex[i]['format'],pair=ex[i]['pair'],index=i,mode=mode,error_squared=float((t[i]*(hat[i]-C[i])).square().sum()),component_energy=float((t[i]*C[i]).square().sum())))
+  a,b=fits[dom+'_A'],fits[dom+'_B'];geometry.append(dict(domain=dom,axis_abs_cosine=float(abs(a['b']@b['b'])),output_PC_abs_cosine=float(abs(a['basis'][0]@b['basis'][0]))))
+ audits=dict(hashes_unchanged=all(sha(p)==hashes[k] for k,p in paths.items()),orthonormal_error=orth,compiled_encoder_relative=compiler,whole_model_forwards=0,test_evaluations=0,finite=all(np.isfinite(r['error_squared']) for r in records));assert audits['hashes_unchanged'] and orth<1e-10 and compiler<1e-10 and audits['finite'];torch.save(fits,ART/f'{S}_fits.pt');(ART/f'{S}.json').write_text(json.dumps(dict(config=cfg,records=records,contrasts=contrasts,geometry=geometry,fitmeta={k:{n:v for n,v in u.items() if n in ['discovery_indices','input_variance_fraction','output_variance_fraction']} for k,u in fits.items()},audits=audits,elapsed_seconds=time.time()-start),indent=2)+'\n');print(audits)
+if __name__=='__main__':main()

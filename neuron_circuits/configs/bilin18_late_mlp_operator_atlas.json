@@ -1,0 +1,34 @@
+{
+  "status": "hypotheses-locked-after-native-channel-audit-before-operator-atlas-results",
+  "source_config": "configs/bilin18_late_mlp_native_channel_program.json",
+  "seed": 20261029,
+  "batch_size": 8,
+  "layer": 12,
+  "final_layer": 17,
+  "layers": [13, 14, 15, 16],
+  "rank": 32,
+  "positions": [31, 63, 95, 127],
+  "spectral_budgets": [8, 16, 32, 64, 128, 256],
+  "ridge_relative_alphas": [0.000001, 0.0001, 0.01, 1.0, 100.0],
+  "null_replicates": 4,
+  "axis_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 16000, "rows": 64},
+  "atlas_discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 17000, "rows": 128},
+  "ridge_validation": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19000, "rows": 32},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 19800, "rows": 32},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 700, "rows": 32},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 700, "rows": 32}
+  },
+  "native_reference": "artifacts/bilin18_tensor_decomposition/bilin18_late_mlp_native_channel_program.json",
+  "hypotheses": {
+    "P0_train_spectral_energy_is_accounted": "The eigenvalues of the discovery Gram matrix account for its directly measured Frobenius energy to relative error at most 1e-5.",
+    "P1_rank64_operator_atlas_is_sufficient": "The fixed FineWeb rank-64 spectral atlas retains at least 0.80 oracle-projection fidelity at every layer and corpus.",
+    "P2_rank128_operator_atlas_is_high_fidelity": "The fixed rank-128 spectral atlas retains at least 0.90 oracle-projection fidelity at every layer and corpus.",
+    "P3_rank128_state_predictor_is_sufficient": "Ridge prediction from the local normalized state into the rank-128 atlas retains at least 0.80 fidelity at every layer and corpus.",
+    "P4_state_prediction_nearly_matches_oracle_coordinates": "At rank 128, state-predicted fidelity is within 0.10 of oracle spectral projection at every layer and corpus.",
+    "P5_state_predictor_transfers_ood": "At rank 128, each OOD state-prediction fidelity is within 0.10 of FineWeb at every layer.",
+    "P6_spectral_rank64_beats_512_native_channels": "Rank-64 oracle spectral fidelity exceeds the prior 512-channel native-bank fidelity by at least 0.20 at every matched layer and corpus.",
+    "P7_spectrum_has_nonrandom_outliers": "At every layer, the real leading singular-value energy share is at least 1.5 times the maximum of four independent sign-randomized nulls.",
+    "P8_layer16_is_more_native_than_spectral_special": "Layer 16's advantage over Layers 13--15 is at least 0.20 for native-512 fidelity but less than 0.10 for rank-64 spectral fidelity on FineWeb."
+  }
+}

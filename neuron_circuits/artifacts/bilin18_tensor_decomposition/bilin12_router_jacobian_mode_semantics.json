@@ -1,0 +1,616 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-mode-spectrum-before-semantic-label-selection",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261221,
+    "batch_size": 4,
+    "targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "pooled_targets": [
+      "\n",
+      ".",
+      ",",
+      " the"
+    ],
+    "steps": 1500,
+    "learning_rate": 0.02,
+    "scale": 1.0,
+    "layer": 6,
+    "semantic_modes": 16,
+    "rotation_replicates": 20,
+    "minimum_positive": 20,
+    "ridge": 0.01,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "basis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17100,
+      "rows": 512
+    },
+    "natural": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 13000,
+      "rows": 768
+    },
+    "mode_train": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14000,
+      "rows": 256
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 18500,
+        "rows": 128
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 128
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 128
+      }
+    },
+    "hypotheses": {
+      "E0_outlier_modes_have_simple_semantics": "After frozen FineWeb label selection, the median top-16 individual-mode AUROC is at least 0.75 on disjoint FineWeb.",
+      "E1_individual_semantics_transfer_ood": "The same frozen mode labels have median oriented AUROC at least 0.70 on both OOD corpora.",
+      "E2_pca_axes_are_semantically_privileged": "On every evaluation corpus, the native PCA-mode median exceeds the 95th percentile among 20 random rotations of the identical top-16 subspace by at least 0.05.",
+      "E3_outlier_modes_are_more_semantic_than_bulk": "Top modes exceed modes 17-32 in median frozen-label AUROC by at least 0.05 on every corpus.",
+      "E4_mode_labels_are_diverse": "At least five distinct non-position predicates are selected among the top 16 modes.",
+      "E5_mode_subspace_contains_semantic_information": "A frozen linear decoder from the top-16 mode scores has median label AUROC at least 0.75 on every corpus.",
+      "E6_position_does_not_explain_the_modes": "Fewer than half of top modes select an absolute-position predicate."
+    }
+  },
+  "hypotheses": {
+    "E0_outlier_modes_have_simple_semantics": {
+      "supported": false
+    },
+    "E1_individual_semantics_transfer_ood": {
+      "supported": true
+    },
+    "E2_pca_axes_are_semantically_privileged": {
+      "supported": false
+    },
+    "E3_outlier_modes_are_more_semantic_than_bulk": {
+      "supported": true
+    },
+    "E4_mode_labels_are_diverse": {
+      "supported": true
+    },
+    "E5_mode_subspace_contains_semantic_information": {
+      "supported": true
+    },
+    "E6_position_does_not_explain_the_modes": {
+      "supported": true
+    }
+  },
+  "label_names": [
+    "current:newline",
+    "current:opening_delimiter",
+    "current:closing_delimiter",
+    "current:quote",
+    "current:code_operator",
+    "current:url_web",
+    "current:non_ascii",
+    "current:word_continuation",
+    "current:suffix_ing",
+    "current:suffix_ed",
+    "current:suffix_ly",
+    "current:all_caps",
+    "current:comma_period",
+    "current:colon_semicolon",
+    "current:leading_space",
+    "current:alphabetic",
+    "current:digit",
+    "current:punctuation",
+    "current:single_char",
+    "current:capitalized",
+    "next:newline",
+    "next:opening_delimiter",
+    "next:closing_delimiter",
+    "next:quote",
+    "next:code_operator",
+    "next:url_web",
+    "next:non_ascii",
+    "next:word_continuation",
+    "next:suffix_ing",
+    "next:suffix_ed",
+    "next:suffix_ly",
+    "next:all_caps",
+    "next:comma_period",
+    "next:colon_semicolon",
+    "next:leading_space",
+    "next:alphabetic",
+    "next:digit",
+    "next:punctuation",
+    "next:single_char",
+    "next:capitalized",
+    "next_exact:\\n",
+    "next_exact:.",
+    "next_exact:,",
+    "next_exact: the",
+    "position:31",
+    "position:63",
+    "position:95",
+    "position:127"
+  ],
+  "top_mode_selections": [
+    {
+      "mode": 0,
+      "label_index": 26,
+      "label": "next:non_ascii",
+      "sign": 1,
+      "discovery_auc": 0.7650607875158774
+    },
+    {
+      "mode": 1,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": -1,
+      "discovery_auc": 0.9890275387263339
+    },
+    {
+      "mode": 2,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": 1,
+      "discovery_auc": 0.861732644865175
+    },
+    {
+      "mode": 3,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": -1,
+      "discovery_auc": 0.9387191623637406
+    },
+    {
+      "mode": 4,
+      "label_index": 27,
+      "label": "next:word_continuation",
+      "sign": -1,
+      "discovery_auc": 0.7706303488338206
+    },
+    {
+      "mode": 5,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": -1,
+      "discovery_auc": 0.7241824440619622
+    },
+    {
+      "mode": 6,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": 1,
+      "discovery_auc": 0.8538080895008606
+    },
+    {
+      "mode": 7,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": 1,
+      "discovery_auc": 0.8812751004016064
+    },
+    {
+      "mode": 8,
+      "label_index": 12,
+      "label": "current:comma_period",
+      "sign": 1,
+      "discovery_auc": 0.7124438334115754
+    },
+    {
+      "mode": 9,
+      "label_index": 36,
+      "label": "next:digit",
+      "sign": 1,
+      "discovery_auc": 0.6264451980884846
+    },
+    {
+      "mode": 10,
+      "label_index": 36,
+      "label": "next:digit",
+      "sign": -1,
+      "discovery_auc": 0.6988977955911824
+    },
+    {
+      "mode": 11,
+      "label_index": 26,
+      "label": "next:non_ascii",
+      "sign": -1,
+      "discovery_auc": 0.7776719288695336
+    },
+    {
+      "mode": 12,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": 1,
+      "discovery_auc": 0.6786431440045898
+    },
+    {
+      "mode": 13,
+      "label_index": 36,
+      "label": "next:digit",
+      "sign": -1,
+      "discovery_auc": 0.7765916448281178
+    },
+    {
+      "mode": 14,
+      "label_index": 29,
+      "label": "next:suffix_ed",
+      "sign": -1,
+      "discovery_auc": 0.7102951039570757
+    },
+    {
+      "mode": 15,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": -1,
+      "discovery_auc": 0.6227051061388411
+    }
+  ],
+  "bulk_mode_selections": [
+    {
+      "mode": 0,
+      "label_index": 26,
+      "label": "next:non_ascii",
+      "sign": 1,
+      "discovery_auc": 0.786835420068953
+    },
+    {
+      "mode": 1,
+      "label_index": 9,
+      "label": "current:suffix_ed",
+      "sign": -1,
+      "discovery_auc": 0.659818442427138
+    },
+    {
+      "mode": 2,
+      "label_index": 29,
+      "label": "next:suffix_ed",
+      "sign": 1,
+      "discovery_auc": 0.6652246814218645
+    },
+    {
+      "mode": 3,
+      "label_index": 7,
+      "label": "current:word_continuation",
+      "sign": 1,
+      "discovery_auc": 0.6659619669412923
+    },
+    {
+      "mode": 4,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": -1,
+      "discovery_auc": 0.7499641422834193
+    },
+    {
+      "mode": 5,
+      "label_index": 41,
+      "label": "next_exact:.",
+      "sign": 1,
+      "discovery_auc": 0.673956377293081
+    },
+    {
+      "mode": 6,
+      "label_index": 8,
+      "label": "current:suffix_ing",
+      "sign": -1,
+      "discovery_auc": 0.705197853789403
+    },
+    {
+      "mode": 7,
+      "label_index": 42,
+      "label": "next_exact:,",
+      "sign": 1,
+      "discovery_auc": 0.608621860149355
+    },
+    {
+      "mode": 8,
+      "label_index": 41,
+      "label": "next_exact:.",
+      "sign": 1,
+      "discovery_auc": 0.6517405748952766
+    },
+    {
+      "mode": 9,
+      "label_index": 36,
+      "label": "next:digit",
+      "sign": 1,
+      "discovery_auc": 0.6815554185293664
+    },
+    {
+      "mode": 10,
+      "label_index": 7,
+      "label": "current:word_continuation",
+      "sign": 1,
+      "discovery_auc": 0.6666355769729001
+    },
+    {
+      "mode": 11,
+      "label_index": 41,
+      "label": "next_exact:.",
+      "sign": 1,
+      "discovery_auc": 0.674736385959844
+    },
+    {
+      "mode": 12,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": 1,
+      "discovery_auc": 0.794750430292599
+    },
+    {
+      "mode": 13,
+      "label_index": 9,
+      "label": "current:suffix_ed",
+      "sign": -1,
+      "discovery_auc": 0.7583720627198888
+    },
+    {
+      "mode": 14,
+      "label_index": 0,
+      "label": "current:newline",
+      "sign": 1,
+      "discovery_auc": 0.8850401606425703
+    },
+    {
+      "mode": 15,
+      "label_index": 29,
+      "label": "next:suffix_ed",
+      "sign": 1,
+      "discovery_auc": 0.617102615694165
+    }
+  ],
+  "position_selection_count": 0,
+  "results": {
+    "fineweb": {
+      "top_individual": {
+        "mode_aucs": [
+          0.7194492254733219,
+          0.9930555555555556,
+          0.8231646825396826,
+          0.9407242063492064,
+          0.7958554087586346,
+          0.7787698412698413,
+          0.9104662698412699,
+          0.8695436507936508,
+          0.6763102725366876,
+          0.6743125419181757,
+          0.6507042253521127,
+          0.6071428571428571,
+          0.6865079365079365,
+          0.6800804828973843,
+          0.6324344758064516,
+          0.5287698412698413
+        ],
+        "median_auc": 0.7029785809906293,
+        "modes_above_080": 5
+      },
+      "bulk_individual": {
+        "mode_aucs": [
+          0.5956683878370626,
+          0.4119726087916943,
+          0.4730342741935484,
+          0.6426835920067437,
+          0.7048611111111112,
+          0.6999039180100353,
+          0.4800796812749004,
+          0.5018784153005464,
+          0.5199103234760328,
+          0.581757209926224,
+          0.6679724302077652,
+          0.5696594427244582,
+          0.8846726190476191,
+          0.7377954495250718,
+          0.8928571428571429,
+          0.6121471774193549
+        ],
+        "median_auc": 0.6039077826282087,
+        "modes_above_080": 2
+      },
+      "random_rotation_median_auc": [
+        0.8540426587301587,
+        0.8175843253968254,
+        0.8071668731595203,
+        0.8378577780478105,
+        0.7994102010552422,
+        0.8450850938967136,
+        0.8033234126984127,
+        0.7850517129928894,
+        0.847688988061972,
+        0.7483960284933646,
+        0.8560542645929969,
+        0.8501984126984128,
+        0.8313958954079921,
+        0.8754095480405963,
+        0.8129265006678056,
+        0.7981150793650793,
+        0.8317731059887434,
+        0.8928571428571428,
+        0.8110216053003636,
+        0.8412490287490287
+      ],
+      "random_rotation_p95": 0.8762819277814237,
+      "top_subspace_decoder": {
+        "median_auc": 0.853440296204875,
+        "maximum_auc": 0.9975198412698413,
+        "labels": 27
+      },
+      "bulk_subspace_decoder": {
+        "median_auc": 0.7008080155138978,
+        "maximum_auc": 0.9694940476190477,
+        "labels": 27
+      }
+    },
+    "wikitext": {
+      "top_individual": {
+        "mode_aucs": [
+          0.7717391304347826,
+          0.9835309617918313,
+          0.9617918313570487,
+          0.9723320158102767,
+          0.8327800829875519,
+          0.7740447957839263,
+          0.9295125164690382,
+          0.8412384716732543,
+          0.6086924439197167,
+          0.4931910569105691,
+          0.7729674796747967,
+          0.5461133069828722,
+          0.4864953886693017,
+          0.8145325203252033,
+          0.57708719851577,
+          0.7391304347826086
+        ],
+        "median_auc": 0.7735061377293615,
+        "modes_above_080": 7
+      },
+      "bulk_individual": {
+        "mode_aucs": [
+          0.6683135704874835,
+          0.6721772379667117,
+          0.5973098330241188,
+          0.799512987012987,
+          0.866600790513834,
+          0.831041257367387,
+          0.6288933068257124,
+          0.5666666666666667,
+          0.49705304518664045,
+          0.5592479674796748,
+          0.6700855962219598,
+          0.7092337917485265,
+          0.9670619235836627,
+          0.6132478632478633,
+          0.9410408432147562,
+          0.5777365491651206
+        ],
+        "median_auc": 0.6691995833547217,
+        "modes_above_080": 4
+      },
+      "random_rotation_median_auc": [
+        0.8335957242597032,
+        0.8500512521935939,
+        0.7871783955543546,
+        0.8369109618998251,
+        0.76844702468104,
+        0.8208168642951252,
+        0.8381093544137023,
+        0.7943588815915019,
+        0.7908432147562583,
+        0.7861493294207365,
+        0.7738801054018445,
+        0.863471673254282,
+        0.7662580588640933,
+        0.8695652173913043,
+        0.8024670460926753,
+        0.8006663543965915,
+        0.851109234141888,
+        0.8494729907773386,
+        0.8112661014402599,
+        0.8967597679847363
+      ],
+      "random_rotation_p95": 0.8709249449209759,
+      "top_subspace_decoder": {
+        "median_auc": 0.792357634543179,
+        "maximum_auc": 0.9950592885375494,
+        "labels": 27
+      },
+      "bulk_subspace_decoder": {
+        "median_auc": 0.6788537549407114,
+        "maximum_auc": 0.9917654808959157,
+        "labels": 27
+      }
+    },
+    "tinystories": {
+      "top_individual": {
+        "mode_aucs": [
+          null,
+          0.9896673387096774,
+          0.9464465725806451,
+          0.9497227822580645,
+          0.6739977090492555,
+          0.9151965725806451,
+          0.9466985887096774,
+          0.8137600806451613,
+          0.7584848484848485,
+          null,
+          null,
+          null,
+          0.6794354838709677,
+          null,
+          0.5510802880768205,
+          0.6852318548387096
+        ],
+        "median_auc": 0.8137600806451613,
+        "modes_above_080": 6
+      },
+      "bulk_individual": {
+        "mode_aucs": [
+          null,
+          0.6238193018480492,
+          0.5421001155863786,
+          0.6028747433264887,
+          0.8133820564516129,
+          0.692985527544351,
+          0.6805831676607025,
+          0.5368983957219251,
+          0.6133870214752568,
+          null,
+          0.5392197125256674,
+          0.5885270774976658,
+          0.602570564516129,
+          0.720082135523614,
+          0.8375756048387096,
+          0.3313772561571975
+        ],
+        "median_auc": 0.6081308824008728,
+        "modes_above_080": 2
+      },
+      "random_rotation_median_auc": [
+        0.8742439516129032,
+        0.8547127016129032,
+        0.9076360887096774,
+        0.9280493951612903,
+        0.8916928810944568,
+        0.8489213897924761,
+        0.9188508064516129,
+        0.8582251082251082,
+        0.9066280241935484,
+        0.8137324493234921,
+        0.9159526209677419,
+        0.9076083222267401,
+        0.8664375715922108,
+        0.9480846774193549,
+        0.8608053169948331,
+        0.9010428453252131,
+        0.8896584956257152,
+        0.9224159618942885,
+        0.8620211693548387,
+        0.8865927419354839
+      ],
+      "random_rotation_p95": 0.9290511592741935,
+      "top_subspace_decoder": {
+        "median_auc": 0.8694616977225673,
+        "maximum_auc": 0.9962197580645161,
+        "labels": 25
+      },
+      "bulk_subspace_decoder": {
+        "median_auc": 0.6771719486930842,
+        "maximum_auc": 0.9838709677419355,
+        "labels": 25
+      }
+    }
+  }
+}

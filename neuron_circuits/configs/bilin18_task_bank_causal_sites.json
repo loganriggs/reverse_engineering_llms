@@ -1,0 +1,26 @@
+{
+  "experiment": "H963",
+  "hashes": {
+    "runner": "8d4ccc571950800d3aa1cb162fe4a4c2cc4de4188757e75534163c9dbca631df",
+    "forward": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+    "screen": "24fb60e0d23b206e0bc155db20948dbce80bd8dad729af7ee356031dc9766a26",
+    "captures": "55f637d754e8a4239551baeaaa3bd354afca38322606b21ed68271e5777c11be",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "eligible": [
+    "agreement",
+    "capital_recall",
+    "entity_binding",
+    "negation",
+    "pronoun_gender",
+    "sentiment",
+    "sequence_copy",
+    "spatial_inverse"
+  ],
+  "design": "Capture last-token MLP outputs at all18 layers for eligible families. Discovery: patch donor write bidirectionally at every layer; identity, paired +/- norm-matched Gaussian controls, same-answer discovery donor where available. Select maximum mean signed donor task-margin effect, lowest-layer tie break. Freeze selection before validation. Evaluate all other cohorts at chosen site, including failed native gates as diagnostic only.",
+  "alignment": "Last-token MLP output swap, same final input token required; absolute positions and prompt lengths may differ. This is a whole-write causal assay, not identification of an input subspace or natural latent intervention.",
+  "holdouts": "sequence_copy and spatial_inverse are predeclared whole-task training holdouts among eligible tasks. Their site diagnostics are permitted, but no examples from them may enter featurizer training.",
+  "controls": "Gaussian seed fixed by pair/source/layer/recipient, identical +/- direction, norm equal to donor delta. Same-answer donor chosen by intersecting intended token groups within discovery, different prompt and pair, first available index; absence disclosed. No per-example correctness filtering.",
+  "metrics": "Signed task-margin change, output KL(patch||native recipient), KL(native donor||patch) as context-confounded diagnostic. Select on donor task effect only; report corruption specificity separately.",
+  "limits": "Only4 discovery pairs/family and reused development vocabulary. Whole-write localization does not establish semantic unit or general layer4 relevance."
+}

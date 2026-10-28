@@ -1,0 +1,259 @@
+{
+  "config": {
+    "status": "locked before outcomes; adaptive to H252 global restoration failure",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_residual_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "chart_batch": 8,
+    "logit_batch": 16,
+    "seed": 20261122,
+    "candidate_tokens": 256,
+    "ranks": [
+      4,
+      16,
+      64
+    ],
+    "selection": "At each COMPILED final residual state, compute native-model vocabulary head probabilities and exact log-probability gradients including RMS and softcap. Take top256 tokens by compiled probability, weight gradients by sqrt(probability), and use top left singular output directions in residual space. No native residual, native distribution, true next-token labels or observed repair quality selects local bases. This truncates the probability-weighted Fisher sum, not exact full Fisher.",
+    "controls": "Wrong context cycles one document preserving position. Global H251 Fisher16/64 and energy16/64 are frozen controls. Global Fisher maps are oblique; also use orthogonal projection onto their decoder spans to separate reconstruction convention from basis direction. Local charts are orthogonal. All correction coefficients are native residual ORACLES.",
+    "gates": {
+      "local_small_repair": "Matched local rank16 reduces compiled KL by>=80%, CE increase<=.02 nats, native top1 agreement>=.98.",
+      "context_specificity": "Matched rank16 KL<=.75*wrong-context rank16 KL and paired document-bootstrap95% upper bound of matched-minus-wrong KL<0.",
+      "local_beats_global": "Matched rank16 KL<=.75*global Fisher16 KL, for BOTH original oblique reconstruction and orthogonal decoder-span projection."
+    },
+    "scope": "Same128 H252 evaluation documents now reused; no fresh replication in this step. Per-state vocabulary head plus SVD is an expensive diagnostic, not a cheap forward correction. No coefficients predicted. No semantic/unique-feature or intrinsic-dimension claim. Record retained probability mass and Fisher spectral concentration."
+  },
+  "gates": {
+    "local_small_repair": false,
+    "context_specificity": true,
+    "local_beats_global": true
+  },
+  "results": {
+    "compiled": {
+      "mean_native_kl": 0.10046455264091492,
+      "mean_ce_delta": 0.1406591385602951,
+      "native_top1_agreement": 0.8515625,
+      "residual_energy_recovery": 0.0,
+      "kl_recovery": 0.0,
+      "logit_error_recovery": 0.0,
+      "margin_error_recovery": 0.0,
+      "ce_delta_document_bootstrap95": [
+        0.09854047391563654,
+        0.18317032456398008
+      ]
+    },
+    "full_oracle": {
+      "mean_native_kl": -4.467277214814658e-09,
+      "mean_ce_delta": -3.356035449542105e-08,
+      "native_top1_agreement": 1.0,
+      "residual_energy_recovery": 1.0,
+      "kl_recovery": 1.0000000444662032,
+      "logit_error_recovery": 1.0,
+      "margin_error_recovery": 1.0,
+      "ce_delta_document_bootstrap95": [
+        -8.740225894143805e-08,
+        1.825583240133708e-08
+      ]
+    },
+    "local4": {
+      "mean_native_kl": 0.039366304874420166,
+      "mean_ce_delta": 0.06500482559204102,
+      "native_top1_agreement": 0.96484375,
+      "residual_energy_recovery": 0.007145345211029053,
+      "kl_recovery": 0.6081572670200897,
+      "logit_error_recovery": 0.11763077974319458,
+      "margin_error_recovery": 0.8778014183044434,
+      "ce_delta_document_bootstrap95": [
+        0.03827731041237712,
+        0.09173958972096442
+      ]
+    },
+    "wrong4": {
+      "mean_native_kl": 0.09744788706302643,
+      "mean_ce_delta": 0.13115620613098145,
+      "native_top1_agreement": 0.84765625,
+      "residual_energy_recovery": 0.00427556037902832,
+      "kl_recovery": 0.03002716379647652,
+      "logit_error_recovery": 0.14703035354614258,
+      "margin_error_recovery": 0.07779878377914429,
+      "ce_delta_document_bootstrap95": [
+        0.09165154621005059,
+        0.16993885301053524
+      ]
+    },
+    "local16": {
+      "mean_native_kl": 0.021266009658575058,
+      "mean_ce_delta": 0.02727329358458519,
+      "native_top1_agreement": 0.99609375,
+      "residual_energy_recovery": 0.0214308500289917,
+      "kl_recovery": 0.7883232533311025,
+      "logit_error_recovery": 0.23299545049667358,
+      "margin_error_recovery": 0.9912189841270447,
+      "ce_delta_document_bootstrap95": [
+        0.008965269918553532,
+        0.04628456914797424
+      ]
+    },
+    "wrong16": {
+      "mean_native_kl": 0.0933798998594284,
+      "mean_ce_delta": 0.1386776715517044,
+      "native_top1_agreement": 0.85546875,
+      "residual_energy_recovery": 0.01460498571395874,
+      "kl_recovery": 0.07051893026198808,
+      "logit_error_recovery": 0.2494402527809143,
+      "margin_error_recovery": 0.15104413032531738,
+      "ce_delta_document_bootstrap95": [
+        0.10046583414077759,
+        0.1776565805077553
+      ]
+    },
+    "local64": {
+      "mean_native_kl": 0.011326872743666172,
+      "mean_ce_delta": 0.015673242509365082,
+      "native_top1_agreement": 1.0,
+      "residual_energy_recovery": 0.06104522943496704,
+      "kl_recovery": 0.8872550322883415,
+      "logit_error_recovery": 0.32084035873413086,
+      "margin_error_recovery": 0.9973911046981812,
+      "ce_delta_document_bootstrap95": [
+        0.002660906809614971,
+        0.029740686342120147
+      ]
+    },
+    "wrong64": {
+      "mean_native_kl": 0.08236348628997803,
+      "mean_ce_delta": 0.1280285269021988,
+      "native_top1_agreement": 0.859375,
+      "residual_energy_recovery": 0.049025118350982666,
+      "kl_recovery": 0.18017366200429485,
+      "logit_error_recovery": 0.33240407705307007,
+      "margin_error_recovery": 0.3046095371246338,
+      "ce_delta_document_bootstrap95": [
+        0.09046478234231473,
+        0.16719365380704398
+      ]
+    },
+    "global_energy16": {
+      "mean_native_kl": 0.07290385663509369,
+      "mean_ce_delta": 0.11597992479801178,
+      "native_top1_agreement": 0.86328125,
+      "residual_energy_recovery": 0.3635101914405823,
+      "kl_recovery": 0.27433254099413507,
+      "logit_error_recovery": 0.37770044803619385,
+      "margin_error_recovery": 0.19472384452819824,
+      "ce_delta_document_bootstrap95": [
+        0.0771521182730794,
+        0.1554711408913135
+      ]
+    },
+    "global_fisher64_r16": {
+      "mean_native_kl": 0.05565158277750015,
+      "mean_ce_delta": 0.08454251289367676,
+      "native_top1_agreement": 0.87890625,
+      "residual_energy_recovery": 0.26731932163238525,
+      "kl_recovery": 0.44605752661426135,
+      "logit_error_recovery": 0.501032292842865,
+      "margin_error_recovery": 0.46255993843078613,
+      "ce_delta_document_bootstrap95": [
+        0.056262255273759366,
+        0.11297490950673818
+      ]
+    },
+    "global_fisher_orth16": {
+      "mean_native_kl": 0.07323036342859268,
+      "mean_ce_delta": 0.10698673129081726,
+      "native_top1_agreement": 0.8515625,
+      "residual_energy_recovery": 0.3268827795982361,
+      "kl_recovery": 0.27108257088113397,
+      "logit_error_recovery": 0.3900778293609619,
+      "margin_error_recovery": 0.29007530212402344,
+      "ce_delta_document_bootstrap95": [
+        0.07210997939109802,
+        0.14066932387649994
+      ]
+    },
+    "global_energy64": {
+      "mean_native_kl": 0.047780729830265045,
+      "mean_ce_delta": 0.08043982088565826,
+      "native_top1_agreement": 0.888671875,
+      "residual_energy_recovery": 0.5267876386642456,
+      "kl_recovery": 0.524402104282043,
+      "logit_error_recovery": 0.6257020235061646,
+      "margin_error_recovery": 0.4832977056503296,
+      "ce_delta_document_bootstrap95": [
+        0.05352455992251635,
+        0.10709934271872042
+      ]
+    },
+    "global_fisher64_r64": {
+      "mean_native_kl": 0.03569445386528969,
+      "mean_ce_delta": 0.05778060108423233,
+      "native_top1_agreement": 0.916015625,
+      "residual_energy_recovery": 0.4640502333641052,
+      "kl_recovery": 0.644705989057947,
+      "logit_error_recovery": 0.6255061030387878,
+      "margin_error_recovery": 0.6439914703369141,
+      "ce_delta_document_bootstrap95": [
+        0.033979594334959985,
+        0.08298702426254749
+      ]
+    },
+    "global_fisher_orth64": {
+      "mean_native_kl": 0.043344896286726,
+      "mean_ce_delta": 0.0728161558508873,
+      "native_top1_agreement": 0.892578125,
+      "residual_energy_recovery": 0.5027263164520264,
+      "kl_recovery": 0.5685553247656281,
+      "logit_error_recovery": 0.6029467582702637,
+      "margin_error_recovery": 0.5749276876449585,
+      "ce_delta_document_bootstrap95": [
+        0.04606516351923347,
+        0.10019210837781428
+      ]
+    }
+  },
+  "contrasts": {
+    "wrong16": {
+      "local_minus_control_kl": -0.07211388647556305,
+      "paired_document_bootstrap95": [
+        -0.0836495092138648,
+        -0.061906518414616606
+      ]
+    },
+    "global_fisher64_r16": {
+      "local_minus_control_kl": -0.034385573118925095,
+      "paired_document_bootstrap95": [
+        -0.0407679745927453,
+        -0.028837649524211882
+      ]
+    },
+    "global_fisher_orth16": {
+      "local_minus_control_kl": -0.051964353770017624,
+      "paired_document_bootstrap95": [
+        -0.06402519457042218,
+        -0.04248494263738394
+      ]
+    }
+  },
+  "selection": {
+    "probability_mass_mean": 0.9290486574172974,
+    "probability_mass_min": 0.4877137541770935,
+    "probability_mass_quantiles": [
+      0.776278156042099,
+      0.9687421023845673,
+      0.9994203805923462
+    ],
+    "orthogonality_error": 2.0265579223632812e-06,
+    "truncated_fisher_spectrum_fraction_mean": {
+      "4": 0.5791720151901245,
+      "16": 0.7764984369277954,
+      "64": 0.9191132187843323
+    }
+  }
+}

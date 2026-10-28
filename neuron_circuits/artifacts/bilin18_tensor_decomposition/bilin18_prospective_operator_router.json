@@ -1,0 +1,2147 @@
+{
+  "config": {
+    "status": "locked-after-context-router-before-prospective-cross-layer-test",
+    "seed": 20261031,
+    "layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "rank": 64,
+    "source_dimensions": [
+      64,
+      256
+    ],
+    "ridge_alphas": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "operator_eval_probes": 2048,
+    "bases": "artifacts/bilin18_tensor_decomposition/bilin18_operator_probe_convergence_bases.pt",
+    "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "discovery_start": 11000,
+    "evaluation_start": 11256,
+    "rows_per_split": 256,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "sequence_length": 128,
+    "batch_size": 8,
+    "hypotheses": {
+      "P0_previous_operator_is_markovian": "Previous-layer top-64 operator coordinates predict at least 0.50 of next-layer weighted operator-coordinate variance at Layers 1-5.",
+      "P1_prior_residual_is_a_compact_router": "A rank-64 summary of the prior residual predicts at least 0.60 of weighted coordinates at every layer.",
+      "P2_attention_adds_contextual_routing": "Adding a rank-64 attention-write summary improves weighted coordinate R2 by at least 0.05 over the prior residual alone at Layers 1-5.",
+      "P3_rank128_composed_router_recovers_half_oracle": "The 64+64 prior-residual/attention router recovers at least half of the rank-64 oracle gain in total operator R2 at every layer.",
+      "P4_rank512_composed_router_is_near_oracle": "The 256+256 prior-residual/attention router recovers at least 90 percent of the rank-64 oracle gain at every layer.",
+      "P5_attention_routing_grows_with_depth": "The mean attention increment at Layers 4-5 exceeds that at Layers 0-1 by at least 0.03.",
+      "P6_direct_rank512_composition_recovers_most_oracle": "Without a target-fitted decoder, adding rank-256 reconstructions of the native mixed residual and attention write recovers at least 80 percent of the rank-64 oracle gain at every layer.",
+      "P7_attention_pairing_is_specific": "Correct residual-attention pairing beats a same-position, different-sequence attention write by at least 0.10 weighted coordinate R2 at every layer."
+    }
+  },
+  "hypotheses": {
+    "P0_previous_operator_is_markovian": {
+      "supported": true
+    },
+    "P1_prior_residual_is_a_compact_router": {
+      "supported": false
+    },
+    "P2_attention_adds_contextual_routing": {
+      "supported": true
+    },
+    "P3_rank128_composed_router_recovers_half_oracle": {
+      "supported": true
+    },
+    "P4_rank512_composed_router_is_near_oracle": {
+      "supported": true
+    },
+    "P5_attention_routing_grows_with_depth": {
+      "supported": false
+    },
+    "P6_direct_rank512_composition_recovers_most_oracle": {
+      "supported": true
+    },
+    "P7_attention_pairing_is_specific": {
+      "supported": true
+    }
+  },
+  "attention_gain": {
+    "0": 0.4267137050628662,
+    "1": 0.2667296528816223,
+    "2": 0.21960300207138062,
+    "3": 0.13744258880615234,
+    "4": 0.1602269411087036,
+    "5": 0.21386438608169556
+  },
+  "results": {
+    "0": {
+      "metrics": {
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0021812915802001953,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.4862788915634155,
+          "oracle_gain_fraction": 1.0
+        },
+        "prior_64": {
+          "coordinate_weighted_r2": 0.489204466342926,
+          "total_operator_r2": 0.24373364448547363,
+          "oracle_gain_fraction": 0.5034492975108487
+        },
+        "attention_input_64": {
+          "coordinate_weighted_r2": 0.489204466342926,
+          "total_operator_r2": 0.24373364448547363,
+          "oracle_gain_fraction": 0.5034492975108487
+        },
+        "attention_write_64": {
+          "coordinate_weighted_r2": 0.6236678957939148,
+          "total_operator_r2": 0.3132414221763611,
+          "oracle_gain_fraction": 0.6457490797439708
+        },
+        "prior_plus_attention_64": {
+          "coordinate_weighted_r2": 0.9159181714057922,
+          "total_operator_r2": 0.4584583640098572,
+          "oracle_gain_fraction": 0.9430444312277166
+        },
+        "prior_256": {
+          "coordinate_weighted_r2": 0.5107902884483337,
+          "total_operator_r2": 0.2497849464416504,
+          "oracle_gain_fraction": 0.5158378240786274
+        },
+        "attention_input_256": {
+          "coordinate_weighted_r2": 0.5107902884483337,
+          "total_operator_r2": 0.2497849464416504,
+          "oracle_gain_fraction": 0.5158378240786274
+        },
+        "attention_write_256": {
+          "coordinate_weighted_r2": 0.7131544351577759,
+          "total_operator_r2": 0.3522159457206726,
+          "oracle_gain_fraction": 0.7255396642978245
+        },
+        "prior_plus_attention_256": {
+          "coordinate_weighted_r2": 0.9650530815124512,
+          "total_operator_r2": 0.47354936599731445,
+          "oracle_gain_fraction": 0.973939481649913
+        },
+        "direct_composition_64": {
+          "coordinate_weighted_r2": 0.7706634998321533,
+          "total_operator_r2": 0.3904244899749756,
+          "oracle_gain_fraction": 0.8037620979226119
+        },
+        "shuffled_attention_direct_64": {
+          "coordinate_weighted_r2": -0.7964345216751099,
+          "total_operator_r2": -0.3871361017227173,
+          "oracle_gain_fraction": -0.788098648420098
+        },
+        "direct_composition_256": {
+          "coordinate_weighted_r2": 0.9551401734352112,
+          "total_operator_r2": 0.46847593784332275,
+          "oracle_gain_fraction": 0.9635529070035614
+        },
+        "shuffled_attention_direct_256": {
+          "coordinate_weighted_r2": -0.4031364917755127,
+          "total_operator_r2": -0.19905221462249756,
+          "oracle_gain_fraction": -0.4030439528873819
+        },
+        "direct_composition_full": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.4862788915634155,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "fitting": {
+        "prior_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.4800311326980591,
+              0.0001
+            ],
+            [
+              0.48007380962371826,
+              0.001
+            ],
+            [
+              0.4804418087005615,
+              0.01
+            ],
+            [
+              0.479397177696228,
+              0.1
+            ],
+            [
+              0.3643774390220642,
+              1.0
+            ],
+            [
+              0.08166897296905518,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.4800311326980591,
+              0.0001
+            ],
+            [
+              0.4800737500190735,
+              0.001
+            ],
+            [
+              0.4804418087005615,
+              0.01
+            ],
+            [
+              0.479397177696228,
+              0.1
+            ],
+            [
+              0.364377498626709,
+              1.0
+            ],
+            [
+              0.08166897296905518,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6173965334892273,
+              0.0001
+            ],
+            [
+              0.6174298524856567,
+              0.001
+            ],
+            [
+              0.6176886558532715,
+              0.01
+            ],
+            [
+              0.6143065690994263,
+              0.1
+            ],
+            [
+              0.4598028063774109,
+              1.0
+            ],
+            [
+              0.10275119543075562,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.913814127445221,
+              0.0001
+            ],
+            [
+              0.9138445854187012,
+              0.001
+            ],
+            [
+              0.9138779640197754,
+              0.01
+            ],
+            [
+              0.8993724584579468,
+              0.1
+            ],
+            [
+              0.6713995933532715,
+              1.0
+            ],
+            [
+              0.17716825008392334,
+              10.0
+            ]
+          ]
+        },
+        "prior_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.4731559753417969,
+              0.0001
+            ],
+            [
+              0.4733492136001587,
+              0.001
+            ],
+            [
+              0.47515302896499634,
+              0.01
+            ],
+            [
+              0.4835593104362488,
+              0.1
+            ],
+            [
+              0.37677574157714844,
+              1.0
+            ],
+            [
+              0.0852321982383728,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.4731559753417969,
+              0.0001
+            ],
+            [
+              0.4733491539955139,
+              0.001
+            ],
+            [
+              0.47515302896499634,
+              0.01
+            ],
+            [
+              0.4835593104362488,
+              0.1
+            ],
+            [
+              0.3767758011817932,
+              1.0
+            ],
+            [
+              0.0852321982383728,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.6872632503509521,
+              0.0001
+            ],
+            [
+              0.6875097155570984,
+              0.001
+            ],
+            [
+              0.6896906495094299,
+              0.01
+            ],
+            [
+              0.693528950214386,
+              0.1
+            ],
+            [
+              0.5064499974250793,
+              1.0
+            ],
+            [
+              0.1114579439163208,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.9587882161140442,
+              0.0001
+            ],
+            [
+              0.9589126110076904,
+              0.001
+            ],
+            [
+              0.959274172782898,
+              0.01
+            ],
+            [
+              0.9351404905319214,
+              0.1
+            ],
+            [
+              0.685115396976471,
+              1.0
+            ],
+            [
+              0.186048686504364,
+              10.0
+            ]
+          ]
+        }
+      }
+    },
+    "1": {
+      "metrics": {
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.003253459930419922,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.46709907054901123,
+          "oracle_gain_fraction": 1.0
+        },
+        "prior_64": {
+          "coordinate_weighted_r2": 0.5972673892974854,
+          "total_operator_r2": 0.2875955104827881,
+          "oracle_gain_fraction": 0.6183637836852821
+        },
+        "attention_input_64": {
+          "coordinate_weighted_r2": 0.5919921398162842,
+          "total_operator_r2": 0.28456294536590576,
+          "oracle_gain_fraction": 0.6119163534699259
+        },
+        "attention_write_64": {
+          "coordinate_weighted_r2": 0.600884735584259,
+          "total_operator_r2": 0.29004865884780884,
+          "oracle_gain_fraction": 0.6235793362890286
+        },
+        "prior_plus_attention_64": {
+          "coordinate_weighted_r2": 0.8639970421791077,
+          "total_operator_r2": 0.41700196266174316,
+          "oracle_gain_fraction": 0.8934902979341814
+        },
+        "prior_256": {
+          "coordinate_weighted_r2": 0.6964197158813477,
+          "total_operator_r2": 0.3304092288017273,
+          "oracle_gain_fraction": 0.7093885269247818
+        },
+        "attention_input_256": {
+          "coordinate_weighted_r2": 0.6877797842025757,
+          "total_operator_r2": 0.32545286417007446,
+          "oracle_gain_fraction": 0.6988509741096608
+        },
+        "attention_write_256": {
+          "coordinate_weighted_r2": 0.6959747076034546,
+          "total_operator_r2": 0.33209770917892456,
+          "oracle_gain_fraction": 0.7129783457686949
+        },
+        "prior_plus_attention_256": {
+          "coordinate_weighted_r2": 0.9300175309181213,
+          "total_operator_r2": 0.4409673810005188,
+          "oracle_gain_fraction": 0.9444423323887375
+        },
+        "previous_operator_64": {
+          "coordinate_weighted_r2": 0.6025891304016113,
+          "total_operator_r2": 0.29246872663497925,
+          "oracle_gain_fraction": 0.6287245574377351
+        },
+        "direct_composition_64": {
+          "coordinate_weighted_r2": 0.9099239706993103,
+          "total_operator_r2": 0.43866920471191406,
+          "oracle_gain_fraction": 0.9395562604752683
+        },
+        "shuffled_attention_direct_64": {
+          "coordinate_weighted_r2": 0.01688486337661743,
+          "total_operator_r2": 0.008452773094177246,
+          "oracle_gain_fraction": 0.0248882110034892
+        },
+        "direct_composition_256": {
+          "coordinate_weighted_r2": 0.9740190505981445,
+          "total_operator_r2": 0.4611991047859192,
+          "oracle_gain_fraction": 0.9874562899511178
+        },
+        "shuffled_attention_direct_256": {
+          "coordinate_weighted_r2": 0.0677691102027893,
+          "total_operator_r2": 0.02817666530609131,
+          "oracle_gain_fraction": 0.06682248568849933
+        },
+        "direct_composition_full": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.46709907054901123,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "fitting": {
+        "prior_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.5887283086776733,
+              0.0001
+            ],
+            [
+              0.5887559652328491,
+              0.001
+            ],
+            [
+              0.5889682769775391,
+              0.01
+            ],
+            [
+              0.5858683586120605,
+              0.1
+            ],
+            [
+              0.4415243864059448,
+              1.0
+            ],
+            [
+              0.0977124571800232,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.5822147130966187,
+              0.0001
+            ],
+            [
+              0.5822485685348511,
+              0.001
+            ],
+            [
+              0.582522988319397,
+              0.01
+            ],
+            [
+              0.5799944400787354,
+              0.1
+            ],
+            [
+              0.4386278986930847,
+              1.0
+            ],
+            [
+              0.09733104705810547,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.593474268913269,
+              0.0001
+            ],
+            [
+              0.5935636758804321,
+              0.001
+            ],
+            [
+              0.5943524837493896,
+              0.01
+            ],
+            [
+              0.5942539572715759,
+              0.1
+            ],
+            [
+              0.4465329647064209,
+              1.0
+            ],
+            [
+              0.09877365827560425,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8588314652442932,
+              0.0001
+            ],
+            [
+              0.8589176535606384,
+              0.001
+            ],
+            [
+              0.8593436479568481,
+              0.01
+            ],
+            [
+              0.8498172760009766,
+              0.1
+            ],
+            [
+              0.669952392578125,
+              1.0
+            ],
+            [
+              0.18700867891311646,
+              10.0
+            ]
+          ]
+        },
+        "prior_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.677845299243927,
+              0.0001
+            ],
+            [
+              0.6779406070709229,
+              0.001
+            ],
+            [
+              0.6787749528884888,
+              0.01
+            ],
+            [
+              0.6779530048370361,
+              0.1
+            ],
+            [
+              0.5024880170822144,
+              1.0
+            ],
+            [
+              0.1102912425994873,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.6731048822402954,
+              0.0001
+            ],
+            [
+              0.673215389251709,
+              0.001
+            ],
+            [
+              0.6741951704025269,
+              0.01
+            ],
+            [
+              0.674338698387146,
+              0.1
+            ],
+            [
+              0.5009006261825562,
+              1.0
+            ],
+            [
+              0.11006641387939453,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.6715278625488281,
+              0.0001
+            ],
+            [
+              0.6717916131019592,
+              0.001
+            ],
+            [
+              0.6741334199905396,
+              0.01
+            ],
+            [
+              0.6792133450508118,
+              0.1
+            ],
+            [
+              0.49701225757598877,
+              1.0
+            ],
+            [
+              0.10841012001037598,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.9188050031661987,
+              0.0001
+            ],
+            [
+              0.9189729690551758,
+              0.001
+            ],
+            [
+              0.9196719527244568,
+              0.01
+            ],
+            [
+              0.9070078134536743,
+              0.1
+            ],
+            [
+              0.7120682001113892,
+              1.0
+            ],
+            [
+              0.20449000597000122,
+              10.0
+            ]
+          ]
+        },
+        "previous_operator_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.5882107019424438,
+              0.0001
+            ],
+            [
+              0.5882527232170105,
+              0.001
+            ],
+            [
+              0.5886058807373047,
+              0.01
+            ],
+            [
+              0.586666464805603,
+              0.1
+            ],
+            [
+              0.445506751537323,
+              1.0
+            ],
+            [
+              0.09937262535095215,
+              10.0
+            ]
+          ]
+        }
+      }
+    },
+    "2": {
+      "metrics": {
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0029371976852416992,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.42863309383392334,
+          "oracle_gain_fraction": 1.0
+        },
+        "prior_64": {
+          "coordinate_weighted_r2": 0.6726683378219604,
+          "total_operator_r2": 0.3020913004875183,
+          "oracle_gain_fraction": 0.7067875249221468
+        },
+        "attention_input_64": {
+          "coordinate_weighted_r2": 0.669655442237854,
+          "total_operator_r2": 0.30074554681777954,
+          "oracle_gain_fraction": 0.7036692526587767
+        },
+        "attention_write_64": {
+          "coordinate_weighted_r2": 0.5827988386154175,
+          "total_operator_r2": 0.25999051332473755,
+          "oracle_gain_fraction": 0.609234963983389
+        },
+        "prior_plus_attention_64": {
+          "coordinate_weighted_r2": 0.8922713398933411,
+          "total_operator_r2": 0.39831703901290894,
+          "oracle_gain_fraction": 0.9297540738629175
+        },
+        "prior_256": {
+          "coordinate_weighted_r2": 0.7934086322784424,
+          "total_operator_r2": 0.348959743976593,
+          "oracle_gain_fraction": 0.8153873159876849
+        },
+        "attention_input_256": {
+          "coordinate_weighted_r2": 0.7915785312652588,
+          "total_operator_r2": 0.34818172454833984,
+          "oracle_gain_fraction": 0.8135845518875091
+        },
+        "attention_write_256": {
+          "coordinate_weighted_r2": 0.6894857883453369,
+          "total_operator_r2": 0.30293387174606323,
+          "oracle_gain_fraction": 0.708739863336311
+        },
+        "prior_plus_attention_256": {
+          "coordinate_weighted_r2": 0.96625816822052,
+          "total_operator_r2": 0.420086145401001,
+          "oracle_gain_fraction": 0.9801956978946897
+        },
+        "previous_operator_64": {
+          "coordinate_weighted_r2": 0.6366777420043945,
+          "total_operator_r2": 0.2869828939437866,
+          "oracle_gain_fraction": 0.6717795393387351
+        },
+        "direct_composition_64": {
+          "coordinate_weighted_r2": 0.8620994091033936,
+          "total_operator_r2": 0.3865305185317993,
+          "oracle_gain_fraction": 0.9024432957284448
+        },
+        "shuffled_attention_direct_64": {
+          "coordinate_weighted_r2": 0.2790217995643616,
+          "total_operator_r2": 0.13295340538024902,
+          "oracle_gain_fraction": 0.3148747857206388
+        },
+        "direct_composition_256": {
+          "coordinate_weighted_r2": 0.9656259417533875,
+          "total_operator_r2": 0.42061692476272583,
+          "oracle_gain_fraction": 0.9814255771800698
+        },
+        "shuffled_attention_direct_256": {
+          "coordinate_weighted_r2": 0.4105767607688904,
+          "total_operator_r2": 0.1828659176826477,
+          "oracle_gain_fraction": 0.4305280484294835
+        },
+        "direct_composition_full": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.42863309383392334,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "fitting": {
+        "prior_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.662421464920044,
+              0.0001
+            ],
+            [
+              0.6624453067779541,
+              0.001
+            ],
+            [
+              0.662612795829773,
+              0.01
+            ],
+            [
+              0.6585075855255127,
+              0.1
+            ],
+            [
+              0.49462372064590454,
+              1.0
+            ],
+            [
+              0.10960441827774048,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6594942808151245,
+              0.0001
+            ],
+            [
+              0.6595177054405212,
+              0.001
+            ],
+            [
+              0.659680962562561,
+              0.01
+            ],
+            [
+              0.6555774211883545,
+              0.1
+            ],
+            [
+              0.4925333261489868,
+              1.0
+            ],
+            [
+              0.10917413234710693,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.5721384286880493,
+              0.0001
+            ],
+            [
+              0.5722400546073914,
+              0.001
+            ],
+            [
+              0.5730922222137451,
+              0.01
+            ],
+            [
+              0.5713199377059937,
+              0.1
+            ],
+            [
+              0.4226232171058655,
+              1.0
+            ],
+            [
+              0.0927627682685852,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.892676591873169,
+              0.0001
+            ],
+            [
+              0.8927175998687744,
+              0.001
+            ],
+            [
+              0.892879068851471,
+              0.01
+            ],
+            [
+              0.8833449482917786,
+              0.1
+            ],
+            [
+              0.6978288888931274,
+              1.0
+            ],
+            [
+              0.19330841302871704,
+              10.0
+            ]
+          ]
+        },
+        "prior_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.7801871299743652,
+              0.0001
+            ],
+            [
+              0.78024822473526,
+              0.001
+            ],
+            [
+              0.7807297110557556,
+              0.01
+            ],
+            [
+              0.7757123708724976,
+              0.1
+            ],
+            [
+              0.565241813659668,
+              1.0
+            ],
+            [
+              0.12347680330276489,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.7781884074211121,
+              0.0001
+            ],
+            [
+              0.7782508134841919,
+              0.001
+            ],
+            [
+              0.7787458300590515,
+              0.01
+            ],
+            [
+              0.7738534212112427,
+              0.1
+            ],
+            [
+              0.5641247034072876,
+              1.0
+            ],
+            [
+              0.12325906753540039,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6698325872421265,
+              0.0001
+            ],
+            [
+              0.6701000332832336,
+              0.001
+            ],
+            [
+              0.6720963716506958,
+              0.01
+            ],
+            [
+              0.6696029901504517,
+              0.1
+            ],
+            [
+              0.4838406443595886,
+              1.0
+            ],
+            [
+              0.1051483154296875,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_256": {
+          "alpha": 0.001,
+          "validation": [
+            [
+              0.9643397331237793,
+              0.0001
+            ],
+            [
+              0.9644134044647217,
+              0.001
+            ],
+            [
+              0.9643592834472656,
+              0.01
+            ],
+            [
+              0.9467212557792664,
+              0.1
+            ],
+            [
+              0.7414572238922119,
+              1.0
+            ],
+            [
+              0.21341723203659058,
+              10.0
+            ]
+          ]
+        },
+        "previous_operator_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6257420778274536,
+              0.0001
+            ],
+            [
+              0.6257571578025818,
+              0.001
+            ],
+            [
+              0.6258405447006226,
+              0.01
+            ],
+            [
+              0.6212489604949951,
+              0.1
+            ],
+            [
+              0.46417099237442017,
+              1.0
+            ],
+            [
+              0.10240721702575684,
+              10.0
+            ]
+          ]
+        }
+      }
+    },
+    "3": {
+      "metrics": {
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0019394159317016602,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.4236997365951538,
+          "oracle_gain_fraction": 1.0
+        },
+        "prior_64": {
+          "coordinate_weighted_r2": 0.7504216432571411,
+          "total_operator_r2": 0.33444130420684814,
+          "oracle_gain_fraction": 0.790295531183133
+        },
+        "attention_input_64": {
+          "coordinate_weighted_r2": 0.7473482489585876,
+          "total_operator_r2": 0.3330664038658142,
+          "oracle_gain_fraction": 0.7870653294198044
+        },
+        "attention_write_64": {
+          "coordinate_weighted_r2": 0.5568125247955322,
+          "total_operator_r2": 0.24743354320526123,
+          "oracle_gain_fraction": 0.5858788075686454
+        },
+        "prior_plus_attention_64": {
+          "coordinate_weighted_r2": 0.8878642320632935,
+          "total_operator_r2": 0.3922603726387024,
+          "oracle_gain_fraction": 0.9261361090261363
+        },
+        "prior_256": {
+          "coordinate_weighted_r2": 0.8666560053825378,
+          "total_operator_r2": 0.37708473205566406,
+          "oracle_gain_fraction": 0.890482338706967
+        },
+        "attention_input_256": {
+          "coordinate_weighted_r2": 0.8659622669219971,
+          "total_operator_r2": 0.3767837882041931,
+          "oracle_gain_fraction": 0.8897752988360239
+        },
+        "attention_write_256": {
+          "coordinate_weighted_r2": 0.6676218509674072,
+          "total_operator_r2": 0.2915689945220947,
+          "oracle_gain_fraction": 0.6895709868590569
+        },
+        "prior_plus_attention_256": {
+          "coordinate_weighted_r2": 0.9660019278526306,
+          "total_operator_r2": 0.4161887764930725,
+          "oracle_gain_fraction": 0.9823536907789342
+        },
+        "previous_operator_64": {
+          "coordinate_weighted_r2": 0.663705587387085,
+          "total_operator_r2": 0.2953318953514099,
+          "oracle_gain_fraction": 0.6984115759049102
+        },
+        "direct_composition_64": {
+          "coordinate_weighted_r2": 0.8177663087844849,
+          "total_operator_r2": 0.3650139570236206,
+          "oracle_gain_fraction": 0.8621231641329554
+        },
+        "shuffled_attention_direct_64": {
+          "coordinate_weighted_r2": 0.41945743560791016,
+          "total_operator_r2": 0.19388580322265625,
+          "oracle_gain_fraction": 0.460073322653283
+        },
+        "direct_composition_256": {
+          "coordinate_weighted_r2": 0.9558128714561462,
+          "total_operator_r2": 0.4129646420478821,
+          "oracle_gain_fraction": 0.9747788837480255
+        },
+        "shuffled_attention_direct_256": {
+          "coordinate_weighted_r2": 0.5794941186904907,
+          "total_operator_r2": 0.2529904842376709,
+          "oracle_gain_fraction": 0.5989343288932705
+        },
+        "direct_composition_full": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.4236997365951538,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "fitting": {
+        "prior_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.747527003288269,
+              0.0001
+            ],
+            [
+              0.7475482821464539,
+              0.001
+            ],
+            [
+              0.747681736946106,
+              0.01
+            ],
+            [
+              0.7425822019577026,
+              0.1
+            ],
+            [
+              0.5573800802230835,
+              1.0
+            ],
+            [
+              0.12589216232299805,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.744491696357727,
+              0.0001
+            ],
+            [
+              0.7445124387741089,
+              0.001
+            ],
+            [
+              0.7446420192718506,
+              0.01
+            ],
+            [
+              0.739559531211853,
+              0.1
+            ],
+            [
+              0.5552589893341064,
+              1.0
+            ],
+            [
+              0.12543147802352905,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.5487434267997742,
+              0.0001
+            ],
+            [
+              0.5488046407699585,
+              0.001
+            ],
+            [
+              0.5493357181549072,
+              0.01
+            ],
+            [
+              0.5483391284942627,
+              0.1
+            ],
+            [
+              0.41366446018218994,
+              1.0
+            ],
+            [
+              0.09329277276992798,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8856757879257202,
+              0.0001
+            ],
+            [
+              0.8857066035270691,
+              0.001
+            ],
+            [
+              0.8858535885810852,
+              0.01
+            ],
+            [
+              0.8790667057037354,
+              0.1
+            ],
+            [
+              0.7127338647842407,
+              1.0
+            ],
+            [
+              0.20534533262252808,
+              10.0
+            ]
+          ]
+        },
+        "prior_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8668067455291748,
+              0.0001
+            ],
+            [
+              0.8668398857116699,
+              0.001
+            ],
+            [
+              0.8670178651809692,
+              0.01
+            ],
+            [
+              0.8579187393188477,
+              0.1
+            ],
+            [
+              0.618331789970398,
+              1.0
+            ],
+            [
+              0.13691025972366333,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8662218451499939,
+              0.0001
+            ],
+            [
+              0.8662557005882263,
+              0.001
+            ],
+            [
+              0.8664407134056091,
+              0.01
+            ],
+            [
+              0.8574009537696838,
+              0.1
+            ],
+            [
+              0.6180329322814941,
+              1.0
+            ],
+            [
+              0.13684332370758057,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.6464031934738159,
+              0.0001
+            ],
+            [
+              0.6466307640075684,
+              0.001
+            ],
+            [
+              0.6486459970474243,
+              0.01
+            ],
+            [
+              0.6524358987808228,
+              0.1
+            ],
+            [
+              0.4793199896812439,
+              1.0
+            ],
+            [
+              0.10659605264663696,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.9646946787834167,
+              0.0001
+            ],
+            [
+              0.9647704362869263,
+              0.001
+            ],
+            [
+              0.9650675654411316,
+              0.01
+            ],
+            [
+              0.9530553817749023,
+              0.1
+            ],
+            [
+              0.7582961916923523,
+              1.0
+            ],
+            [
+              0.22388577461242676,
+              10.0
+            ]
+          ]
+        },
+        "previous_operator_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6538174152374268,
+              0.0001
+            ],
+            [
+              0.6538476943969727,
+              0.001
+            ],
+            [
+              0.6540728211402893,
+              0.01
+            ],
+            [
+              0.6501588225364685,
+              0.1
+            ],
+            [
+              0.48719269037246704,
+              1.0
+            ],
+            [
+              0.109699547290802,
+              10.0
+            ]
+          ]
+        }
+      }
+    },
+    "4": {
+      "metrics": {
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0015779733657836914,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.41029977798461914,
+          "oracle_gain_fraction": 1.0
+        },
+        "prior_64": {
+          "coordinate_weighted_r2": 0.6909656524658203,
+          "total_operator_r2": 0.29775553941726685,
+          "oracle_gain_fraction": 0.7267532946405598
+        },
+        "attention_input_64": {
+          "coordinate_weighted_r2": 0.6871461272239685,
+          "total_operator_r2": 0.2961704730987549,
+          "oracle_gain_fraction": 0.7229049044002153
+        },
+        "attention_write_64": {
+          "coordinate_weighted_r2": 0.49876952171325684,
+          "total_operator_r2": 0.21308225393295288,
+          "oracle_gain_fraction": 0.5211746121147377
+        },
+        "prior_plus_attention_64": {
+          "coordinate_weighted_r2": 0.8511925935745239,
+          "total_operator_r2": 0.3644077777862549,
+          "oracle_gain_fraction": 0.8885785890403148
+        },
+        "prior_256": {
+          "coordinate_weighted_r2": 0.8256723284721375,
+          "total_operator_r2": 0.3482653498649597,
+          "oracle_gain_fraction": 0.8493863096118441
+        },
+        "attention_input_256": {
+          "coordinate_weighted_r2": 0.8249733448028564,
+          "total_operator_r2": 0.3479951024055481,
+          "oracle_gain_fraction": 0.8487301744879497
+        },
+        "attention_write_256": {
+          "coordinate_weighted_r2": 0.6286352872848511,
+          "total_operator_r2": 0.26348942518234253,
+          "oracle_gain_fraction": 0.6435584288761971
+        },
+        "prior_plus_attention_256": {
+          "coordinate_weighted_r2": 0.9619210362434387,
+          "total_operator_r2": 0.4008479118347168,
+          "oracle_gain_fraction": 0.9770517681061601
+        },
+        "previous_operator_64": {
+          "coordinate_weighted_r2": 0.6482245922088623,
+          "total_operator_r2": 0.27926069498062134,
+          "oracle_gain_fraction": 0.6818495716887679
+        },
+        "direct_composition_64": {
+          "coordinate_weighted_r2": 0.806833028793335,
+          "total_operator_r2": 0.34736472368240356,
+          "oracle_gain_fraction": 0.8471996749135549
+        },
+        "shuffled_attention_direct_64": {
+          "coordinate_weighted_r2": 0.29735690355300903,
+          "total_operator_r2": 0.13365739583969116,
+          "oracle_gain_fraction": 0.3283386120325399
+        },
+        "direct_composition_256": {
+          "coordinate_weighted_r2": 0.9575783610343933,
+          "total_operator_r2": 0.4003678560256958,
+          "oracle_gain_fraction": 0.9758862382676412
+        },
+        "shuffled_attention_direct_256": {
+          "coordinate_weighted_r2": 0.4420850872993469,
+          "total_operator_r2": 0.18750250339508057,
+          "oracle_gain_fraction": 0.45906941110787275
+        },
+        "direct_composition_full": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.41029977798461914,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "fitting": {
+        "prior_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6854326725006104,
+              0.0001
+            ],
+            [
+              0.6854642033576965,
+              0.001
+            ],
+            [
+              0.6857044696807861,
+              0.01
+            ],
+            [
+              0.6820247769355774,
+              0.1
+            ],
+            [
+              0.5143519043922424,
+              1.0
+            ],
+            [
+              0.11637085676193237,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6817058324813843,
+              0.0001
+            ],
+            [
+              0.6817374229431152,
+              0.001
+            ],
+            [
+              0.6819791793823242,
+              0.01
+            ],
+            [
+              0.6783425807952881,
+              0.1
+            ],
+            [
+              0.5116208791732788,
+              1.0
+            ],
+            [
+              0.1157383918762207,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_64": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.4887325167655945,
+              0.0001
+            ],
+            [
+              0.4888133406639099,
+              0.001
+            ],
+            [
+              0.4895504117012024,
+              0.01
+            ],
+            [
+              0.491199254989624,
+              0.1
+            ],
+            [
+              0.3788423538208008,
+              1.0
+            ],
+            [
+              0.086395263671875,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8484559059143066,
+              0.0001
+            ],
+            [
+              0.8485122919082642,
+              0.001
+            ],
+            [
+              0.8489280343055725,
+              0.01
+            ],
+            [
+              0.8446556329727173,
+              0.1
+            ],
+            [
+              0.6835031509399414,
+              1.0
+            ],
+            [
+              0.19203251600265503,
+              10.0
+            ]
+          ]
+        },
+        "prior_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8207827210426331,
+              0.0001
+            ],
+            [
+              0.8208547234535217,
+              0.001
+            ],
+            [
+              0.8214288353919983,
+              0.01
+            ],
+            [
+              0.8163735866546631,
+              0.1
+            ],
+            [
+              0.5961381196975708,
+              1.0
+            ],
+            [
+              0.13278716802597046,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.8201500773429871,
+              0.0001
+            ],
+            [
+              0.8202217817306519,
+              0.001
+            ],
+            [
+              0.8207939863204956,
+              0.01
+            ],
+            [
+              0.8157387971878052,
+              0.1
+            ],
+            [
+              0.5956712961196899,
+              1.0
+            ],
+            [
+              0.1326826810836792,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.5963540077209473,
+              0.0001
+            ],
+            [
+              0.5966156721115112,
+              0.001
+            ],
+            [
+              0.5989593267440796,
+              0.01
+            ],
+            [
+              0.6060804128646851,
+              0.1
+            ],
+            [
+              0.45655345916748047,
+              1.0
+            ],
+            [
+              0.10311669111251831,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.9586183428764343,
+              0.0001
+            ],
+            [
+              0.9587005972862244,
+              0.001
+            ],
+            [
+              0.9591740369796753,
+              0.01
+            ],
+            [
+              0.9501760601997375,
+              0.1
+            ],
+            [
+              0.7556241750717163,
+              1.0
+            ],
+            [
+              0.21882832050323486,
+              10.0
+            ]
+          ]
+        },
+        "previous_operator_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6397756934165955,
+              0.0001
+            ],
+            [
+              0.6398137807846069,
+              0.001
+            ],
+            [
+              0.640119194984436,
+              0.01
+            ],
+            [
+              0.6370913982391357,
+              0.1
+            ],
+            [
+              0.4796314835548401,
+              1.0
+            ],
+            [
+              0.10827904939651489,
+              10.0
+            ]
+          ]
+        }
+      }
+    },
+    "5": {
+      "metrics": {
+        "mean": {
+          "coordinate_weighted_r2": 0.0,
+          "total_operator_r2": -0.0022857189178466797,
+          "oracle_gain_fraction": 0.0
+        },
+        "oracle_top64": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.42876940965652466,
+          "oracle_gain_fraction": 1.0
+        },
+        "prior_64": {
+          "coordinate_weighted_r2": 0.6748555898666382,
+          "total_operator_r2": 0.30409443378448486,
+          "oracle_gain_fraction": 0.7107679097001413
+        },
+        "attention_input_64": {
+          "coordinate_weighted_r2": 0.6672860383987427,
+          "total_operator_r2": 0.30058062076568604,
+          "oracle_gain_fraction": 0.70261625394692
+        },
+        "attention_write_64": {
+          "coordinate_weighted_r2": 0.5590589046478271,
+          "total_operator_r2": 0.24790233373641968,
+          "oracle_gain_fraction": 0.5804084815826536
+        },
+        "prior_plus_attention_64": {
+          "coordinate_weighted_r2": 0.8887199759483337,
+          "total_operator_r2": 0.3967049717903137,
+          "oracle_gain_fraction": 0.9256140671095652
+        },
+        "prior_256": {
+          "coordinate_weighted_r2": 0.8016013503074646,
+          "total_operator_r2": 0.35303956270217896,
+          "oracle_gain_fraction": 0.8243151700692971
+        },
+        "attention_input_256": {
+          "coordinate_weighted_r2": 0.7987152338027954,
+          "total_operator_r2": 0.3518180847167969,
+          "oracle_gain_fraction": 0.8214814768722764
+        },
+        "attention_write_256": {
+          "coordinate_weighted_r2": 0.6498481631278992,
+          "total_operator_r2": 0.2842447757720947,
+          "oracle_gain_fraction": 0.6647189087799135
+        },
+        "prior_plus_attention_256": {
+          "coordinate_weighted_r2": 0.9600791931152344,
+          "total_operator_r2": 0.41857844591140747,
+          "oracle_gain_fraction": 0.9763580965181373
+        },
+        "previous_operator_64": {
+          "coordinate_weighted_r2": 0.6585570573806763,
+          "total_operator_r2": 0.29699403047561646,
+          "oracle_gain_fraction": 0.6942957630112674
+        },
+        "direct_composition_64": {
+          "coordinate_weighted_r2": 0.8823844194412231,
+          "total_operator_r2": 0.39338237047195435,
+          "oracle_gain_fraction": 0.9179060012541647
+        },
+        "shuffled_attention_direct_64": {
+          "coordinate_weighted_r2": 0.4205417037010193,
+          "total_operator_r2": 0.19296586513519287,
+          "oracle_gain_fraction": 0.45296197889767637
+        },
+        "direct_composition_256": {
+          "coordinate_weighted_r2": 0.9660876393318176,
+          "total_operator_r2": 0.42177677154541016,
+          "oracle_gain_fraction": 0.9837778565951848
+        },
+        "shuffled_attention_direct_256": {
+          "coordinate_weighted_r2": 0.4948939085006714,
+          "total_operator_r2": 0.2199108600616455,
+          "oracle_gain_fraction": 0.5154713730337995
+        },
+        "direct_composition_full": {
+          "coordinate_weighted_r2": 1.0,
+          "total_operator_r2": 0.42876940965652466,
+          "oracle_gain_fraction": 1.0
+        }
+      },
+      "fitting": {
+        "prior_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6638590097427368,
+              0.0001
+            ],
+            [
+              0.6638783812522888,
+              0.001
+            ],
+            [
+              0.6640030145645142,
+              0.01
+            ],
+            [
+              0.6596312522888184,
+              0.1
+            ],
+            [
+              0.4960924983024597,
+              1.0
+            ],
+            [
+              0.11084234714508057,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6552067399024963,
+              0.0001
+            ],
+            [
+              0.6552278399467468,
+              0.001
+            ],
+            [
+              0.6553704142570496,
+              0.01
+            ],
+            [
+              0.6512267589569092,
+              0.1
+            ],
+            [
+              0.49027836322784424,
+              1.0
+            ],
+            [
+              0.10957610607147217,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.554436206817627,
+              0.0001
+            ],
+            [
+              0.5545234680175781,
+              0.001
+            ],
+            [
+              0.5552945137023926,
+              0.01
+            ],
+            [
+              0.5552173852920532,
+              0.1
+            ],
+            [
+              0.41347557306289673,
+              1.0
+            ],
+            [
+              0.09110110998153687,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.886282742023468,
+              0.0001
+            ],
+            [
+              0.8863228559494019,
+              0.001
+            ],
+            [
+              0.8865770697593689,
+              0.01
+            ],
+            [
+              0.8801809549331665,
+              0.1
+            ],
+            [
+              0.7000845074653625,
+              1.0
+            ],
+            [
+              0.19294744729995728,
+              10.0
+            ]
+          ]
+        },
+        "prior_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.7919960021972656,
+              0.0001
+            ],
+            [
+              0.7920416593551636,
+              0.001
+            ],
+            [
+              0.7923650741577148,
+              0.01
+            ],
+            [
+              0.7857654094696045,
+              0.1
+            ],
+            [
+              0.5706803798675537,
+              1.0
+            ],
+            [
+              0.12560230493545532,
+              10.0
+            ]
+          ]
+        },
+        "attention_input_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.7893257737159729,
+              0.0001
+            ],
+            [
+              0.7893739342689514,
+              0.001
+            ],
+            [
+              0.7897226214408875,
+              0.01
+            ],
+            [
+              0.7833589315414429,
+              0.1
+            ],
+            [
+              0.5693676471710205,
+              1.0
+            ],
+            [
+              0.12534993886947632,
+              10.0
+            ]
+          ]
+        },
+        "attention_write_256": {
+          "alpha": 0.1,
+          "validation": [
+            [
+              0.620692253112793,
+              0.0001
+            ],
+            [
+              0.6209843158721924,
+              0.001
+            ],
+            [
+              0.62360680103302,
+              0.01
+            ],
+            [
+              0.6301092505455017,
+              0.1
+            ],
+            [
+              0.4539809226989746,
+              1.0
+            ],
+            [
+              0.09862613677978516,
+              10.0
+            ]
+          ]
+        },
+        "prior_plus_attention_256": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.9557247161865234,
+              0.0001
+            ],
+            [
+              0.9558025598526001,
+              0.001
+            ],
+            [
+              0.9561882019042969,
+              0.01
+            ],
+            [
+              0.9443109631538391,
+              0.1
+            ],
+            [
+              0.7350385189056396,
+              1.0
+            ],
+            [
+              0.2093943953514099,
+              10.0
+            ]
+          ]
+        },
+        "previous_operator_64": {
+          "alpha": 0.01,
+          "validation": [
+            [
+              0.6487721800804138,
+              0.0001
+            ],
+            [
+              0.6487828493118286,
+              0.001
+            ],
+            [
+              0.6488232612609863,
+              0.01
+            ],
+            [
+              0.6438301801681519,
+              0.1
+            ],
+            [
+              0.4821475148200989,
+              1.0
+            ],
+            [
+              0.10747742652893066,
+              10.0
+            ]
+          ]
+        }
+      }
+    }
+  }
+}

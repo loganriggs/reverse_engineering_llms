@@ -1,0 +1,9 @@
+# Mechanism-transition design and red-team log
+
+1. **Answer-only loss.** The initial full-language SGD pilot learned the table but underperformed on unseen templates. Both optimizers were moved to the same answer-only objective so the comparison isolates factual margins rather than next-token template modeling.
+2. **Nested load manifests.** Rebuilding smaller manifests independently could change arbitrary labels. The final factorial builds a 256-rank parent and selects rank prefixes, preserving exact fact identities and targets across loads.
+3. **Matched causal panels.** The first audit sampled a separate panel in each condition. Because the observed load effects were small, this could reverse conclusions. The final audit uses one common-correct fact from every relation × answer stratum and the same 64 facts in all four retained models within a seed.
+4. **Matched competitors.** Each fact initially used each model's own strongest wrong answer. The final competitor is the strongest wrong answer under mean softmax probability across the matched AdamW/SGD × load64/load128 models.
+5. **Sign-null support.** Raw effective support rose in all cells, but a sign-randomized gradient null showed that the increase was dominated by tiny high-dimensional overlaps. The report distinguishes raw support from supranull support.
+6. **KKT initialization audit.** Final-weight KKT alignment and displacement-from-initialization alignment gave different optimizer trends. Both are retained; neither is promoted to a theorem because the model is normalized/residual and the 64-fact panel is not the complete active-constraint set.
+7. **CUDA teardown.** One seed-1 process exited with code 139 after printing completion. The result was retained only after verifying parseable metadata, an intact checkpoint, passed intervention hook checks, and a successful subsequent causal audit.

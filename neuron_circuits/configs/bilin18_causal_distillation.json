@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "created_before_training": true,
+  "base_checkpoint": "artifacts/bilin18_tensor_decomposition/cp_r2048_activation.pt",
+  "layer": 1,
+  "train_rows": {"start": 0, "stop": 16000},
+  "validation_rows": {"start": 17000, "stop": 17008},
+  "evaluation_rows_start": 18064,
+  "sequence_length": 128,
+  "batch_size": 1,
+  "steps": 300,
+  "validation_every": 50,
+  "learning_rate": 0.00003,
+  "weight_decay": 0.000001,
+  "effect_weight": 0.25,
+  "interventions": {
+    "gaussian_scales": [0.02, 0.05, 0.1, 0.2],
+    "natural_mix_scales": [0.05, 0.1, 0.25, 0.5]
+  },
+  "variants": {
+    "cp2048_kl": {
+      "intervention_kl_weight": 0.0,
+      "effect_weight": 0.0,
+      "tensor_weight": 0.0
+    },
+    "cp2048_causal": {
+      "intervention_kl_weight": 1.0,
+      "effect_weight": 0.25,
+      "tensor_weight": 0.0
+    },
+    "cp2048_causal_tensor": {
+      "intervention_kl_weight": 1.0,
+      "effect_weight": 0.25,
+      "tensor_weight": 0.01
+    }
+  },
+  "seed": 20261019,
+  "hypotheses": {
+    "H1_kl_behavior": "KL-only distillation improves FineWeb KL relative to activation-refined CP-2048 without worsening either OOD KL by more than 0.005.",
+    "H2_causal_training": "Causal distillation improves Fisher effect fidelity for both preregistered intervention families relative to activation-refined CP-2048.",
+    "H3_tensor_anchor": "A 0.01 tensor anchor improves isotropic tensor fidelity without costing more than 0.005 mean KL or 0.05 causal fidelity relative to unanchored causal distillation.",
+    "H4_scale_transfer": "Any causal improvement appears at held-out intervention scales and on both OOD corpora, rather than only at the sampled training condition.",
+    "H5_causal_gate": "At least one trained model reaches 0.90 Fisher effect fidelity and 0.95 effect cosine for Gaussian 0.10 and natural-mix 0.25 interventions."
+  }
+}

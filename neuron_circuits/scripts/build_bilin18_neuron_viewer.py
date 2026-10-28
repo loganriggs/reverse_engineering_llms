@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+"""Build the static layer 0--2 bilin18 native-neuron viewer."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+ROOT = Path("artifacts/bilin18_layers_0_2")
+OUT = ROOT / "neuron_viewer"
+
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    activation = {
+        layer: json.loads((ROOT / f"viewer_atlas/layer_{layer}/results.json").read_text())
+        for layer in range(3)
+    }
+    weights_raw = json.loads((ROOT / "weight_geometry/results.json").read_text())
+    weights = {
+        item["layer"]: {channel["unit"]: channel for channel in item["channels"]}
+        for item in weights_raw["layer_results"]
+    }
+    traces_raw = json.loads((ROOT / "source_traces/results.json").read_text())
+    traces = {
+        (layer["layer"], unit["unit"]): unit
+        for layer in traces_raw["layers"] for unit in layer["units"]
+    }
+    manifest = json.loads((ROOT / "corpus/fineweb_viewer_20k.manifest.json").read_text())
+    layers = []
+    keep_weight = (
+        "factor_cosine", "embedding_left_class", "embedding_right_class",
+        "embedding_product_class", "embedding_positive_class", "embedding_negative_class",
+        "embedding_lift", "embedding_signed_gap_sd", "embedding_product_sd", "down_norm",
+        "next_qk_read", "next_v_read", "next_mlp_left_read", "next_mlp_right_read",
+        "unembedding_read",
+    )
+    for layer in range(3):
+        act = activation[layer]
+        channels = []
+        for channel in act["all_channels"]:
+            weight = weights[layer][channel["unit"]]
+            merged = dict(channel)
+            merged.update({name: weight[name] for name in keep_weight})
+            merged["top_embedding_tokens"] = weight["top_embedding_tokens"][:4]
+            merged["top_embedding_values"] = weight["top_embedding_values"][:4]
+            merged["bottom_embedding_tokens"] = weight["bottom_embedding_tokens"][:4]
+            merged["bottom_embedding_values"] = weight["bottom_embedding_values"][:4]
+            trace = traces.get((layer, channel["unit"]))
+            if trace:
+                merged["trace"] = trace
+            channels.append(merged)
+        layers.append({
+            "layer": layer,
+            "summary": {
+                key: value for key, value in act.items()
+                if key not in ("selected_units", "all_channels")
+            },
+            "weight_summary": weights_raw["layer_results"][layer]["aggregate"],
+            "channels": channels,
+        })
+    data = {
+        "model": activation[0]["model"],
+        "parameters": activation[0]["parameters"],
+        "manifest": manifest,
+        "layers": layers,
+    }
+    (OUT / "data.json").write_text(json.dumps(data, separators=(",", ":")))
+    (OUT / "index.html").write_text(HTML)
+    print(OUT / "index.html")
+    print(OUT / "data.json")
+
+
+HTML = r'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bilin18 neuron viewer — layers 0–2</title>
+<style>
+:root{color-scheme:light dark;--bg:#f5f3ee;--panel:#fffdf8;--ink:#22231f;--muted:#6b6d64;--line:#d8d4ca;--a:#006c67;--b:#c4552d;--good:#287a4a;--warn:#9b6018}
+@media(prefers-color-scheme:dark){:root{--bg:#151714;--panel:#1e211d;--ink:#edf0e8;--muted:#a8aea2;--line:#3a3f37;--a:#62c9c0;--b:#ee936e;--good:#7ed69b;--warn:#e4b56f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 ui-sans-serif,system-ui,-apple-system,sans-serif}button,input,select{font:inherit;color:inherit;background:var(--panel);border:1px solid var(--line);padding:.45rem .6rem}button{cursor:pointer}.shell{max-width:1440px;margin:auto;padding:20px}.top{display:flex;gap:14px;align-items:end;justify-content:space-between;flex-wrap:wrap}.title h1{font-size:24px;margin:0}.title p{margin:4px 0 0;color:var(--muted)}.controls{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.control{display:grid;gap:3px}.control label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}#unit{width:92px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}.layer-summary{background:var(--panel);border:1px solid var(--line);padding:12px}.layer-summary strong{font-size:17px}.mini{color:var(--muted);margin-top:4px}.main{display:grid;grid-template-columns:minmax(420px,1fr) minmax(440px,1.25fr);gap:14px}.panel{background:var(--panel);border:1px solid var(--line);padding:14px;min-width:0}.panel h2,.panel h3{margin:0 0 10px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{border-left:3px solid var(--a);padding:4px 8px}.metric span{display:block;color:var(--muted);font-size:11px}.metric b{font-size:17px}.classes{margin:12px 0;padding:10px;background:color-mix(in srgb,var(--a) 7%,transparent)}.evidence{display:inline-block;border:1px solid var(--line);padding:3px 7px;margin-bottom:10px;color:var(--good)}.tails{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tail h4{margin:8px 0}.ctx{padding:7px 8px;border-left:2px solid var(--line);margin:6px 0;overflow-wrap:anywhere}.positive{border-color:var(--a)}.negative{border-color:var(--b)}.tokens{display:flex;gap:6px;flex-wrap:wrap}.token{border:1px solid var(--line);padding:3px 6px;font-family:ui-monospace,monospace}.consumer-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}.consumer{text-align:center;padding:6px 3px;border-top:2px solid var(--line)}.consumer b,.consumer span{display:block}.consumer span{font-size:10px;color:var(--muted)}svg{width:100%;height:auto;border:1px solid var(--line);background:var(--panel)}.axis{stroke:var(--line)}.axis-text{fill:var(--muted);font-size:11px}.dot{fill:var(--a);opacity:.18}.dot.filtered{display:none}.dot.selected{fill:var(--b);opacity:1;stroke:var(--ink);stroke-width:1.5}.trace-site{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}.pair{font-family:ui-monospace,monospace;font-size:12px}.empty{color:var(--muted);padding:12px 0}.foot{color:var(--muted);margin-top:14px;font-size:12px}@media(max-width:900px){.main{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.tails{grid-template-columns:1fr}.consumer-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body><div class="shell">
+<div class="top"><div class="title"><h1>Bilin18 native-neuron viewer</h1><p>Layers 0–2 · FineWeb activation evidence + tensor-network weight paths</p></div>
+<div class="controls"><div class="control"><label>Layer</label><select id="layer"><option>0</option><option>1</option><option>2</option></select></div><div class="control"><label>Unit</label><input id="unit" type="number" min="0" max="4607" value="874"></div><button id="prev">←</button><button id="next">→</button><div class="control"><label>Product class</label><select id="class"><option value="all">all</option></select></div><button id="mechanistic">Traced examples</button></div></div>
+<div id="summary" class="summary"></div>
+<div class="main"><div class="panel"><h2>Population map</h2><div class="mini">Held-out coarse-class lift versus signed class gap. Click a neuron.</div><svg id="scatter" viewBox="0 0 680 410" aria-label="Neuron selectivity scatter plot"></svg><div class="foot">Coarse classes are an audit vocabulary, not exhaustive meanings. Weight availability and activation selectivity are not causal effects.</div></div>
+<div class="panel" id="detail"></div></div>
+</div>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=x=>Number(x).toLocaleString(undefined,{maximumFractionDigits:2});
+let DATA,state={layer:0,unit:874,cls:'all'};
+const layerEl=document.getElementById('layer'),unitEl=document.getElementById('unit'),classEl=document.getElementById('class');
+fetch('./data.json').then(r=>r.json()).then(d=>{DATA=d;init()}).catch(e=>document.getElementById('detail').innerHTML='<h2>Viewer data unavailable</h2><p>Serve this directory over HTTP so <code>data.json</code> can load.</p>');
+function init(){const classes=DATA.layers[0].summary.token_classes;for(const c of classes){const o=document.createElement('option');o.value=c;o.textContent=c;classEl.appendChild(o)}renderSummary();wire();render()}
+function commitUnit(){state.unit=Math.max(0,Math.min(4607,+unitEl.value||0));unitEl.value=state.unit;render()}
+function wire(){layerEl.onchange=()=>{state.layer=+layerEl.value;state.unit=0;unitEl.value=0;render()};unitEl.onchange=commitUnit;unitEl.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();commitUnit()}};classEl.onchange=()=>{state.cls=classEl.value;renderScatter()};document.getElementById('prev').onclick=()=>step(-1);document.getElementById('next').onclick=()=>step(1);document.getElementById('mechanistic').onclick=()=>{const cs=currentLayer().channels;const i=cs.findIndex((c,idx)=>idx>state.unit&&c.trace);const j=i>=0?i:cs.findIndex(c=>c.trace);if(j>=0){state.unit=j;unitEl.value=j;render()}}}
+function step(d){state.unit=(state.unit+d+4608)%4608;unitEl.value=state.unit;render()}
+const currentLayer=()=>DATA.layers[state.layer];const current=()=>currentLayer().channels[state.unit];
+function renderSummary(){const root=document.getElementById('summary');root.innerHTML=DATA.layers.map(l=>`<div class="layer-summary"><strong>Layer ${l.layer}</strong><div class="mini">median lift <b>${fmt(l.summary.active_half_heldout_lift_median)}×</b> · median signed gap <b>${fmt(l.summary.active_half_signed_gap_sd_median)} SD</b><br>${fmt(100*l.summary.active_half_fraction_heldout_lift_ge_2)}% ≥2× lift · ${fmt(100*l.summary.active_half_fraction_signed_gap_ge_1_sd)}% ≥1 SD gap</div></div>`).join('')}
+function render(){renderScatter();renderDetail()}
+function renderScatter(){const svg=document.getElementById('scatter'),cs=currentLayer().channels,W=680,H=410,m={l:56,r:18,t:20,b:48};const xmax=Math.min(15,Math.max(...cs.map(c=>c.heldout_product_lift))),ymax=Math.min(8,Math.max(...cs.map(c=>c.heldout_signed_class_gap_sd)));const x=v=>m.l+(Math.min(v,xmax)-1)/(xmax-1)*(W-m.l-m.r),y=v=>H-m.b-Math.min(v,ymax)/ymax*(H-m.t-m.b);let h=`<line class="axis" x1="${m.l}" y1="${H-m.b}" x2="${W-m.r}" y2="${H-m.b}"/><line class="axis" x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${H-m.b}"/><text class="axis-text" x="${W/2}" y="400" text-anchor="middle">held-out coarse-class lift (×)</text><text class="axis-text" transform="translate(14 ${H/2}) rotate(-90)" text-anchor="middle">signed class gap (SD)</text>`;for(const t of [1,2,4,8])if(t<=xmax)h+=`<text class="axis-text" x="${x(t)}" y="${H-m.b+18}" text-anchor="middle">${t}</text>`;for(const t of [0,1,2,4,6,8])if(t<=ymax)h+=`<text class="axis-text" x="${m.l-8}" y="${y(t)+4}" text-anchor="end">${t}</text>`;h+=cs.map(c=>`<circle class="dot ${state.cls!=='all'&&c.product_class!==state.cls?'filtered':''} ${c.unit===state.unit?'selected':''}" data-u="${c.unit}" cx="${x(c.heldout_product_lift)}" cy="${y(c.heldout_signed_class_gap_sd)}" r="${c.unit===state.unit?5:2.2}"/>`).join('');svg.innerHTML=h;svg.querySelectorAll('.dot').forEach(n=>n.onclick=()=>{state.unit=+n.dataset.u;unitEl.value=state.unit;render()})}
+function evidence(c){if(c.trace)return 'Mechanistic source trace available';if(c.heldout_signed_class_gap_sd>=1&&c.heldout_product_lift>=2)return 'Strong coarse held-out evidence';if(c.heldout_product_lift>=1.5)return 'Descriptive coarse selectivity';return 'Unexplained by coarse audit'}
+function contexts(c,key,klass){const vals=c[key+'_tail_values']||[],txt=c[key+'_tail_contexts']||[];return txt.map((s,i)=>`<div class="ctx ${klass}"><b>${fmt(vals[i])}</b> · ${esc(s)}</div>`).join('')||'<div class="empty">No stored tail.</div>'}
+function tokenList(tokens,values){return tokens.map((t,i)=>`<span class="token" title="${fmt(values[i])}">${esc(JSON.stringify(t))}</span>`).join('')}
+function traceHTML(c){if(!c.trace)return '<h3>Named-source mechanics</h3><div class="empty">No targeted source trace has been run for this neuron. This absence is not evidence that the neuron lacks structure.</div>';return '<h3>Named-source mechanics</h3>'+c.trace.sites.map(s=>`<div class="trace-site"><b>${esc(s.tail)}:</b> ${esc(s.context)}<div>product ${fmt(s.actual_product)} → ${fmt(s.without_local_attention_product)} without local attention</div><div>dominant pair ${fmt(100*s.dominant_pair_abs_fraction)}% · effective support ${fmt(s.pair_effective_support)}</div><div class="pair">${s.source_pairs.slice(0,5).map(p=>`${esc(p.first)}×${esc(p.second)} ${fmt(p.contribution)}`).join(' · ')}</div></div>`).join('')}
+function renderDetail(){const c=current();document.getElementById('detail').innerHTML=`<div class="evidence">${evidence(c)}</div><h2>Layer ${state.layer} · unit ${c.unit}</h2><div class="metrics"><div class="metric"><span>held-out lift</span><b>${fmt(c.heldout_product_lift)}×</b></div><div class="metric"><span>signed gap</span><b>${fmt(c.heldout_signed_class_gap_sd)} SD</b></div><div class="metric"><span>use score</span><b>${fmt(c.use_score)}</b></div><div class="metric"><span>embedding lift</span><b>${fmt(c.embedding_lift)}×</b></div><div class="metric"><span>factor cosine</span><b>${fmt(c.factor_cosine)}</b></div><div class="metric"><span>Down norm</span><b>${fmt(c.down_norm)}</b></div></div><div class="classes"><b>Observed:</b> Left ${esc(c.left_class)} · Right ${esc(c.right_class)} · |product| ${esc(c.product_class)}<br><b>Signed:</b> ${esc(c.product_positive_class)} → + / ${esc(c.product_negative_class)} → −<br><b>Embedding fold:</b> ${esc(c.embedding_positive_class)} → + / ${esc(c.embedding_negative_class)} → −</div><h3>Large-census activation tails</h3><div class="tails"><div class="tail"><h4>Positive</h4>${contexts(c,'positive','positive')}</div><div class="tail"><h4>Negative</h4>${contexts(c,'negative','negative')}</div></div><h3>Weight-folded vocabulary tails</h3><div class="tails"><div><h4>Positive</h4><div class="tokens">${tokenList(c.top_embedding_tokens,c.top_embedding_values)}</div></div><div><h4>Negative</h4><div class="tokens">${tokenList(c.bottom_embedding_tokens,c.bottom_embedding_values)}</div></div></div><h3>Available downstream readers</h3><div class="consumer-grid">${[['QK',c.next_qk_read],['V',c.next_v_read],['next L',c.next_mlp_left_read],['next R',c.next_mlp_right_read],['unembed',c.unembedding_read]].map(([n,v])=>`<div class="consumer"><b>${fmt(v)}</b><span>${n}</span></div>`).join('')}</div>${traceHTML(c)}<div class="foot">Activation census: ${currentLayer().summary.discovery_tokens.toLocaleString()} discovery + ${currentLayer().summary.heldout_tokens.toLocaleString()} held-out FineWeb tokens. Tail contexts are discovery examples; labels are evaluated held out.</div>`}
+</script></body></html>'''
+
+
+if __name__ == "__main__":
+    main()

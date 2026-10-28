@@ -1,0 +1,4152 @@
+{
+  "config": {
+    "experiment": "H966",
+    "hashes": {
+      "runner": "78a73b876b0f509dd13574f7fcbf0157d1ca8626a3811334308c8441d4e14248",
+      "directions": "47407e3ded7a9c6cea45af297a480d2b454c5caea558ce34ff84403542df42e7",
+      "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3",
+      "forward": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+      "oldscreen": "24fb60e0d23b206e0bc155db20948dbce80bd8dad729af7ee356031dc9766a26"
+    },
+    "design": "8 adjective pairs x3 output contexts x4 states (positive/negative adjective crossed with absent/present not). Frozen H965 sentiment/negation directions; no fitting. All12 directed edges per quartet, with full-write, identity, both frozen rank1 projections and their complements at final-token MLP12.",
+    "native_gate": "Per format and adjective cohort: >=4 quartets, >=.75 all-four binary correct, >=.5 pooled full-vocabulary intended group top1. No individual native-correct filtering. Failed cohorts remain diagnostics.",
+    "factors": "a=+1 positive adjective,-1 negative; n=+1 plain,-1 not. Ideal binary valence=a*n is an operational expectation, not a claim that linguistic negation always reverses evaluative polarity. In particular not bad can be weakly positive or neutral.",
+    "cohorts": "First4 adjective pairs appear in H965 discovery; last4 adjective pairs absent from H965 task-bank examples. All directions frozen. Some familiar format A prompts deliberately overlap prior data; explicit overlap counts. Not the original reserved test.",
+    "interpretation": "Hadamard decomposition of four writes separates lexical adjective (a), presence of not (n), and interaction (a*n). Interaction is a necessary signature of ideal valence reversal on this panel but is not sufficient evidence of a reusable negation operator.",
+    "fidelity": "KL(full donor write patch||candidate), relative to native baseline; projection coefficient uses true donor delta. Counterfactual span adequacy only; no deployable encoder or unsupervised-manifold claim."
+  },
+  "examples": [
+    {
+      "text": "Review: The film was wonderful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        7932,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not wonderful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        7932,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was terrible. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        7818,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not terrible. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        7818,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was excellent. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        6275,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not excellent. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        6275,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was awful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        12659,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not awful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        12659,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was great. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        1049,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not great. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        1049,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was bad. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        2089,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not bad. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        2089,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was pleasant. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        15497,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not pleasant. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        15497,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was unpleasant. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        22029,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": true
+    },
+    {
+      "text": "Review: The film was not unpleasant. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        22029,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was superb. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        21840,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not superb. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        21840,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was horrible. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        12361,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not horrible. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        12361,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was fantastic. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        9623,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not fantastic. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        9623,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was abysmal. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        450,
+        893,
+        7617,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not abysmal. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        450,
+        893,
+        7617,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was delightful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        32327,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not delightful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        32327,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was dreadful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        35483,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not dreadful. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        35483,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was impressive. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        8036,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not impressive. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        8036,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was atrocious. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        38324,
+        4680,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The film was not atrocious. Sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        2646,
+        373,
+        407,
+        38324,
+        4680,
+        13,
+        11352,
+        3681,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was wonderful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        7932,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not wonderful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        7932,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was terrible. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        7818,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not terrible. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        7818,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was excellent. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        6275,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not excellent. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        6275,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was awful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        12659,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not awful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        12659,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was great. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        1049,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not great. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        1049,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was bad. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        2089,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not bad. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        2089,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was pleasant. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        15497,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not pleasant. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        15497,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was unpleasant. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        22029,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not unpleasant. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        22029,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was superb. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        21840,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not superb. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        21840,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was horrible. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        12361,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not horrible. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        12361,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was fantastic. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        9623,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not fantastic. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        9623,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was abysmal. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        450,
+        893,
+        7617,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not abysmal. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        450,
+        893,
+        7617,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was delightful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        32327,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not delightful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        32327,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was dreadful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        35483,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not dreadful. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        35483,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was impressive. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        8036,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not impressive. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        8036,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was atrocious. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        38324,
+        4680,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "Review: The meal was not atrocious. Overall sentiment:",
+      "ids": [
+        14832,
+        25,
+        383,
+        9799,
+        373,
+        407,
+        38324,
+        4680,
+        13,
+        14674,
+        15598,
+        25
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as wonderful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        7932,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not wonderful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        7932,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as terrible. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        7818,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not terrible. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        7818,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as excellent. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        6275,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not excellent. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        6275,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as awful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        12659,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not awful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        12659,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as great. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        1049,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not great. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        1049,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as bad. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        2089,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not bad. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        2089,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as pleasant. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        15497,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not pleasant. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        15497,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as unpleasant. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        22029,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not unpleasant. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        22029,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as superb. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        21840,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not superb. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        21840,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as horrible. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        12361,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not horrible. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        12361,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as fantastic. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        9623,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not fantastic. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        9623,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as abysmal. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        450,
+        893,
+        7617,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not abysmal. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        450,
+        893,
+        7617,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as delightful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        32327,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not delightful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        32327,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as dreadful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        35483,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not dreadful. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        35483,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as impressive. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        8036,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": 1,
+      "valence": 1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not impressive. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        8036,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": 1,
+      "n": -1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as atrocious. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        38324,
+        4680,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": 1,
+      "valence": -1,
+      "prior_prompt": false
+    },
+    {
+      "text": "The reviewer described the performance as not atrocious. The review is",
+      "ids": [
+        464,
+        37823,
+        3417,
+        262,
+        2854,
+        355,
+        407,
+        38324,
+        4680,
+        13,
+        383,
+        2423,
+        318
+      ],
+      "groups": [
+        [
+          3967,
+          922,
+          4599,
+          1049,
+          3878,
+          6275,
+          17070
+        ],
+        [
+          4633,
+          2089,
+          7772,
+          3595,
+          23676,
+          7818,
+          38206
+        ]
+      ],
+      "a": -1,
+      "n": -1,
+      "valence": 1,
+      "prior_prompt": false
+    }
+  ],
+  "quartets": [
+    {
+      "id": "A-0",
+      "format": "A",
+      "source": 0,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "A-1",
+      "format": "A",
+      "source": 1,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "A-2",
+      "format": "A",
+      "source": 2,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "id": "A-3",
+      "format": "A",
+      "source": 3,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "id": "A-4",
+      "format": "A",
+      "source": 4,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "A-5",
+      "format": "A",
+      "source": 5,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        20,
+        21,
+        22,
+        23
+      ]
+    },
+    {
+      "id": "A-6",
+      "format": "A",
+      "source": 6,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "id": "A-7",
+      "format": "A",
+      "source": 7,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    {
+      "id": "B-0",
+      "format": "B",
+      "source": 0,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        32,
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "id": "B-1",
+      "format": "B",
+      "source": 1,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        36,
+        37,
+        38,
+        39
+      ]
+    },
+    {
+      "id": "B-2",
+      "format": "B",
+      "source": 2,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        40,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "id": "B-3",
+      "format": "B",
+      "source": 3,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        44,
+        45,
+        46,
+        47
+      ]
+    },
+    {
+      "id": "B-4",
+      "format": "B",
+      "source": 4,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        48,
+        49,
+        50,
+        51
+      ]
+    },
+    {
+      "id": "B-5",
+      "format": "B",
+      "source": 5,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        52,
+        53,
+        54,
+        55
+      ]
+    },
+    {
+      "id": "B-6",
+      "format": "B",
+      "source": 6,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        56,
+        57,
+        58,
+        59
+      ]
+    },
+    {
+      "id": "B-7",
+      "format": "B",
+      "source": 7,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        60,
+        61,
+        62,
+        63
+      ]
+    },
+    {
+      "id": "C-0",
+      "format": "C",
+      "source": 0,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        64,
+        65,
+        66,
+        67
+      ]
+    },
+    {
+      "id": "C-1",
+      "format": "C",
+      "source": 1,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        68,
+        69,
+        70,
+        71
+      ]
+    },
+    {
+      "id": "C-2",
+      "format": "C",
+      "source": 2,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        72,
+        73,
+        74,
+        75
+      ]
+    },
+    {
+      "id": "C-3",
+      "format": "C",
+      "source": 3,
+      "cohort": "familiar_adjectives",
+      "indices": [
+        76,
+        77,
+        78,
+        79
+      ]
+    },
+    {
+      "id": "C-4",
+      "format": "C",
+      "source": 4,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        80,
+        81,
+        82,
+        83
+      ]
+    },
+    {
+      "id": "C-5",
+      "format": "C",
+      "source": 5,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        84,
+        85,
+        86,
+        87
+      ]
+    },
+    {
+      "id": "C-6",
+      "format": "C",
+      "source": 6,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        88,
+        89,
+        90,
+        91
+      ]
+    },
+    {
+      "id": "C-7",
+      "format": "C",
+      "source": 7,
+      "cohort": "new_to_H965_adjectives",
+      "indices": [
+        92,
+        93,
+        94,
+        95
+      ]
+    }
+  ]
+}

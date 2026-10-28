@@ -1,0 +1,26 @@
+{
+  "status": "hypotheses-locked-after-frozen-quotient-failure-before-metric-controls",
+  "source_config": "configs/bilin18_layer8_frozen_fisher_quotient.json",
+  "source_arrays": "artifacts/bilin18_tensor_decomposition/layer8_frozen_fisher_quotient.npz",
+  "routes": ["oracle", "global_full", "identity", "global128", "projector128", "random128", "shuffled_full"],
+  "seed": 20261024,
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 14100,
+      "rows": 300
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    }
+  },
+  "hypotheses": {
+    "C1_global_fisher_beats_identity": "Global-full exceeds identity by at least 0.10 median oracle-effect fidelity on both corpora.",
+    "C2_global128_beats_random128": "Global rank-128 exceeds random rank-128 by at least 0.10 oracle-effect fidelity on both corpora.",
+    "C3_fisher_eigenvalues_add_value": "Global rank-128 exceeds its unweighted rank-128 projector by at least 0.05 oracle-effect fidelity on both corpora.",
+    "C4_fisher_direction_weight_pairing_matters": "Global-full exceeds eigenvalue-shuffled full by at least 0.10 oracle-effect fidelity on both corpora.",
+    "C5_global_metric_is_not_only_generic_impact": "Global-full has both higher oracle-effect fidelity and higher held-out oracle-objective efficiency than identity on both corpora."
+  }
+}

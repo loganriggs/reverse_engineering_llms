@@ -1,0 +1,24 @@
+## H476 — Frozen output-span oracle
+
+Question: is the canonical predictor's remaining response error caused by predicting the wrong coefficients, or by its 16-dimensional output space omitting necessary directions? Use the frozen H472 rank128/budget32 compiled output span on the reused H473 512 receivers with both signs and the same 64 donor assignments. No new corpus, model fitting, or fresh confirmation. Oracles use each true native response, and are not deployable predictors.
+
+QR-orthonormalize the 16 output vectors. For each receiver compute the final readout Jacobian (RMS normalization, unembedding, softcap) and baseline softmax covariance. Solve Gc=b where G is the 16x16 Fisher Gram matrix of the output basis and b its Fisher inner products with the native response. Use symmetric eigendecomposition, retaining eigenvalues above 1e−10 times the largest. Also compute Euclidean projection of the true response into the same span. Compare with the original predicted response and H475's signed scalar Fisher oracle. Evaluate actual finite target||prediction KL after adding each response to the native intact baseline. The span is fixed globally; its optimal coefficients and probability metric vary by receiver.
+
+| Method | Negative KL recovery | Positive KL recovery | Negative raw recovery | Positive raw recovery | Negative local recovery | Positive local recovery |
+|---|---:|---:|---:|---:|---:|---:|
+|original|81.29%|77.93%|93.35%|93.27%|82.41%|77.04%|
+|scalar_fisher|85.08%|83.40%|81.22%|80.99%|86.41%|82.77%|
+|span_raw|85.43%|82.39%|98.19%|98.13%|86.85%|81.10%|
+|span_fisher|94.51%|93.12%|80.28%|78.30%|95.14%|93.18%|
+
+Recovery is one minus pooled prediction error divided by pooled native effect. Raw uses squared write-vector error; local uses the baseline probability tangent quadratic metric; finite KL uses the full nonlinear readout. These are different fidelity criteria.
+
+For negative interventions, moving from scalar to span oracle gains 9.43 percentage points of finite KL recovery. Relative to the original predictor, the span oracle removes 70.66% of finite KL error and 72.35% of local quadratic error. It worsens finite KL on 0.00% of individual cases. Minimum retained Gram rank is 16; condition-number min/median/p90/max are [132.35166860888475, 684.920300256688, 2379.4176871788236, 81428.58963083096].
+
+For positive interventions, moving from scalar to span oracle gains 9.71 percentage points of finite KL recovery. Relative to the original predictor, the span oracle removes 68.82% of finite KL error and 70.29% of local quadratic error. It worsens finite KL on 0.00% of individual cases. Minimum retained Gram rank is 16; condition-number min/median/p90/max are [132.35166860888475, 684.920300256688, 2379.4176871788236, 81428.58963083096].
+
+The local optimum quantifies representational capacity of this fixed output span under the baseline metric. Any large gap from the original predictor identifies room to improve coefficient prediction without adding output directions. Remaining local error lies outside this output tangent span. Finite KL need not share the same optimum or decomposition; this oracle is not a certified finite-KL ceiling. Reused contexts, concentrated effects and fixed donor/calibration pools limit generalization. No confirmatory intervals or success gates are introduced post hoc.
+
+Audits: QR basis orthogonality, Fisher normal-equation residual, per-case local span error no larger than scalar error (with numerical tolerance), original and scalar per-case finite errors replay H475, and all arrays finite. Per-case coefficients, Fisher eigenvalues, errors and denominators are archived. Source/config and dependency hashes are recorded. An initial batch4 evaluation failed the strict H475 replay assertion before saving results. Repeating with the original batch16 restores the reference numerical setup; no thresholds or scientific methods were changed. Native intact baseline is an oracle response-isolation device, not a standalone full-layer replacement.
+
+The span oracle reaches 94.51%/93.12% finite KL recovery versus 81.29%/77.93% originally, removing about 69–71% of original KL error. This favors coefficient learning as the next branch: much of the response can already be expressed in the fixed output span. It does not prove the existing input coordinates contain enough information to predict those coefficients. Next fit coefficients in the frozen output basis with training-only receiver-dependent Fisher weighting, contrasting unweighted coefficient regression at matched capacity. Select on validation and evaluate on reserved contexts; do not call reused H473 pristine confirmation. CE objective comparisons, rank1 source/tail tests, and transfer across heads/layers remain open. Total tracked documents remains 13504; the broad feature/computation goal is active.

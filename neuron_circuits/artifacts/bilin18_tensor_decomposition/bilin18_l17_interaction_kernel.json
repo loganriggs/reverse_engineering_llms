@@ -1,0 +1,401 @@
+{
+  "config": {
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "seed": 20270123,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "rank": 64,
+    "payload_seed": 20270121,
+    "iterations": 8,
+    "step_grid": [
+      1,
+      0.5,
+      0.25,
+      0.125,
+      0.0625,
+      0.03125
+    ],
+    "armijo": 0.0001,
+    "gates": {
+      "interaction_gain": "interaction evaluation fidelity exceeds additive>=5pp BOTH families",
+      "interaction20": "interaction evaluation missing-response fidelity>=20% BOTH families"
+    },
+    "scope": "Local optimizer diagnostic, existing validation selection only. Training monotonicity is algorithm audit, not generalization. No convergence/global optimum claim on budget stop. No fresh or intact eval.",
+    "status": "H314 locked before interaction-kernel results",
+    "design": "Per18-group kernel ridge on first768docs; next128 choose one ridge per family/kernel, final128 evaluation. Interaction phi=uz outer vz minus ux outer vx, u=core96 projection, v=orthogonal to core96 and frozen partner64. Additive midpoint/difference u/v blocks normalized by training mean squared norms. Each kernel normalized by training mean diagonal. No intercept. Native coefficients not used in fitting, targets are cached native-supervised missed responses.",
+    "comparison_gates": {
+      "rank_gain": "rank64 selected validation fidelity exceeds rank32 selected by >=5pp in BOTH families",
+      "optimization_gain": "rank64 selected improves its own proxy by >=2pp in BOTH families",
+      "compact80": "rank64 selected fidelity>=80% in BOTH families"
+    },
+    "output_ranks": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "response_sha256": "455730c9255344c940fc3d365e85031525cd1ed5b2e60f76f2c79f06ef84ae74",
+    "neighbor_counts": [
+      1,
+      16
+    ],
+    "neighbor_seed": 20270204,
+    "ridge": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ]
+  },
+  "summary": {
+    "actual": {
+      "interaction": {
+        "alpha": "0.01",
+        "calibration_fidelity": 0.42778752750684157,
+        "evaluation_fidelity": 0.4221861506692559,
+        "grid": {
+          "0.01": {
+            "calibration": 0.42778752750684157,
+            "evaluation": 0.4221861506692559
+          },
+          "0.1": {
+            "calibration": 0.4061162000492432,
+            "evaluation": 0.40044721739995937
+          },
+          "1.0": {
+            "calibration": 0.3274435613658947,
+            "evaluation": 0.3226541814254019
+          },
+          "10.0": {
+            "calibration": 0.1510331972676141,
+            "evaluation": 0.14835026202213308
+          }
+        }
+      },
+      "additive": {
+        "alpha": "1.0",
+        "calibration_fidelity": 0.10987222762470927,
+        "evaluation_fidelity": 0.10090438466341511,
+        "grid": {
+          "0.01": {
+            "calibration": -0.3185105503574892,
+            "evaluation": -0.3489759977414306
+          },
+          "0.1": {
+            "calibration": -0.04551476531964904,
+            "evaluation": -0.06771262608405659
+          },
+          "1.0": {
+            "calibration": 0.10987222762470927,
+            "evaluation": 0.10090438466341511
+          },
+          "10.0": {
+            "calibration": 0.06899929092350099,
+            "evaluation": 0.06702356206083393
+          }
+        }
+      }
+    },
+    "angle": {
+      "interaction": {
+        "alpha": "0.01",
+        "calibration_fidelity": 0.24529931191422327,
+        "evaluation_fidelity": 0.23044370666422997,
+        "grid": {
+          "0.01": {
+            "calibration": 0.24529931191422327,
+            "evaluation": 0.23044370666422997
+          },
+          "0.1": {
+            "calibration": 0.2205921958428606,
+            "evaluation": 0.20657859681795177
+          },
+          "1.0": {
+            "calibration": 0.14892675891531748,
+            "evaluation": 0.13923345319453595
+          },
+          "10.0": {
+            "calibration": 0.07003693495649432,
+            "evaluation": 0.06827513291400078
+          }
+        }
+      },
+      "additive": {
+        "alpha": "10.0",
+        "calibration_fidelity": 0.021841015254478013,
+        "evaluation_fidelity": 0.02217013724004735,
+        "grid": {
+          "0.01": {
+            "calibration": -0.5377538672846438,
+            "evaluation": -0.5463047660963427
+          },
+          "0.1": {
+            "calibration": -0.25480039231921836,
+            "evaluation": -0.2632971132589488
+          },
+          "1.0": {
+            "calibration": -0.029197724780725354,
+            "evaluation": -0.03227100025707785
+          },
+          "10.0": {
+            "calibration": 0.021841015254478013,
+            "evaluation": 0.02217013724004735
+          }
+        }
+      }
+    }
+  },
+  "selected": {
+    "actual": {
+      "interaction": "0.01",
+      "additive": "1.0"
+    },
+    "angle": {
+      "interaction": "0.01",
+      "additive": "10.0"
+    }
+  },
+  "gates": {
+    "interaction_gain": true,
+    "interaction20": true
+  },
+  "kernel_audits": [
+    {
+      "group": 0,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0008483785796130328,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 0,
+      "kernel": "additive",
+      "min_eigenvalue": -8.151736583585125e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 1,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.00028662393765956166,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 1,
+      "kernel": "additive",
+      "min_eigenvalue": -8.68519237747424e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 2,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0004860059543515436,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 2,
+      "kernel": "additive",
+      "min_eigenvalue": -5.981961090453495e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 3,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0009944443996573904,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 3,
+      "kernel": "additive",
+      "min_eigenvalue": -6.987722238569715e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 4,
+      "kernel": "interaction",
+      "min_eigenvalue": 3.801641350527248e-05,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 4,
+      "kernel": "additive",
+      "min_eigenvalue": -7.0659585389219305e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 5,
+      "kernel": "interaction",
+      "min_eigenvalue": 4.9470228424096904e-05,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 5,
+      "kernel": "additive",
+      "min_eigenvalue": -1.770346704162211e-14,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 6,
+      "kernel": "interaction",
+      "min_eigenvalue": 3.127195748162657e-05,
+      "mean_diagonal": 1.0000000000000002
+    },
+    {
+      "group": 6,
+      "kernel": "additive",
+      "min_eigenvalue": -9.045668086767214e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 7,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.00046581147080562626,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 7,
+      "kernel": "additive",
+      "min_eigenvalue": -1.0399522162395278e-14,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 8,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0018704439338769498,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 8,
+      "kernel": "additive",
+      "min_eigenvalue": -7.466678985697613e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 9,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0006342181758842946,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 9,
+      "kernel": "additive",
+      "min_eigenvalue": -8.926397036498934e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 10,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0004286530381388738,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 10,
+      "kernel": "additive",
+      "min_eigenvalue": -1.1471959267517385e-14,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 11,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0006173041433620369,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 11,
+      "kernel": "additive",
+      "min_eigenvalue": -5.229151930144659e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 12,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.0010950268431291039,
+      "mean_diagonal": 1.0000000000000002
+    },
+    {
+      "group": 12,
+      "kernel": "additive",
+      "min_eigenvalue": -6.677855831798455e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 13,
+      "kernel": "interaction",
+      "min_eigenvalue": 4.993600662214388e-05,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 13,
+      "kernel": "additive",
+      "min_eigenvalue": -1.9995106936928536e-14,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 14,
+      "kernel": "interaction",
+      "min_eigenvalue": 4.50806501905635e-05,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 14,
+      "kernel": "additive",
+      "min_eigenvalue": -6.297370910891774e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 15,
+      "kernel": "interaction",
+      "min_eigenvalue": 2.2396257713788996e-05,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 15,
+      "kernel": "additive",
+      "min_eigenvalue": -7.80874763956358e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 16,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.000599842616498768,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 16,
+      "kernel": "additive",
+      "min_eigenvalue": -5.852322726408265e-15,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 17,
+      "kernel": "interaction",
+      "min_eigenvalue": 0.002056629472170487,
+      "mean_diagonal": 1.0
+    },
+    {
+      "group": 17,
+      "kernel": "additive",
+      "min_eigenvalue": -6.391409268426962e-15,
+      "mean_diagonal": 1.0
+    }
+  ],
+  "explicit_feature_kernel_relative_error": 3.4056486771652787e-12
+}

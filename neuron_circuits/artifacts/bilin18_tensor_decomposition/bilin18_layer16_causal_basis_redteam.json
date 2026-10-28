@@ -1,0 +1,718 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-jacobian-pilot-before-causal-basis-results",
+    "seed": 20261208,
+    "batch_size": 4,
+    "rank": 16,
+    "discovery_positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "heldout_positions": [
+      15,
+      47,
+      79,
+      111
+    ],
+    "basis_ranks": [
+      16,
+      64
+    ],
+    "native_ranks": [
+      16,
+      64,
+      128
+    ],
+    "edit_scales": [
+      0.1,
+      1.0
+    ],
+    "finite_difference_scales": [
+      0.01,
+      0.003,
+      0.001,
+      0.0003,
+      0.0001
+    ],
+    "core_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_core_stability.pt",
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 32
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 0,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 16
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 16
+      }
+    },
+    "ridge_relative_penalty": 0.001,
+    "hypotheses": {
+      "R0_central_difference_validates_autodiff": "At least one central-difference scale has tensor-metric relative error at most 0.01.",
+      "R1_sensitivity16_is_mostly_context_span": "Mean squared canonical overlap between metric-sensitivity-16 and the frozen context span is at least 0.75.",
+      "R2_context_span_is_small_edit_causally_sufficient": "Context-16 tensor-effect fidelity is at least 0.75 at 0.1x on every corpus and both position groups.",
+      "R3_context_span_nearly_matches_sensitivity16": "Metric-sensitivity-16 exceeds context-16 by at most 0.10 at 0.1x on every corpus and both position groups.",
+      "R4_native64_is_not_a_substitute_for_dense_sensitivity16": "Metric-sensitivity-16 exceeds top-native-64 by at least 0.20 at 0.1x on every corpus at held-out positions.",
+      "R5_sensitivity16_beats_random_dense16": "Metric-sensitivity-16 exceeds random-dense-16 by at least 0.50 at 0.1x on every corpus and both position groups.",
+      "R6_sensitivity16_beats_predictive16": "Metric-sensitivity-16 exceeds predictive-16 by at least 0.20 at 0.1x on every corpus and both position groups.",
+      "R7_sensitivity16_transfers_to_unseen_positions": "For each corpus, metric-sensitivity-16 differs by at most 0.15 between discovery and held-out positions at 0.1x.",
+      "R8_sensitivity16_remains_full_edit_sufficient": "Metric-sensitivity-16 tensor-effect fidelity is at least 0.85 at 1.0x on every corpus and both position groups.",
+      "R9_each_metric_finds_a_compact_causal_basis": "Metric-sensitivity-16 reaches 0.75 in tensor fidelity and Euclidean-sensitivity-16 reaches 0.75 in coefficient fidelity at 0.1x everywhere.",
+      "R10_metric_choice_does_not_radically_rotate_the_basis": "Mean squared canonical overlap between metric- and Euclidean-sensitivity-16 is at least 0.50.",
+      "R11_native128_remains_incomplete": "Top-native-128 tensor-effect fidelity is below 0.70 at 0.1x on every corpus at held-out positions."
+    }
+  },
+  "hypotheses": {
+    "R0_central_difference_validates_autodiff": true,
+    "R1_sensitivity16_is_mostly_context_span": true,
+    "R2_context_span_is_small_edit_causally_sufficient": true,
+    "R3_context_span_nearly_matches_sensitivity16": true,
+    "R4_native64_is_not_a_substitute_for_dense_sensitivity16": false,
+    "R5_sensitivity16_beats_random_dense16": true,
+    "R6_sensitivity16_beats_predictive16": true,
+    "R7_sensitivity16_transfers_to_unseen_positions": true,
+    "R8_sensitivity16_remains_full_edit_sufficient": true,
+    "R9_each_metric_finds_a_compact_causal_basis": true,
+    "R10_metric_choice_does_not_radically_rotate_the_basis": true,
+    "R11_native128_remains_incomplete": false
+  },
+  "central_difference_relative_error": {
+    "0.01": 0.00011283412219290583,
+    "0.003": 0.0003185306609409574,
+    "0.001": 0.0010764651541972212,
+    "0.0003": 0.003538446669897562,
+    "0.0001": 0.009920016795064211
+  },
+  "diagnostics": {
+    "metric": {
+      "rank90": 7,
+      "rank99": 59,
+      "top16_energy": 0.9631459516327572,
+      "top64_energy": 0.9908846823702986
+    },
+    "euclidean": {
+      "rank90": 15,
+      "rank99": 34,
+      "top16_energy": 0.9472431511044825,
+      "top64_energy": 0.9944193296696276
+    },
+    "overlaps": {
+      "metric16_context16": {
+        "mean_squared_canonical": 0.8302217125892639,
+        "minimum_canonical_cosine": 0.008564568124711514,
+        "canonical_cosines": [
+          1.0,
+          0.9999707937240601,
+          0.9998990893363953,
+          0.9998138546943665,
+          0.9995958209037781,
+          0.9990765452384949,
+          0.9986798763275146,
+          0.997631847858429,
+          0.9963290691375732,
+          0.993874728679657,
+          0.9862064123153687,
+          0.9788728356361389,
+          0.9349550008773804,
+          0.7034216523170471,
+          0.11804209649562836,
+          0.008564568124711514
+        ]
+      },
+      "metric16_euclidean16": {
+        "mean_squared_canonical": 0.8379636406898499,
+        "minimum_canonical_cosine": 0.005021075252443552,
+        "canonical_cosines": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9998857975006104,
+          0.999470055103302,
+          0.9972236156463623,
+          0.9954788088798523,
+          0.9706864356994629,
+          0.6828253865242004,
+          0.1215151697397232,
+          0.005021075252443552
+        ]
+      },
+      "metric16_predictive16": {
+        "mean_squared_canonical": 0.2888605296611786,
+        "minimum_canonical_cosine": 0.007895970717072487,
+        "canonical_cosines": [
+          0.7493284940719604,
+          0.732947587966919,
+          0.6970943808555603,
+          0.6549915671348572,
+          0.611651599407196,
+          0.6031193733215332,
+          0.5766879916191101,
+          0.5468184947967529,
+          0.5289352536201477,
+          0.5043150782585144,
+          0.4755312204360962,
+          0.45760396122932434,
+          0.3810728192329407,
+          0.345230370759964,
+          0.06751271337270737,
+          0.007895970717072487
+        ]
+      }
+    },
+    "top_native_indices": [
+      981,
+      329,
+      990,
+      645,
+      992,
+      576,
+      424,
+      171,
+      294,
+      49,
+      627,
+      304,
+      180,
+      571,
+      517,
+      904,
+      786,
+      286,
+      750,
+      493,
+      470,
+      589,
+      664,
+      249,
+      1098,
+      711,
+      1055,
+      994,
+      84,
+      385,
+      1069,
+      668,
+      999,
+      647,
+      307,
+      192,
+      643,
+      158,
+      177,
+      391,
+      1092,
+      357,
+      7,
+      197,
+      872,
+      540,
+      127,
+      567,
+      27,
+      242,
+      710,
+      1099,
+      652,
+      367,
+      78,
+      927,
+      587,
+      1006,
+      1002,
+      101,
+      628,
+      836,
+      222,
+      468,
+      482,
+      172,
+      893,
+      712,
+      43,
+      14,
+      684,
+      714,
+      859,
+      193,
+      430,
+      671,
+      1133,
+      1008,
+      312,
+      1050,
+      296,
+      776,
+      161,
+      1143,
+      291,
+      535,
+      1124,
+      689,
+      402,
+      175,
+      726,
+      661,
+      949,
+      500,
+      144,
+      1001,
+      397,
+      862,
+      588,
+      796,
+      247,
+      702,
+      290,
+      773,
+      113,
+      988,
+      753,
+      261,
+      1021,
+      709,
+      183,
+      783,
+      777,
+      637,
+      680,
+      201,
+      208,
+      36,
+      1093,
+      1054,
+      913,
+      1046,
+      211,
+      339,
+      1067,
+      521,
+      522,
+      1082
+    ],
+    "top_native_energy_share_16": 0.2500447638841994,
+    "top_native_energy_share_64": 0.37338348649117764,
+    "top_native_energy_share_128": 0.480931048248908
+  },
+  "results": {
+    "fineweb": {
+      "discovery_positions": {
+        "0.1": {
+          "tensor": {
+            "context_16": 0.8522930551419572,
+            "predictive_16": 0.587157536055056,
+            "metric_sensitivity_16": 0.87549913105188,
+            "euclidean_sensitivity_16": 0.8504341370420204,
+            "random_dense_16": 0.033057266831174825,
+            "random_native_16": 0.36055818185650834,
+            "metric_sensitivity_64": 0.9071389278864336,
+            "euclidean_sensitivity_64": 0.9064033915525188,
+            "random_dense_64": 0.1404645889314925,
+            "random_native_64": 0.3859327084866053,
+            "native_16": 0.8258203143574793,
+            "native_64": 0.8554441423192993,
+            "native_128": 0.8800656465865101
+          },
+          "coefficient": {
+            "context_16": 0.8723091009047215,
+            "predictive_16": 0.5742532760326291,
+            "metric_sensitivity_16": 0.8481297998028677,
+            "euclidean_sensitivity_16": 0.8677585090737098,
+            "random_dense_16": 0.027180461531123745,
+            "random_native_16": 0.3634573647009448,
+            "metric_sensitivity_64": 0.9136252372275508,
+            "euclidean_sensitivity_64": 0.9141178390137115,
+            "random_dense_64": 0.11771509922637335,
+            "random_native_64": 0.40171971411182505,
+            "native_16": 0.7855892911791167,
+            "native_64": 0.8127435757858695,
+            "native_128": 0.8375641048531686
+          }
+        },
+        "1.0": {
+          "tensor": {
+            "context_16": 0.9372239507121152,
+            "predictive_16": 0.6491432284942686,
+            "metric_sensitivity_16": 0.9692521509945378,
+            "euclidean_sensitivity_16": 0.9431927306703952,
+            "random_dense_16": 0.03644329431976212,
+            "random_native_16": 0.46968611345676203,
+            "metric_sensitivity_64": 0.9812036662639968,
+            "euclidean_sensitivity_64": 0.9811698763461782,
+            "random_dense_64": 0.15380700650652612,
+            "random_native_64": 0.483581052060961,
+            "native_16": 0.9185469123233743,
+            "native_64": 0.9398890697435487,
+            "native_128": 0.9519569955135466
+          },
+          "coefficient": {
+            "context_16": 0.947626460015204,
+            "predictive_16": 0.6117139271334251,
+            "metric_sensitivity_16": 0.9375983096315554,
+            "euclidean_sensitivity_16": 0.948743875361269,
+            "random_dense_16": 0.032472742246150155,
+            "random_native_16": 0.43313480913414426,
+            "metric_sensitivity_64": 0.980572512410735,
+            "euclidean_sensitivity_64": 0.9806182929765471,
+            "random_dense_64": 0.13003202750935305,
+            "random_native_64": 0.4637324000090517,
+            "native_16": 0.835427081470394,
+            "native_64": 0.85953714482252,
+            "native_128": 0.8778427243405412
+          }
+        }
+      },
+      "heldout_positions": {
+        "0.1": {
+          "tensor": {
+            "context_16": 0.8863730211137425,
+            "predictive_16": 0.5600226396586301,
+            "metric_sensitivity_16": 0.9064995600836193,
+            "euclidean_sensitivity_16": 0.8849301195147651,
+            "random_dense_16": 0.02933608695961676,
+            "random_native_16": 0.2869768708088998,
+            "metric_sensitivity_64": 0.9316393941963471,
+            "euclidean_sensitivity_64": 0.9313652252463527,
+            "random_dense_64": 0.12667150779580316,
+            "random_native_64": 0.3032309146289863,
+            "native_16": 0.8623443029929957,
+            "native_64": 0.888050287344734,
+            "native_128": 0.9096031112245028
+          },
+          "coefficient": {
+            "context_16": 0.9016432480691325,
+            "predictive_16": 0.5404077098706868,
+            "metric_sensitivity_16": 0.8897285487933824,
+            "euclidean_sensitivity_16": 0.9006572423954259,
+            "random_dense_16": 0.02700380969517846,
+            "random_native_16": 0.23180277917090408,
+            "metric_sensitivity_64": 0.9350549468830611,
+            "euclidean_sensitivity_64": 0.9358892728450705,
+            "random_dense_64": 0.11266997250037836,
+            "random_native_64": 0.25807418677042004,
+            "native_16": 0.8263331181186567,
+            "native_64": 0.8507475446423063,
+            "native_128": 0.873952313963848
+          }
+        },
+        "1.0": {
+          "tensor": {
+            "context_16": 0.9727355056489919,
+            "predictive_16": 0.6116964950708796,
+            "metric_sensitivity_16": 0.9875505914428332,
+            "euclidean_sensitivity_16": 0.9718529615143972,
+            "random_dense_16": 0.03161734563531815,
+            "random_native_16": 0.43777434797766557,
+            "metric_sensitivity_64": 0.9936150823584703,
+            "euclidean_sensitivity_64": 0.9935491911033382,
+            "random_dense_64": 0.1362165453754175,
+            "random_native_64": 0.4493197355587014,
+            "native_16": 0.9425758645240896,
+            "native_64": 0.960106307168214,
+            "native_128": 0.9706574676995259
+          },
+          "coefficient": {
+            "context_16": 0.9780583897223067,
+            "predictive_16": 0.5849131419685847,
+            "metric_sensitivity_16": 0.9667925573326616,
+            "euclidean_sensitivity_16": 0.9758411432099178,
+            "random_dense_16": 0.029152102167960936,
+            "random_native_16": 0.39124738919473623,
+            "metric_sensitivity_64": 0.9934984503371627,
+            "euclidean_sensitivity_64": 0.9935386411811966,
+            "random_dense_64": 0.1193678429346241,
+            "random_native_64": 0.416305780646692,
+            "native_16": 0.8915205962183285,
+            "native_64": 0.9089676972429834,
+            "native_128": 0.9238676493595078
+          }
+        }
+      }
+    },
+    "wikitext": {
+      "discovery_positions": {
+        "0.1": {
+          "tensor": {
+            "context_16": 0.9188377718035887,
+            "predictive_16": 0.6225944521633862,
+            "metric_sensitivity_16": 0.9313745808730138,
+            "euclidean_sensitivity_16": 0.9200640571075951,
+            "random_dense_16": 0.024420045113139,
+            "random_native_16": 0.39338688109131115,
+            "metric_sensitivity_64": 0.9567430917231183,
+            "euclidean_sensitivity_64": 0.9561649069037645,
+            "random_dense_64": 0.1157814092640308,
+            "random_native_64": 0.47026205387077435,
+            "native_16": 0.8516199651503797,
+            "native_64": 0.8911536951611234,
+            "native_128": 0.9190488673655126
+          },
+          "coefficient": {
+            "context_16": 0.9320750422923127,
+            "predictive_16": 0.6025271235980099,
+            "metric_sensitivity_16": 0.9193982415956103,
+            "euclidean_sensitivity_16": 0.9288914203159916,
+            "random_dense_16": 0.023809236480781593,
+            "random_native_16": 0.4099458551194263,
+            "metric_sensitivity_64": 0.9615940205555434,
+            "euclidean_sensitivity_64": 0.9615836071860826,
+            "random_dense_64": 0.10648765389559933,
+            "random_native_64": 0.49419626461799937,
+            "native_16": 0.8758173944647777,
+            "native_64": 0.8946061052103106,
+            "native_128": 0.9107419655135008
+          }
+        },
+        "1.0": {
+          "tensor": {
+            "context_16": 0.9505870868565671,
+            "predictive_16": 0.6627341255433379,
+            "metric_sensitivity_16": 0.9718939285388781,
+            "euclidean_sensitivity_16": 0.9548437383318531,
+            "random_dense_16": 0.03217208744310063,
+            "random_native_16": 0.4907314873463722,
+            "metric_sensitivity_64": 0.9833555702360776,
+            "euclidean_sensitivity_64": 0.9834072992191457,
+            "random_dense_64": 0.1359667927821102,
+            "random_native_64": 0.5190374688265077,
+            "native_16": 0.9224985318510226,
+            "native_64": 0.9454296320127518,
+            "native_128": 0.9610603441851787
+          },
+          "coefficient": {
+            "context_16": 0.9554921290157546,
+            "predictive_16": 0.6402339843809186,
+            "metric_sensitivity_16": 0.9552589152125393,
+            "euclidean_sensitivity_16": 0.9546453988279245,
+            "random_dense_16": 0.031008463495499572,
+            "random_native_16": 0.4561221858213169,
+            "metric_sensitivity_64": 0.9835090220203685,
+            "euclidean_sensitivity_64": 0.9837190116128723,
+            "random_dense_64": 0.1308856677440744,
+            "random_native_64": 0.5029031217417573,
+            "native_16": 0.8950374904940389,
+            "native_64": 0.9120857733407186,
+            "native_128": 0.924467439758092
+          }
+        }
+      },
+      "heldout_positions": {
+        "0.1": {
+          "tensor": {
+            "context_16": 0.9279419361311252,
+            "predictive_16": 0.6014562138999489,
+            "metric_sensitivity_16": 0.9444646603876893,
+            "euclidean_sensitivity_16": 0.9307128752274092,
+            "random_dense_16": 0.022207850577796506,
+            "random_native_16": 0.2643292869442623,
+            "metric_sensitivity_64": 0.9591020434174609,
+            "euclidean_sensitivity_64": 0.9587790723501601,
+            "random_dense_64": 0.13380624011726316,
+            "random_native_64": 0.29433853019393064,
+            "native_16": 0.8907970944227788,
+            "native_64": 0.914801272423342,
+            "native_128": 0.9355019887029431
+          },
+          "coefficient": {
+            "context_16": 0.9398994423078423,
+            "predictive_16": 0.5780004857025682,
+            "metric_sensitivity_16": 0.9377386274229639,
+            "euclidean_sensitivity_16": 0.9415454252732086,
+            "random_dense_16": 0.022677834234187233,
+            "random_native_16": 0.2254579899511947,
+            "metric_sensitivity_64": 0.9641348774752726,
+            "euclidean_sensitivity_64": 0.9642701701048014,
+            "random_dense_64": 0.12022644496713042,
+            "random_native_64": 0.2573244835593237,
+            "native_16": 0.8979766258512568,
+            "native_64": 0.9125766888942178,
+            "native_128": 0.9277715748375746
+          }
+        },
+        "1.0": {
+          "tensor": {
+            "context_16": 0.9522200352097816,
+            "predictive_16": 0.6466670843288511,
+            "metric_sensitivity_16": 0.9731240701815764,
+            "euclidean_sensitivity_16": 0.9525746277056398,
+            "random_dense_16": 0.03392540815861289,
+            "random_native_16": 0.4448783956085369,
+            "metric_sensitivity_64": 0.9818850871959884,
+            "euclidean_sensitivity_64": 0.9818846599245311,
+            "random_dense_64": 0.1592622814897121,
+            "random_native_64": 0.46235079388467726,
+            "native_16": 0.9204591809370208,
+            "native_64": 0.9456542701324102,
+            "native_128": 0.9618533810695611
+          },
+          "coefficient": {
+            "context_16": 0.9557283895279357,
+            "predictive_16": 0.6146943809849297,
+            "metric_sensitivity_16": 0.9535542862296866,
+            "euclidean_sensitivity_16": 0.9522844989648428,
+            "random_dense_16": 0.03121332762421314,
+            "random_native_16": 0.4154525982994124,
+            "metric_sensitivity_64": 0.9815281151542607,
+            "euclidean_sensitivity_64": 0.9814761810948661,
+            "random_dense_64": 0.14326253800406552,
+            "random_native_64": 0.4414904071854955,
+            "native_16": 0.9006339308936011,
+            "native_64": 0.915549132404293,
+            "native_128": 0.9290001346781549
+          }
+        }
+      }
+    },
+    "tinystories": {
+      "discovery_positions": {
+        "0.1": {
+          "tensor": {
+            "context_16": 0.8565452886682077,
+            "predictive_16": 0.50233441126508,
+            "metric_sensitivity_16": 0.864358972654341,
+            "euclidean_sensitivity_16": 0.8651375471310696,
+            "random_dense_16": 0.028417768845066527,
+            "random_native_16": 0.16291688313542252,
+            "metric_sensitivity_64": 0.8974859978823169,
+            "euclidean_sensitivity_64": 0.8959060790650684,
+            "random_dense_64": 0.11115349793563467,
+            "random_native_64": 0.18716165866310364,
+            "native_16": 0.8251863658404187,
+            "native_64": 0.8589166495759504,
+            "native_128": 0.884606346550997
+          },
+          "coefficient": {
+            "context_16": 0.9101942127369148,
+            "predictive_16": 0.5335422288716816,
+            "metric_sensitivity_16": 0.8902744546975505,
+            "euclidean_sensitivity_16": 0.9149167464414689,
+            "random_dense_16": 0.026563219348572753,
+            "random_native_16": 0.1203900598437544,
+            "metric_sensitivity_64": 0.936323797589841,
+            "euclidean_sensitivity_64": 0.9361258929304125,
+            "random_dense_64": 0.10460631605930226,
+            "random_native_64": 0.15578687760304322,
+            "native_16": 0.8182624308609282,
+            "native_64": 0.847246499011853,
+            "native_128": 0.8687362230430213
+          }
+        },
+        "1.0": {
+          "tensor": {
+            "context_16": 0.9912783174026487,
+            "predictive_16": 0.5600014813820167,
+            "metric_sensitivity_16": 0.9915302265841724,
+            "euclidean_sensitivity_16": 0.9872016699465469,
+            "random_dense_16": 0.03239358766684752,
+            "random_native_16": 0.38851332499734603,
+            "metric_sensitivity_64": 0.9945791254780273,
+            "euclidean_sensitivity_64": 0.99435184771123,
+            "random_dense_64": 0.11594501700132365,
+            "random_native_64": 0.41090592382351887,
+            "native_16": 0.9400723009886125,
+            "native_64": 0.9623740534060917,
+            "native_128": 0.9745769836720901
+          },
+          "coefficient": {
+            "context_16": 0.9946432525205796,
+            "predictive_16": 0.5610009612500704,
+            "metric_sensitivity_16": 0.9721062637527172,
+            "euclidean_sensitivity_16": 0.9908449731316501,
+            "random_dense_16": 0.027747618969868326,
+            "random_native_16": 0.3139076899946641,
+            "metric_sensitivity_64": 0.9967745765441788,
+            "euclidean_sensitivity_64": 0.9966384458157945,
+            "random_dense_64": 0.10607936068872137,
+            "random_native_64": 0.34810428977290697,
+            "native_16": 0.8884094582189797,
+            "native_64": 0.9092981852104042,
+            "native_128": 0.9230220251979895
+          }
+        }
+      },
+      "heldout_positions": {
+        "0.1": {
+          "tensor": {
+            "context_16": 0.843695802267775,
+            "predictive_16": 0.5282387062185698,
+            "metric_sensitivity_16": 0.8675073759596728,
+            "euclidean_sensitivity_16": 0.8633318289425586,
+            "random_dense_16": 0.03296616157492849,
+            "random_native_16": 0.3017657200523691,
+            "metric_sensitivity_64": 0.9069411597299737,
+            "euclidean_sensitivity_64": 0.9054288006494453,
+            "random_dense_64": 0.12723185370888523,
+            "random_native_64": 0.32343398313533633,
+            "native_16": 0.828176679288288,
+            "native_64": 0.859268965844273,
+            "native_128": 0.8845254069270527
+          },
+          "coefficient": {
+            "context_16": 0.8941329731512055,
+            "predictive_16": 0.5698035638986549,
+            "metric_sensitivity_16": 0.8732877079907286,
+            "euclidean_sensitivity_16": 0.9035330534360451,
+            "random_dense_16": 0.028684983669222563,
+            "random_native_16": 0.22261233422571314,
+            "metric_sensitivity_64": 0.9353288039632726,
+            "euclidean_sensitivity_64": 0.9355549541917286,
+            "random_dense_64": 0.10810929059117558,
+            "random_native_64": 0.27472601884768555,
+            "native_16": 0.7681890292783787,
+            "native_64": 0.807587510349868,
+            "native_128": 0.8369815271692701
+          }
+        },
+        "1.0": {
+          "tensor": {
+            "context_16": 0.983764096700956,
+            "predictive_16": 0.5549730895008671,
+            "metric_sensitivity_16": 0.9898027812087677,
+            "euclidean_sensitivity_16": 0.9799330551835135,
+            "random_dense_16": 0.031210318013873417,
+            "random_native_16": 0.5609550469911349,
+            "metric_sensitivity_64": 0.9945631588721977,
+            "euclidean_sensitivity_64": 0.9944524345059788,
+            "random_dense_64": 0.12446565627161721,
+            "random_native_64": 0.5814063852398196,
+            "native_16": 0.9464630904701089,
+            "native_64": 0.9628462878695095,
+            "native_128": 0.9737865529013343
+          },
+          "coefficient": {
+            "context_16": 0.987142146189346,
+            "predictive_16": 0.5564247521877068,
+            "metric_sensitivity_16": 0.9686700526571161,
+            "euclidean_sensitivity_16": 0.982974306314605,
+            "random_dense_16": 0.02484558222495159,
+            "random_native_16": 0.48806012138338295,
+            "metric_sensitivity_64": 0.9958695102244788,
+            "euclidean_sensitivity_64": 0.9958193899137119,
+            "random_dense_64": 0.10426253286677423,
+            "random_native_64": 0.5264161563989374,
+            "native_16": 0.8892830901406596,
+            "native_64": 0.9102180665173827,
+            "native_128": 0.9250399017114309
+          }
+        }
+      }
+    }
+  }
+}

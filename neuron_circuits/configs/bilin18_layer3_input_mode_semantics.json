@@ -1,0 +1,42 @@
+{
+  "status": "hypotheses-locked-after-layer3-quadratic-sparsity-before-natural-semantic-labeling",
+  "source_config": "configs/bilin18_layer3_native_bank_input_forms.json",
+  "native_results": "artifacts/bilin18_tensor_decomposition/layer3_native_channel_circuits.json",
+  "seed": 20261112,
+  "layer": 3,
+  "channel_rank": 256,
+  "output_rank": 4,
+  "modes_per_family": 8,
+  "batch_size": 8,
+  "sequence_length": 129,
+  "position_start": 1,
+  "position_stop": 129,
+  "tail_size": 3,
+  "nearest_tokens": 10,
+  "minimum_positive_count": 20,
+  "minimum_token_count_for_correlation": 20,
+  "corpora": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 0,
+      "rows": 4096
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 0,
+      "rows": 1200
+    }
+  },
+  "discovery_corpus": "fineweb",
+  "evaluation_corpus": "tinystories",
+  "hypotheses": {
+    "S1_every_family_has_semantic_mode": "For every family, the mode selected only by highest FineWeb own-family AUROC has TinyStories AUROC at least 0.70 for its frozen current-token predicate.",
+    "S2_semantic_modes_beat_random": "The median TinyStories own-family AUROC of FineWeb-selected native modes exceeds separately FineWeb-selected matched-random directions by at least 0.05.",
+    "S3_family_labels_are_specific": "For every family, its FineWeb-selected native mode's TinyStories own-family AUROC exceeds the same mode's FineWeb-selected best wrong-family AUROC by at least 0.05.",
+    "S4_weight_axes_predict_natural_coordinates": "The median absolute site-level correlation between a mode's embedding projection and its natural Layer-3 coordinate is at least 0.30 on both corpora.",
+    "S5_labels_transfer_ood": "The median retained fraction (TinyStories AUROC minus chance divided by FineWeb AUROC minus chance) of frozen own-family labels is at least 0.75.",
+    "S6_semantics_exceed_generic_token_form": "For every family, its FineWeb-selected native mode's TinyStories own-family AUROC exceeds that mode's FineWeb-selected best generic token-form AUROC.",
+    "S7_family_tokens_are_weight_neighbours": "For every family, at least one frozen mode places a family seed token among its 50 most extreme vocabulary embedding projections, and the median best seed-token rank beats matched random directions by at least a factor of two.",
+    "S8_native_axes_are_more_semantic_than_rotations": "The median TinyStories own-family AUROC of FineWeb-selected native modes exceeds separately FineWeb-selected axes from a frozen random rotation of the same family subspace by at least 0.05."
+  }
+}

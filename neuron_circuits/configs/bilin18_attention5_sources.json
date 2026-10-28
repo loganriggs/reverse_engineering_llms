@@ -1,0 +1,14 @@
+{
+  "experiment": "H970",
+  "hashes": {
+    "runner": "9c4d8301a418ce463d2b98ec37c3281e0e1d9000a494e06e0290198d13e43aab",
+    "panel": "48268f75bf045c651e28d92c843535adee5ed76d2efeaba3d795b3208f3a3f6f",
+    "data": "c07d249a75b4af37139d8b2e8c82f37de52a319ad6862e4c17fed549b25e84fc",
+    "trace": "1eb343a6d0d77a24446b0c5b6dc18a287d0cddbb4292153311781b967d391965",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "Reconstruct attention5 last-token patterns and mixed values including native layer0 bus, QK RMS norm, rotary embeddings, checkpoint-native product of two QK score matrices (signed, unnormalized routing weights) and output projection. Decompose by head and source token. Align tokens by prefix/negation/adjective/suffix roles and within-role index.",
+  "factorization": "At each aligned slot/head, attention output is scalar P times projected value V. Factorial interaction = P0*Vi (value interaction) + Pi*V0 (routing interaction) + Pa*Vn+Pn*Va (cross terms). Summed over sources/heads.",
+  "alignment": "Role assignment uses tokenizer character offsets. Slots missing in some quartet states use zero P and zero V; factor split on those slots depends on this padding convention. Report common versus noncommon slots separately. Source contributions P*V always sum exactly; padding is not a causal hypothesis.",
+  "limits": "Native trajectory factorization, not mediation or a counterfactual routing experiment. Native-gate failures remain diagnostics; rank only competent familiar A. No new training or reserved-test use."
+}

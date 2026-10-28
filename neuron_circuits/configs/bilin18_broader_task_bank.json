@@ -1,0 +1,16 @@
+{
+  "experiment": "H986",
+  "hashes": {
+    "runner": "c96e040ea61eb4fd8d9ffcd20ae99545877b78fd900cf68612b0bcbd5ff4ec11",
+    "stimuli": "0f7485e4ee45143357db5e7e3bd76ca6ebee857334cd318fbc9afa1a7f9e6715",
+    "tokenizer_helper": "b12af9075f3d17e2c4947b9b6ca8c54fee1a5b64260383d93fc41487944066ba",
+    "forward_helper": "c847b602f0e42394387dde33897ce081436b75dc728f398bb367c0937952b1ed",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "design": "Fixed10 additional candidate families x8 source slots x2formats, paired answer-changing examples. Native competence only; no circuit/featurizer claims. Save all outcomes and tokenization exclusions. No equal-length filter at competence stage; alignment handled later.",
+  "split": "A first4 source discovery, A last4 lexical, B first4 structural, B last4 joint. Whole-task training holdouts predeclared: continent_recall,object_function in this bank; existing sequence_copy,role_binding,spatial_inverse,tense remain excluded from training. These are development holdouts, not the original reserved test.",
+  "gate": "Per family/split >=4 DISTINCT prompt pairs, >=.75 both-endpoint contrast correctness, >=.5 intended group full-vocabulary top1. Duplicated templates counted once; all are reported, no posthoc prompt replacement.",
+  "groups": "Existing fixed agreement/sentiment/negation semantic groups; otherwise exact answer tokens. Strict single-token continuation boundary check; excluded pairs retained in report.",
+  "limits": "Some prompts reuse prior research. Month-successor uses shared vocabulary across source splits. Other families have disjoint queried items within each format, but word parts and outputs may overlap. Continent and object-function prompts include broad/ambiguous labels and are diagnostic candidates, not established tasks. Semantic ambiguities and tokenization can make a format unsuitable without proving inability.",
+  "purpose": "Screen breadth cheaply before expensive causal targets; no new training."
+}

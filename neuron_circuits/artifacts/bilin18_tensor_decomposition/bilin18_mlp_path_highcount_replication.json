@@ -1,0 +1,364 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-32-site-546m-pilot-before-high-count-replication",
+    "source_artifact": "artifacts/bilin18_tensor_decomposition/bilin18_mlp_path_symmetry_replication.json",
+    "seed": 20261025,
+    "layer": 12,
+    "path_layers": [
+      13,
+      14,
+      15,
+      16
+    ],
+    "final_layer": 17,
+    "rank": 32,
+    "scale": 0.02,
+    "batch_size": 2,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "budgets": [
+      1,
+      2,
+      4,
+      5,
+      8,
+      12,
+      16
+    ],
+    "random_replicates": 128,
+    "gates": {
+      "k4": 0.94,
+      "k8": 0.98,
+      "degree_one": 0.93,
+      "finite_k8": 0.98,
+      "ood_drop": 0.03,
+      "maximum_k90": 3,
+      "oracle_gap": 0.02
+    },
+    "axis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 16000,
+      "rows": 256
+    },
+    "path_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 17500,
+      "rows": 256
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19500,
+        "rows": 64
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 400,
+        "rows": 64
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 400,
+        "rows": 64
+      }
+    },
+    "hypotheses": {
+      "X0_checkpoint_is_over_500m": "The evaluated checkpoint contains more than 500 million parameters.",
+      "X1_grouped_path_sum_is_exact": "The 16 symmetry-invariant I/B paths recompose the independent attention-frozen JVP with maximum sitewise relative error at most 1e-5.",
+      "X2_frozen_four_group_program_is_compact": "Four FineWeb-frozen groups retain at least 0.94 Jacobian fidelity on every corpus.",
+      "X3_frozen_eight_group_program_is_high_fidelity": "Eight frozen groups retain at least 0.98 Jacobian fidelity on every corpus.",
+      "X4_degree_one_truncation_is_sufficient": "The discovery-free residual-plus-four-single-layer program retains at least 0.93 fidelity on every corpus.",
+      "X5_group_program_predicts_finite_effects": "Eight frozen groups predict finite attention-frozen MLP effects with at least 0.98 fidelity on every corpus.",
+      "X6_group_program_transfers_ood": "Four-group fidelity on each OOD corpus is within 0.03 of disjoint FineWeb.",
+      "X7_native_suffix_is_low_order": "Three or fewer groups reach 90% fidelity on every corpus.",
+      "X8_context_specific_selection_is_small": "At budget four, the per-example oracle exceeds the frozen program by less than 0.02 on every corpus."
+    }
+  },
+  "hypotheses": {
+    "X0_checkpoint_is_over_500m": {
+      "supported": true,
+      "parameter_count": 545902902
+    },
+    "X1_grouped_path_sum_is_exact": {
+      "supported": true,
+      "maximum_relative_error": 9.256445991923101e-07
+    },
+    "X2_frozen_four_group_program_is_compact": {
+      "supported": true
+    },
+    "X3_frozen_eight_group_program_is_high_fidelity": {
+      "supported": true
+    },
+    "X4_degree_one_truncation_is_sufficient": {
+      "supported": true
+    },
+    "X5_group_program_predicts_finite_effects": {
+      "supported": true
+    },
+    "X6_group_program_transfers_ood": {
+      "supported": true
+    },
+    "X7_native_suffix_is_low_order": {
+      "supported": true
+    },
+    "X8_context_specific_selection_is_small": {
+      "supported": true
+    }
+  },
+  "parameter_count": 545902902,
+  "group_order": [
+    "IIII",
+    "IIIB",
+    "IIBB",
+    "IIBI",
+    "BIIB",
+    "IBII",
+    "BIII",
+    "IBIB",
+    "BIBB",
+    "IBBB",
+    "BIBI",
+    "IBBI",
+    "BBII",
+    "BBBI",
+    "BBIB",
+    "BBBB"
+  ],
+  "results": {
+    "fineweb": {
+      "sites": 256,
+      "k90": 3,
+      "degree_le_one_fidelity": 0.9382275529205799,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.6622259020805359,
+          "oracle_fidelity": 0.6622259045766219,
+          "random": {
+            "median": 0.01728999614715576,
+            "p95": 0.6622259020805359,
+            "maximum": 0.6622259020805359
+          },
+          "finite_mlp_path_fidelity": 0.6622235476970673
+        },
+        "2": {
+          "frozen_fidelity": 0.8907302767038345,
+          "oracle_fidelity": 0.8907302921736249,
+          "random": {
+            "median": 0.03979212045669556,
+            "p95": 0.6635335981845856,
+            "maximum": 0.8907302767038345
+          },
+          "finite_mlp_path_fidelity": 0.8907284736633301
+        },
+        "4": {
+          "frozen_fidelity": 0.9581912867724895,
+          "oracle_fidelity": 0.9588748097484768,
+          "random": {
+            "median": 0.13159599900245667,
+            "p95": 0.7863775089383124,
+            "maximum": 0.9380744658410549
+          },
+          "finite_mlp_path_fidelity": 0.9581904523074627
+        },
+        "5": {
+          "frozen_fidelity": 0.971032340079546,
+          "oracle_fidelity": 0.973129589896711,
+          "random": {
+            "median": 0.35212889313697815,
+            "p95": 0.9039251916110514,
+            "maximum": 0.939149796962738
+          },
+          "finite_mlp_path_fidelity": 0.9710316546261311
+        },
+        "8": {
+          "frozen_fidelity": 0.9887668788433075,
+          "oracle_fidelity": 0.9908061712353848,
+          "random": {
+            "median": 0.44600868225097656,
+            "p95": 0.9638042576611042,
+            "maximum": 0.9762770775705576
+          },
+          "finite_mlp_path_fidelity": 0.9887669058516622
+        },
+        "12": {
+          "frozen_fidelity": 0.998196218162775,
+          "oracle_fidelity": 0.9978839369373006,
+          "random": {
+            "median": 0.9614405035972595,
+            "p95": 0.9939243034925311,
+            "maximum": 0.9964386944193393
+          },
+          "finite_mlp_path_fidelity": 0.9981962244492024
+        },
+        "16": {
+          "frozen_fidelity": 0.9999999999999964,
+          "oracle_fidelity": 1.0000000000000002,
+          "random": {
+            "median": 0.9999999999999913,
+            "p95": 0.9999999999999936,
+            "maximum": 0.9999999999999947
+          },
+          "finite_mlp_path_fidelity": 0.9999998168687796
+        }
+      }
+    },
+    "wikitext": {
+      "sites": 256,
+      "k90": 3,
+      "degree_le_one_fidelity": 0.9381744414567947,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.656261533498764,
+          "oracle_fidelity": 0.6562615356851643,
+          "random": {
+            "median": 0.005524396896362305,
+            "p95": 0.656261533498764,
+            "maximum": 0.656261533498764
+          },
+          "finite_mlp_path_fidelity": 0.6562653183937073
+        },
+        "2": {
+          "frozen_fidelity": 0.8902931585907936,
+          "oracle_fidelity": 0.8904993636755383,
+          "random": {
+            "median": 0.043058693408966064,
+            "p95": 0.6598486632108689,
+            "maximum": 0.7192622125148773
+          },
+          "finite_mlp_path_fidelity": 0.8902964144945145
+        },
+        "4": {
+          "frozen_fidelity": 0.9578829109668732,
+          "oracle_fidelity": 0.9582338996550104,
+          "random": {
+            "median": 0.3443862795829773,
+            "p95": 0.8514677964150896,
+            "maximum": 0.9302316457033157
+          },
+          "finite_mlp_path_fidelity": 0.9578850790858269
+        },
+        "5": {
+          "frozen_fidelity": 0.9711952582001686,
+          "oracle_fidelity": 0.972810723371255,
+          "random": {
+            "median": 0.3557907044887543,
+            "p95": 0.8525228533893817,
+            "maximum": 0.9273043349385262
+          },
+          "finite_mlp_path_fidelity": 0.9711967557668686
+        },
+        "8": {
+          "frozen_fidelity": 0.9897853815928102,
+          "oracle_fidelity": 0.9907738941592947,
+          "random": {
+            "median": 0.4552166759967804,
+            "p95": 0.9639653578400611,
+            "maximum": 0.9824796412140131
+          },
+          "finite_mlp_path_fidelity": 0.9897848647087812
+        },
+        "12": {
+          "frozen_fidelity": 0.9982416002312675,
+          "oracle_fidelity": 0.998100272657571,
+          "random": {
+            "median": 0.965043293312192,
+            "p95": 0.9934610928874463,
+            "maximum": 0.9982416002312675
+          },
+          "finite_mlp_path_fidelity": 0.9982412714743987
+        },
+        "16": {
+          "frozen_fidelity": 0.9999999999999964,
+          "oracle_fidelity": 1.0000000000000002,
+          "random": {
+            "median": 0.9999999999999918,
+            "p95": 0.9999999999999934,
+            "maximum": 0.9999999999999948
+          },
+          "finite_mlp_path_fidelity": 0.9999998253091746
+        }
+      }
+    },
+    "tinystories": {
+      "sites": 256,
+      "k90": 3,
+      "degree_le_one_fidelity": 0.9410101361572742,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.6715870499610901,
+          "oracle_fidelity": 0.6716783750987407,
+          "random": {
+            "median": 0.03283274173736572,
+            "p95": 0.5488338232040375,
+            "maximum": 0.6715870499610901
+          },
+          "finite_mlp_path_fidelity": 0.6715868711471558
+        },
+        "2": {
+          "frozen_fidelity": 0.8940130695700645,
+          "oracle_fidelity": 0.8940130596309117,
+          "random": {
+            "median": 0.0512617826461792,
+            "p95": 0.7303037941455841,
+            "maximum": 0.8940130695700645
+          },
+          "finite_mlp_path_fidelity": 0.8940131366252899
+        },
+        "4": {
+          "frozen_fidelity": 0.9630998112261295,
+          "oracle_fidelity": 0.963671979880879,
+          "random": {
+            "median": 0.12623807787895203,
+            "p95": 0.7927383601665496,
+            "maximum": 0.9266899600625038
+          },
+          "finite_mlp_path_fidelity": 0.9630999155342579
+        },
+        "5": {
+          "frozen_fidelity": 0.9763846527785063,
+          "oracle_fidelity": 0.9776482219860481,
+          "random": {
+            "median": 0.34945574402809143,
+            "p95": 0.9103732015937567,
+            "maximum": 0.9541929215192795
+          },
+          "finite_mlp_path_fidelity": 0.9763845391571522
+        },
+        "8": {
+          "frozen_fidelity": 0.9930482204072177,
+          "oracle_fidelity": 0.9936006503651899,
+          "random": {
+            "median": 0.46194058656692505,
+            "p95": 0.9502790890634059,
+            "maximum": 0.9766334015876055
+          },
+          "finite_mlp_path_fidelity": 0.9930477817542851
+        },
+        "12": {
+          "frozen_fidelity": 0.9989325474016368,
+          "oracle_fidelity": 0.998990666773083,
+          "random": {
+            "median": 0.9482397641986609,
+            "p95": 0.9935770585900172,
+            "maximum": 0.9989325476344675
+          },
+          "finite_mlp_path_fidelity": 0.9989321539178491
+        },
+        "16": {
+          "frozen_fidelity": 0.9999999999999968,
+          "oracle_fidelity": 1.0000000000000002,
+          "random": {
+            "median": 0.999999999999992,
+            "p95": 0.9999999999999946,
+            "maximum": 0.9999999999999957
+          },
+          "finite_mlp_path_fidelity": 0.999999815374764
+        }
+      }
+    }
+  }
+}

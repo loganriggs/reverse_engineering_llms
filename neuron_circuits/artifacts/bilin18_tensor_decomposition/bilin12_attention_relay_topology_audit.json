@@ -1,0 +1,482 @@
+{
+  "config": {
+    "status": "locked-after-universal-backbone-audit-and-exploratory-edge-probe-before-relay-topology-audit",
+    "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+    "seed": 20261101,
+    "batch_size": 4,
+    "sequence_length": 128,
+    "edit_position": 95,
+    "prediction_position": 127,
+    "layers": [
+      5,
+      6,
+      8,
+      10
+    ],
+    "destination_groups": {
+      "local_0_4": [
+        95,
+        100
+      ],
+      "relay_5_16": [
+        100,
+        112
+      ],
+      "late_17_31": [
+        112,
+        127
+      ],
+      "final_32": [
+        127,
+        128
+      ]
+    },
+    "source_groups": {
+      "earlier": [
+        0,
+        93
+      ],
+      "edit_neighborhood": [
+        93,
+        98
+      ],
+      "later": [
+        98,
+        128
+      ]
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19324,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 72,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 72,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "T1_edge_partitions_recompose_attention": "Destination and source partitions each recompose the full changed-minus-base attention write to maximum absolute error at most 1e-4.",
+      "T2_direct_final_write_is_not_the_main_route": "The final-position-only destination receives at most 0.20 absolute causal Shapley share at every layer and corpus.",
+      "T3_early_backbone_writes_locally": "At Layers 5 and 6, local-plus-relay destination groups receive at least 0.50 absolute causal Shapley share on every corpus.",
+      "T4_relay_front_moves_forward_with_depth": "Late-plus-final destination share is larger at Layer 10 than Layer 5 on every corpus.",
+      "T5_edited_source_neighborhood_seeds_the_backbone": "At Layers 5 and 6, the edited source neighborhood receives at least 0.50 absolute causal Shapley share on every corpus.",
+      "T6_later_sources_grow_after_relay": "The later-source causal share is larger at Layer 10 than Layer 5 on every corpus.",
+      "T7_state_energy_and_behavioral_routing_differ": "At some layer and corpus, a group's local state projection and causal Shapley projection differ by at least 0.15.",
+      "T8_dominant_topology_transfers_ood": "The largest destination group and largest source group at every layer are identical across all three corpora."
+    }
+  },
+  "hypotheses": {
+    "T1_edge_partitions_recompose_attention": {
+      "supported": false
+    },
+    "T2_direct_final_write_is_not_the_main_route": {
+      "supported": false
+    },
+    "T3_early_backbone_writes_locally": {
+      "supported": false
+    },
+    "T4_relay_front_moves_forward_with_depth": {
+      "supported": true
+    },
+    "T5_edited_source_neighborhood_seeds_the_backbone": {
+      "supported": false
+    },
+    "T6_later_sources_grow_after_relay": {
+      "supported": false
+    },
+    "T7_state_energy_and_behavioral_routing_differ": {
+      "supported": true
+    },
+    "T8_dominant_topology_transfers_ood": {
+      "supported": false
+    }
+  },
+  "results": {
+    "fineweb": {
+      "5": {
+        "examples": 30,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.058334109067159454,
+            "relay_5_16": 0.08613849400611583,
+            "late_17_31": 0.19825055708494288,
+            "final_32": 0.6572768391964608
+          },
+          "state_projection": {
+            "local_0_4": 0.519993404364402,
+            "relay_5_16": 0.32451059198234505,
+            "late_17_31": 0.14985710229745583,
+            "final_32": 0.005638948130876532
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.048613822568961795,
+            "edit_neighborhood": 0.365140613094892,
+            "later": 0.5862456173314389
+          },
+          "state_projection": {
+            "earlier": 0.16576330007504814,
+            "edit_neighborhood": 0.5584676528874868,
+            "later": 0.27576908395648564
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.00024127960205078125
+      },
+      "6": {
+        "examples": 30,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.023128515136288327,
+            "relay_5_16": 0.02232567445291587,
+            "late_17_31": 0.13960969679799962,
+            "final_32": 0.8149361696499984
+          },
+          "state_projection": {
+            "local_0_4": 0.5354369431518764,
+            "relay_5_16": 0.2889376765775609,
+            "late_17_31": 0.16953310416759848,
+            "final_32": 0.006092325288541626
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": -0.019218947983116633,
+            "edit_neighborhood": 0.5033961426142914,
+            "later": 0.515822866084234
+          },
+          "state_projection": {
+            "earlier": 0.18818242116638115,
+            "edit_neighborhood": 0.632687070296142,
+            "later": 0.17913053708466856
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.0002465248107910156
+      },
+      "8": {
+        "examples": 30,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.0021862197111446034,
+            "relay_5_16": -0.00953715783647792,
+            "late_17_31": 0.14813083049742237,
+            "final_32": 0.8592201471372372
+          },
+          "state_projection": {
+            "local_0_4": 0.5562492985981319,
+            "relay_5_16": 0.2334468122046659,
+            "late_17_31": 0.20174498713888744,
+            "final_32": 0.008558914240853697
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.12466510435620246,
+            "edit_neighborhood": 0.7622685592742596,
+            "later": 0.11306638691123268
+          },
+          "state_projection": {
+            "earlier": 0.3286557298137053,
+            "edit_neighborhood": 0.5956988195267123,
+            "later": 0.07564545378331036
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.0002040863037109375
+      },
+      "10": {
+        "examples": 30,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.0011564945009006748,
+            "relay_5_16": 0.000799880234408,
+            "late_17_31": 0.0062712384512752205,
+            "final_32": 0.9917723863577751
+          },
+          "state_projection": {
+            "local_0_4": 0.6613311828223928,
+            "relay_5_16": 0.1785355923947986,
+            "late_17_31": 0.155078365019512,
+            "final_32": 0.005054878779621991
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.1317459561775632,
+            "edit_neighborhood": 0.7047666702845978,
+            "later": 0.16348744226146625
+          },
+          "state_projection": {
+            "earlier": 0.7510374658002567,
+            "edit_neighborhood": 0.20466296807473833,
+            "later": 0.04429956481822818
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.000240325927734375
+      }
+    },
+    "wikitext": {
+      "5": {
+        "examples": 31,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.028335238611206546,
+            "relay_5_16": 0.04052677099862049,
+            "late_17_31": 0.19371109083928617,
+            "final_32": 0.7374269182974634
+          },
+          "state_projection": {
+            "local_0_4": 0.5113385477642205,
+            "relay_5_16": 0.31066614909706597,
+            "late_17_31": 0.17160473208831736,
+            "final_32": 0.0063905801556639425
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.2554457577419007,
+            "edit_neighborhood": 0.06887951682533625,
+            "later": 0.6756747677635545
+          },
+          "state_projection": {
+            "earlier": 0.2701018818193314,
+            "edit_neighborhood": 0.49205219670248707,
+            "later": 0.23784593576095456
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.000244140625
+      },
+      "6": {
+        "examples": 31,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.02526534520047196,
+            "relay_5_16": 0.008758879933363758,
+            "late_17_31": 0.09350512983908683,
+            "final_32": 0.8724706250511257
+          },
+          "state_projection": {
+            "local_0_4": 0.5064364323157717,
+            "relay_5_16": 0.2814348351379444,
+            "late_17_31": 0.20508744493321518,
+            "final_32": 0.007041371375279134
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.08521676868880564,
+            "edit_neighborhood": 0.4809167539306695,
+            "later": 0.43386662681829563
+          },
+          "state_projection": {
+            "earlier": 0.28751737370557323,
+            "edit_neighborhood": 0.5681460698427638,
+            "later": 0.144336556451663
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.00028228759765625
+      },
+      "8": {
+        "examples": 31,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.002297837772673842,
+            "relay_5_16": 0.00698359611160297,
+            "late_17_31": 0.08596677181602842,
+            "final_32": 0.904751822885605
+          },
+          "state_projection": {
+            "local_0_4": 0.5056658695541599,
+            "relay_5_16": 0.2722299271114369,
+            "late_17_31": 0.21351223732815308,
+            "final_32": 0.008591983645975356
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.2443325367612423,
+            "edit_neighborhood": 0.5146158816754317,
+            "later": 0.24105165559305572
+          },
+          "state_projection": {
+            "earlier": 0.4448038927777637,
+            "edit_neighborhood": 0.4298618879851639,
+            "later": 0.12533424515666866
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.000225067138671875
+      },
+      "10": {
+        "examples": 31,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.0009959147632360406,
+            "relay_5_16": 0.0005339482837614502,
+            "late_17_31": 0.001179275376505608,
+            "final_32": 0.9972908491308631
+          },
+          "state_projection": {
+            "local_0_4": 0.48968545447789374,
+            "relay_5_16": 0.2626418626174171,
+            "late_17_31": 0.2370671299299377,
+            "final_32": 0.010605603664295159
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.3825710024701589,
+            "edit_neighborhood": 0.3105366408015518,
+            "later": 0.3068924006343379
+          },
+          "state_projection": {
+            "earlier": 0.6518673817972778,
+            "edit_neighborhood": 0.2864119842643665,
+            "later": 0.061720679140822375
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.000244140625
+      }
+    },
+    "tinystories": {
+      "5": {
+        "examples": 32,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.027141719077456092,
+            "relay_5_16": 0.09216367048471255,
+            "late_17_31": 0.1148260623951757,
+            "final_32": 0.7658685987890076
+          },
+          "state_projection": {
+            "local_0_4": 0.5451131900747936,
+            "relay_5_16": 0.29079650466340645,
+            "late_17_31": 0.15545717383447777,
+            "final_32": 0.008633174775301901
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.0679322459639542,
+            "edit_neighborhood": 0.4842863886517216,
+            "later": 0.44778139878686046
+          },
+          "state_projection": {
+            "earlier": 0.13547639038311074,
+            "edit_neighborhood": 0.6239226687106125,
+            "later": 0.2406009493954769
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.00027179718017578125
+      },
+      "6": {
+        "examples": 32,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.039188311930161916,
+            "relay_5_16": 0.020587647873105106,
+            "late_17_31": 0.0714967407363607,
+            "final_32": 0.8687273215320193
+          },
+          "state_projection": {
+            "local_0_4": 0.4596592796868255,
+            "relay_5_16": 0.33051559570780537,
+            "late_17_31": 0.19995242974739197,
+            "final_32": 0.009872738088124031
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": -0.07691343255399037,
+            "edit_neighborhood": 0.6143426790062755,
+            "later": 0.4625708131117062
+          },
+          "state_projection": {
+            "earlier": 0.10296061477885013,
+            "edit_neighborhood": 0.7202711851625515,
+            "later": 0.1767682010639506
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.00023651123046875
+      },
+      "8": {
+        "examples": 32,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": 0.09328055365494861,
+            "relay_5_16": 0.0004542142961145554,
+            "late_17_31": 0.07361752590354617,
+            "final_32": 0.8326477414124648
+          },
+          "state_projection": {
+            "local_0_4": 0.5585571870298364,
+            "relay_5_16": 0.22467924530825167,
+            "late_17_31": 0.20406344064912083,
+            "final_32": 0.012700151861980482
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.22361122109834491,
+            "edit_neighborhood": 0.6147895219111711,
+            "later": 0.16159935325519117
+          },
+          "state_projection": {
+            "earlier": 0.28804843076328585,
+            "edit_neighborhood": 0.6673369366585935,
+            "later": 0.0446146814293684
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.00018310546875
+      },
+      "10": {
+        "examples": 32,
+        "destination": {
+          "causal_shapley": {
+            "local_0_4": -0.009497069271935889,
+            "relay_5_16": 0.0007848627561348048,
+            "late_17_31": 0.0016348723565055867,
+            "final_32": 1.0070773967484232
+          },
+          "state_projection": {
+            "local_0_4": 0.713944920837533,
+            "relay_5_16": 0.1449158274439656,
+            "late_17_31": 0.12920458432912313,
+            "final_32": 0.01193469903022507
+          }
+        },
+        "source": {
+          "causal_shapley": {
+            "earlier": 0.01001043992347383,
+            "edit_neighborhood": 0.979704556028117,
+            "later": 0.010285131866522539
+          },
+          "state_projection": {
+            "earlier": 0.7262920527492255,
+            "edit_neighborhood": 0.2436671264021978,
+            "later": 0.03004086819603161
+          }
+        },
+        "maximum_destination_recomposition_error": 0.0,
+        "maximum_source_recomposition_error": 0.0002574920654296875
+      }
+    }
+  }
+}

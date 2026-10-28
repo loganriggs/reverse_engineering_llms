@@ -1,0 +1,1394 @@
+{
+  "config": {
+    "status": "locked-after-layer-localization-replication-before-factor-pilot",
+    "source_config": "configs/bilin18_layer1_supervised_coalition_causality.json",
+    "source_results": "artifacts/bilin18_tensor_decomposition/bilin18_layer1_supervised_coalition_causality.json",
+    "sites_per_feature": 2,
+    "support_rank": 64,
+    "attention_layers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "hypotheses": {
+      "M0_factor_vjps_recompose_native_attention": "QK1, QK2, and value VJPs sum to the native local attention VJP with maximum relative error at most 1e-5, and the all-block recurrence matches direct gradients.",
+      "M1_full_early_factor_program_replicates": "All three factors in Blocks 2 through 9 reach median gradient cosine at least 0.90.",
+      "M2_qk_routing_alone_is_sufficient": "QK1 plus QK2 in Blocks 2 through 9 reaches median gradient cosine at least 0.90.",
+      "M3_value_transport_alone_is_sufficient": "The value derivative in Blocks 2 through 9 reaches median gradient cosine at least 0.90.",
+      "M4_routing_value_complementarity_is_material": "The full early program beats the better of QK-only and value-only by at least 0.05 median gradient cosine.",
+      "M5_two_qk_factors_are_complementary": "QK1 plus QK2 beats the better individual QK factor by at least 0.05 median gradient cosine.",
+      "M6_one_qk_factor_plus_value_is_sufficient": "At least one QK-factor-plus-value program reaches median gradient cosine at least 0.90."
+    }
+  },
+  "maximum_local_recomposition_error": 8.37347968740687e-08,
+  "hypotheses": {
+    "M0_factor_vjps_recompose_native_attention": {
+      "supported": true
+    },
+    "M1_full_early_factor_program_replicates": {
+      "supported": true
+    },
+    "M2_qk_routing_alone_is_sufficient": {
+      "supported": true
+    },
+    "M3_value_transport_alone_is_sufficient": {
+      "supported": false
+    },
+    "M4_routing_value_complementarity_is_material": {
+      "supported": false
+    },
+    "M5_two_qk_factors_are_complementary": {
+      "supported": true
+    },
+    "M6_one_qk_factor_plus_value_is_sufficient": {
+      "supported": false
+    }
+  },
+  "summaries": {
+    "mlp_only": {
+      "gradient_cosine_median": 0.7266260385513306,
+      "gradient_relative_error_median": 0.6884778141975403,
+      "contribution_cosine_median": 0.6958690881729126,
+      "true_leverage_ratio_median": 0.725001335144043,
+      "gradient_cosine_q10": 0.4564244747161865,
+      "finite_directional_fraction": 0.9375,
+      "finite_mean_shift": 0.33521582558751106
+    },
+    "early_qk1": {
+      "gradient_cosine_median": 0.8118155598640442,
+      "gradient_relative_error_median": 0.5891600251197815,
+      "contribution_cosine_median": 0.825598269701004,
+      "true_leverage_ratio_median": 0.8400989174842834,
+      "gradient_cosine_q10": 0.6655474901199341,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.3767270278185606
+    },
+    "early_qk2": {
+      "gradient_cosine_median": 0.8254550099372864,
+      "gradient_relative_error_median": 0.5743792951107025,
+      "contribution_cosine_median": 0.8146039545536041,
+      "true_leverage_ratio_median": 0.8531634509563446,
+      "gradient_cosine_q10": 0.7227095663547516,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.38879069220274687
+    },
+    "early_qk": {
+      "gradient_cosine_median": 0.9039767682552338,
+      "gradient_relative_error_median": 0.43107110261917114,
+      "contribution_cosine_median": 0.9015595018863678,
+      "true_leverage_ratio_median": 0.9082537889480591,
+      "gradient_cosine_q10": 0.8446809947490692,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.40392634831368923
+    },
+    "early_value": {
+      "gradient_cosine_median": 0.7515340745449066,
+      "gradient_relative_error_median": 0.6731017529964447,
+      "contribution_cosine_median": 0.7194816470146179,
+      "true_leverage_ratio_median": 0.7407233417034149,
+      "gradient_cosine_q10": 0.4898971915245056,
+      "finite_directional_fraction": 0.9375,
+      "finite_mean_shift": 0.3330443911254406
+    },
+    "early_qk1_value": {
+      "gradient_cosine_median": 0.8644554316997528,
+      "gradient_relative_error_median": 0.5206091701984406,
+      "contribution_cosine_median": 0.8714938461780548,
+      "true_leverage_ratio_median": 0.865802139043808,
+      "gradient_cosine_q10": 0.72699373960495,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.37370264157652855
+    },
+    "early_qk2_value": {
+      "gradient_cosine_median": 0.863654613494873,
+      "gradient_relative_error_median": 0.5095126628875732,
+      "contribution_cosine_median": 0.8581505715847015,
+      "true_leverage_ratio_median": 0.8831757307052612,
+      "gradient_cosine_q10": 0.75248783826828,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.39071860909461975
+    },
+    "early_full": {
+      "gradient_cosine_median": 0.9399771690368652,
+      "gradient_relative_error_median": 0.3579591363668442,
+      "contribution_cosine_median": 0.9420069754123688,
+      "true_leverage_ratio_median": 0.9478456974029541,
+      "gradient_cosine_q10": 0.8959523737430573,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.4157079365104437
+    },
+    "all_full": {
+      "gradient_cosine_median": 1.0,
+      "gradient_relative_error_median": 1.7069976365746697e-06,
+      "contribution_cosine_median": 1.0,
+      "true_leverage_ratio_median": 1.0,
+      "gradient_cosine_q10": 0.9999999403953552,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.44420928694307804
+    },
+    "exact": {
+      "gradient_cosine_median": 1.0,
+      "gradient_relative_error_median": 0.0,
+      "contribution_cosine_median": 1.0,
+      "true_leverage_ratio_median": 1.0,
+      "gradient_cosine_q10": 0.9999998807907104,
+      "finite_directional_fraction": 1.0,
+      "finite_mean_shift": 0.44420928694307804
+    }
+  },
+  "records": [
+    {
+      "feature": "numeric",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7469035983085632,
+          "gradient_relative_error": 0.668185293674469,
+          "contribution_cosine": 0.8131467700004578,
+          "true_leverage_ratio": 0.8766317963600159
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8075960874557495,
+          "gradient_relative_error": 0.5980163216590881,
+          "contribution_cosine": 0.8437461256980896,
+          "true_leverage_ratio": 0.8818636536598206
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8679515719413757,
+          "gradient_relative_error": 0.5202378630638123,
+          "contribution_cosine": 0.8963029384613037,
+          "true_leverage_ratio": 0.93323814868927
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9117336273193359,
+          "gradient_relative_error": 0.4256455898284912,
+          "contribution_cosine": 0.9008612036705017,
+          "true_leverage_ratio": 0.9096769094467163
+        },
+        "early_value": {
+          "gradient_cosine": 0.796028196811676,
+          "gradient_relative_error": 0.6110365390777588,
+          "contribution_cosine": 0.8415666222572327,
+          "true_leverage_ratio": 0.8403923511505127
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.8582515120506287,
+          "gradient_relative_error": 0.5260006785392761,
+          "contribution_cosine": 0.8785824179649353,
+          "true_leverage_ratio": 0.8876751065254211
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.9134759902954102,
+          "gradient_relative_error": 0.4396500289440155,
+          "contribution_cosine": 0.9297885894775391,
+          "true_leverage_ratio": 0.9433846473693848
+        },
+        "early_full": {
+          "gradient_cosine": 0.953478991985321,
+          "gradient_relative_error": 0.31994572281837463,
+          "contribution_cosine": 0.9412394762039185,
+          "true_leverage_ratio": 0.9654210209846497
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 1.8440802023178549e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.23018991947174072,
+        "early_qk1": 0.23224186897277832,
+        "early_qk2": 0.2542896270751953,
+        "early_qk": 0.2487034797668457,
+        "early_value": 0.21796727180480957,
+        "early_qk1_value": 0.24077904224395752,
+        "early_qk2_value": 0.24803614616394043,
+        "early_full": 0.25347352027893066,
+        "all_full": 0.2646390199661255,
+        "exact": 0.2646390199661255
+      }
+    },
+    {
+      "feature": "numeric",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7788070440292358,
+          "gradient_relative_error": 0.6295866966247559,
+          "contribution_cosine": 0.7596253752708435,
+          "true_leverage_ratio": 0.7489932179450989
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8961878418922424,
+          "gradient_relative_error": 0.47716808319091797,
+          "contribution_cosine": 0.8626659512519836,
+          "true_leverage_ratio": 0.9065023064613342
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8692757487297058,
+          "gradient_relative_error": 0.5122054219245911,
+          "contribution_cosine": 0.8813793659210205,
+          "true_leverage_ratio": 0.8831170797348022
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9487276077270508,
+          "gradient_relative_error": 0.3444293737411499,
+          "contribution_cosine": 0.9504715800285339,
+          "true_leverage_ratio": 0.9547054171562195
+        },
+        "early_value": {
+          "gradient_cosine": 0.8013606071472168,
+          "gradient_relative_error": 0.6003844738006592,
+          "contribution_cosine": 0.7646116018295288,
+          "true_leverage_ratio": 0.7781605124473572
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.9155521392822266,
+          "gradient_relative_error": 0.43651312589645386,
+          "contribution_cosine": 0.8736904859542847,
+          "true_leverage_ratio": 0.9257781505584717
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8948784470558167,
+          "gradient_relative_error": 0.46945106983184814,
+          "contribution_cosine": 0.9042826890945435,
+          "true_leverage_ratio": 0.9022601246833801
+        },
+        "early_full": {
+          "gradient_cosine": 0.9741262793540955,
+          "gradient_relative_error": 0.27203166484832764,
+          "contribution_cosine": 0.972669243812561,
+          "true_leverage_ratio": 0.9703749418258667
+        },
+        "all_full": {
+          "gradient_cosine": 0.9999999403953552,
+          "gradient_relative_error": 1.5486217534999014e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 0.9999998211860657,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999998807907104,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.01814347505569458,
+        "early_qk1": 0.021860212087631226,
+        "early_qk2": 0.021225199103355408,
+        "early_qk": 0.022861868143081665,
+        "early_value": 0.018841564655303955,
+        "early_qk1_value": 0.022160589694976807,
+        "early_qk2_value": 0.021601617336273193,
+        "early_full": 0.023044735193252563,
+        "all_full": 0.02370116114616394,
+        "exact": 0.02370116114616394
+      }
+    },
+    {
+      "feature": "word_continuation",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.8072676658630371,
+          "gradient_relative_error": 0.5971211791038513,
+          "contribution_cosine": 0.8309672474861145,
+          "true_leverage_ratio": 0.842671275138855
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.890008807182312,
+          "gradient_relative_error": 0.4603988826274872,
+          "contribution_cosine": 0.9014204144477844,
+          "true_leverage_ratio": 0.9313161373138428
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8657498955726624,
+          "gradient_relative_error": 0.5040844082832336,
+          "contribution_cosine": 0.8743756413459778,
+          "true_leverage_ratio": 0.8820331692695618
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9208603501319885,
+          "gradient_relative_error": 0.39782553911209106,
+          "contribution_cosine": 0.9275820851325989,
+          "true_leverage_ratio": 0.9473327398300171
+        },
+        "early_value": {
+          "gradient_cosine": 0.8088740110397339,
+          "gradient_relative_error": 0.5906397700309753,
+          "contribution_cosine": 0.8354605436325073,
+          "true_leverage_ratio": 0.8372851610183716
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.8993000984191895,
+          "gradient_relative_error": 0.43752139806747437,
+          "contribution_cosine": 0.907145619392395,
+          "true_leverage_ratio": 0.9270347356796265
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8666013479232788,
+          "gradient_relative_error": 0.49962592124938965,
+          "contribution_cosine": 0.8761506080627441,
+          "true_leverage_ratio": 0.9096047878265381
+        },
+        "early_full": {
+          "gradient_cosine": 0.9291530847549438,
+          "gradient_relative_error": 0.37088245153427124,
+          "contribution_cosine": 0.9288321733474731,
+          "true_leverage_ratio": 0.9566206932067871
+        },
+        "all_full": {
+          "gradient_cosine": 0.9999999403953552,
+          "gradient_relative_error": 1.6040281707319082e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 0.9999999403953552,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.08434343338012695,
+        "early_qk1": 0.08875679969787598,
+        "early_qk2": 0.0877532958984375,
+        "early_qk": 0.08933162689208984,
+        "early_value": 0.08526158332824707,
+        "early_qk1_value": 0.08895492553710938,
+        "early_qk2_value": 0.08873629570007324,
+        "early_full": 0.09018683433532715,
+        "all_full": 0.09299206733703613,
+        "exact": 0.09299206733703613
+      }
+    },
+    {
+      "feature": "word_continuation",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7649096846580505,
+          "gradient_relative_error": 0.6505069732666016,
+          "contribution_cosine": 0.8382656574249268,
+          "true_leverage_ratio": 0.7599944472312927
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8572512269020081,
+          "gradient_relative_error": 0.5514928102493286,
+          "contribution_cosine": 0.9065544605255127,
+          "true_leverage_ratio": 0.907146692276001
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8376365303993225,
+          "gradient_relative_error": 0.5627853870391846,
+          "contribution_cosine": 0.9037520885467529,
+          "true_leverage_ratio": 0.880123496055603
+        },
+        "early_qk": {
+          "gradient_cosine": 0.8779802918434143,
+          "gradient_relative_error": 0.4978252649307251,
+          "contribution_cosine": 0.9230954647064209,
+          "true_leverage_ratio": 0.9068306684494019
+        },
+        "early_value": {
+          "gradient_cosine": 0.8392224907875061,
+          "gradient_relative_error": 0.544269323348999,
+          "contribution_cosine": 0.885948896408081,
+          "true_leverage_ratio": 0.8738632202148438
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.9118207693099976,
+          "gradient_relative_error": 0.4144996106624603,
+          "contribution_cosine": 0.9445661902427673,
+          "true_leverage_ratio": 0.9242571592330933
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8826078176498413,
+          "gradient_relative_error": 0.4710606336593628,
+          "contribution_cosine": 0.9294123649597168,
+          "true_leverage_ratio": 0.9185324311256409
+        },
+        "early_full": {
+          "gradient_cosine": 0.9247918128967285,
+          "gradient_relative_error": 0.3809414207935333,
+          "contribution_cosine": 0.958945095539093,
+          "true_leverage_ratio": 0.9390707015991211
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 1.205098783430003e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.3526841402053833,
+        "early_qk1": 0.4075956344604492,
+        "early_qk2": 0.4045717716217041,
+        "early_qk": 0.3876185417175293,
+        "early_value": 0.4008638858795166,
+        "early_qk1_value": 0.40528273582458496,
+        "early_qk2_value": 0.4091719388961792,
+        "early_full": 0.39938223361968994,
+        "all_full": 0.43631696701049805,
+        "exact": 0.43631696701049805
+      }
+    },
+    {
+      "feature": "capitalized",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.2857728600502014,
+          "gradient_relative_error": 1.4297053813934326,
+          "contribution_cosine": -0.19218336045742035,
+          "true_leverage_ratio": -0.07427747547626495
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.7548831105232239,
+          "gradient_relative_error": 0.6922482252120972,
+          "contribution_cosine": 0.5148667693138123,
+          "true_leverage_ratio": 0.7064310312271118
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.6520782709121704,
+          "gradient_relative_error": 0.8506147265434265,
+          "contribution_cosine": 0.3991236686706543,
+          "true_leverage_ratio": 0.3556063175201416
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9393290281295776,
+          "gradient_relative_error": 0.3447957932949066,
+          "contribution_cosine": 0.9553372263908386,
+          "true_leverage_ratio": 0.937758207321167
+        },
+        "early_value": {
+          "gradient_cosine": 0.2912711203098297,
+          "gradient_relative_error": 1.4266942739486694,
+          "contribution_cosine": -0.1851806491613388,
+          "true_leverage_ratio": -0.03564145043492317
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.7761660814285278,
+          "gradient_relative_error": 0.6643093824386597,
+          "contribution_cosine": 0.5450181365013123,
+          "true_leverage_ratio": 0.7373033761978149
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.6578751802444458,
+          "gradient_relative_error": 0.845066487789154,
+          "contribution_cosine": 0.40071436762809753,
+          "true_leverage_ratio": 0.36898425221443176
+        },
+        "early_full": {
+          "gradient_cosine": 0.9486077427864075,
+          "gradient_relative_error": 0.3190385401248932,
+          "contribution_cosine": 0.9601117372512817,
+          "true_leverage_ratio": 0.9347241520881653
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 2.2350607196131023e-06,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": -0.025803565979003906,
+        "early_qk1": 0.28073930740356445,
+        "early_qk2": 0.1233748197555542,
+        "early_qk": 0.37580811977386475,
+        "early_value": -0.013937294483184814,
+        "early_qk1_value": 0.29205554723739624,
+        "early_qk2_value": 0.12474966049194336,
+        "early_full": 0.37752461433410645,
+        "all_full": 0.3853722810745239,
+        "exact": 0.3853722810745239
+      }
+    },
+    {
+      "feature": "capitalized",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7538267970085144,
+          "gradient_relative_error": 0.684922993183136,
+          "contribution_cosine": 0.6933045983314514,
+          "true_leverage_ratio": 0.7623255252838135
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.9047573208808899,
+          "gradient_relative_error": 0.4259946346282959,
+          "contribution_cosine": 0.8880406022071838,
+          "true_leverage_ratio": 0.9279188513755798
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8754366636276245,
+          "gradient_relative_error": 0.486089825630188,
+          "contribution_cosine": 0.8533720970153809,
+          "true_leverage_ratio": 0.9311509132385254
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9676646590232849,
+          "gradient_relative_error": 0.2543224096298218,
+          "contribution_cosine": 0.9657778143882751,
+          "true_leverage_ratio": 0.9725182056427002
+        },
+        "early_value": {
+          "gradient_cosine": 0.7415893077850342,
+          "gradient_relative_error": 0.7179192900657654,
+          "contribution_cosine": 0.6789979934692383,
+          "true_leverage_ratio": 0.7656461596488953
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.9024283289909363,
+          "gradient_relative_error": 0.4341236650943756,
+          "contribution_cosine": 0.8884836435317993,
+          "true_leverage_ratio": 0.9544237852096558
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.868366003036499,
+          "gradient_relative_error": 0.5074747800827026,
+          "contribution_cosine": 0.8380827307701111,
+          "true_leverage_ratio": 0.885869026184082
+        },
+        "early_full": {
+          "gradient_cosine": 0.9763802886009216,
+          "gradient_relative_error": 0.21616506576538086,
+          "contribution_cosine": 0.9749271869659424,
+          "true_leverage_ratio": 0.9843884706497192
+        },
+        "all_full": {
+          "gradient_cosine": 0.9999999403953552,
+          "gradient_relative_error": 1.5926704008961678e-06,
+          "contribution_cosine": 0.9999998807907104,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.18625998497009277,
+        "early_qk1": 0.23353075981140137,
+        "early_qk2": 0.23077881336212158,
+        "early_qk": 0.24266529083251953,
+        "early_value": 0.1833564043045044,
+        "early_qk1_value": 0.23003029823303223,
+        "early_qk2_value": 0.22218859195709229,
+        "early_full": 0.2399810552597046,
+        "all_full": 0.25489628314971924,
+        "exact": 0.25489628314971924
+      }
+    },
+    {
+      "feature": "newline",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.723949670791626,
+          "gradient_relative_error": 0.6919605731964111,
+          "contribution_cosine": 0.6203553080558777,
+          "true_leverage_ratio": 0.6680877804756165
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8160350322723389,
+          "gradient_relative_error": 0.5803037285804749,
+          "contribution_cosine": 0.783018946647644,
+          "true_leverage_ratio": 0.7983341813087463
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8177481889724731,
+          "gradient_relative_error": 0.5766153931617737,
+          "contribution_cosine": 0.7147349119186401,
+          "true_leverage_ratio": 0.8157700300216675
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9002555012702942,
+          "gradient_relative_error": 0.44905558228492737,
+          "contribution_cosine": 0.8642065525054932,
+          "true_leverage_ratio": 0.8640645742416382
+        },
+        "early_value": {
+          "gradient_cosine": 0.7685374617576599,
+          "gradient_relative_error": 0.6400209665298462,
+          "contribution_cosine": 0.6888849139213562,
+          "true_leverage_ratio": 0.6950529217720032
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.8534137010574341,
+          "gradient_relative_error": 0.5313319563865662,
+          "contribution_cosine": 0.8436237573623657,
+          "true_leverage_ratio": 0.8072752356529236
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8614367842674255,
+          "gradient_relative_error": 0.5160370469093323,
+          "contribution_cosine": 0.7883033752441406,
+          "true_leverage_ratio": 0.8602240085601807
+        },
+        "early_full": {
+          "gradient_cosine": 0.9329757690429688,
+          "gradient_relative_error": 0.3880668580532074,
+          "contribution_cosine": 0.9138967394828796,
+          "true_leverage_ratio": 0.9030858278274536
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 1.5952332432789262e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 0.9999998807907104,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.4647221565246582,
+        "early_qk1": 0.5554989576339722,
+        "early_qk2": 0.5739731788635254,
+        "early_qk": 0.5734952688217163,
+        "early_value": 0.4851055145263672,
+        "early_qk1_value": 0.5629978179931641,
+        "early_qk2_value": 0.5819234848022461,
+        "early_full": 0.6017748117446899,
+        "all_full": 0.6661564111709595,
+        "exact": 0.6661564111709595
+      }
+    },
+    {
+      "feature": "newline",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.5744580626487732,
+          "gradient_relative_error": 0.8557625412940979,
+          "contribution_cosine": 0.33485209941864014,
+          "true_leverage_ratio": 0.202077254652977
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.6472058892250061,
+          "gradient_relative_error": 0.7856228947639465,
+          "contribution_cosine": 0.5138891339302063,
+          "true_leverage_ratio": 0.3923451602458954
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8125178813934326,
+          "gradient_relative_error": 0.5872427821159363,
+          "contribution_cosine": 0.743102490901947,
+          "true_leverage_ratio": 0.7918229103088379
+        },
+        "early_qk": {
+          "gradient_cosine": 0.8847838044166565,
+          "gradient_relative_error": 0.47200149297714233,
+          "contribution_cosine": 0.8761506080627441,
+          "true_leverage_ratio": 0.8504189848899841
+        },
+        "early_value": {
+          "gradient_cosine": 0.6027600765228271,
+          "gradient_relative_error": 0.8228558301925659,
+          "contribution_cosine": 0.36452218890190125,
+          "true_leverage_ratio": 0.2595662772655487
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.6904898881912231,
+          "gradient_relative_error": 0.7326405048370361,
+          "contribution_cosine": 0.541677713394165,
+          "true_leverage_ratio": 0.5599709749221802
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.848052978515625,
+          "gradient_relative_error": 0.5303862690925598,
+          "contribution_cosine": 0.7519053220748901,
+          "true_leverage_ratio": 0.804980993270874
+        },
+        "early_full": {
+          "gradient_cosine": 0.9171687960624695,
+          "gradient_relative_error": 0.4014863669872284,
+          "contribution_cosine": 0.8941474556922913,
+          "true_leverage_ratio": 0.8622296452522278
+        },
+        "all_full": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 2.4176531496777898e-06,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.06110048294067383,
+        "early_qk1": 0.17481374740600586,
+        "early_qk2": 0.28555041551589966,
+        "early_qk": 0.30384713411331177,
+        "early_value": 0.12213295698165894,
+        "early_qk1_value": 0.26298004388809204,
+        "early_qk2_value": 0.2716981768608093,
+        "early_full": 0.2963569760322571,
+        "all_full": 0.3381722569465637,
+        "exact": 0.3381722569465637
+      }
+    },
+    {
+      "feature": "period",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7293024063110352,
+          "gradient_relative_error": 0.6849950551986694,
+          "contribution_cosine": 0.7394699454307556,
+          "true_leverage_ratio": 0.8243953585624695
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8647659420967102,
+          "gradient_relative_error": 0.5081419944763184,
+          "contribution_cosine": 0.8669424653053284,
+          "true_leverage_ratio": 0.9170731902122498
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8203673362731934,
+          "gradient_relative_error": 0.5721431970596313,
+          "contribution_cosine": 0.81162029504776,
+          "true_leverage_ratio": 0.8656615018844604
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9010220766067505,
+          "gradient_relative_error": 0.43403810262680054,
+          "contribution_cosine": 0.8975825309753418,
+          "true_leverage_ratio": 0.8937942385673523
+        },
+        "early_value": {
+          "gradient_cosine": 0.761478841304779,
+          "gradient_relative_error": 0.648343026638031,
+          "contribution_cosine": 0.7708179950714111,
+          "true_leverage_ratio": 0.817092776298523
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.8935256004333496,
+          "gradient_relative_error": 0.45114773511886597,
+          "contribution_cosine": 0.8958551287651062,
+          "true_leverage_ratio": 0.8934382796287537
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8629430532455444,
+          "gradient_relative_error": 0.5053260922431946,
+          "contribution_cosine": 0.8642296195030212,
+          "true_leverage_ratio": 0.8588970303535461
+        },
+        "early_full": {
+          "gradient_cosine": 0.937813937664032,
+          "gradient_relative_error": 0.35315343737602234,
+          "contribution_cosine": 0.9427744746208191,
+          "true_leverage_ratio": 0.963640570640564
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 2.0882137050648453e-06,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 1.9533052444458008,
+        "early_qk1": 1.8361082077026367,
+        "early_qk2": 2.0184030532836914,
+        "early_qk": 1.9964628219604492,
+        "early_value": 1.7133989334106445,
+        "early_qk1_value": 1.6762962341308594,
+        "early_qk2_value": 1.9861278533935547,
+        "early_full": 2.0511531829833984,
+        "all_full": 2.128063201904297,
+        "exact": 2.128063201904297
+      }
+    },
+    {
+      "feature": "period",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.6265255808830261,
+          "gradient_relative_error": 0.8064927458763123,
+          "contribution_cosine": 0.6460462808609009,
+          "true_leverage_ratio": 0.6806106567382812
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.6838890910148621,
+          "gradient_relative_error": 0.7645569443702698,
+          "contribution_cosine": 0.7058031558990479,
+          "true_leverage_ratio": 0.726824164390564
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.7933408617973328,
+          "gradient_relative_error": 0.6131380796432495,
+          "contribution_cosine": 0.8107118606567383,
+          "true_leverage_ratio": 0.8397368788719177
+        },
+        "early_qk": {
+          "gradient_cosine": 0.8430020809173584,
+          "gradient_relative_error": 0.539006769657135,
+          "contribution_cosine": 0.8587530255317688,
+          "true_leverage_ratio": 0.8549094200134277
+        },
+        "early_value": {
+          "gradient_cosine": 0.7064690589904785,
+          "gradient_relative_error": 0.7362563610076904,
+          "contribution_cosine": 0.7294200658798218,
+          "true_leverage_ratio": 0.7338692545890808
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.7634975910186768,
+          "gradient_relative_error": 0.6895433068275452,
+          "contribution_cosine": 0.7877562046051025,
+          "true_leverage_ratio": 0.7759743928909302
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8557846546173096,
+          "gradient_relative_error": 0.529033899307251,
+          "contribution_cosine": 0.8684636354446411,
+          "true_leverage_ratio": 0.8982884287834167
+        },
+        "early_full": {
+          "gradient_cosine": 0.8892913460731506,
+          "gradient_relative_error": 0.46992766857147217,
+          "contribution_cosine": 0.90193110704422,
+          "true_leverage_ratio": 0.8823098540306091
+        },
+        "all_full": {
+          "gradient_cosine": 0.9999999403953552,
+          "gradient_relative_error": 1.8437613107380457e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.24846172332763672,
+        "early_qk1": 0.26261138916015625,
+        "early_qk2": 0.2828974723815918,
+        "early_qk": 0.29637813568115234,
+        "early_value": 0.27332401275634766,
+        "early_qk1_value": 0.2772350311279297,
+        "early_qk2_value": 0.3046731948852539,
+        "early_full": 0.29891395568847656,
+        "all_full": 0.3557100296020508,
+        "exact": 0.3557100296020508
+      }
+    },
+    {
+      "feature": "pronoun",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.6413185000419617,
+          "gradient_relative_error": 0.7797195315361023,
+          "contribution_cosine": 0.6360322833061218,
+          "true_leverage_ratio": 0.6646550297737122
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.7405673265457153,
+          "gradient_relative_error": 0.695328950881958,
+          "contribution_cosine": 0.7111374139785767,
+          "true_leverage_ratio": 0.7436963319778442
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8140993714332581,
+          "gradient_relative_error": 0.6300477981567383,
+          "contribution_cosine": 0.8096163868904114,
+          "true_leverage_ratio": 0.880108654499054
+        },
+        "early_qk": {
+          "gradient_cosine": 0.8991238474845886,
+          "gradient_relative_error": 0.4845682680606842,
+          "contribution_cosine": 0.8950580954551697,
+          "true_leverage_ratio": 0.9321768879890442
+        },
+        "early_value": {
+          "gradient_cosine": 0.6804338693618774,
+          "gradient_relative_error": 0.7393692135810852,
+          "contribution_cosine": 0.6610634922981262,
+          "true_leverage_ratio": 0.71983402967453
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.7928584218025208,
+          "gradient_relative_error": 0.622025191783905,
+          "contribution_cosine": 0.7494776248931885,
+          "true_leverage_ratio": 0.7568192481994629
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8475046753883362,
+          "gradient_relative_error": 0.5631738901138306,
+          "contribution_cosine": 0.8351317644119263,
+          "true_leverage_ratio": 0.8804824352264404
+        },
+        "early_full": {
+          "gradient_cosine": 0.9421404004096985,
+          "gradient_relative_error": 0.362764835357666,
+          "contribution_cosine": 0.9347967505455017,
+          "true_leverage_ratio": 0.9365401864051819
+        },
+        "all_full": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 1.6445873143311474e-06,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.6461118459701538,
+        "early_qk1": 0.6651624441146851,
+        "early_qk2": 0.7103580236434937,
+        "early_qk": 0.6899718046188354,
+        "early_value": 0.6685696840286255,
+        "early_qk1_value": 0.6625186204910278,
+        "early_qk2_value": 0.6929949522018433,
+        "early_full": 0.6893101930618286,
+        "all_full": 0.7216137647628784,
+        "exact": 0.7216137647628784
+      }
+    },
+    {
+      "feature": "pronoun",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7384414672851562,
+          "gradient_relative_error": 0.675910472869873,
+          "contribution_cosine": 0.7332862615585327,
+          "true_leverage_ratio": 0.8167198896408081
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8904199004173279,
+          "gradient_relative_error": 0.47708237171173096,
+          "contribution_cosine": 0.8866748213768005,
+          "true_leverage_ratio": 0.8997520804405212
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8243674635887146,
+          "gradient_relative_error": 0.5806922316551208,
+          "contribution_cosine": 0.8173734545707703,
+          "true_leverage_ratio": 0.8382347226142883
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9363908767700195,
+          "gradient_relative_error": 0.3823995888233185,
+          "contribution_cosine": 0.9305965900421143,
+          "true_leverage_ratio": 0.9271360635757446
+        },
+        "early_value": {
+          "gradient_cosine": 0.7354674935340881,
+          "gradient_relative_error": 0.678294837474823,
+          "contribution_cosine": 0.7095432281494141,
+          "true_leverage_ratio": 0.7366633415222168
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.9019010663032532,
+          "gradient_relative_error": 0.43906038999557495,
+          "contribution_cosine": 0.8879076242446899,
+          "true_leverage_ratio": 0.9117115139961243
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8471004962921143,
+          "gradient_relative_error": 0.5376697182655334,
+          "contribution_cosine": 0.8335710167884827,
+          "true_leverage_ratio": 0.8236178159713745
+        },
+        "early_full": {
+          "gradient_cosine": 0.9610651135444641,
+          "gradient_relative_error": 0.2915004789829254,
+          "contribution_cosine": 0.9562378525733948,
+          "true_leverage_ratio": 0.9586592316627502
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 1.7694079588181921e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 0.9999998807907104,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.1117095947265625,
+        "early_qk1": 0.13649380207061768,
+        "early_qk2": 0.1178058385848999,
+        "early_qk": 0.1408909559249878,
+        "early_value": 0.09895122051239014,
+        "early_qk1_value": 0.1363086700439453,
+        "early_qk2_value": 0.11508119106292725,
+        "early_full": 0.14618754386901855,
+        "all_full": 0.1456904411315918,
+        "exact": 0.1456904411315918
+      }
+    },
+    {
+      "feature": "code_operator",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.6610804796218872,
+          "gradient_relative_error": 0.7531225085258484,
+          "contribution_cosine": 0.6507073640823364,
+          "true_leverage_ratio": 0.653419017791748
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.7208677530288696,
+          "gradient_relative_error": 0.7112268209457397,
+          "contribution_cosine": 0.7203519344329834,
+          "true_leverage_ratio": 0.7197113037109375
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8265425562858582,
+          "gradient_relative_error": 0.5883410573005676,
+          "contribution_cosine": 0.811834454536438,
+          "true_leverage_ratio": 0.7850645184516907
+        },
+        "early_qk": {
+          "gradient_cosine": 0.84635990858078,
+          "gradient_relative_error": 0.5698972344398499,
+          "contribution_cosine": 0.8494435548782349,
+          "true_leverage_ratio": 0.796228289604187
+        },
+        "early_value": {
+          "gradient_cosine": 0.7015495896339417,
+          "gradient_relative_error": 0.712623655796051,
+          "contribution_cosine": 0.6939399838447571,
+          "true_leverage_ratio": 0.6589434146881104
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.7735966444015503,
+          "gradient_relative_error": 0.6469596028327942,
+          "contribution_cosine": 0.7745018601417542,
+          "true_leverage_ratio": 0.7424480319023132
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.8643661737442017,
+          "gradient_relative_error": 0.5115505456924438,
+          "contribution_cosine": 0.8520715236663818,
+          "true_leverage_ratio": 0.827085554599762
+        },
+        "early_full": {
+          "gradient_cosine": 0.9026134014129639,
+          "gradient_relative_error": 0.4604795277118683,
+          "contribution_cosine": 0.9018706679344177,
+          "true_leverage_ratio": 0.8651778101921082
+        },
+        "all_full": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 1.4552052789440495e-06,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.2545890808105469,
+        "early_qk1": 0.27516603469848633,
+        "early_qk2": 0.2995743751525879,
+        "early_qk": 0.29744410514831543,
+        "early_value": 0.2706634998321533,
+        "early_qk1_value": 0.27667832374572754,
+        "early_qk2_value": 0.2966470718383789,
+        "early_full": 0.30953145027160645,
+        "all_full": 0.33105897903442383,
+        "exact": 0.33105897903442383
+      }
+    },
+    {
+      "feature": "code_operator",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.33839088678359985,
+          "gradient_relative_error": 1.208654761314392,
+          "contribution_cosine": 0.24598030745983124,
+          "true_leverage_ratio": 0.22475776076316833
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.594801127910614,
+          "gradient_relative_error": 0.8757368922233582,
+          "contribution_cosine": 0.5536001324653625,
+          "true_leverage_ratio": 0.5296152830123901
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.525922954082489,
+          "gradient_relative_error": 0.9542331695556641,
+          "contribution_cosine": 0.43133339285850525,
+          "true_leverage_ratio": 0.3290060758590698
+        },
+        "early_qk": {
+          "gradient_cosine": 0.7553516030311584,
+          "gradient_relative_error": 0.6728284955024719,
+          "contribution_cosine": 0.7228223085403442,
+          "true_leverage_ratio": 0.7319155931472778
+        },
+        "early_value": {
+          "gradient_cosine": 0.3770343065261841,
+          "gradient_relative_error": 1.1576627492904663,
+          "contribution_cosine": 0.2857383191585541,
+          "true_leverage_ratio": 0.2775837182998657
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.6298129558563232,
+          "gradient_relative_error": 0.8376743793487549,
+          "contribution_cosine": 0.6032248139381409,
+          "true_leverage_ratio": 0.5778862237930298
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.5541753172874451,
+          "gradient_relative_error": 0.9393520355224609,
+          "contribution_cosine": 0.46676886081695557,
+          "true_leverage_ratio": 0.33500051498413086
+        },
+        "early_full": {
+          "gradient_cosine": 0.7754930853843689,
+          "gradient_relative_error": 0.6529127359390259,
+          "contribution_cosine": 0.7410920858383179,
+          "true_leverage_ratio": 0.7774729132652283
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 2.0295615286158863e-06,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999999403953552,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.3374689817428589,
+        "early_qk1": 0.39491331577301025,
+        "early_qk2": 0.33716678619384766,
+        "early_qk": 0.3248239755630493,
+        "early_value": 0.34395313262939453,
+        "early_qk1_value": 0.3623126745223999,
+        "early_qk2_value": 0.37537944316864014,
+        "early_full": 0.349554181098938,
+        "all_full": 0.4415961503982544,
+        "exact": 0.4415961503982544
+      }
+    },
+    {
+      "feature": "determiner",
+      "selection": "extreme",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.7328006029129028,
+          "gradient_relative_error": 0.68045574426651,
+          "contribution_cosine": 0.7452479004859924,
+          "true_leverage_ratio": 0.8475028276443481
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8744747638702393,
+          "gradient_relative_error": 0.4938391447067261,
+          "contribution_cosine": 0.8748290538787842,
+          "true_leverage_ratio": 0.9114434719085693
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8748734593391418,
+          "gradient_relative_error": 0.49229276180267334,
+          "contribution_cosine": 0.8857940435409546,
+          "true_leverage_ratio": 0.9014469385147095
+        },
+        "early_qk": {
+          "gradient_cosine": 0.9418662190437317,
+          "gradient_relative_error": 0.34247562289237976,
+          "contribution_cosine": 0.9517998695373535,
+          "true_leverage_ratio": 0.9401359558105469
+        },
+        "early_value": {
+          "gradient_cosine": 0.7700455188751221,
+          "gradient_relative_error": 0.6388688087463379,
+          "contribution_cosine": 0.7935795187950134,
+          "true_leverage_ratio": 0.8575988411903381
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.9102482199668884,
+          "gradient_relative_error": 0.4205780029296875,
+          "contribution_cosine": 0.9126647114753723,
+          "true_leverage_ratio": 0.943248987197876
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.9075621962547302,
+          "gradient_relative_error": 0.424026221036911,
+          "contribution_cosine": 0.920811653137207,
+          "true_leverage_ratio": 0.94101482629776
+        },
+        "early_full": {
+          "gradient_cosine": 0.9812217950820923,
+          "gradient_relative_error": 0.2029365748167038,
+          "contribution_cosine": 0.9855746626853943,
+          "true_leverage_ratio": 0.9790236353874207
+        },
+        "all_full": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 1.3479818790074205e-06,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 0.9999998807907104,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.2569190263748169,
+        "early_qk1": 0.2702670097351074,
+        "early_qk2": 0.2788633108139038,
+        "early_qk": 0.26908719539642334,
+        "early_value": 0.27758169174194336,
+        "early_qk1_value": 0.28127777576446533,
+        "early_qk2_value": 0.29335010051727295,
+        "early_full": 0.31476259231567383,
+        "all_full": 0.2937753200531006,
+        "exact": 0.2937753200531006
+      }
+    },
+    {
+      "feature": "determiner",
+      "selection": "uniform",
+      "metrics": {
+        "mlp_only": {
+          "gradient_cosine": 0.6986438035964966,
+          "gradient_relative_error": 0.7191749215126038,
+          "contribution_cosine": 0.6984335780143738,
+          "true_leverage_ratio": 0.7010094523429871
+        },
+        "early_qk1": {
+          "gradient_cosine": 0.8006507158279419,
+          "gradient_relative_error": 0.6003310084342957,
+          "contribution_cosine": 0.8074504137039185,
+          "true_leverage_ratio": 0.7865424752235413
+        },
+        "early_qk2": {
+          "gradient_cosine": 0.8659545183181763,
+          "gradient_relative_error": 0.5139323472976685,
+          "contribution_cosine": 0.868771493434906,
+          "true_leverage_ratio": 0.8406654000282288
+        },
+        "early_qk": {
+          "gradient_cosine": 0.906931459903717,
+          "gradient_relative_error": 0.42810410261154175,
+          "contribution_cosine": 0.9022578001022339,
+          "true_leverage_ratio": 0.9060046672821045
+        },
+        "early_value": {
+          "gradient_cosine": 0.7688166499137878,
+          "gradient_relative_error": 0.6679086685180664,
+          "contribution_cosine": 0.7665460705757141,
+          "true_leverage_ratio": 0.744783341884613
+        },
+        "early_qk1_value": {
+          "gradient_cosine": 0.870659351348877,
+          "gradient_relative_error": 0.515217661857605,
+          "contribution_cosine": 0.869297206401825,
+          "true_leverage_ratio": 0.8439291715621948
+        },
+        "early_qk2_value": {
+          "gradient_cosine": 0.910056471824646,
+          "gradient_relative_error": 0.41455116868019104,
+          "contribution_cosine": 0.909794807434082,
+          "true_leverage_ratio": 0.9157230854034424
+        },
+        "early_full": {
+          "gradient_cosine": 0.9690195322036743,
+          "gradient_relative_error": 0.24895872175693512,
+          "contribution_cosine": 0.9676864743232727,
+          "true_leverage_ratio": 0.9659155011177063
+        },
+        "all_full": {
+          "gradient_cosine": 1.0000001192092896,
+          "gradient_relative_error": 1.8555905398898176e-06,
+          "contribution_cosine": 1.0000001192092896,
+          "true_leverage_ratio": 1.0
+        },
+        "exact": {
+          "gradient_cosine": 1.0,
+          "gradient_relative_error": 0.0,
+          "contribution_cosine": 1.0,
+          "true_leverage_ratio": 1.0
+        }
+      },
+      "finite_shifts": {
+        "mlp_only": 0.18324768543243408,
+        "early_qk1": 0.1918729543685913,
+        "early_qk2": 0.19406509399414062,
+        "early_qk": 0.20343124866485596,
+        "early_value": 0.18267619609832764,
+        "early_qk1_value": 0.20137393474578857,
+        "early_qk2_value": 0.2191380262374878,
+        "early_full": 0.2101891040802002,
+        "all_full": 0.227594256401062,
+        "exact": 0.227594256401062
+      }
+    }
+  ]
+}

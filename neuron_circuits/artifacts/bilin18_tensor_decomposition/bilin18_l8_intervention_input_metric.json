@@ -1,0 +1,202 @@
+{
+  "config": {
+    "status": "locked-before-results",
+    "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "source": "artifacts/bilin18_tensor_decomposition/bilin18_residual_input_forms.npz",
+    "layer": 8,
+    "discovery_start": 17640,
+    "test_start": 17768,
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "batch_size": 8,
+    "fit_heads": [
+      0,
+      2,
+      4,
+      6,
+      8
+    ],
+    "heldout_heads": [
+      1,
+      3,
+      5,
+      7
+    ],
+    "pair_removals": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ]
+    ],
+    "rank": 64,
+    "mixture_weights": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "seed": 20261024,
+    "selection": "Fit perturbation covariance on discovery rows with row_index % 4 != 0, choose weight maximizing min(natural joint R2, fit-head removal joint fidelity) on remaining discovery rows. Refit selected covariance on all discovery. Freeze before collecting test. Natural covariance and mean come from original 2048-site discovery cache.",
+    "budget": "Each scalar has at most 64 quadratic input covectors plus one exact linear covector. Symmetric role factorization uses 32 context and 32 change reads. Unsymmetrized secant is a diagnostic response program, not a state decoder.",
+    "hypotheses": {
+      "exact": "Full quadratic finite changes match native local MLP coefficients with relative RMS error <=1e-4.",
+      "heldout_heads": "Selected mixed-metric decoder reaches >=0.80 removal fidelity on held-out odd heads and improves over natural64 by >=0.10.",
+      "heldout_families": "Selected mixed-metric decoder improves over natural64 by >=0.10 on both half-head removal and paired-head removal.",
+      "natural_retention": "Selected mixed-metric natural coefficient R2 is no more than 0.05 below natural64.",
+      "role_function": "Symmetrized role32 decoder reaches >=0.80 held-out-head fidelity and stays within 0.05 of natural64 natural R2."
+    },
+    "scope": "Four frozen residual-selected L8 output coordinates, including two weakly recurring individual axes. No next-token labels or native-write oracle inputs. Local finite input-response tests; no full-suffix intervention in this experiment. Panels are disjoint within the continuation but not claimed globally unused."
+  },
+  "selected_weight": 1.0,
+  "selection": {
+    "0.1": {
+      "natural_r2": 0.8644401040155945,
+      "groups": {
+        "fit_heads": 0.629956146091484
+      },
+      "selection_score": 0.629956146091484
+    },
+    "1.0": {
+      "natural_r2": 0.8036867766834992,
+      "groups": {
+        "fit_heads": 0.7000925370233837
+      },
+      "selection_score": 0.7000925370233837
+    },
+    "10.0": {
+      "natural_r2": 0.5827635138784164,
+      "groups": {
+        "fit_heads": 0.6827551087629615
+      },
+      "selection_score": 0.5827635138784164
+    },
+    "100.0": {
+      "natural_r2": 0.39150723368086593,
+      "groups": {
+        "fit_heads": 0.6573828390541445
+      },
+      "selection_score": 0.39150723368086593
+    }
+  },
+  "gates": {
+    "exact": true,
+    "heldout_heads": false,
+    "heldout_families": false,
+    "natural_retention": false,
+    "role_function": false
+  },
+  "head_replay_rms": [
+    3.9189597590490935e-07,
+    3.922050249313305e-07
+  ],
+  "role_cycle_relative_rms": 0.01222784699770031,
+  "results": {
+    "natural64": {
+      "natural_r2": 0.8226375621962851,
+      "groups": {
+        "fit_heads": 0.5219815379865003,
+        "heldout_heads": 0.5073659122311899,
+        "half": 0.48127519966745036,
+        "pairs": 0.5144158540986328
+      }
+    },
+    "mixed64": {
+      "natural_r2": 0.769425879557507,
+      "groups": {
+        "fit_heads": 0.6409206978697402,
+        "heldout_heads": 0.4513692815464576,
+        "half": 0.48330913556526034,
+        "pairs": 0.48640295242967324
+      }
+    },
+    "raw64": {
+      "natural_r2": 0.7398564793163755,
+      "groups": {
+        "fit_heads": 0.478896334211936,
+        "heldout_heads": 0.5357211762301292,
+        "half": 0.519093175640267,
+        "pairs": 0.5279479031949832
+      }
+    },
+    "symmetric_role32": {
+      "natural_r2": 0.6008484285053486,
+      "groups": {
+        "fit_heads": 0.4584817998448375,
+        "heldout_heads": 0.2812346283088334,
+        "half": 0.3106457997097427,
+        "pairs": 0.3148262281300265
+      }
+    },
+    "random64_0": {
+      "natural_r2": 0.033235644127812214,
+      "groups": {
+        "fit_heads": 0.04249308970965271,
+        "heldout_heads": 0.025164279326203243,
+        "half": 0.030651271988554107,
+        "pairs": 0.022252353380918244
+      }
+    },
+    "random64_1": {
+      "natural_r2": 0.02969149348485134,
+      "groups": {
+        "fit_heads": 0.042754490635273035,
+        "heldout_heads": 0.016177498912988142,
+        "half": 0.022905368172327578,
+        "pairs": 0.01755107212010487
+      }
+    },
+    "random64_2": {
+      "natural_r2": 0.03070582056203397,
+      "groups": {
+        "fit_heads": 0.04025691406057019,
+        "heldout_heads": 0.014141402445237539,
+        "half": 0.020813600533890697,
+        "pairs": 0.013815150566585888
+      }
+    },
+    "random64_3": {
+      "natural_r2": 0.028466230513405466,
+      "groups": {
+        "fit_heads": 0.04653086176492216,
+        "heldout_heads": 0.01950808835611184,
+        "half": 0.026971092979605427,
+        "pairs": 0.01947416300976279
+      }
+    },
+    "role_secant32": {
+      "natural_r2": 0.6008484285053486,
+      "groups": {
+        "fit_heads": 0.46948595617731137,
+        "heldout_heads": 0.2880576875466676,
+        "half": 0.31672585939871256,
+        "pairs": 0.31747348284650945
+      }
+    },
+    "exact": {
+      "natural_r2": 0.9999999999996391,
+      "groups": {
+        "fit_heads": 0.9999999998617082,
+        "heldout_heads": 0.9999999999572332,
+        "half": 0.9999999997868724,
+        "pairs": 0.9999999999662328
+      }
+    }
+  }
+}

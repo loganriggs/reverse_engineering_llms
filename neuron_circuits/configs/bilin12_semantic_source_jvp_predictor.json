@@ -1,0 +1,36 @@
+{
+  "status": "locked-before-semantic-source-jvp-run",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "semantic_source": "configs/bilin18_layer8_semantic_counterfactuals.json",
+  "seed": 20261123,
+  "contexts_per_pair": 1,
+  "sequence_length": 64,
+  "edit_position": 47,
+  "prediction_position": 63,
+  "layers": [5, 6, 8, 10],
+  "budgets": [8, 16, 32, 64],
+  "selection_methods": [
+    "exact_state_norm",
+    "jvp_state_norm",
+    "base_source_norm",
+    "base_attention_mass",
+    "input_tangent_similarity",
+    "recency"
+  ],
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 0, "rows": 20000},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 0, "rows": 1200}
+  },
+  "hypotheses": {
+    "J1_manual_differentiable_trace_matches_native_sources": "Manual base and changed source contributions have relative error at most 5e-5 against the established exact decomposition.",
+    "J2_jvp_source_delta_has_high_directional_agreement": "The median cosine between JVP-predicted and exact per-example source-delta tensors is at least 0.80.",
+    "J3_jvp_ranking_selects_a_high_fidelity_program": "Using exact finite deltas at JVP-ranked top-32 sources has mean Fisher fidelity at least 0.90 and fifth-percentile fidelity at least 0.75.",
+    "J4_jvp_selection_is_close_to_counterfactual_selection": "JVP-ranked top-32 mean fidelity is within 0.05 of exact-delta-norm-ranked top-32.",
+    "J5_jvp_prediction_reconstructs_behavior_not_only_ranking": "Using the JVP-predicted deltas themselves at all 64 sources has mean Fisher fidelity at least 0.75.",
+    "J6_jvp_beats_static_base_shortcuts": "At top-16, JVP ranking exceeds every base-only or positional control by at least 0.10 mean Fisher fidelity.",
+    "J7_jvp_selection_transfers_across_layers_corpora_and_families": "JVP top-32 has at least 0.75 aggregate fidelity for every layer, corpus, and semantic family.",
+    "J8_jvp_and_exact_programs_overlap": "JVP and exact-state top-16 selections have median Jaccard overlap at least 0.40.",
+    "J9_input_similarity_alone_is_not_the_explanation": "JVP top-16 exceeds input-tangent-similarity top-16 by at least 0.15 mean fidelity.",
+    "J10_predictive_success_is_not_confined_to_the_edited_position": "The edited source alone has mean Fisher fidelity below 0.50 while JVP top-16 exceeds 0.80."
+  }
+}

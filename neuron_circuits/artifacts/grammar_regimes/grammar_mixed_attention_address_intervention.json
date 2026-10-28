@@ -1,0 +1,477 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-address-location-redteam-before-finite-attention-address-interventions",
+    "models": [
+      {
+        "seed": 0,
+        "root": "artifacts/grammar_regimes/bilinear_pilot"
+      },
+      {
+        "seed": 101,
+        "root": "artifacts/grammar_regimes/same_manifest_mixed_init101_bilinear"
+      },
+      {
+        "seed": 104,
+        "root": "artifacts/grammar_regimes/same_manifest_mixed_init104_bilinear"
+      }
+    ],
+    "rho": 0.5,
+    "discovery_template": 0,
+    "evaluation_template": 6,
+    "discovery_per_relation_answer_status": 20,
+    "validation_per_relation_answer_status": 8,
+    "evaluation_per_relation_answer_status": 12,
+    "minimum_fisher_effect_norm": 0.1,
+    "seed": 20270113,
+    "hypotheses": {
+      "C0_native_recomposition_is_exact": "Recomposing the native attention write and exact bilinear MLP reproduces native logits with maximum error at most 1e-5 and effect fidelity at least 0.9999.",
+      "C1_upstream_address_survives_attention_deletion": "Deleting final attention while recomputing the exact MLP retains selected-fact decoder-write fidelity at least 0.70 in every run.",
+      "C2_attention_is_needed_for_complete_route": "Deleting final attention yields complete-route fidelity below 0.70 on selected facts in every run.",
+      "C3_arbitrary_facts_need_attention_more_than_rules": "Attention deletion reduces complete-route fidelity at least 0.15 more for selected facts than unselected facts in every run.",
+      "C4_relation_mean_attention_is_sufficient": "A discovery-frozen relation-mean attention write reaches selected complete-route fidelity at least 0.70 in every run.",
+      "C5_answer_oracle_attention_is_sufficient": "A leaky relation+answer attention prototype reaches selected complete-route fidelity at least 0.80 in every run.",
+      "C6_site_specific_attention_matters": "Shuffling attention writes across held-out facts reduces selected complete-route fidelity below 0.50 in every run.",
+      "C7_attention_is_a_small_norm_large_effect_correction": "Median attention-write norm is below 20% of incoming residual norm while deletion lowers selected complete-route fidelity by at least 0.20 in every run.",
+      "C8_causal_signal_gate_passes": "Every status/run has at least 64 examples above the frozen Fisher-effect threshold."
+    }
+  },
+  "hypotheses": {
+    "C0_native_recomposition_is_exact": {
+      "supported": true
+    },
+    "C1_upstream_address_survives_attention_deletion": {
+      "supported": true
+    },
+    "C2_attention_is_needed_for_complete_route": {
+      "supported": false
+    },
+    "C3_arbitrary_facts_need_attention_more_than_rules": {
+      "supported": false
+    },
+    "C4_relation_mean_attention_is_sufficient": {
+      "supported": true
+    },
+    "C5_answer_oracle_attention_is_sufficient": {
+      "supported": true
+    },
+    "C6_site_specific_attention_matters": {
+      "supported": false
+    },
+    "C7_attention_is_a_small_norm_large_effect_correction": {
+      "supported": false
+    },
+    "C8_causal_signal_gate_passes": {
+      "supported": true
+    }
+  },
+  "runs": [
+    {
+      "seed": 0,
+      "maximum_native_error": 7.62939453125e-06,
+      "results": {
+        "unselected": {
+          "native": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 1.0,
+            "decoder_median_cosine": 1.0,
+            "route_median_fidelity": 1.0,
+            "route_median_cosine": 1.0,
+            "answer_accuracy": 1.0,
+            "attention_to_boundary_norm": 0.23203596472740173
+          },
+          "delete_attention": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 0.9670259952545166,
+            "decoder_median_cosine": 0.9942578673362732,
+            "route_median_fidelity": 0.9548490047454834,
+            "route_median_cosine": 0.9933532476425171,
+            "answer_accuracy": 0.9544199109077454,
+            "attention_to_boundary_norm": 0.0
+          },
+          "global_prototype": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 0.9676507115364075,
+            "decoder_median_cosine": 0.9943559765815735,
+            "route_median_fidelity": 0.9555171728134155,
+            "route_median_cosine": 0.9932881593704224,
+            "answer_accuracy": 0.9544199109077454,
+            "attention_to_boundary_norm": 0.032544177025556564
+          },
+          "relation_prototype": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 0.968618631362915,
+            "decoder_median_cosine": 0.9944406151771545,
+            "route_median_fidelity": 0.9570527076721191,
+            "route_median_cosine": 0.993179202079773,
+            "answer_accuracy": 0.9516574740409851,
+            "attention_to_boundary_norm": 0.0455203652381897
+          },
+          "answer_prototype": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 0.9682418704032898,
+            "decoder_median_cosine": 0.9946009516716003,
+            "route_median_fidelity": 0.9590725898742676,
+            "route_median_cosine": 0.9936977028846741,
+            "answer_accuracy": 0.9558011293411255,
+            "attention_to_boundary_norm": 0.052307408303022385
+          },
+          "relation_answer_prototype": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 0.9664956331253052,
+            "decoder_median_cosine": 0.9939882159233093,
+            "route_median_fidelity": 0.9583873748779297,
+            "route_median_cosine": 0.9931975603103638,
+            "answer_accuracy": 0.9613259434700012,
+            "attention_to_boundary_norm": 0.09265561401844025
+          },
+          "shuffled_attention": {
+            "effectful_examples": 724,
+            "decoder_median_fidelity": 0.9283573031425476,
+            "decoder_median_cosine": 0.9864964485168457,
+            "route_median_fidelity": 0.9013571739196777,
+            "route_median_cosine": 0.98281329870224,
+            "answer_accuracy": 0.9046961069107056,
+            "attention_to_boundary_norm": 0.23512563109397888
+          }
+        },
+        "selected": {
+          "native": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 1.0,
+            "decoder_median_cosine": 1.0,
+            "route_median_fidelity": 1.0,
+            "route_median_cosine": 1.0,
+            "answer_accuracy": 1.0,
+            "attention_to_boundary_norm": 0.25122904777526855
+          },
+          "delete_attention": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 0.9442142844200134,
+            "decoder_median_cosine": 0.9880887866020203,
+            "route_median_fidelity": 0.9138424396514893,
+            "route_median_cosine": 0.9835813045501709,
+            "answer_accuracy": 0.8950130939483643,
+            "attention_to_boundary_norm": 0.0
+          },
+          "global_prototype": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 0.9419194459915161,
+            "decoder_median_cosine": 0.9882340431213379,
+            "route_median_fidelity": 0.9146090149879456,
+            "route_median_cosine": 0.9837594032287598,
+            "answer_accuracy": 0.9028871655464172,
+            "attention_to_boundary_norm": 0.03377621993422508
+          },
+          "relation_prototype": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 0.9404679536819458,
+            "decoder_median_cosine": 0.9876386523246765,
+            "route_median_fidelity": 0.9159556031227112,
+            "route_median_cosine": 0.9841209650039673,
+            "answer_accuracy": 0.9081364870071411,
+            "attention_to_boundary_norm": 0.04706250876188278
+          },
+          "answer_prototype": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 0.9451795816421509,
+            "decoder_median_cosine": 0.9887197613716125,
+            "route_median_fidelity": 0.9217435121536255,
+            "route_median_cosine": 0.9863081574440002,
+            "answer_accuracy": 0.9107611775398254,
+            "attention_to_boundary_norm": 0.05290496349334717
+          },
+          "relation_answer_prototype": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 0.9420641660690308,
+            "decoder_median_cosine": 0.9872260689735413,
+            "route_median_fidelity": 0.9209188222885132,
+            "route_median_cosine": 0.9839369058609009,
+            "answer_accuracy": 0.9094488024711609,
+            "attention_to_boundary_norm": 0.08162321895360947
+          },
+          "shuffled_attention": {
+            "effectful_examples": 762,
+            "decoder_median_fidelity": 0.8862224817276001,
+            "decoder_median_cosine": 0.9713919162750244,
+            "route_median_fidelity": 0.8417717218399048,
+            "route_median_cosine": 0.9630016684532166,
+            "answer_accuracy": 0.8293963074684143,
+            "attention_to_boundary_norm": 0.24686145782470703
+          }
+        }
+      }
+    },
+    {
+      "seed": 101,
+      "maximum_native_error": 7.62939453125e-06,
+      "results": {
+        "unselected": {
+          "native": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 1.0,
+            "decoder_median_cosine": 1.0,
+            "route_median_fidelity": 1.0,
+            "route_median_cosine": 1.0,
+            "answer_accuracy": 1.0,
+            "attention_to_boundary_norm": 0.344086229801178
+          },
+          "delete_attention": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 0.9217966794967651,
+            "decoder_median_cosine": 0.9827097058296204,
+            "route_median_fidelity": 0.8981350064277649,
+            "route_median_cosine": 0.981414794921875,
+            "answer_accuracy": 0.9352617263793945,
+            "attention_to_boundary_norm": 0.0
+          },
+          "global_prototype": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 0.9254380464553833,
+            "decoder_median_cosine": 0.9835159778594971,
+            "route_median_fidelity": 0.9042202234268188,
+            "route_median_cosine": 0.9823215007781982,
+            "answer_accuracy": 0.9283746480941772,
+            "attention_to_boundary_norm": 0.05663122236728668
+          },
+          "relation_prototype": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 0.9245139956474304,
+            "decoder_median_cosine": 0.9839686155319214,
+            "route_median_fidelity": 0.9000890851020813,
+            "route_median_cosine": 0.9809707403182983,
+            "answer_accuracy": 0.9269972443580627,
+            "attention_to_boundary_norm": 0.07428872585296631
+          },
+          "answer_prototype": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 0.9214873909950256,
+            "decoder_median_cosine": 0.9841028451919556,
+            "route_median_fidelity": 0.9074384570121765,
+            "route_median_cosine": 0.9833641052246094,
+            "answer_accuracy": 0.9380165338516235,
+            "attention_to_boundary_norm": 0.07777680456638336
+          },
+          "relation_answer_prototype": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 0.9259641170501709,
+            "decoder_median_cosine": 0.9851484298706055,
+            "route_median_fidelity": 0.9072145223617554,
+            "route_median_cosine": 0.9844425320625305,
+            "answer_accuracy": 0.9407713413238525,
+            "attention_to_boundary_norm": 0.1302199810743332
+          },
+          "shuffled_attention": {
+            "effectful_examples": 726,
+            "decoder_median_fidelity": 0.824674129486084,
+            "decoder_median_cosine": 0.9601450562477112,
+            "route_median_fidelity": 0.7898188233375549,
+            "route_median_cosine": 0.955609917640686,
+            "answer_accuracy": 0.8457300066947937,
+            "attention_to_boundary_norm": 0.3451088070869446
+          }
+        },
+        "selected": {
+          "native": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 1.0,
+            "decoder_median_cosine": 1.0,
+            "route_median_fidelity": 1.0,
+            "route_median_cosine": 1.0,
+            "answer_accuracy": 1.0,
+            "attention_to_boundary_norm": 0.3659903407096863
+          },
+          "delete_attention": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 0.8335712552070618,
+            "decoder_median_cosine": 0.9563708305358887,
+            "route_median_fidelity": 0.7783070206642151,
+            "route_median_cosine": 0.9404343962669373,
+            "answer_accuracy": 0.8054830431938171,
+            "attention_to_boundary_norm": 0.0
+          },
+          "global_prototype": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 0.835854172706604,
+            "decoder_median_cosine": 0.9569487571716309,
+            "route_median_fidelity": 0.7830402851104736,
+            "route_median_cosine": 0.9384089708328247,
+            "answer_accuracy": 0.8028720617294312,
+            "attention_to_boundary_norm": 0.05979938805103302
+          },
+          "relation_prototype": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 0.8342390060424805,
+            "decoder_median_cosine": 0.9575673341751099,
+            "route_median_fidelity": 0.7781938314437866,
+            "route_median_cosine": 0.9406355619430542,
+            "answer_accuracy": 0.8041775226593018,
+            "attention_to_boundary_norm": 0.07206583023071289
+          },
+          "answer_prototype": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 0.8391941785812378,
+            "decoder_median_cosine": 0.9586989283561707,
+            "route_median_fidelity": 0.8129143118858337,
+            "route_median_cosine": 0.945063591003418,
+            "answer_accuracy": 0.8250652551651001,
+            "attention_to_boundary_norm": 0.07860998809337616
+          },
+          "relation_answer_prototype": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 0.8411555290222168,
+            "decoder_median_cosine": 0.9575167894363403,
+            "route_median_fidelity": 0.8110857009887695,
+            "route_median_cosine": 0.9450385570526123,
+            "answer_accuracy": 0.8355091214179993,
+            "attention_to_boundary_norm": 0.1145181804895401
+          },
+          "shuffled_attention": {
+            "effectful_examples": 766,
+            "decoder_median_fidelity": 0.6812583804130554,
+            "decoder_median_cosine": 0.9077467322349548,
+            "route_median_fidelity": 0.5999875068664551,
+            "route_median_cosine": 0.8641444444656372,
+            "answer_accuracy": 0.6657963395118713,
+            "attention_to_boundary_norm": 0.3716587722301483
+          }
+        }
+      }
+    },
+    {
+      "seed": 104,
+      "maximum_native_error": 6.67572021484375e-06,
+      "results": {
+        "unselected": {
+          "native": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 1.0,
+            "decoder_median_cosine": 1.0,
+            "route_median_fidelity": 1.0,
+            "route_median_cosine": 1.0,
+            "answer_accuracy": 1.0,
+            "attention_to_boundary_norm": 0.24011121690273285
+          },
+          "delete_attention": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 0.9582774639129639,
+            "decoder_median_cosine": 0.9919841289520264,
+            "route_median_fidelity": 0.9238424301147461,
+            "route_median_cosine": 0.9875523447990417,
+            "answer_accuracy": 0.945147693157196,
+            "attention_to_boundary_norm": 0.0
+          },
+          "global_prototype": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 0.959607720375061,
+            "decoder_median_cosine": 0.9932342171669006,
+            "route_median_fidelity": 0.9273432493209839,
+            "route_median_cosine": 0.9875636100769043,
+            "answer_accuracy": 0.9423347115516663,
+            "attention_to_boundary_norm": 0.05364068225026131
+          },
+          "relation_prototype": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 0.9612559080123901,
+            "decoder_median_cosine": 0.9922999143600464,
+            "route_median_fidelity": 0.9276179075241089,
+            "route_median_cosine": 0.9871461987495422,
+            "answer_accuracy": 0.9437412023544312,
+            "attention_to_boundary_norm": 0.05771247297525406
+          },
+          "answer_prototype": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 0.9628807306289673,
+            "decoder_median_cosine": 0.9928668737411499,
+            "route_median_fidelity": 0.9333133697509766,
+            "route_median_cosine": 0.9880331158638,
+            "answer_accuracy": 0.947960615158081,
+            "attention_to_boundary_norm": 0.07173369079828262
+          },
+          "relation_answer_prototype": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 0.9664111137390137,
+            "decoder_median_cosine": 0.9932259321212769,
+            "route_median_fidelity": 0.9408840537071228,
+            "route_median_cosine": 0.9898407459259033,
+            "answer_accuracy": 0.9578059315681458,
+            "attention_to_boundary_norm": 0.11067146062850952
+          },
+          "shuffled_attention": {
+            "effectful_examples": 711,
+            "decoder_median_fidelity": 0.9186897873878479,
+            "decoder_median_cosine": 0.9838021397590637,
+            "route_median_fidelity": 0.8611524105072021,
+            "route_median_cosine": 0.9724518656730652,
+            "answer_accuracy": 0.8888888955116272,
+            "attention_to_boundary_norm": 0.24210821092128754
+          }
+        },
+        "selected": {
+          "native": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 1.0,
+            "decoder_median_cosine": 1.0,
+            "route_median_fidelity": 1.0,
+            "route_median_cosine": 1.0,
+            "answer_accuracy": 1.0,
+            "attention_to_boundary_norm": 0.24527515470981598
+          },
+          "delete_attention": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 0.9375296831130981,
+            "decoder_median_cosine": 0.9859224557876587,
+            "route_median_fidelity": 0.9067951440811157,
+            "route_median_cosine": 0.9774103760719299,
+            "answer_accuracy": 0.9197368621826172,
+            "attention_to_boundary_norm": 0.0
+          },
+          "global_prototype": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 0.9425482749938965,
+            "decoder_median_cosine": 0.9863832592964172,
+            "route_median_fidelity": 0.9142178893089294,
+            "route_median_cosine": 0.9780194759368896,
+            "answer_accuracy": 0.9131578803062439,
+            "attention_to_boundary_norm": 0.05839082971215248
+          },
+          "relation_prototype": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 0.9409008026123047,
+            "decoder_median_cosine": 0.9863582253456116,
+            "route_median_fidelity": 0.9121779203414917,
+            "route_median_cosine": 0.9785940051078796,
+            "answer_accuracy": 0.9118421077728271,
+            "attention_to_boundary_norm": 0.05541959032416344
+          },
+          "answer_prototype": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 0.9415022730827332,
+            "decoder_median_cosine": 0.9862954616546631,
+            "route_median_fidelity": 0.9146636724472046,
+            "route_median_cosine": 0.9793727397918701,
+            "answer_accuracy": 0.9342105388641357,
+            "attention_to_boundary_norm": 0.07167286425828934
+          },
+          "relation_answer_prototype": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 0.9382002353668213,
+            "decoder_median_cosine": 0.9867824912071228,
+            "route_median_fidelity": 0.911777138710022,
+            "route_median_cosine": 0.9792788624763489,
+            "answer_accuracy": 0.9315789341926575,
+            "attention_to_boundary_norm": 0.09325826168060303
+          },
+          "shuffled_attention": {
+            "effectful_examples": 760,
+            "decoder_median_fidelity": 0.87192702293396,
+            "decoder_median_cosine": 0.966143786907196,
+            "route_median_fidelity": 0.7945858836174011,
+            "route_median_cosine": 0.9515377879142761,
+            "answer_accuracy": 0.8328947424888611,
+            "attention_to_boundary_norm": 0.24458394944667816
+          }
+        }
+      }
+    }
+  ]
+}

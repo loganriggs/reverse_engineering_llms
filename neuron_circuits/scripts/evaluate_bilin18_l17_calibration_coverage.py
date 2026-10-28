@@ -1,0 +1,18 @@
+import json,numpy as np,torch
+import torch.nn.functional as F
+from run_bilin18_l17_local_residual_charts import ROOT,ART,load_full_model
+from run_bilin18_l17_fisher_ranked_factors import native_drms
+@torch.inference_mode()
+def main():
+ torch.set_num_threads(6);old=np.load(ART/'bilin18_l17_operator_transfer_confirmation_rows.npz');maps=np.load(ART/'bilin18_l17_compiled_omitted_maps_weight_compilation.npz');compiled=torch.tensor(np.load(ART/'bilin18_l17_compiled_omitted_maps_rows.npz')['predictions'][0],device='cuda');model=load_full_model('cuda');model.embedding.float();model.blocks.float();model.lm_head.float();L,R,D=[m.weight.detach() for m in [model.blocks[17].mlp.Left,model.blocks[17].mlp.Right,model.blocks[17].mlp.Down]];W=model.lm_head.weight.double();ix=torch.tensor(np.load(ART/'bilin18_l17_residual_factor_rescue_frozen_sets.npz')['sets128'][0],device='cuda');pre=torch.tensor(old['pre'],device='cuda');st=torch.tensor(old['state'],device='cuda');base=F.rms_norm(st,(1152,));s=(pre.double().square().mean(-1,keepdim=True)+torch.finfo(torch.float32).eps).sqrt();x=pre.double()/s;phid=(x@L.double().T)*(x@R.double().T);mo=phid@D.double().T-phid[:,ix]@D[:,ix].double().T;xf=F.rms_norm(pre,(1152,));retbase=(xf@L[ix].T)*(xf@R[ix].T);cached=(st-pre-model.blocks[17].mlp.Down_bias).double()-(retbase@D[:,ix].T).double();Q=torch.linalg.qr(model.blocks[17].attn.c_proj.weight.reshape(1152,9,128)[:,6]).Q.double();m=np.load(ART/'bilin18_l17_unmatched_moment_controls_moments.npz');mu=torch.tensor(m['mean'][1],device='cuda');cov=torch.tensor(m['covariance'][1],device='cuda');ev,U=torch.linalg.eigh(cov+mu[:,None]*mu[None,:]);inv=(U*ev.rsqrt())@U.T;V=torch.tensor(np.load(ART/'bilin18_l17_omitted_operator_shared_frozen.npz')['basis'][:,:16],device='cuda');src=torch.tensor(old['sources'],device='cuda');coeff=src@Q@inv@V;H=torch.tensor(maps['source_directions'],device='cuda');scale=2*torch.einsum('ar,nr->an',coeff,x@H/1152)/s.T;rad=scale[:,:,None]*mo[None];cachepred=compiled+scale[:,:,None]*(cached-mo)[None];selection=json.loads((ART/'bilin18_l17_calibration_coverage_selection.json').read_text());frozen=np.load(ART/'bilin18_l17_calibration_coverage_frozen_bases.npz');chosen=selection['selected_by_count'];linear=compiled-rad;pred=torch.stack([((linear@torch.tensor(frozen['bases'][i],device='cuda'))@torch.tensor(frozen['bases'][i],device='cuda').T)+rad for i in chosen]);ret=torch.tensor(old['retained'],device='cuda').double();full=torch.tensor(old['full'],device='cuda').double();errors=np.empty((3,24,32,2))
+ for si in range(32):
+  ss=st[si:si+1];th=torch.tanh(base[si:si+1].double()@W.T/30);p=(30*th).softmax(-1);cap=1-th.square()
+  def tangent(v):
+   dt=(native_drms(ss.double(),v)@W.T)*cap;return dt-(p*dt).sum(-1,keepdim=True)
+  def lp(v):return (30*torch.tanh(F.rms_norm(ss+v.float(),(1152,)).double()@W.T/30)).log_softmax(-1)
+  tf=tangent(full[:,si]);lt=lp(full[:,si]);pt=lt.exp()
+  for k in range(3):
+   v=ret[:,si]+pred[k,:,si];res=tf-tangent(v);lg=lp(v);errors[k,:,si]=torch.stack([.5*(p*res.square()).sum(-1),(pt*(lt-lg)).sum(-1)],-1).cpu().numpy()
+ result=json.loads((ART/'bilin18_l17_calibration_coverage.json').read_text());result['finite_KL_recovery']={name:(1-errors[:,:,ii,1].sum((1,2))/old['effects'][:,ii,1].sum()).tolist() for name,ii in [('low',np.arange(16)),('median',np.arange(16,32))]};result['evaluation_basis_indices']=chosen;np.savez_compressed(ART/'bilin18_l17_calibration_coverage_rows.npz',errors=errors);(ART/'bilin18_l17_calibration_coverage.json').write_text(json.dumps(result,indent=2)+'\n');print(result['finite_KL_recovery'])
+
+if __name__=='__main__':main()

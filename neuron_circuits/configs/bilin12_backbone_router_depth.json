@@ -1,0 +1,44 @@
+{
+  "status": "hypotheses-locked-after-exact-carrier-and-component-audits-before-depth-router-results",
+  "snapshot": "/home/loganriggs/.cache/huggingface/hub/models--Elriggs--gpt2-bilinear-sqrd-attn-12l-6h-768embd/snapshots/51690b862c026c600ee0645e8dd5474f43ef3f64",
+  "seed": 20261203,
+  "batch_size": 4,
+  "sequence_length": 128,
+  "position": 127,
+  "target": "\n",
+  "pooled_targets": ["\n", ".", ",", " the"],
+  "rank": 32,
+  "ridge_relative_penalty": 1.0,
+  "feature_families": ["delta", "pair", "polynomial", "carriers"],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 17100,
+    "rows": 512
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 18500,
+      "rows": 256
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 768,
+      "rows": 256
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 768,
+      "rows": 256
+    }
+  },
+  "hypotheses": {
+    "R0_trace_and_basis_are_valid": "Independent traced logits agree with the checkpoint forward to at most 1e-5, and the pooled rank-32 oracle beats an equal-rank random basis by at least 0.30 fidelity on every corpus.",
+    "R1_pre_final_local_router_is_sufficient": "At the boundary after Layer 10, at least one frozen feature family reaches fidelity at least 0.70 and lies within 0.15 of the rank-32 oracle on every corpus.",
+    "R2_mid_depth_router_is_sufficient": "At some boundary no later than Layer 6, one feature family reaches fidelity at least 0.70 and lies within 0.15 of oracle on every corpus.",
+    "R3_context_specific_coefficients_matter": "At the earliest universally sufficient boundary, predicted coefficients exceed within-corpus permuted predicted coefficients by at least 0.15 fidelity on every corpus.",
+    "R4_nonlinear_local_features_add_value": "At some boundary on every corpus, polynomial features improve fidelity over delta-only features by at least 0.10.",
+    "R5_router_quality_generally_increases_with_depth": "For every corpus, the best-family fidelity has Spearman correlation at least 0.70 with boundary depth.",
+    "R6_one_frozen_router_transfers_ood": "The same FineWeb-trained family and depth that first pass the FineWeb gate also pass the 0.70/within-0.15 gate on WikiText and TinyStories."
+  }
+}

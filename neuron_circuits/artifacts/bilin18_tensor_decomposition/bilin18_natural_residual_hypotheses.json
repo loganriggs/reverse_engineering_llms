@@ -1,0 +1,140 @@
+{
+  "source_experiment": "H998",
+  "status": "exploratory hypotheses, no causal discovery established",
+  "prioritized_task_candidates": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "required_controls": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "hypotheses": [
+    {
+      "id": 1,
+      "name": "Sentence restart after boundary",
+      "evidence": "Cluster2 exemplars end at newline/sentence boundaries.",
+      "discriminator": "Match current boundary token; vary whether sentence ended; measure next-token start distribution and residual edits."
+    },
+    {
+      "id": 2,
+      "name": "Clause-completion punctuation readiness",
+      "evidence": "Cluster3 often precedes punctuation at completed clauses.",
+      "discriminator": "Same final lexical token in complete versus incomplete clause; test punctuation probability and causal swaps."
+    },
+    {
+      "id": 3,
+      "name": "Determiner-to-noun continuation",
+      "evidence": "Cluster7 includes determiner/noun-phrase contexts.",
+      "discriminator": "Hold final determiner fixed across predicted noun categories; compare residual versus token-only effects."
+    },
+    {
+      "id": 4,
+      "name": "Within-word continuation",
+      "evidence": "Cluster5 includes partial-looking strings and suffix predictions.",
+      "discriminator": "Separate token-internal continuation from new-word boundaries, matching current BPE token where possible."
+    },
+    {
+      "id": 5,
+      "name": "Coordination and list continuation",
+      "evidence": "Cluster1 includes an anatomical list.",
+      "discriminator": "Parallel items versus completed list with same conjunction; validate on several semantic domains."
+    },
+    {
+      "id": 6,
+      "name": "Prepositional argument completion",
+      "evidence": "Cluster4 contains from/at/into contexts.",
+      "discriminator": "Match final preposition and manipulate expected argument type; use neutral-topic controls."
+    },
+    {
+      "id": 7,
+      "name": "Discourse connective continuation",
+      "evidence": "Cluster0 includes but/as continuations.",
+      "discriminator": "Compare connective uses with same token in other constructions; test completion distributions."
+    },
+    {
+      "id": 8,
+      "name": "Entity-category expectation",
+      "evidence": "Some contexts predict person/place/object continuations.",
+      "discriminator": "Hold formatting and current token fixed while changing entity-category cues."
+    },
+    {
+      "id": 9,
+      "name": "Domain-specific vocabulary state",
+      "evidence": "Cluster1 medical examples may share lexical domain.",
+      "discriminator": "Cross topic and syntax factorially; test whether effects follow domain or syntactic position."
+    },
+    {
+      "id": 10,
+      "name": "Heading/list formatting state",
+      "evidence": "Cluster5 includes headings and list-like fragments.",
+      "discriminator": "Compare identical content in prose, headings and lists; examine continuation format."
+    },
+    {
+      "id": 11,
+      "name": "Delimiter closure state",
+      "evidence": "Not established by current exemplars; plausible residual function.",
+      "discriminator": "Fresh matched quotation/bracket-open versus closed contexts, with length controls."
+    },
+    {
+      "id": 12,
+      "name": "Local morphology constraints",
+      "evidence": "Word fragments may encode suffix compatibility.",
+      "discriminator": "Use token-valid inflection/derivation pairs with lexical and boundary controls; avoid existing tense holdout training."
+    },
+    {
+      "id": 13,
+      "name": "Prediction uncertainty",
+      "evidence": "Residual clusters may mostly track entropy.",
+      "discriminator": "Stratify by native entropy and test whether cluster patterns persist within strata."
+    },
+    {
+      "id": 14,
+      "name": "Unexpected-continuation state",
+      "evidence": "Residual structure may track local surprisal.",
+      "discriminator": "Compare continuation surprisal at matched token/position; avoid using future tokens for fitting."
+    },
+    {
+      "id": 15,
+      "name": "Current-token identity artifact",
+      "evidence": "Cluster2 mode is period; others mix many tokens.",
+      "discriminator": "Exact-token matched controls and token-conditioned subtraction on discovery data only."
+    },
+    {
+      "id": 16,
+      "name": "Absolute position artifact",
+      "evidence": "Four fixed positions can induce clusters.",
+      "discriminator": "Report cluster occupancy by position and replicate at new predeclared positions."
+    },
+    {
+      "id": 17,
+      "name": "Residual-norm/outlier artifact",
+      "evidence": "Spherical fitting removes magnitude but raw direction may still correlate with norm.",
+      "discriminator": "Norm-matched strata and robust removal of predeclared extreme-norm states."
+    },
+    {
+      "id": 18,
+      "name": "Document/style/boilerplate artifact",
+      "evidence": "Four states per document share source context.",
+      "discriminator": "Document-block resampling and new-document replication; count independent documents."
+    },
+    {
+      "id": 19,
+      "name": "Task-span domain shift",
+      "evidence": "Task PCA leaves large natural residual.",
+      "discriminator": "Compare train-only natural PCA and task PCA on separate pilot documents with downstream fidelity."
+    },
+    {
+      "id": 20,
+      "name": "Clusters are quantization, not natural units",
+      "evidence": "Finite8-way clustering imposes categories.",
+      "discriminator": "Compare continuous subspace prediction and multiple cluster counts on discovery only; require causal selectivity before naming units."
+    }
+  ]
+}

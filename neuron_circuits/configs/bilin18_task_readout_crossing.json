@@ -1,0 +1,29 @@
+{
+  "experiment": "H535",
+  "source_sha256": "a3cfb702ff4f970e8d22d4fe777077e38f4755d7a46ba4499138d1fe38521cd6",
+  "layer": 12,
+  "gate": "Per readout: eight declared pairs; at least 75% both-endpoint contrast correctness and >=50% pooled full-vocab top1. Invariance prompts have same correct class and are not counterfactual competence tests.",
+  "selection": "All formats and examples reported; no refitting H534 shared vectors.",
+  "control_modes": [
+    "shared",
+    "shared_reversed",
+    "nuisance_norm_matched",
+    "output_bias",
+    "shared_readout_removed",
+    "identity",
+    "random_00",
+    "random_01",
+    "random_02",
+    "random_03"
+  ],
+  "sites": "All modes at MLP12; shared and output_bias also at final residual.",
+  "output_bias": "Mean unembedding rows for original class1 minus class0, normalized to frozen shared norm.",
+  "shared_readout_removed": "Project shared vector off span of all original answer-token unembedding rows, then rescale to original norm. This only removes direct linear final-readout overlap, not nonlinear downstream effects.",
+  "precision": "float32 computation, shared loader bfloat16-rounded weights",
+  "hypotheses": [
+    "Frozen task writes transport to competent formats with disjoint output tokens.",
+    "Semantic orientation follows inverted questions using identical yes/no tokens.",
+    "Task writes exceed simple output-readout controls."
+  ],
+  "scope": "Fresh prompts but familiar lexical items and deliberately constructed templates, not random population or model-training holdout."
+}

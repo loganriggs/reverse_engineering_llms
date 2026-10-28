@@ -1,0 +1,344 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-dynamic-attention-boundary-before-two-qk-layer-path-program",
+    "source_config": "configs/bilin18_mlp_path_highcount_replication.json",
+    "source_artifact": "artifacts/bilin18_tensor_decomposition/bilin18_mlp_path_highcount_replication.json",
+    "seed": 20261026,
+    "batch_size": 1,
+    "tangent_chunk": 4,
+    "budgets": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "random_replicates": 128,
+    "path_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 18500,
+      "rows": 32
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19700,
+        "rows": 8
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 600,
+        "rows": 8
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 600,
+        "rows": 8
+      }
+    },
+    "hypotheses": {
+      "T0_manual_two_qk_attention_jvp_is_exact": "Manual two-QK/current-value attention writes and JVPs match native forward/autograd with maximum relative error at most 1e-5.",
+      "T1_attention_layer_paths_recompose_exactly": "The 32 I/A layer-subset paths recompose the independent unexpanded full suffix JVP with maximum sitewise relative error at most 1e-5.",
+      "T2_full_analytic_jvp_predicts_finite_effect": "The full path sum predicts the scale-0.02 dynamic-attention finite effect with fidelity at least 0.99 on every corpus.",
+      "T3_mlp_identity_path_explains_most_effect": "The no-attention-response path retains at least 0.94 analytic fidelity on every corpus.",
+      "T4_four_attention_paths_are_high_fidelity": "Four discovery-frozen attention paths retain at least 0.98 analytic fidelity on every corpus.",
+      "T5_compact_combined_program_predicts_native_effect": "Replacing the identity path by the frozen four-path MLP approximation while retaining the top four attention paths predicts the finite native effect with at least 0.94 fidelity on every corpus.",
+      "T6_attention_paths_beat_random": "At budget four, the frozen attention program exceeds the identity-plus-random-path 95th percentile by at least 0.01 on every corpus.",
+      "T7_attention_program_transfers_ood": "Frozen four-path analytic fidelity on each OOD corpus is within 0.03 of FineWeb.",
+      "T8_attention_program_is_low_order": "At least three of the frozen top-four paths use attention response in at most one layer.",
+      "T9_context_specific_attention_selection_is_small": "At budget four, the per-example oracle exceeds the frozen program by less than 0.02 on every corpus."
+    }
+  },
+  "hypotheses": {
+    "T0_manual_two_qk_attention_jvp_is_exact": {
+      "supported": true,
+      "maximum_forward_error": 0.0,
+      "autograd_relative_error": 2.740557363267726e-07
+    },
+    "T1_attention_layer_paths_recompose_exactly": {
+      "supported": true,
+      "maximum_relative_error": 9.330934744866681e-07
+    },
+    "T2_full_analytic_jvp_predicts_finite_effect": {
+      "supported": true
+    },
+    "T3_mlp_identity_path_explains_most_effect": {
+      "supported": true
+    },
+    "T4_four_attention_paths_are_high_fidelity": {
+      "supported": true
+    },
+    "T5_compact_combined_program_predicts_native_effect": {
+      "supported": true
+    },
+    "T6_attention_paths_beat_random": {
+      "supported": false
+    },
+    "T7_attention_program_transfers_ood": {
+      "supported": true
+    },
+    "T8_attention_program_is_low_order": {
+      "supported": true
+    },
+    "T9_context_specific_attention_selection_is_small": {
+      "supported": true
+    }
+  },
+  "path_order": [
+    "IIIII",
+    "IIIIA",
+    "AIIII",
+    "IAIII",
+    "IIAII",
+    "AIIIA",
+    "IIIAI",
+    "AAIII",
+    "AIIAI",
+    "IAIIA",
+    "IAIAI",
+    "IIAIA",
+    "AIAII",
+    "AAIIA",
+    "IIIAA",
+    "AIIAA",
+    "IAIAA",
+    "IAAII",
+    "AAIAI",
+    "IIAAI",
+    "AIAAI",
+    "AIAIA",
+    "AAAII",
+    "IAAAI",
+    "IIAAA",
+    "AAIAA",
+    "IAAIA",
+    "AAAIA",
+    "AIAAA",
+    "AAAAI",
+    "IAAAA",
+    "AAAAA"
+  ],
+  "top4_low_order_count": 4,
+  "results": {
+    "fineweb": {
+      "sites": 32,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.9756820872426033,
+          "oracle_fidelity": 0.9756820888028875,
+          "random": {
+            "median": 0.9756820872426033,
+            "p95": 0.9756820872426033,
+            "maximum": 0.9756820872426033
+          },
+          "analytic_to_finite_fidelity": 0.975683743134141,
+          "combined_mlp4_to_finite_fidelity": 0.9214242175221443
+        },
+        "2": {
+          "frozen_fidelity": 0.9914560727775097,
+          "oracle_fidelity": 0.9917469232720746,
+          "random": {
+            "median": 0.9756887340918183,
+            "p95": 0.9805434662848711,
+            "maximum": 0.9914560727775097
+          },
+          "analytic_to_finite_fidelity": 0.9914571139961481,
+          "combined_mlp4_to_finite_fidelity": 0.9465800635516644
+        },
+        "4": {
+          "frozen_fidelity": 0.9978353211190552,
+          "oracle_fidelity": 0.9980951496640325,
+          "random": {
+            "median": 0.9758420009166002,
+            "p95": 0.9914408578537405,
+            "maximum": 0.9948423304595053
+          },
+          "analytic_to_finite_fidelity": 0.9978359898086637,
+          "combined_mlp4_to_finite_fidelity": 0.9541708379983902
+        },
+        "8": {
+          "frozen_fidelity": 0.9997237107018009,
+          "oracle_fidelity": 0.9997855821673424,
+          "random": {
+            "median": 0.9797122217714787,
+            "p95": 0.9951946326997131,
+            "maximum": 0.9978385088033974
+          },
+          "analytic_to_finite_fidelity": 0.9997237856441643,
+          "combined_mlp4_to_finite_fidelity": 0.9578772708773613
+        },
+        "16": {
+          "frozen_fidelity": 0.9999889895543674,
+          "oracle_fidelity": 0.9999924184135803,
+          "random": {
+            "median": 0.9928019985090941,
+            "p95": 0.9991397056466667,
+            "maximum": 0.9995918085041922
+          },
+          "analytic_to_finite_fidelity": 0.9999887392441451,
+          "combined_mlp4_to_finite_fidelity": 0.9582019597291946
+        },
+        "32": {
+          "frozen_fidelity": 0.9999999999999882,
+          "oracle_fidelity": 1.0000000000000004,
+          "random": {
+            "median": 0.9999999999999876,
+            "p95": 0.99999999999999,
+            "maximum": 0.9999999999999916
+          },
+          "analytic_to_finite_fidelity": 0.9999998070490221,
+          "combined_mlp4_to_finite_fidelity": 0.958270501345396
+        }
+      },
+      "identity_path_fidelity": 0.9756820872426033,
+      "full_analytic_to_finite_fidelity": 0.9999998070465921
+    },
+    "wikitext": {
+      "sites": 32,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.9718528352677822,
+          "oracle_fidelity": 0.9718528367865498,
+          "random": {
+            "median": 0.9718528352677822,
+            "p95": 0.9718528352677822,
+            "maximum": 0.9718528352677822
+          },
+          "analytic_to_finite_fidelity": 0.9718553274869919,
+          "combined_mlp4_to_finite_fidelity": 0.9188686907291412
+        },
+        "2": {
+          "frozen_fidelity": 0.988290486857295,
+          "oracle_fidelity": 0.9895145605294198,
+          "random": {
+            "median": 0.9718540366739035,
+            "p95": 0.9768672827631235,
+            "maximum": 0.988290486857295
+          },
+          "analytic_to_finite_fidelity": 0.9882907960563898,
+          "combined_mlp4_to_finite_fidelity": 0.940116673707962
+        },
+        "4": {
+          "frozen_fidelity": 0.9966177756432444,
+          "oracle_fidelity": 0.9970999119690115,
+          "random": {
+            "median": 0.971888942644,
+            "p95": 0.9877508322242647,
+            "maximum": 0.9907278632745147
+          },
+          "analytic_to_finite_fidelity": 0.9966177591122687,
+          "combined_mlp4_to_finite_fidelity": 0.947351910173893
+        },
+        "8": {
+          "frozen_fidelity": 0.999211031885352,
+          "oracle_fidelity": 0.9994289975049273,
+          "random": {
+            "median": 0.9764840118587017,
+            "p95": 0.9920540889259427,
+            "maximum": 0.9982378301210701
+          },
+          "analytic_to_finite_fidelity": 0.9992110396851785,
+          "combined_mlp4_to_finite_fidelity": 0.9516018778085709
+        },
+        "16": {
+          "frozen_fidelity": 0.9999592209314869,
+          "oracle_fidelity": 0.9997906512733997,
+          "random": {
+            "median": 0.9825163716450334,
+            "p95": 0.9985631138144526,
+            "maximum": 0.9994693975313567
+          },
+          "analytic_to_finite_fidelity": 0.9999589624276268,
+          "combined_mlp4_to_finite_fidelity": 0.9523673243820667
+        },
+        "32": {
+          "frozen_fidelity": 0.999999999999989,
+          "oracle_fidelity": 1.0000000000000004,
+          "random": {
+            "median": 0.9999999999999868,
+            "p95": 0.99999999999999,
+            "maximum": 0.999999999999991
+          },
+          "analytic_to_finite_fidelity": 0.9999998108003325,
+          "combined_mlp4_to_finite_fidelity": 0.9523668959736824
+        }
+      },
+      "identity_path_fidelity": 0.9718528352677822,
+      "full_analytic_to_finite_fidelity": 0.9999998107996788
+    },
+    "tinystories": {
+      "sites": 32,
+      "budgets": {
+        "1": {
+          "frozen_fidelity": 0.9698409158736467,
+          "oracle_fidelity": 0.9698409133595893,
+          "random": {
+            "median": 0.9698409158736467,
+            "p95": 0.9698409158736467,
+            "maximum": 0.9698409158736467
+          },
+          "analytic_to_finite_fidelity": 0.9698409251868725,
+          "combined_mlp4_to_finite_fidelity": 0.9247928932309151
+        },
+        "2": {
+          "frozen_fidelity": 0.992061210796237,
+          "oracle_fidelity": 0.9920612105415724,
+          "random": {
+            "median": 0.969842005521059,
+            "p95": 0.9740565465763211,
+            "maximum": 0.992061210796237
+          },
+          "analytic_to_finite_fidelity": 0.9920611316338181,
+          "combined_mlp4_to_finite_fidelity": 0.9550312347710133
+        },
+        "4": {
+          "frozen_fidelity": 0.9974839459173381,
+          "oracle_fidelity": 0.9979272555349362,
+          "random": {
+            "median": 0.9701470257714391,
+            "p95": 0.9921697197016328,
+            "maximum": 0.9957778980024159
+          },
+          "analytic_to_finite_fidelity": 0.997483090730384,
+          "combined_mlp4_to_finite_fidelity": 0.9621995650231838
+        },
+        "8": {
+          "frozen_fidelity": 0.999665169918444,
+          "oracle_fidelity": 0.9997229181410279,
+          "random": {
+            "median": 0.9730326607823372,
+            "p95": 0.9956954499240964,
+            "maximum": 0.9981875563971698
+          },
+          "analytic_to_finite_fidelity": 0.9996650707907975,
+          "combined_mlp4_to_finite_fidelity": 0.9659230895340443
+        },
+        "16": {
+          "frozen_fidelity": 0.9999881455414652,
+          "oracle_fidelity": 0.9999332128096248,
+          "random": {
+            "median": 0.9784481329843402,
+            "p95": 0.9986501218460034,
+            "maximum": 0.9993376379134133
+          },
+          "analytic_to_finite_fidelity": 0.9999879381512073,
+          "combined_mlp4_to_finite_fidelity": 0.9664024338126183
+        },
+        "32": {
+          "frozen_fidelity": 0.9999999999999886,
+          "oracle_fidelity": 1.0000000000000004,
+          "random": {
+            "median": 0.9999999999999868,
+            "p95": 0.9999999999999896,
+            "maximum": 0.9999999999999907
+          },
+          "analytic_to_finite_fidelity": 0.9999998281919318,
+          "combined_mlp4_to_finite_fidelity": 0.9664585925638676
+        }
+      },
+      "identity_path_fidelity": 0.9698409158736467,
+      "full_analytic_to_finite_fidelity": 0.999999828191946
+    }
+  }
+}

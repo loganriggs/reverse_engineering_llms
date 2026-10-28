@@ -1,0 +1,87 @@
+<div id="neuron-circuit-results">
+  <style>
+    #neuron-circuit-results { color: var(--foreground); font-family: system-ui, sans-serif; }
+    #neuron-circuit-results .plots { display: grid; gap: 22px; }
+    #neuron-circuit-results h2 { margin: 0 0 16px; font-size: 20px; line-height: 1.2; }
+    #neuron-circuit-results h3 { margin: 0 0 6px; font-size: 15px; line-height: 1.25; }
+    #neuron-circuit-results svg { display: block; width: 100%; height: auto; overflow: visible; }
+    #neuron-circuit-results text { fill: var(--foreground); font-size: 12px; }
+    #neuron-circuit-results .frame { fill: none; stroke: var(--border); }
+    #neuron-circuit-results .grid { stroke: var(--border); stroke-opacity: .55; }
+    #neuron-circuit-results .axis-title { font-weight: 600; }
+    #neuron-circuit-results .value { font-weight: 700; font-size: 13px; }
+    #neuron-circuit-results .subvalue { opacity: .72; font-size: 11px; }
+    #neuron-circuit-results .random { fill: var(--viz-series-6); }
+    #neuron-circuit-results .activation { fill: var(--viz-series-2); }
+    #neuron-circuit-results .write { fill: var(--viz-series-3); }
+    #neuron-circuit-results .gradient { fill: var(--viz-series-1); }
+    #neuron-circuit-results .instance { fill: var(--viz-series-1); }
+    #neuron-circuit-results .unique { fill: var(--viz-series-4); }
+    @media (max-width: 420px) {
+      #neuron-circuit-results h2 { font-size: 18px; }
+      #neuron-circuit-results text { font-size: 11px; }
+      #neuron-circuit-results .value { font-size: 12px; }
+    }
+  </style>
+  <h2>Native-neuron arithmetic pilot</h2>
+  <div class="plots">
+    <section aria-label="Median circuit size by extraction method">
+      <h3>Median circuit size for 90% answer-margin fidelity</h3>
+      <svg viewBox="0 0 720 285" role="img" aria-label="Random needs 98.4 percent, activation 42.5 percent, write magnitude 38.7 percent, and gradient times activation 23.7 percent of activation instances.">
+        <rect class="frame" x="64" y="12" width="636" height="220"></rect>
+        <line class="grid" x1="64" y1="232" x2="700" y2="232"></line>
+        <line class="grid" x1="64" y1="177" x2="700" y2="177"></line>
+        <line class="grid" x1="64" y1="122" x2="700" y2="122"></line>
+        <line class="grid" x1="64" y1="67" x2="700" y2="67"></line>
+        <line class="grid" x1="64" y1="12" x2="700" y2="12"></line>
+        <text x="54" y="236" text-anchor="end">0</text><text x="54" y="181" text-anchor="end">25</text>
+        <text x="54" y="126" text-anchor="end">50</text><text x="54" y="71" text-anchor="end">75</text><text x="54" y="16" text-anchor="end">100%</text>
+        <rect class="random" x="92" y="15.5" width="112" height="216.5"></rect>
+        <rect class="activation" x="248" y="138.5" width="112" height="93.5"></rect>
+        <rect class="write" x="404" y="146.9" width="112" height="85.1"></rect>
+        <rect class="gradient" x="560" y="179.9" width="112" height="52.1"></rect>
+        <text class="value" x="148" y="28" text-anchor="middle">98.4%</text>
+        <text class="value" x="304" y="132" text-anchor="middle">42.5%</text>
+        <text class="value" x="460" y="140" text-anchor="middle">38.7%</text>
+        <text class="value" x="616" y="173" text-anchor="middle">23.7%</text>
+        <text x="148" y="252" text-anchor="middle">Random</text>
+        <text x="304" y="252" text-anchor="middle">Activation</text>
+        <text x="460" y="252" text-anchor="middle">Write norm</text>
+        <text x="616" y="252" text-anchor="middle">Grad × act.</text>
+        <text class="axis-title" data-axis="y" transform="translate(15,122) rotate(-90)" text-anchor="middle">Retained activation instances</text>
+      </svg>
+    </section>
+    <section aria-label="Activation instances versus unique neurons">
+      <h3>Compact in time, not a tiny global neuron subset</h3>
+      <svg viewBox="0 0 720 175" role="img" aria-label="The median circuit retains 23.7 percent of position-specific activation instances but touches 83.8 percent of unique layer-channel neurons at least once.">
+        <rect class="frame" x="190" y="14" width="510" height="112"></rect>
+        <line class="grid" x1="190" y1="126" x2="700" y2="126"></line>
+        <line class="grid" x1="445" y1="14" x2="445" y2="126"></line>
+        <text x="180" y="53" text-anchor="end">Activation instances</text>
+        <text x="180" y="108" text-anchor="end">Unique neurons touched</text>
+        <rect class="instance" x="190" y="30" width="120.9" height="30"></rect>
+        <rect class="unique" x="190" y="85" width="427.4" height="30"></rect>
+        <text class="value" x="319" y="50">23.7%</text>
+        <text class="value" x="625" y="105">83.8%</text>
+        <text x="190" y="146" text-anchor="middle">0</text><text x="445" y="146" text-anchor="middle">50</text><text x="700" y="146" text-anchor="middle">100%</text>
+        <text class="axis-title" data-axis="x" x="445" y="168" text-anchor="middle">Share retained or used at least once</text>
+      </svg>
+    </section>
+    <section aria-label="Frozen mask transfer accuracy">
+      <h3>Frozen masks on changed arithmetic problems</h3>
+      <svg viewBox="0 0 720 285" role="img" aria-label="Random masks are 100 percent accurate while retaining 94 percent, activation masks 42 percent at 40 percent retained, write magnitude 54 percent at 43 percent retained, and gradient times activation 79 percent at 30 percent retained.">
+        <rect class="frame" x="64" y="12" width="636" height="220"></rect>
+        <line class="grid" x1="64" y1="232" x2="700" y2="232"></line><line class="grid" x1="64" y1="122" x2="700" y2="122"></line><line class="grid" x1="64" y1="12" x2="700" y2="12"></line>
+        <text x="54" y="236" text-anchor="end">0</text><text x="54" y="126" text-anchor="end">50</text><text x="54" y="16" text-anchor="end">100%</text>
+        <rect class="random" x="92" y="12" width="112" height="220"></rect><rect class="activation" x="248" y="139.6" width="112" height="92.4"></rect>
+        <rect class="write" x="404" y="113.2" width="112" height="118.8"></rect><rect class="gradient" x="560" y="58.2" width="112" height="173.8"></rect>
+        <text class="value" x="148" y="27" text-anchor="middle">100%</text><text class="subvalue" x="148" y="43" text-anchor="middle">94% retained</text>
+        <text class="value" x="304" y="133" text-anchor="middle">42%</text><text class="subvalue" x="304" y="151" text-anchor="middle">40% retained</text>
+        <text class="value" x="460" y="107" text-anchor="middle">54%</text><text class="subvalue" x="460" y="125" text-anchor="middle">43% retained</text>
+        <text class="value" x="616" y="52" text-anchor="middle">79%</text><text class="subvalue" x="616" y="70" text-anchor="middle">30% retained</text>
+        <text x="148" y="252" text-anchor="middle">Random</text><text x="304" y="252" text-anchor="middle">Activation</text><text x="460" y="252" text-anchor="middle">Write norm</text><text x="616" y="252" text-anchor="middle">Grad × act.</text>
+        <text class="axis-title" data-axis="y" transform="translate(15,122) rotate(-90)" text-anchor="middle">Exact transfer accuracy</text>
+      </svg>
+    </section>
+  </div>
+</div>

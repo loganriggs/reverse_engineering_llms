@@ -1,0 +1,73 @@
+{
+  "config": {
+    "status": "H277 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_intercept_replication_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "models": [
+      "compiled",
+      "constant_exact",
+      "compiled_mean",
+      "common_exact",
+      "common_cal",
+      "actual_zero",
+      "actual_exact",
+      "actual_cal",
+      "mixture_zero",
+      "mixture_exact",
+      "mixture_cal",
+      "native"
+    ],
+    "design": "Freeze H275 centered polynomials. First768 discovery docs only: for each polynomial fit its output constant as mean(native-original_compiler-K), double accumulation, cast float32. No gradient fitting or new basis. Include zero,E(mu),discovery-calibrated constants and compiler/common controls. Freeze before fresh128-doc test, excluding1984 prior document hashes. Intact final-layer replacement, no native answer in predictor. Every response K(z)-K(x) is algebraically unchanged by intercept.",
+    "gates": {
+      "calibration_material": "calibrated vs E(mu) KL reduction>=20%, paired95 lower>0 for BOTH actual/mixture",
+      "bias_dominant": "same reduction>=50% for BOTH",
+      "repair_actual": "actual_cal KL recovery vs compiled>=80%, CE increase<=.02, top1>=.98",
+      "repair_mixture": "same mixture_cal"
+    },
+    "scope": "MSE-optimal constant on discovery, not behavior-optimal. No test mean in calibration. Same corpus/model; no semantic/uniqueness or global-freshness claim."
+  },
+  "fit_audit": {
+    "compiled": {
+      "training_mse_exact_anchor": 124895140.24538541,
+      "training_mse_calibrated": 105299322.77772179,
+      "calibrated_norm": 834.5118408203125,
+      "delta_from_exact_norm": 4426.71630859375,
+      "half_sample_constant_difference_norm": 404.88522154696307
+    },
+    "common": {
+      "training_mse_exact_anchor": 65365507.14303918,
+      "training_mse_calibrated": 58881340.28144103,
+      "calibrated_norm": 2110.150146484375,
+      "delta_from_exact_norm": 2546.40283203125,
+      "half_sample_constant_difference_norm": 293.5852704868786
+    },
+    "actual": {
+      "training_mse_exact_anchor": 57431208.411754966,
+      "training_mse_calibrated": 50947041.52030884,
+      "calibrated_norm": 2110.150146484375,
+      "delta_from_exact_norm": 2546.40283203125,
+      "half_sample_constant_difference_norm": 275.3681913367912
+    },
+    "mixture": {
+      "training_mse_exact_anchor": 58102312.05655827,
+      "training_mse_calibrated": 51618145.2120438,
+      "calibrated_norm": 2110.150146484375,
+      "delta_from_exact_norm": 2546.40283203125,
+      "half_sample_constant_difference_norm": 275.4834857959739
+    }
+  },
+  "stable_response_bitwise_equal": {
+    "actual": true,
+    "mixture": true
+  }
+}

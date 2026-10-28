@@ -1,0 +1,42 @@
+{
+  "status": "H275 fixed before outcomes",
+  "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_cross_program_replication_documents.npy",
+  "rows": 128,
+  "positions": [
+    31,
+    63,
+    95,
+    126
+  ],
+  "start": 0,
+  "batch_size": 8,
+  "layer": 17,
+  "heads": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "scales": [
+    0.1,
+    1.0
+  ],
+  "payloads": [
+    "actual",
+    "angle"
+  ],
+  "seed": 20261222,
+  "design": "Compile frozen H274 actual and mixture centered residual polynomials: full mean-linear + within-core + core-partner terms. No native tensors needed for correction inference. Compare compiled-only, common linear+within, actual, mixture and exact residual oracle. Native intact write is common conditional baseline; direct source perturbation retained. Fresh128 docs exclude1728 prior hashes. No fitting/tuning. Float64 compiler audit, float32 executable evaluation, float64 KL from float32 logits.",
+  "gates": {
+    "cross_behavior": "actual correction reduces common conditional KL>=10%, paired95 lower>0 BOTH actual scales",
+    "mixture_angle_advantage": "mixture reduces actual-only conditional KL>=5%, paired95 lower>0 BOTH angle scales",
+    "mixture_actual_retention": "mixture improvement over actual-only paired95 lower>\u22123% BOTH actual scales",
+    "half_kl": "actual correction reduces compiled-only conditional KL>=50% BOTH actual scales"
+  },
+  "scope": "Conditional mediation using exact native intact baseline, NOT intact model replacement. Dense linear/full-output coefficient costs included. No semantic claim."
+}

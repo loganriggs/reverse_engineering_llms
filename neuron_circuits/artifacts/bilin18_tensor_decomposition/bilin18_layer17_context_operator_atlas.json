@@ -1,0 +1,1166 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-output-role-metric-redteam-before-context-operator-atlas-results",
+    "seed": 20261129,
+    "batch_size": 8,
+    "rank": 16,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "core_path": "artifacts/bilin18_tensor_decomposition/bilin18_layer17_tangent_bundle_core_stability.pt",
+    "discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 12000,
+      "rows": 1000
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 0,
+        "rows": 2000
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 0,
+        "rows": 800
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 0,
+        "rows": 800
+      }
+    },
+    "minimum_positive": 20,
+    "rotation_replicates": 32,
+    "context_budgets": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "hypotheses": {
+      "C0_context_tensor_recomposes_native_factors": "The contracted output-by-tangent-by-context tensor matches direct projected native factors to relative error at most 1e-5.",
+      "C1_context_axes_have_transferable_semantics": "Frozen per-axis context explanations have median AUROC at least 0.60 on FineWeb, WikiText, and TinyStories.",
+      "C2_context_axes_are_more_semantic_than_rotations": "Native context axes exceed the same-subspace rotation p95 median AUROC by at least 0.03 on every corpus.",
+      "C3_local_operators_are_low_rank": "Median per-site 90%-energy rank of the 16-by-16 tangent-to-output operator is at most 8 on every corpus.",
+      "C4_eight_context_modes_are_sufficient": "The first eight tensor-ordered context coordinates retain at least 0.90 local-operator fidelity on every corpus.",
+      "C5_current_token_routes_operator": "A discovery-frozen exact-current-token lookup retains at least 0.50 operator fidelity on FineWeb and 0.30 on both OOD corpora, with coverage at least 0.50.",
+      "C6_coarse_token_routes_operator": "A discovery-frozen coarse current-token lookup retains at least 0.20 operator fidelity on every corpus.",
+      "C7_mean_operator_is_insufficient": "A single discovery-mean operator retains at most 0.80 fidelity on every corpus.",
+      "C8_full_state_is_an_exact_control_register": "The observed context coordinates reproduce every local operator to numerical precision by construction; lexical routers are judged against this explicit upper bound."
+    }
+  },
+  "hypotheses": {
+    "C0_context_tensor_recomposes_native_factors": true,
+    "C1_context_axes_have_transferable_semantics": true,
+    "C2_context_axes_are_more_semantic_than_rotations": false,
+    "C3_local_operators_are_low_rank": true,
+    "C4_eight_context_modes_are_sufficient": true,
+    "C5_current_token_routes_operator": true,
+    "C6_coarse_token_routes_operator": true,
+    "C7_mean_operator_is_insufficient": true,
+    "C8_full_state_is_an_exact_control_register": true
+  },
+  "tensor_exact_error": 3.9353728365794757e-07,
+  "semantic_confirmation": {
+    "mode_aucs": [
+      0.9561149464882763,
+      0.9951162833616827,
+      0.9318283266840582,
+      0.9520171012249803,
+      0.9793186019544095,
+      0.9600550889973389,
+      0.992559464306037,
+      0.970379889669007,
+      0.9749877734066211,
+      0.983570226784083,
+      0.9932400011073141,
+      0.843891009532129,
+      0.8417881473884697,
+      0.7425296723503845,
+      0.8692984976190807,
+      0.965573804747576
+    ],
+    "median_auc": 0.9628144468724575,
+    "modes_above_080": 15
+  },
+  "results": {
+    "fineweb": {
+      "semantic": {
+        "mode_aucs": [
+          0.9545171622109179,
+          0.9940524164502976,
+          0.8951028277548948,
+          0.9230311990847541,
+          0.9798938217988952,
+          0.960009383274307,
+          0.99189792202284,
+          0.938005356462888,
+          0.9736447387116399,
+          0.9788769711649303,
+          0.9916782166430858,
+          0.8500172194504008,
+          0.8454046031481179,
+          0.7936320781785475,
+          0.8521162293496987,
+          0.8744595269775517
+        ],
+        "median_auc": 0.9462612593369029,
+        "modes_above_080": 15
+      },
+      "rotation_median": 0.9401591811298261,
+      "rotation_p95": 0.9566916630105663,
+      "local_rank": {
+        "rank90_median": 3.0,
+        "rank90_p90": 4.0,
+        "effective_rank_median": 2.1603725013487023,
+        "top_energy_share_median": 0.6478870602980179
+      },
+      "context_budget_fidelity": {
+        "1": 0.7094698464946128,
+        "2": 0.8235845201614682,
+        "4": 0.9702082708586217,
+        "8": 0.9933000467862516,
+        "16": 1.0
+      },
+      "mean_operator_fidelity": 0.7114742833622398,
+      "current_token": {
+        "coverage": 0.673625,
+        "coordinate_fidelity": 0.7280587703653232,
+        "operator_fidelity": 0.8457607208275125
+      },
+      "coarse_token": {
+        "coordinate_fidelity": 0.6417675131901437,
+        "operator_fidelity": 0.7902107907254777
+      }
+    },
+    "wikitext": {
+      "semantic": {
+        "mode_aucs": [
+          0.9480078518001123,
+          0.9794484148121844,
+          0.9082956166451313,
+          0.9395369678864824,
+          0.9571181788589015,
+          0.9578385339520633,
+          0.9836567580097854,
+          0.9540620206612334,
+          0.9596452809343434,
+          0.9776771622474747,
+          0.9678696141098485,
+          0.8721239494554924,
+          0.8431820127812936,
+          0.7988220971706308,
+          0.8712056300405815,
+          0.8933650274435881
+        ],
+        "median_auc": 0.9510349362306728,
+        "modes_above_080": 15
+      },
+      "rotation_median": 0.931672973662546,
+      "rotation_p95": 0.9453888720950498,
+      "local_rank": {
+        "rank90_median": 3.0,
+        "rank90_p90": 4.0,
+        "effective_rank_median": 2.1601876317943485,
+        "top_energy_share_median": 0.6479805690554046
+      },
+      "context_budget_fidelity": {
+        "1": 0.6990022183576178,
+        "2": 0.8152139051820805,
+        "4": 0.9692944832956476,
+        "8": 0.993645574045102,
+        "16": 1.0
+      },
+      "mean_operator_fidelity": 0.7211189172352175,
+      "current_token": {
+        "coverage": 0.570546875,
+        "coordinate_fidelity": 0.6664874275633335,
+        "operator_fidelity": 0.8082853816139177
+      },
+      "coarse_token": {
+        "coordinate_fidelity": 0.645202665794894,
+        "operator_fidelity": 0.7978256060940478
+      }
+    },
+    "tinystories": {
+      "semantic": {
+        "mode_aucs": [
+          0.964453609066907,
+          0.9920259805511423,
+          0.9657648775542793,
+          0.9844622520767268,
+          0.9921945430038357,
+          0.9810241828140771,
+          0.984759517229012,
+          null,
+          0.99093154313239,
+          0.9947410545632598,
+          0.9923446245129205,
+          0.8926025656829998,
+          0.7931806933916803,
+          null,
+          0.9391021014785684,
+          null
+        ],
+        "median_auc": 0.9844622520767268,
+        "modes_above_080": 12
+      },
+      "rotation_median": 0.9758318917850712,
+      "rotation_p95": 0.9827342038196252,
+      "local_rank": {
+        "rank90_median": 3.0,
+        "rank90_p90": 3.0,
+        "effective_rank_median": 2.123212716012357,
+        "top_energy_share_median": 0.654824499197897
+      },
+      "context_budget_fidelity": {
+        "1": 0.684356675260293,
+        "2": 0.8309613348807948,
+        "4": 0.9737709821217015,
+        "8": 0.9933837613493933,
+        "16": 1.0
+      },
+      "mean_operator_fidelity": 0.7359334777248163,
+      "current_token": {
+        "coverage": 0.737734375,
+        "coordinate_fidelity": 0.7829041592422953,
+        "operator_fidelity": 0.8927562583757961
+      },
+      "coarse_token": {
+        "coordinate_fidelity": 0.644063543029409,
+        "operator_fidelity": 0.8086801426721623
+      }
+    }
+  },
+  "modes": [
+    {
+      "mode": 0,
+      "label_index": 37,
+      "label": "target:flag:word_continuation",
+      "sign": -1,
+      "discovery_auc": 0.9545358450116366,
+      "confirmation_auc": 0.9561149464882763,
+      "evaluation_auc": {
+        "fineweb": 0.9545171622109179,
+        "wikitext": 0.9480078518001123,
+        "tinystories": 0.964453609066907
+      },
+      "examples": [
+        {
+          "score": 16.059099197387695,
+          "position": 79,
+          "current": "'t",
+          "target": " learn",
+          "top1": " a",
+          "context": " created by this philosophical origin.\\nWe are n't learn your shop Escritos Polit",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 13566.8056640625
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 15.896286964416504,
+          "position": 47,
+          "current": " descriptions",
+          "target": " cannot",
+          "top1": " are",
+          "context": " a emphatically more lexical, original Buddhist. These descriptions cannot, also, Conversation for Proceedings",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 12815.8828125
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 15.819341659545898,
+          "position": 95,
+          "current": " they",
+          "target": " all",
+          "top1": " are",
+          "context": " request doctrine( The Koan and Zen Ritual) they all are a Cognition on the",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 13250.7314453125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 1,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.9955089775373751,
+      "confirmation_auc": 0.9951162833616827,
+      "evaluation_auc": {
+        "fineweb": 0.9940524164502976,
+        "wikitext": 0.9794484148121844,
+        "tinystories": 0.9920259805511423
+      },
+      "examples": [
+        {
+          "score": -21.20496940612793,
+          "position": 7,
+          "current": "<|endoftext|>",
+          "target": "J",
+          "top1": "The",
+          "context": " September 12 2003 04:14 PM<|endoftext|>JPR Index | Virtual Library |",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 9281.5322265625
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -21.178316116333008,
+          "position": 119,
+          "current": "<|endoftext|>",
+          "target": "The",
+          "top1": "The",
+          "context": "an Hunter/Simon Reeve\" <>|<|endoftext|>The Annual Giving program at The Chester",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 9397.1357421875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -21.16927146911621,
+          "position": 55,
+          "current": "<|endoftext|>",
+          "target": "Things",
+          "top1": "The",
+          "context": " University Drive | Maryville, MO 64468<|endoftext|>Things get rough and stormy sometimes",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 9315.3017578125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 2,
+      "label_index": 60,
+      "label": "top1:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.907963943626944,
+      "confirmation_auc": 0.9318283266840582,
+      "evaluation_auc": {
+        "fineweb": 0.8951028277548948,
+        "wikitext": 0.9082956166451313,
+        "tinystories": 0.9657648775542793
+      },
+      "examples": [
+        {
+          "score": -18.297557830810547,
+          "position": 111,
+          "current": "ori",
+          "target": " Sm",
+          "top1": " L",
+          "context": " give to other issues that come up.\"\\nLori Smetanka, director of National",
+          "strongest_edge": {
+            "output_mode": 2,
+            "tangent_mode": 0,
+            "value": 7043.4482421875
+          },
+          "local_rank90": 2
+        },
+        {
+          "score": -18.110376358032227,
+          "position": 47,
+          "current": ".,",
+          "target": " Atkinson",
+          "top1": " &",
+          "context": " Di Salvo, V., Gregson, W., Atkinson, G., Tordoff",
+          "strongest_edge": {
+            "output_mode": 2,
+            "tangent_mode": 0,
+            "value": 6616.1171875
+          },
+          "local_rank90": 2
+        },
+        {
+          "score": -18.053428649902344,
+          "position": 79,
+          "current": ".",
+          "target": " Ton",
+          "top1": " Task",
+          "context": " 1481-1486, 2008.\\n35. Tonnessen, E., Sh",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 7168.90234375
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 3,
+      "label_index": 60,
+      "label": "top1:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.9475925551728109,
+      "confirmation_auc": 0.9520171012249803,
+      "evaluation_auc": {
+        "fineweb": 0.9230311990847541,
+        "wikitext": 0.9395369678864824,
+        "tinystories": 0.9844622520767268
+      },
+      "examples": [
+        {
+          "score": -21.703004837036133,
+          "position": 87,
+          "current": ".",
+          "target": "3",
+          "top1": "1",
+          "context": ".\\nADE \u2013 Added School Days: $86.3 million.\\nADE \u2013 School",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 8999.4384765625
+          },
+          "local_rank90": 4
+        },
+        {
+          "score": -20.92897605895996,
+          "position": 63,
+          "current": "07",
+          "target": "247",
+          "top1": "9",
+          "context": " in English, ISBN-13 978-0521607247.\\nThe European Molecular Biology",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 8310.1982421875
+          },
+          "local_rank90": 4
+        },
+        {
+          "score": -20.927791595458984,
+          "position": 23,
+          "current": "\ufffd",
+          "target": " A",
+          "top1": "\n",
+          "context": " the key word must be \u201creasonable.\u201d A global anti-terror Crusade led",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 9564.4189453125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 4,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.9801930733979416,
+      "confirmation_auc": 0.9793186019544095,
+      "evaluation_auc": {
+        "fineweb": 0.9798938217988952,
+        "wikitext": 0.9571181788589015,
+        "tinystories": 0.9921945430038357
+      },
+      "examples": [
+        {
+          "score": -16.282405853271484,
+          "position": 47,
+          "current": " \"",
+          "target": "never",
+          "top1": "no",
+          "context": ". Fleischer has said that the Bush administration has \"never ruled out the possibility of U",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 7517.59765625
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -16.253829956054688,
+          "position": 87,
+          "current": "\n",
+          "target": "found",
+          "top1": "was",
+          "context": " The latter purposely lagged behind, and his companion\\nfound herself compelled to wait for him",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 8154.5986328125
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -15.651870727539062,
+          "position": 119,
+          "current": "\ufffd",
+          "target": "require",
+          "top1": "be",
+          "context": " to combine Google\u2019s billing system would \u201crequire vital effort and time\u201d",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 7408.0830078125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 5,
+      "label_index": 37,
+      "label": "target:flag:word_continuation",
+      "sign": -1,
+      "discovery_auc": 0.9620408909234508,
+      "confirmation_auc": 0.9600550889973389,
+      "evaluation_auc": {
+        "fineweb": 0.960009383274307,
+        "wikitext": 0.9578385339520633,
+        "tinystories": 0.9810241828140771
+      },
+      "examples": [
+        {
+          "score": -16.884265899658203,
+          "position": 95,
+          "current": " G",
+          "target": "oss",
+          "top1": ".",
+          "context": ", Harvey Benge, Jessica Backhaus, John Gossage, Martin Parr,",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4723.60302734375
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -16.50272560119629,
+          "position": 55,
+          "current": "G",
+          "target": "lad",
+          "top1": "reetings",
+          "context": " happenings in beautiful northern Wyoming, zone 4\\nGlad you're still getting broccoli-",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 5333.9892578125
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -16.489139556884766,
+          "position": 39,
+          "current": "T",
+          "target": "sim",
+          "top1": "rave",
+          "context": " is within a 20-minute walking distance.\\nTsim Sha Tsui is the most",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4660.3408203125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 6,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.9934370069867027,
+      "confirmation_auc": 0.992559464306037,
+      "evaluation_auc": {
+        "fineweb": 0.99189792202284,
+        "wikitext": 0.9836567580097854,
+        "tinystories": 0.984759517229012
+      },
+      "examples": [
+        {
+          "score": 11.551919937133789,
+          "position": 71,
+          "current": " issue",
+          "target": ",",
+          "top1": ",",
+          "context": "\"Even though it seems like it's a campaign issue, it's not; it's",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 7845.7265625
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 11.545852661132812,
+          "position": 47,
+          "current": " productions",
+          "target": " in",
+          "top1": ".",
+          "context": " older than I, and they are preparing for big productions in New York or London. I",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 8808.8916015625
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 11.541435241699219,
+          "position": 87,
+          "current": " boys",
+          "target": " and",
+          "top1": " and",
+          "context": " total of 6, and a perfect split of 3 boys and 3 girls. (That's",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9245.7626953125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 7,
+      "label_index": 1,
+      "label": "current:flag:opening_delimiter",
+      "sign": 1,
+      "discovery_auc": 0.9644228357546641,
+      "confirmation_auc": 0.970379889669007,
+      "evaluation_auc": {
+        "fineweb": 0.938005356462888,
+        "wikitext": 0.9540620206612334,
+        "tinystories": null
+      },
+      "examples": [
+        {
+          "score": -9.922215461730957,
+          "position": 23,
+          "current": " they",
+          "target": " received",
+          "top1": " were",
+          "context": " linguistic by fact). These years created covered significant because they received the human plant principles of the",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 12404.4326171875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -9.668713569641113,
+          "position": 111,
+          "current": " it",
+          "target": " took",
+          "top1": " was",
+          "context": ", and is Again modern seller as it occurred when it took headed.\\nGet the slides",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 12643.5126953125
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 9.19819164276123,
+          "position": 55,
+          "current": " $",
+          "target": "1",
+          "top1": "500",
+          "context": " schools, scholarships, and financial aid.\\n- $1,000 provides regular asthma treatment",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 7232.3955078125
+          },
+          "local_rank90": 4
+        }
+      ]
+    },
+    {
+      "mode": 8,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.9755608143640598,
+      "confirmation_auc": 0.9749877734066211,
+      "evaluation_auc": {
+        "fineweb": 0.9736447387116399,
+        "wikitext": 0.9596452809343434,
+        "tinystories": 0.99093154313239
+      },
+      "examples": [
+        {
+          "score": 11.650680541992188,
+          "position": 23,
+          "current": " to",
+          "target": " secure",
+          "top1": " get",
+          "context": ".\\nHe had evidently hurried in first in order to secure that seat. From his\\n",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 10120.2421875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 11.315058708190918,
+          "position": 23,
+          "current": " to",
+          "target": " stand",
+          "top1": " see",
+          "context": " my fault that I\u2019ll never be able to stand in front of a game again",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9407.296875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 11.267486572265625,
+          "position": 15,
+          "current": " to",
+          "target": " pick",
+          "top1": " get",
+          "context": " and was very alert. Luckily, I was able to pick the brain of someone with actual",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9815.548828125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 9,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": 1,
+      "discovery_auc": 0.9841920216362408,
+      "confirmation_auc": 0.983570226784083,
+      "evaluation_auc": {
+        "fineweb": 0.9788769711649303,
+        "wikitext": 0.9776771622474747,
+        "tinystories": 0.9947410545632598
+      },
+      "examples": [
+        {
+          "score": 11.546379089355469,
+          "position": 119,
+          "current": "\ufffd",
+          "target": "\ufffd",
+          "top1": "\ufffd",
+          "context": " certificate provides a sufficient evidence of the name and surname\u2019s change. Therefore, given",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": -4464.3857421875
+          },
+          "local_rank90": 2
+        },
+        {
+          "score": 11.196131706237793,
+          "position": 31,
+          "current": "\ufffd",
+          "target": "\ufffd",
+          "top1": "\ufffd",
+          "context": " to help preserve, share and celebrate Fenway Park\u2019s rich history, the Red",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": -3494.28271484375
+          },
+          "local_rank90": 2
+        },
+        {
+          "score": 11.172171592712402,
+          "position": 63,
+          "current": "\ufffd",
+          "target": "\ufffd",
+          "top1": "\ufffd",
+          "context": " court decisions.\\nOne of the highlights of Chris\u2019 career has been representing American corn",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 3687.75927734375
+          },
+          "local_rank90": 2
+        }
+      ]
+    },
+    {
+      "mode": 10,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.9940440237397641,
+      "confirmation_auc": 0.9932400011073141,
+      "evaluation_auc": {
+        "fineweb": 0.9916782166430858,
+        "wikitext": 0.9678696141098485,
+        "tinystories": 0.9923446245129205
+      },
+      "examples": [
+        {
+          "score": 10.12527847290039,
+          "position": 111,
+          "current": " killed",
+          "target": " 224",
+          "top1": " more",
+          "context": " 1998 attacks on US embassies in Kenya and Tanzania that killed 224 people.\\nEarlier this year",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 8026.9755859375
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 10.116593360900879,
+          "position": 23,
+          "current": " depicting",
+          "target": " the",
+          "top1": " the",
+          "context": ", Roman Blades is a historical fantasy novella depicting the life and battles of the legion",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 8784.9658203125
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 10.082103729248047,
+          "position": 95,
+          "current": " of",
+          "target": " Melissa",
+          "top1": " a",
+          "context": "ance of a drug trafficking offense, causing the death of Melissa Barratt by murder through the",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 6141.32763671875
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 11,
+      "label_index": 0,
+      "label": "current:flag:newline",
+      "sign": -1,
+      "discovery_auc": 0.8667237623018555,
+      "confirmation_auc": 0.843891009532129,
+      "evaluation_auc": {
+        "fineweb": 0.8500172194504008,
+        "wikitext": 0.8721239494554924,
+        "tinystories": 0.8926025656829998
+      },
+      "examples": [
+        {
+          "score": 6.203934669494629,
+          "position": 23,
+          "current": " We",
+          "target": " are",
+          "top1": " are",
+          "context": " item is improperly described it would not be intentional. We are aware that mistakes do happen and",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9246.1767578125
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 6.122509002685547,
+          "position": 103,
+          "current": "We",
+          "target": " recommend",
+          "top1": " are",
+          "context": " attention on the part of our benevolent personnel.\\nWe recommend you to print PASSENGER",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 10522.5107421875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": 6.113283634185791,
+          "position": 31,
+          "current": "We",
+          "target": " are",
+          "top1": " are",
+          "context": ",\u201d adds Govantes.\\n\u201cWe are pleased to be working with N",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9180.056640625
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 12,
+      "label_index": 16,
+      "label": "current:generic:digit",
+      "sign": 1,
+      "discovery_auc": 0.871479924715666,
+      "confirmation_auc": 0.8417881473884697,
+      "evaluation_auc": {
+        "fineweb": 0.8454046031481179,
+        "wikitext": 0.8431820127812936,
+        "tinystories": 0.7931806933916803
+      },
+      "examples": [
+        {
+          "score": 9.839649200439453,
+          "position": 39,
+          "current": ",",
+          "target": "09",
+          "top1": "000",
+          "context": "ins Hospital, Canterbury CT1 1TD \u00a382,096- \u00a3110,683",
+          "strongest_edge": {
+            "output_mode": 3,
+            "tangent_mode": 0,
+            "value": 7712.44091796875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -9.682568550109863,
+          "position": 111,
+          "current": " Esc",
+          "target": "rit",
+          "top1": "rit",
+          "context": " you have set this work in change.\\nshop Escritos Politicos (19",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4054.83935546875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -9.631754875183105,
+          "position": 127,
+          "current": " Esc",
+          "target": "rit",
+          "top1": "rit",
+          "context": " the slides here\\nPountain, Christopher 2003 shop Esc",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4125.67138671875
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 13,
+      "label_index": 1,
+      "label": "current:flag:opening_delimiter",
+      "sign": 1,
+      "discovery_auc": 0.8631176323049912,
+      "confirmation_auc": 0.7425296723503845,
+      "evaluation_auc": {
+        "fineweb": 0.7936320781785475,
+        "wikitext": 0.7988220971706308,
+        "tinystories": null
+      },
+      "examples": [
+        {
+          "score": -7.10117769241333,
+          "position": 7,
+          "current": " that",
+          "target": " aims",
+          "top1": " supports",
+          "context": " of Maverick PAC, an organization that aims to raise money through grassroots support",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9486.9482421875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -7.007794380187988,
+          "position": 31,
+          "current": " that",
+          "target": " threatens",
+          "top1": " will",
+          "context": "brush accidentally unleashes an insidious voodoo pox that threatens to transform the buccaneers",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9591.4404296875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -6.906628131866455,
+          "position": 79,
+          "current": " that",
+          "target": " can",
+          "top1": " is",
+          "context": " the need to implement an EU FMD compliance strategy that can scale quickly to accommodate for rapid",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": 9084.4287109375
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 14,
+      "label_index": 60,
+      "label": "top1:flag:newline",
+      "sign": 1,
+      "discovery_auc": 0.8827984540891828,
+      "confirmation_auc": 0.8692984976190807,
+      "evaluation_auc": {
+        "fineweb": 0.8521162293496987,
+        "wikitext": 0.8712056300405815,
+        "tinystories": 0.9391021014785684
+      },
+      "examples": [
+        {
+          "score": -11.843518257141113,
+          "position": 47,
+          "current": " \ufffd",
+          "target": "\ufffd",
+          "top1": "\ufffd",
+          "context": " but hey, redundancy has its purposes.<|endoftext|>The \u201cHaus am Horn\u201d",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": -3563.402587890625
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -11.552939414978027,
+          "position": 15,
+          "current": "\ufffd",
+          "target": "\ufffd",
+          "top1": "\ufffd",
+          "context": "way Park has hosted during its first century.\\n\u201cIt is with great anticipation that",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": -2608.386474609375
+          },
+          "local_rank90": 2
+        },
+        {
+          "score": -11.494256973266602,
+          "position": 71,
+          "current": " \ufffd",
+          "target": "\ufffd",
+          "top1": "\ufffd",
+          "context": " who had the vision to advocate for this industry in \u201csuch a beautiful part of our",
+          "strongest_edge": {
+            "output_mode": 0,
+            "tangent_mode": 0,
+            "value": -2649.080078125
+          },
+          "local_rank90": 3
+        }
+      ]
+    },
+    {
+      "mode": 15,
+      "label_index": 1,
+      "label": "current:flag:opening_delimiter",
+      "sign": -1,
+      "discovery_auc": 0.9511730431594991,
+      "confirmation_auc": 0.965573804747576,
+      "evaluation_auc": {
+        "fineweb": 0.8744595269775517,
+        "wikitext": 0.8933650274435881,
+        "tinystories": null
+      },
+      "examples": [
+        {
+          "score": -8.933287620544434,
+          "position": 127,
+          "current": " U",
+          "target": ".",
+          "top1": ".",
+          "context": " use of his band\u2019s music in the U",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4831.30029296875
+          },
+          "local_rank90": 3
+        },
+        {
+          "score": -8.592700958251953,
+          "position": 71,
+          "current": " U",
+          "target": ".",
+          "top1": ".",
+          "context": "\u201d to States' safeguards agreements.\\nThe U.S. Additional Protocol is a",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4633.720703125
+          },
+          "local_rank90": 4
+        },
+        {
+          "score": -8.513049125671387,
+          "position": 71,
+          "current": " U",
+          "target": ".",
+          "top1": ".",
+          "context": " of the IAEA Annual Report , and the U.S. Nuclear Materials Management and",
+          "strongest_edge": {
+            "output_mode": 1,
+            "tangent_mode": 0,
+            "value": 4858.45556640625
+          },
+          "local_rank90": 4
+        }
+      ]
+    }
+  ]
+}

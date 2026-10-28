@@ -1,0 +1,41 @@
+{
+  "status": "hypotheses-locked-after-five-percent-path-result-before-scale-redteam",
+  "layer": 8,
+  "next_layer": 9,
+  "dimension": 512,
+  "coarse_dimension": 64,
+  "refine_dimension": 256,
+  "queries": 16,
+  "budget": 16,
+  "shortlist": 128,
+  "batch_size": 4,
+  "discovery_positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "causal_position": 127,
+  "sites_per_query": 2,
+  "edit_norm_fractions": [0.01, 0.05, 0.1, 0.2],
+  "routes": ["oracle", "hierarchical128"],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 10000,
+    "rows": 300
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 11200,
+      "rows": 300
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 900,
+      "rows": 300
+    }
+  },
+  "hypotheses": {
+    "S1_local_additivity": "Oracle and hierarchical additive fidelity is at least 0.98 at 1% and 0.95 at 5% on both corpora.",
+    "S2_additivity_survives_ten_percent": "Oracle and hierarchical additive fidelity is at least 0.80 at 10% on both corpora.",
+    "S3_direct_path_survives_ten_percent": "Oracle and hierarchical direct-only fidelity is at least 0.80 through 10% on both corpora.",
+    "S4_twenty_percent_exposes_nonlinearity": "At 20%, at least one corpus/route has additive fidelity below 0.95 or layer-9 interaction energy above 0.05.",
+    "S5_attention_route_match_is_scale_stable": "Hierarchical-to-oracle attention-path fidelity remains at least 0.85 at every scale and corpus."
+  }
+}

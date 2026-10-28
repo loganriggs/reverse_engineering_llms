@@ -1,0 +1,454 @@
+{
+  "config": {
+    "status": "locked-after-local-coverage-results-before-finite-suffix-results",
+    "selection_rationale": "L1, L8, and L17 span depth with high, high, and modest semantic-mode local coverage; L13 is the prospectively chosen low-coverage semantic-mode control.",
+    "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "geometry_source": "artifacts/bilin18_tensor_decomposition/bilin18_unseeded_route_coalition_geometry.json",
+    "geometry_arrays": "artifacts/bilin18_tensor_decomposition/bilin18_unseeded_route_coalition_geometry.npz",
+    "semantic_source": "artifacts/bilin18_tensor_decomposition/bilin18_unseeded_route_semantic_discovery.json",
+    "semantic_validation": "artifacts/bilin18_tensor_decomposition/bilin18_unseeded_route_semantic_validation.json",
+    "local_coverage_source": "artifacts/bilin18_tensor_decomposition/bilin18_unseeded_route_importance_coverage.json",
+    "start_row": 2560,
+    "rows": 64,
+    "destinations": [
+      63,
+      126
+    ],
+    "batch_size": 4,
+    "layers": [
+      1,
+      8,
+      13,
+      17
+    ],
+    "continuous_rank": 4,
+    "mode_cosine_threshold": 0.7,
+    "null_replicates": 4,
+    "seed": 20262141,
+    "hypotheses": {
+      "E0_native_path_is_exact": "The native condition reproduces independent full-model logits with maximum absolute error at most 0.02.",
+      "E1_continuous_beats_discrete_end_to_end": "Rank-four PCA has higher full-logit causal fidelity than four-centroid quantization in at least three of four layers.",
+      "E2_semantic_modes_have_finite_causal_coverage": "Semantic-mode replacement has positive full-logit causal fidelity in at least three layers and mean fidelity at least 0.05.",
+      "E3_semantic_binding_beats_permuted_modes": "Real semantic modes have higher mean causal fidelity than every one of four frozen head-permutation nulls.",
+      "E4_local_write_fidelity_predicts_suffix_fidelity": "Across twelve layer-method cells, local contextual edge fidelity and finite suffix fidelity correlate at least 0.50.",
+      "E5_logit_coverage_is_not_only_noise": "Semantic replacement improves aggregate next-token CE relative to deleting the destination route in at least three layers."
+    }
+  },
+  "hypotheses": {
+    "E0_native_path_is_exact": {
+      "supported": true,
+      "maximum_logit_error": 4.673004150390625e-05
+    },
+    "E1_continuous_beats_discrete_end_to_end": {
+      "supported": true,
+      "layers": [
+        1,
+        8,
+        13,
+        17
+      ]
+    },
+    "E2_semantic_modes_have_finite_causal_coverage": {
+      "supported": true,
+      "by_layer": {
+        "1": 0.8132047437761047,
+        "8": 0.45820668397122866,
+        "13": 0.059393003678892,
+        "17": 0.24294464991771625
+      },
+      "mean": 0.3934372703359854
+    },
+    "E3_semantic_binding_beats_permuted_modes": {
+      "supported": true,
+      "observed": 0.3934372703359854,
+      "null_means": [
+        0.00027985036876915226,
+        0.23424478725547726,
+        0.07305115866291217,
+        0.07020547511900874
+      ]
+    },
+    "E4_local_write_fidelity_predicts_suffix_fidelity": {
+      "supported": true,
+      "correlation": 0.8320804949121852,
+      "cells": 12
+    },
+    "E5_logit_coverage_is_not_only_noise": {
+      "supported": false,
+      "layers": [
+        1,
+        8
+      ]
+    }
+  },
+  "results": {
+    "1": {
+      "native": {
+        "causal_fidelity": 1.0,
+        "causal_cosine": 1.0,
+        "effect_norm_ratio": 1.0,
+        "cross_entropy": 3.8155196271836758,
+        "native_top1_agreement": 1.0,
+        "kl_native_to_approximation": 0.0,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 1.0
+      },
+      "deleted": {
+        "causal_fidelity": 0.0,
+        "causal_cosine": 0.0,
+        "effect_norm_ratio": 0.0,
+        "cross_entropy": 4.3048328049480915,
+        "native_top1_agreement": 0.6484375,
+        "kl_native_to_approximation": 0.38877353438874707,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.0
+      },
+      "pca4": {
+        "causal_fidelity": 0.9837494481318477,
+        "causal_cosine": 0.9918461985024832,
+        "effect_norm_ratio": 0.9949142473407411,
+        "cross_entropy": 3.833941224962473,
+        "native_top1_agreement": 0.9375,
+        "kl_native_to_approximation": 0.005494255066878395,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.9623521323031557
+      },
+      "centroid4": {
+        "causal_fidelity": 0.8955364376930264,
+        "causal_cosine": 0.946762355638494,
+        "effect_norm_ratio": 0.9754415485798095,
+        "cross_entropy": 3.856700822710991,
+        "native_top1_agreement": 0.8671875,
+        "kl_native_to_approximation": 0.031473417118832,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.9158387768842347
+      },
+      "semantic_modes": {
+        "causal_fidelity": 0.8132047437761047,
+        "causal_cosine": 0.905676888149818,
+        "effect_norm_ratio": 0.8217372711829208,
+        "cross_entropy": 3.8940206840634346,
+        "native_top1_agreement": 0.84375,
+        "kl_native_to_approximation": 0.04722943369415589,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.8395688887055606
+      },
+      "permuted_0": {
+        "causal_fidelity": -0.0018592374212942353,
+        "causal_cosine": -0.1483625251887531,
+        "effect_norm_ratio": 0.006138880286678024,
+        "cross_entropy": 4.30642107129097,
+        "native_top1_agreement": 0.6484375,
+        "kl_native_to_approximation": 0.3898419942124747,
+        "examples": 128,
+        "ce_recovery_vs_deleted": -0.0032459096036097906
+      },
+      "permuted_1": {
+        "causal_fidelity": 0.753378533462867,
+        "causal_cosine": 0.8714606840169645,
+        "effect_norm_ratio": 0.7935815189744807,
+        "cross_entropy": 3.9050063118338585,
+        "native_top1_agreement": 0.828125,
+        "kl_native_to_approximation": 0.06341936715762131,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.8171177709559523
+      },
+      "permuted_2": {
+        "causal_fidelity": 0.25753963621991083,
+        "causal_cosine": 0.5264624813240856,
+        "effect_norm_ratio": 0.38637993307235957,
+        "cross_entropy": 4.144952978938818,
+        "native_top1_agreement": 0.7421875,
+        "kl_native_to_approximation": 0.2436495887232013,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.3267433481757753
+      },
+      "permuted_3": {
+        "causal_fidelity": -0.0021134287607176283,
+        "causal_cosine": -0.13208774671750217,
+        "effect_norm_ratio": 0.007771463744659919,
+        "cross_entropy": 4.305397216230631,
+        "native_top1_agreement": 0.6484375,
+        "kl_native_to_approximation": 0.38984842848731205,
+        "examples": 128,
+        "ce_recovery_vs_deleted": -0.0011534765630430428
+      }
+    },
+    "8": {
+      "native": {
+        "causal_fidelity": 1.0,
+        "causal_cosine": 1.0,
+        "effect_norm_ratio": 1.0,
+        "cross_entropy": 3.8155195116996765,
+        "native_top1_agreement": 1.0,
+        "kl_native_to_approximation": 0.0,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 1.0
+      },
+      "deleted": {
+        "causal_fidelity": 0.0,
+        "causal_cosine": 0.0,
+        "effect_norm_ratio": 0.0,
+        "cross_entropy": 3.8809426240622997,
+        "native_top1_agreement": 0.9609375,
+        "kl_native_to_approximation": 0.021362557708926033,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.0
+      },
+      "pca4": {
+        "causal_fidelity": 0.8041645418002505,
+        "causal_cosine": 0.8967526550873077,
+        "effect_norm_ratio": 0.895860054104629,
+        "cross_entropy": 3.81002489477396,
+        "native_top1_agreement": 0.9453125,
+        "kl_native_to_approximation": 0.003238768998926389,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 1.0839858687135087
+      },
+      "centroid4": {
+        "causal_fidelity": 0.5897961360350612,
+        "causal_cosine": 0.7905387928753888,
+        "effect_norm_ratio": 0.9780366357547376,
+        "cross_entropy": 3.829549413174391,
+        "native_top1_agreement": 0.953125,
+        "kl_native_to_approximation": 0.007011706486082403,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.7855512987986539
+      },
+      "semantic_modes": {
+        "causal_fidelity": 0.45820668397122866,
+        "causal_cosine": 0.682356285294122,
+        "effect_norm_ratio": 0.768399304989851,
+        "cross_entropy": 3.8397237695753574,
+        "native_top1_agreement": 0.9609375,
+        "kl_native_to_approximation": 0.012642387839150615,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.6300350594523377
+      },
+      "permuted_0": {
+        "causal_fidelity": 0.001020732308907979,
+        "causal_cosine": 0.033563885992858575,
+        "effect_norm_ratio": 0.023278289291609536,
+        "cross_entropy": 3.880425162613392,
+        "native_top1_agreement": 0.9609375,
+        "kl_native_to_approximation": 0.021353775693569332,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.007909459367198836
+      },
+      "permuted_1": {
+        "causal_fidelity": 0.053735423734391774,
+        "causal_cosine": 0.2358722302574318,
+        "effect_norm_ratio": 0.2794645398387904,
+        "cross_entropy": 3.871611300855875,
+        "native_top1_agreement": 0.9609375,
+        "kl_native_to_approximation": 0.02023364725027932,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.14263037739176374
+      },
+      "permuted_2": {
+        "causal_fidelity": 0.006765193653378354,
+        "causal_cosine": 0.08226065127982084,
+        "effect_norm_ratio": 0.08352967197284629,
+        "cross_entropy": 3.8791848346590996,
+        "native_top1_agreement": 0.953125,
+        "kl_native_to_approximation": 0.021341963947634213,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.026868018651530705
+      },
+      "permuted_3": {
+        "causal_fidelity": 0.03819639335817515,
+        "causal_cosine": 0.198902135911386,
+        "effect_norm_ratio": 0.23585681989191495,
+        "cross_entropy": 3.874330572783947,
+        "native_top1_agreement": 0.9609375,
+        "kl_native_to_approximation": 0.02046747690474149,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.10106598478078917
+      }
+    },
+    "13": {
+      "native": {
+        "causal_fidelity": 1.0,
+        "causal_cosine": 1.0,
+        "effect_norm_ratio": 1.0,
+        "cross_entropy": 3.8155194371938705,
+        "native_top1_agreement": 1.0,
+        "kl_native_to_approximation": 0.0,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 1.0
+      },
+      "deleted": {
+        "causal_fidelity": 0.0,
+        "causal_cosine": 0.0,
+        "effect_norm_ratio": 0.0,
+        "cross_entropy": 3.8565351888537407,
+        "native_top1_agreement": 0.9296875,
+        "kl_native_to_approximation": 0.016287580721837003,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.0
+      },
+      "pca4": {
+        "causal_fidelity": 0.8244920361385846,
+        "causal_cosine": 0.9082225407457559,
+        "effect_norm_ratio": 0.9276171442960777,
+        "cross_entropy": 3.8234106451272964,
+        "native_top1_agreement": 0.9609375,
+        "kl_native_to_approximation": 0.0025075694029510487,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.8076054292783651
+      },
+      "centroid4": {
+        "causal_fidelity": 0.3230213767361645,
+        "causal_cosine": 0.7334149687902218,
+        "effect_norm_ratio": 1.196962261495504,
+        "cross_entropy": 3.835617035627365,
+        "native_top1_agreement": 0.96875,
+        "kl_native_to_approximation": 0.007342809029069031,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.5100029227756887
+      },
+      "semantic_modes": {
+        "causal_fidelity": 0.059393003678892,
+        "causal_cosine": 0.24954404904563518,
+        "effect_norm_ratio": 0.303202231681268,
+        "cross_entropy": 3.8698970898985863,
+        "native_top1_agreement": 0.921875,
+        "kl_native_to_approximation": 0.014113033466855995,
+        "examples": 128,
+        "ce_recovery_vs_deleted": -0.32577486707183473
+      },
+      "permuted_0": {
+        "causal_fidelity": 0.000841603378115674,
+        "causal_cosine": 0.02919056924725075,
+        "effect_norm_ratio": 0.03242495387587097,
+        "cross_entropy": 3.8562533408403397,
+        "native_top1_agreement": 0.9296875,
+        "kl_native_to_approximation": 0.016254452122666407,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.006871701772974988
+      },
+      "permuted_1": {
+        "causal_fidelity": 0.005158875001077257,
+        "causal_cosine": 0.07185263927356049,
+        "effect_norm_ratio": 0.07383004639556588,
+        "cross_entropy": 3.8555179871618748,
+        "native_top1_agreement": 0.9296875,
+        "kl_native_to_approximation": 0.016251835910225054,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.02480026942578629
+      },
+      "permuted_2": {
+        "causal_fidelity": 0.014835932000514251,
+        "causal_cosine": 0.19674782568346386,
+        "effect_norm_ratio": 0.35125918257321037,
+        "cross_entropy": 3.8547347337007523,
+        "native_top1_agreement": 0.9296875,
+        "kl_native_to_approximation": 0.01623904797452269,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.04389667579224205
+      },
+      "permuted_3": {
+        "causal_fidelity": 0.030588350895384364,
+        "causal_cosine": 0.18996599011554965,
+        "effect_norm_ratio": 0.2641193576585257,
+        "cross_entropy": 3.8585445657372475,
+        "native_top1_agreement": 0.9296875,
+        "kl_native_to_approximation": 0.016410776930570137,
+        "examples": 128,
+        "ce_recovery_vs_deleted": -0.04899037082557605
+      }
+    },
+    "17": {
+      "native": {
+        "causal_fidelity": 1.0,
+        "causal_cosine": 1.0,
+        "effect_norm_ratio": 1.0,
+        "cross_entropy": 3.815519481897354,
+        "native_top1_agreement": 1.0,
+        "kl_native_to_approximation": 0.0,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 1.0
+      },
+      "deleted": {
+        "causal_fidelity": 0.0,
+        "causal_cosine": 0.0,
+        "effect_norm_ratio": 0.0,
+        "cross_entropy": 3.8488341197371483,
+        "native_top1_agreement": 0.8984375,
+        "kl_native_to_approximation": 0.015605226610205136,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.0
+      },
+      "pca4": {
+        "causal_fidelity": 0.8502678879546868,
+        "causal_cosine": 0.9224342330162045,
+        "effect_norm_ratio": 0.9472739120425725,
+        "cross_entropy": 3.820449400693178,
+        "native_top1_agreement": 0.953125,
+        "kl_native_to_approximation": 0.0027693439933500485,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.852019439036636
+      },
+      "centroid4": {
+        "causal_fidelity": 0.584191130075085,
+        "causal_cosine": 0.8154837147041065,
+        "effect_norm_ratio": 1.0997767226963338,
+        "cross_entropy": 3.825472418218851,
+        "native_top1_agreement": 0.9453125,
+        "kl_native_to_approximation": 0.005925088826188585,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.7012443488247009
+      },
+      "semantic_modes": {
+        "causal_fidelity": 0.24294464991771625,
+        "causal_cosine": 0.49724049976311074,
+        "effect_norm_ratio": 0.4316397567324579,
+        "cross_entropy": 3.8553516007959843,
+        "native_top1_agreement": 0.9140625,
+        "kl_native_to_approximation": 0.01354106521466747,
+        "examples": 128,
+        "ce_recovery_vs_deleted": -0.1956341560781095
+      },
+      "permuted_0": {
+        "causal_fidelity": 0.0011163032093471914,
+        "causal_cosine": 0.16473519437464623,
+        "effect_norm_ratio": 0.32604653982225,
+        "cross_entropy": 3.8430433347821236,
+        "native_top1_agreement": 0.8984375,
+        "kl_native_to_approximation": 0.013958627292595338,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.1738210387539515
+      },
+      "permuted_1": {
+        "causal_fidelity": 0.12470631682357303,
+        "causal_cosine": 0.3566203065418703,
+        "effect_norm_ratio": 0.30690407153594773,
+        "cross_entropy": 3.8281686566770077,
+        "native_top1_agreement": 0.9140625,
+        "kl_native_to_approximation": 0.012505382983363234,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.6203118028632995
+      },
+      "permuted_2": {
+        "causal_fidelity": 0.013063872777845265,
+        "causal_cosine": 0.11690158239742035,
+        "effect_norm_ratio": 0.09236405904258217,
+        "cross_entropy": 3.843438234180212,
+        "native_top1_agreement": 0.8984375,
+        "kl_native_to_approximation": 0.014730392664205283,
+        "examples": 128,
+        "ce_recovery_vs_deleted": 0.16196740852727828
+      },
+      "permuted_3": {
+        "causal_fidelity": 0.21415058498319306,
+        "causal_cosine": 0.4757862279900128,
+        "effect_norm_ratio": 0.3652333439095426,
+        "cross_entropy": 3.854722172021866,
+        "native_top1_agreement": 0.9140625,
+        "kl_native_to_approximation": 0.014096775077632628,
+        "examples": 128,
+        "ce_recovery_vs_deleted": -0.17674069617783186
+      }
+    }
+  }
+}

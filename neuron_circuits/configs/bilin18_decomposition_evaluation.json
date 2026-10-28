@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "created_before_confirmatory_run": true,
+  "layer": 1,
+  "corpora": {
+    "fineweb": {"start": 18064, "rows": 128},
+    "wikitext103": {"start": 768, "rows": 128},
+    "tinystories": {"start": 768, "rows": 128}
+  },
+  "models": [
+    "cp2048_weight",
+    "cp2048_activation",
+    "routed_mixed",
+    "cp512_activation",
+    "ll1_activation"
+  ],
+  "primary_models": [
+    "cp2048_weight",
+    "cp2048_activation",
+    "routed_mixed"
+  ],
+  "interventions": {
+    "gaussian_rms_0.10": {"kind": "gaussian", "scale": 0.1},
+    "natural_mix_0.25": {"kind": "natural_mix", "scale": 0.25}
+  },
+  "causal_rows": 32,
+  "semantic_train_tokens": 16384,
+  "semantic_test_tokens": 8192,
+  "stability_tokens": 2048,
+  "gates": {
+    "fineweb_mean_kl_max": 0.02,
+    "ood_mean_kl_max": 0.05,
+    "top1_agreement_min": 0.95,
+    "causal_effect_fidelity_min": 0.9,
+    "causal_effect_cosine_min": 0.95,
+    "parameter_fraction_max": 0.5,
+    "routed_active_fraction_max": 0.125,
+    "semantic_ood_auc_min": 0.6,
+    "collective_stability_gap_min": 0.1
+  },
+  "bootstrap_resamples": 2000,
+  "seed": 20261019,
+  "hypotheses": {
+    "H1_manifold_gap": "Activation-refined CP-2048 has better natural-language fidelity but worse isotropic tensor fidelity than direct CP-2048.",
+    "H2_causal_gap": "The behavioral advantage of activation-refined CP-2048 over direct CP-2048 shrinks under held-out MLP-input interventions or OOD text.",
+    "H3_sparse_conditional_program": "Mixed routed CP-2048/K128 uses no more than 6.25% of factors per token while using more than half of the dictionary across a corpus.",
+    "H4_collective_over_component_stability": "Cross-objective activation-space similarity is substantially higher than median individual CP-term similarity.",
+    "H5_semantic_transfer": "Factors selected on FineWeb for token-form categories retain an oriented mean held-out AUROC above 0.60 on both OOD corpora.",
+    "H6_no_current_full_pass": "No existing decomposition passes all behavioral, OOD, causal, and parsimony gates simultaneously."
+  }
+}

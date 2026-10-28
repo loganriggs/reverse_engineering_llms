@@ -1,0 +1,713 @@
+{
+  "config": {
+    "status": "H268 fixed before outcomes; exact diagnostic, no fitting",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "seed": 20261212,
+    "terms": [
+      "linear624",
+      "linear_omitted",
+      "core_core",
+      "core_partner",
+      "core_omitted_partner",
+      "outside_core_quadratic"
+    ],
+    "design": "Use H267 core16/tensorpartner24 and discovery mean. Native-minus-compiled residual polynomial centered at mean. Split centered normalized input into c=core projection,p=partner projection,r=remainder. Exact response terms: J_E(mean)P624 dx; J_E(mean)(I-P624)dx; change B_E(c,c); change2B_E(c,p); change2B_E(c,r); change B_E(p+r,p+r). Record all6x6 signed inner products and exact replay. Float64 polynomial arithmetic from float32 model weights/states. Pairwise energy need not add; report signed alignments and cancellation.",
+    "gates": {
+      "omitted_partner_gain": "Restoring core-omitted-partner term improves full-linear model-shape fidelity by>=.20 at BOTH actual scales, paired document-bootstrap95 lower bound>0.",
+      "outside_core_needed": "Adding outside-core quadratic term to full-linear/all-core-partners improves fidelity by>=.20 at BOTH actual scales, lower bound>0.",
+      "linear_restriction": "Replacing linear624 by full mean-linear term in model-shape improves fidelity by>=.10 at BOTH actual scales, lower bound>0."
+    },
+    "scope": "Exact structural truncations, NOT best approximation bounds. Native coefficients/model access are diagnostic. H267 learned coefficients can absorb correlations with omitted terms. Same reused128 documents. No semantic labeling, optimized program, or new downstream replacement claim."
+  },
+  "models": {
+    "linear624": [
+      0
+    ],
+    "full_linear": [
+      0,
+      1
+    ],
+    "model_shape": [
+      0,
+      2,
+      3
+    ],
+    "model_shape_full_linear": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "core_all_partners": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "outside_plus_linear": [
+      0,
+      1,
+      5
+    ],
+    "all_quadratic_linear624": [
+      0,
+      2,
+      3,
+      4,
+      5
+    ],
+    "full": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "results": {
+    "actual_s0.1": {
+      "term_energy_ratios": {
+        "linear624": 0.09393751505128724,
+        "linear_omitted": 0.031149096553762235,
+        "core_core": 0.14654165342508255,
+        "core_partner": 0.08236455950453603,
+        "core_omitted_partner": 0.10523732073713797,
+        "outside_core_quadratic": 0.6662702002785095
+      },
+      "signed_target_alignments": {
+        "linear624": 0.05562250525108134,
+        "linear_omitted": 0.016213541396953707,
+        "core_core": 0.12383135623727738,
+        "core_partner": 0.0691392372728111,
+        "core_omitted_partner": 0.09932093208564555,
+        "outside_core_quadratic": 0.635872427756235
+      },
+      "normalized_gram": [
+        [
+          0.09393751505128724,
+          -0.005264182753405242,
+          -0.0010904516939060547,
+          -0.0009141723253919023,
+          -0.0006400237121589582,
+          -0.030406179315344214
+        ],
+        [
+          -0.005264182753405242,
+          0.031149096553762235,
+          -0.0006673236340449498,
+          -0.00025892068188222494,
+          0.0001241352494749116,
+          -0.008869263336950954
+        ],
+        [
+          -0.0010904516939060547,
+          -0.0006673236340449498,
+          0.14654165342508255,
+          -0.01937738048042643,
+          -0.006517547414935165,
+          0.004942406035498852
+        ],
+        [
+          -0.0009141723253919023,
+          -0.00025892068188222494,
+          -0.01937738048042643,
+          0.08236455950453603,
+          0.0022534671937905378,
+          0.005071684062189069
+        ],
+        [
+          -0.0006400237121589582,
+          0.0001241352494749116,
+          -0.006517547414935165,
+          0.0022534671937905378,
+          0.10523732073713797,
+          -0.0011364199676608777
+        ],
+        [
+          -0.030406179315344214,
+          -0.008869263336950954,
+          0.004942406035498852,
+          0.005071684062189069,
+          -0.0011364199676608777,
+          0.6662702002785095
+        ]
+      ],
+      "sum_term_energy_over_response": 1.1255003455503156,
+      "normalized_sum_gram": 1.0000000000000082,
+      "models": {
+        "linear624": {
+          "fidelity": 0.01730749545087551,
+          "document_bootstrap95": [
+            0.010811438279085244,
+            0.023915845162583844
+          ]
+        },
+        "full_linear": {
+          "fidelity": 0.029113847197831277,
+          "document_bootstrap95": [
+            0.020484976504933305,
+            0.0377919041680951
+          ]
+        },
+        "model_shape": {
+          "fidelity": 0.21710647854088272,
+          "document_bootstrap95": [
+            0.19175421003216245,
+            0.24651478985369507
+          ]
+        },
+        "model_shape_full_linear": {
+          "fidelity": 0.23076531891969287,
+          "document_bootstrap95": [
+            0.20451290373594394,
+            0.2607049089999574
+          ]
+        },
+        "core_all_partners": {
+          "fidelity": 0.3337297997215033,
+          "document_bootstrap95": [
+            0.3066940368009168,
+            0.3632821658694653
+          ]
+        },
+        "outside_plus_linear": {
+          "fidelity": 0.7131393877363821,
+          "document_bootstrap95": [
+            0.687378528504348,
+            0.7342815536598567
+          ]
+        },
+        "all_quadratic_linear624": {
+          "fidelity": 0.9688509034462379,
+          "document_bootstrap95": [
+            0.9668108046219497,
+            0.9708838847987883
+          ]
+        },
+        "full": {
+          "fidelity": 1.0,
+          "document_bootstrap95": [
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    "actual_s1.0": {
+      "term_energy_ratios": {
+        "linear624": 0.09489990440836941,
+        "linear_omitted": 0.030756372869596746,
+        "core_core": 0.1503643262749776,
+        "core_partner": 0.08161055616117395,
+        "core_omitted_partner": 0.10796318065780335,
+        "outside_core_quadratic": 0.6571327647752881
+      },
+      "signed_target_alignments": {
+        "linear624": 0.05621941773123513,
+        "linear_omitted": 0.015875558438711572,
+        "core_core": 0.13080421479992504,
+        "core_partner": 0.06883336695646504,
+        "core_omitted_partner": 0.10226119564311241,
+        "outside_core_quadratic": 0.6260062464305514
+      },
+      "normalized_gram": [
+        [
+          0.09489990440836941,
+          -0.005808185177160453,
+          -0.0013864338918927201,
+          -0.0010319049194411072,
+          -0.0007651882085495787,
+          -0.029688774480090437
+        ],
+        [
+          -0.005808185177160453,
+          0.030756372869596746,
+          -0.000635886984403391,
+          -0.0002954848962931419,
+          0.00011863443404422747,
+          -0.008259891807072423
+        ],
+        [
+          -0.0013864338918927201,
+          -0.000635886984403391,
+          0.1503643262749776,
+          -0.016886006911478676,
+          -0.005197915378979438,
+          0.004546131691701302
+        ],
+        [
+          -0.0010319049194411072,
+          -0.0002954848962931419,
+          -0.016886006911478676,
+          0.08161055616117395,
+          0.0016513377052865491,
+          0.0037848698172177606
+        ],
+        [
+          -0.0007651882085495787,
+          0.00011863443404422747,
+          -0.005197915378979438,
+          0.0016513377052865491,
+          0.10796318065780335,
+          -0.0015088535664924464
+        ],
+        [
+          -0.029688774480090437,
+          -0.008259891807072423,
+          0.004546131691701302,
+          0.0037848698172177606,
+          -0.0015088535664924464,
+          0.6571327647752881
+        ]
+      ],
+      "sum_term_energy_over_response": 1.1227271051472092,
+      "normalized_sum_gram": 1.0000000000000013,
+      "models": {
+        "linear624": {
+          "fidelity": 0.01753893105410098,
+          "document_bootstrap95": [
+            0.010974876598323868,
+            0.02432823954459462
+          ]
+        },
+        "full_linear": {
+          "fidelity": 0.030150045416248106,
+          "document_bootstrap95": [
+            0.02138736955041296,
+            0.03903861100843196
+          ]
+        },
+        "model_shape": {
+          "fidelity": 0.2234479035763547,
+          "document_bootstrap95": [
+            0.19636079242057816,
+            0.2543625158240861
+          ]
+        },
+        "model_shape_full_linear": {
+          "fidelity": 0.23792176169989498,
+          "document_bootstrap95": [
+            0.21048941967199652,
+            0.2689196629021377
+          ]
+        },
+        "core_all_partners": {
+          "fidelity": 0.3428672352247131,
+          "document_bootstrap95": [
+            0.3150355554846369,
+            0.3728439841894909
+          ]
+        },
+        "outside_plus_linear": {
+          "fidelity": 0.7009271060763884,
+          "document_bootstrap95": [
+            0.6738758378270985,
+            0.7230628700066473
+          ]
+        },
+        "all_quadratic_linear624": {
+          "fidelity": 0.9692436271304032,
+          "document_bootstrap95": [
+            0.9673122107886429,
+            0.9712219204251181
+          ]
+        },
+        "full": {
+          "fidelity": 1.0,
+          "document_bootstrap95": [
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    "angle_s0.1": {
+      "term_energy_ratios": {
+        "linear624": 0.09215639297219691,
+        "linear_omitted": 0.03936612284346147,
+        "core_core": 0.11904072210417123,
+        "core_partner": 0.07139620948745501,
+        "core_omitted_partner": 0.10498318372397382,
+        "outside_core_quadratic": 0.662211378367268
+      },
+      "signed_target_alignments": {
+        "linear624": 0.08735907061229706,
+        "linear_omitted": 0.03837071698180311,
+        "core_core": 0.07541928758904336,
+        "core_partner": 0.05154593906608188,
+        "core_omitted_partner": 0.10014011706288689,
+        "outside_core_quadratic": 0.6471648686878851
+      },
+      "normalized_gram": [
+        [
+          0.09215639297219691,
+          0.00340076695793233,
+          -9.261717285596673e-06,
+          -0.001391819866446997,
+          -0.0023180110573581877,
+          -0.004478996676740852
+        ],
+        [
+          0.00340076695793233,
+          0.03936612284346147,
+          -0.0003190886137126181,
+          -0.00036728568340585146,
+          -0.0012985964253746684,
+          -0.0024112020970974207
+        ],
+        [
+          -9.261717285596673e-06,
+          -0.0003190886137126181,
+          0.11904072210417123,
+          -0.023243064448363156,
+          -0.006343074630524719,
+          -0.013706945105240552
+        ],
+        [
+          -0.001391819866446997,
+          -0.00036728568340585146,
+          -0.023243064448363156,
+          0.07139620948745501,
+          0.0023589404146546747,
+          0.0027929591621840425
+        ],
+        [
+          -0.0023180110573581877,
+          -0.0012985964253746684,
+          -0.006343074630524719,
+          0.0023589404146546747,
+          0.10498318372397382,
+          0.0027576750375138417
+        ],
+        [
+          -0.004478996676740852,
+          -0.0024112020970974207,
+          -0.013706945105240552,
+          0.0027929591621840425,
+          0.0027576750375138417,
+          0.662211378367268
+        ]
+      ],
+      "sum_term_energy_over_response": 1.0891540094985264,
+      "normalized_sum_gram": 0.9999999999999949,
+      "models": {
+        "linear624": {
+          "fidelity": 0.08256174825239726,
+          "document_bootstrap95": [
+            0.07492757658864699,
+            0.0905485520521511
+          ]
+        },
+        "full_linear": {
+          "fidelity": 0.11313552545667738,
+          "document_bootstrap95": [
+            0.10232971604703421,
+            0.12469387795833625
+          ]
+        },
+        "model_shape": {
+          "fidelity": 0.19534356203521275,
+          "document_bootstrap95": [
+            0.17806500117405574,
+            0.21338527849727923
+          ]
+        },
+        "model_shape_full_linear": {
+          "fidelity": 0.22729008783372995,
+          "document_bootstrap95": [
+            0.20821663784617964,
+            0.24607449077689048
+          ]
+        },
+        "core_all_partners": {
+          "fidelity": 0.3377886216327357,
+          "document_bootstrap95": [
+            0.31708485018098787,
+            0.3575624555754438
+          ]
+        },
+        "outside_plus_linear": {
+          "fidelity": 0.7590342820128564,
+          "document_bootstrap95": [
+            0.7382694818825644,
+            0.7770072183797551
+          ]
+        },
+        "all_quadratic_linear624": {
+          "fidelity": 0.9606338771565388,
+          "document_bootstrap95": [
+            0.9590304674945371,
+            0.9622208045758581
+          ]
+        },
+        "full": {
+          "fidelity": 1.0,
+          "document_bootstrap95": [
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    "angle_s1.0": {
+      "term_energy_ratios": {
+        "linear624": 0.09004038245571576,
+        "linear_omitted": 0.03796990598192199,
+        "core_core": 0.1345667879886001,
+        "core_partner": 0.07299709281800436,
+        "core_omitted_partner": 0.1043718956486119,
+        "outside_core_quadratic": 0.6498110670603919
+      },
+      "signed_target_alignments": {
+        "linear624": 0.08501133092810768,
+        "linear_omitted": 0.0369125439529244,
+        "core_core": 0.09017654939028,
+        "core_partner": 0.05160773193522703,
+        "core_omitted_partner": 0.09917665415613988,
+        "outside_core_quadratic": 0.637115189637321
+      },
+      "normalized_gram": [
+        [
+          0.09004038245571576,
+          0.003130736420630629,
+          1.0853689472936783e-06,
+          -0.0014045635673255567,
+          -0.002653846589966636,
+          -0.004102463159893677
+        ],
+        [
+          0.003130736420630629,
+          0.03796990598192199,
+          -0.0003567323302371396,
+          -0.00036642145314647983,
+          -0.001310252233439625,
+          -0.002154692432804962
+        ],
+        [
+          1.0853689472936783e-06,
+          -0.0003567323302371396,
+          0.1345667879886001,
+          -0.02520106568084189,
+          -0.006418508619238404,
+          -0.012415017336950293
+        ],
+        [
+          -0.0014045635673255567,
+          -0.00036642145314647983,
+          -0.02520106568084189,
+          0.07299709281800436,
+          0.002396880131065414,
+          0.003185809687471491
+        ],
+        [
+          -0.002653846589966636,
+          -0.001310252233439625,
+          -0.006418508619238404,
+          0.002396880131065414,
+          0.1043718956486119,
+          0.0027904858191070137
+        ],
+        [
+          -0.004102463159893677,
+          -0.002154692432804962,
+          -0.012415017336950293,
+          0.003185809687471491,
+          0.0027904858191070137,
+          0.6498110670603919
+        ]
+      ],
+      "sum_term_energy_over_response": 1.0897571319532462,
+      "normalized_sum_gram": 1.0000000000000004,
+      "models": {
+        "linear624": {
+          "fidelity": 0.07998227940049973,
+          "document_bootstrap95": [
+            0.0723220690127007,
+            0.08816069799965767
+          ]
+        },
+        "full_linear": {
+          "fidelity": 0.10957598848316508,
+          "document_bootstrap95": [
+            0.09873283408581153,
+            0.12144332398880141
+          ]
+        },
+        "model_shape": {
+          "fidelity": 0.20919604900334932,
+          "document_bootstrap95": [
+            0.1934883099399778,
+            0.2267836707346757
+          ]
+        },
+        "model_shape_full_linear": {
+          "fidelity": 0.2402360656527821,
+          "document_bootstrap95": [
+            0.22410072728249888,
+            0.2583201942261894
+          ]
+        },
+        "core_all_partners": {
+          "fidelity": 0.3501889329396086,
+          "document_bootstrap95": [
+            0.33348904526428663,
+            0.36828041132117195
+          ]
+        },
+        "outside_plus_linear": {
+          "fidelity": 0.746509611882813,
+          "document_bootstrap95": [
+            0.7216254733219688,
+            0.7682430275364196
+          ]
+        },
+        "all_quadratic_linear624": {
+          "fidelity": 0.962030094018078,
+          "document_bootstrap95": [
+            0.9603865245708665,
+            0.9636149526893696
+          ]
+        },
+        "full": {
+          "fidelity": 1.0,
+          "document_bootstrap95": [
+            1.0,
+            1.0
+          ]
+        }
+      }
+    }
+  },
+  "contrasts": {
+    "actual_s0.1": {
+      "omitted_partner_gain": {
+        "gain": 0.10296448080181046,
+        "paired_document_bootstrap95": [
+          0.09678661629644818,
+          0.10905959642825022
+        ]
+      },
+      "outside_core_needed": {
+        "gain": 0.6662702002784967,
+        "paired_document_bootstrap95": [
+          0.6367178341305346,
+          0.6933059631990832
+        ]
+      },
+      "linear_restriction": {
+        "gain": 0.013658840378810034,
+        "paired_document_bootstrap95": [
+          0.011422064747644607,
+          0.015957514581258717
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "omitted_partner_gain": {
+        "gain": 0.10494547352481795,
+        "paired_document_bootstrap95": [
+          0.09890049379188634,
+          0.11085960745083291
+        ]
+      },
+      "outside_core_needed": {
+        "gain": 0.6571327647752869,
+        "paired_document_bootstrap95": [
+          0.6271560158105091,
+          0.6849644445153631
+        ]
+      },
+      "linear_restriction": {
+        "gain": 0.01447385812354037,
+        "paired_document_bootstrap95": [
+          0.01213191854766714,
+          0.016844944043203552
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "omitted_partner_gain": {
+        "gain": 0.11049853379900577,
+        "paired_document_bootstrap95": [
+          0.10572214033696965,
+          0.11525725344275055
+        ]
+      },
+      "outside_core_needed": {
+        "gain": 0.6622113783672643,
+        "paired_document_bootstrap95": [
+          0.6424375444245563,
+          0.6829151498190121
+        ]
+      },
+      "linear_restriction": {
+        "gain": 0.031946525798517054,
+        "paired_document_bootstrap95": [
+          0.028739274216187948,
+          0.03524637273742949
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "omitted_partner_gain": {
+        "gain": 0.10995286728682635,
+        "paired_document_bootstrap95": [
+          0.10502729614914094,
+          0.11490633710869111
+        ]
+      },
+      "outside_core_needed": {
+        "gain": 0.6498110670603914,
+        "paired_document_bootstrap95": [
+          0.631719588678828,
+          0.6665109547357133
+        ]
+      },
+      "linear_restriction": {
+        "gain": 0.03104001664943279,
+        "paired_document_bootstrap95": [
+          0.027844026844195055,
+          0.034278597268382664
+        ]
+      }
+    }
+  },
+  "gates": {
+    "omitted_partner_gain": false,
+    "outside_core_needed": true,
+    "linear_restriction": false
+  },
+  "relative_replay_error_max": 8.999577079243191e-12,
+  "head_replay": 4.217769751555023e-07
+}

@@ -1,0 +1,33 @@
+{
+  "status": "locked-before-results",
+  "seed": 20261030,
+  "corpus": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+  "layer": 8,
+  "discovery_start": 18536,
+  "validation_start": 19048,
+  "test_start": 19176,
+  "rows": 512,
+  "evaluation_rows": 128,
+  "positions": [31, 63, 95, 126],
+  "batch_size": 8,
+  "fit_heads": [0,1,2,3,4,5,6,7,8],
+  "pair_removals": [[0,1],[2,3],[4,5],[6,7]],
+  "row_counts": [128,512],
+  "source_sets": {"even": [0,2,4,6,8], "all": [0,1,2,3,4,5,6,7,8]},
+  "rank": 64,
+  "response_weight": 1,
+  "steps": 1600,
+  "checkpoint_every": 100,
+  "fixed_step_comparisons": [400,1600],
+  "minibatch": 256,
+  "learning_rate": 0.0003,
+  "selection": "Common validation score: normalized natural-value error plus even-head response error for all four factorial fits. Value-only control selects natural loss alone. Per-axis scales fixed using old natural discovery and new first128-row even-head response panel only. Include step zero. Freeze selected and fixed-step400/1600 factors before collecting final test.",
+  "controls": "Same spectral rank64 start, natural-value training panel, mean, linear term, analytic intercept, minibatch size and total updates in all fits. Sample sizes nested. All-head fits distribute the same total response draws over nine heads rather than five; more unique sources does not mean more optimizer updates. Value-only control uses same natural objective and1600 steps.",
+  "predictions": {
+    "text_coverage": "Increasing128 to512 rows improves new-text response fidelity >=.05 at fixed source set; if it also improves odd heads in even-only fits, transfer is not purely missing-head coverage.",
+    "source_coverage": "Adding odd heads improves new-text odd-head fidelity >=.05 at fixed row count; odd heads are unseen sources ONLY in even-only fits.",
+    "optimization": "Compare fixed step400 vs1600, selected steps and train/validation gaps. Extra steps helping training but not validation argues against simply insufficient fitting.",
+    "payload_generalization": "Gaussian same-head and isotropic payloads are excluded from all fitting. Actual-response improvements without payload improvements imply dependence on natural source-state correlations, not generic support reconstruction."
+  },
+  "scope": "Four fixed L8 axes; local response fidelity, not full-suffix behavior or whole-layer reconstruction. Rank64 means64 quadratic plus1 linear read per output. Text panels disjoint in continuation. All conditions and contrasts reported; no best-test selection."
+}

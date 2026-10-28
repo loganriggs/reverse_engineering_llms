@@ -1,0 +1,10 @@
+{
+ "status":"H260 fixed before intervention outcomes",
+ "corpus":"artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+ "rows":128,"positions":[31,63,95,126],"start":0,"batch_size":8,"layer":17,
+ "scales":[0.1,1.0],"payloads":["actual","angle"],"heads":[0,1,2,3,4,5,6,7,8],"seed":20261204,
+ "models":["affine1152_energy","affine1152_sensitivity","quadratic1152_energy","quadratic1152_sensitivity"],
+ "design":"Freeze H259 selected fits. Intervene pre'=pre-scale*head_write; angle control lies in same head output span with same norm and dot product to pre. Recompute RMS. Predict residual change C(x')-C(x), compare to [native(x')-compiled(x')]-[native(x)-compiled(x)]. Conditional mediation patches compiled change+predicted residual change onto native intact MLP write at changed residual. Native source target pre'+native(x'); frozen-MLP baseline pre'+native(x). No inference-time native residual in predictor; common native baseline is explicitly diagnostic.",
+ "gates":{"residual_response_transfer":"Quadratic sensitivity residual-change fidelity>=.20 on actual sources at BOTH scales, pooled over all9 heads and documents; document-bootstrap95 lower bound>0.","behavioral_transfer":"Quadratic sensitivity improves exact conditional KL over compiler-only change by>=.10 relative at BOTH actual scales, paired document-bootstrap95 lower bound>0.","quadratic_advantage":"Quadratic sensitivity exceeds affine sensitivity residual-change fidelity by>=.05 at BOTH actual scales with paired document-bootstrap95 lower bound>0."},
+ "scope":"Same128 H259 evaluation documents reused, new interventions. No retraining or model selection. Pooled and per-head results, document bootstrap retains9 heads. One fixed angle draw per head; intervals conditional on controls. This is final-layer local source/MLP mediation, not full-network retraining or entire-circuit intervention."
+}

@@ -1,0 +1,634 @@
+{
+  "config": {
+    "status": "H254 locked before outcomes; adaptive followup to H253",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_residual_replication_documents.npy",
+    "candidate_tokens": 256,
+    "ranks": [
+      16,
+      64
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "seeds": [
+      20261123,
+      20261124,
+      20261125
+    ],
+    "design": "At fixed compiled states, compare native residual with three isotropic equal-site-norm draws and three shuffled-document residuals rescaled to each site's native error norm. Charts selected before errors. Target distribution is head(state+scale*error_family); approximate distribution head(state+scale*projected_error_family). No observed next-token labels. Matched and wrong-context charts. Each family normalized by its own uncorrected exact KL. Synthetic targets are NOT native predictions.",
+    "gates": {
+      "generic_sufficiency": "At both scales, seed-averaged isotropic rank16 KL recovery >=0.60 and matched-minus-wrong recovery >=0.40.",
+      "native_specialness": "At both scales, native rank16 recovery exceeds BOTH seed-averaged isotropic and shuffled recovery by >=0.10 with paired document-bootstrap lower bound >0."
+    },
+    "scope": "Reused128 documents. Three fixed random draws are controls, not independent document replications. Ratio-of-sums recovery; bootstrap documents jointly across controls and seeds. No intrinsic-dimension or forward-repair claim."
+  },
+  "results": {
+    "native_s0.1": {
+      "none": {
+        "kl": 0.001005308935418725,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.0001869348925538361,
+        "recovery": 0.8140522918201506
+      },
+      "wrong16": {
+        "kl": 0.0009322046535089612,
+        "recovery": 0.07271822554657281
+      },
+      "local64": {
+        "kl": 9.827576286625117e-05,
+        "recovery": 0.902243221557244
+      },
+      "wrong64": {
+        "kl": 0.000840263266582042,
+        "recovery": 0.16417407925250282
+      }
+    },
+    "native_s1.0": {
+      "none": {
+        "kl": 0.10046455264091492,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.021266017109155655,
+        "recovery": 0.7883231791698149
+      },
+      "wrong16": {
+        "kl": 0.0933798998594284,
+        "recovery": 0.07051893026198808
+      },
+      "local64": {
+        "kl": 0.011326879262924194,
+        "recovery": 0.8872549673972147
+      },
+      "wrong64": {
+        "kl": 0.08236348628997803,
+        "recovery": 0.18017366200429485
+      }
+    },
+    "isotropic20261123_s0.1": {
+      "none": {
+        "kl": 0.0005926468293182552,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00019426358630880713,
+        "recovery": 0.672210198893199
+      },
+      "wrong16": {
+        "kl": 0.0005371476290747523,
+        "recovery": 0.09364632947981133
+      },
+      "local64": {
+        "kl": 0.00010778802243294194,
+        "recovery": 0.8181243582169592
+      },
+      "wrong64": {
+        "kl": 0.0004767761565744877,
+        "recovery": 0.19551386595125808
+      }
+    },
+    "isotropic20261123_s1.0": {
+      "none": {
+        "kl": 0.06042337790131569,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.023712635040283203,
+        "recovery": 0.6075585996034347
+      },
+      "wrong16": {
+        "kl": 0.05517808347940445,
+        "recovery": 0.08680902332997553
+      },
+      "local64": {
+        "kl": 0.013905664905905724,
+        "recovery": 0.769862834735644
+      },
+      "wrong64": {
+        "kl": 0.048715993762016296,
+        "recovery": 0.19375586976319092
+      }
+    },
+    "shuffled20261123_s0.1": {
+      "none": {
+        "kl": 0.0006092548137530684,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00017221286543644965,
+        "recovery": 0.7173385231450174
+      },
+      "wrong16": {
+        "kl": 0.0005084003787487745,
+        "recovery": 0.16553736257415985
+      },
+      "local64": {
+        "kl": 9.451819641981274e-05,
+        "recovery": 0.8448626185855282
+      },
+      "wrong64": {
+        "kl": 0.00045813608448952436,
+        "recovery": 0.2480386299004158
+      }
+    },
+    "shuffled20261123_s1.0": {
+      "none": {
+        "kl": 0.0647435411810875,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.021954001858830452,
+        "recovery": 0.6609082317968186
+      },
+      "wrong16": {
+        "kl": 0.05537015199661255,
+        "recovery": 0.14477720886872103
+      },
+      "local64": {
+        "kl": 0.012717973440885544,
+        "recovery": 0.8035638272346981
+      },
+      "wrong64": {
+        "kl": 0.04979795962572098,
+        "recovery": 0.2308428189549251
+      }
+    },
+    "isotropic20261124_s0.1": {
+      "none": {
+        "kl": 0.0005644577322527766,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.0001942748058354482,
+        "recovery": 0.6558204543321808
+      },
+      "wrong16": {
+        "kl": 0.0005137453554198146,
+        "recovery": 0.08984264708460388
+      },
+      "local64": {
+        "kl": 0.00010799035953823477,
+        "recovery": 0.8086830007496925
+      },
+      "wrong64": {
+        "kl": 0.0004592865880113095,
+        "recovery": 0.18632244405922882
+      }
+    },
+    "isotropic20261124_s1.0": {
+      "none": {
+        "kl": 0.061893682926893234,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.023464858531951904,
+        "recovery": 0.6208844356593254
+      },
+      "wrong16": {
+        "kl": 0.0564800389111042,
+        "recovery": 0.08746682633482072
+      },
+      "local64": {
+        "kl": 0.013785158284008503,
+        "recovery": 0.7772768135273017
+      },
+      "wrong64": {
+        "kl": 0.0497269481420517,
+        "recovery": 0.19657474251794782
+      }
+    },
+    "shuffled20261124_s0.1": {
+      "none": {
+        "kl": 0.0006348892347887158,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00017219787696376443,
+        "recovery": 0.7287749302898954
+      },
+      "wrong16": {
+        "kl": 0.0005358705529943109,
+        "recovery": 0.1559621369660762
+      },
+      "local64": {
+        "kl": 9.388128819409758e-05,
+        "recovery": 0.852129658135816
+      },
+      "wrong64": {
+        "kl": 0.00047841283958405256,
+        "recovery": 0.24646251130204921
+      }
+    },
+    "shuffled20261124_s1.0": {
+      "none": {
+        "kl": 0.07122103124856949,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.023115437477827072,
+        "recovery": 0.6754408484040119
+      },
+      "wrong16": {
+        "kl": 0.060506802052259445,
+        "recovery": 0.15043631085481146
+      },
+      "local64": {
+        "kl": 0.013216322287917137,
+        "recovery": 0.8144323094425483
+      },
+      "wrong64": {
+        "kl": 0.05390261858701706,
+        "recovery": 0.2431643063564919
+      }
+    },
+    "isotropic20261125_s0.1": {
+      "none": {
+        "kl": 0.0006107051158323884,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00019595549383666366,
+        "recovery": 0.6791323852436095
+      },
+      "wrong16": {
+        "kl": 0.0005496041267178953,
+        "recovery": 0.1000499054788705
+      },
+      "local64": {
+        "kl": 0.00010750084766186774,
+        "recovery": 0.8239725771490476
+      },
+      "wrong64": {
+        "kl": 0.0005066604353487492,
+        "recovery": 0.17036811676585806
+      }
+    },
+    "isotropic20261125_s1.0": {
+      "none": {
+        "kl": 0.06736864149570465,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.02544831484556198,
+        "recovery": 0.6222528125762409
+      },
+      "wrong16": {
+        "kl": 0.06052717939019203,
+        "recovery": 0.10155262082802763
+      },
+      "local64": {
+        "kl": 0.014272736385464668,
+        "recovery": 0.7881397625277232
+      },
+      "wrong64": {
+        "kl": 0.05617164820432663,
+        "recovery": 0.16620482531315295
+      }
+    },
+    "shuffled20261125_s0.1": {
+      "none": {
+        "kl": 0.0006899411673657596,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.00017606481560505927,
+        "recovery": 0.744811842033885
+      },
+      "wrong16": {
+        "kl": 0.0005997075350023806,
+        "recovery": 0.13078453153896719
+      },
+      "local64": {
+        "kl": 9.507208596915007e-05,
+        "recovery": 0.862202618910042
+      },
+      "wrong64": {
+        "kl": 0.0005089457845315337,
+        "recovery": 0.26233451690566323
+      }
+    },
+    "shuffled20261125_s1.0": {
+      "none": {
+        "kl": 0.07197543978691101,
+        "recovery": 0.0
+      },
+      "full": {
+        "kl": 0.0,
+        "recovery": 1.0
+      },
+      "local16": {
+        "kl": 0.022747673094272614,
+        "recovery": 0.6839522875911714
+      },
+      "wrong16": {
+        "kl": 0.06287243962287903,
+        "recovery": 0.12647369979234768
+      },
+      "local64": {
+        "kl": 0.012995326891541481,
+        "recovery": 0.8194477598189719
+      },
+      "wrong64": {
+        "kl": 0.054568495601415634,
+        "recovery": 0.24184561062815335
+      }
+    }
+  },
+  "summary": {
+    "0.1": {
+      "native": {
+        "local16": {
+          "recovery": 0.8140522837638855,
+          "document_bootstrap95": [
+            0.7824035838246346,
+            0.8429078564047814
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.07271820306777954,
+          "document_bootstrap95": [
+            0.024397386610507967,
+            0.11860361099243164
+          ]
+        },
+        "local64": {
+          "recovery": 0.9022431969642639,
+          "document_bootstrap95": [
+            0.8827217549085618,
+            0.9187846720218659
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.16417407989501953,
+          "document_bootstrap95": [
+            0.10143307596445084,
+            0.2246050357818603
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "recovery": 0.669368326663971,
+          "document_bootstrap95": [
+            0.634325948357582,
+            0.7014881372451782
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.09464401006698608,
+          "document_bootstrap95": [
+            0.07829205691814423,
+            0.1119069069623947
+          ]
+        },
+        "local64": {
+          "recovery": 0.8171300888061523,
+          "document_bootstrap95": [
+            0.790530675649643,
+            0.8416234999895096
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.18389225006103516,
+          "document_bootstrap95": [
+            0.16129144430160522,
+            0.20941276103258133
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "recovery": 0.7308931350708008,
+          "document_bootstrap95": [
+            0.7003869861364365,
+            0.7596239537000656
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.14999669790267944,
+          "document_bootstrap95": [
+            0.11862547099590301,
+            0.1858459562063217
+          ]
+        },
+        "local64": {
+          "recovery": 0.8534337878227234,
+          "document_bootstrap95": [
+            0.8328062772750855,
+            0.8737406179308891
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.2526209354400635,
+          "document_bootstrap95": [
+            0.21706596612930298,
+            0.2917345359921455
+          ]
+        }
+      }
+    },
+    "1.0": {
+      "native": {
+        "local16": {
+          "recovery": 0.788323163986206,
+          "document_bootstrap95": [
+            0.7579989984631539,
+            0.8145167633891106
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.07051891088485718,
+          "document_bootstrap95": [
+            0.013434839248657227,
+            0.1280164763331413
+          ]
+        },
+        "local64": {
+          "recovery": 0.8872549533843994,
+          "document_bootstrap95": [
+            0.8695345297455788,
+            0.9030174657702446
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.18017363548278809,
+          "document_bootstrap95": [
+            0.10868678987026215,
+            0.25201524794101704
+          ]
+        }
+      },
+      "isotropic": {
+        "local16": {
+          "recovery": 0.6171255707740784,
+          "document_bootstrap95": [
+            0.5840040028095246,
+            0.6491628959774971
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.09226000308990479,
+          "document_bootstrap95": [
+            0.07379978597164154,
+            0.11139512211084364
+          ]
+        },
+        "local64": {
+          "recovery": 0.7787731885910034,
+          "document_bootstrap95": [
+            0.7523979812860488,
+            0.8023376867175103
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.18489062786102295,
+          "document_bootstrap95": [
+            0.16151925474405288,
+            0.2105723187327385
+          ]
+        }
+      },
+      "shuffled": {
+        "local16": {
+          "recovery": 0.673862099647522,
+          "document_bootstrap95": [
+            0.6429842442274094,
+            0.7037931039929389
+          ]
+        },
+        "wrong16": {
+          "recovery": 0.14037996530532837,
+          "document_bootstrap95": [
+            0.11697989851236343,
+            0.16713192611932753
+          ]
+        },
+        "local64": {
+          "recovery": 0.8127843141555786,
+          "document_bootstrap95": [
+            0.7901746839284897,
+            0.8348000556230545
+          ]
+        },
+        "wrong64": {
+          "recovery": 0.23887145519256592,
+          "document_bootstrap95": [
+            0.20874151587486267,
+            0.27251291573047637
+          ]
+        }
+      }
+    }
+  },
+  "contrasts": {
+    "0.1": {
+      "isotropic": {
+        "native_minus_control": 0.14468395709991455,
+        "paired_document_bootstrap95": [
+          0.11920715719461442,
+          0.1696650058031082
+        ]
+      },
+      "shuffled": {
+        "native_minus_control": 0.08315914869308472,
+        "paired_document_bootstrap95": [
+          0.058593638241291046,
+          0.10511745214462276
+        ]
+      }
+    },
+    "1.0": {
+      "isotropic": {
+        "native_minus_control": 0.17119759321212769,
+        "paired_document_bootstrap95": [
+          0.14139216244220734,
+          0.19857701808214184
+        ]
+      },
+      "shuffled": {
+        "native_minus_control": 0.11446106433868408,
+        "paired_document_bootstrap95": [
+          0.08187701106071472,
+          0.1444913849234581
+        ]
+      }
+    }
+  },
+  "gates": {
+    "generic_sufficiency": true,
+    "native_specialness": false
+  },
+  "norm_relative_error_max": {
+    "native": 0.0,
+    "isotropic20261123": 1.6717079631689558e-07,
+    "shuffled20261123": 1.3978146284898685e-07,
+    "isotropic20261124": 1.9474911994166177e-07,
+    "shuffled20261124": 1.662233017896142e-07,
+    "isotropic20261125": 1.6265073554677656e-07,
+    "shuffled20261125": 1.663736099999369e-07
+  }
+}

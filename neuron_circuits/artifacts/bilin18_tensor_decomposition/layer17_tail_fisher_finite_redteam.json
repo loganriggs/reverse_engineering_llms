@@ -1,0 +1,460 @@
+{
+  "config": {
+    "status": "locked-after-fisher-selection-null-before-finite-dose-validation",
+    "seed": 20261028,
+    "layer": 17,
+    "batch_size": 4,
+    "positions": [
+      7,
+      15,
+      23,
+      31,
+      39,
+      47,
+      55,
+      63,
+      71,
+      79,
+      87,
+      95,
+      103,
+      111,
+      119,
+      127
+    ],
+    "dose_fractions": [
+      0.1,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "variants": [
+      "fisher_rank4",
+      "frobenius_rank4",
+      "fisher_rank16"
+    ],
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 15200,
+        "rows": 400
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 600,
+        "rows": 400
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 600,
+        "rows": 400
+      }
+    },
+    "hypotheses": {
+      "L1_fisher_predicts_local_kl_direction": "At 10% dose, predicted versus exact per-site KL correlation is at least 0.90 for every variant and corpus.",
+      "L2_fisher_locally_calibrated": "At 10% dose, median exact/predicted KL is between 0.5 and 2.0 for every variant and corpus.",
+      "L3_fisher_predicts_full_replacement": "At 100% dose, predicted versus exact per-site KL correlation is at least 0.80 for every variant and corpus.",
+      "L4_fisher_rank4_beats_frobenius_locally": "At 10% dose, Fisher-selected rank four has lower mean exact KL than Frobenius rank four on every corpus.",
+      "L5_local_kl_is_quadratic": "For every variant and corpus, mean exact KL divided by dose squared changes by at most a factor of two between 10% and 25% dose."
+    }
+  },
+  "hypotheses": {
+    "L1_fisher_predicts_local_kl_direction": {
+      "supported": true
+    },
+    "L2_fisher_locally_calibrated": {
+      "supported": true
+    },
+    "L3_fisher_predicts_full_replacement": {
+      "supported": true
+    },
+    "L4_fisher_rank4_beats_frobenius_locally": {
+      "supported": false
+    },
+    "L5_local_kl_is_quadratic": {
+      "supported": true
+    }
+  },
+  "variants": {
+    "fisher_rank4": [
+      4,
+      1,
+      0,
+      3
+    ],
+    "frobenius_rank4": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "fisher_rank16": [
+      4,
+      1,
+      0,
+      3,
+      2,
+      5,
+      6,
+      7,
+      10,
+      9,
+      8,
+      16,
+      11,
+      21,
+      24,
+      17
+    ]
+  },
+  "results": {
+    "fineweb": {
+      "fisher_rank4": {
+        "0.1": {
+          "mean_exact_kl": 0.00038860675323053594,
+          "median_exact_kl": 0.00012991903349757195,
+          "mean_predicted_kl": 0.00038688245264856524,
+          "median_predicted_kl": 0.00013021379709243774,
+          "prediction_correlation": 0.9980675604647034,
+          "calibration_ratio": 0.9967727678510335,
+          "exact_kl_over_dose_squared": 0.03886067532305359
+        },
+        "0.25": {
+          "mean_exact_kl": 0.002445323160250914,
+          "median_exact_kl": 0.0008045492577366531,
+          "mean_predicted_kl": 0.0024180153842093834,
+          "median_predicted_kl": 0.0008138362318277359,
+          "prediction_correlation": 0.9910878239467483,
+          "calibration_ratio": 0.9913246807488515,
+          "exact_kl_over_dose_squared": 0.03912517056401463
+        },
+        "0.5": {
+          "mean_exact_kl": 0.009880959658251367,
+          "median_exact_kl": 0.0031960911583155394,
+          "mean_predicted_kl": 0.009672061536837534,
+          "median_predicted_kl": 0.0032553449273109436,
+          "prediction_correlation": 0.9816582094824087,
+          "calibration_ratio": 0.9822332282292305,
+          "exact_kl_over_dose_squared": 0.039523838633005466
+        },
+        "1.0": {
+          "mean_exact_kl": 0.04039144600191609,
+          "median_exact_kl": 0.01258166879415512,
+          "mean_predicted_kl": 0.038688246147350135,
+          "median_predicted_kl": 0.013021379709243774,
+          "prediction_correlation": 0.9235312487519812,
+          "calibration_ratio": 0.9640428917019852,
+          "exact_kl_over_dose_squared": 0.04039144600191609
+        }
+      },
+      "frobenius_rank4": {
+        "0.1": {
+          "mean_exact_kl": 0.0005630511342077471,
+          "median_exact_kl": 0.00010156947246287018,
+          "mean_predicted_kl": 0.0005571293134737659,
+          "median_predicted_kl": 0.00010196026778430678,
+          "prediction_correlation": 0.9979755120935697,
+          "calibration_ratio": 0.9964290791890467,
+          "exact_kl_over_dose_squared": 0.0563051134207747
+        },
+        "0.25": {
+          "mean_exact_kl": 0.003578383441126418,
+          "median_exact_kl": 0.0006309964810498059,
+          "mean_predicted_kl": 0.0034820582874851027,
+          "median_predicted_kl": 0.0006372516800183803,
+          "prediction_correlation": 0.9889143218492824,
+          "calibration_ratio": 0.9907823669421625,
+          "exact_kl_over_dose_squared": 0.05725413505802269
+        },
+        "0.5": {
+          "mean_exact_kl": 0.014674679431320108,
+          "median_exact_kl": 0.0024776554200798273,
+          "mean_predicted_kl": 0.01392823314994041,
+          "median_predicted_kl": 0.002549006720073521,
+          "prediction_correlation": 0.9662023989158848,
+          "calibration_ratio": 0.9813606776966841,
+          "exact_kl_over_dose_squared": 0.05869871772528043
+        },
+        "1.0": {
+          "mean_exact_kl": 0.05979382693853985,
+          "median_exact_kl": 0.009765003807842731,
+          "mean_predicted_kl": 0.05571293259976164,
+          "median_predicted_kl": 0.010196026880294085,
+          "prediction_correlation": 0.9076201540247933,
+          "calibration_ratio": 0.9628114279052651,
+          "exact_kl_over_dose_squared": 0.05979382693853985
+        }
+      },
+      "fisher_rank16": {
+        "0.1": {
+          "mean_exact_kl": 0.00021465036464195786,
+          "median_exact_kl": 6.756561560905538e-05,
+          "mean_predicted_kl": 0.00021368805471470213,
+          "median_predicted_kl": 6.782716445741244e-05,
+          "prediction_correlation": 0.9980385160442199,
+          "calibration_ratio": 0.9968660778539641,
+          "exact_kl_over_dose_squared": 0.021465036464195782
+        },
+        "0.25": {
+          "mean_exact_kl": 0.0013503573484038123,
+          "median_exact_kl": 0.0004194197244942188,
+          "mean_predicted_kl": 0.0013355503740504948,
+          "median_predicted_kl": 0.00042391978786326945,
+          "prediction_correlation": 0.9916340811002338,
+          "calibration_ratio": 0.9921475181707475,
+          "exact_kl_over_dose_squared": 0.021605717574460996
+        },
+        "0.5": {
+          "mean_exact_kl": 0.005442669073020339,
+          "median_exact_kl": 0.001662575697991997,
+          "mean_predicted_kl": 0.005342201496201979,
+          "median_predicted_kl": 0.0016956791514530778,
+          "prediction_correlation": 0.9862388838070172,
+          "calibration_ratio": 0.9839979481695773,
+          "exact_kl_over_dose_squared": 0.021770676292081355
+        },
+        "1.0": {
+          "mean_exact_kl": 0.022290222731034034,
+          "median_exact_kl": 0.006542327115312219,
+          "mean_predicted_kl": 0.021368805984807917,
+          "median_predicted_kl": 0.006782716605812311,
+          "prediction_correlation": 0.9230207672478378,
+          "calibration_ratio": 0.968073177725526,
+          "exact_kl_over_dose_squared": 0.022290222731034034
+        }
+      }
+    },
+    "wikitext": {
+      "fisher_rank4": {
+        "0.1": {
+          "mean_exact_kl": 0.000518412885351971,
+          "median_exact_kl": 0.00017740577459335327,
+          "mean_predicted_kl": 0.0005153685894834226,
+          "median_predicted_kl": 0.00017777064203983173,
+          "prediction_correlation": 0.9991216744426673,
+          "calibration_ratio": 0.9975974841357489,
+          "exact_kl_over_dose_squared": 0.05184128853519709
+        },
+        "0.25": {
+          "mean_exact_kl": 0.0032669470486357,
+          "median_exact_kl": 0.0011076144292019308,
+          "mean_predicted_kl": 0.0032210537598608723,
+          "median_predicted_kl": 0.0011110665509477258,
+          "prediction_correlation": 0.9946034119980737,
+          "calibration_ratio": 0.9933387353326895,
+          "exact_kl_over_dose_squared": 0.0522711527781712
+        },
+        "0.5": {
+          "mean_exact_kl": 0.01322367399000086,
+          "median_exact_kl": 0.004390905378386378,
+          "mean_predicted_kl": 0.01288421503944349,
+          "median_predicted_kl": 0.004444266203790903,
+          "prediction_correlation": 0.9800336082087008,
+          "calibration_ratio": 0.9861077257608037,
+          "exact_kl_over_dose_squared": 0.05289469596000344
+        },
+        "1.0": {
+          "mean_exact_kl": 0.05347735987787701,
+          "median_exact_kl": 0.017422009259462357,
+          "mean_predicted_kl": 0.05153686015777396,
+          "median_predicted_kl": 0.017777064815163612,
+          "prediction_correlation": 0.9386676231482627,
+          "calibration_ratio": 0.9712877618012776,
+          "exact_kl_over_dose_squared": 0.05347735987787701
+        }
+      },
+      "frobenius_rank4": {
+        "0.1": {
+          "mean_exact_kl": 0.0010296443466310022,
+          "median_exact_kl": 0.0001548808068037033,
+          "mean_predicted_kl": 0.0010142275371490506,
+          "median_predicted_kl": 0.00015539648302365094,
+          "prediction_correlation": 0.9985225451773694,
+          "calibration_ratio": 0.9969814888056923,
+          "exact_kl_over_dose_squared": 0.10296443466310021
+        },
+        "0.25": {
+          "mean_exact_kl": 0.006564890759621136,
+          "median_exact_kl": 0.0009667525009717792,
+          "mean_predicted_kl": 0.006338922237761792,
+          "median_predicted_kl": 0.0009712280298117548,
+          "prediction_correlation": 0.9907604394151425,
+          "calibration_ratio": 0.9916153233050341,
+          "exact_kl_over_dose_squared": 0.10503825215393818
+        },
+        "0.5": {
+          "mean_exact_kl": 0.026846351687378273,
+          "median_exact_kl": 0.0038413810543715954,
+          "mean_predicted_kl": 0.02535568895104717,
+          "median_predicted_kl": 0.0038849121192470193,
+          "prediction_correlation": 0.9671590224626263,
+          "calibration_ratio": 0.9828756155151854,
+          "exact_kl_over_dose_squared": 0.1073854067495131
+        },
+        "1.0": {
+          "mean_exact_kl": 0.10729590806792658,
+          "median_exact_kl": 0.015231873374432325,
+          "mean_predicted_kl": 0.10142275580418868,
+          "median_predicted_kl": 0.015539648476988077,
+          "prediction_correlation": 0.908361927360567,
+          "calibration_ratio": 0.9647597225352862,
+          "exact_kl_over_dose_squared": 0.10729590806792658
+        }
+      },
+      "fisher_rank16": {
+        "0.1": {
+          "mean_exact_kl": 0.0002999897259905282,
+          "median_exact_kl": 0.00010770524386316538,
+          "mean_predicted_kl": 0.00029923340466405437,
+          "median_predicted_kl": 0.00010787952487589791,
+          "prediction_correlation": 0.9994517034775365,
+          "calibration_ratio": 0.9971995831683746,
+          "exact_kl_over_dose_squared": 0.029998972599052813
+        },
+        "0.25": {
+          "mean_exact_kl": 0.0018820633455658253,
+          "median_exact_kl": 0.0006681767117697746,
+          "mean_predicted_kl": 0.0018702088203550815,
+          "median_predicted_kl": 0.0006742470432072878,
+          "prediction_correlation": 0.9965503639971776,
+          "calibration_ratio": 0.992576743341006,
+          "exact_kl_over_dose_squared": 0.030113013529053205
+        },
+        "0.5": {
+          "mean_exact_kl": 0.0075820658339807775,
+          "median_exact_kl": 0.0026586176827549934,
+          "mean_predicted_kl": 0.007480835281420326,
+          "median_predicted_kl": 0.002696988172829151,
+          "prediction_correlation": 0.9860757040005761,
+          "calibration_ratio": 0.9847141853382158,
+          "exact_kl_over_dose_squared": 0.03032826333592311
+        },
+        "1.0": {
+          "mean_exact_kl": 0.030811708606036062,
+          "median_exact_kl": 0.010488031432032585,
+          "mean_predicted_kl": 0.029923341125681305,
+          "median_predicted_kl": 0.010787952691316605,
+          "prediction_correlation": 0.9477834415688127,
+          "calibration_ratio": 0.9685732487521361,
+          "exact_kl_over_dose_squared": 0.030811708606036062
+        }
+      }
+    },
+    "tinystories": {
+      "fisher_rank4": {
+        "0.1": {
+          "mean_exact_kl": 0.00018847519794646495,
+          "median_exact_kl": 0.00011759038898162544,
+          "mean_predicted_kl": 0.00018866906770278468,
+          "median_predicted_kl": 0.00011751065540011041,
+          "prediction_correlation": 0.9994761525222308,
+          "calibration_ratio": 0.997243816000504,
+          "exact_kl_over_dose_squared": 0.01884751979464649
+        },
+        "0.25": {
+          "mean_exact_kl": 0.0011759088822595487,
+          "median_exact_kl": 0.0007308905478566885,
+          "mean_predicted_kl": 0.0011791816995117266,
+          "median_predicted_kl": 0.000734441593522206,
+          "prediction_correlation": 0.9967652908441694,
+          "calibration_ratio": 0.992551643709474,
+          "exact_kl_over_dose_squared": 0.01881454211615278
+        },
+        "0.5": {
+          "mean_exact_kl": 0.004692891703070998,
+          "median_exact_kl": 0.0028936421731486917,
+          "mean_predicted_kl": 0.004716726798046906,
+          "median_predicted_kl": 0.002937766374088824,
+          "prediction_correlation": 0.9880069723456937,
+          "calibration_ratio": 0.9845171716004266,
+          "exact_kl_over_dose_squared": 0.018771566812283993
+        },
+        "1.0": {
+          "mean_exact_kl": 0.01873195566622343,
+          "median_exact_kl": 0.01153042633086443,
+          "mean_predicted_kl": 0.018866907192187626,
+          "median_predicted_kl": 0.011751065496355295,
+          "prediction_correlation": 0.9548153250244976,
+          "calibration_ratio": 0.9687522733989191,
+          "exact_kl_over_dose_squared": 0.01873195566622343
+        }
+      },
+      "frobenius_rank4": {
+        "0.1": {
+          "mean_exact_kl": 0.0001496289749888291,
+          "median_exact_kl": 7.106928387656808e-05,
+          "mean_predicted_kl": 0.00014879486692812138,
+          "median_predicted_kl": 7.130794620024972e-05,
+          "prediction_correlation": 0.9987439863340646,
+          "calibration_ratio": 0.9969277992154171,
+          "exact_kl_over_dose_squared": 0.014962897498882908
+        },
+        "0.25": {
+          "mean_exact_kl": 0.0009448539395443234,
+          "median_exact_kl": 0.0004416664596647024,
+          "mean_predicted_kl": 0.0009299679387022586,
+          "median_predicted_kl": 0.00044567466829903424,
+          "prediction_correlation": 0.9925500589017321,
+          "calibration_ratio": 0.9922121595486459,
+          "exact_kl_over_dose_squared": 0.015117663032709174
+        },
+        "0.5": {
+          "mean_exact_kl": 0.0038653934409219205,
+          "median_exact_kl": 0.001743716944474727,
+          "mean_predicted_kl": 0.0037198717548090343,
+          "median_predicted_kl": 0.001782698673196137,
+          "prediction_correlation": 0.9728591842860842,
+          "calibration_ratio": 0.9842386830826491,
+          "exact_kl_over_dose_squared": 0.015461573763687682
+        },
+        "1.0": {
+          "mean_exact_kl": 0.016289519586213146,
+          "median_exact_kl": 0.006833204068243504,
+          "mean_predicted_kl": 0.014879487019236137,
+          "median_predicted_kl": 0.007130794692784548,
+          "prediction_correlation": 0.8909078352629121,
+          "calibration_ratio": 0.9682515312195334,
+          "exact_kl_over_dose_squared": 0.016289519586213146
+        }
+      },
+      "fisher_rank16": {
+        "0.1": {
+          "mean_exact_kl": 7.762828057073624e-05,
+          "median_exact_kl": 4.396869917400181e-05,
+          "mean_predicted_kl": 7.786815368189259e-05,
+          "median_predicted_kl": 4.413521855894942e-05,
+          "prediction_correlation": 0.9998176250971237,
+          "calibration_ratio": 0.996460808509813,
+          "exact_kl_over_dose_squared": 0.007762828057073622
+        },
+        "0.25": {
+          "mean_exact_kl": 0.00048280108432347647,
+          "median_exact_kl": 0.00027289779973216355,
+          "mean_predicted_kl": 0.0004866759708442281,
+          "median_predicted_kl": 0.00027584513009060174,
+          "prediction_correlation": 0.9987688443297418,
+          "calibration_ratio": 0.991764804980927,
+          "exact_kl_over_dose_squared": 0.0077248173491756235
+        },
+        "0.5": {
+          "mean_exact_kl": 0.0019170175075351637,
+          "median_exact_kl": 0.0010791420936584473,
+          "mean_predicted_kl": 0.0019467038833769123,
+          "median_predicted_kl": 0.001103380520362407,
+          "prediction_correlation": 0.9942660883645099,
+          "calibration_ratio": 0.9832998625874987,
+          "exact_kl_over_dose_squared": 0.007668070030140655
+        },
+        "1.0": {
+          "mean_exact_kl": 0.007583447729482344,
+          "median_exact_kl": 0.004246588330715895,
+          "mean_predicted_kl": 0.007786815533507649,
+          "median_predicted_kl": 0.004413522081449628,
+          "prediction_correlation": 0.9666842025290183,
+          "calibration_ratio": 0.9662892720794494,
+          "exact_kl_over_dose_squared": 0.007583447729482344
+        }
+      }
+    }
+  }
+}

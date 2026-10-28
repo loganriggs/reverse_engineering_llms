@@ -1,0 +1,50 @@
+{
+  "experiment": "H537",
+  "source_sha256": "85a66a8ffc26b82e814628095df89c955e8c2b68fd1d70778e4e23b2dcd2c3b7",
+  "manifest_sha256": "346b48326c317d4daa3eb43fd5986b9e8900bd0bb91fd91e7b8fd15a58231905",
+  "layers": {
+    "entity_binding": 6,
+    "sequence_copy": 3
+  },
+  "modes": {
+    "free": [],
+    "fixed_qk": [
+      "c_q",
+      "c_k",
+      "c_q2",
+      "c_k2"
+    ],
+    "fixed_v": [
+      "c_v"
+    ],
+    "fixed_qkv": [
+      "c_q",
+      "c_k",
+      "c_q2",
+      "c_k2",
+      "c_v"
+    ],
+    "fixed_qkv_mlp": [
+      "c_q",
+      "c_k",
+      "c_q2",
+      "c_k2",
+      "c_v",
+      "mlp"
+    ]
+  },
+  "conditions": [
+    "base<-counterfactual",
+    "counterfactual<-base",
+    "base<-nuisance",
+    "base<-self"
+  ],
+  "scope": "Freeze recipient-native projection outputs at every token in every layer strictly AFTER selected bus injection. Q/K pairs are frozen before their native RMS normalization and rotation, hence both routing factors are fixed. V is the local contextual value projection, not the persistent bus. MLP freezing substitutes the native entire output at all positions. No reselection or pair filtering. Equal lengths required for bus swaps.",
+  "hypotheses": [
+    "Fixed QK and V retain most bus effect if fixed-reader token-value transport suffices.",
+    "Loss under QK fixing implicates routing feedback conditional on intervention.",
+    "Additional loss under MLP fixing implicates downstream MLP response."
+  ],
+  "precision": "float32 compute after shared-loader bfloat16 weight rounding",
+  "panel": "Reused H533 discovery and transfer, separately reported; no new document or prompt."
+}

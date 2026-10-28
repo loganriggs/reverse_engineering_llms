@@ -1,0 +1,49 @@
+{
+  "status": "locked-after-three-frozen-router-failures-before-supervised-router",
+  "layer": 8,
+  "dimension": 512,
+  "router_dimension": 128,
+  "queries": 16,
+  "modes": 512,
+  "budget": 16,
+  "hidden_dimension": 256,
+  "training_fraction": 0.8,
+  "steps": 1200,
+  "validation_interval": 100,
+  "router_batch_size": 256,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "seed": 20261026,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "discovery": {
+    "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+    "start": 10000,
+    "rows": 300
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 10300,
+      "rows": 300
+    },
+    "wikitext": {
+      "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 600,
+      "rows": 300
+    }
+  },
+  "hypotheses": {
+    "L1_learned_router_is_predictive": "The frozen learned router reaches median exact-routed score correlation at least 0.85 on every corpus.",
+    "L2_learned_router_beats_quadratic": "It exceeds the 128D quadratic router by at least 0.03 correlation on every corpus.",
+    "L3_learned_router_approaches_oracle": "It is within 0.05 correlation of oracle top-16 selection on every corpus.",
+    "L4_learned_router_recovers_support": "It recalls at least 50% of oracle top-16 support on every corpus.",
+    "L5_learned_router_transfers_ood": "Its correlation drops by at most 0.05 from FineWeb on each OOD corpus.",
+    "L6_validation_predicts_test": "FineWeb evaluation correlation is within 0.05 of the internal validation correlation used for checkpoint selection."
+  }
+}

@@ -1,0 +1,572 @@
+{
+  "config": {
+    "experiment": "H943",
+    "hashes": {
+      "runner": "007cc44821c47df8ec7eed1edf9187a169809a8182bdf5d8f41f669d42624c26",
+      "data": "62f715ceea4753fd032067b2bb3d0835e4a87e3f4e25fa3f677d22524e698aea",
+      "data_protocol": "8f8a3e59f599e0cc2c145e49da7c4092320fa912a2273749307de642d9354005",
+      "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+    },
+    "rank": 64,
+    "modes": [
+      "native",
+      "endpoints",
+      "effects"
+    ],
+    "seeds": [
+      0,
+      1
+    ],
+    "steps": 2000,
+    "batch": 128,
+    "site": "raw preMLP4 -> RMS -> full bilinear MLP update",
+    "training": "H851 original2048 training documents, one of16 captured positions per document chosen by document_index mod16. Fixed Gaussian tangential perturbation at5% raw-state norm per document, independent of learner and task labels.",
+    "evaluation": "512 H851 development documents from separate natural-document pool; reused research development, not reserved or fresh test. Independent5% tangent noise plus opposite sign and10% dose. No task directions loaded in fitting or selection.",
+    "objectives": "native: centered-energy-normalized outputMSE; endpoints: average native+edited endpointMSE at same normalizer; effects: native outputMSE + effectMSE divided by TRAINING effect energy. This deliberately changes weighting, not endpoint information. Same initializations, minibatches, architecture, Adam .003 and final2000step checkpoint.",
+    "limits": "Compact update surrogate, not activation autoencoder or discovered sparse ontology. Local update scores do not establish outputKL or task preservation. Known rank is NOT assumed here;64 is a fixed compression budget. Full input access and normalization are part of student computation."
+  },
+  "records": [
+    {
+      "mode": "native",
+      "seed": 0,
+      "panel": "random5",
+      "native_error_ratio": 0.908272385597229,
+      "effect_error_ratio": 1.0224237442016602,
+      "parameters": 222336
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "panel": "opposite5",
+      "native_error_ratio": 0.908272385597229,
+      "effect_error_ratio": 1.0221600532531738,
+      "parameters": 222336
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "panel": "random10",
+      "native_error_ratio": 0.908272385597229,
+      "effect_error_ratio": 1.0219134092330933,
+      "parameters": 222336
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "panel": "random5",
+      "native_error_ratio": 0.9082720875740051,
+      "effect_error_ratio": 1.0224008560180664,
+      "parameters": 222336
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "panel": "opposite5",
+      "native_error_ratio": 0.9082720875740051,
+      "effect_error_ratio": 1.0221338272094727,
+      "parameters": 222336
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "panel": "random10",
+      "native_error_ratio": 0.9082720875740051,
+      "effect_error_ratio": 1.0218908786773682,
+      "parameters": 222336
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "panel": "random5",
+      "native_error_ratio": 0.914359450340271,
+      "effect_error_ratio": 1.01712965965271,
+      "parameters": 222336
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "panel": "opposite5",
+      "native_error_ratio": 0.914359450340271,
+      "effect_error_ratio": 1.0170133113861084,
+      "parameters": 222336
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "panel": "random10",
+      "native_error_ratio": 0.914359450340271,
+      "effect_error_ratio": 1.016624927520752,
+      "parameters": 222336
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "panel": "random5",
+      "native_error_ratio": 0.9078555107116699,
+      "effect_error_ratio": 1.0236262083053589,
+      "parameters": 222336
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "panel": "opposite5",
+      "native_error_ratio": 0.9078555107116699,
+      "effect_error_ratio": 1.023345708847046,
+      "parameters": 222336
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "panel": "random10",
+      "native_error_ratio": 0.9078555107116699,
+      "effect_error_ratio": 1.0231050252914429,
+      "parameters": 222336
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "panel": "random5",
+      "native_error_ratio": 0.9078720211982727,
+      "effect_error_ratio": 1.0235788822174072,
+      "parameters": 222336
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "panel": "opposite5",
+      "native_error_ratio": 0.9078720211982727,
+      "effect_error_ratio": 1.0232961177825928,
+      "parameters": 222336
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "panel": "random10",
+      "native_error_ratio": 0.9078720211982727,
+      "effect_error_ratio": 1.0230597257614136,
+      "parameters": 222336
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "panel": "random5",
+      "native_error_ratio": 0.9141364693641663,
+      "effect_error_ratio": 1.0184818506240845,
+      "parameters": 222336
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "panel": "opposite5",
+      "native_error_ratio": 0.9141364693641663,
+      "effect_error_ratio": 1.018352746963501,
+      "parameters": 222336
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "panel": "random10",
+      "native_error_ratio": 0.9141364693641663,
+      "effect_error_ratio": 1.0179611444473267,
+      "parameters": 222336
+    }
+  ],
+  "curves": [
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 1,
+      "loss": 1.0257683992385864,
+      "native_loss": 1.0257683992385864
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 251,
+      "loss": 0.9029348492622375,
+      "native_loss": 0.9029348492622375
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 501,
+      "loss": 0.8814663290977478,
+      "native_loss": 0.8814663290977478
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 751,
+      "loss": 0.7818847894668579,
+      "native_loss": 0.7818847894668579
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 1001,
+      "loss": 0.763397753238678,
+      "native_loss": 0.763397753238678
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 1251,
+      "loss": 0.7555831074714661,
+      "native_loss": 0.7555831074714661
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 1501,
+      "loss": 0.7617021799087524,
+      "native_loss": 0.7617021799087524
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 1751,
+      "loss": 0.7280520796775818,
+      "native_loss": 0.7280520796775818
+    },
+    {
+      "mode": "native",
+      "seed": 0,
+      "step": 2000,
+      "loss": 0.741443395614624,
+      "native_loss": 0.741443395614624
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 1,
+      "loss": 1.0253479480743408,
+      "native_loss": 1.0257683992385864
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 251,
+      "loss": 0.9026956558227539,
+      "native_loss": 0.9028699994087219
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 501,
+      "loss": 0.8814050555229187,
+      "native_loss": 0.8815012574195862
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 751,
+      "loss": 0.7819815278053284,
+      "native_loss": 0.7820289731025696
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 1001,
+      "loss": 0.7630780935287476,
+      "native_loss": 0.7635031342506409
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 1251,
+      "loss": 0.7560778856277466,
+      "native_loss": 0.7556313872337341
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 1501,
+      "loss": 0.7617093920707703,
+      "native_loss": 0.7619093656539917
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 1751,
+      "loss": 0.7275416851043701,
+      "native_loss": 0.7283687591552734
+    },
+    {
+      "mode": "endpoints",
+      "seed": 0,
+      "step": 2000,
+      "loss": 0.7414368391036987,
+      "native_loss": 0.741550624370575
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 1,
+      "loss": 2.034789800643921,
+      "native_loss": 1.0257683992385864
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 251,
+      "loss": 1.9271013736724854,
+      "native_loss": 0.9106686115264893
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 501,
+      "loss": 1.9175305366516113,
+      "native_loss": 0.8948171138763428
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 751,
+      "loss": 1.7696475982666016,
+      "native_loss": 0.7993253469467163
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 1001,
+      "loss": 1.7644985914230347,
+      "native_loss": 0.7836048603057861
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 1251,
+      "loss": 1.75285005569458,
+      "native_loss": 0.7797169089317322
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 1501,
+      "loss": 1.762744426727295,
+      "native_loss": 0.7876332402229309
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 1751,
+      "loss": 1.714609146118164,
+      "native_loss": 0.7582316994667053
+    },
+    {
+      "mode": "effects",
+      "seed": 0,
+      "step": 2000,
+      "loss": 1.749129056930542,
+      "native_loss": 0.7719539403915405
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 1,
+      "loss": 0.9585230946540833,
+      "native_loss": 0.9585230946540833
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 251,
+      "loss": 0.8623846769332886,
+      "native_loss": 0.8623846769332886
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 501,
+      "loss": 0.8726259469985962,
+      "native_loss": 0.8726259469985962
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 751,
+      "loss": 0.8104574084281921,
+      "native_loss": 0.8104574084281921
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 1001,
+      "loss": 0.7154523730278015,
+      "native_loss": 0.7154523730278015
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 1251,
+      "loss": 0.7791059613227844,
+      "native_loss": 0.7791059613227844
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 1501,
+      "loss": 0.8094131350517273,
+      "native_loss": 0.8094131350517273
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 1751,
+      "loss": 0.7513254880905151,
+      "native_loss": 0.7513254880905151
+    },
+    {
+      "mode": "native",
+      "seed": 1,
+      "step": 2000,
+      "loss": 0.7581927180290222,
+      "native_loss": 0.7581927180290222
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 1,
+      "loss": 0.9577955007553101,
+      "native_loss": 0.9585230946540833
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 251,
+      "loss": 0.8625603914260864,
+      "native_loss": 0.8624389171600342
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 501,
+      "loss": 0.8729883432388306,
+      "native_loss": 0.8728774785995483
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 751,
+      "loss": 0.8106434345245361,
+      "native_loss": 0.8106603622436523
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 1001,
+      "loss": 0.7155791521072388,
+      "native_loss": 0.7157017588615417
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 1251,
+      "loss": 0.779255211353302,
+      "native_loss": 0.7794204950332642
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 1501,
+      "loss": 0.8087844848632812,
+      "native_loss": 0.8098530173301697
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 1751,
+      "loss": 0.7509644031524658,
+      "native_loss": 0.7514264583587646
+    },
+    {
+      "mode": "endpoints",
+      "seed": 1,
+      "step": 2000,
+      "loss": 0.7581535577774048,
+      "native_loss": 0.7584497928619385
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 1,
+      "loss": 1.9329211711883545,
+      "native_loss": 0.9585230946540833
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 251,
+      "loss": 1.8644154071807861,
+      "native_loss": 0.8689944744110107
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 501,
+      "loss": 1.9018274545669556,
+      "native_loss": 0.8853703737258911
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 751,
+      "loss": 1.799583911895752,
+      "native_loss": 0.8299055695533752
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 1001,
+      "loss": 1.6812574863433838,
+      "native_loss": 0.732367992401123
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 1251,
+      "loss": 1.791028618812561,
+      "native_loss": 0.805237889289856
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 1501,
+      "loss": 1.838702917098999,
+      "native_loss": 0.8402541875839233
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 1751,
+      "loss": 1.7565137147903442,
+      "native_loss": 0.7798631191253662
+    },
+    {
+      "mode": "effects",
+      "seed": 1,
+      "step": 2000,
+      "loss": 1.7649571895599365,
+      "native_loss": 0.7887018918991089
+    }
+  ],
+  "audits": {
+    "hashes_unchanged": true,
+    "finite": true,
+    "models": 6,
+    "teacher_parameters": 15926400,
+    "tangent_cosine_max_abs": 2.2059031934418272e-08,
+    "explicit_MLP_max_abs": 0.0,
+    "finite_effect_algebra_relative_error": 3.922324594896054e-06,
+    "teacher_local_evaluations": 6192,
+    "original_whole_model_forwards": 0,
+    "reserved_test_evaluations": 0,
+    "no_task_directions_or_labels_loaded": true,
+    "checkpoint_metric_replay_max_abs": 0.0,
+    "independent_student_formula_max_abs": 0.0,
+    "student_directional_gradient_max_abs": 8.914125118053562e-07,
+    "rejected_run": "Initial native algebra check omitted separately stored Down_bias; two failed audit runs retained, no student training executed. Corrected before target generation/training."
+  },
+  "elapsed_seconds": 28.790043830871582
+}

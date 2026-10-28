@@ -1,0 +1,37 @@
+{
+  "status": "locked-after-fixed-rank-and-cross-term-redteams-before-context-routing",
+  "seed": 20261101,
+  "layer": 17,
+  "components": 4,
+  "candidate_pool_rank": 128,
+  "experts": 4,
+  "expert_rank": 8,
+  "router_features": 32,
+  "fisher_steps": 800,
+  "fisher_batch_size": 2048,
+  "fisher_learning_rate": 0.02,
+  "balance_weight": 0.01,
+  "entropy_weight": 0.001,
+  "exact_steps": 120,
+  "exact_batch_size": 32,
+  "exact_learning_rate": 0.003,
+  "ce_weight": 0.05,
+  "covariance_floor_fraction": 0.0001,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 12000, "rows": 1000},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 15600, "rows": 400},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 600, "rows": 400},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 600, "rows": 400}
+  },
+  "hypotheses": {
+    "C1_routing_beats_global32_local_fisher": "The soft routed program reduces opposite-half Fisher error by at least 20% relative to the fixed global rank-32 quotient.",
+    "C2_exact_kl_router_beats_global32_ood": "After exact-KL fine-tuning, the soft router reduces mean exact KL by at least 20% relative to global rank 32 on every corpus.",
+    "C3_task_aware_router_improves_ce": "The task-aware router has mean next-token CE delta at most zero on every corpus.",
+    "C4_hard_routing_retains_gain": "Hard routing retains at least 80% of the soft exact-KL router's gain over global rank 32 on every corpus.",
+    "C5_router_uses_multiple_experts": "The exact-KL router has effective mean-gate support at least three on every corpus.",
+    "C6_routed_rank8_reaches_behavioral_gate": "The exact-KL soft router has median exact KL at most 0.005 on every corpus.",
+    "C7_exact_objective_improves_fisher_router": "Exact-KL fine-tuning lowers mean exact KL relative to the Fisher-trained router on every corpus."
+  }
+}

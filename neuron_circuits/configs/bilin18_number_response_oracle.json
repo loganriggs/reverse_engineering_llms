@@ -1,0 +1,16 @@
+{
+  "experiment": "H595",
+  "source_sha256": "7e184a7135165b13e2e5a9ac9d6bcf828677757f62cdec9042c6669cbaadd61d",
+  "number_basis_sha256": "5853e9a3177329452c625188c136babced94e5e4a0b1eeb36af2e3fd9e8fa1bc",
+  "doses": [
+    0.0625,
+    0.5
+  ],
+  "ranks": [
+    32
+  ],
+  "fit": "Freeze the H593 context basis. For each case form columns T(a_j,e); solve float64 SVD least squares against the full target T(dc,e), rcond=1e-10. This is a target-informed per-case oracle, not a learned coefficient predictor. Basis unchanged.",
+  "identity": "Context-switch response T(dc,e)=Down(Left(dc)*Right(e)+Left(e)*Right(dc)). Quadratic-in-e term cancels exactly.",
+  "design": "Compare full target, unchanged context, Euclidean context projection and response-optimal context-span oracle. Evaluate live downstream fidelity at both signs/doses across all H593 cells. Audit conditioning, coefficient norms, normal equations and direct coefficient replay.",
+  "scope": "Oracle sees each full local response target and actual incoming perturbation. It minimizes local Euclidean response error only, not output KL or answer loss; success is not generalization. Counterfactual coefficient norms and conditioning are reported."
+}

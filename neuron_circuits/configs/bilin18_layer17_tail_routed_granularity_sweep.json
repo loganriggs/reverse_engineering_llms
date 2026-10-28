@@ -1,0 +1,38 @@
+{
+  "status": "locked-after-route-specificity-controls-before-granularity-sweep",
+  "seed": 20261103,
+  "layer": 17,
+  "components": 4,
+  "candidate_pool_rank": 128,
+  "total_expert_rank": 32,
+  "settings": [
+    {"experts": 1, "rank": 32},
+    {"experts": 2, "rank": 16},
+    {"experts": 4, "rank": 8},
+    {"experts": 8, "rank": 4},
+    {"experts": 16, "rank": 2}
+  ],
+  "router_features": 32,
+  "fisher_steps": 800,
+  "fisher_batch_size": 2048,
+  "fisher_learning_rate": 0.02,
+  "balance_weight": 0.01,
+  "entropy_weight": 0.001,
+  "covariance_floor_fraction": 0.0001,
+  "batch_size": 4,
+  "positions": [7, 15, 23, 31, 39, 47, 55, 63, 71, 79, 87, 95, 103, 111, 119, 127],
+  "discovery": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 12000, "rows": 1000},
+  "evaluation": {
+    "fineweb": {"path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy", "start": 15600, "rows": 400},
+    "wikitext": {"path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy", "start": 600, "rows": 400},
+    "tinystories": {"path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy", "start": 600, "rows": 400}
+  },
+  "hypotheses": {
+    "G1_conditional_program_beats_global32": "At least one routed hard program reduces mean exact KL by at least 20% versus the one-by-32 program on every corpus.",
+    "G2_best_granularity_is_interior": "The lowest geometric-mean hard-routing KL is achieved by 2x16, 4x8, or 8x4 rather than either endpoint.",
+    "G3_rank4_or_less_can_reach_gate": "At least one hard-routed program with active rank at most four has median exact KL at most 0.005 on every corpus.",
+    "G4_hard_execution_matches_soft": "For the overall winning granularity, hard-routing mean KL is at most 10% above soft-routing KL on every corpus.",
+    "G5_winner_transfers_across_corpora": "The same granularity has the lowest hard-routing mean KL on FineWeb, WikiText, and TinyStories.",
+    "G6_conditional_gain_is_not_only_local": "Every multi-expert setting that improves opposite-half Fisher over 1x32 also improves geometric-mean exact KL across the three external corpora."
+  }
+}

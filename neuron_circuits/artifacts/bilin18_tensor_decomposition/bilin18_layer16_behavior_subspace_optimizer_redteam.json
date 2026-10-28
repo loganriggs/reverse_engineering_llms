@@ -1,0 +1,738 @@
+{
+  "config": {
+    "status": "hypotheses-locked-after-projected-adam-failure-before-full-batch-optimizer-red-team",
+    "seed": 20261114,
+    "batch_size": 2,
+    "tangent_chunk": 8,
+    "layer": 12,
+    "final_layer": 17,
+    "layers": [
+      16
+    ],
+    "rank": 32,
+    "positions": [
+      31,
+      63,
+      95,
+      127
+    ],
+    "subspace_rank": 64,
+    "optimization_steps": 100,
+    "gradient_batch_size": 128,
+    "validation_interval": 5,
+    "learning_rates": [
+      0.0001,
+      0.0003,
+      0.001,
+      0.003
+    ],
+    "axis_discovery": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 16000,
+      "rows": 64
+    },
+    "subspace_train": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 18000,
+      "rows": 192
+    },
+    "subspace_validation": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 18192,
+      "rows": 64
+    },
+    "evaluation": {
+      "fineweb": {
+        "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+        "start": 19600,
+        "rows": 32
+      },
+      "wikitext": {
+        "path": "artifacts/bilin18_ood_corpora/wikitext103_1200x129.npy",
+        "start": 900,
+        "rows": 32
+      },
+      "tinystories": {
+        "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+        "start": 900,
+        "rows": 32
+      }
+    },
+    "hypotheses": {
+      "R0_factor_collection_is_exact": "Maximum upstream-JVP and contraction error is at most 1e-5.",
+      "R1_full_batch_optimization_improves_validation": "At least one learning rate improves validation fidelity by at least 0.02 over forward PCA.",
+      "R2_optimized_rank64_is_sufficient": "The validation-selected rank-64 basis retains at least 0.90 on every corpus.",
+      "R3_optimized_rank64_beats_forward_pca": "The selected basis exceeds forward PCA by at least 0.05 on every corpus.",
+      "R4_optimized_subspace_transfers_ood": "Each OOD fidelity is within 0.10 of FineWeb.",
+      "R5_training_improvement_is_not_pure_overfit": "The learning rate with the best validation improves both train and validation fidelity over initialization.",
+      "R6_selected_basis_generalizes_to_fineweb": "Held-out FineWeb fidelity is within 0.05 of selected validation fidelity."
+    }
+  },
+  "hypotheses": {
+    "R0_factor_collection_is_exact": {
+      "supported": true,
+      "autograd_relative_error": 6.265121944148899e-07,
+      "maximum_forward_error": 6.265121944148899e-07,
+      "maximum_contraction_error": 7.784364508643954e-07
+    },
+    "R1_full_batch_optimization_improves_validation": {
+      "supported": false
+    },
+    "R2_optimized_rank64_is_sufficient": {
+      "supported": false
+    },
+    "R3_optimized_rank64_beats_forward_pca": {
+      "supported": false
+    },
+    "R4_optimized_subspace_transfers_ood": {
+      "supported": false
+    },
+    "R5_training_improvement_is_not_pure_overfit": {
+      "supported": true
+    },
+    "R6_selected_basis_generalizes_to_fineweb": {
+      "supported": true
+    }
+  },
+  "selected_learning_rate": 0.003,
+  "selected_validation_fidelity": 0.7591064216927399,
+  "optimization": {
+    "0.0001": {
+      "initial_train_fidelity": 0.7583433085235556,
+      "initial_validation_fidelity": 0.7578575630107208,
+      "best_validation_fidelity": 0.7579348275279871,
+      "best_step": 100,
+      "curve": [
+        {
+          "step": 0,
+          "train_fidelity": 0.7583433085235556,
+          "validation_fidelity": 0.7578575630107208,
+          "euclidean_gradient_norm": null,
+          "grassmann_gradient_norm": null
+        },
+        {
+          "step": 5,
+          "train_fidelity": 0.7584463340118598,
+          "validation_fidelity": 0.7578615850437558,
+          "euclidean_gradient_norm": 0.5089157819747925,
+          "grassmann_gradient_norm": 0.4538423418998718
+        },
+        {
+          "step": 10,
+          "train_fidelity": 0.7585492376421827,
+          "validation_fidelity": 0.7578655233048157,
+          "euclidean_gradient_norm": 0.5085834264755249,
+          "grassmann_gradient_norm": 0.4535725712776184
+        },
+        {
+          "step": 15,
+          "train_fidelity": 0.7586520238079199,
+          "validation_fidelity": 0.7578694792111238,
+          "euclidean_gradient_norm": 0.508251428604126,
+          "grassmann_gradient_norm": 0.4533030688762665
+        },
+        {
+          "step": 20,
+          "train_fidelity": 0.7587546937123021,
+          "validation_fidelity": 0.7578733925505743,
+          "euclidean_gradient_norm": 0.5079200863838196,
+          "grassmann_gradient_norm": 0.45303407311439514
+        },
+        {
+          "step": 25,
+          "train_fidelity": 0.758857227547747,
+          "validation_fidelity": 0.7578773256892792,
+          "euclidean_gradient_norm": 0.5075889825820923,
+          "grassmann_gradient_norm": 0.45276525616645813
+        },
+        {
+          "step": 30,
+          "train_fidelity": 0.7589596366724483,
+          "validation_fidelity": 0.7578812189015828,
+          "euclidean_gradient_norm": 0.5072585344314575,
+          "grassmann_gradient_norm": 0.45249688625335693
+        },
+        {
+          "step": 35,
+          "train_fidelity": 0.7590619469820482,
+          "validation_fidelity": 0.7578851161353597,
+          "euclidean_gradient_norm": 0.5069285035133362,
+          "grassmann_gradient_norm": 0.4522288143634796
+        },
+        {
+          "step": 40,
+          "train_fidelity": 0.7591641213799338,
+          "validation_fidelity": 0.7578890029292549,
+          "euclidean_gradient_norm": 0.506598949432373,
+          "grassmann_gradient_norm": 0.45196112990379333
+        },
+        {
+          "step": 45,
+          "train_fidelity": 0.7592661729614905,
+          "validation_fidelity": 0.7578928882727667,
+          "euclidean_gradient_norm": 0.5062698125839233,
+          "grassmann_gradient_norm": 0.45169374346733093
+        },
+        {
+          "step": 50,
+          "train_fidelity": 0.7593681052235142,
+          "validation_fidelity": 0.7578967319177289,
+          "euclidean_gradient_norm": 0.5059412121772766,
+          "grassmann_gradient_norm": 0.4514267146587372
+        },
+        {
+          "step": 55,
+          "train_fidelity": 0.7594699258044606,
+          "validation_fidelity": 0.757900587132404,
+          "euclidean_gradient_norm": 0.5056129693984985,
+          "grassmann_gradient_norm": 0.4511599838733673
+        },
+        {
+          "step": 60,
+          "train_fidelity": 0.7595716224075972,
+          "validation_fidelity": 0.7579044583749672,
+          "euclidean_gradient_norm": 0.5052853226661682,
+          "grassmann_gradient_norm": 0.45089367032051086
+        },
+        {
+          "step": 65,
+          "train_fidelity": 0.7596731743197065,
+          "validation_fidelity": 0.7579082861263357,
+          "euclidean_gradient_norm": 0.5049581527709961,
+          "grassmann_gradient_norm": 0.4506276845932007
+        },
+        {
+          "step": 70,
+          "train_fidelity": 0.7597746438914416,
+          "validation_fidelity": 0.7579121047044971,
+          "euclidean_gradient_norm": 0.5046313405036926,
+          "grassmann_gradient_norm": 0.450361967086792
+        },
+        {
+          "step": 75,
+          "train_fidelity": 0.7598759753326527,
+          "validation_fidelity": 0.7579159335491485,
+          "euclidean_gradient_norm": 0.5043050050735474,
+          "grassmann_gradient_norm": 0.45009666681289673
+        },
+        {
+          "step": 80,
+          "train_fidelity": 0.7599771964048807,
+          "validation_fidelity": 0.7579197264494804,
+          "euclidean_gradient_norm": 0.5039792060852051,
+          "grassmann_gradient_norm": 0.44983169436454773
+        },
+        {
+          "step": 85,
+          "train_fidelity": 0.7600782762286672,
+          "validation_fidelity": 0.757923528753396,
+          "euclidean_gradient_norm": 0.503653883934021,
+          "grassmann_gradient_norm": 0.449567049741745
+        },
+        {
+          "step": 90,
+          "train_fidelity": 0.7601792530704632,
+          "validation_fidelity": 0.7579273045202649,
+          "euclidean_gradient_norm": 0.5033289194107056,
+          "grassmann_gradient_norm": 0.44930270314216614
+        },
+        {
+          "step": 95,
+          "train_fidelity": 0.7602801279957976,
+          "validation_fidelity": 0.7579310708859311,
+          "euclidean_gradient_norm": 0.5030044913291931,
+          "grassmann_gradient_norm": 0.4490387737751007
+        },
+        {
+          "step": 100,
+          "train_fidelity": 0.7603808647397123,
+          "validation_fidelity": 0.7579348275279871,
+          "euclidean_gradient_norm": 0.5026804804801941,
+          "grassmann_gradient_norm": 0.44877511262893677
+        }
+      ]
+    },
+    "0.0003": {
+      "initial_train_fidelity": 0.7583433085235556,
+      "initial_validation_fidelity": 0.7578575630107208,
+      "best_validation_fidelity": 0.7580775242538053,
+      "best_step": 100,
+      "curve": [
+        {
+          "step": 0,
+          "train_fidelity": 0.7583433085235556,
+          "validation_fidelity": 0.7578575630107208,
+          "euclidean_gradient_norm": null,
+          "grassmann_gradient_norm": null
+        },
+        {
+          "step": 5,
+          "train_fidelity": 0.758652063405752,
+          "validation_fidelity": 0.7578694446705065,
+          "euclidean_gradient_norm": 0.5083840489387512,
+          "grassmann_gradient_norm": 0.4534107446670532
+        },
+        {
+          "step": 10,
+          "train_fidelity": 0.7589597213871403,
+          "validation_fidelity": 0.7578811767028435,
+          "euclidean_gradient_norm": 0.5073903203010559,
+          "grassmann_gradient_norm": 0.45260393619537354
+        },
+        {
+          "step": 15,
+          "train_fidelity": 0.7592662897367699,
+          "validation_fidelity": 0.757892833689989,
+          "euclidean_gradient_norm": 0.5064008831977844,
+          "grassmann_gradient_norm": 0.4518001973628998
+        },
+        {
+          "step": 20,
+          "train_fidelity": 0.7595717590060971,
+          "validation_fidelity": 0.7579044030748878,
+          "euclidean_gradient_norm": 0.5054155588150024,
+          "grassmann_gradient_norm": 0.45099955797195435
+        },
+        {
+          "step": 25,
+          "train_fidelity": 0.7598761605057122,
+          "validation_fidelity": 0.7579158759445895,
+          "euclidean_gradient_norm": 0.5044345855712891,
+          "grassmann_gradient_norm": 0.45020201802253723
+        },
+        {
+          "step": 30,
+          "train_fidelity": 0.7601794801739667,
+          "validation_fidelity": 0.7579272425712769,
+          "euclidean_gradient_norm": 0.5034576654434204,
+          "grassmann_gradient_norm": 0.44940751791000366
+        },
+        {
+          "step": 35,
+          "train_fidelity": 0.7604817407203122,
+          "validation_fidelity": 0.7579385407309462,
+          "euclidean_gradient_norm": 0.5024848580360413,
+          "grassmann_gradient_norm": 0.44861599802970886
+        },
+        {
+          "step": 40,
+          "train_fidelity": 0.7607829384599322,
+          "validation_fidelity": 0.7579497367161739,
+          "euclidean_gradient_norm": 0.5015161633491516,
+          "grassmann_gradient_norm": 0.4478275179862976
+        },
+        {
+          "step": 45,
+          "train_fidelity": 0.7610830720622598,
+          "validation_fidelity": 0.7579608406195365,
+          "euclidean_gradient_norm": 0.5005516409873962,
+          "grassmann_gradient_norm": 0.4470420479774475
+        },
+        {
+          "step": 50,
+          "train_fidelity": 0.7613821589725298,
+          "validation_fidelity": 0.75797187664857,
+          "euclidean_gradient_norm": 0.4995911419391632,
+          "grassmann_gradient_norm": 0.4462595582008362
+        },
+        {
+          "step": 55,
+          "train_fidelity": 0.7616801999609824,
+          "validation_fidelity": 0.757982795356138,
+          "euclidean_gradient_norm": 0.4986346960067749,
+          "grassmann_gradient_norm": 0.44548001885414124
+        },
+        {
+          "step": 60,
+          "train_fidelity": 0.7619772031900783,
+          "validation_fidelity": 0.7579936442292576,
+          "euclidean_gradient_norm": 0.4976823031902313,
+          "grassmann_gradient_norm": 0.44470345973968506
+        },
+        {
+          "step": 65,
+          "train_fidelity": 0.7622731866594952,
+          "validation_fidelity": 0.7580044569629025,
+          "euclidean_gradient_norm": 0.4967338740825653,
+          "grassmann_gradient_norm": 0.4439298212528229
+        },
+        {
+          "step": 70,
+          "train_fidelity": 0.7625681323353135,
+          "validation_fidelity": 0.7580151099718975,
+          "euclidean_gradient_norm": 0.49578946828842163,
+          "grassmann_gradient_norm": 0.4431591331958771
+        },
+        {
+          "step": 75,
+          "train_fidelity": 0.7628620481760916,
+          "validation_fidelity": 0.7580257031962835,
+          "euclidean_gradient_norm": 0.49484899640083313,
+          "grassmann_gradient_norm": 0.4423913061618805
+        },
+        {
+          "step": 80,
+          "train_fidelity": 0.7631549683375943,
+          "validation_fidelity": 0.7580362356895618,
+          "euclidean_gradient_norm": 0.49391239881515503,
+          "grassmann_gradient_norm": 0.4416263699531555
+        },
+        {
+          "step": 85,
+          "train_fidelity": 0.7634468606947086,
+          "validation_fidelity": 0.7580466758697816,
+          "euclidean_gradient_norm": 0.49297982454299927,
+          "grassmann_gradient_norm": 0.44086435437202454
+        },
+        {
+          "step": 90,
+          "train_fidelity": 0.7637377539295327,
+          "validation_fidelity": 0.7580570247743316,
+          "euclidean_gradient_norm": 0.49205106496810913,
+          "grassmann_gradient_norm": 0.4401051700115204
+        },
+        {
+          "step": 95,
+          "train_fidelity": 0.7640276403246938,
+          "validation_fidelity": 0.7580673171107739,
+          "euclidean_gradient_norm": 0.49112623929977417,
+          "grassmann_gradient_norm": 0.43934890627861023
+        },
+        {
+          "step": 100,
+          "train_fidelity": 0.764316525699434,
+          "validation_fidelity": 0.7580775242538053,
+          "euclidean_gradient_norm": 0.4902052879333496,
+          "grassmann_gradient_norm": 0.4385954439640045
+        }
+      ]
+    },
+    "0.001": {
+      "initial_train_fidelity": 0.7583433085235556,
+      "initial_validation_fidelity": 0.7578575630107208,
+      "best_validation_fidelity": 0.7584773409504835,
+      "best_step": 100,
+      "curve": [
+        {
+          "step": 0,
+          "train_fidelity": 0.7583433085235556,
+          "validation_fidelity": 0.7578575630107208,
+          "euclidean_gradient_norm": null,
+          "grassmann_gradient_norm": null
+        },
+        {
+          "step": 5,
+          "train_fidelity": 0.7593686648001503,
+          "validation_fidelity": 0.7578967144158799,
+          "euclidean_gradient_norm": 0.5065305829048157,
+          "grassmann_gradient_norm": 0.451905757188797
+        },
+        {
+          "step": 10,
+          "train_fidelity": 0.7603819493254155,
+          "validation_fidelity": 0.7579348020353224,
+          "euclidean_gradient_norm": 0.503258466720581,
+          "grassmann_gradient_norm": 0.44924572110176086
+        },
+        {
+          "step": 15,
+          "train_fidelity": 0.761383382350575,
+          "validation_fidelity": 0.757971900230604,
+          "euclidean_gradient_norm": 0.5000324249267578,
+          "grassmann_gradient_norm": 0.44661945104599
+        },
+        {
+          "step": 20,
+          "train_fidelity": 0.762373210018161,
+          "validation_fidelity": 0.7580080382868409,
+          "euclidean_gradient_norm": 0.4968515634536743,
+          "grassmann_gradient_norm": 0.44402632117271423
+        },
+        {
+          "step": 25,
+          "train_fidelity": 0.7633516173957293,
+          "validation_fidelity": 0.7580432606599261,
+          "euclidean_gradient_norm": 0.4937150776386261,
+          "grassmann_gradient_norm": 0.4414657652378082
+        },
+        {
+          "step": 30,
+          "train_fidelity": 0.7643188231620119,
+          "validation_fidelity": 0.7580775814577952,
+          "euclidean_gradient_norm": 0.49062207341194153,
+          "grassmann_gradient_norm": 0.4389371871948242
+        },
+        {
+          "step": 35,
+          "train_fidelity": 0.7652750285441607,
+          "validation_fidelity": 0.7581110240375741,
+          "euclidean_gradient_norm": 0.4875718653202057,
+          "grassmann_gradient_norm": 0.43644005060195923
+        },
+        {
+          "step": 40,
+          "train_fidelity": 0.7662204259671168,
+          "validation_fidelity": 0.7581436666613532,
+          "euclidean_gradient_norm": 0.4845636487007141,
+          "grassmann_gradient_norm": 0.4339738190174103
+        },
+        {
+          "step": 45,
+          "train_fidelity": 0.7671552283978667,
+          "validation_fidelity": 0.758175452448244,
+          "euclidean_gradient_norm": 0.48159661889076233,
+          "grassmann_gradient_norm": 0.43153801560401917
+        },
+        {
+          "step": 50,
+          "train_fidelity": 0.7680796033470397,
+          "validation_fidelity": 0.7582064487193618,
+          "euclidean_gradient_norm": 0.4786700904369354,
+          "grassmann_gradient_norm": 0.4291320741176605
+        },
+        {
+          "step": 55,
+          "train_fidelity": 0.7689937645198666,
+          "validation_fidelity": 0.7582366484058473,
+          "euclidean_gradient_norm": 0.4757833182811737,
+          "grassmann_gradient_norm": 0.42675554752349854
+        },
+        {
+          "step": 60,
+          "train_fidelity": 0.7698978611107715,
+          "validation_fidelity": 0.7582660973490353,
+          "euclidean_gradient_norm": 0.47293543815612793,
+          "grassmann_gradient_norm": 0.4244077801704407
+        },
+        {
+          "step": 65,
+          "train_fidelity": 0.7707920792750101,
+          "validation_fidelity": 0.7582948313805977,
+          "euclidean_gradient_norm": 0.4701259732246399,
+          "grassmann_gradient_norm": 0.4220884442329407
+        },
+        {
+          "step": 70,
+          "train_fidelity": 0.7716765914866774,
+          "validation_fidelity": 0.758322851680879,
+          "euclidean_gradient_norm": 0.4673541486263275,
+          "grassmann_gradient_norm": 0.41979706287384033
+        },
+        {
+          "step": 75,
+          "train_fidelity": 0.7725515715692125,
+          "validation_fidelity": 0.7583501877849633,
+          "euclidean_gradient_norm": 0.4646192193031311,
+          "grassmann_gradient_norm": 0.4175330698490143
+        },
+        {
+          "step": 80,
+          "train_fidelity": 0.7734171647639102,
+          "validation_fidelity": 0.7583768550588592,
+          "euclidean_gradient_norm": 0.4619206488132477,
+          "grassmann_gradient_norm": 0.41529610753059387
+        },
+        {
+          "step": 85,
+          "train_fidelity": 0.7742735546510822,
+          "validation_fidelity": 0.7584029094198114,
+          "euclidean_gradient_norm": 0.45925772190093994,
+          "grassmann_gradient_norm": 0.4130856990814209
+        },
+        {
+          "step": 90,
+          "train_fidelity": 0.7751208846748844,
+          "validation_fidelity": 0.7584283104733709,
+          "euclidean_gradient_norm": 0.45662984251976013,
+          "grassmann_gradient_norm": 0.41090139746665955
+        },
+        {
+          "step": 95,
+          "train_fidelity": 0.7759593142778783,
+          "validation_fidelity": 0.7584531082607707,
+          "euclidean_gradient_norm": 0.45403632521629333,
+          "grassmann_gradient_norm": 0.4087426960468292
+        },
+        {
+          "step": 100,
+          "train_fidelity": 0.7767890089724745,
+          "validation_fidelity": 0.7584773409504835,
+          "euclidean_gradient_norm": 0.45147666335105896,
+          "grassmann_gradient_norm": 0.40660932660102844
+        }
+      ]
+    },
+    "0.003": {
+      "initial_train_fidelity": 0.7583433085235556,
+      "initial_validation_fidelity": 0.7578575630107208,
+      "best_validation_fidelity": 0.7591064216927399,
+      "best_step": 100,
+      "curve": [
+        {
+          "step": 0,
+          "train_fidelity": 0.7583433085235556,
+          "validation_fidelity": 0.7578575630107208,
+          "euclidean_gradient_norm": null,
+          "grassmann_gradient_norm": null
+        },
+        {
+          "step": 5,
+          "train_fidelity": 0.7613868819911219,
+          "validation_fidelity": 0.7579720595212657,
+          "euclidean_gradient_norm": 0.5013014078140259,
+          "grassmann_gradient_norm": 0.44765377044677734
+        },
+        {
+          "step": 10,
+          "train_fidelity": 0.7643254552622889,
+          "validation_fidelity": 0.7580778563077347,
+          "euclidean_gradient_norm": 0.4918200671672821,
+          "grassmann_gradient_norm": 0.4399188160896301
+        },
+        {
+          "step": 15,
+          "train_fidelity": 0.7671646418914873,
+          "validation_fidelity": 0.7581757848107228,
+          "euclidean_gradient_norm": 0.4827287197113037,
+          "grassmann_gradient_norm": 0.4324705898761749
+        },
+        {
+          "step": 20,
+          "train_fidelity": 0.7699097323254688,
+          "validation_fidelity": 0.7582664950555453,
+          "euclidean_gradient_norm": 0.47400614619255066,
+          "grassmann_gradient_norm": 0.4252943992614746
+        },
+        {
+          "step": 25,
+          "train_fidelity": 0.7725656302536618,
+          "validation_fidelity": 0.7583506641224333,
+          "euclidean_gradient_norm": 0.4656327962875366,
+          "grassmann_gradient_norm": 0.4183768033981323
+        },
+        {
+          "step": 30,
+          "train_fidelity": 0.7751369097938391,
+          "validation_fidelity": 0.7584288043770182,
+          "euclidean_gradient_norm": 0.45759013295173645,
+          "grassmann_gradient_norm": 0.4117048978805542
+        },
+        {
+          "step": 35,
+          "train_fidelity": 0.7776278366997893,
+          "validation_fidelity": 0.7585014181312811,
+          "euclidean_gradient_norm": 0.44986075162887573,
+          "grassmann_gradient_norm": 0.4052666425704956
+        },
+        {
+          "step": 40,
+          "train_fidelity": 0.780042426058825,
+          "validation_fidelity": 0.7585690201670859,
+          "euclidean_gradient_norm": 0.4424281418323517,
+          "grassmann_gradient_norm": 0.39905065298080444
+        },
+        {
+          "step": 45,
+          "train_fidelity": 0.7823844189458362,
+          "validation_fidelity": 0.7586319771668333,
+          "euclidean_gradient_norm": 0.4352770745754242,
+          "grassmann_gradient_norm": 0.3930462896823883
+        },
+        {
+          "step": 50,
+          "train_fidelity": 0.7846573071921511,
+          "validation_fidelity": 0.7586907070682523,
+          "euclidean_gradient_norm": 0.4283929467201233,
+          "grassmann_gradient_norm": 0.38724344968795776
+        },
+        {
+          "step": 55,
+          "train_fidelity": 0.7868643922930333,
+          "validation_fidelity": 0.7587454835633641,
+          "euclidean_gradient_norm": 0.42176222801208496,
+          "grassmann_gradient_norm": 0.38163265585899353
+        },
+        {
+          "step": 60,
+          "train_fidelity": 0.7890087221810196,
+          "validation_fidelity": 0.7587967465380852,
+          "euclidean_gradient_norm": 0.41537195444107056,
+          "grassmann_gradient_norm": 0.3762049674987793
+        },
+        {
+          "step": 65,
+          "train_fidelity": 0.7910932109771744,
+          "validation_fidelity": 0.7588446570438269,
+          "euclidean_gradient_norm": 0.40921005606651306,
+          "grassmann_gradient_norm": 0.37095189094543457
+        },
+        {
+          "step": 70,
+          "train_fidelity": 0.7931205594709135,
+          "validation_fidelity": 0.7588895407446334,
+          "euclidean_gradient_norm": 0.403265118598938,
+          "grassmann_gradient_norm": 0.36586540937423706
+        },
+        {
+          "step": 75,
+          "train_fidelity": 0.7950933317975661,
+          "validation_fidelity": 0.7589316216793546,
+          "euclidean_gradient_norm": 0.39752644300460815,
+          "grassmann_gradient_norm": 0.36093804240226746
+        },
+        {
+          "step": 80,
+          "train_fidelity": 0.7970139168001357,
+          "validation_fidelity": 0.7589710477863171,
+          "euclidean_gradient_norm": 0.39198386669158936,
+          "grassmann_gradient_norm": 0.3561626970767975
+        },
+        {
+          "step": 85,
+          "train_fidelity": 0.7988845982604854,
+          "validation_fidelity": 0.7590080622060691,
+          "euclidean_gradient_norm": 0.38662776350975037,
+          "grassmann_gradient_norm": 0.3515324890613556
+        },
+        {
+          "step": 90,
+          "train_fidelity": 0.8007074806898957,
+          "validation_fidelity": 0.7590428531945742,
+          "euclidean_gradient_norm": 0.3814491629600525,
+          "grassmann_gradient_norm": 0.3470411002635956
+        },
+        {
+          "step": 95,
+          "train_fidelity": 0.80248459194463,
+          "validation_fidelity": 0.7590756081046744,
+          "euclidean_gradient_norm": 0.37643951177597046,
+          "grassmann_gradient_norm": 0.34268245100975037
+        },
+        {
+          "step": 100,
+          "train_fidelity": 0.8042178305007458,
+          "validation_fidelity": 0.7591064216927399,
+          "euclidean_gradient_norm": 0.37159088253974915,
+          "grassmann_gradient_norm": 0.33845090866088867
+        }
+      ]
+    }
+  },
+  "results": {
+    "fineweb": {
+      "sites": 128,
+      "forward_pca_fidelity": 0.8043495392576522,
+      "optimized_fidelity": 0.8059541690128864
+    },
+    "wikitext": {
+      "sites": 128,
+      "forward_pca_fidelity": 0.7035506354014481,
+      "optimized_fidelity": 0.7040332212101315
+    },
+    "tinystories": {
+      "sites": 128,
+      "forward_pca_fidelity": 0.8471955385263218,
+      "optimized_fidelity": 0.847681477643774
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "experiment": "H939",
+  "modes": [
+    "native",
+    "endpoints",
+    "effects",
+    "shuffled_effects"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "steps": 1500,
+  "batch_size": 128,
+  "train_examples": 512,
+  "evaluation_examples_per_panel": 2048,
+  "teacher": "16D random orthogonal embedding of8 signal and8 nuisance coordinates. Four disjoint signal-coordinate products. Native training nuisance nearly duplicates signals; test breaks that correlation. Teacher factors/axes never supplied to optimizer. Student has4 bilinear products: known true rank is an explicit architectural prior.",
+  "objectives": "native MSE; endpoints: half native+intervened endpoint MSE; effects: native MSE + finite-effect MSE; shuffled: native MSE + permuted finite-effect targets. All same optimizer/steps/batches/initializations. Output weight penalty1e-5; normalized factors. No reconstruction objective or convex-hull constraint.",
+  "limits": "Synthetic mechanism probe, not LLM evidence. Effect/native losses use same teacher-output variance normalization; objectives differ and endpointbaseline sees same endpoint data. No claim losses are equivalent or architecture general.",
+  "next": "Compare native-vs-effect performance and true-pair recovery, then test geometric priors separately, retaining endpoint coverage control.",
+  "hashes": {
+    "runner": "557a0366a359def76734d1f1763fcb6374cf481a40cb048f0800c1abd9c4cc4a"
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "config": {
+    "status": "H267 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "train_documents": 768,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "seed": 20261211,
+    "ridge_strengths": [
+      0,
+      1e-06,
+      0.0001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "selection": "Core=first16 frozen H266 residual-Jacobian basis. For each core c, construct exact full-output residual quadratic matrix M(c) such that M(c)v=B_native(c,v)-B_compiled(c,v). Accumulate sum M(c).T M(c), project input outside core, take top24 eigenvectors. Three Gaussian QR random-complement24 controls. No test or validation basis fitting. All readout ridge choices use fixed256-document response validation, train768, no refit.",
+    "features": "Common624 linear PCs. Within32 baseline=H266 residual-Jacobian32 full528 products. Core-only=136 core16 products. Partner models=136 within-core plus384 core16*partner24 products (520 nonlinear), no partner-partner terms. Tensor/random exactly equal readout counts; within32 has8 more nonlinear features but8 fewer possible extra input reads. Coefficients fitted on full residual outputs, no oracle error at inference.",
+    "gates": {
+      "partner_specificity": "Tensor-partner selected actual fidelity exceeds EACH random control by>=.05 at BOTH scales, paired document-bootstrap95 lower bounds>0.",
+      "mixed_advantage": "Tensor-partner selected actual fidelity exceeds within32 by>=.05 at BOTH scales, paired95 lower bounds>0.",
+      "half_response": "Tensor selected actual fidelity>=.50 at BOTH scales."
+    },
+    "scope": "Exact residual quadratic tensor contraction, unlike H266 sampled Jacobian covariance. Uniform output/input weight geometry need not match exercised data. Same reused128 test docs/all heads supervised. No semantic labels or downstream replacement claim. Preserve all36 ridge fits and controls."
+  },
+  "selected": {
+    "within32": "within32_a0.1",
+    "core16": "core16_a0.1",
+    "tensor": "tensor_a0.1",
+    "random0": "random0_a0.1",
+    "random1": "random1_a0.1",
+    "random2": "random2_a0.1"
+  },
+  "audits": {
+    "within32": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.6151904115402974,
+      "max_eigenvalue": 4334.230298360638,
+      "retained_condition": 7045.347614421862,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.599402420345763e-15,
+          "training_fidelity": 0.5519533337202902
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.5678829025959e-15,
+          "training_fidelity": 0.5519533336935318
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.531725693208424e-15,
+          "training_fidelity": 0.5519530691520904
+        },
+        "0.01": {
+          "normal_relative_residual": 5.9092788110958034e-15,
+          "training_fidelity": 0.5506655829959064
+        },
+        "0.1": {
+          "normal_relative_residual": 3.875148924758136e-15,
+          "training_fidelity": 0.5301893064499674
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0446153078146504e-15,
+          "training_fidelity": 0.437871999635395
+        }
+      }
+    },
+    "core16": {
+      "rank": 760,
+      "feature_count": 760,
+      "min_eigenvalue": 0.8526714210958899,
+      "max_eigenvalue": 3457.3069591801627,
+      "retained_condition": 4054.676717951545,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.789078518774594e-15,
+          "training_fidelity": 0.456837881641205
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.671282775874626e-15,
+          "training_fidelity": 0.4568378816290527
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.61516582788391e-15,
+          "training_fidelity": 0.45683776084111416
+        },
+        "0.01": {
+          "normal_relative_residual": 6.705576535120679e-15,
+          "training_fidelity": 0.45606977435597396
+        },
+        "0.1": {
+          "normal_relative_residual": 4.711662464022535e-15,
+          "training_fidelity": 0.43923021224368064
+        },
+        "1.0": {
+          "normal_relative_residual": 3.4148641543636986e-15,
+          "training_fidelity": 0.3559362636371102
+        }
+      }
+    },
+    "tensor": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.46035423157792243,
+      "max_eigenvalue": 4840.990819763301,
+      "retained_condition": 10515.795202251518,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.107163741295883e-15,
+          "training_fidelity": 0.5525574077874348
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.114527583379704e-15,
+          "training_fidelity": 0.5525574077559827
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.082681178783199e-15,
+          "training_fidelity": 0.5525570978696321
+        },
+        "0.01": {
+          "normal_relative_residual": 5.791469751465766e-15,
+          "training_fidelity": 0.5512083439727918
+        },
+        "0.1": {
+          "normal_relative_residual": 4.094216776191529e-15,
+          "training_fidelity": 0.530189480766788
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0499587835091095e-15,
+          "training_fidelity": 0.43742389358892486
+        }
+      }
+    },
+    "random0": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.6761206384817683,
+      "max_eigenvalue": 4810.192514504813,
+      "retained_condition": 7114.399769405235,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.910682405398532e-15,
+          "training_fidelity": 0.5206177952418413
+        },
+        "1e-06": {
+          "normal_relative_residual": 9.014132842303433e-15,
+          "training_fidelity": 0.5206177952201443
+        },
+        "0.0001": {
+          "normal_relative_residual": 9.052827034184696e-15,
+          "training_fidelity": 0.5206175802646146
+        },
+        "0.01": {
+          "normal_relative_residual": 7.539565230166678e-15,
+          "training_fidelity": 0.519459862695874
+        },
+        "0.1": {
+          "normal_relative_residual": 4.9504609188469774e-15,
+          "training_fidelity": 0.49910009558542534
+        },
+        "1.0": {
+          "normal_relative_residual": 3.4248392889481116e-15,
+          "training_fidelity": 0.4085406973428427
+        }
+      }
+    },
+    "random1": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.5894650361841148,
+      "max_eigenvalue": 4452.092355736643,
+      "retained_condition": 7552.767479742542,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 9.994791023931185e-15,
+          "training_fidelity": 0.5223606745767895
+        },
+        "1e-06": {
+          "normal_relative_residual": 9.952916071436312e-15,
+          "training_fidelity": 0.5223606745534191
+        },
+        "0.0001": {
+          "normal_relative_residual": 1.0011133659568117e-14,
+          "training_fidelity": 0.5223604432879274
+        },
+        "0.01": {
+          "normal_relative_residual": 8.08034880014664e-15,
+          "training_fidelity": 0.5211763129221023
+        },
+        "0.1": {
+          "normal_relative_residual": 4.948394420126656e-15,
+          "training_fidelity": 0.5011105391424225
+        },
+        "1.0": {
+          "normal_relative_residual": 3.345709440498444e-15,
+          "training_fidelity": 0.4117235666530469
+        }
+      }
+    },
+    "random2": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.6654502220942549,
+      "max_eigenvalue": 4881.088071240112,
+      "retained_condition": 7335.016067586121,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.379127414713228e-15,
+          "training_fidelity": 0.5196872507846018
+        },
+        "1e-06": {
+          "normal_relative_residual": 8.357964592759362e-15,
+          "training_fidelity": 0.5196872507612069
+        },
+        "0.0001": {
+          "normal_relative_residual": 8.3709855429836e-15,
+          "training_fidelity": 0.5196870191181611
+        },
+        "0.01": {
+          "normal_relative_residual": 6.839693885520736e-15,
+          "training_fidelity": 0.5184728608156511
+        },
+        "0.1": {
+          "normal_relative_residual": 4.695603721201136e-15,
+          "training_fidelity": 0.4977563711072921
+        },
+        "1.0": {
+          "normal_relative_residual": 3.548804893997343e-15,
+          "training_fidelity": 0.40657634911942064
+        }
+      }
+    }
+  },
+  "validation": {
+    "within32_a0": 0.4097956418991089,
+    "within32_a1e-06": 0.40979665517807007,
+    "within32_a0.0001": 0.40989476442337036,
+    "within32_a0.01": 0.41679221391677856,
+    "within32_a0.1": 0.4308328628540039,
+    "within32_a1.0": 0.39741575717926025,
+    "core16_a0": 0.3525846600532532,
+    "core16_a1e-06": 0.3525851368904114,
+    "core16_a0.0001": 0.3526339530944824,
+    "core16_a0.01": 0.3562279939651489,
+    "core16_a0.1": 0.3618010878562927,
+    "core16_a1.0": 0.324154794216156,
+    "tensor_a0": 0.41511839628219604,
+    "tensor_a1e-06": 0.415119469165802,
+    "tensor_a0.0001": 0.41522789001464844,
+    "tensor_a0.01": 0.4226558208465576,
+    "tensor_a0.1": 0.4364793300628662,
+    "tensor_a1.0": 0.39942997694015503,
+    "random0_a0": 0.36968058347702026,
+    "random0_a1e-06": 0.3696814775466919,
+    "random0_a0.0001": 0.36976951360702515,
+    "random0_a0.01": 0.37611544132232666,
+    "random0_a0.1": 0.389434814453125,
+    "random0_a1.0": 0.36084961891174316,
+    "random1_a0": 0.3727796673774719,
+    "random1_a1e-06": 0.37278056144714355,
+    "random1_a0.0001": 0.3728681206703186,
+    "random1_a0.01": 0.3790743350982666,
+    "random1_a0.1": 0.39190441370010376,
+    "random1_a1.0": 0.3638044595718384,
+    "random2_a0": 0.36924028396606445,
+    "random2_a1e-06": 0.3692411780357361,
+    "random2_a0.0001": 0.3693300485610962,
+    "random2_a0.01": 0.37566161155700684,
+    "random2_a0.1": 0.38878482580184937,
+    "random2_a1.0": 0.3602995276451111
+  },
+  "partner_diagnostics": {
+    "tensor": {
+      "core_overlap_max": 5.122274160385132e-08,
+      "orthogonality_error": 1.1920928955078125e-07,
+      "restricted_tensor_energy_fraction": 0.1856024427036657
+    },
+    "random0": {
+      "core_overlap_max": 5.8673322200775146e-08,
+      "orthogonality_error": 3.5762786865234375e-07,
+      "restricted_tensor_energy_fraction": 0.020610889899697393
+    },
+    "random1": {
+      "core_overlap_max": 5.494803190231323e-08,
+      "orthogonality_error": 4.76837158203125e-07,
+      "restricted_tensor_energy_fraction": 0.020901540706400552
+    },
+    "random2": {
+      "core_overlap_max": 6.82193785905838e-08,
+      "orthogonality_error": 4.172325134277344e-07,
+      "restricted_tensor_energy_fraction": 0.021066954990232558
+    }
+  }
+}

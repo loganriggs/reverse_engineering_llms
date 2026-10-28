@@ -1,0 +1,49 @@
+{
+  "experiment": "H793",
+  "hashes": {
+    "captures": "67714b7262d906bc7186c5683329cf0b8abd015fd7a700190a8578bfa262abc7",
+    "reference": "60a2eab3de3622e97d11752ddb65f72eb13949f4a2211e551f22f50dd84b3bab",
+    "runner": "34228be139281ab269bc3bb15a72511743436440d3f7ee1ed3ed82ba68e6ccbe",
+    "model": "680d6c26cf05af2e9b5eaac1d52fa1c9e4ea443f60a7c74ad211740e317d6de3"
+  },
+  "layers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "positions": [
+    "first_source",
+    "second_source",
+    "query"
+  ],
+  "stages": [
+    "block_scaled_input",
+    "attn_normalized_input",
+    "attn_output",
+    "pre_mlp_residual",
+    "mlp_normalized_input",
+    "mlp_output",
+    "block_output"
+  ],
+  "design": "Replay full H792 4x4 source factorial for each item in one batch. Capture each stage at both source positions and final token. Quantify I(a,b)=z_ab-z_a0-z_0b+z_00, compare with actual joint change and native magnitude. Trace only, no interaction-removal intervention.",
+  "predictions": [
+    "First source cannot depend on the later source under causal masking.",
+    "Immediately after L1 replacements interactions vanish.",
+    "At layer2 query attention contributions from two altered sources should add, since query input is unchanged and attention has no softmax coupling. Normalization and/or subsequent MLP can create query interaction."
+  ],
+  "limitations": "Stagewise magnitude is not causal mediation or importance. Different stages have different scales; ratios need actual joint-change denominators. Reused panel; source-position causality is an architectural audit."
+}

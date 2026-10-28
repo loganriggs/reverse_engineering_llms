@@ -1,0 +1,39 @@
+{
+  "status": "hypotheses-locked-after-token-counts-before-semantic-counterfactual-analysis",
+  "source_config": "configs/bilin18_layer8_frozen_fisher_quotient.json",
+  "seed": 20261101,
+  "contexts_per_pair": 3,
+  "replacement_position_min": 96,
+  "replacement_position_max": 120,
+  "axes": 4,
+  "families": {
+    "sentiment": [[922, 2089], [3772, 6507], [3338, 4923], [1842, 5465]],
+    "gender": [[339, 673], [465, 607], [582, 2415], [2933, 2576]],
+    "tense": [[318, 373], [389, 547], [468, 550], [783, 788]],
+    "increasing_scale": [[530, 867], [1178, 1811], [1402, 1263], [717, 938]],
+    "polarity": [[1464, 1239], [460, 2314], [2081, 3991]]
+  },
+  "evaluation": {
+    "fineweb": {
+      "path": "artifacts/bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy",
+      "start": 0,
+      "rows": 20000
+    },
+    "tinystories": {
+      "path": "artifacts/bilin18_ood_corpora/tinystories_1200x129.npy",
+      "start": 0,
+      "rows": 1200
+    }
+  },
+  "hypotheses": {
+    "F1_lexical_edit_directions_recur": "Same-token-pair Layer-8 state deltas have median cosine at least 0.20 on both corpora.",
+    "F2_semantic_families_abstract_across_words": "Different lexical pairs in the same family have state-delta cosine at least 0.05 above different-family controls on both corpora.",
+    "F3_semantic_families_recurrently_reconfigure_input_sensitivity": "Same-family different-pair input-projector changes have cosine at least 0.05 above different-family controls on both corpora.",
+    "F4_semantic_families_recurrently_reconfigure_behavior": "Same-family different-pair Fisher-projector changes have cosine at least 0.05 above different-family controls on both corpora.",
+    "F5_semantic_deltas_hit_top_local_axes": "At least 5% of the semantic state-delta energy lies in the four leading local input-sensitivity axes on both corpora.",
+    "F6_final_layer8_mlp_state_mediates_semantic_edit": "Patching only the final-position Layer-8 MLP input reaches median Fisher fidelity at least 0.25 and at least 10% of full counterfactual KL on both corpora.",
+    "F7_minimal_edits_change_behavior": "The median full counterfactual next-token KL is at least 1e-4 on both corpora.",
+    "F8_local_input_operator_is_edit_stable": "Base and counterfactual rank-4 input-sensitivity subspaces overlap by at least 0.90 on both corpora.",
+    "F9_local_behavioral_operator_is_edit_stable": "Base and counterfactual rank-4 Fisher-output subspaces overlap by at least 0.75 on both corpora."
+  }
+}

@@ -1,0 +1,824 @@
+{
+  "config": {
+    "status": "H267 fixed before outcomes",
+    "discovery": "artifacts/bilin18_tensor_decomposition/bilin18_residual_scaling_documents.npy",
+    "corpus": "artifacts/bilin18_tensor_decomposition/bilin18_feature_objective_documents.npy",
+    "rows": 128,
+    "positions": [
+      31,
+      63,
+      95,
+      126
+    ],
+    "start": 0,
+    "batch_size": 8,
+    "layer": 17,
+    "train_documents": 768,
+    "heads": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "scales": [
+      0.1,
+      1.0
+    ],
+    "payloads": [
+      "actual",
+      "angle"
+    ],
+    "seed": 20261211,
+    "ridge_strengths": [
+      0,
+      1e-06,
+      0.0001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "selection": "Core=first16 frozen H266 residual-Jacobian basis. For each core c, construct exact full-output residual quadratic matrix M(c) such that M(c)v=B_native(c,v)-B_compiled(c,v). Accumulate sum M(c).T M(c), project input outside core, take top24 eigenvectors. Three Gaussian QR random-complement24 controls. No test or validation basis fitting. All readout ridge choices use fixed256-document response validation, train768, no refit.",
+    "features": "Common624 linear PCs. Within32 baseline=H266 residual-Jacobian32 full528 products. Core-only=136 core16 products. Partner models=136 within-core plus384 core16*partner24 products (520 nonlinear), no partner-partner terms. Tensor/random exactly equal readout counts; within32 has8 more nonlinear features but8 fewer possible extra input reads. Coefficients fitted on full residual outputs, no oracle error at inference.",
+    "gates": {
+      "partner_specificity": "Tensor-partner selected actual fidelity exceeds EACH random control by>=.05 at BOTH scales, paired document-bootstrap95 lower bounds>0.",
+      "mixed_advantage": "Tensor-partner selected actual fidelity exceeds within32 by>=.05 at BOTH scales, paired95 lower bounds>0.",
+      "half_response": "Tensor selected actual fidelity>=.50 at BOTH scales."
+    },
+    "scope": "Exact residual quadratic tensor contraction, unlike H266 sampled Jacobian covariance. Uniform output/input weight geometry need not match exercised data. Same reused128 test docs/all heads supervised. No semantic labels or downstream replacement claim. Preserve all36 ridge fits and controls."
+  },
+  "selected": {
+    "within32": "within32_a0.1",
+    "core16": "core16_a0.1",
+    "tensor": "tensor_a0.1",
+    "random0": "random0_a0.1",
+    "random1": "random1_a0.1",
+    "random2": "random2_a0.1"
+  },
+  "audits": {
+    "within32": {
+      "rank": 1152,
+      "feature_count": 1152,
+      "min_eigenvalue": 0.6151904115402974,
+      "max_eigenvalue": 4334.230298360638,
+      "retained_condition": 7045.347614421862,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.599402420345763e-15,
+          "training_fidelity": 0.5519533337202902
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.5678829025959e-15,
+          "training_fidelity": 0.5519533336935318
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.531725693208424e-15,
+          "training_fidelity": 0.5519530691520904
+        },
+        "0.01": {
+          "normal_relative_residual": 5.9092788110958034e-15,
+          "training_fidelity": 0.5506655829959064
+        },
+        "0.1": {
+          "normal_relative_residual": 3.875148924758136e-15,
+          "training_fidelity": 0.5301893064499674
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0446153078146504e-15,
+          "training_fidelity": 0.437871999635395
+        }
+      }
+    },
+    "core16": {
+      "rank": 760,
+      "feature_count": 760,
+      "min_eigenvalue": 0.8526714210958899,
+      "max_eigenvalue": 3457.3069591801627,
+      "retained_condition": 4054.676717951545,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.789078518774594e-15,
+          "training_fidelity": 0.456837881641205
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.671282775874626e-15,
+          "training_fidelity": 0.4568378816290527
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.61516582788391e-15,
+          "training_fidelity": 0.45683776084111416
+        },
+        "0.01": {
+          "normal_relative_residual": 6.705576535120679e-15,
+          "training_fidelity": 0.45606977435597396
+        },
+        "0.1": {
+          "normal_relative_residual": 4.711662464022535e-15,
+          "training_fidelity": 0.43923021224368064
+        },
+        "1.0": {
+          "normal_relative_residual": 3.4148641543636986e-15,
+          "training_fidelity": 0.3559362636371102
+        }
+      }
+    },
+    "tensor": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.46035423157792243,
+      "max_eigenvalue": 4840.990819763301,
+      "retained_condition": 10515.795202251518,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 7.107163741295883e-15,
+          "training_fidelity": 0.5525574077874348
+        },
+        "1e-06": {
+          "normal_relative_residual": 7.114527583379704e-15,
+          "training_fidelity": 0.5525574077559827
+        },
+        "0.0001": {
+          "normal_relative_residual": 7.082681178783199e-15,
+          "training_fidelity": 0.5525570978696321
+        },
+        "0.01": {
+          "normal_relative_residual": 5.791469751465766e-15,
+          "training_fidelity": 0.5512083439727918
+        },
+        "0.1": {
+          "normal_relative_residual": 4.094216776191529e-15,
+          "training_fidelity": 0.530189480766788
+        },
+        "1.0": {
+          "normal_relative_residual": 3.0499587835091095e-15,
+          "training_fidelity": 0.43742389358892486
+        }
+      }
+    },
+    "random0": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.6761206384817683,
+      "max_eigenvalue": 4810.192514504813,
+      "retained_condition": 7114.399769405235,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.910682405398532e-15,
+          "training_fidelity": 0.5206177952418413
+        },
+        "1e-06": {
+          "normal_relative_residual": 9.014132842303433e-15,
+          "training_fidelity": 0.5206177952201443
+        },
+        "0.0001": {
+          "normal_relative_residual": 9.052827034184696e-15,
+          "training_fidelity": 0.5206175802646146
+        },
+        "0.01": {
+          "normal_relative_residual": 7.539565230166678e-15,
+          "training_fidelity": 0.519459862695874
+        },
+        "0.1": {
+          "normal_relative_residual": 4.9504609188469774e-15,
+          "training_fidelity": 0.49910009558542534
+        },
+        "1.0": {
+          "normal_relative_residual": 3.4248392889481116e-15,
+          "training_fidelity": 0.4085406973428427
+        }
+      }
+    },
+    "random1": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.5894650361841148,
+      "max_eigenvalue": 4452.092355736643,
+      "retained_condition": 7552.767479742542,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 9.994791023931185e-15,
+          "training_fidelity": 0.5223606745767895
+        },
+        "1e-06": {
+          "normal_relative_residual": 9.952916071436312e-15,
+          "training_fidelity": 0.5223606745534191
+        },
+        "0.0001": {
+          "normal_relative_residual": 1.0011133659568117e-14,
+          "training_fidelity": 0.5223604432879274
+        },
+        "0.01": {
+          "normal_relative_residual": 8.08034880014664e-15,
+          "training_fidelity": 0.5211763129221023
+        },
+        "0.1": {
+          "normal_relative_residual": 4.948394420126656e-15,
+          "training_fidelity": 0.5011105391424225
+        },
+        "1.0": {
+          "normal_relative_residual": 3.345709440498444e-15,
+          "training_fidelity": 0.4117235666530469
+        }
+      }
+    },
+    "random2": {
+      "rank": 1144,
+      "feature_count": 1144,
+      "min_eigenvalue": 0.6654502220942549,
+      "max_eigenvalue": 4881.088071240112,
+      "retained_condition": 7335.016067586121,
+      "fits": {
+        "0": {
+          "normal_relative_residual": 8.379127414713228e-15,
+          "training_fidelity": 0.5196872507846018
+        },
+        "1e-06": {
+          "normal_relative_residual": 8.357964592759362e-15,
+          "training_fidelity": 0.5196872507612069
+        },
+        "0.0001": {
+          "normal_relative_residual": 8.3709855429836e-15,
+          "training_fidelity": 0.5196870191181611
+        },
+        "0.01": {
+          "normal_relative_residual": 6.839693885520736e-15,
+          "training_fidelity": 0.5184728608156511
+        },
+        "0.1": {
+          "normal_relative_residual": 4.695603721201136e-15,
+          "training_fidelity": 0.4977563711072921
+        },
+        "1.0": {
+          "normal_relative_residual": 3.548804893997343e-15,
+          "training_fidelity": 0.40657634911942064
+        }
+      }
+    }
+  },
+  "validation": {
+    "within32_a0": 0.4097956418991089,
+    "within32_a1e-06": 0.40979665517807007,
+    "within32_a0.0001": 0.40989476442337036,
+    "within32_a0.01": 0.41679221391677856,
+    "within32_a0.1": 0.4308328628540039,
+    "within32_a1.0": 0.39741575717926025,
+    "core16_a0": 0.3525846600532532,
+    "core16_a1e-06": 0.3525851368904114,
+    "core16_a0.0001": 0.3526339530944824,
+    "core16_a0.01": 0.3562279939651489,
+    "core16_a0.1": 0.3618010878562927,
+    "core16_a1.0": 0.324154794216156,
+    "tensor_a0": 0.41511839628219604,
+    "tensor_a1e-06": 0.415119469165802,
+    "tensor_a0.0001": 0.41522789001464844,
+    "tensor_a0.01": 0.4226558208465576,
+    "tensor_a0.1": 0.4364793300628662,
+    "tensor_a1.0": 0.39942997694015503,
+    "random0_a0": 0.36968058347702026,
+    "random0_a1e-06": 0.3696814775466919,
+    "random0_a0.0001": 0.36976951360702515,
+    "random0_a0.01": 0.37611544132232666,
+    "random0_a0.1": 0.389434814453125,
+    "random0_a1.0": 0.36084961891174316,
+    "random1_a0": 0.3727796673774719,
+    "random1_a1e-06": 0.37278056144714355,
+    "random1_a0.0001": 0.3728681206703186,
+    "random1_a0.01": 0.3790743350982666,
+    "random1_a0.1": 0.39190441370010376,
+    "random1_a1.0": 0.3638044595718384,
+    "random2_a0": 0.36924028396606445,
+    "random2_a1e-06": 0.3692411780357361,
+    "random2_a0.0001": 0.3693300485610962,
+    "random2_a0.01": 0.37566161155700684,
+    "random2_a0.1": 0.38878482580184937,
+    "random2_a1.0": 0.3602995276451111
+  },
+  "partner_diagnostics": {
+    "tensor": {
+      "core_overlap_max": 5.122274160385132e-08,
+      "orthogonality_error": 1.1920928955078125e-07,
+      "restricted_tensor_energy_fraction": 0.1856024427036657
+    },
+    "random0": {
+      "core_overlap_max": 5.8673322200775146e-08,
+      "orthogonality_error": 3.5762786865234375e-07,
+      "restricted_tensor_energy_fraction": 0.020610889899697393
+    },
+    "random1": {
+      "core_overlap_max": 5.494803190231323e-08,
+      "orthogonality_error": 4.76837158203125e-07,
+      "restricted_tensor_energy_fraction": 0.020901540706400552
+    },
+    "random2": {
+      "core_overlap_max": 6.82193785905838e-08,
+      "orthogonality_error": 4.172325134277344e-07,
+      "restricted_tensor_energy_fraction": 0.021066954990232558
+    }
+  },
+  "results": {
+    "actual_s0.1": {
+      "within32_selected": {
+        "fidelity": 0.4190077781677246,
+        "document_bootstrap95": [
+          0.39073270857334136,
+          0.44846113622188566
+        ]
+      },
+      "within32_unregularized": {
+        "fidelity": 0.39789968729019165,
+        "document_bootstrap95": [
+          0.3672793537378311,
+          0.43020799160003664
+        ]
+      },
+      "core16_selected": {
+        "fidelity": 0.3507769703865051,
+        "document_bootstrap95": [
+          0.320987394452095,
+          0.3819106206297873
+        ]
+      },
+      "core16_unregularized": {
+        "fidelity": 0.3416544795036316,
+        "document_bootstrap95": [
+          0.30896420031785965,
+          0.3772527620196342
+        ]
+      },
+      "tensor_selected": {
+        "fidelity": 0.4234240651130676,
+        "document_bootstrap95": [
+          0.39558307230472567,
+          0.45280205756425856
+        ]
+      },
+      "tensor_unregularized": {
+        "fidelity": 0.40106576681137085,
+        "document_bootstrap95": [
+          0.37068034410476686,
+          0.43297373950481416
+        ]
+      },
+      "random0_selected": {
+        "fidelity": 0.37631821632385254,
+        "document_bootstrap95": [
+          0.3468185529112816,
+          0.40695462226867674
+        ]
+      },
+      "random0_unregularized": {
+        "fidelity": 0.35722213983535767,
+        "document_bootstrap95": [
+          0.3241665422916412,
+          0.3910424545407295
+        ]
+      },
+      "random1_selected": {
+        "fidelity": 0.3805381655693054,
+        "document_bootstrap95": [
+          0.35107809603214263,
+          0.4109560519456863
+        ]
+      },
+      "random1_unregularized": {
+        "fidelity": 0.3612349033355713,
+        "document_bootstrap95": [
+          0.3287203162908554,
+          0.39480061978101727
+        ]
+      },
+      "random2_selected": {
+        "fidelity": 0.3762822151184082,
+        "document_bootstrap95": [
+          0.3464690580964088,
+          0.4075005993247032
+        ]
+      },
+      "random2_unregularized": {
+        "fidelity": 0.3565499186515808,
+        "document_bootstrap95": [
+          0.32338484525680544,
+          0.3913178250193596
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "within32_selected": {
+        "fidelity": 0.4165467619895935,
+        "document_bootstrap95": [
+          0.3869762524962425,
+          0.44713916182518004
+        ]
+      },
+      "within32_unregularized": {
+        "fidelity": 0.39611417055130005,
+        "document_bootstrap95": [
+          0.3643705785274506,
+          0.42867377847433086
+        ]
+      },
+      "core16_selected": {
+        "fidelity": 0.3501330018043518,
+        "document_bootstrap95": [
+          0.3199054151773453,
+          0.3819132775068283
+        ]
+      },
+      "core16_unregularized": {
+        "fidelity": 0.34204792976379395,
+        "document_bootstrap95": [
+          0.30848396122455596,
+          0.37758362889289854
+        ]
+      },
+      "tensor_selected": {
+        "fidelity": 0.42323750257492065,
+        "document_bootstrap95": [
+          0.39361305683851244,
+          0.45385240763425827
+        ]
+      },
+      "tensor_unregularized": {
+        "fidelity": 0.4012419581413269,
+        "document_bootstrap95": [
+          0.36985978931188584,
+          0.4335916042327881
+        ]
+      },
+      "random0_selected": {
+        "fidelity": 0.3760920763015747,
+        "document_bootstrap95": [
+          0.3456441879272461,
+          0.4072960302233696
+        ]
+      },
+      "random0_unregularized": {
+        "fidelity": 0.3573222756385803,
+        "document_bootstrap95": [
+          0.32368028461933135,
+          0.3921322643756866
+        ]
+      },
+      "random1_selected": {
+        "fidelity": 0.3805626630783081,
+        "document_bootstrap95": [
+          0.3499846771359444,
+          0.4118431448936462
+        ]
+      },
+      "random1_unregularized": {
+        "fidelity": 0.3615756630897522,
+        "document_bootstrap95": [
+          0.32851832658052443,
+          0.396159216761589
+        ]
+      },
+      "random2_selected": {
+        "fidelity": 0.37648624181747437,
+        "document_bootstrap95": [
+          0.34582491815090177,
+          0.4083425894379616
+        ]
+      },
+      "random2_unregularized": {
+        "fidelity": 0.35698312520980835,
+        "document_bootstrap95": [
+          0.32362711876630784,
+          0.39224212765693667
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "within32_selected": {
+        "fidelity": 0.06283384561538696,
+        "document_bootstrap95": [
+          0.045232103765010835,
+          0.080127514898777
+        ]
+      },
+      "within32_unregularized": {
+        "fidelity": -0.1101386547088623,
+        "document_bootstrap95": [
+          -0.1320352166891098,
+          -0.0886279195547104
+        ]
+      },
+      "core16_selected": {
+        "fidelity": -0.03133678436279297,
+        "document_bootstrap95": [
+          -0.05185778141021728,
+          -0.010527113080024735
+        ]
+      },
+      "core16_unregularized": {
+        "fidelity": -0.20148181915283203,
+        "document_bootstrap95": [
+          -0.2285821855068207,
+          -0.17471577525138862
+        ]
+      },
+      "tensor_selected": {
+        "fidelity": 0.08983033895492554,
+        "document_bootstrap95": [
+          0.07282037287950516,
+          0.10752159059047697
+        ]
+      },
+      "tensor_unregularized": {
+        "fidelity": -0.08193492889404297,
+        "document_bootstrap95": [
+          -0.1011386752128601,
+          -0.06175135672092438
+        ]
+      },
+      "random0_selected": {
+        "fidelity": 0.01785069704055786,
+        "document_bootstrap95": [
+          0.00014341771602630627,
+          0.03497678637504577
+        ]
+      },
+      "random0_unregularized": {
+        "fidelity": -0.1693512201309204,
+        "document_bootstrap95": [
+          -0.19328761398792266,
+          -0.1458126932382584
+        ]
+      },
+      "random1_selected": {
+        "fidelity": 0.01827073097229004,
+        "document_bootstrap95": [
+          0.0006571978330612183,
+          0.036186265945434566
+        ]
+      },
+      "random1_unregularized": {
+        "fidelity": -0.171409010887146,
+        "document_bootstrap95": [
+          -0.19602789282798766,
+          -0.1475138068199158
+        ]
+      },
+      "random2_selected": {
+        "fidelity": 0.0111236572265625,
+        "document_bootstrap95": [
+          -0.006641578674316406,
+          0.03011350035667419
+        ]
+      },
+      "random2_unregularized": {
+        "fidelity": -0.18499934673309326,
+        "document_bootstrap95": [
+          -0.2081386148929596,
+          -0.16019900739192963
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "within32_selected": {
+        "fidelity": 0.06893199682235718,
+        "document_bootstrap95": [
+          0.05084536373615265,
+          0.08740689456462859
+        ]
+      },
+      "within32_unregularized": {
+        "fidelity": -0.09897708892822266,
+        "document_bootstrap95": [
+          -0.12118657827377319,
+          -0.07632461786270146
+        ]
+      },
+      "core16_selected": {
+        "fidelity": -0.020113348960876465,
+        "document_bootstrap95": [
+          -0.04150683581829071,
+          0.002258653938770288
+        ]
+      },
+      "core16_unregularized": {
+        "fidelity": -0.1846400499343872,
+        "document_bootstrap95": [
+          -0.21290132403373718,
+          -0.15463533103466034
+        ]
+      },
+      "tensor_selected": {
+        "fidelity": 0.0993686318397522,
+        "document_bootstrap95": [
+          0.08192770034074784,
+          0.11832373440265655
+        ]
+      },
+      "tensor_unregularized": {
+        "fidelity": -0.06757795810699463,
+        "document_bootstrap95": [
+          -0.08788483142852783,
+          -0.04514577090740205
+        ]
+      },
+      "random0_selected": {
+        "fidelity": 0.026384413242340088,
+        "document_bootstrap95": [
+          0.007566359639167786,
+          0.04511707127094269
+        ]
+      },
+      "random0_unregularized": {
+        "fidelity": -0.15610074996948242,
+        "document_bootstrap95": [
+          -0.18164491057395935,
+          -0.13033545911312105
+        ]
+      },
+      "random1_selected": {
+        "fidelity": 0.026528596878051758,
+        "document_bootstrap95": [
+          0.008980496227741242,
+          0.04596256017684936
+        ]
+      },
+      "random1_unregularized": {
+        "fidelity": -0.1586364507675171,
+        "document_bootstrap95": [
+          -0.18466826975345613,
+          -0.1322015315294266
+        ]
+      },
+      "random2_selected": {
+        "fidelity": 0.01936793327331543,
+        "document_bootstrap95": [
+          0.0011011034250259402,
+          0.04074707329273223
+        ]
+      },
+      "random2_unregularized": {
+        "fidelity": -0.1722201108932495,
+        "document_bootstrap95": [
+          -0.19712502360343934,
+          -0.14567764699459076
+        ]
+      }
+    }
+  },
+  "contrasts": {
+    "actual_s0.1": {
+      "within32": {
+        "tensor_gain": 0.004416223615407944,
+        "paired_document_bootstrap95": [
+          0.0004209494276437909,
+          0.007786572969052936
+        ]
+      },
+      "core16": {
+        "tensor_gain": 0.07264702022075653,
+        "paired_document_bootstrap95": [
+          0.06841758098453284,
+          0.0770089553669095
+        ]
+      },
+      "random0": {
+        "tensor_gain": 0.047105807811021805,
+        "paired_document_bootstrap95": [
+          0.04390670219436288,
+          0.050358391180634496
+        ]
+      },
+      "random1": {
+        "tensor_gain": 0.042885832488536835,
+        "paired_document_bootstrap95": [
+          0.039767336845397946,
+          0.04618405709043145
+        ]
+      },
+      "random2": {
+        "tensor_gain": 0.04714186117053032,
+        "paired_document_bootstrap95": [
+          0.0434862001799047,
+          0.05046224240213632
+        ]
+      }
+    },
+    "actual_s1.0": {
+      "within32": {
+        "tensor_gain": 0.006690671667456627,
+        "paired_document_bootstrap95": [
+          0.003313555405475199,
+          0.009639401012100278
+        ]
+      },
+      "core16": {
+        "tensor_gain": 0.07310450822114944,
+        "paired_document_bootstrap95": [
+          0.06866514068096877,
+          0.0778547279536724
+        ]
+      },
+      "random0": {
+        "tensor_gain": 0.04714535176753998,
+        "paired_document_bootstrap95": [
+          0.04396406868472695,
+          0.050601827818900345
+        ]
+      },
+      "random1": {
+        "tensor_gain": 0.04267480596899986,
+        "paired_document_bootstrap95": [
+          0.0395616945810616,
+          0.045961481705307956
+        ]
+      },
+      "random2": {
+        "tensor_gain": 0.046751245856285095,
+        "paired_document_bootstrap95": [
+          0.043489533569663764,
+          0.04987087324261665
+        ]
+      }
+    },
+    "angle_s0.1": {
+      "within32": {
+        "tensor_gain": 0.026996511965990067,
+        "paired_document_bootstrap95": [
+          0.018904335191473366,
+          0.0350137229077518
+        ]
+      },
+      "core16": {
+        "tensor_gain": 0.12116710841655731,
+        "paired_document_bootstrap95": [
+          0.10397271160036325,
+          0.13933435082435608
+        ]
+      },
+      "random0": {
+        "tensor_gain": 0.07197975367307663,
+        "paired_document_bootstrap95": [
+          0.0614867540076375,
+          0.08333545438945293
+        ]
+      },
+      "random1": {
+        "tensor_gain": 0.07155963778495789,
+        "paired_document_bootstrap95": [
+          0.06416883468627929,
+          0.0792447030544281
+        ]
+      },
+      "random2": {
+        "tensor_gain": 0.07870663702487946,
+        "paired_document_bootstrap95": [
+          0.07076886761933565,
+          0.08711828645318746
+        ]
+      }
+    },
+    "angle_s1.0": {
+      "within32": {
+        "tensor_gain": 0.030436718836426735,
+        "paired_document_bootstrap95": [
+          0.02284345719963312,
+          0.03798816874623299
+        ]
+      },
+      "core16": {
+        "tensor_gain": 0.11948204785585403,
+        "paired_document_bootstrap95": [
+          0.102107697352767,
+          0.13791069276630877
+        ]
+      },
+      "random0": {
+        "tensor_gain": 0.07298434525728226,
+        "paired_document_bootstrap95": [
+          0.06111075421795249,
+          0.08571410737931728
+        ]
+      },
+      "random1": {
+        "tensor_gain": 0.07284004986286163,
+        "paired_document_bootstrap95": [
+          0.06481200791895389,
+          0.08138374425470828
+        ]
+      },
+      "random2": {
+        "tensor_gain": 0.08000072836875916,
+        "paired_document_bootstrap95": [
+          0.07040070183575153,
+          0.0894867304712534
+        ]
+      }
+    }
+  },
+  "gates": {
+    "partner_specificity": false,
+    "mixed_advantage": false,
+    "half_response": false
+  },
+  "head_replay": 4.217769751555023e-07
+}

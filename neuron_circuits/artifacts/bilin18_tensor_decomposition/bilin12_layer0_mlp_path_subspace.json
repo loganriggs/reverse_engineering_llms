@@ -1,0 +1,482 @@
+{
+  "config": {
+    "status": "locked-after-native-channel-diffuseness-before-path-subspace-audit",
+    "source_config": "configs/bilin12_semantic_source_jvp_predictor.json",
+    "source_output": "artifacts/bilin18_tensor_decomposition/bilin12_semantic_source_jvp_predictor.json",
+    "family": "gender",
+    "anomalous_pair": "465->607",
+    "dense_points": 129,
+    "ranks": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64
+    ],
+    "hypotheses": {
+      "S1_each_anomalous_mlp_path_is_low_dimensional": "At most 16 output-space singular vectors explain 90% of each his-to-her MLP derivative trajectory.",
+      "S2_native_channel_coefficients_follow_few_path_modes": "At most 16 coefficient-space singular vectors explain 90% of each his-to-her post-product derivative trajectory.",
+      "S3_the_joint_anomalous_pair_has_a_compact_subspace": "At most 32 output directions explain 90% of the combined FineWeb and TinyStories his-to-her trajectories.",
+      "S4_the_path_subspace_transfers_across_corpora": "A rank-16 basis fit on either corpus reconstructs at least 75% of the other corpus's his-to-her trajectory energy.",
+      "S5_cross_corpus_subspaces_are_aligned": "The mean squared canonical correlation between the two rank-16 his-to-her subspaces is at least 0.25.",
+      "S6_the_subspace_is_edit_specific_not_a_generic_gender_basis": "Mean rank-16 transfer from his-to-her into other gender edits is at least 0.20 below cross-corpus his-to-her transfer.",
+      "S7_sixteen_canonical_directions_beat_sixtyfour_native_channels": "Rank-16 path-subspace fidelity exceeds the prior top-64 native-channel fidelity in both anomalous contexts.",
+      "S8_the_finite_mlp_change_lies_in_the_path_subspace": "Each anomalous finite MLP change has at least 0.95 squared-norm fidelity in its path's top-8 output subspace.",
+      "S9_sharpness_does_not_require_higher_path_rank": "The anomalous median output rank-to-90% is no greater than the matched-control median.",
+      "S10_gender_paths_share_a_moderately_compact_joint_subspace": "At most 64 directions explain 90% of all eight gender-edit MLP derivative trajectories jointly."
+    }
+  },
+  "hypotheses": {
+    "S1_each_anomalous_mlp_path_is_low_dimensional": {
+      "supported": true,
+      "ranks": {
+        "fineweb": 4,
+        "tinystories": 3
+      }
+    },
+    "S2_native_channel_coefficients_follow_few_path_modes": {
+      "supported": true,
+      "ranks": {
+        "fineweb": 4,
+        "tinystories": 4
+      }
+    },
+    "S3_the_joint_anomalous_pair_has_a_compact_subspace": {
+      "supported": true,
+      "rank90": 7
+    },
+    "S4_the_path_subspace_transfers_across_corpora": {
+      "supported": false,
+      "fidelities": {
+        "fineweb_to_tinystories": 0.5766260027885437,
+        "tinystories_to_fineweb": 0.4154815077781677
+      }
+    },
+    "S5_cross_corpus_subspaces_are_aligned": {
+      "supported": true,
+      "mean_squared_canonical_correlation": 0.3126506805419922
+    },
+    "S6_the_subspace_is_edit_specific_not_a_generic_gender_basis": {
+      "supported": true,
+      "within_pair": 0.4960537552833557,
+      "other_pairs": 0.24882683157920837,
+      "gap": 0.24722692370414734
+    },
+    "S7_sixteen_canonical_directions_beat_sixtyfour_native_channels": {
+      "supported": true,
+      "rank16": {
+        "fineweb": 0.999998927116394,
+        "tinystories": 0.999998927116394
+      },
+      "native64": {
+        "fineweb": 0.5253434181213379,
+        "tinystories": 0.7462155222892761
+      }
+    },
+    "S8_the_finite_mlp_change_lies_in_the_path_subspace": {
+      "supported": true,
+      "fidelities": {
+        "fineweb": 0.999777615070343,
+        "tinystories": 0.9999824166297913
+      }
+    },
+    "S9_sharpness_does_not_require_higher_path_rank": {
+      "supported": false,
+      "anomaly_median": 3.5,
+      "control_median": 1.5
+    },
+    "S10_gender_paths_share_a_moderately_compact_joint_subspace": {
+      "supported": true,
+      "rank90": 8
+    }
+  },
+  "records": [
+    {
+      "corpus": "fineweb",
+      "pair": "339->673",
+      "output": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8685186505317688,
+          "2": 0.9948531985282898,
+          "4": 0.9999977946281433,
+          "8": 1.0000001192092896,
+          "16": 1.0000001192092896,
+          "32": 1.0000001192092896,
+          "64": 1.0000001192092896
+        }
+      },
+      "coefficient": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8417818546295166,
+          "2": 0.9921912550926208,
+          "4": 0.9999958276748657,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.9993189573287964,
+        "2": 0.9999999403953552,
+        "4": 1.0,
+        "8": 1.0,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "fineweb",
+      "pair": "465->607",
+      "output": {
+        "rank90": 4,
+        "rank99": 7,
+        "fidelity": {
+          "1": 0.5447577238082886,
+          "2": 0.7045944333076477,
+          "4": 0.9058706760406494,
+          "8": 0.9964786767959595,
+          "16": 0.999998927116394,
+          "32": 0.9999998807907104,
+          "64": 0.9999998807907104
+        }
+      },
+      "coefficient": {
+        "rank90": 4,
+        "rank99": 8,
+        "fidelity": {
+          "1": 0.49057552218437195,
+          "2": 0.694830596446991,
+          "4": 0.9122306108474731,
+          "8": 0.9958467483520508,
+          "16": 0.9999988079071045,
+          "32": 0.9999999403953552,
+          "64": 0.9999999403953552
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.022462069988250732,
+        "2": 0.05328845977783203,
+        "4": 0.21998649835586548,
+        "8": 0.999777615070343,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "fineweb",
+      "pair": "582->2415",
+      "output": {
+        "rank90": 1,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.9119300246238708,
+          "2": 0.9971446394920349,
+          "4": 0.9999978542327881,
+          "8": 1.0000001192092896,
+          "16": 1.0000001192092896,
+          "32": 1.0000001192092896,
+          "64": 1.0000001192092896
+        }
+      },
+      "coefficient": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8813932538032532,
+          "2": 0.9952967762947083,
+          "4": 0.9999964833259583,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.9996987581253052,
+        "2": 0.9999977946281433,
+        "4": 1.0,
+        "8": 1.0,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "fineweb",
+      "pair": "2933->2576",
+      "output": {
+        "rank90": 1,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.9183345437049866,
+          "2": 0.9973638653755188,
+          "4": 0.9999990463256836,
+          "8": 1.0000001192092896,
+          "16": 1.0000001192092896,
+          "32": 1.0000001192092896,
+          "64": 1.0000001192092896
+        }
+      },
+      "coefficient": {
+        "rank90": 1,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.9017630219459534,
+          "2": 0.9963753819465637,
+          "4": 0.9999985098838806,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.9999932050704956,
+        "2": 0.9999979734420776,
+        "4": 1.0,
+        "8": 1.0,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "tinystories",
+      "pair": "339->673",
+      "output": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8931427001953125,
+          "2": 0.9928353428840637,
+          "4": 0.9999973177909851,
+          "8": 0.9999999403953552,
+          "16": 0.9999999403953552,
+          "32": 0.9999999403953552,
+          "64": 0.9999999403953552
+        }
+      },
+      "coefficient": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8680605292320251,
+          "2": 0.9901672601699829,
+          "4": 0.9999958276748657,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.9999129772186279,
+        "2": 0.9999929070472717,
+        "4": 1.0,
+        "8": 1.0,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "tinystories",
+      "pair": "465->607",
+      "output": {
+        "rank90": 3,
+        "rank99": 7,
+        "fidelity": {
+          "1": 0.7102928161621094,
+          "2": 0.840462327003479,
+          "4": 0.9497296810150146,
+          "8": 0.997011661529541,
+          "16": 0.999998927116394,
+          "32": 0.9999997615814209,
+          "64": 0.9999997615814209
+        }
+      },
+      "coefficient": {
+        "rank90": 4,
+        "rank99": 8,
+        "fidelity": {
+          "1": 0.54588383436203,
+          "2": 0.7717394828796387,
+          "4": 0.9233058094978333,
+          "8": 0.9956359267234802,
+          "16": 0.9999985098838806,
+          "32": 0.9999998211860657,
+          "64": 0.9999998211860657
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.010076582431793213,
+        "2": 0.10988068580627441,
+        "4": 0.9899417757987976,
+        "8": 0.9999824166297913,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "tinystories",
+      "pair": "582->2415",
+      "output": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8997270464897156,
+          "2": 0.9965229034423828,
+          "4": 0.9999956488609314,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "coefficient": {
+        "rank90": 2,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.8747297525405884,
+          "2": 0.9946195483207703,
+          "4": 0.9999933838844299,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.9997988939285278,
+        "2": 0.9999959468841553,
+        "4": 1.0,
+        "8": 1.0,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    },
+    {
+      "corpus": "tinystories",
+      "pair": "2933->2576",
+      "output": {
+        "rank90": 1,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.9275447726249695,
+          "2": 0.9978275895118713,
+          "4": 0.9999991059303284,
+          "8": 0.9999998807907104,
+          "16": 0.9999998807907104,
+          "32": 0.9999998807907104,
+          "64": 0.9999998807907104
+        }
+      },
+      "coefficient": {
+        "rank90": 1,
+        "rank99": 2,
+        "fidelity": {
+          "1": 0.911013126373291,
+          "2": 0.9969695210456848,
+          "4": 0.9999986290931702,
+          "8": 1.0,
+          "16": 1.0,
+          "32": 1.0,
+          "64": 1.0
+        }
+      },
+      "finite_mlp_fidelity": {
+        "1": 0.9999814629554749,
+        "2": 0.9999983906745911,
+        "4": 1.0,
+        "8": 1.0,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    }
+  ],
+  "joint_by_pair": {
+    "2933->2576": {
+      "rank90": 2,
+      "rank99": 3,
+      "fidelity": {
+        "1": 0.8592203855514526,
+        "2": 0.9301299452781677,
+        "4": 0.9977291226387024,
+        "8": 0.9999991655349731,
+        "16": 1.0000001192092896,
+        "32": 1.0000001192092896,
+        "64": 1.0000001192092896
+      }
+    },
+    "339->673": {
+      "rank90": 2,
+      "rank99": 4,
+      "fidelity": {
+        "1": 0.8154366612434387,
+        "2": 0.9343090057373047,
+        "4": 0.9956105351448059,
+        "8": 0.9999982714653015,
+        "16": 0.9999999403953552,
+        "32": 0.9999999403953552,
+        "64": 0.9999999403953552
+      }
+    },
+    "465->607": {
+      "rank90": 7,
+      "rank99": 13,
+      "fidelity": {
+        "1": 0.5338249206542969,
+        "2": 0.6521602869033813,
+        "4": 0.802578330039978,
+        "8": 0.9555317759513855,
+        "16": 0.9973954558372498,
+        "32": 0.9999991059303284,
+        "64": 0.9999997615814209
+      }
+    },
+    "582->2415": {
+      "rank90": 2,
+      "rank99": 3,
+      "fidelity": {
+        "1": 0.8353036642074585,
+        "2": 0.9205663800239563,
+        "4": 0.996949315071106,
+        "8": 0.9999969005584717,
+        "16": 1.0,
+        "32": 1.0,
+        "64": 1.0
+      }
+    }
+  },
+  "all_gender": {
+    "rank90": 8,
+    "rank99": 20,
+    "fidelity": {
+      "1": 0.4894123077392578,
+      "2": 0.5979660153388977,
+      "4": 0.7482045888900757,
+      "8": 0.9092790484428406,
+      "16": 0.9817221164703369,
+      "32": 0.9993599057197571,
+      "64": 0.9999998807907104
+    }
+  },
+  "cross_corpus": {
+    "fineweb_to_tinystories": 0.5766260027885437,
+    "tinystories_to_fineweb": 0.4154815077781677
+  },
+  "cross_pair_transfer": 0.24882683157920837,
+  "anomaly_alignment": 0.3126506805419922
+}

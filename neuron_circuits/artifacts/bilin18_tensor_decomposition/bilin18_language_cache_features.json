@@ -1,0 +1,5204 @@
+{
+  "config": {
+    "experiment": "H1020",
+    "port": "First-layer cached attention values at source-country position;9headslots x128coordinates, repeatedly mixed into suffix attentions",
+    "training": "Eight discovery gradients; four independent opposite-country pairs; no evaluation gradients",
+    "bases": "gradient4/8; discovery delta PCA4 after numerical rank check; weight output singular vectors4/8/32 from c_v layer0; seeded random4/8; nine native cached head-slot groups128coords each",
+    "target": "Native cache-only port swap, sourceposition; residual and x0remain recipient. Headslot is reused across suffix layers, not a particular layer/head attribution.",
+    "scope": "Historical evaluation; task/output vocabulary transfer; no semantic feature adoption, manifold claim or head-versus-rank dimension-equivalence claim."
+  },
+  "summary": [
+    {
+      "cohort": "discovery",
+      "arm": "full",
+      "relative_l2": 0.0,
+      "aligned_recovery": 1.0,
+      "mean_energy_fraction": 1.0
+    },
+    {
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "relative_l2": 0.10937539870576964,
+      "aligned_recovery": 0.8982151902151554,
+      "mean_energy_fraction": 0.19551425096923555
+    },
+    {
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "relative_l2": 0.09444032700504713,
+      "aligned_recovery": 0.9102893790237746,
+      "mean_energy_fraction": 0.2090594404774836
+    },
+    {
+      "cohort": "discovery",
+      "arm": "source4",
+      "relative_l2": 0.0,
+      "aligned_recovery": 1.0,
+      "mean_energy_fraction": 0.9999999999999993
+    },
+    {
+      "cohort": "discovery",
+      "arm": "weight4",
+      "relative_l2": 0.9805472318088966,
+      "aligned_recovery": 0.01975887704876958,
+      "mean_energy_fraction": 0.03499079480881215
+    },
+    {
+      "cohort": "discovery",
+      "arm": "weight8",
+      "relative_l2": 0.9745895761694222,
+      "aligned_recovery": 0.025599789092496435,
+      "mean_energy_fraction": 0.04580501987735193
+    },
+    {
+      "cohort": "discovery",
+      "arm": "weight32",
+      "relative_l2": 0.8788718571195436,
+      "aligned_recovery": 0.12174147790887653,
+      "mean_energy_fraction": 0.1741198510256133
+    },
+    {
+      "cohort": "discovery",
+      "arm": "random4",
+      "relative_l2": 0.9962011011645403,
+      "aligned_recovery": 0.0038015102975418207,
+      "mean_energy_fraction": 0.004534283205332654
+    },
+    {
+      "cohort": "discovery",
+      "arm": "random8",
+      "relative_l2": 0.9954136330209508,
+      "aligned_recovery": 0.004588298407282983,
+      "mean_energy_fraction": 0.006344085754392489
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "relative_l2": 0.2042297907532943,
+      "aligned_recovery": 0.7978632343880732,
+      "mean_energy_fraction": 0.24569524166578144
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "relative_l2": 1.004504413036608,
+      "aligned_recovery": -0.004496548423795929,
+      "mean_energy_fraction": 0.03378175096732895
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "relative_l2": 1.00060273406705,
+      "aligned_recovery": -0.0006020519821362577,
+      "mean_energy_fraction": 0.038121255143088104
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "relative_l2": 0.9549411805271999,
+      "aligned_recovery": 0.04513535856027517,
+      "mean_energy_fraction": 0.2838004955704262
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "relative_l2": 0.9540433725840954,
+      "aligned_recovery": 0.04639105036198161,
+      "mean_energy_fraction": 0.277081999459291
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "relative_l2": 0.9673299770059632,
+      "aligned_recovery": 0.032808631460063326,
+      "mean_energy_fraction": 0.032408693558326554
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "relative_l2": 0.9751284101305069,
+      "aligned_recovery": 0.02493614211575417,
+      "mean_energy_fraction": 0.03779188747769643
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "relative_l2": 1.0057845889452472,
+      "aligned_recovery": -0.0057766051433052875,
+      "mean_energy_fraction": 0.021954487513097438
+    },
+    {
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "relative_l2": 1.000490180280349,
+      "aligned_recovery": -0.0004899057679878951,
+      "mean_energy_fraction": 0.029364188644964276
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "full",
+      "relative_l2": 0.0,
+      "aligned_recovery": 1.0,
+      "mean_energy_fraction": 1.0
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "relative_l2": 0.9108575300940541,
+      "aligned_recovery": 0.09068034565396678,
+      "mean_energy_fraction": 0.018324704128121573
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "relative_l2": 0.8924125084839168,
+      "aligned_recovery": 0.10907292480396388,
+      "mean_energy_fraction": 0.024341842997396716
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "relative_l2": 0.9704663868522195,
+      "aligned_recovery": 0.029834691684769755,
+      "mean_energy_fraction": 0.015356777045406441
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "relative_l2": 0.9922857104966339,
+      "aligned_recovery": 0.007721528321024857,
+      "mean_energy_fraction": 0.015282335747199819
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "relative_l2": 0.9678129511650674,
+      "aligned_recovery": 0.032254320697683796,
+      "mean_energy_fraction": 0.05753118234347334
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "relative_l2": 0.8413272577118124,
+      "aligned_recovery": 0.1591347182123637,
+      "mean_energy_fraction": 0.2168039528243768
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "relative_l2": 0.9957639373679019,
+      "aligned_recovery": 0.004239937107466541,
+      "mean_energy_fraction": 0.003037961599713021
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "relative_l2": 0.9928455550077152,
+      "aligned_recovery": 0.007158207826391799,
+      "mean_energy_fraction": 0.006625832190673682
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "relative_l2": 0.3430774862228305,
+      "aligned_recovery": 0.6599969975367201,
+      "mean_energy_fraction": 0.1998405352472486
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "relative_l2": 0.9994957730614312,
+      "aligned_recovery": 0.000508934237108821,
+      "mean_energy_fraction": 0.03206876460745618
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "relative_l2": 1.000033492952105,
+      "aligned_recovery": -3.251995403364964e-05,
+      "mean_energy_fraction": 0.023607826214256236
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "relative_l2": 0.9640360552891805,
+      "aligned_recovery": 0.035991369140890773,
+      "mean_energy_fraction": 0.3133661477531208
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "relative_l2": 0.8331661436797643,
+      "aligned_recovery": 0.16786849556185598,
+      "mean_energy_fraction": 0.27426158499173126
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "relative_l2": 0.9452458640288891,
+      "aligned_recovery": 0.054775426370752604,
+      "mean_energy_fraction": 0.040032219328873006
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "relative_l2": 0.9527485553991945,
+      "aligned_recovery": 0.04733463183138952,
+      "mean_energy_fraction": 0.05499325507987313
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "relative_l2": 1.0066722183550203,
+      "aligned_recovery": -0.006668948575247736,
+      "mean_energy_fraction": 0.026240002375559547
+    },
+    {
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "relative_l2": 0.999159178774537,
+      "aligned_recovery": 0.0008414677015230446,
+      "mean_energy_fraction": 0.03558966440188165
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "full",
+      "relative_l2": 0.0,
+      "aligned_recovery": 1.0,
+      "mean_energy_fraction": 1.0
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "relative_l2": 0.9156470398517147,
+      "aligned_recovery": 0.08586630371299236,
+      "mean_energy_fraction": 0.018324704128121573
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "relative_l2": 0.8971380208820946,
+      "aligned_recovery": 0.10437219628365853,
+      "mean_energy_fraction": 0.024341842997396716
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "relative_l2": 0.9716506056530629,
+      "aligned_recovery": 0.028656052814061698,
+      "mean_energy_fraction": 0.015356777045406441
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "relative_l2": 0.9931141603742111,
+      "aligned_recovery": 0.006895047771515628,
+      "mean_energy_fraction": 0.015282335747199819
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "relative_l2": 0.9670755003749677,
+      "aligned_recovery": 0.03299463964339018,
+      "mean_energy_fraction": 0.05753118234347334
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "relative_l2": 0.8380618912564031,
+      "aligned_recovery": 0.16236834293544436,
+      "mean_energy_fraction": 0.2168039528243768
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "relative_l2": 0.996366983359903,
+      "aligned_recovery": 0.003636108750295616,
+      "mean_energy_fraction": 0.003037961599713021
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "relative_l2": 0.9933757403375838,
+      "aligned_recovery": 0.006628029699396116,
+      "mean_energy_fraction": 0.006625832190673682
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "relative_l2": 0.33163650520761195,
+      "aligned_recovery": 0.6721624323551337,
+      "mean_energy_fraction": 0.1998405352472486
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "relative_l2": 0.999850654071022,
+      "aligned_recovery": 0.00015537515963398775,
+      "mean_energy_fraction": 0.03206876460745618
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "relative_l2": 1.0000043526402045,
+      "aligned_recovery": -3.1111089919544434e-06,
+      "mean_energy_fraction": 0.023607826214256236
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "relative_l2": 0.9650138380245011,
+      "aligned_recovery": 0.034996295237824625,
+      "mean_energy_fraction": 0.3133661477531208
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "relative_l2": 0.8465401091644005,
+      "aligned_recovery": 0.15442836432421625,
+      "mean_energy_fraction": 0.27426158499173126
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "relative_l2": 0.9381541034749047,
+      "aligned_recovery": 0.06188714763062251,
+      "mean_energy_fraction": 0.040032219328873006
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "relative_l2": 0.9667506888067692,
+      "aligned_recovery": 0.0332883540744659,
+      "mean_energy_fraction": 0.05499325507987313
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "relative_l2": 1.0085638744971368,
+      "aligned_recovery": -0.008558614458997445,
+      "mean_energy_fraction": 0.026240002375559547
+    },
+    {
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "relative_l2": 0.9991891068483748,
+      "aligned_recovery": 0.0008115336960670072,
+      "mean_energy_fraction": 0.03558966440188165
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "full",
+      "relative_l2": 0.0,
+      "aligned_recovery": 1.0,
+      "mean_energy_fraction": 1.0
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "relative_l2": 0.10232998098243277,
+      "aligned_recovery": 0.9096644971924884,
+      "mean_energy_fraction": 0.19551425096923555
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "relative_l2": 0.08678499010001121,
+      "aligned_recovery": 0.9216399452360239,
+      "mean_energy_fraction": 0.2090594404774836
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "relative_l2": 0.0,
+      "aligned_recovery": 1.0,
+      "mean_energy_fraction": 0.9999999999999993
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "relative_l2": 0.980440630388464,
+      "aligned_recovery": 0.01986031967261784,
+      "mean_energy_fraction": 0.03499079480881215
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "relative_l2": 0.9747276502942178,
+      "aligned_recovery": 0.025469151390846427,
+      "mean_energy_fraction": 0.04580501987735193
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "relative_l2": 0.8815303420969255,
+      "aligned_recovery": 0.11911536239147646,
+      "mean_energy_fraction": 0.1741198510256133
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "relative_l2": 0.9964002154007062,
+      "aligned_recovery": 0.0036020873249752185,
+      "mean_energy_fraction": 0.004534283205332654
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "relative_l2": 0.9956617456717886,
+      "aligned_recovery": 0.00433982531303867,
+      "mean_energy_fraction": 0.006344085754392489
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "relative_l2": 0.20134054162018772,
+      "aligned_recovery": 0.8012839491537139,
+      "mean_energy_fraction": 0.24569524166578144
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "relative_l2": 1.0051600422129927,
+      "aligned_recovery": -0.005152070792827363,
+      "mean_energy_fraction": 0.03378175096732895
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "relative_l2": 1.000740751095349,
+      "aligned_recovery": -0.000739980266762227,
+      "mean_energy_fraction": 0.038121255143088104
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "relative_l2": 0.9566889057789421,
+      "aligned_recovery": 0.04340045623440909,
+      "mean_energy_fraction": 0.2838004955704262
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "relative_l2": 0.9689065365782804,
+      "aligned_recovery": 0.03151722907525127,
+      "mean_energy_fraction": 0.277081999459291
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "relative_l2": 0.9605848569908927,
+      "aligned_recovery": 0.03960420785465616,
+      "mean_energy_fraction": 0.032408693558326554
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "relative_l2": 0.9843968232422945,
+      "aligned_recovery": 0.015641994931489323,
+      "mean_energy_fraction": 0.03779188747769643
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "relative_l2": 1.0069861357451937,
+      "aligned_recovery": -0.006972144222536144,
+      "mean_energy_fraction": 0.021954487513097438
+    },
+    {
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "relative_l2": 1.0002697144001065,
+      "aligned_recovery": -0.00026935290712322993,
+      "mean_energy_fraction": 0.029364188644964276
+    }
+  ],
+  "headslot_summary": [
+    {
+      "cohort": "discovery",
+      "headslot_main_sum_relative_l2": 0.07182778902666075,
+      "aligned_shares": [
+        0.7978632343880732,
+        -0.004496548423795929,
+        -0.0006020519821362577,
+        0.04513535856027517,
+        0.04639105036198161,
+        0.032808631460063326,
+        0.02493614211575417,
+        -0.0057766051433052875,
+        -0.0004899057679878951
+      ]
+    },
+    {
+      "cohort": "lexical_A",
+      "headslot_main_sum_relative_l2": 0.04856600026928464,
+      "aligned_shares": [
+        0.6599969975367201,
+        0.000508934237108821,
+        -3.251995403364964e-05,
+        0.035991369140890773,
+        0.16786849556185598,
+        0.054775426370752604,
+        0.04733463183138952,
+        -0.006668948575247736,
+        0.0008414677015230446
+      ]
+    },
+    {
+      "cohort": "lexical_B",
+      "headslot_main_sum_relative_l2": 0.057952622610308674,
+      "aligned_shares": [
+        0.6721624323551337,
+        0.00015537515963398775,
+        -3.1111089919544434e-06,
+        0.034996295237824625,
+        0.15442836432421625,
+        0.06188714763062251,
+        0.0332883540744659,
+        -0.008558614458997445,
+        0.0008115336960670072
+      ]
+    },
+    {
+      "cohort": "template_transfer",
+      "headslot_main_sum_relative_l2": 0.09094290216801766,
+      "aligned_shares": [
+        0.8012839491537139,
+        -0.005152070792827363,
+        -0.000739980266762227,
+        0.04340045623440909,
+        0.03151722907525127,
+        0.03960420785465616,
+        0.015641994931489323,
+        -0.006972144222536144,
+        -0.00026935290712322993
+      ]
+    }
+  ],
+  "records": [
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": -12.652098655700684,
+      "edit_norm": 409.66786849620604,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": -11.3402099609375,
+      "edit_norm": 202.38182213117267,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": -11.425395965576172,
+      "edit_norm": 206.24202143810382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": -12.652098655700684,
+      "edit_norm": 409.6678684962057,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": -0.06863880157470703,
+      "edit_norm": 54.256152084429885,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": -0.23782920837402344,
+      "edit_norm": 76.38913652009231,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": -1.8594703674316406,
+      "edit_norm": 185.22587249198097,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": -0.02052021026611328,
+      "edit_norm": 22.019756628201677,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": -0.045441627502441406,
+      "edit_norm": 36.97818063720382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": -10.096911430358887,
+      "edit_norm": 211.27494394799098,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": 0.03150367736816406,
+      "edit_norm": 70.13491757671659,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": -0.009706497192382812,
+      "edit_norm": 85.3599755447597,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": -0.7902030944824219,
+      "edit_norm": 206.8956525436194,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": -0.15818309783935547,
+      "edit_norm": 223.23339267657363,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": -0.28598785400390625,
+      "edit_norm": 71.42740161031415,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": -0.35894203186035156,
+      "edit_norm": 77.9297013334208,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": 0.037914276123046875,
+      "edit_norm": 57.3303838812457,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 0,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": 0.0104522705078125,
+      "edit_norm": 62.32804212769412,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": 11.613556861877441,
+      "edit_norm": 409.66786849620604,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": 10.10586404800415,
+      "edit_norm": 202.38182213117267,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": 10.482062816619873,
+      "edit_norm": 206.24202143810382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": 11.613556861877441,
+      "edit_norm": 409.6678684962057,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": 0.0975346565246582,
+      "edit_norm": 54.256152084429885,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": 0.13256025314331055,
+      "edit_norm": 76.38913652009231,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": 1.4256691932678223,
+      "edit_norm": 185.22587249198097,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": 0.017946720123291016,
+      "edit_norm": 22.019756628201677,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": 0.04848957061767578,
+      "edit_norm": 36.97818063720382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": 9.196783542633057,
+      "edit_norm": 211.27494394799098,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": 0.024259090423583984,
+      "edit_norm": 70.13491757671659,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": 0.005862236022949219,
+      "edit_norm": 85.3599755447597,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": 0.4190974235534668,
+      "edit_norm": 206.8956525436194,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": 0.7251009941101074,
+      "edit_norm": 223.23339267657363,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": 0.1506638526916504,
+      "edit_norm": 71.42740161031415,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": 0.16959810256958008,
+      "edit_norm": 77.9297013334208,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": -0.009761333465576172,
+      "edit_norm": 57.3303838812457,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 1,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": -0.01054525375366211,
+      "edit_norm": 62.32804212769412,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": -12.961081504821777,
+      "edit_norm": 409.66786849620604,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": -11.737199783325195,
+      "edit_norm": 202.38182213117267,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": -11.830352783203125,
+      "edit_norm": 206.24202143810382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": -12.961081504821777,
+      "edit_norm": 409.6678684962057,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": -0.0709991455078125,
+      "edit_norm": 54.256152084429885,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": -0.23762226104736328,
+      "edit_norm": 76.38913652009231,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": -1.909010887145996,
+      "edit_norm": 185.22587249198097,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": -0.021541595458984375,
+      "edit_norm": 22.019756628201677,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": -0.04439830780029297,
+      "edit_norm": 36.97818063720382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": -10.352977752685547,
+      "edit_norm": 211.27494394799098,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": 0.045790672302246094,
+      "edit_norm": 70.13491757671659,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": -0.010522842407226562,
+      "edit_norm": 85.3599755447597,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": -0.8419523239135742,
+      "edit_norm": 206.8956525436194,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": -0.15229511260986328,
+      "edit_norm": 223.23339267657363,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": -0.36527061462402344,
+      "edit_norm": 71.42740161031415,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": -0.22155284881591797,
+      "edit_norm": 77.9297013334208,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": 0.043097496032714844,
+      "edit_norm": 57.3303838812457,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 2,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": 0.0012989044189453125,
+      "edit_norm": 62.32804212769412,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": 11.29186725616455,
+      "edit_norm": 409.66786849620604,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": 9.687113285064697,
+      "edit_norm": 202.38182213117267,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": 10.090758800506592,
+      "edit_norm": 206.24202143810382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": 11.29186725616455,
+      "edit_norm": 409.6678684962057,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": 0.08678197860717773,
+      "edit_norm": 54.256152084429885,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": 0.11092567443847656,
+      "edit_norm": 76.38913652009231,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": 1.3127336502075195,
+      "edit_norm": 185.22587249198097,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": 0.01580333709716797,
+      "edit_norm": 22.019756628201677,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": 0.045116424560546875,
+      "edit_norm": 36.97818063720382,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": 8.71153974533081,
+      "edit_norm": 211.27494394799098,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": 0.013148784637451172,
+      "edit_norm": 70.13491757671659,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": 0.0021653175354003906,
+      "edit_norm": 85.3599755447597,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": 0.3762516975402832,
+      "edit_norm": 206.8956525436194,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": 0.5614981651306152,
+      "edit_norm": 223.23339267657363,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": 0.17609310150146484,
+      "edit_norm": 71.42740161031415,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": 0.08737850189208984,
+      "edit_norm": 77.9297013334208,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": -0.0015892982482910156,
+      "edit_norm": 57.3303838812457,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 3,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": -0.005866527557373047,
+      "edit_norm": 62.32804212769412,
+      "full_edit_norm": 409.66786849620604
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": -9.738210678100586,
+      "edit_norm": 436.4571831432487,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": -8.330301284790039,
+      "edit_norm": 175.86358843420973,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": -8.437228202819824,
+      "edit_norm": 184.35137269582455,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": -9.738210678100586,
+      "edit_norm": 436.4571831432488,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": 0.013319969177246094,
+      "edit_norm": 46.80143396685705,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": -0.07643890380859375,
+      "edit_norm": 67.28920155457365,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": -0.4858078956604004,
+      "edit_norm": 151.1492360619987,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": -0.05657958984375,
+      "edit_norm": 32.019182259996775,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": -0.04832935333251953,
+      "edit_norm": 34.16955886590061,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": -8.23330020904541,
+      "edit_norm": 218.44079947741855,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": 0.11901092529296875,
+      "edit_norm": 88.02002666904116,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": 0.017780303955078125,
+      "edit_norm": 95.62472987905946,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": -0.4295978546142578,
+      "edit_norm": 229.18319946360864,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": -0.12385892868041992,
+      "edit_norm": 226.16991388616353,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": -0.26091527938842773,
+      "edit_norm": 74.05856427313797,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": -0.05215644836425781,
+      "edit_norm": 77.70442553790356,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": 0.05521678924560547,
+      "edit_norm": 67.61436550721153,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 4,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": -0.010127067565917969,
+      "edit_norm": 78.19690406132504,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": 8.92645788192749,
+      "edit_norm": 436.4571831432487,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": 7.264560222625732,
+      "edit_norm": 175.86358843420973,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": 7.679676532745361,
+      "edit_norm": 184.35137269582455,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": 8.92645788192749,
+      "edit_norm": 436.4571831432488,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": -0.023621082305908203,
+      "edit_norm": 46.80143396685705,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": 0.13803672790527344,
+      "edit_norm": 67.28920155457365,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": 0.6592774391174316,
+      "edit_norm": 151.1492360619987,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": 0.013812065124511719,
+      "edit_norm": 32.019182259996775,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": 0.005610466003417969,
+      "edit_norm": 34.16955886590061,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": 7.491407871246338,
+      "edit_norm": 218.44079947741855,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": -0.022649288177490234,
+      "edit_norm": 88.02002666904116,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": -0.013979434967041016,
+      "edit_norm": 95.62472987905946,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": 0.29143524169921875,
+      "edit_norm": 229.18319946360864,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": 0.27074575424194336,
+      "edit_norm": 226.16991388616353,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": 0.15522241592407227,
+      "edit_norm": 74.05856427313797,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": 0.06754684448242188,
+      "edit_norm": 77.70442553790356,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": -0.10662984848022461,
+      "edit_norm": 67.61436550721153,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 5,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": -0.012722015380859375,
+      "edit_norm": 78.19690406132504,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": -9.455361366271973,
+      "edit_norm": 436.4571831432487,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": -8.360157012939453,
+      "edit_norm": 175.86358843420973,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": -8.406484603881836,
+      "edit_norm": 184.35137269582455,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": -9.455361366271973,
+      "edit_norm": 436.4571831432488,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": 0.012357711791992188,
+      "edit_norm": 46.80143396685705,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": -0.06661701202392578,
+      "edit_norm": 67.28920155457365,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": -0.41350650787353516,
+      "edit_norm": 151.1492360619987,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": -0.050872802734375,
+      "edit_norm": 32.019182259996775,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": -0.04534149169921875,
+      "edit_norm": 34.16955886590061,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": -8.197797775268555,
+      "edit_norm": 218.44079947741855,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": 0.11487960815429688,
+      "edit_norm": 88.02002666904116,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": 0.019872665405273438,
+      "edit_norm": 95.62472987905946,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": -0.4251284599304199,
+      "edit_norm": 229.18319946360864,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": 0.12198829650878906,
+      "edit_norm": 226.16991388616353,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": -0.296231746673584,
+      "edit_norm": 74.05856427313797,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": -0.0030193328857421875,
+      "edit_norm": 77.70442553790356,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": 0.07173728942871094,
+      "edit_norm": 67.61436550721153,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 6,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": -0.0076122283935546875,
+      "edit_norm": 78.19690406132504,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": 8.240846157073975,
+      "edit_norm": 436.4571831432487,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": 6.624814510345459,
+      "edit_norm": 175.86358843420973,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": 6.98354959487915,
+      "edit_norm": 184.35137269582455,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": 8.240846157073975,
+      "edit_norm": 436.4571831432488,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": -0.028873443603515625,
+      "edit_norm": 46.80143396685705,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": 0.12102556228637695,
+      "edit_norm": 67.28920155457365,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": 0.5271186828613281,
+      "edit_norm": 151.1492360619987,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": 0.011183738708496094,
+      "edit_norm": 32.019182259996775,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": 0.002955913543701172,
+      "edit_norm": 34.16955886590061,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": 6.819970607757568,
+      "edit_norm": 218.44079947741855,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": -0.014882564544677734,
+      "edit_norm": 88.02002666904116,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": -0.011393070220947266,
+      "edit_norm": 95.62472987905946,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": 0.2020740509033203,
+      "edit_norm": 229.18319946360864,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": 0.08878803253173828,
+      "edit_norm": 226.16991388616353,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": 0.17583799362182617,
+      "edit_norm": 74.05856427313797,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": 0.009615421295166016,
+      "edit_norm": 77.70442553790356,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": -0.12792730331420898,
+      "edit_norm": 67.61436550721153,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 7,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": -0.01861095428466797,
+      "edit_norm": 78.19690406132504,
+      "full_edit_norm": 436.4571831432487
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": -9.117389678955078,
+      "edit_norm": 415.29700415833906,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": -8.2857027053833,
+      "edit_norm": 170.05094925341257,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": -8.548418045043945,
+      "edit_norm": 182.4882292027905,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": -9.117389678955078,
+      "edit_norm": 415.2970041583388,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": -0.03926992416381836,
+      "edit_norm": 62.70267316438132,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": -0.1550602912902832,
+      "edit_norm": 76.87611951283631,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": -1.4902877807617188,
+      "edit_norm": 178.75208533240473,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": -0.028676986694335938,
+      "edit_norm": 26.29589011417476,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": -0.0316624641418457,
+      "edit_norm": 27.065190558176177,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": -7.228245735168457,
+      "edit_norm": 192.67793459316297,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": 0.024982452392578125,
+      "edit_norm": 67.89317772632327,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": 0.021776199340820312,
+      "edit_norm": 80.74067637926235,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": -0.6080102920532227,
+      "edit_norm": 228.2141945597017,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": -0.6355137825012207,
+      "edit_norm": 231.09744063803285,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": -0.2244725227355957,
+      "edit_norm": 73.19217038339524,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": -0.34706974029541016,
+      "edit_norm": 81.47402371599918,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": 0.017076969146728516,
+      "edit_norm": 54.6394156853279,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 8,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": 0.00087738037109375,
+      "edit_norm": 61.236859974379485,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": 9.16542911529541,
+      "edit_norm": 415.29700415833906,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": 8.517074584960938,
+      "edit_norm": 170.05094925341257,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": 8.323953628540039,
+      "edit_norm": 182.4882292027905,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": 9.16542911529541,
+      "edit_norm": 415.2970041583388,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": 0.029587745666503906,
+      "edit_norm": 62.70267316438132,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": 0.0492253303527832,
+      "edit_norm": 76.87611951283631,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": 1.3822031021118164,
+      "edit_norm": 178.75208533240473,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": 0.04010486602783203,
+      "edit_norm": 26.29589011417476,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": 0.04660320281982422,
+      "edit_norm": 27.065190558176177,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": 7.163793563842773,
+      "edit_norm": 192.67793459316297,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": -0.05043935775756836,
+      "edit_norm": 67.89317772632327,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": -0.01955127716064453,
+      "edit_norm": 80.74067637926235,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": 0.4123086929321289,
+      "edit_norm": 228.2141945597017,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": 0.10508298873901367,
+      "edit_norm": 231.09744063803285,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": 0.3343391418457031,
+      "edit_norm": 73.19217038339524,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": 0.3113226890563965,
+      "edit_norm": 81.47402371599918,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": -0.02521038055419922,
+      "edit_norm": 54.6394156853279,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 9,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": 0.004779815673828125,
+      "edit_norm": 61.236859974379485,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": -8.873612880706787,
+      "edit_norm": 415.29700415833906,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": -8.066772937774658,
+      "edit_norm": 170.05094925341257,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": -8.392231464385986,
+      "edit_norm": 182.4882292027905,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": -8.873612880706787,
+      "edit_norm": 415.2970041583388,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": -0.04592466354370117,
+      "edit_norm": 62.70267316438132,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": -0.1555037498474121,
+      "edit_norm": 76.87611951283631,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": -1.3310608863830566,
+      "edit_norm": 178.75208533240473,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": -0.02662515640258789,
+      "edit_norm": 26.29589011417476,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": -0.03016805648803711,
+      "edit_norm": 27.065190558176177,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": -7.110562801361084,
+      "edit_norm": 192.67793459316297,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": 0.018897056579589844,
+      "edit_norm": 67.89317772632327,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": 0.02226734161376953,
+      "edit_norm": 80.74067637926235,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": -0.5015101432800293,
+      "edit_norm": 228.2141945597017,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": -0.4437708854675293,
+      "edit_norm": 231.09744063803285,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": -0.2652778625488281,
+      "edit_norm": 73.19217038339524,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": -0.21756505966186523,
+      "edit_norm": 81.47402371599918,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": 0.016920089721679688,
+      "edit_norm": 54.6394156853279,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 10,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": -0.006546497344970703,
+      "edit_norm": 61.236859974379485,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": 9.094378471374512,
+      "edit_norm": 415.29700415833906,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": 8.577948570251465,
+      "edit_norm": 170.05094925341257,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": 8.32929801940918,
+      "edit_norm": 182.4882292027905,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": 9.094378471374512,
+      "edit_norm": 415.2970041583388,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": 0.044123172760009766,
+      "edit_norm": 62.70267316438132,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": 0.0619654655456543,
+      "edit_norm": 76.87611951283631,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": 1.3717899322509766,
+      "edit_norm": 178.75208533240473,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": 0.04205131530761719,
+      "edit_norm": 26.29589011417476,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": 0.04877948760986328,
+      "edit_norm": 27.065190558176177,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": 7.14692497253418,
+      "edit_norm": 192.67793459316297,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": -0.05088996887207031,
+      "edit_norm": 67.89317772632327,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": -0.02464437484741211,
+      "edit_norm": 80.74067637926235,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": 0.40936279296875,
+      "edit_norm": 228.2141945597017,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": -0.0754232406616211,
+      "edit_norm": 231.09744063803285,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": 0.414243221282959,
+      "edit_norm": 73.19217038339524,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": 0.2436351776123047,
+      "edit_norm": 81.47402371599918,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": -0.02938556671142578,
+      "edit_norm": 54.6394156853279,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 11,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": 0.0054798126220703125,
+      "edit_norm": 61.236859974379485,
+      "full_edit_norm": 415.29700415833906
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": -11.43210744857788,
+      "edit_norm": 439.01254996509624,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": -10.93593168258667,
+      "edit_norm": 200.21399725107793,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": -10.972944736480713,
+      "edit_norm": 201.80075642483106,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": -11.43210744857788,
+      "edit_norm": 439.0125499650962,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": -0.6876754760742188,
+      "edit_norm": 130.32749451610408,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": -0.6697249412536621,
+      "edit_norm": 132.00746199584873,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": -1.4368982315063477,
+      "edit_norm": 189.77346831610316,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": -0.09291696548461914,
+      "edit_norm": 33.597852983361534,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": -0.0967254638671875,
+      "edit_norm": 36.34135154779784,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": -9.315886974334717,
+      "edit_norm": 219.97692791764533,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": 0.07442617416381836,
+      "edit_norm": 86.05226921872614,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": 0.009220600128173828,
+      "edit_norm": 66.96907301052077,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": -0.3657569885253906,
+      "edit_norm": 241.43390978230235,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": -0.8891620635986328,
+      "edit_norm": 212.01194920171866,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": -0.6299490928649902,
+      "edit_norm": 87.12257304011823,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": -0.3901338577270508,
+      "edit_norm": 92.91889886773117,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": 0.11987638473510742,
+      "edit_norm": 72.03654987176924,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 12,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": 0.014041423797607422,
+      "edit_norm": 88.31416658022292,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "full",
+      "change": 12.37697696685791,
+      "edit_norm": 439.01254996509624,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "gradient4",
+      "change": 11.420361518859863,
+      "edit_norm": 200.21399725107793,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "gradient8",
+      "change": 11.41002607345581,
+      "edit_norm": 201.80075642483106,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "source4",
+      "change": 12.37697696685791,
+      "edit_norm": 439.0125499650962,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "weight4",
+      "change": 0.6492900848388672,
+      "edit_norm": 130.32749451610408,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "weight8",
+      "change": 0.607393741607666,
+      "edit_norm": 132.00746199584873,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "weight32",
+      "change": 1.5091328620910645,
+      "edit_norm": 189.77346831610316,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "random4",
+      "change": 0.05377817153930664,
+      "edit_norm": 33.597852983361534,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "random8",
+      "change": 0.060034751892089844,
+      "edit_norm": 36.34135154779784,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot0",
+      "change": 9.271286487579346,
+      "edit_norm": 219.97692791764533,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot1",
+      "change": -0.09049654006958008,
+      "edit_norm": 86.05226921872614,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot2",
+      "change": 0.002910137176513672,
+      "edit_norm": 66.96907301052077,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot3",
+      "change": 0.516474723815918,
+      "edit_norm": 241.43390978230235,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot4",
+      "change": 0.9480772018432617,
+      "edit_norm": 212.01194920171866,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot5",
+      "change": 0.6942348480224609,
+      "edit_norm": 87.12257304011823,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot6",
+      "change": 0.3921394348144531,
+      "edit_norm": 92.91889886773117,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot7",
+      "change": -0.1193704605102539,
+      "edit_norm": 72.03654987176924,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 13,
+      "cohort": "discovery",
+      "arm": "headslot8",
+      "change": -0.004571437835693359,
+      "edit_norm": 88.31416658022292,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": -11.043218612670898,
+      "edit_norm": 439.01254996509624,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": -10.833734512329102,
+      "edit_norm": 200.21399725107793,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": -10.903512954711914,
+      "edit_norm": 201.80075642483106,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": -11.043218612670898,
+      "edit_norm": 439.0125499650962,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": -0.684328556060791,
+      "edit_norm": 130.32749451610408,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": -0.6774001121520996,
+      "edit_norm": 132.00746199584873,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": -1.3967366218566895,
+      "edit_norm": 189.77346831610316,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": -0.08533573150634766,
+      "edit_norm": 33.597852983361534,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": -0.08508491516113281,
+      "edit_norm": 36.34135154779784,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": -9.205928802490234,
+      "edit_norm": 219.97692791764533,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": 0.08530044555664062,
+      "edit_norm": 86.05226921872614,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": 0.010927200317382812,
+      "edit_norm": 66.96907301052077,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": -0.34403133392333984,
+      "edit_norm": 241.43390978230235,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": -0.7713170051574707,
+      "edit_norm": 212.01194920171866,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": -0.7350106239318848,
+      "edit_norm": 87.12257304011823,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": -0.2316598892211914,
+      "edit_norm": 92.91889886773117,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": 0.13996410369873047,
+      "edit_norm": 72.03654987176924,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 14,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": 0.013762474060058594,
+      "edit_norm": 88.31416658022292,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "full",
+      "change": 12.447250366210938,
+      "edit_norm": 439.01254996509624,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "gradient4",
+      "change": 11.750221252441406,
+      "edit_norm": 200.21399725107793,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "gradient8",
+      "change": 11.759462833404541,
+      "edit_norm": 201.80075642483106,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "source4",
+      "change": 12.447250366210938,
+      "edit_norm": 439.0125499650962,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "weight4",
+      "change": 0.6256089210510254,
+      "edit_norm": 130.32749451610408,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "weight8",
+      "change": 0.5875205993652344,
+      "edit_norm": 132.00746199584873,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "weight32",
+      "change": 1.4957590103149414,
+      "edit_norm": 189.77346831610316,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "random4",
+      "change": 0.049655914306640625,
+      "edit_norm": 33.597852983361534,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "random8",
+      "change": 0.054511070251464844,
+      "edit_norm": 36.34135154779784,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot0",
+      "change": 9.48277473449707,
+      "edit_norm": 219.97692791764533,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot1",
+      "change": -0.10965204238891602,
+      "edit_norm": 86.05226921872614,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot2",
+      "change": 0.0003142356872558594,
+      "edit_norm": 66.96907301052077,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot3",
+      "change": 0.4705982208251953,
+      "edit_norm": 241.43390978230235,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot4",
+      "change": 0.676793098449707,
+      "edit_norm": 212.01194920171866,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot5",
+      "change": 0.8099994659423828,
+      "edit_norm": 87.12257304011823,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot6",
+      "change": 0.262606143951416,
+      "edit_norm": 92.91889886773117,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot7",
+      "change": -0.1559457778930664,
+      "edit_norm": 72.03654987176924,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 15,
+      "cohort": "template_transfer",
+      "arm": "headslot8",
+      "change": -0.0025310516357421875,
+      "edit_norm": 88.31416658022292,
+      "full_edit_norm": 439.01254996509624
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": -13.187875270843506,
+      "edit_norm": 438.8622485846221,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": -1.421400547027588,
+      "edit_norm": 69.20131237591308,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": -1.6415605545043945,
+      "edit_norm": 77.54719077962798,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": -0.3345022201538086,
+      "edit_norm": 46.124878395227654,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": -0.12529468536376953,
+      "edit_norm": 75.54283079119337,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": -0.29296064376831055,
+      "edit_norm": 105.0225881759989,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": -1.6467108726501465,
+      "edit_norm": 206.35694277212832,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": -0.11244630813598633,
+      "edit_norm": 24.18289756792407,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": -0.12087821960449219,
+      "edit_norm": 27.901646643298907,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": -9.03943920135498,
+      "edit_norm": 209.19357693325497,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": -0.06082344055175781,
+      "edit_norm": 78.72445689472404,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": -0.0009145736694335938,
+      "edit_norm": 67.79273692256793,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": -0.5652456283569336,
+      "edit_norm": 234.42103344465903,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": -1.7356700897216797,
+      "edit_norm": 230.06166120832881,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": -0.6131296157836914,
+      "edit_norm": 86.07274803098541,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": -0.6532607078552246,
+      "edit_norm": 104.54471436973718,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": 0.08160114288330078,
+      "edit_norm": 72.62935310426326,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 16,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": -0.03715038299560547,
+      "edit_norm": 80.93205942024612,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": 13.836921691894531,
+      "edit_norm": 438.8622485846221,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": 1.4694561958312988,
+      "edit_norm": 69.20131237591308,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": 1.7067999839782715,
+      "edit_norm": 77.54719077962798,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": 0.35595130920410156,
+      "edit_norm": 46.124878395227654,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": 0.1910381317138672,
+      "edit_norm": 75.54283079119337,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": 0.3537464141845703,
+      "edit_norm": 105.0225881759989,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": 1.7762112617492676,
+      "edit_norm": 206.35694277212832,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": 0.08207511901855469,
+      "edit_norm": 24.18289756792407,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": 0.10627365112304688,
+      "edit_norm": 27.901646643298907,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": 9.476119995117188,
+      "edit_norm": 209.19357693325497,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": 0.04080390930175781,
+      "edit_norm": 78.72445689472404,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": -0.0013065338134765625,
+      "edit_norm": 67.79273692256793,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": 0.43648290634155273,
+      "edit_norm": 234.42103344465903,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": 1.992945671081543,
+      "edit_norm": 230.06166120832881,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": 0.7022948265075684,
+      "edit_norm": 86.07274803098541,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": 0.7327451705932617,
+      "edit_norm": 104.54471436973718,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": -0.14493560791015625,
+      "edit_norm": 72.62935310426326,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 17,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": 0.025246620178222656,
+      "edit_norm": 80.93205942024612,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": -13.089198112487793,
+      "edit_norm": 438.8622485846221,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": -1.3086376190185547,
+      "edit_norm": 69.20131237591308,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": -1.5315756797790527,
+      "edit_norm": 77.54719077962798,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": -0.3221273422241211,
+      "edit_norm": 46.124878395227654,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": -0.10648155212402344,
+      "edit_norm": 75.54283079119337,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": -0.2945222854614258,
+      "edit_norm": 105.0225881759989,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": -1.6259756088256836,
+      "edit_norm": 206.35694277212832,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": -0.09921932220458984,
+      "edit_norm": 24.18289756792407,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": -0.10526084899902344,
+      "edit_norm": 27.901646643298907,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": -9.078908920288086,
+      "edit_norm": 209.19357693325497,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": -0.06413555145263672,
+      "edit_norm": 78.72445689472404,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": 0.006686210632324219,
+      "edit_norm": 67.79273692256793,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": -0.4687643051147461,
+      "edit_norm": 234.42103344465903,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": -1.5533452033996582,
+      "edit_norm": 230.06166120832881,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": -0.6711854934692383,
+      "edit_norm": 86.07274803098541,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": -0.4558725357055664,
+      "edit_norm": 104.54471436973718,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": 0.10328006744384766,
+      "edit_norm": 72.62935310426326,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 18,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": -0.03959369659423828,
+      "edit_norm": 80.93205942024612,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": 13.472392082214355,
+      "edit_norm": 438.8622485846221,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": 1.490133285522461,
+      "edit_norm": 69.20131237591308,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": 1.7112226486206055,
+      "edit_norm": 77.54719077962798,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": 0.36453962326049805,
+      "edit_norm": 46.124878395227654,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": 0.1975722312927246,
+      "edit_norm": 75.54283079119337,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": 0.39089250564575195,
+      "edit_norm": 105.0225881759989,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": 1.8758869171142578,
+      "edit_norm": 206.35694277212832,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": 0.06871223449707031,
+      "edit_norm": 24.18289756792407,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": 0.09453821182250977,
+      "edit_norm": 27.901646643298907,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": 9.681266784667969,
+      "edit_norm": 209.19357693325497,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": 0.03200531005859375,
+      "edit_norm": 78.72445689472404,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": -0.0019893646240234375,
+      "edit_norm": 67.79273692256793,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": 0.4520888328552246,
+      "edit_norm": 234.42103344465903,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": 1.7862348556518555,
+      "edit_norm": 230.06166120832881,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": 0.7638201713562012,
+      "edit_norm": 86.07274803098541,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": 0.4711947441101074,
+      "edit_norm": 104.54471436973718,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": -0.17958974838256836,
+      "edit_norm": 72.62935310426326,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 19,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": 0.015679359436035156,
+      "edit_norm": 80.93205942024612,
+      "full_edit_norm": 438.8622485846221
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": -6.196773529052734,
+      "edit_norm": 383.24538486933744,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": 0.04837226867675781,
+      "edit_norm": 20.58441141668709,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": 0.0040874481201171875,
+      "edit_norm": 29.70171651027006,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": 0.013208389282226562,
+      "edit_norm": 23.878186845601903,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": -0.02261829376220703,
+      "edit_norm": 46.924924994154324,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": -0.07074642181396484,
+      "edit_norm": 61.476444725215856,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": -0.7139196395874023,
+      "edit_norm": 152.75755659798858,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": 0.01758289337158203,
+      "edit_norm": 14.532559619066022,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": -0.02977752685546875,
+      "edit_norm": 24.608132623566945,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": -3.2395105361938477,
+      "edit_norm": 137.50555675066587,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": -0.011633872985839844,
+      "edit_norm": 75.10806343032559,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": -0.0048809051513671875,
+      "edit_norm": 55.85438308497308,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": -0.1634225845336914,
+      "edit_norm": 216.00294068789196,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": -2.0242252349853516,
+      "edit_norm": 221.71574076378207,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": -0.41292285919189453,
+      "edit_norm": 78.05677478918754,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": -0.15984439849853516,
+      "edit_norm": 83.94177067658512,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": 0.05553150177001953,
+      "edit_norm": 62.01111796526719,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 20,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": -0.0028629302978515625,
+      "edit_norm": 80.05444266196038,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": 5.456067085266113,
+      "edit_norm": 383.24538486933744,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": 0.05231952667236328,
+      "edit_norm": 20.58441141668709,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": 0.19396305084228516,
+      "edit_norm": 29.70171651027006,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": -0.010044097900390625,
+      "edit_norm": 23.878186845601903,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": 0.05800056457519531,
+      "edit_norm": 46.924924994154324,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": 0.07710552215576172,
+      "edit_norm": 61.476444725215856,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": 0.5998916625976562,
+      "edit_norm": 152.75755659798858,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": -0.0060329437255859375,
+      "edit_norm": 14.532559619066022,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": 0.03089618682861328,
+      "edit_norm": 24.608132623566945,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": 3.055466651916504,
+      "edit_norm": 137.50555675066587,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": 0.029544830322265625,
+      "edit_norm": 75.10806343032559,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": 0.000335693359375,
+      "edit_norm": 55.85438308497308,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": 0.16317081451416016,
+      "edit_norm": 216.00294068789196,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": 1.6594200134277344,
+      "edit_norm": 221.71574076378207,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": 0.4481773376464844,
+      "edit_norm": 78.05677478918754,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": 0.1457080841064453,
+      "edit_norm": 83.94177067658512,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": -0.0719747543334961,
+      "edit_norm": 62.01111796526719,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 21,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": -0.00522613525390625,
+      "edit_norm": 80.05444266196038,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": -6.456211090087891,
+      "edit_norm": 383.24538486933744,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": 0.06511402130126953,
+      "edit_norm": 20.58441141668709,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": 0.03030872344970703,
+      "edit_norm": 29.70171651027006,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": 0.01773357391357422,
+      "edit_norm": 23.878186845601903,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": 0.0074672698974609375,
+      "edit_norm": 46.924924994154324,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": -0.042247772216796875,
+      "edit_norm": 61.476444725215856,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": -0.7440271377563477,
+      "edit_norm": 152.75755659798858,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": 0.0146942138671875,
+      "edit_norm": 14.532559619066022,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": -0.026131629943847656,
+      "edit_norm": 24.608132623566945,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": -3.3022308349609375,
+      "edit_norm": 137.50555675066587,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": -0.023612022399902344,
+      "edit_norm": 75.10806343032559,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": -0.005064964294433594,
+      "edit_norm": 55.85438308497308,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": -0.18023204803466797,
+      "edit_norm": 216.00294068789196,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": -2.0131874084472656,
+      "edit_norm": 221.71574076378207,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": -0.49944496154785156,
+      "edit_norm": 78.05677478918754,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": -0.12977218627929688,
+      "edit_norm": 83.94177067658512,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": 0.07351493835449219,
+      "edit_norm": 62.01111796526719,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 22,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": -0.009558677673339844,
+      "edit_norm": 80.05444266196038,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": 5.793949127197266,
+      "edit_norm": 383.24538486933744,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": 0.06455612182617188,
+      "edit_norm": 20.58441141668709,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": 0.1995525360107422,
+      "edit_norm": 29.70171651027006,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": -0.012958526611328125,
+      "edit_norm": 23.878186845601903,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": 0.05673408508300781,
+      "edit_norm": 46.924924994154324,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": 0.08208560943603516,
+      "edit_norm": 61.476444725215856,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": 0.6367473602294922,
+      "edit_norm": 152.75755659798858,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": -0.004443168640136719,
+      "edit_norm": 14.532559619066022,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": 0.03168678283691406,
+      "edit_norm": 24.608132623566945,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": 3.3343353271484375,
+      "edit_norm": 137.50555675066587,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": 0.03592395782470703,
+      "edit_norm": 75.10806343032559,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": -7.62939453125e-05,
+      "edit_norm": 55.85438308497308,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": 0.14852237701416016,
+      "edit_norm": 216.00294068789196,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": 1.6781015396118164,
+      "edit_norm": 221.71574076378207,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": 0.5464811325073242,
+      "edit_norm": 78.05677478918754,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": 0.11333751678466797,
+      "edit_norm": 83.94177067658512,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": -0.08571815490722656,
+      "edit_norm": 62.01111796526719,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 23,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": -0.0013608932495117188,
+      "edit_norm": 80.05444266196038,
+      "full_edit_norm": 383.24538486933744
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": -13.91768217086792,
+      "edit_norm": 457.1886066701644,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": -1.9776973724365234,
+      "edit_norm": 87.80390047506395,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": -2.4602255821228027,
+      "edit_norm": 96.80661395033492,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": -0.9226627349853516,
+      "edit_norm": 94.27407803019199,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": -0.14151811599731445,
+      "edit_norm": 48.462692316464484,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": -0.6314549446105957,
+      "edit_norm": 114.75133398105274,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": -2.6436123847961426,
+      "edit_norm": 220.9495260226318,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": -0.057247161865234375,
+      "edit_norm": 30.98767948051503,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": -0.11549949645996094,
+      "edit_norm": 52.38814572848562,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": -8.868610382080078,
+      "edit_norm": 210.16935787883057,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": 0.025780677795410156,
+      "edit_norm": 82.53211890785279,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": 0.035463809967041016,
+      "edit_norm": 82.6135297582252,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": -0.5668849945068359,
+      "edit_norm": 253.92203989400102,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": -2.642690658569336,
+      "edit_norm": 233.5466291485497,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": -0.7673864364624023,
+      "edit_norm": 92.05920718443232,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": -0.8196396827697754,
+      "edit_norm": 115.40178210859914,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": 0.06911373138427734,
+      "edit_norm": 68.56400159419512,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 24,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": 0.006869792938232422,
+      "edit_norm": 75.49699027654599,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": 13.606555938720703,
+      "edit_norm": 457.1886066701644,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": 2.0937952995300293,
+      "edit_norm": 87.80390047506395,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": 1.996347427368164,
+      "edit_norm": 96.80661395033492,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": 0.7800502777099609,
+      "edit_norm": 94.27407803019199,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": 0.071929931640625,
+      "edit_norm": 48.462692316464484,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": 0.6416921615600586,
+      "edit_norm": 114.75133398105274,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": 2.47294282913208,
+      "edit_norm": 220.9495260226318,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": 0.0753936767578125,
+      "edit_norm": 30.98767948051503,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": 0.14983367919921875,
+      "edit_norm": 52.38814572848562,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": 8.54075813293457,
+      "edit_norm": 210.16935787883057,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": -0.06024932861328125,
+      "edit_norm": 82.53211890785279,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": -0.004284858703613281,
+      "edit_norm": 82.6135297582252,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": 0.423675537109375,
+      "edit_norm": 253.92203989400102,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": 2.132504463195801,
+      "edit_norm": 233.5466291485497,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": 0.7739143371582031,
+      "edit_norm": 92.05920718443232,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": 0.8554058074951172,
+      "edit_norm": 115.40178210859914,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": -0.06806182861328125,
+      "edit_norm": 68.56400159419512,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 25,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": 0.010426521301269531,
+      "edit_norm": 75.49699027654599,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": -14.25823450088501,
+      "edit_norm": 457.1886066701644,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": -1.9328289031982422,
+      "edit_norm": 87.80390047506395,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": -2.471374988555908,
+      "edit_norm": 96.80661395033492,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": -0.9279594421386719,
+      "edit_norm": 94.27407803019199,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": -0.13460636138916016,
+      "edit_norm": 48.462692316464484,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": -0.6289448738098145,
+      "edit_norm": 114.75133398105274,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": -2.666317939758301,
+      "edit_norm": 220.9495260226318,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": -0.049057960510253906,
+      "edit_norm": 30.98767948051503,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": -0.11550140380859375,
+      "edit_norm": 52.38814572848562,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": -9.339556694030762,
+      "edit_norm": 210.16935787883057,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": 0.027910232543945312,
+      "edit_norm": 82.53211890785279,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": 0.038529396057128906,
+      "edit_norm": 82.6135297582252,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": -0.49545812606811523,
+      "edit_norm": 253.92203989400102,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": -2.3686532974243164,
+      "edit_norm": 233.5466291485497,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": -0.8847336769104004,
+      "edit_norm": 92.05920718443232,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": -0.5887446403503418,
+      "edit_norm": 115.40178210859914,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": 0.0990285873413086,
+      "edit_norm": 68.56400159419512,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 26,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": 0.0026493072509765625,
+      "edit_norm": 75.49699027654599,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": 13.976276397705078,
+      "edit_norm": 457.1886066701644,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": 2.095126152038574,
+      "edit_norm": 87.80390047506395,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": 1.9678974151611328,
+      "edit_norm": 96.80661395033492,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": 0.788975715637207,
+      "edit_norm": 94.27407803019199,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": 0.07004356384277344,
+      "edit_norm": 48.462692316464484,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": 0.7063770294189453,
+      "edit_norm": 114.75133398105274,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": 2.700718402862549,
+      "edit_norm": 220.9495260226318,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": 0.07395267486572266,
+      "edit_norm": 30.98767948051503,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": 0.15206336975097656,
+      "edit_norm": 52.38814572848562,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": 8.818411827087402,
+      "edit_norm": 210.16935787883057,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": -0.07729530334472656,
+      "edit_norm": 82.53211890785279,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": -0.0052585601806640625,
+      "edit_norm": 82.6135297582252,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": 0.48131561279296875,
+      "edit_norm": 253.92203989400102,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": 2.074166774749756,
+      "edit_norm": 233.5466291485497,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": 0.9897880554199219,
+      "edit_norm": 92.05920718443232,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": 0.6403894424438477,
+      "edit_norm": 115.40178210859914,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": -0.08046817779541016,
+      "edit_norm": 68.56400159419512,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 27,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": 0.010355949401855469,
+      "edit_norm": 75.49699027654599,
+      "full_edit_norm": 457.1886066701644
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": -12.959768295288086,
+      "edit_norm": 443.0399811763203,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": -0.44214439392089844,
+      "edit_norm": 41.243190243721784,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": -0.9951624870300293,
+      "edit_norm": 54.80594304582822,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": -0.08049726486206055,
+      "edit_norm": 27.94626326703273,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": -0.046840667724609375,
+      "edit_norm": 32.1664819403162,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": -0.48839473724365234,
+      "edit_norm": 128.50299451157858,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": -2.3529391288757324,
+      "edit_norm": 223.1477349858255,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": -0.025060653686523438,
+      "edit_norm": 24.60197097991235,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": -0.05461263656616211,
+      "edit_norm": 31.972755943065135,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": -9.477823734283447,
+      "edit_norm": 213.43761421510072,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": -0.02174234390258789,
+      "edit_norm": 70.1923789819381,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": -0.006439685821533203,
+      "edit_norm": 57.21343620212613,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": -0.6094727516174316,
+      "edit_norm": 259.0975629751591,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": -2.028625011444092,
+      "edit_norm": 210.89815976955612,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": -0.6923785209655762,
+      "edit_norm": 88.20250898398287,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": -0.4241156578063965,
+      "edit_norm": 100.57873873976062,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": 0.10806989669799805,
+      "edit_norm": 75.31675185621567,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 28,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": -0.010222434997558594,
+      "edit_norm": 85.73507501663616,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "full",
+      "change": 13.3863525390625,
+      "edit_norm": 443.0399811763203,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "gradient4",
+      "change": 0.3241605758666992,
+      "edit_norm": 41.243190243721784,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "gradient8",
+      "change": 0.4388594627380371,
+      "edit_norm": 54.80594304582822,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "source4",
+      "change": 0.06694555282592773,
+      "edit_norm": 27.94626326703273,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "weight4",
+      "change": 0.04823446273803711,
+      "edit_norm": 32.1664819403162,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "weight8",
+      "change": 0.2938575744628906,
+      "edit_norm": 128.50299451157858,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "weight32",
+      "change": 2.2110037803649902,
+      "edit_norm": 223.1477349858255,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "random4",
+      "change": 0.02183389663696289,
+      "edit_norm": 24.60197097991235,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "random8",
+      "change": 0.03948259353637695,
+      "edit_norm": 31.972755943065135,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot0",
+      "change": 8.646466255187988,
+      "edit_norm": 213.43761421510072,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot1",
+      "change": -0.00844717025756836,
+      "edit_norm": 70.1923789819381,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot2",
+      "change": 0.030228614807128906,
+      "edit_norm": 57.21343620212613,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot3",
+      "change": 0.3573312759399414,
+      "edit_norm": 259.0975629751591,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot4",
+      "change": 2.278428554534912,
+      "edit_norm": 210.89815976955612,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot5",
+      "change": 0.7861065864562988,
+      "edit_norm": 88.20250898398287,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot6",
+      "change": 0.43355703353881836,
+      "edit_norm": 100.57873873976062,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot7",
+      "change": -0.04675912857055664,
+      "edit_norm": 75.31675185621567,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 29,
+      "cohort": "lexical_A",
+      "arm": "headslot8",
+      "change": -0.0023546218872070312,
+      "edit_norm": 85.73507501663616,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": -13.540379047393799,
+      "edit_norm": 443.0399811763203,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": -0.44998741149902344,
+      "edit_norm": 41.243190243721784,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": -1.0541095733642578,
+      "edit_norm": 54.80594304582822,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": -0.06469345092773438,
+      "edit_norm": 27.94626326703273,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": -0.04828643798828125,
+      "edit_norm": 32.1664819403162,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": -0.4781513214111328,
+      "edit_norm": 128.50299451157858,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": -2.3851304054260254,
+      "edit_norm": 223.1477349858255,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": -0.02612018585205078,
+      "edit_norm": 24.60197097991235,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": -0.055400848388671875,
+      "edit_norm": 31.972755943065135,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": -9.98108196258545,
+      "edit_norm": 213.43761421510072,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": -0.02430438995361328,
+      "edit_norm": 70.1923789819381,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": -0.014003753662109375,
+      "edit_norm": 57.21343620212613,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": -0.5976390838623047,
+      "edit_norm": 259.0975629751591,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": -2.0123867988586426,
+      "edit_norm": 210.89815976955612,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": -0.7470359802246094,
+      "edit_norm": 88.20250898398287,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": -0.3127708435058594,
+      "edit_norm": 100.57873873976062,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": 0.16016292572021484,
+      "edit_norm": 75.31675185621567,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 30,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": -0.016477584838867188,
+      "edit_norm": 85.73507501663616,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "full",
+      "change": 14.48718547821045,
+      "edit_norm": 443.0399811763203,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "gradient4",
+      "change": 0.32163143157958984,
+      "edit_norm": 41.243190243721784,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "gradient8",
+      "change": 0.4315166473388672,
+      "edit_norm": 54.80594304582822,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "source4",
+      "change": 0.06120014190673828,
+      "edit_norm": 27.94626326703273,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "weight4",
+      "change": 0.03613471984863281,
+      "edit_norm": 32.1664819403162,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "weight8",
+      "change": 0.3497748374938965,
+      "edit_norm": 128.50299451157858,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "weight32",
+      "change": 2.4140396118164062,
+      "edit_norm": 223.1477349858255,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "random4",
+      "change": 0.01693105697631836,
+      "edit_norm": 24.60197097991235,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "random8",
+      "change": 0.03863954544067383,
+      "edit_norm": 31.972755943065135,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot0",
+      "change": 9.562313079833984,
+      "edit_norm": 213.43761421510072,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot1",
+      "change": -0.02019357681274414,
+      "edit_norm": 70.1923789819381,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot2",
+      "change": 0.03530740737915039,
+      "edit_norm": 57.21343620212613,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot3",
+      "change": 0.45275259017944336,
+      "edit_norm": 259.0975629751591,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot4",
+      "change": 2.1581454277038574,
+      "edit_norm": 210.89815976955612,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot5",
+      "change": 0.9296855926513672,
+      "edit_norm": 88.20250898398287,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot6",
+      "change": 0.36034393310546875,
+      "edit_norm": 100.57873873976062,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot7",
+      "change": -0.06854820251464844,
+      "edit_norm": 75.31675185621567,
+      "full_edit_norm": 443.0399811763203
+    },
+    {
+      "row": 31,
+      "cohort": "lexical_B",
+      "arm": "headslot8",
+      "change": -0.00851583480834961,
+      "edit_norm": 85.73507501663616,
+      "full_edit_norm": 443.0399811763203
+    }
+  ],
+  "audits": {
+    "cache_only_full_replay_max_abs": 3.814697265625e-06,
+    "base_replay_max_abs": 1.9073486328125e-06,
+    "finite_difference_relative_error": 6.230805597752315e-05,
+    "unchanged_non_source_cache_max_abs": 0,
+    "discovery_delta_rank": 4,
+    "basis_hash_unchanged": true,
+    "evaluation_gradients": 0,
+    "suffix_sequences": 632,
+    "backward_sequences": 8,
+    "finite": true,
+    "new_reserved_test_examples": 0,
+    "independent_torch_metric_max_abs": 0,
+    "source4_discovery_edit_reconstruction_relative": 8.115622506946598e-16,
+    "same_country_cache_delta_across_templates_max_abs": 0.0
+  }
+}
