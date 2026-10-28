@@ -1,4 +1,8 @@
-# Active next step: matched-angle directional control at MLP1
+# Active next step: reconnect the causal benchmark to featurizer fitting
+
+[M6](MATCHED_ANGLE_CONTROL.md) completes the fixed directional controls. Stop perturbation/seed sweeps. Audit existing scalar/block/shared implementations and prior failures (H835 pre-MLP sites; H984/H989 MLP12; H1029 stopped selector). Prepare a bounded native MLP1-write comparison with document-separated fitting, matched active-coordinate costs and causal output evaluation, preserving raw/token/context reconstruction separately. Fixed shared memberships are a baseline; do not resume collapsed learned gates without a new reason. Freeze protocol before training. This is a benchmark and representation comparison, not proof of manifold semantics or new-task discovery. Earlier plans below are historical.
+
+# Completed step: matched-angle directional control at MLP1
 
 [M5](TOKEN_TABLE_CAUSAL.md) shows table replacement has substantially greater downstream effects than norm-only changes. Before attributing this to special contextual directions, match per-position final product norm AND angle from native write using random tangent directions at MLP1, same covered positions/bias/cohort, fixed small seed set and all results. Freeze construction and seeds before outcomes. This compares equal local errors with different orientations, not semantic features. Stop after the fixed control; use outcome to choose causal-featurizer targets. No whole-task holdout or toy-grid expansion. Prior next-step sections are historical.
 

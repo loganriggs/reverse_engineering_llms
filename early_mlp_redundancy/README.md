@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: token-table errors matter downstream
+## Latest: equal local errors cause unequal downstream damage
+
+[M6](MATCHED_ANGLE_CONTROL.md) matches MLP1 token-table replacements' per-position norm, angle and squared error using random tangent directions. Table KL0.18354 versus random0.04561–0.04692; table damage is larger on every document for all3draws. Error orientation/joint structure matters beyond magnitude. The fixed control series is complete; its deliverable is a natural-text causal benchmark for the next featurizer comparison, not discovered semantic units.
+
+## Previous: token-table errors matter downstream
 
 [M5](TOKEN_TABLE_CAUSAL.md) tests opposite-document-half token means on the same64natural-text windows. MLP1 table replacement causes0.184outputKL and+0.192natsCE, versus0.00143KL for a norm-only control. MLP2 has larger local error but less output damage. Directional fidelity matters beyond token means, but finite table-estimation error remains confounded with context dependence. Next compare angular perturbations at matched local error before claiming special causal directions.
 

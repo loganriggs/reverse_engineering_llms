@@ -72,3 +72,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M5: local error and downstream sensitivity rank layers differently
 
 [Cross-document table replacement](TOKEN_TABLE_CAUSAL.md) causes KL.0484/.1835/.1062 forMLP0/1/2, versus norm-only.000137/.001428/.001951. MLP1 is most sensitive despiteMLP2's larger local error. Both direction and downstream weighting belong in causal-featurizer evaluation. Radial controls do not match local-error magnitude, table error mixes context and estimation, and downstream normalization may suppress scaling effects. A fixed matched-angle control is the next discriminator, not a new claim of semantic units.
+
+## M6: magnitude-matched errors differ in causal impact
+
+[Matched-angle controls](MATCHED_ANGLE_CONTROL.md) yield MLP1KL.04561–.04692 versus table.18354, despite equal pointwise norms/angles/squared errors. All64documents show this ordering for all3seeds. Orientation and/or cross-position structure matters; semantic selectivity and pure contextual causation remain unproven. This closes the directional-control series and supplies a concrete causal benchmark for scalar/block/fixed-shared featurizer comparison. Historical pre-MLP andMLP12models are different sites and cannot be silently reused asMLP1writefeaturizers.
