@@ -1,4 +1,8 @@
-# Active next step: native transfer and output evaluation for all joint candidates
+# Active next step: learned sharing with coverage and selective-reuse controls
+
+## Current M37 result
+
+The common-training causal objective improves native log-probability response fidelity in 7/12 architecture/seed/region comparisons and answer-margin response fidelity in 8/12. All18 initial/final states were evaluated on identical within-seed external interventions and the full ordinary-output inventory. These are development transfer results, not semantic-unit validation. See [report](JOINT_SHARED_TRANSFER.md). Previous next steps below are historical.
 
 ## Current M35–M36 result
 

@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: common shared/scalar/block fits completed
+## Latest: common shared/scalar/block transfer evaluated
+
+[M37](JOINT_SHARED_TRANSFER.md). The common-training causal objective improves native log-probability response fidelity in 7/12 architecture/seed/region comparisons and answer-margin response fidelity in 8/12. All18 initial/final states were evaluated on identical within-seed external interventions and the full ordinary-output inventory. These are development transfer results, not semantic-unit validation.
+
+## Previous: common shared/scalar/block fits completed
 
 [M35–M36](JOINT_SHARED_TRAINING_RETENTION.md). All12 common-training fits completed and their final states/schedules passed audit. Native-response supervision improves final training response error versus matched intact-KL control in 6/6 starts. These are familiar training targets; held-out native response and ordinary-output evaluation remain pending. Fixed random sharing is a baseline, not discovered reusable structure.
 

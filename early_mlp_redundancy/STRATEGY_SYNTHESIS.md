@@ -204,3 +204,8 @@ Fixed-overlap union decoding and full dictionary coverage pass all six pilot rep
 ## M35–M36 update
 
 All12 common-training fits completed and their final states/schedules passed audit. Native-response supervision improves final training response error versus matched intact-KL control in 6/6 starts. These are familiar training targets; held-out native response and ordinary-output evaluation remain pending. Fixed random sharing is a baseline, not discovered reusable structure. Commonlambda7.70262, both native generators for every architecture. Next fixed transfer/output validation, not optimizer search.
+
+
+## M37 update
+
+The common-training causal objective improves native log-probability response fidelity in 7/12 architecture/seed/region comparisons and answer-margin response fidelity in 8/12. All18 initial/final states were evaluated on identical within-seed external interventions and the full ordinary-output inventory. These are development transfer results, not semantic-unit validation. Both original generators now common to each architecture. Separate natural forgetting versus foregone control improvement. Fixed random groups do not validate learned sharing.
