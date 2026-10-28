@@ -5,6 +5,11 @@ The factorial below is now a possible protocol bridge, not the default next run 
 mechanistic idea. First resolve native-versus-deployed parent differences and specify the missing
 contrast it would test. The detailed design is retained for review.
 
+The parent audit is now complete at source level: see [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md).
+A small [native response pilot](NATIVE_MLP2_RESPONSE_PILOT.md) has run; the table factorial below
+has not. Next test whether its result depends on the common final-token identity before broadening
+to a corpus study or claiming a reusable correction.
+
 ## Target
 
 Explain why MLP1 repeats a readily token-predictable signal while removing it can have a large

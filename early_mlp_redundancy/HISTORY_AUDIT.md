@@ -4,6 +4,11 @@ The initial packet's proposed table factorial was too easy to read as an unteste
 A follow-up source audit found related completed experiments and a crucial continuation of the MLP2
 compensation study. This amendment changes the next action; no new model experiment was run.
 
+**Parent-contract correction:** subsequent source tracing established that the C512 compensation
+assay uses the native checkpoint with only MLP0.Down replaced. “Deployed MLP2” there means
+the native MLP2 left active, not the approximated whole-model ship. Compiler-v2.1 does use
+the frozen ship. See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md).
+
 ## Related table compositions already exist
 
 [Two-block composition](evidence/prior/front_table_compose_results.json) reports CE costs
@@ -34,9 +39,10 @@ The stored result confirms that all other common gates passed. That bookkeeping 
 be silently converted into a new positive result, nor treated as evidence against every mechanism.
 The alignment failure remains substantively relevant even if the coverage comparison is repaired.
 
-These runs concern **C512 and a deployed parent**. They must not be collapsed into a claim about
-the unmodified checkpoint exercised by this packet's inspector. Distinguish the upstream error,
-the parent program, local MLP2 write, and the downstream response before comparing numbers.
+These runs concern a **C512 replacement of native MLP0.Down**, with the other checkpoint
+components intact (apart from the explicit MLP2-omission control). Their results concern
+approximation-induced errors, not arbitrary native MLP1 edits. Distinguish the upstream error,
+local MLP2 write, and downstream response before comparing numbers.
 
 ## Later compilation found conditional utility, not a faithful replacement
 
@@ -53,7 +59,7 @@ is not evidence that exact MLP2 repairs it. No universal “MLP2 compensation”
 ## Revised next action
 
 Before collecting a new natural-text panel, make the **parent/interface contract** explicit for
-these three evidence streams: native token-table assay, C512/deployed compensation assay, and
+these three evidence streams: native token-table assay, C512-on-native compensation assay, and
 compiler-v2.1. Identify which exact functions and persistent state differ. Use the historical
 results to choose one missing contrast. The proposed native hybrid-table factorial can serve as a
 controlled bridge, but should proceed only if it resolves that contrast; it is not the default

@@ -12,11 +12,16 @@ it does not assume that MLP1 is dispensable, that its neurons are duplicates, or
 replacement already exists. The immediate deliverable is an evidence packet and working model
 inspection surface, not a newly completed redundancy experiment.
 
+**New exploratory result:** [the native MLP2 response pilot](NATIVE_MLP2_RESPONSE_PILOT.md)
+finds amplification, rather than damping, for the tested final-token edits. This narrow result
+does not invalidate C512-specific attenuation.
+
 ## Read this first
 
 **Follow-up correction:** [the history audit](HISTORY_AUDIT.md) adds completed table-composition,
 MLP2 compensation, and compiler results. Read it before planning a new experiment: the older
-aligned-repair hypothesis was not established, and the deployed parent differs from this native inspector.
+aligned-repair hypothesis was not established, and the compiler parent differs from this native inspector. The C512 compensation parent
+is native apart from its MLP0.Down replacement; see [parent contracts](PARENT_CONTRACTS.md).
 
 | Observation | Evidence | What it establishes / leaves open |
 |---|---|---|

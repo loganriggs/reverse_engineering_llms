@@ -25,3 +25,7 @@ The original archival scripts have not all been reexecuted and may need missing 
 Follow-up: inspected historical composition source boundaries and verified simple arithmetic,
 stored compensation gates, and compiler terminal authority. No new native forwards or full
 bootstrap replay were performed for this amendment; see validation/history_audit.json.
+
+EMLP-P1: 288 exploratory native-model forwards plus 3 replay forwards. See
+NATIVE_MLP2_RESPONSE_PILOT.md and its separate result/audit receipts. This extends the
+packet beyond the original loader smoke test; it does not validate corpus-level redundancy.

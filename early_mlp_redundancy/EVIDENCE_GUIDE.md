@@ -138,3 +138,12 @@ Read [HISTORY_AUDIT.md](HISTORY_AUDIT.md) for the amended chronology and implica
 - [evidence/prior/early_mlp_state_complete_compiler_v21_final_authority.json](evidence/prior/early_mlp_state_complete_compiler_v21_final_authority.json)
 - [evidence/prior/MLP0_C512_MLP2_COMPENSATION_V2_FINDINGS.md](evidence/prior/MLP0_C512_MLP2_COMPENSATION_V2_FINDINGS.md)
 - [evidence/prior/EARLY_MLP_STATE_COMPLETE_COMPILER_V21_FINAL_FINDINGS.md](evidence/prior/EARLY_MLP_STATE_COMPLETE_COMPILER_V21_FINAL_FINDINGS.md)
+
+## Parent audit and native pilot
+
+See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.md](NATIVE_MLP2_RESPONSE_PILOT.md).
+
+- [evidence/prior/evaluate_mlp0_c512_mlp1_interchange_v1.py](evidence/prior/evaluate_mlp0_c512_mlp1_interchange_v1.py)
+- [evidence/prior/evaluate_mlp0_c512_mlp2_compensation_v1.py](evidence/prior/evaluate_mlp0_c512_mlp2_compensation_v1.py)
+- [evidence/prior/mlp0_c512_mlp2_compensation.py](evidence/prior/mlp0_c512_mlp2_compensation.py)
+- [evidence/prior/early_mlp_state_complete_compiler_v21_final.py](evidence/prior/early_mlp_state_complete_compiler_v21_final.py)
