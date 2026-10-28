@@ -10,7 +10,9 @@ A small [native response pilot](NATIVE_MLP2_RESPONSE_PILOT.md) has run; the tabl
 has not. [EMLP-P2](MLP2_TOKEN_TRANSFER.md) now tests four noun anchors and future predictions. [EMLP-P3](MLP1_RESPONSE.md) applies the same intervention to MLP0→MLP1 and finds strong
 amplification for context and random changes. [EMLP-P4](MLP1_MEDIATION.md) now makes that comparison: prefix transfer gives83%write-error
 reduction versus20%local, while a perfect local MLP1 write recovers little output discrepancy.
-Next freeze/live MLP1 across all positions under prefix MLP0 transfer to isolate its downstream role.
+[EMLP-P5](PREFIX_RESPONSE_FACTORIAL.md) finds that the induced all-position MLP1 writes
+carry much of the donor-output recovery. Next split their response at the changed lexical position
+versus other positions, to define a smaller causal target; this is still an opened-panel diagnostic.
 
 ## Target
 

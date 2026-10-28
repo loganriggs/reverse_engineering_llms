@@ -9,23 +9,27 @@ and can we isolate that contribution with a faithful, reusable intervention?
 
 The word *redundant* has covered several different observations. This packet separates them;
 it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. The immediate deliverable is an evidence packet and working model
-inspection surface, not a newly completed redundancy experiment.
+replacement already exists. It includes historical evidence, runnable inspection code, and five
+small exploratory native-model studies.
 
-**New exploratory result:** [the native MLP2 response pilot](NATIVE_MLP2_RESPONSE_PILOT.md)
-finds amplification, rather than damping, for the tested final-token edits. This narrow result
-does not invalidate C512-specific attenuation.
+## Current answer, within the tested panel
 
-**Transfer follow-up:** [EMLP-P2](MLP2_TOKEN_TRANSFER.md) extends the amplification finding to
-four noun tokens and future predictions, with a local/future MLP2 response factorial.
+MLP1 is causally active even when its information overlaps earlier layers. It amplifies upstream
+changes, including random ones ([P3](MLP1_RESPONSE.md)). Amplification alone is not semantic evidence.
 
-**Direct MLP1 test:** [EMLP-P3](MLP1_RESPONSE.md) finds strong amplification of MLP0 write
-changes, including random controls. Information overlap does not imply causal inactivity;
-semantic usefulness and mediation of the full natural context difference remain unmeasured.
+Natural prefix MLP0-write transfer predicts the noun-position MLP1 context change much better than
+local-only transfer:83% versus20% reduction in squared target error ([P4](MLP1_MEDIATION.md)).
+This supports a cross-position contribution through attention1, without identifying a particular head.
 
-**Natural-context transfer:** [EMLP-P4](MLP1_MEDIATION.md) finds that aligned-prefix MLP0
-write transfer reduces squared error in the noun-position MLP1 context change by83%, versus20%
-for local transfer. Internal alignment and output fidelity remain distinct.
+The induced MLP1 writes across positions also carry substantial donor-output recovery: about34%
+on their own versus38–40% for the full prefix intervention; freezing them leaves only1–3% recovery
+([P5](PREFIX_RESPONSE_FACTORIAL.md)). Matched random-prefix edits do not recover the donor distribution.
+This is evidence of a direction-dependent early computation on a small reused authored panel, **not
+a verified compact feature basis or broad task understanding**. She/he transfer is notably weak.
+
+The earlier [P1](NATIVE_MLP2_RESPONSE_PILOT.md) and [P2](MLP2_TOKEN_TRANSFER.md) studies distinguish
+native MLP2 amplification from approximation-specific error attenuation. Read the parent contracts
+below before comparing those experiments with historical compressors.
 
 ## Read this first
 

@@ -159,3 +159,7 @@ See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.m
 ## Natural MLP1 context-change transfer
 
 [EMLP-P4](MLP1_MEDIATION.md) compares local and aligned-prefix MLP0 interventions against the natural MLP1 target difference.
+
+## Output recovery through distributed MLP1 response
+
+[EMLP-P5](PREFIX_RESPONSE_FACTORIAL.md) crosses prefix MLP0 transfer with induced MLP1 writes and matched random-prefix controls.

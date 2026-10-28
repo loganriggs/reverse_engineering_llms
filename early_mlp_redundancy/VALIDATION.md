@@ -41,3 +41,6 @@ See MLP1_RESPONSE.md for scope and limitations.
 EMLP-P4:288native forwards; exact identity/oracle controls;224saved vector rows independently
 recomputed with NumPy (maxrelative1.08e-15). Output-KL ratios checked from stored rows.
 No additional audit forwards; see MLP1_MEDIATION.md.
+
+EMLP-P5:704native forwards; identity/joint replay exact0;32independent scalar KL checks
+max3.06e-16, previous P4 prefix arm within1.96e-7absolute. See PREFIX_RESPONSE_FACTORIAL.md.
