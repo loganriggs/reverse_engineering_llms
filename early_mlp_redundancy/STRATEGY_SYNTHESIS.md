@@ -156,3 +156,7 @@ M23 completes eight fixed beta1=0 fits and audited native/training-target evalua
 ## M24: pairwise conflict is not aggregate infeasibility
 
 M24 measures all480 scheduled training targets and natural document multiplicities across four unchanged starts. Aggregate descent locally improves39/40 family response losses despite10–24/45 negative family-pair alignments. Task K versus weighted R cosines are positive inall4; natural K is almost orthogonal. This weakens immediate aggregate conflict as the whole explanation, not later interference or finite-step failure. Full gradient/aggregation audit and eight parameter finite differences pass. Next a fixed finite-displacement comparison of aggregate versus first-minibatch directions, matched norms with1/10 local control, actual/fixed supports; no optimizer grid.
+
+## M25: existing coordinates admit a nearby joint improvement
+
+M25 finite aggregate updates lower training response error41–52%, complete schedule objective22–28%, and both intact task/natural K inall4 starts. Families improve39/40; fixed supports retain most gains. Full minibatch steps harm bothscalar objectives but help bothblock; tenth steps improveall4. Comparison confounds objective coverage/averaging/preconditioning, not equalcompute. Exit139 firstattempt retained; unchanged retry8433forwards/auditpassed. Close localoptimizerdiagnosis; next evaluate all16live candidates plus4initials on unchanged native704directions and full outputinventory. No winnerselection/extra tuning/semanticunitclaim.
