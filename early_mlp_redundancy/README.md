@@ -9,7 +9,7 @@ and can we isolate that contribution with a faithful, reusable intervention?
 
 The word *redundant* has covered several different observations. This packet separates them;
 it does not assume that MLP1 is dispensable, that its neurons are duplicates, or that a low-rank
-replacement already exists. It includes historical evidence, runnable inspection code, and nine
+replacement already exists. It includes historical evidence, runnable inspection code, and ten
 small exploratory native-model studies.
 
 ## Current answer, within the tested panel
@@ -48,6 +48,12 @@ The [completed direction/norm factorial (P9)](DIRECTION_NORM_FACTORIAL.md) confi
 agreement's large old-vector advantage comes mainly from magnitude. At fixed norm, the new
 context direction performs slightly better. Next is a lexical-pair-held-out direction-sharing
 test on agreement and sentiment, with oracle magnitude clearly separated from learned prediction.
+
+A [lexical-pair holdout test (P10)](LEXICAL_DIRECTION_TRANSFER.md) finds that mean directions
+estimated from other word pairs recover about29–31% of donor-output discrepancy at oracle native
+norm, versus19–20% for the native local response. Their cosine with native responses is only.37–.59:
+this is reusable steering evidence, not yet a faithful feature decomposition. Next is the actual
+shared projection versus residual at native amplitude, without renormalizing either component.
 
 The earlier [P1](NATIVE_MLP2_RESPONSE_PILOT.md) and [P2](MLP2_TOKEN_TRANSFER.md) studies distinguish
 native MLP2 amplification from approximation-specific error attenuation. Read the parent contracts

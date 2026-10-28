@@ -56,3 +56,5 @@ Selection metadata unchanged. See TRAINING_TASK_SCREEN.md for source-diversity l
 P8 adds the [fixed preamble competence and transfer study](PREAMBLE_TRANSFER.md), with [audit receipt](validation/preamble_audit.json).
 
 P9 completes the [direction-by-norm factorial](DIRECTION_NORM_FACTORIAL.md), including its lexical holdout protocol and [audit receipt](validation/direction_norm_audit.json).
+
+P10 adds [lexical direction transfer](LEXICAL_DIRECTION_TRANSFER.md), with explicit word-pair exclusions and [audit receipt](validation/lexical_direction_audit.json).

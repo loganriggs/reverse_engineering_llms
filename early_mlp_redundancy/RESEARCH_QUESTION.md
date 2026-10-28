@@ -81,3 +81,5 @@ results are legitimate. Do not widen ranks, add featurizers, or declare a manifo
 Any next project should be justified by a remaining distinguishable hypothesis.
 
 The fixed preamble screen and direction/norm factorial are complete in [P8](PREAMBLE_TRANSFER.md) and [P9](DIRECTION_NORM_FACTORIAL.md). The next bounded step is P9's lexical-pair-held-out direction-sharing test, not more preamble expansion.
+
+P10 lexical direction transfer is complete. The next fixed test is the native projection/residual decomposition and cross-family control specified in [P10](LEXICAL_DIRECTION_TRANSFER.md). Distinguish useful steering from faithful computation.
