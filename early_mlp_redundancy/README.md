@@ -23,6 +23,10 @@ four noun tokens and future predictions, with a local/future MLP2 response facto
 changes, including random controls. Information overlap does not imply causal inactivity;
 semantic usefulness and mediation of the full natural context difference remain unmeasured.
 
+**Natural-context transfer:** [EMLP-P4](MLP1_MEDIATION.md) finds that aligned-prefix MLP0
+write transfer reduces squared error in the noun-position MLP1 context change by83%, versus20%
+for local transfer. Internal alignment and output fidelity remain distinct.
+
 ## Read this first
 
 **Follow-up correction:** [the history audit](HISTORY_AUDIT.md) adds completed table-composition,

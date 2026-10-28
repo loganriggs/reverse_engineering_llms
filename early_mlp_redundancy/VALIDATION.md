@@ -37,3 +37,7 @@ See MLP2_TOKEN_TRANSFER.md; no representative-corpus or semantic-feature claim.
 EMLP-P3:704native forwards; identity/pre-edit replay exact0; all overall summary means
 and causal equalities checked;56independent NumPy KLchecks max8.29e-16.
 See MLP1_RESPONSE.md for scope and limitations.
+
+EMLP-P4:288native forwards; exact identity/oracle controls;224saved vector rows independently
+recomputed with NumPy (maxrelative1.08e-15). Output-KL ratios checked from stored rows.
+No additional audit forwards; see MLP1_MEDIATION.md.

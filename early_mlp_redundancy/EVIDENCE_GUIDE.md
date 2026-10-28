@@ -155,3 +155,7 @@ See [PARENT_CONTRACTS.md](PARENT_CONTRACTS.md) and [NATIVE_MLP2_RESPONSE_PILOT.m
 ## Direct MLP0→MLP1 response
 
 [EMLP-P3](MLP1_RESPONSE.md) uses the same opened panel and controls to test MLP1 response.
+
+## Natural MLP1 context-change transfer
+
+[EMLP-P4](MLP1_MEDIATION.md) compares local and aligned-prefix MLP0 interventions against the natural MLP1 target difference.
