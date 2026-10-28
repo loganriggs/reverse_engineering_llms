@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: natural text changes the token/context balance
+## Latest: token-table errors matter downstream
+
+[M5](TOKEN_TABLE_CAUSAL.md) tests opposite-document-half token means on the same64natural-text windows. MLP1 table replacement causes0.184outputKL and+0.192natsCE, versus0.00143KL for a norm-only control. MLP2 has larger local error but less output damage. Directional fidelity matters beyond token means, but finite table-estimation error remains confounded with context dependence. Next compare angular perturbations at matched local error before claiming special causal directions.
+
+## Previous: natural text changes the token/context balance
 
 [M4](NATURAL_TOKEN_CONTEXT.md) repeats the partition on 64 reused natural-text training documents. Within-token variation is 29.5%, 40.8% and 53.8% for MLP0/1/2 among repeated-context tokens, much larger than the short-prompt result. Opposite-document-half token means improve over a global-mean predictor by only 11–13% at MLP2, on 58–60% covered evaluation positions. The small-contextual-correction description is not general. Next test downstream effects of cross-document table replacement with a norm-only control.
 

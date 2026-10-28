@@ -1,4 +1,8 @@
-# Active next step: causal test of cross-document token-mean predictions
+# Active next step: matched-angle directional control at MLP1
+
+[M5](TOKEN_TABLE_CAUSAL.md) shows table replacement has substantially greater downstream effects than norm-only changes. Before attributing this to special contextual directions, match per-position final product norm AND angle from native write using random tangent directions at MLP1, same covered positions/bias/cohort, fixed small seed set and all results. Freeze construction and seeds before outcomes. This compares equal local errors with different orientations, not semantic features. Stop after the fixed control; use outcome to choose causal-featurizer targets. No whole-task holdout or toy-grid expansion. Prior next-step sections are historical.
+
+# Completed step: causal test of cross-document token-mean predictions
 
 [M4](NATURAL_TOKEN_CONTEXT.md) shows much larger contextual variation on natural text and limited MLP2 token-mean prediction. Use the same64 reused training documents and opposite-half token means; replace product writes at covered positions, retain Down bias/native uncovered writes, and test each early layer separately. Include native-product norm-only scaling to table norm, output KL/top1/CE, coverage and local vector error. No refit, new task holdout, or hyperparameter sweep. Freeze this protocol before outcomes. These are table-replacement interventions, not evidence of native-channel removability. Earlier next-step sections are historical.
 
