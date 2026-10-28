@@ -96,3 +96,7 @@ literal-removal distinction are in [the removal audit](REMOVAL_REDUNDANCY.md).
 ## M11: broader causal coverage helps both architectures
 
 [Mixedsupervision](DIVERSE_CAUSAL_SUPERVISION.md) cutslexicalevaltaskKL61–77%vsnatural-onlycontinuation, with3–10%naturalKLcostrelativecontrol. MostcostisforegonenaturalimprovementratherthanlargeforgettingfromM8baseline. BlockscompetitiveontaskKLbutstillworsenaturalKL. Tiny14pairevalandfourtraining-onlyfamilieslimitclaims. Freezeweightsandtestactualblockstructure/stability/causalroles; improvedfidelityaloneisnotmanifoldvalidationornewtaskdiscovery.
+
+## M12: stable broader geometry does not give stable blocks
+
+[Structureaudit](BLOCK_STRUCTURE_AUDIT.md) findsactualblocks~3.4conditionaldimensions,butshuffled/arbitrarygroupsalsomultidimensional. Mixedblockcrossseed4Doverlap.116 vsfull128D.690, groupreference.077/ambient.006. Occupancy-adjustedinterpretationneededforJaccard(.212block vs.141ambient; scalar.533vs.525). No verifiedsemanticmanifold. Nextdecoded-groupcausalroles maydistinguishunstablecoordinatesfromreproduciblefunctions,withtraining-onlymatching andfrozenweights.

@@ -7,7 +7,11 @@ MLP2 has a separate native-channel cancellation/pruning problem.
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Latest: diverse supervision improves lexical task transfer
+## Latest: block dimensionality is real, block identity remains weak
+
+[M12](BLOCK_STRUCTURE_AUDIT.md) auditsfrozenmodels. Mixedblocks use~3.4of4conditionaldimensions, butarbitrarygroupingsalso lookmultidimensional. Crossseedmatchedblockoverlap.116 versusfull128Ddictionaryoverlap.690; groupingreference.077,ambientnull.006. SupportJaccard.212 versusambientreference.141. Thesearecandidateblocks,notverifiedmanifolds. Nextfixedcausalgroupablation/rolematchingwithscalar/shuffledcontrols,weightsfrozen.
+
+## Previous: diverse supervision improves lexical task transfer
 
 [M11](DIVERSE_CAUSAL_SUPERVISION.md) executes the frozen mixture comparison. Mixednatural/taskKLtraining cuts source-separated taskKL61–77% versus continuednatural-only, inall4comparisons, while naturalKLis3–10%worsethanthatcontrol. Only14evalpairs/6families;4otherfamiliestraining-only. BlocksbecomecompetitivewithscalarontaskKLbutremainworseonnaturaltext. Nextfreezecheckpointsandtestblockstructure/stability/selectivecausalroles, ratherthanassumingbetterfidelitymeansmeaningfulmanifolds.
 

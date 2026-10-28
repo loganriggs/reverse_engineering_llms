@@ -1,4 +1,8 @@
-# Active next step: validate candidate block structure in frozen models
+# Active next step: causal role stability versus geometric block stability
+
+[M12](BLOCK_STRUCTURE_AUDIT.md) findsconditionalmultidimensionality butweakindividualblockreproducibility. Freeze a bounded decoded-group ablation panel onmixedmodels, othercodes/gatesheldfixed. Comparetask-margin/outputKL effects againstintactreconstruction, removedenergy/cost andscalar/shuffledgroupcontrols. Fit rolematching/candidateselectiononlyontrainingtasks; evaluateexisting14source-separatedpairswithoutselection. Fulltaskexclusionsreserved. Geometry/function/semanticclaimsremainseparate; no moremixtureorwidthtuning. Earlierplansarehistorical.
+
+# Completed structural step: validate candidate block structure in frozen models
 
 [M11](DIVERSE_CAUSAL_SUPERVISION.md) completes8fixedfits and source-separatedtransfer/forgettingevaluation. Freeze finalmodels. Audit conditionalblockdimensionality, occupancy, seedsubspace/supportstability and selectivecausalroles withscalar/shuffledgroupcontrols. Handle sign/permutation/withinblockrotation. Choosecandidatesonlyfromtrainingdata; do notrepeatedlyselectontiny14pairevaluation. Stable/multidimensional≠semanticmanifold. Originalwhole-taskexclusionsreserved; stopmixture/width/gate tuning. Earlierplansarehistorical.
 
