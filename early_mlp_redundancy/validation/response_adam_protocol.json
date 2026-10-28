@@ -1,0 +1,35 @@
+{
+  "source_sha256": "1c10cc3d217e7563f1d5dc349bec2ac088733b4caa28a38634075d28bc691a20",
+  "training_results_sha256": "7b830862047eae70c6c080f052a8b364a4532c7b4a247cea03c497e72be1c1f4",
+  "training_protocol_sha256": "62402a00edb0059c003e4a9235fd44d1888671fdb28c9f2b04b442e0ed9e1191",
+  "targets_sha256": "780350b3ac2303fbbea39265783230059296250fa0770e1410eaab20d4215ed9",
+  "initial": {
+    "kind": "block",
+    "seed": 71,
+    "arm": "expanded_context",
+    "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m18_context_training/block_71_expanded_context.pt",
+    "sha256": "23f1bcc1999f43a12048968b3c4123a273b9394edbe25cd92b6c4b23f6dd5035"
+  },
+  "expected_final": {
+    "kind": "block",
+    "seed": 71,
+    "arm": "intact_KL_plus_response",
+    "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m20_response_training/block_71_intact_KL_plus_response.pt",
+    "sha256": "b81d9da55c6dca7c66f4bd43a9a4060e835063bd98380283344e851639a6e619"
+  },
+  "kind": "block",
+  "seed": 71,
+  "arm": "intact_KL_plus_response",
+  "sentinel_index": 198,
+  "selection": "Post-M20 diagnostic: block71 largest proportional final combined-objective regression; target198 largest final response error in this fit. No new confirmation or representativeness claim.",
+  "design": "Exact original120updates, freshAdam.0003, fixedtargets/weights/dataorder, decoder normalization. Before eachupdate compute sentinelR and its parametergradient without accumulating optimizer gradients. After update compare actual sentinelR, newparams with oldsupport fixed, and gradient dot actual normalized parameter delta. Require allfinaltensors and training histories reproduce oldrun. No alternative optimizer/loss/data tuning.",
+  "counterfactual_steps": [
+    79,
+    80,
+    81,
+    82,
+    83
+  ],
+  "counterfactuals": "At same preupdate state, split Adam first moment into beta1*m_previous and (1-beta1)*current_gradient, retaining actual updated secondmoment/biascorrections. Evaluate carried-only,current-only,andcurrent-only scaled to actual raw update norm; apply same unit-column normalization. Record achieved normalized update norms and support flips. Restore actualpostupdate parameters and prove optimizer state unchanged. Matchednorm is before decoder normalization, not after. Post-selected localdiagnosis, not a reset-optimizer training experiment.",
+  "stopping": "Exactly five fixed steps; no LR/beta/weight search. Preserve unchanged reference trajectory and require exactfinalstate and oldM21 sentinel records."
+}
