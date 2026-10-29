@@ -1,0 +1,34 @@
+{
+  "stage": "M81 frozen executable bilinear input-featurizer implementation and gradient preflight; no fit yet",
+  "hypothesis": "Shared nonlinear input features may predict native writes and finite changes more faithfully when trained jointly for background/change compatibility. Separate architecture benefits from causal-objective benefits.",
+  "inputs": "Only normalized MLP1 input z at inference. Fixed input mean/global RMS and output mean/global RMS fitted on4092natural training positions. Task labels used only for schedule/loss balancing, never as predictor input. Native writes and final outputs are teacher targets, not encoder inputs.",
+  "architecture": "128 signed bilinear coordinates a_i=(U_i x+u_i)(V_i x+v_i), followed by gates and unit-column decoder D plus learned output bias. Same443776 trainable scalars across kinds: U,V each128x1152, two128 biases, D1152x128, output bias1152. Fixed normalization and membership buffers excluded from count. Bilinear bias terms allow linear and constant terms. Native model has4608product channels; no exact-recovery assumption at128.",
+  "kinds": [
+    "dense: all128 coordinates",
+    "scalar: top32 absolute coordinate magnitudes",
+    "block:32disjoint groups of4, top8 summed-squared group energies",
+    "shared_fixed:32groups of8, each atom in2groups using two independent permutations; top4 summed-squared groups; exact union counts shared atoms once"
+  ],
+  "seeds": [
+    71,
+    72
+  ],
+  "initialization": "Perseed generate U then V independently from N(0,1/1152), D from N(0,1) with columns normalized, all biases zero. Share these initial arrays across all four kinds. Membership generated with a separate generator seed+10000, two randperm128 calls. Deterministic stable descending argsort with lower index tie breaking for all gates. Record exact states before optimization.",
+  "cost": "Compare objectives within each architecture at exactly equal parameters, updates and initial state. Compare architectures at equal trainable parameters but report actual active-coordinate count, union sizes and compute costs: dense128 is not matched active cost to sparse<=32. Historical output encoders are information-access controls, not matched executable baselines.",
+  "objective": "Natural: all-position final-output KL. Task: final-position intact KL K plus lambda times average balanced response errors across all THREE corners (native background/predicted change; predicted background/native change; predicted background/predicted change). Each response centered on its own background. Teacher native donor-minus-recipient response. Backpropagate through both donor and recipient predictions and both candidate background and changed output. Native parameters frozen. Identity loss exactlyzero; no active mean denominator contribution. Existing M60 training-only family/region energy scales retained.",
+  "comparison": "After correctness preflight:8warmup starts (4kinds x2seeds), then16 matched fits (KL-only versus joint-three-corner objective). Each architecture shares its exact warmup start across objective arms. No architecture or seed selected for evaluation.",
+  "prospective_warmup": "Natural reconstruction MSE on4092training positions only;1000updates Adam lr.001,batch128,perseed fixed generator seed+1000. Column normalization after each update. No task data or heldout data in warmup. No optimizer carryover into downstream fits. Implement and verify before running.",
+  "prospective_downstream": "Use historical M60 perseed schedules exactly:66natural and66task updates alternating natural first; both endpoint task losses averaged. Adam lr1e-4 and unit-column renormalization. All70training-pair inventory available, same schedule exposure recorded. Retain weak training cases and report them; no prompt rescue. One shared lambda calibrated after warmup as mean initial K / mean initial balanced three-corner error over all8starts and scheduled training endpoints. No architecture-specific weight, evaluation tuning or extra updates.",
+  "oracle": "For each frozen decoder, evaluate full-dictionary least-squares projection of native writes as a privileged local-MSE reconstruction ceiling. It is not executable from z and is NOT a ceiling on causal fidelity or behavioral performance. Selected-support projection may be descriptive but does not add an optimizer arm.",
+  "preflight": "Independent polynomial/union-gate/count tests, known small bilinear teacher exact parameter-injection recovery including shared atoms; identical parameters acrosskinds before gates; independent all-three-corner loss/addressing checks on training-only cases including unequal lengths and identity; directional parameter finite differences away from gate ties, explicit tie/change reporting; finite gradients to both endpoints and no native-model gradients; actual MLPforward override with native product guard. Verify natural-input and task-input caches separately. Freeze numerical checks before executing them. No optimizer fit in this preflight stage.",
+  "evaluation": "Freeze before fitting: all32natural heldout docs,14source-group pairs,56whole-task pairs with7excluded families/14formats, allthreecorners/source/final/identity and weak/ineligible cases retained. Report local reconstruction, output KL/CE, contrast/top1, family/pooled/margin causal fidelity, active costs and seed agreement separately. Preserve training exclusions; these historically exposed evaluation sets do not establish pristine discovery.",
+  "stop": "Complete one audited implementation/preflight and calibration plan, then one matched training/evaluation comparison after separate execution receipts. No architecture/rank/loss-weight/seed sweep, no selecting best checkpoints. A failure to learn does not prove no reusable features. No manifold or new-task-discovery claim without separate validation.",
+  "references": {
+    "input_training_inventory.json": "42deac742810cd58b148d6c5e0d568c72d90f6e3f4a009f2cd24ff12e9bd1eda",
+    "input_training_inventory_audit.json": "96b69819f709db41f0f5bcea540e8057a8dafb889e8882b1af90038a9ed52ca9",
+    "native_input_reference.json": "9f04e106400802777d80632870183e37953117a8349a65c92dc7193972721b6f",
+    "balanced_response_training_protocol.json": "5ec87601696305537b50781c6503dd912db20127f5ce2f6082c6330ec7dfc357",
+    "whole_task_native_protocol.json": "e0646ab536d0daaeefa287d34837d9a53cd8ea43a8dfeeab7138d42b0afd4762",
+    "local_affine_chart_comparison.json": "b3abaf3e4513647729347175bc3f39459a2338adb9f8d139c95d402f2a7ec63a"
+  }
+}

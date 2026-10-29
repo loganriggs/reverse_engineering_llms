@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Executable input-featurizer readiness](INPUT_FEATURIZER_READINESS.md). Training inputs are captured and independently verified; a matched causal-supervision comparison is specified, with implementation preflight next.
+
 Latest: [Local affine charts](LOCAL_AFFINE_CHARTS.md). Completed causal tests show better geometric coverage does not yield reliable computational units; routing explains only part of local error. See also [20 conceptual hypotheses](CONCEPTUAL_HYPOTHESES_M79.md).
 
 Latest: [Fitted affine input-to-write test](AFFINE_INPUT_PREDICTOR.md). A global affine map preserves many task answers but fails causal replacement; next test explicitly context-dependent local computation.
