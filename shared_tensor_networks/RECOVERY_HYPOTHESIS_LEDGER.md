@@ -10,7 +10,7 @@ Updated2026-10-29. These hypotheses are not mutually exclusive. The strongest cu
 | 4 | More heads strengthen weak local directions. | Supported by profiled-information and local-noise tests; measure the same effect in finite-data regimes. |
 | 5 | More heads remove distant incorrect decompositions. | Local rank does not settle global alternatives; exact alternative decompositions or global identification arguments would discriminate. |
 | 6 | Diverse task losses make bad optimization basins harder to enter. | Supported more directly:13/15independent equal-width fits admit a copied shared solution with lower empirical loss, certifying suboptimal optimization outcomes. |
-| 7 | Benefit is ordinary overfitting reduction through tying. | Fits the resource tradeoff; compare source training/population errors at matched data and parameter budgets. |
+| 7 | Benefit is ordinary overfitting reduction through tying. | Supported by release control: removing sharing lowers empirical loss but worsens output-span transfer5/5teachers, even with teacher-initialized independent fits. |
 | 8 | The benefit is mostly additional input coverage. | More heads actually reduce distinct inputs at fixed labels; coverage can explain the low-budget reversal, not every high-budget gain. |
 | 9 | Sharing acts as an implicit low-rank constraint on task functions. | Algebraically true: outputs lie in hidden-product span; compare unconstrained polynomial and rank-constrained function-span baselines. |
 | 10 | Sufficient source-task span, rather than hidden recovery, explains transfer. | Test equal-dimensional predicted-output features and independently measured component recovery. |
@@ -20,7 +20,7 @@ Updated2026-10-29. These hypotheses are not mutually exclusive. The strongest cu
 | 14 | Occurrence multiplicity creates an effective layer learning-rate advantage. | Exact metric result and earlier SGD controls support the confound; not sufficient to explain current TRF results. |
 | 15 | Curvature correction is the main missing ingredient. | GN dramatically improved earlier toys, yet currentTRFstill has failures; curvature alone is insufficient. |
 | 16 | Alternating updates unlock shared structure. | Naive alternation and blockGNshow no consistent superiority; no reason for another broad order sweep. |
-| 17 | Readout conditioning determines adaptation error more than hidden geometry. | Use normalized predicted outputs, oracle output spans and exact projection floors; preserve all ill-conditioned cases. |
+| 17 | Readout conditioning determines adaptation error more than hidden geometry. | Teacher output condition numbers60.8–746.8 and independent-fit span rotations support this mechanism; coherent shared dictionary errors have a different first-order structure. |
 | 18 | Extra labels mainly average away observation noise. | Noiseless controls also exhibit failures; task-dependent information and optimization effects remain. |
 | 19 | Apparent advantages are a few favorable teacher/initialization draws. | Five fresh teacher confirmations with all initialization means reduce this concern; larger-network universality remains untested. |
 | 20 | Recovery relies on special teacher architecture or privileged normalization/interventions. | True scope limitation: Gaussian bilinear teachers, knownRMS and labeled ablations are controlled assumptions; transfer to mismatched architectures remains separate. |

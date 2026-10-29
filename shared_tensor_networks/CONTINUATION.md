@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (d8h4scaling). Current turn: progress (300 independent-head fits audited, equal-output-dimension transfer comparison,13explicit suboptimality certificates,20hypothesisledger). Goal active.
+Previous goal turn: progress (shared/separate comparison). Current turn: progress (200 audited release/teacher-start headfits, output-span diagnostics and local perturbation explanation). Goal active.
+
+## Current: release-sharing control COMPLETE
+
+RELEASED_READOUT_PLAN.md fixed15sharedlearnedsolutions x10heads +5teacherstarts x10heads=200fits/20groups. run_/audit_/summarize_released_readouts.py complete. Copysharedfinalortrueteacherintoindependenth4heads;200TRFevals/head,samedata/noise,norescues. Everyinitialfuncverified;everyempiricallossnonincrease;autograd7.45e-16,400freshinputpolynomial/source/transfernormal equationsverified. Eachhead74,total740vs164shared. Addedcompute/trainedinitialization,notstandaloneoptimizercomparison.
+
+Mediantransfer shared.000852 /randomindependent.109226 /released.034360 /teacherindependent.034360. Releaseworsenstransfer5/5teacheraggregates whileloweringtrainingloss. Teacherindependentmediantrain.002174 andsource~.001 confirmsrandom-basinproblemisnotwholegap. Same10predictedoutputfeatures;scoperestrictionmatters(independenthiddenfeaturesmayretaininformation).
+
+assess_released_output_spans.py: teacheroutputcondition60.8–746.8;independentteacherstartminprincipalcos.072–.801despitesourceMSE.0007–.0011.13recoveredsharedfitscos>.999;2failedsharedstartsretained. Orthogonalprojectionreplaymatchespopulationtransferfloors. sinTheta<=min(1,||E||/sigma_minT) verified, oftenloose. Reportderiveslocalcoherenterroridentity C=KWT,offspan(deltaC)W^-T=offspan(deltaK); arbitraryindependentheaderrorslackcancellation. Notuniversalstatisticaltheorem. RELEASED_READOUT_RESULTS.md plusupdatedhypotheses7/17. Earlier13/15optimizationcertificatesstillvalid; nowalsofinite-noisestatistical/coherenceeffect.
+
+Nexttest coherent-vs-independenterror mechanism or extractindependenthiddenfeatureswithproperdimension/labelcontrols;do notattributeallgaptooptimizationorclaimphysicalDAGrecovery. No livejobs;nativeMLPprojectpaused;overallgoalactive.
 
 ## Current: shared versus independent dictionaries COMPLETE
 
