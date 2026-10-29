@@ -2,7 +2,7 @@
 import json,hashlib
 from pathlib import Path
 P=Path(__file__).resolve().parent;V=P/'validation'
-def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def run():
  d=json.loads((V/'product_subset_transfer_results.json').read_text());a=json.loads((V/'product_subset_transfer_audit.json').read_text());assert a['status']=='passed' and a['result_sha256']==sha(V/'product_subset_transfer_results.json')
  tr=json.loads((V/'product_subset_results.json').read_text());lookup={(r['space'],r['method'],r['size']):r for r in tr['rows']};rows=[]

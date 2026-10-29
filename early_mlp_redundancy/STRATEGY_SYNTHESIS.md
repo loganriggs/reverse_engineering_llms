@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Product-subset substitution on held-out text](PRODUCT_SUBSET_TRANSFER.md). All8160 document cases audited; frozen scalar compensation transfers locally. Next: executable causal replacement, with no further subset search.
+
 Latest: [Native-product deletion and constructive distribution](PRODUCT_SUBSET_COMPUTATION.md). All255 cases audited; energy concentration and scalar compensation help, but a small removable product set is not established. Exact random-deletion theory explains the observed scale.
 
 Latest: [Output dimension versus computation and redundancy](COMPUTATIONAL_RANK_DIAGNOSTIC.md). Controlled toys and all16 native projected computations verified; shared output directions need not be removable computations.
