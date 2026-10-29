@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: native compensation tests a conceptual mechanism
+## Current: conditional predictability does not guarantee functional repair
+
+[M42](NATIVE_HALF_SUBSTITUTION.md): six rank32 maps trained only on natural-text training documents reduce missing-half reconstruction error across all three early MLPs. Yet MLP1’s repaired outputs are worse than raw half deletion in every cohort; natural-text KL roughly doubles. Statistical predictability and successful causal substitution must be distinguished. No rank/ridge search or semantic duplication claim.
+
+## Previous: native compensation tests a conceptual mechanism
 
 [M41](NATIVE_HALF_COMPENSATION.md) derives and tests when doubling a surviving half can repair channel deletion. MLP0 improves locally and in output KL on tasks and natural text; MLP1 worsens on both. MLP2 worsens locally but has mixed output effects. Distributed, net constructive contributions therefore need not be interchangeable duplicates. This is a mechanism test, not a semantic-unit claim.
 

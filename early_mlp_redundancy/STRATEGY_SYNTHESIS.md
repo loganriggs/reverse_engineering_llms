@@ -221,3 +221,7 @@ The common-training causal objective improves native log-probability response fi
 ## M41: constructive distribution is weaker than averaging redundancy
 
 [Native half compensation](NATIVE_HALF_COMPENSATION.md) derives the criterion C/S<(N+2)/(3N), approximately1/3, for doubling a uniformly retained half to improve expected local error. Mere constructive interference requires only C/S<1. MLP0 passes this stronger signature and improves local/output fidelity; MLP1 does not and worsens both; MLP2 worsens locally with mixed output effects. Thus simple averaging, broader redundancy, and downstream tolerance are distinct hypotheses. Theoretical toy verification and real task/natural-text interventions agree on the local layer split, without explaining training causes or identifying semantic units.
+
+## M42: conditional statistical redundancy is weaker than causal substitutability
+
+[Native half prediction](NATIVE_HALF_SUBSTITUTION.md) learns six rank32 maps from retained to missing writes using only natural training documents. Local error improves versus mean-only repair in all nine layer/cohort aggregates, but MLP1 repair worsens output KL versus raw deletion throughout; natural KL nearly doubles. MLP0 effects depend on mask direction, MLP2 also lacks uniform functional repair. This separates predictable information from information reconstructed in a form downstream readers use faithfully. Anisotropic sensitivity and finite-amplitude effects remain competing explanations; stop map tuning and discriminate those with fixed interpolation.
