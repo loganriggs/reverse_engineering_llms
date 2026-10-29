@@ -1,0 +1,47 @@
+{
+  "stage": "M100 training-only native operator factorization",
+  "ranks": [
+    4,
+    16,
+    64
+  ],
+  "relative_cutoff": 1e-10,
+  "metric_relative_tolerance": 1e-09,
+  "training_check_indices": [
+    [
+      0,
+      1
+    ],
+    [
+      127,
+      128
+    ],
+    [
+      1023,
+      2047
+    ]
+  ],
+  "metrics": [
+    "euclidean",
+    "isotropic_operator",
+    "training_direction_operator"
+  ],
+  "training": "4092naturaltrainingpositions; directioncovariance fromall296eligiblepositionassignments of70trainingpairs atsource/final, bothendpoints, rawunnormalizeddifferences. Noheldoutdata.",
+  "mathematics": "Q gives tr(J(dz) S J(dz)^T); metricPCA minimizes empiricaloperatorvariationerror ontrainingcontexts. E andB give rowprojection E B^T; Qnullspace discarded atfixedrelative1e-10.",
+  "evaluation_plan": "Keepall3metrics\u00d73ranks, sharedmeanlinear andexactnativecontrols. Distinguish anchor-only operatorprediction from integrablequadraticreplacement F(mu)+J(mu)(z-mu)+F(project(z-mu)); evaluateobservedchanges anddownstreamfidelity separately. No rankselectionfromheldoutresults.",
+  "scope": "NativeMLP1 first; matchedlayer0/2extension notyetprepared. Notoutputrank, channelremoval, nativeparametercompression orsemanticmanifoldclaim.",
+  "stop": "Onecapacitycurveandheldoutcomparison; no adaptive metric/rank/optimizer search. Delivercandidate shared/privateinputcoordinates forfeaturizers, contingent oncausalvalidation.",
+  "references": {
+    "native_input_reference.json": "9f04e106400802777d80632870183e37953117a8349a65c92dc7193972721b6f",
+    "native_operator_metric_toys.json": "4483599057eb0cdbf0fe36fde7a5138006b80bde2b857ca815a3c01c915c62f5",
+    "input_training_inventory.json": "42deac742810cd58b148d6c5e0d568c72d90f6e3f4a009f2cd24ff12e9bd1eda",
+    "training_causal_coverage.json": "b94298ba588b25da3a9c02a733a0228a1ba1b38d205def6938b9f34a981d0e18",
+    "training_causal_coverage_protocol.json": "3894fe33059d6f0ba84e277bc7894c41240358b8a0e070ce594e570c3885d7ce",
+    "diverse_supervision_split.json": "d3b9744798109ee364ae0f8a8cb389c3c3ad47c8db92616e613d1d2615e99965",
+    "whole_task_native_protocol.json": "e0646ab536d0daaeefa287d34837d9a53cd8ea43a8dfeeab7138d42b0afd4762"
+  },
+  "sources": {
+    "native_operator_metric.py": "3728efcc633ec75a1cf628db539186a39410a5f7acb4b4ed5cd43ca158039411",
+    "fit_native_operator_metric.py": "4e5b8922f4f213cf9c63fcf9db2b99a4c69cdd10d97fa2e6a84927ff28888ea8"
+  }
+}
