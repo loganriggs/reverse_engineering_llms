@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: predicted repair usually helps initially, then overshoots
+## Current: twenty hypotheses and a token-identity control
+
+[M44 hypothesis refresh](MECHANISM_HYPOTHESES_M44.md) separates20mechanistic explanations and chooses the next discriminator: common token identity versus additional contextual sharing between native halves. Training-only token controls are built and audited; all existing maps stay frozen. Coverage is60.25% on natural evaluation positions, and1250/1760training token types are singletons. Native transfer is pending; no outcome claim yet.
+
+## Previous: predicted repair usually helps initially, then overshoots
 
 [M43](NATIVE_HALF_INTERPOLATION.md): on MLP1 natural text,61/64document–mask cases improve initially but all64 worsen at full predicted strength. Fixed10% repair improves pooled KL in all nine layer/cohort comparisons. Two-scale slopes agree in1,148/1,152cases. Shared predictable information exists, but its reconstruction-trained magnitude is not automatically calibrated for downstream use. This closes the bounded half-repair sequence without amplitude optimization.
 
