@@ -1,5 +1,7 @@
 # Product-dictionary transfer: site-specific gains, no broad causal advantage
 
+Follow-up: [fixed-run training and movement diagnostics are complete](PRODUCT_DICTIONARY_FIXED_RUN_DIAGNOSIS.md).
+
 All six candidates completed natural-text and both causal holdout evaluations. Independent audits passed for 192 natural output tensors and 7,416 causal response vectors. **Joint causal supervision does not establish broadly reusable coordinates in this experiment.** It produces small, intervention-site-dependent changes: worse source-position replacement than KL-only, and modest final-position gains that depend on task family and aggregation.
 
 The architecture retains all 4,608 native input products and a fixed 128-direction output dictionary. Only the coefficient matrix trains. Compare KL-only against joint supervision within each seed, and each against its own exact projected-native initial function. This is a strong native prior, not a sparse semantic representation or a test of whether 128 input computations suffice.

@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Fixed-run diagnosis](PRODUCT_DICTIONARY_FIXED_RUN_DIAGNOSIS.md). Joint supervision improves actual training causal targets, but same-family source-group reversals remain. Natural write movement is about0.21%; capacity/convergence unproven.
+
 Latest: [Product-dictionary transfer results](PRODUCT_DICTIONARY_TRANSFER.md). All192natural and7416causal responses audited: joint supervision yields small, site-dependent gains, with source-position regressions and capital-recall-dominated final gains. No broad causal-unit claim.
 
 Latest: [Four product-dictionary fits completed](PRODUCT_DICTIONARY_FITS.md). Calibration and all528updates audited; all4finals and2initials frozen for held-out joint-fidelity evaluation. No transfer outcome yet.
