@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest image replication complete; SVHN download live
+
+Currentgoalturn: progress. FASHION_REPLICATION_RESULTS.md:30freshseedfullpoolfits(190001/2/3),55k/5k,30epochs,10configs; all independentlyaudited fortrain/validation/logits. Producers14557/4762/44260and auditors2650/56959/7696terminal. Meanaccuracytree-minusstack+.47/.63/.58points depth2/3/4 withmoreparams; meanCEworseall3depths. Budgettree-depth4 variable/weaker. NoGPU/testevaluation. Originalseednotpooled.
+
+SVHN: officialhoststillrefused; UCSDmirror trainfile passedreferenceMD5 andSHA256. Train73257NCHWuint8 cached+memorymappedarrays byte-equalitychecked byprepare_svhn_cache.py; provenancecopiedresults/svhn_data. Extra531131file downloading, NOTyetverified. Livehandle51470,PID174791 atlaunch,/tmp/svhn_mirror.log, externalcache/home/loganriggs/.cache/shared_tensor_networks/svhn/extra_32x32.download. Revalidatehandle/process beforeanything; doNOTduplicate download ortrustpartialfile. Itmaytake severalminutes. NoSVHNtrainingyet. NextimplementSVHN_EXPERIMENT_PLAN.md standard68257train/5000val fullpooltraining; extraregime599388 afterchecksum. Keepnormalizefromstandardtrainfixed, reportmatched-updatecontrols before sampleefficiencyclaims. GenericCPU/pinnedcores used; no nativecrash inreplication, rootcauseunresolved. Goalactive.
+
 ## Latest ALS optimizer control complete — bounded detour closed
 
 Currentgoalturn: progress. REUSE_ALS_RESULTS.md:54ALSfits, samearchivedfourfactorinitializations/data asSGD;100sweeps400exactLSblocks. Independent21,600blocknormal-equation/monotonicity checks and54populationreplays pass(maxnormalres4.534e-15). ALSimproves46/54pairedpopulationerrors. GenericnoiselessN512median~3.4e-30 vsSGD.0467,recovery3/3. Notcomputematched,nouniversalwin; noisyN32canoverfit.

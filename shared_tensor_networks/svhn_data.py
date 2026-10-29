@@ -6,8 +6,12 @@ from pathlib import Path
 import numpy as np
 from scipy.io import loadmat
 SPLITS={'train':(73257,'e26dedcc434d2e4c54c9b2d4a06d8373'),'extra':(531131,'a93ce644f1a588dc4d68dda5feec44a7'),'test':(26032,'eb5a983be6a315427106f1b164d9cef3')}
-def load(root,split):
-    n,expected=SPLITS[split];root=Path(root);root.mkdir(parents=True,exist_ok=True);p=root/f'{split}_32x32.mat';url=f'http://ufldl.stanford.edu/housenumbers/{p.name}'
+def load(root,split,base_url="http://ufldl.stanford.edu/housenumbers"):
+    n,expected=SPLITS[split];root=Path(root);root.mkdir(parents=True,exist_ok=True);p=root/f'{split}_32x32.mat';url=base_url.rstrip('/')+'/'+p.name
+    prior_manifest=root/f'{split}_manifest.json'
+    if p.exists() and prior_manifest.exists():
+        prior=json.loads(prior_manifest.read_text())
+        if prior.get('md5')==expected:url=prior['url']
     if not p.exists():
         tmp=p.with_suffix('.download')
         with urllib.request.urlopen(url,timeout=45) as src,tmp.open('wb') as dst:
@@ -25,5 +29,5 @@ def load(root,split):
     (root/f'{split}_manifest.json').write_text(json.dumps(meta,indent=2)+'\n');print(json.dumps(meta),flush=True)
     return images,labels
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--splits',default='train,extra');args=p.parse_args()
-    for split in args.splits.split(','):load('/home/loganriggs/.cache/shared_tensor_networks/svhn',split)
+    p=argparse.ArgumentParser();p.add_argument('--splits',default='train,extra');p.add_argument('--base-url',default='http://ufldl.stanford.edu/housenumbers');args=p.parse_args()
+    for split in args.splits.split(','):load('/home/loganriggs/.cache/shared_tensor_networks/svhn',split,args.base_url)
