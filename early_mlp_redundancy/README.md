@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Boundaries on native computation paths](NATIVE_PATH_BOUNDARY_RESULTS.md). All32model/path cases have hard-extractor transitions along genuine bilinear MLP input-sphere paths;409crossings independently verified. Native write changes vanish while extracted jumps persist. This closes the boundary detour, without claiming text-manifold reachability or improved featurizers. Next return to competent task diversity and native causal structure. Earlier “next” actions below are historical.
+Current: [Crossed sentiment composition screen](SENTIMENT_COMPOSITION_SCREEN.md). Coverage audit led to a fixed128prompt valence×negation panel. Review has perfect contrast reversals but fails one full-vocabulary label cell; Text has a positive interaction masked by output offset and fails the gate. No new semantic training data admitted. Next distinguish reused lexical signals from context-conditioned native computation, after checking prior studies. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
