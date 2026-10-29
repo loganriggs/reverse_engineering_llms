@@ -1,0 +1,22 @@
+{
+  "status": "frozen_before_intervention_results",
+  "source_sha256": "283422a890f86239dfcfce80ef44d1a9d8fd03141346b8f9ddc1f54f3262fd85",
+  "bindings": {
+    "sentiment_composition_protocol.json": "310afb4617590c452db90bf2194e8624b616afbcc335026b789b1fc69f91a54f",
+    "sentiment_composition_native.json": "6501fac7f9ff9286f15d04bdea50902ef35106cff1ea35857181b7d696c9cd66",
+    "sentiment_composition_audit.json": "446cc2f9ed55393b8383f54441fd2c5e727c6e1005d5a7168101060221e7201c"
+  },
+  "scope": "All128factorial recipients, both lexical directions, MLP1 only. Source changed adjective token positions and finalposition separately. No fitted features or intended-label teachers.",
+  "conditions": [
+    "native lexical delta in own context",
+    "lexical delta from opposite modifier",
+    "lexical delta from opposite format",
+    "lexical delta from opposite modifier and format",
+    "Each transferred delta rescaled to native local delta norm; uses activation vectors only, no output-fitting"
+  ],
+  "control": "Exact128baseline replay; native delta is response teacher, zero response baseline implicit. Bothzero=>zero; transferredzero/nativepositive explicitlyineligible. Equal token length and changed-token count checked before transfer.",
+  "distinction": "M32/33 used fixed featurizer directions across wrappers. Here both the native generator and the recipient reader are separately varied along an explicit two-factor computation. Compare transferred vs own native deltas; do not demand invariant output effect.",
+  "metrics": "Full native-probability-weighted logprob response error vs native-delta teacher, selected sentiment margin error, local delta error; retain raw energies and all modifier/format cells. Native patch response magnitude compared with actual lexical-input change separately.",
+  "stop": "One complete fixed native-transfer panel and independent audit. No gain fitting beyond specified norm control, no prompt repair, no feature training. Failed competence gates remain failed; findings concern actual response geometry.",
+  "exclusions": "Entirefactorialpanel excludedfromfeaturizer fitting; originalwhole-taskexclusions preserved."
+}
