@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: magnitude and direction both contribute to representation errors
+## Current: native task changes are distributed and net constructive
+
+[M66](NATIVE_CHANGE_COORDINATION.md): all1002 nonzero layer/site conditions acrossMLP0–2 have net constructive channel changes. Median participation spans121–610 channels; this is not a count of semantic units. None meets the theoretical condition for doubled-half averaging to improve expected local error. All1506 eligible conditions independently audited. Next test fixed subsets of native changes downstream, distinguishing this from ordinary neuron deletion.
+
+## Previous: magnitude and direction both contribute to representation errors
 
 [M65](SUPPORT_NORM_CONTROL.md): matching full-direction magnitude improves final-position family fidelity18/18; fixed-support directions still beat that matched control13/18. Source-position pooled comparisons favor matched full18/18. All3024 response vectors audited. This closes the boundary-control series; next map exact native task-change contributions acrossMLP0/1/2 to distinguish distributed, constructive and cancelling computation.
 

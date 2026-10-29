@@ -1,0 +1,15 @@
+{
+  "stage": "M67 fixed native channel-change subset responses",
+  "atlas_sha256": "04d74df95ccb380f1acd806c5a707387b612fcaf26982abcf089f00dfb1d4e94",
+  "audit_sha256": "6f9654a78fa51b88a4cc5f4f3f5e4bc89eb5deccbec14515efd2d0e2e8986e14",
+  "training_native_sha256": "b94298ba588b25da3a9c02a733a0228a1ba1b38d205def6938b9f34a981d0e18",
+  "holdout_native_sha256": "0c9eb4da3c3250068e85403f0761020050a7e165f2d0c8ea0e59e4bd25072211",
+  "population": "All84 M66 pairs, both endpoints, layers0/1/2, source/final/identity, same six ineligible conditions retained. Preserve train/source_eval labels and whole-task exclusions.",
+  "masks": "Use first two masks from the frozen M66 32-mask bank plus each complement (four masks), unchanged across conditions/layers. No selection by local or behavioral scores. Complement masks are paired, not independent.",
+  "intervention": "In original recipient background, add Down(mask * (donor_products - recipient_products)) at fixed aligned positions, or twice that change. This retains a subset of the CHANGE; it does not zero the recipient native neuron output. Preserve original bias. Reconstruct with native float32 operations and save actual applied deltas.",
+  "teacher": "Full original donor-write minus recipient-write native intervention at same positions. Replay saved full/native baselines where M57/M59 available; compute missing source_eval layers0/2. Full product-difference implementation may differ by float32 rounding; report discrepancy versus native write difference and use original native write difference as teacher.",
+  "metrics": "Full-vocabulary final native-weighted squared log-probability response error, answer-margin error, intact task competence, local direction error and energies, raw and family/pooled summaries by layer/site/split. Zero-response=1; retain native mistakes/nulls/ineligible cases. Compare raw-half versus doubled-half without selecting masks.",
+  "prediction": "All M66 nonzero conditions predict doubled-half worse in expected local squared error. Four fixed masks need not realize expectation individually, and nonlinear anisotropic readers may reverse behavioral ranking. Report both rather than infer behavioral redundancy from local geometry.",
+  "verification": "Hash-bound protocol/source/model/data. Baseline/full replay controls; NumPy reconstruction of every applied masked product change and local error, independent audit of all saved final response vectors. Preserve each mask and complement separately.",
+  "stop": "One fixed all-condition causal comparison. No mask/layer/amplitude/task sweep or fitting. Then reconcile local coordination with native causal use and specify computation-linked featurizer targets. Do not infer ordinary neuron-removal redundancy from change-subset intervention."
+}
