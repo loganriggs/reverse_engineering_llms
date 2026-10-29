@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: d32/h16 crossed scaling COMPLETE
+
+Previous/currentturn progress. TASK_COVERAGE_H16_PLAN/RESULTS.md:60GPUfits (fivefresh242101–5,random243001/2+teacherstarts),heads34/136,inputs512/2048,3000Adamsteps,.003,clip10,float32TF32off. Primarytransfer512labels (136features);128secondaryunderdetermined. Audited60source/240transferfits,allmetrics/initialpairing/noise/inactiveheads/curvecoverage. No nonfinitefailures. Teacherbatches6.2–6.6sec,peakallocated~195MB/reserved~229MB;CPUanalysisexcluded. Allprocesses terminal.
+
+Equal69632labels:34heads×2048inputs wins ALL5teachers against136×512,mediantransfer.0322vs1.536. FixedN136headswins4/5at512and5/5at2048butaddslabels/params. All16featurethreshold random0/10,0/10,2/10,6/10 across(512,34),(512,136),(2048,34),(2048,136);teacher20/20. Explicit audited teacher-start lower empirical loss witnesses34/40random fits (all20lowN). Notstrictlocalminproof or proofallgeneralizationgapoptimization.
+
+Closegrid. Further scaling preserveinputcoverage/crossedbudgetcontrols andresourceaccounting; taskdiversityalone insufficient. Fullproposedenvelope stillopen; nooptimizerrescue. NativeMLPpaused/nojobs/fullgoalactive.
+
 ## Latest: d16/h8 task/input crossed grid COMPLETE
 
 Previous/currentturn progress. TASK_COVERAGE_H8_PLAN/RESULTS.md:60GPUfits,fivefreshteachers239101–5,heads12/36,inputs512/1536,randomstarts240001/2+teacherdiagnostic,3000Adamsteps,.003,clip10permodel,float32TF32off. IdleRTX5080/noothercomputejobs checkedbeforelaunch. IndependentbatchCPU64five-stepAdam equivalence,CPU/GPUgradientchecks pass. All60source/240transfer fits,data/noise,componentmetrics,initialpairing,inactiveheads,curves/hashes audited. Allprocesses terminal.

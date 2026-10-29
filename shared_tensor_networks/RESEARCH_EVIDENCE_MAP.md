@@ -34,3 +34,5 @@ At a larger feasible fixed width, distinguish insufficient source task coverage 
 The complete task-product-span assumption is sufficient, not known necessary in the larger family. Having12tasks below36/136products does not by itself prove the hidden features cannot be identified or learned; the next experiment must test that hypothesis rather than assume it.
 
 Update: TASK_COVERAGE_H8_RESULTS.md now tests the larger feasible task-count/input-count cross (60fits), with mixed equal-label-budget evidence. This completes that bounded d16/h8grid, not the entire proposed scaling envelope.
+
+Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal69632labels,34tasks×2048inputs beats136tasks×512inputs in5/5teachers. This supports input coverage alongside task diversity, while all low-input random fits have explicit lower-loss teacher-start candidates. The proposed larger envelope is still not fully executed.
