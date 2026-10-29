@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest evaluation/scaling feasibility stage
+
+Current goal turn: progress. HOMOGENEOUS_EVALUATION_AND_DEPTH.md records exact radial integration and a variance lower bound for naive Gaussian evaluation. Six independent-factor quartic comparisons passed; observed batch SD reduction2–4x. DeepMultiTask at d16/h8/depth2–5 passes NumPy forward, degree, matched-function and cached/recomputed gradient checks. Sixteen100-step CPU smoke fits completed with finite training; aggregate audit passed. All processes terminal (producer session90759 exited0). No GPU work.
+
+Critical finding: at depth5(degree32),8192sphere samples yield error effective sample sizes1–6. Do not treat smoke MSEs as reliable learning results or launch a large conventional sweep. Next: implement and validate exact directional importance sampling with independent pilot/proposal/evaluation data and a uniform mixture floor; first against exact quartic moments, then deep repeated evaluation. Calibrated teacher energy also needs scrutiny. Then freeze representative scaling and whole-task transfer grid. Main goal remains incomplete.
+
 ## Latest completed stage
 
 Five-teacher confirmation completed:80fits,4560transfer rows, all independently audited. See CONFIRMATION_RESULTS.md and results/multitask_confirmation. Component confirmation:10trained h4 models,24/40components above.95, mean cosine.7845, independent audit passed. All producer/auditor handles terminal; no live jobs. No GPU/native-MLP work started. Current goal turn is progress. Prior heartbeat removed an obsolete reminder; it did not restart experiments.
