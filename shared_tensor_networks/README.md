@@ -4,7 +4,7 @@ This separate CPU-first project implements the user's proposal. The earlier nati
 
 Theory directions: [reuse-aware complexity, rank separation, and gradient-flow proofs](SHARING_COMPLEXITY_AND_FLOW.md).
 
-Start here: [research synthesis](RESEARCH_SYNTHESIS.md), [current evidence and completion map](RESEARCH_EVIDENCE_MAP.md), and [continuation checkpoint](CONTINUATION.md). The bounded optimizer and frozen-transfer panels are complete; the broader scaling and quantitative-recovery objective remains active. No experiment is currently running.
+Start here: [research synthesis](RESEARCH_SYNTHESIS.md), [current evidence and completion map](RESEARCH_EVIDENCE_MAP.md), and [continuation checkpoint](CONTINUATION.md). The bounded optimizer and frozen-transfer panels are complete; the broader scaling and quantitative-recovery objective remains active. Latest scaling: [d16/h8 task coverage versus examples](TASK_COVERAGE_H8_RESULTS.md),60audited GPU fits. More tasks help in4/5paired teachers at fixed inputs, but the equal-label-budget comparison is mixed. No experiment is currently running.
 
 ## Thesis and distinctions
 

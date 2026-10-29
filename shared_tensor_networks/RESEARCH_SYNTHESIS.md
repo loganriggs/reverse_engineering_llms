@@ -45,3 +45,5 @@ The most useful next learning experiment is to test sufficient task coverage and
 Before launching that study, freeze resource budgets, complete-task holdouts, random starts, teacher-normalization privileges and the stopping rule. Quantitative approximate identification remains a separate theoretical target; proving a qualitative compactness limit does not complete it. Novelty relative to the literature has not been assessed, and this report makes no novelty claim.
 
 The complete task-product-span assumption is sufficient, not known necessary in the larger family. Having12tasks below36/136products does not by itself prove the hidden features cannot be identified or learned; the next experiment must test that hypothesis rather than assume it.
+
+Subsequent result: TASK_COVERAGE_H8_RESULTS.md reports60fresh d16/h8fits.36tasks beats12in4/5teachers at fixed input counts, but only2/5at equal total labels. The proposed information-budget question has now been tested at this width, with a conditional rather than universal benefit. Larger-width scaling remains.

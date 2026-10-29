@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: d16/h8 task/input crossed grid COMPLETE
+
+Previous/currentturn progress. TASK_COVERAGE_H8_PLAN/RESULTS.md:60GPUfits,fivefreshteachers239101–5,heads12/36,inputs512/1536,randomstarts240001/2+teacherdiagnostic,3000Adamsteps,.003,clip10permodel,float32TF32off. IdleRTX5080/noothercomputejobs checkedbeforelaunch. IndependentbatchCPU64five-stepAdam equivalence,CPU/GPUgradientchecks pass. All60source/240transfer fits,data/noise,componentmetrics,initialpairing,inactiveheads,curves/hashes audited. Allprocesses terminal.
+
+FixedN36headswins4/5teacherblocks atbothN; equal18432labels36×512wins only2/5against12×1536 despite bettermedian(.00472vs.0247). No consistent equal-budgetbenefit. Randomall8featurecos>.99counts6/10,8/10,5/10,8/10 across(512,12),(512,36),(1536,12),(1536,36). Teacherstarts20/20recover. MoreNwins3/5atbothheadcounts,optimizerdependence persists. Nonfinitefailuresnone;norescues.
+
+Closegrid. Next justifiedscaling retaincrosseddesign atlargerwidth withactiveparamcounts andexactmetrics,notinterpretmedianasuniversalwin. Priornegativepipeline differsmanyways; no taskcount-onlyexplanation. Overallgoalactive/nativeMLPpaused/nojobs.
+
 ## Latest: research synthesis and renewed completion audit
 
 Previous/current turns progress. RESEARCH_SYNTHESIS.md now consolidates resource/metric/identification/transfer/scaling findings with links to scoped evidence. RESEARCH_EVIDENCE_MAP.md rewritten to current status, removing stale statements that larger hidden transfer is unfinished. audit_research_evidence.py now includes192depth2/192depth3fits and48newmeasurementreadouts in provenance counts. Synthesis local links verified. This is not freshnumericalreplayofallhistory or fullcompletionproof.
