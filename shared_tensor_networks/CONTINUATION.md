@@ -2,7 +2,13 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (completed and published five-seed SVHN panel). Current turn: progress (54-fit block Gauss–Newton panel and independent audit complete). Overall goal active.
+Previous goal turn: progress (54 audited block-GN fits). Current turn: progress (54 audited gauge-balancing fits and theoretical interpretation). Goal remains active.
+
+## Current: function-preserving gauge control COMPLETE
+
+run_bilinear_gauge_balance.py / audit_bilinear_gauge_balance.py / summarize_bilinear_gauge_balance.py completed 54 fits: archived18 fixtures times original/initial/every balancing, fixedGN damping.001 and100Jacobian cap. All original trajectories reproduce priorGN exactly. Balance A/B,AR/BR,C/D reciprocal row norms; verify every raw/balanced pair by independent outer products and polynomial coefficients. Rawprebalance steps auditednormal equations,Armijo,sampledautograd,allstateGaussianmoments. One line-search failure retained/reproduced: untied211003_tied_raw_every iteration98 MSE1.9970e-5, all12trialsrejected. No retry.
+
+Initial balancing 9wins6toleranceties3losses; every8wins6ties4losses vs original across18. Tiedraw median2.09e-5 ->initial5.49e-8; corrected4.38e-4 ->4.27e-7; notuniversal. Initial nonzeroJacobiancondition improves12/18 (repeated fixtures,notindependentdraws). Function-preserving metric intervention,not coordinate-invariantGN. Report BILINEAR_GAUGE_BALANCE_RESULTS.md contains norm-minimization proof and limits. No trainingjobs live. Close bounded optimizer geometry panels; next E3 multiple-readout/intervention supervision plus held-outtransfer to address hidden-recovery failure, not more rescue sweeps. NativeMLPproject remains paused.
 
 ## Current: block Gauss–Newton complete
 
