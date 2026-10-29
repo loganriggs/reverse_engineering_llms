@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (scaled recovery and generic rank). Current turn: progress (48 audited local-noise fits,12geometry fixtures,9profiled-information checks). Goal active.
+Previous goal turn: progress (local stability). Current turn: progress (72 audited finite-noisy-label fits with fixed source annotation budgets). Goal active.
+
+## Current: finite noisy readout recovery COMPLETE
+
+run_finite_readout_recovery.py / audit_finite_readout_recovery.py / summarize_finite_readout_recovery.py:3previousd6h3teachers218001–3, budgets384/1536,heads1/3/6,noise0/.05,random/teacherinitialization=72fits. n=budget/heads,sharednestedinput/noisepools,knownteacherRMSnormalization,TRFmax200eval,fixedtolerances,norestarts. Fourwholeheldoutheads adapted32/128noisylabels each;512extra labels for128endpoint equalallarms. Oracletrueproductbaseline andsourcefullquarticOLS retained. Explicitteacherstartsprivileged,notsamplelearningresults.
+
+Auditall72passed seedednoise/inputreplay,hashes,budget/sourceheadseparation,initial/finaldirecttorchJac1.43e-15,populationcoefficientloss/trainMSE3.25e-15,729nodecomponentcosines,baseline/transfernormal equations. Failuresandbudgetstopsretained. FINITE_READOUT_RECOVERY_RESULTS.md givesperteacherresults,notjustmedians.
+
+Noise.05randomtransfer128 medianone/three/six at384=.4338/.002837/.004544;at1536=.002034/.000440/.000887. BUT1536threeheadteacher218003randomtransfer.03839 versusprivilegedteacherstart.000685,soaggregationhidesoptimizerfailure. Threebeatsone3/3randomteachersat384,2/3at1536;teacherstart2/3and3/3. No uniformsixheadbenefit;fixedlabelsforcefewerinputs. Prioradditiveinformationtheoremdoesnotclaimmonotonicityunderthisallocation. Teacherspreviouslyused:development,notfreshconfirmation. Noiselessrandomcomponentrecoveryone/three/six=0/2/2of3at384and2/3/2at1536. Allnoiselessteacherstartsexact,expectedcontrol.
+
+Nextpreregisterfreshteacherconfirmationfixedbudget,noisy.05,heads1/3/6,additionalrandominitializations,teacherlevelaggregation;keeptransferandcomponent/sourcefitsdistinct. Threeheadsisacandidate,notuniversaloptimum. Do notmakebroadscalingclaimfrom3developmentteachers. No livejobs;nativeMLPprojectpaused.
 
 ## Current: local readout stability COMPLETE
 
