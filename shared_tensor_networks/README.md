@@ -1,6 +1,6 @@
 # Shared tensor networks: geometry, learnability, and circuit recovery
 
-This separate CPU-first project implements the user's proposal. The earlier native-MLP research remains paused. No model downloads, GPU use, or changes to the native experiments are needed.
+This separate CPU-first project implements the user's proposal. The earlier native-MLP research remains paused. Synthetic and initial image studies ran on CPU; the larger SVHN data comparison now runs on RTX 5080. The native experiments remain unchanged.
 
 Theory directions: [reuse-aware complexity, rank separation, and gradient-flow proofs](SHARING_COMPLEXITY_AND_FLOW.md).
 
@@ -10,7 +10,9 @@ Represent a multilinear occurrence contraction as `F(z; u)` and impose fixed lin
 
 There is an essential identifiability limit: computing an identical deterministic state twice with tied parameters is mathematically equivalent to computing it once and reusing it. Outputs, derivatives, and any training procedure using only those derivatives cannot distinguish the two. Their execution costs differ. Function observations cannot uniquely recover the actual execution DAG without additional assumptions or observations. See [the mathematical note](MATHEMATICS.md).
 
-Latest: [SVHN nonuniform-width budget control](NONUNIFORM_BUDGET_RESULTS.md); [larger-data scaling plan](SVHN_EXPERIMENT_PLAN.md).
+Latest: [SVHN GPU standard versus extra-data comparison](SVHN_GPU_RESULTS.md).
+
+Previous: [SVHN nonuniform-width budget control](NONUNIFORM_BUDGET_RESULTS.md); [larger-data scaling plan](SVHN_EXPERIMENT_PLAN.md).
 
 Previous: [standard SVHN results and independent audit](SVHN_STANDARD_RESULTS.md).
 
