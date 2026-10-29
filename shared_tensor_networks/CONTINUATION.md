@@ -4,6 +4,16 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## ACTIVE: d64/h32 crossed scaling RUNNING — do not duplicate
+
+Previous/current turns progress. TASK_COVERAGE_H32_PLAN.md frozen; run/audit/summarize_task_coverage_h32.py and coverage_h32_data.py added. Fivefresh251101–5teachers,random252001/2+teacherstart,60fits total. d64/h32,132/528tasks×2048/8192inputs,primaryadapt2048/secondary512,3000Adamsteps,unchanged verifiedbatchedmodule. Equal1,081,344labelcontrol. RTX5080idle atlaunch806MiB/noothercomputeprocesses.
+
+LIVE producer unified-exec session46063, Python PID200252 (parent200248), log /tmp/task_coverage_h32.log. Lastverified: teacher251101completed12fits,training99.4sec; teacher251102training. Poll this handle/process before any restart. All root/panel result artifacts remain untracked while producer writes them; do NOT commit mutable files. Goalactive/nativeMLPpaused.
+
+Firstteacher data chunk roundtrip checked independently:8192×64inputs/8192×528targets,2048×64adaptation/fourheldoutheads; maxliteral target error2.84e-14,largestNPZ17,633,712bytes<20MiB. Four sourcechunks each2048rows plusmetadata;loaderusedbyauditor. No aggregate result claims untilall60fits and240adaptationsaudited. Audit quadraticGram optimized usingexactGaussianmonomialmoments,checksagainstgenericgramford3/4; restpreserves priorindependent checks. Audit currentlyexpectsall60complete.
+
+When producerterminalsuccess: run audit_task_coverage_h32.py with pinnedCPU/singleBLASthread; then summarize_task_coverage_h32.py. Inspect outcomes/resources, update synthesis/evidence/checkpoint, stagecompletedartifacts andmanifest, push. Ifproducerstilllive, wait/poll existinghandle withoutduplication. Do not reinterpretpoor fitsasfailuretoexecute or tuneforrescue.
+
 ## Latest: fresh-teacher matched-clock confirmation COMPLETE
 
 Previous/current turns progress. READOUT_SPEED_CONFIRMATION_PLAN/RESULTS.md:70freshfits,249101–5teachers/250001–2starts, same sevenarms, all reachhiddenclock20. Joint100median44507gradientcalls vs2000split; joint10median5279. Allfinite/no linesearchfailures/nostepcaps. No tuning.
