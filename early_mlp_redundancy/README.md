@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Matched continuous-block training and natural fidelity](CONTINUOUS_TRAINING_NATURAL_RESULTS.md). Four fixed adaptation runs audited; both hard controls reproduce historical checkpoints bit-for-bit. Continuous maps have worse KL, CE and reconstruction on all32reserved documents per seed, despite removing selection jumps. Task causal-transfer and magnitude-control evaluation is still pending; no architecture or manifold win claimed. Earlier “next” actions below are historical.
+Current: [Continuous-versus-hard joint fidelity comparison](CONTINUOUS_JOINT_FIDELITY_RESULTS.md). All frozen task tests and norm controls complete. Continuous maps improve selected final-position responses but often lose to simply shrinking hard-gate changes under equal-family scoring, worsen many source-position responses, and reconstruct native states less faithfully. Continuity is a useful prior, not a sufficient definition of a computational unit. This adaptation study is closed; no more tuning. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
