@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Product-dictionary transfer results](PRODUCT_DICTIONARY_TRANSFER.md). All192natural and7416causal responses audited: joint supervision yields small, site-dependent gains, with source-position regressions and capital-recall-dominated final gains. No broad causal-unit claim.
+
 Latest: [Four product-dictionary fits completed](PRODUCT_DICTIONARY_FITS.md). Calibration and all528updates audited; all4finals and2initials frozen for held-out joint-fidelity evaluation. No transfer outcome yet.
 
 Latest: [Product-dictionary initialization and derivative checks](PRODUCT_DICTIONARY_PREFLIGHT.md). Both exact starts and guarded execution verified. Small-step derivative failures retained and resolved by one numerical-resolution diagnostic; optimizer/schedule audit and training-only calibration remain before fitting.

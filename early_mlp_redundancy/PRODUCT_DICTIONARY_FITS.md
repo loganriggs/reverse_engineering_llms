@@ -1,5 +1,7 @@
 # Four product-dictionary supervision fits completed
 
+Follow-up: [held-out evaluation is now complete](PRODUCT_DICTIONARY_TRANSFER.md). The account below records the earlier training stage.
+
 All four fixed fits completed and passed structural, schedule, and fixed-case loss audits. Held-out evaluation has **not** run. This establishes an executable comparison, not a finding that the learned coordinates are reusable computational units.
 
 ## The controlled question
