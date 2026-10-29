@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Hard block-selection boundaries](GATE_BOUNDARY_RESULTS.md). Exact crossing analysis finds finite decoded jumps on117/224 continuous task-write paths. The jumps are extractor artifacts on these paths; native downstream distributions change modestly and no top1 predictions flip. Next: verify a continuous sparse alternative and evaluate its reconstruction/causal-fidelity tradeoff. Earlier “next” actions below are historical.
+Current: [Continuous block-shrinkage preflight](CONTINUOUS_BLOCK_PREFLIGHT.md). A parameter-matched continuous sparse map passes formula, gradient, tie/zero, and all117 known boundary checks. Cold substitution reduces code energy to44.5–46.1%, improves local change error but worsens reconstruction. Matched training and downstream fidelity remain necessary; no improved-manifold claim. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
