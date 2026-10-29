@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: conditional donors beat a fixed group direction
+## Current: token-conditioned means outperform context donors on natural text
+
+[M52](SHARED_CONTEXT_TOKEN_MEAN_CONTROL.md): learned shared-direction error is .245 for training-only token means versus .377 for same-token donors and .653 for unconditional group means. Sparse/unseen tokens remain included. This weakens the context-specific reuse interpretation and shows that distributed/shared encoding can coexist with token-conditioned directions. Independent aggregation and saved-table audits pass. Native causal response comparison is now frozen; results are pending.
+
+## Previous: conditional donors beat a fixed group direction
 
 [M51](SHARED_CONTEXT_MEAN_CONTROL.md): natural learned shared-component error is .377 for same-token donors versus .653 for training-only group means (zero=1). All 72 donor rows replay and all 768 group/component means pass independent NumPy checks. This rules out an unconditional mean as the full explanation; token identity remains a confound. Native response transfer is still pending.
 

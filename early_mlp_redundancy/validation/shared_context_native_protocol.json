@@ -1,0 +1,23 @@
+{
+  "stage": "M53 frozen before native outcomes",
+  "inventory_sha256": "eae5b8e4b8cf75baca404ff8ee1c5a169108bfec1b30ceec0aac0a8fdd7d9dd6",
+  "models_sha256": "dd8041f92bac8961fca79bfd7d7e400b22bfda3bae2ca5af7dffcefb2abad376",
+  "token_mean_result_sha256": "f5a9438c86a9925a34c283cd9e528fa4414eb960872d05e7cedd634ce8d64fa4",
+  "token_mean_state_sha256": "882081d3eb5aca5addaf87e5627856f3f72711686ca1a3cdc83174198e1457e1",
+  "population": "All original 192 M49/M50 inputs, eight frozen M38 shared models, exclusive/shared/union. Perturb only positions whose mapped M50 unit is eligible; keep other positions native. Include zero targets and missing predictor directions.",
+  "target": "Subtract recipient decoded component from original native MLP1 product write, leaving Down bias and downstream computation intact. Gates and coordinates frozen from unperturbed input.",
+  "predictors": [
+    "same_token_group_donor",
+    "training_group_mean",
+    "training_token_group_mean",
+    "fixed_scramble_seed51001",
+    "zero_response"
+  ],
+  "norm": "Every nonzero predictor direction normalized to recipient component norm; zero target stays zero. Missing donor/seen-zero mean stays zero, unseen token uses group mean.",
+  "metric": "At every original input position, compute native-probability-weighted squared error between predictor and recipient intervention log-probability changes. Sum over vocabulary and positions. Pool numerator and target response energy by model/component/cohort; zero-response error=1 when energy>0. Report unnormalized energies, zero-energy cases, and input-wise win counts. All-position causal effects include propagation from eligible earlier positions.",
+  "definition": "r_target=logsoftmax(target_logits)-logsoftmax(native_logits); r_pred analogously. numerator=sum p_native*(r_pred-r_target)^2, denominator=sum p_native*r_target^2. Zero predictor uses r_pred=0.",
+  "precision": "Double precision logsoftmax and response metric; model and interventions float32. Retain exact no-op cases.",
+  "controls": "Recompute eligible-only teacher; old M49 full-position effects are not interchangeable. Verify saved token table provenance, mapped native input energies, delta additivity before normalization, norm matching, and independent NumPy response metrics on fixed samples.",
+  "scope": "Conditional response fidelity, not autonomous prediction, not direct neuron redundancy, and not comparison of architecture quality on a common intervention. No new training or reserved task exposure.",
+  "stop": "One fixed comparison. No magnitude, seed, membership, count threshold, or loss search. Interpret native fidelity separately from local geometry and return findings to broader featurizer/task loop."
+}
