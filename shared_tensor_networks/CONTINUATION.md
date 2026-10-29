@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: finite readout speed recovery COMPLETE
+
+Previous/current turns progress. READOUT_SPEED_RECOVERY_PLAN/RESULTS.md:70fits on five archived232101–5 teachers/two233001/2starts, seven predeclared arms;2000sweeps each. Joint speeds1/10/100; reduced exact readout; hidden-first split with exact readout flow speeds1/10/100. Unit-row retraction, same archived objective divided512; all reachbudget, no linesearchfailures/nonfinite cases. This is finite-step gradient/splitting, NOT exact alternating integration of bothblocks.
+
+Split10median teachertransfer.06191 vs joint1 .18668, reduced .09405, split100 .09444. Fullfeaturethreshold4/10 vs1/10,2/10,3/10. Split10beatsjoint1 on5/5teachermeans, reduced/split100 on3/5. Archived teacher reuse; not freshreplication or selectionvalidation. Joint100backtracking hiddenclock.589–1.552 vs20 forjoint1/reduced/allsplit: equalgradientbudget not equaltime. Fixed-hidden quadratic Euler condition tau<=2/lambda_max(H); exactblockflow stablealltau. No global superiority theorem.
+
+Audit70fits/7070storedstates, independentWicksource/transfer,quadraticcoefficientcosines,SVDadaptation,initialpairing,scalarlogs,70autogradfinalgradients(max5.78e-15);9flow/gradientfixtures pass independentmatrixexponential. Doesnotreplayeveryinternaltrial. Producer26862/auditor8253terminal; nojobs. Next dynamicsconfirmation freshteachers/matchedhiddenclock withresourcesreported; avoidrescuetuning. Larger d64/h32 scaling remainsopen, nativeMLPpaused, fullgoalactive.
+
 ## Latest: readout timescale dynamics COMPLETE
 
 Previous response turn: no progress (research summary only). Current turn: progress. READOUT_TIMESCALE_PLAN/THEORY/RESULTS.md and check/audit/summarize_readout_timescale.py add a bounded B dynamics test: 30 flows, three teachers247101–3, d3/h2, fiveepsilon=.1,.03,.01,.003,.001, optimal/perturbedreadouts; samehiddeninitialization and horizon. All6sequences approachreducedflow monotonicallyinendpointdistance;100xspeed reducesdistance13.1–111x. Notfeature-recovery/transferbenchmark.

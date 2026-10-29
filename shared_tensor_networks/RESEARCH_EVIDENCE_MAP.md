@@ -40,3 +40,7 @@ Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal6
 ## Readout learning timescale extension
 
 [READOUT_TIMESCALE_RESULTS.md](READOUT_TIMESCALE_RESULTS.md) completes 30 finite-time two-timescale flows and independent checks. Faster readout adaptation approaches reduced gradient flow in all six tested teacher/initialization sequences. [READOUT_TIMESCALE_THEORY.md](READOUT_TIMESCALE_THEORY.md) states the conditioning-sensitive tracking bound and uniform local assumptions. This is an ODE mechanism result, not evidence that faster readout learning improves feature recovery or transfer. Finite-dwell alternating recovery tests and larger-width scaling remain open.
+
+## Finite readout speed and recovery
+
+[READOUT_SPEED_RECOVERY_RESULTS.md](READOUT_SPEED_RECOVERY_RESULTS.md) reports 70 paired fits: moderate-speed exact readout-flow splitting improves aggregate transfer over joint speed1 on all five archived teachers, but beats reduced training on only three. Fast explicit joint steps lose hidden-learning time to stability-driven backtracking. These are finite-budget results with independent metric audits; fresh-teacher and matched-time confirmation remain open.
