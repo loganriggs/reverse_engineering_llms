@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: token centering helps some layers, but does not prove contextual reuse
+## Current: context pairing predicts more than token identity alone
+
+[M46](NATIVE_HALF_CONTEXT_PAIRING.md): correct within-token pairing lowers missing-half error22.8%/22.7%/10.7% atMLP0/1/2 versus the exact other-context expectation on eligible natural prefixes. Token-constant offsets cancel. This establishes conditional predictive information, not semantic units or functional substitution; native paired/permuted output testing is next.
+
+## Previous: token centering helps some layers, but does not prove contextual reuse
 
 [M45](NATIVE_HALF_TOKEN_TRANSFER.md): token-centered prediction improves natural output KL over the original rank32 map11.3%/16.8% atMLP0/1, but worsensMLP2 by1.7%. Covered-token reconstruction improves beyond token means in all three layers. Noisy token tables remain a confound; within-token pairing controls are needed before calling this shared contextual computation. Original rank32 outputs replay exactly.
 

@@ -1,0 +1,11 @@
+{
+  "stage": "M46",
+  "source_sha256": "aebd84f3da244a6d7fcada926e68dbeed67ec5fe75b168cebbb4f3c9eda6c6ee",
+  "models_sha256": "a9cb64b6e4e4318a8b0a27d0ae2e9ef35f27216e934210a12e8e8ff8e933f183",
+  "cohort_sha256": "666290da2b16f9d39e2729a3dddf9b9d54847852fb82b2218304b5c91bfbccbb",
+  "eligibility": "Deduplicate exact causal prefixes within domain/source split; eligible tokens must occur in training token table and have at least two distinct evaluation prefixes within that stratum. No token-frequency threshold or outcome selection.",
+  "control": "For each eligible context compare its own frozen token-centered prediction versus uniform choice of all other same-token context predictions. Exact expectation using all off-diagonal pairs; each recipient weighted equally. Predictions and means unchanged, no new fitting.",
+  "theory": "wrong-minus-paired SSE = 2*n/(n-1)*sum centered_prediction dot centered_target within each token. Token-constant biases cancel, so pairing advantage distinguishes contextual covariance from a token-constant correction.",
+  "scope": "All six native half directions, three layers, task train/evaluation and natural evaluation strata separately. No cross-stratum donor mixing or new task-holdout exposure. Local geometry first; no native output intervention in this stage.",
+  "stopping": "Audit exact expectation and prefix eligibility before causal escalation. No shuffle seed selection, new fits or threshold search."
+}

@@ -233,3 +233,7 @@ The common-training causal objective improves native log-probability response fi
 ## M45: common token dependence and conditional prediction must be separated
 
 [Token-controlled half transfer](NATIVE_HALF_TOKEN_TRANSFER.md) improves covered-token local error beyond token means in all nine layer/cohort aggregates. Natural output KL improves versus original rank32 atMLP0/1, but worsens atMLP2; task-evaluation token means beat conditional prediction on output KL despite worse local reconstruction. Sparse token-mean estimation and corrective shrinkage remain alternatives to shared contextual computation. Next preserve token identity and prediction marginals while shuffling context pairing, rather than declaring residual coordinates reusable units.
+
+## M46: contextual sharing survives token-constant correction controls
+
+[Within-token pairing](NATIVE_HALF_CONTEXT_PAIRING.md) uses unique causal prefixes and exact off-diagonal expected loss. Correct pairing improves natural reconstruction22.8%/22.7%/10.7% atMLP0/1/2. The gain is a within-token centered prediction–target cross term; token-constant offsets cannot explain it. MLP1 gains span250tokens but41%comes from one. This is predictive context information, not identification of a variable, operation, or downstream role. Next native paired/permuted intervention, without fitting.
