@@ -1,58 +1,62 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Latest: [Fixed-direction results](PRODUCT_DICTIONARY_DIRECTION_RESULTS.md). Local slopes predict all56held-out source-change signs; aggregate causal loss still improves. Precision issue diagnosed with original flag retained. Next: matched causal-example coverage comparison.
+Current: [Mixed-interaction results](NATIVE_MIXED_INTERACTION_RESULTS.md). Retaining interactions between64data-selectedcontextcoordinates andtheircomplement lowersnaturalKL fromabout0.24–0.25 to0.021–0.024 andsubstantiallyimprovesheldoutcausalresponses. Lower-ranksourcefailures remain. No newfit, semanticunit ornativepruningclaim. Next: a fixedrandom-subspace null. Earliercheckpoint “next” actions below arehistoricalandsuperseded.
 
-Latest: [Fixed-direction diagnostic status](PRODUCT_DICTIONARY_DIRECTION_STATUS.md). Training derivatives and endpoint replay audited; source-group run stopped at a small derivative-accounting discrepancy. Exact failure retained; precision diagnosis next, no held-out conclusion yet.
+Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
-Latest: [Fixed-run diagnosis](PRODUCT_DICTIONARY_FIXED_RUN_DIAGNOSIS.md). Joint supervision improves actual training causal targets, but same-family source-group reversals remain. Natural write movement is about0.21%; capacity/convergence unproven.
+Earlier checkpoint: [Fixed-direction results](PRODUCT_DICTIONARY_DIRECTION_RESULTS.md). Local slopes predict all56held-out source-change signs; aggregate causal loss still improves. Precision issue diagnosed with original flag retained. Next: matched causal-example coverage comparison.
 
-Latest: [Product-dictionary transfer results](PRODUCT_DICTIONARY_TRANSFER.md). All192natural and7416causal responses audited: joint supervision yields small, site-dependent gains, with source-position regressions and capital-recall-dominated final gains. No broad causal-unit claim.
+Earlier checkpoint: [Fixed-direction diagnostic status](PRODUCT_DICTIONARY_DIRECTION_STATUS.md). Training derivatives and endpoint replay audited; source-group run stopped at a small derivative-accounting discrepancy. Exact failure retained; precision diagnosis next, no held-out conclusion yet.
 
-Latest: [Four product-dictionary fits completed](PRODUCT_DICTIONARY_FITS.md). Calibration and all528updates audited; all4finals and2initials frozen for held-out joint-fidelity evaluation. No transfer outcome yet.
+Earlier checkpoint: [Fixed-run diagnosis](PRODUCT_DICTIONARY_FIXED_RUN_DIAGNOSIS.md). Joint supervision improves actual training causal targets, but same-family source-group reversals remain. Natural write movement is about0.21%; capacity/convergence unproven.
 
-Latest: [Product-dictionary initialization and derivative checks](PRODUCT_DICTIONARY_PREFLIGHT.md). Both exact starts and guarded execution verified. Small-step derivative failures retained and resolved by one numerical-resolution diagnostic; optimizer/schedule audit and training-only calibration remain before fitting.
+Earlier checkpoint: [Product-dictionary transfer results](PRODUCT_DICTIONARY_TRANSFER.md). All192natural and7416causal responses audited: joint supervision yields small, site-dependent gains, with source-position regressions and capital-recall-dominated final gains. No broad causal-unit claim.
 
-Latest: [Why smaller errors can combine worse](PRODUCT_ERROR_INTERACTION.md). All49028 conditions audited: whole-task reversals lose beneficial approximation-error cancellation even while interaction norms shrink. Next: a fixed native-product dictionary with jointly supervised output coefficients.
+Earlier checkpoint: [Four product-dictionary fits completed](PRODUCT_DICTIONARY_FITS.md). Calibration and all528updates audited; all4finals and2initials frozen for held-out joint-fidelity evaluation. No transfer outcome yet.
 
-Latest: [Product-subset causal results](PRODUCT_SUBSET_CAUSAL_RESULTS.md). All147084 task responses audited. Isolated corrections do not reliably compose, and final-position transfer reverses across cohorts. Next: one saved-vector error-interaction analysis.
+Earlier checkpoint: [Product-dictionary initialization and derivative checks](PRODUCT_DICTIONARY_PREFLIGHT.md). Both exact starts and guarded execution verified. Small-step derivative failures retained and resolved by one numerical-resolution diagnostic; optimizer/schedule audit and training-only calibration remain before fitting.
 
-Latest: [Half-product natural behavior](PRODUCT_SUBSET_NATURAL_BEHAVIOR.md). All3808 outputs audited: frozen scaling improves KL51/51 but CE45/51; native energy-half changes about9% of top-token choices. Causal tests are still running.
+Earlier checkpoint: [Why smaller errors can combine worse](PRODUCT_ERROR_INTERACTION.md). All49028 conditions audited: whole-task reversals lose beneficial approximation-error cancellation even while interaction norms shrink. Next: a fixed native-product dictionary with jointly supervised output coefficients.
 
-Latest: [Executable product-subset preflight](PRODUCT_SUBSET_PREFLIGHT.md). All119 input-only replacements and2142 intervention constructions pass; full native output KL is0. Held-out causal evaluation is next.
+Earlier checkpoint: [Product-subset causal results](PRODUCT_SUBSET_CAUSAL_RESULTS.md). All147084 task responses audited. Isolated corrections do not reliably compose, and final-position transfer reverses across cohorts. Next: one saved-vector error-interaction analysis.
 
-Latest: [Product-subset substitution on held-out text](PRODUCT_SUBSET_TRANSFER.md). All8160 document cases audited; frozen scalar compensation transfers locally. Next: executable causal replacement, with no further subset search.
+Earlier checkpoint: [Half-product natural behavior](PRODUCT_SUBSET_NATURAL_BEHAVIOR.md). All3808 outputs audited: frozen scaling improves KL51/51 but CE45/51; native energy-half changes about9% of top-token choices. Causal tests are still running.
 
-Latest: [Native-product deletion and constructive distribution](PRODUCT_SUBSET_COMPUTATION.md). All255 cases audited; energy concentration and scalar compensation help, but a small removable product set is not established. Exact random-deletion theory explains the observed scale.
+Earlier checkpoint: [Executable product-subset preflight](PRODUCT_SUBSET_PREFLIGHT.md). All119 input-only replacements and2142 intervention constructions pass; full native output KL is0. Held-out causal evaluation is next.
 
-Latest: [Output dimension versus computation and redundancy](COMPUTATIONAL_RANK_DIAGNOSTIC.md). Controlled toys and all16 native projected computations verified; shared output directions need not be removable computations.
+Earlier checkpoint: [Product-subset substitution on held-out text](PRODUCT_SUBSET_TRANSFER.md). All8160 document cases audited; frozen scalar compensation transfers locally. Next: executable causal replacement, with no further subset search.
 
-Latest: [Executable featurizer transfer and the computation gap](BILINEAR_INPUT_TRANSFER.md). All frozen evaluations audited: mixed causal gains, worse natural retention, and a large gap between output projection and input computation. Next: separate output dimension from product count.
+Earlier checkpoint: [Native-product deletion and constructive distribution](PRODUCT_SUBSET_COMPUTATION.md). All255 cases audited; energy concentration and scalar compensation help, but a small removable product set is not established. Exact random-deletion theory explains the observed scale.
 
-Latest: [Sixteen input-supervision fits audited](BILINEAR_INPUT_SUPERVISION_FITS.md). All final models and their privileged reconstruction references are frozen; held-out causal evaluation is next.
+Earlier checkpoint: [Output dimension versus computation and redundancy](COMPUTATIONAL_RANK_DIAGNOSTIC.md). Controlled toys and all16 native projected computations verified; shared output directions need not be removable computations.
 
-Latest: [Stable starting states and calibrated causal supervision](BILINEAR_INPUT_TRAINING_READY.md). All eight full-population warmups pass audit; one global causal weight is verified. The optimizer diagnostic series is closed.
+Earlier checkpoint: [Executable featurizer transfer and the computation gap](BILINEAR_INPUT_TRANSFER.md). All frozen evaluations audited: mixed causal gains, worse natural retention, and a large gap between output projection and input computation. Next: separate output dimension from product count.
 
-Latest: [Optimization replay and controlled memory test](BILINEAR_OPTIMIZATION_DIAGNOSIS.md). Exact replay confirms the failures; removing first-moment memory is insufficient. One full-population gradient test is specified next.
+Earlier checkpoint: [Sixteen input-supervision fits audited](BILINEAR_INPUT_SUPERVISION_FITS.md). All final models and their privileged reconstruction references are frozen; held-out causal evaluation is next.
 
-Latest: [Bilinear warmup failure and diagnosis](BILINEAR_INPUT_WARMUP.md). Derivative checks pass locally, but seven of eight fixed warmups worsen; downstream causal training is deferred while the instability is traced.
+Earlier checkpoint: [Stable starting states and calibrated causal supervision](BILINEAR_INPUT_TRAINING_READY.md). All eight full-population warmups pass audit; one global causal weight is verified. The optimizer diagnostic series is closed.
 
-Latest: [Bilinear input-featurizer preflight](BILINEAR_INPUT_PREFLIGHT.md). Architecture, executable replacement and three-corner loss arithmetic pass; native finite-difference checks remain before fitting.
+Earlier checkpoint: [Optimization replay and controlled memory test](BILINEAR_OPTIMIZATION_DIAGNOSIS.md). Exact replay confirms the failures; removing first-moment memory is insufficient. One full-population gradient test is specified next.
 
-Latest: [Executable input-featurizer readiness](INPUT_FEATURIZER_READINESS.md). Training inputs are captured and independently verified; a matched causal-supervision comparison is specified, with implementation preflight next.
+Earlier checkpoint: [Bilinear warmup failure and diagnosis](BILINEAR_INPUT_WARMUP.md). Derivative checks pass locally, but seven of eight fixed warmups worsen; downstream causal training is deferred while the instability is traced.
 
-Latest: [Local affine charts](LOCAL_AFFINE_CHARTS.md). Completed causal tests show better geometric coverage does not yield reliable computational units; routing explains only part of local error. See also [20 conceptual hypotheses](CONCEPTUAL_HYPOTHESES_M79.md).
+Earlier checkpoint: [Bilinear input-featurizer preflight](BILINEAR_INPUT_PREFLIGHT.md). Architecture, executable replacement and three-corner loss arithmetic pass; native finite-difference checks remain before fitting.
 
-Latest: [Fitted affine input-to-write test](AFFINE_INPUT_PREDICTOR.md). A global affine map preserves many task answers but fails causal replacement; next test explicitly context-dependent local computation.
+Earlier checkpoint: [Executable input-featurizer readiness](INPUT_FEATURIZER_READINESS.md). Training inputs are captured and independently verified; a matched causal-supervision comparison is specified, with implementation preflight next.
 
-Latest: [Native input-to-write operator test](NATIVE_INPUT_OPERATOR_TEST.md). Recipient-local operators explain changes much better than the fixed training-mean operator; an exact quadratic midpoint control verifies the distinction.
+Earlier checkpoint: [Local affine charts](LOCAL_AFFINE_CHARTS.md). Completed causal tests show better geometric coverage does not yield reliable computational units; routing explains only part of local error. See also [20 conceptual hypotheses](CONCEPTUAL_HYPOTHESES_M79.md).
 
-Latest: [Whole-task featurizer comparison](WHOLE_TASK_FEATURIZER_COMPARISON.md). Dense gains transfer, but PCA also captures useful changes and background compatibility remains limited.
+Earlier checkpoint: [Fitted affine input-to-write test](AFFINE_INPUT_PREDICTOR.md). A global affine map preserves many task answers but fails causal replacement; next test explicitly context-dependent local computation.
 
-Latest: [Broader whole-task validation coverage](WHOLE_TASK_VALIDATION_COVERAGE.md). Seven training-excluded operations are frozen for comparison; five pass the pairwise contrast gate, with free-form and format limits retained.
+Earlier checkpoint: [Native input-to-write operator test](NATIVE_INPUT_OPERATOR_TEST.md). Recipient-local operators explain changes much better than the fixed training-mean operator; an exact quadratic midpoint control verifies the distinction.
 
-Latest: [Downstream sensitivity and finite replacement](DOWNSTREAM_RESIDUAL_METRIC.md). Local sensitivity predicts the PCA/learned-span behavioral ranking, but full replacements cause roughly three times the local prediction.
+Earlier checkpoint: [Whole-task featurizer comparison](WHOLE_TASK_FEATURIZER_COMPARISON.md). Dense gains transfer, but PCA also captures useful changes and background compatibility remains limited.
 
-Latest: [PCA baseline and computational fidelity](PCA_ENCODER_BASELINE.md). PCA128 preserves more local variance than the dense learned spans but preserves model behavior less well.
+Earlier checkpoint: [Broader whole-task validation coverage](WHOLE_TASK_VALIDATION_COVERAGE.md). Seven training-excluded operations are frozen for comparison; five pass the pairwise contrast gate, with free-form and format limits retained.
+
+Earlier checkpoint: [Downstream sensitivity and finite replacement](DOWNSTREAM_RESIDUAL_METRIC.md). Local sensitivity predicts the PCA/learned-span behavioral ranking, but full replacements cause roughly three times the local prediction.
+
+Earlier checkpoint: [PCA baseline and computational fidelity](PCA_ENCODER_BASELINE.md). PCA128 preserves more local variance than the dense learned spans but preserves model behavior less well.
 
 A shareable research handoff for the 18-layer bilinear language model, assembled 2026-10-28.
 **MLP1 is the second block**, using zero-based indices. MLP0 is the preceding comparison;
