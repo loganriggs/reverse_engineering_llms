@@ -1,0 +1,44 @@
+{
+  "stage": "M55 training-only prospective screen design; exact prompts must be frozen before forwards",
+  "candidate_families": [
+    "comparative",
+    "animal_sound",
+    "object_color",
+    "addition",
+    "subtraction",
+    "boolean_negation",
+    "month_successor"
+  ],
+  "formats": [
+    "explicit_question_answer",
+    "few_shot_completion"
+  ],
+  "pairs_per_family_format": 4,
+  "expected_pairs": 56,
+  "expected_endpoints": 112,
+  "threshold": {
+    "min_valid_distinct_pairs": 4,
+    "min_both_endpoint_accuracy": 0.75,
+    "min_intended_vocab_top1": 0.5
+  },
+  "exclude_from_training": [
+    "sequence_copy",
+    "spatial_inverse",
+    "weekday_successor",
+    "role_binding",
+    "tense",
+    "continent_recall",
+    "object_function"
+  ],
+  "preserve_existing_whole_family_splits": true,
+  "source_screen_sha256": "98206b083b9b0f525ec315f6fc5e3070f1178ec9f84169e66944e7aee005f76d",
+  "selection": "Training-only native competence; retain all attempts and failures. No per-example outcome filtering or gate relaxation.",
+  "pre_forward_requirements": [
+    "Freeze exact prompts/answers and hashes",
+    "Check demonstration/query source overlap and duplicates",
+    "Check disjoint continuation answer tokens",
+    "Check historical whole-family exclusions"
+  ],
+  "stop": "One screen of both formats for all seven families. No outcome-based prompt repair. No qualifying additions means report negative and stop. Qualifying additions lead to separately frozen causal target/data-budget-matched experiment, not immediate unreviewed training.",
+  "claim": "Human-authored task coverage, not new-task discovery; not pristine held-out evaluation."
+}

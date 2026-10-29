@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: local geometry and native causal fidelity can rank differently
+## Current: joint evidence and task-diversity audit
+
+[M54](JOINT_RESEARCH_EVIDENCE.md) reconciles18common-training states and704common native targets. Causal supervision helps7/12matched comparisons; computational-unit and new-task-discovery claims remain unproven. An older20-family screen supplies zero additional eligible training families beyond the current panel. Next is a bounded training-only format screen of its seven nonpassing candidates, preserving whole-family exclusions.
+
+## Previous: local geometry and native causal fidelity can rank differently
 
 [M53](SHARED_CONTEXT_NATIVE_RESPONSE.md): learned shared components favor token means on natural native responses (.267 vs donor .308), while random shared components favor donors (.388 vs token mean .447), reversing the local geometry result. All23040records audited;8967native forwards. Token-conditioned geometry, distributed implementation, and downstream use are distinct properties. The conditional control series is closed; next return this evidence to the common-target featurizer and diverse-task comparison.
 
