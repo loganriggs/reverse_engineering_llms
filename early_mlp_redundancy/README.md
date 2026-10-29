@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: six encoded-change fits complete; causal and retention evaluation pending
+## Current: training gains do not yet yield broadly faithful encoded changes
+
+[M70](ENCODED_CHANGE_EVALUATION.md): encoded-response training scores improve6/6 at both sites, but source-group evaluation gains are mixed and every new final-position family score remains worse than zero response. NaturalKL improves6/6 against supplied-direction controls,2/6 against KL-only. All19584 task-response vectors audited; a training-evaluation runtime fault was recovered from a verified checkpoint. Next separate dictionary span, support selection and coefficient errors with a fixed projection diagnostic.
+
+## Previous: six encoded-change fits complete; causal and retention evaluation pending
 
 [M69](ENCODED_CHANGE_TRAINING.md): all six fixed models completed792 total updates and passed schedule/objective/state audits. All final states are retained and bound with12 fixed controls for the prospective18-model comparison. No improvement claim from online training losses. Next run the frozen factorial, training-fidelity and natural-text retention evaluations.
 

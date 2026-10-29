@@ -1,0 +1,18 @@
+{
+  "stage": "M70 training fidelity: supplied direction and encoded direction on original background",
+  "models_sha256": "737bda3084ad4a78aae9101fc9a7f666804694237cf6bb15ccdf0ebc8677afb7",
+  "holdout_native_protocol_sha256": "3894fe33059d6f0ba84e277bc7894c41240358b8a0e070ce594e570c3885d7ce",
+  "holdout_native_results_sha256": "b94298ba588b25da3a9c02a733a0228a1ba1b38d205def6938b9f34a981d0e18",
+  "existing_corner_sha256": "372947ee2164e603df88b80609a589436b8b923f6d3647714e9ecd386de2b006",
+  "population": "All70 existing training pairs,18bound models,MLP1,source/final/identity. Two shared source alignment omissions retained separately.",
+  "axes": [
+    "reconstructed background/native direction",
+    "native background/reconstructed direction"
+  ],
+  "reconstructed_direction": "Encode/decode each original native donor and recipient write independently with its own TopK/gates, frozen model/normalization. Difference at the same M59aligned source/final addresses; zero elsewhere. Decoder bias/mean cancel algebraically but preserve actual float32 implementation. No recipient-support locking or norm matching.",
+  "targets": "Native background plus native delta response is teacher. Responses each relative to their own background. Reconstructed background plus native delta replays M62 exactly. Compute remaining native-background/reconstructed-delta and reconstructed-background/reconstructed-delta corners; identities retained.",
+  "metrics": "Local delta squared error normalized by native delta energy; full-vocabulary native-weighted response error normalized by native response energy; raw energies/margin errors and per-family/pooled/equal-family scores. Missing zero denominators explicit. Same teacher across candidates.",
+  "interpretation": "Separates background-response fidelity from encoding task differences; finite nonlinear interaction means no additive causal attribution. Familiar source-group development evaluation, not discovery or whole-task transfer.",
+  "stop": "One factorial across all candidates and fixed inputs. No fit, floor/LR/seed/position/task search. Then assess readiness for component/manifold validation, rather than claiming units from reconstruction or response alone.",
+  "parent_protocol_sha256": "5747fa75518ef99b152638e3732119f4fa6d90637b7fed6b89d6e1baac8771f1"
+}
