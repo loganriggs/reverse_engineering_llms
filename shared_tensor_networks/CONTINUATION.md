@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (gauge controls). Current turn: progress (24 audited readout-recovery fits and restricted scalar-identification argument). Goal remains active.
+Previous goal turn: progress (two-feature recovery and scalar theorem). Current turn: progress (scaled d6h3 recovery, 24 audited fits, exact generic local-rank certificate). Goal active.
+
+## Current: three-feature readout recovery COMPLETE
+
+run_readout_recovery_h3.py / audit_readout_recovery_h3.py / summarize_readout_recovery_h3.py completed24fits,3freshteacher218001–3 x2init219001–2 xone/three/sixheads/interventions. d6h3,exactGaussianpopulation,TRFanalyticJac,max200eval,norestarts. Generalizedcoefficient/Jacobian implementation testedagainstindependentproductmap/directforwardautograd beforetraining. All24auditedafterward: maxJ8.58e-16,loss2.78e-16,729nodequadraturecomponentmatching,heldoutOLSnormal equations/error. Readoutheads4wholeheldout;frozenfeatures32/128labelsandpopulationfloor. Knownnodeablationsprivileged. No sample-efficiency/equalcomputeclaim.
+
+Recoveryone3/6,three6/6,six5/6,interventions6/6. Everynear-exactfit recoversallcomponents andtransfersnearlyexactly. Failedscalarfittransfer128MSE.045/.064/.530;failedsixhead.021. Fullspan/independentfactor assumptionsauditedforsixheadtheorem. Information sufficiencydoesnotguaranteeoptimizerconvergence. READOUT_RECOVERY_H3_RESULTS.md.
+
+certify_readout_local_rank.py +READOUT_LOCAL_IDENTIFICATION.md: smallintegerfixture, exactcentraldifferencesh1/h2verifyeverycoefficientderivative, modularnonzerominors atprime2147483647(primalitytrialdivision). ranksone36/42,three48/54,six66/72,intervention36/42. Sixindependentscalinggenerators checkedkernel. Nonzeropolynomialminors +genericgaugeupperbound implygenericlocalidentificationmoduloscaling,evenonehead. Notglobalidentification,distantalternatives,orcertificateforactualrandomteachers. No noveltyclaim. Allmatrices/pivots/determinantssaved.
+
+Nextinformativeextension: perturbationstabilityatfixedteacher/localbasin, gauge-removedJacobian spectra and controllednoise, distinguishingintrinsicinformation from metric/optimizer effects. Do notrescueallrandominitializationsindefinitely. No jobs live; nativeMLPprojectpaused.
 
 ## Current: two-feature readout recovery COMPLETE
 
