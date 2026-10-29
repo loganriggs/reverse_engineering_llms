@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: balanced causal loss improves family coverage, with tradeoffs
+## Current: representing task changes remains a separate gap
+
+[M63](STATE_DIRECTION_FACTORIAL.md) completes the fixed background/direction factorial. Balancing improves all six source comparisons when the direction is supplied, but only two when the representation supplies it. Every final-position reconstructed-direction family score remains worse than zero response. All4536 response vectors audited. Next: distinguish within-support coordinate changes from support switches, with fixed native causal tests and no retraining.
+
+## Previous: balanced causal loss improves family coverage, with tradeoffs
 
 [M62](BALANCED_RESPONSE_EVALUATION.md): balancing beats raw supervision on holdout source-family error6/6(8.4–28.9%reduction),final-family5/6,but final pooled error only1/6. NaturalKL remains1.2–2.6%worse than KL-only controls. Alltaskvectors audited; naturalretention checked. This validates a fidelity objective, not semantic units. Next separate reconstructed background from reconstructed task direction with a fixed no-fit factorial.
 
