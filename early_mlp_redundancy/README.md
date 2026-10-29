@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: color competence does not establish an early-MLP causal target
+## Current: source positions reveal stronger early-MLP causal coverage
+
+[M57](TRAINING_CAUSAL_COVERAGE.md): the frozen11-family map finds larger MLP1effects at changed input-token positions than at final positions. Agreement margin changes6.53vs.024, with24/24source swaps reducing the recipient margin. All1254evaluated conditions audited; alignment failures retained. This establishes position-dependent causal availability, not abstract computation or redundancy. Next compare all18frozen featurizers on every eligible MLP1target without selecting strong tasks.
+
+## Previous: color competence does not establish an early-MLP causal target
 
 [M56](COLOR_CAUSAL_AVAILABILITY.md): opposite-answer final-position MLP1 swaps have very small task effects; all18frozen candidates lose to zero-response prediction in both pooled full-distribution tests. All432student responses independently audited. The color-only comparison is closed; no training or site tuning follows. Next is a broad training-only causal-coverage map across approved families, separating informative targets from null controls.
 
