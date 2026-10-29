@@ -1,3 +1,5 @@
+Update: DEPTH3_HIDDEN_TRANSFER_RESULTS.md now covers all saved depth3groups; 542/768task/error estimates pass the descriptive precision gate. This closes execution of the finite-label comparison, not its unresolved calibration/measurement uncertainty.
+
 # Research synthesis and completion evidence
 
 Update: LARGER_HIDDEN_TRANSFER_RESULTS.md now closes the depth2portion of the frozen-hidden-transfer gap identified below (192fits); depth3remains. The review below records the evidence and remaining scope at its original audit point.

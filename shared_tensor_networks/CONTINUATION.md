@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: depth3 frozen hidden transfer COMPLETE with precision limits
+
+Previous/current turns progress. DEPTH3_HIDDEN_TRANSFER_PLAN/RESULTS.md:48model/oracle jobs,192adaptation fits,all12depth3groups/36learnedmodels. Same32/128noiseless adaptation targets,sourcevswithin-headhidden,source-only sampled RMS,ridge.001. Evaluation:heldouttarget/residual proposal onlyafterfits;8fresh8192point batches,defensive20%uniform. All384batches,calibrationjobs,192SVDfits replay independently inNumPy; hashes,degree8homogeneity,heldoutsource-slot isolation pass. Allhandles terminal,no jobs.
+
+542/768task/error estimates pass10%batchCV gate. d16sharedteacher128allpass: learnedhidden medians3.65/3.14/2.36 versus source1.47/1.00/1.16; true sharedoraclehidden.0039versus.625. d32independent estimates mostlyimprecise. MedianfractionfeatureswithcalibrationsecondmomentCV>.1=.890; normalization uncertainty changes effective ridge. Report conditionalfixedpipelinefinding,not irreducibledepth3floor or guaranteedprecision. Noaddedlabelnoise. Largerfrozenanalysisnowcoversdepth2exact/depth3uncertain.
+
+Next bounded measurement/calibration replication for weak d32independent regime OR restrict synthesis claims to stable evidence; nooptimizerrescue. Fullgoalactive; nativeMLPpaused.
+
 ## Latest: larger depth2 hidden transfer COMPLETE
 
 Previous turn progress; current turn progress. LARGER_HIDDEN_TRANSFER_PLAN/RESULTS.md,192fits/48dictionaries cover ALL12depth2teacher groups and36learnedmodels+12teacher-source oracles. Same32/128adaptation targets, no newnoise/retraining/tuning; exact sphere RMS bothrepresentationarms, ridge.001. Hiddenwithinheadproducts only. Savedfactors/readouts/provenance; audit actual network forwards,SVD ridge,checked Wick errors. Historical72source-output readouts replay separately; maxexact-vsMC discrepancy.2304, originals retained.
