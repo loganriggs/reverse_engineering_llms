@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (shared/separate comparison). Current turn: progress (200 audited release/teacher-start headfits, output-span diagnostics and local perturbation explanation). Goal active.
+Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
+
+## Current: hidden extraction COMPLETE
+
+HIDDEN_EXTRACTION_PLAN.md fixedbeforeevaluation:15shared/15randomindependent/15released/5teacherindependent storedmodels; no source retraining. Compare10outputs,withinheadhiddenproductunion10or100,rank4quadraticGaussianuncenteredSVDthen10products,quarticunionrank10SVD. Noheldoutlabels/teacherfeaturesselectextraction;knowninputGaussianmetric+declaredrank4privilegedassumptions. SVDquadraticbasisnotnecessarilybilinear;subspacenotcomponentidentity. assess_/audit_/summarize_hidden_extraction.py completed50models600fits,sourcehashes400freshinputevals,eigenspaceequations,normalization,OLSnormal+minnormconditions/populationlossverified.
+
+Mediantransferoutputs->quadraticconsensus:released.03436->.001215;teacherindependent same;sharedallrepresentations.000852(equalspanscontrol);randomindependent.1092->.1474(no rescue). Union100floor random.000102/released.000015yet128labeltransfer~.187/.195. Independentmodelsretainhiddeninformationbeyondoutputs,especiallygoodbasinstarts;doNOTsayuntyingerasedrepresentation. Failedsharedinitializationsnotalwaysfixed;quarticPCAperformssimilarlysoquadraticuniquenessnotestablished.
+
+assess_hidden_adaptation_risk.py derivesexactconditionalrisk forfixedOLS F X+ (Y0+noise):bias+sigma²||L F X+||F². 400cases:unionnoisecontribution~.20vstenfeatures~.0005,explainingexpressiveunionpoornoisyadaptation. QRfactoredformulaagreement1.39e-11;naiveGramtracecancellationmax.000153retainedasnumericaldiagnosticandnotused. Readoutnoiserealizationsreplayed. HIDDEN_EXTRACTION_RESULTS.md withallteacheroutcomes,scope,andtheory.
+
+Nextmechanismcontrols couldtest coherentvsindependenterrorsorrobust empiricalfeatureextraction withoutknownGaussianmetric;avoidclaimingnativefeaturizerresults. OriginalnativeMLPprojectstillpaused,no livejobs,overallgoalactive.
 
 ## Current: release-sharing control COMPLETE
 
