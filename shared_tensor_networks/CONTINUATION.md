@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (54 audited block-GN fits). Current turn: progress (54 audited gauge-balancing fits and theoretical interpretation). Goal remains active.
+Previous goal turn: progress (gauge controls). Current turn: progress (24 audited readout-recovery fits and restricted scalar-identification argument). Goal remains active.
+
+## Current: two-feature readout recovery COMPLETE
+
+run_readout_recovery.py, audit_readout_recovery.py, summarize_readout_recovery.py: d4,h2, exactGaussianquarticcoefficient loss; three teacher seeds215001–3, twoinit216001–2; one/two/threeindependentreadouts orbasehead+2knowncomponentablations. SciPyTRFanalyticJac,max200evals,fixedtolerances1e-12,norestarts. Fourwholeheldoutreadouts excluded from representation fitting, thenfrozenproductfeatures32/128labelOLS and exactpopulationprojectionfloor. All24audited: directforwardtorchJac vs coefficientderivative4.94e-16,independentproductmap/moments5.55e-17,81nodequadraturecomponent/subspace,transfernormalequations/errors. Allcheckpointshashesrecorded.
+
+Exactfunction/componentrecovery counts one4/6,two3/6,three5/6,interventions5/6. Failuresretained(includingbudgetstops);notmonotonebenefitormanyindependentteachers. Interventionarmprivilegedknownnodecorrespondence,19paramsvs25threeheads. Everynear-exactfit recoveredfeatures andtransferrednearlyexactly. READOUT_RECOVERY_RESULTS.md includesallfailedfittransfererrors,notjustmedians.
+
+Important correction: TWO_FEATURE_SCALAR_IDENTIFICATION.md derives generic scalaridentification for2bilinearfeatures with4independentfactors,nonzerodiagonalreadoutcoefficients,nonzerodiscriminant. Overcomplex,scalarquarticfactorsintotwodistinctirreduciblerank4quadratics;uniquefactorizationidentifiespencil;onlyrank2pencillinesareoriginalfeatures. ExactSymPycheck_two_feature_identification.py determinant/ranks/nonorthogonaltransform passes;auditorverifiesteacherassumptions. Restrictedargument,notnoveltyclaimorstability/globaloptimizationtheorem. Earlierd3h3ambiguityviolatesassumptions.
+
+Nextscaleinformationcontroltod6h3,1/3/6independentheadspluslabeledablations,wholeheldoutheads. Sixfullproductspanheads haveexistingidentifiabilitytheorem;twofeaturefactorizationproofdoesnotautomaticallyextend. Do notclaim scalarinformationinsufficiencyfromoptimizerfailure. No livejobs;nativeMLPprojectpaused.
 
 ## Current: function-preserving gauge control COMPLETE
 
