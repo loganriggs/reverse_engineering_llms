@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest completed stage
+
+Five-teacher confirmation completed:80fits,4560transfer rows, all independently audited. See CONFIRMATION_RESULTS.md and results/multitask_confirmation. Component confirmation:10trained h4 models,24/40components above.95, mean cosine.7845, independent audit passed. All producer/auditor handles terminal; no live jobs. No GPU/native-MLP work started. Current goal turn is progress. Prior heartbeat removed an obsolete reminder; it did not restart experiments.
+
+Shared h10 wins all5 paired shared-teacher blocks against shared h4, separate h4/h1 and polynomial at32/128labels. Independent-teacher transfer medians remain worse than zero prediction. Next stage: validate Monte Carlo population evaluation against exact quartic metrics, build depth2–5 smoke cases, then freeze representative input/width/depth scaling. Preserve whole-task holdouts and all failure/negative conditions. Full goal not complete.
+
 ## Evidence current through this batch
 
 - Main report MULTITASK_AND_GRAPH_RESULTS.md; TASK_SPANS_AND_GRAPH_IDENTIFICATION.md; GENERIC_BILINEAR_COMPONENT_IDENTIFIABILITY.md; GENERIC_FIBERS_AND_LOCAL_RLCT.md.
@@ -19,7 +25,7 @@ At sourceN256 on shared teachers, shared students beat both separate controls in
 
 The exact component theorem: with2h independent teacher linear factors and full task-product span h(h+1)/2, an exact h-feature bilinear competitor must match teacher quadratic functions up to scaling/permutation. Proof uses square-root subspace membership plus rank-two axes. Does not identify cached execution, apply to overcomplete competitors, or give approximate/finite-sample guarantees. Counterexamples cover incomplete task span and dependent factors; no literature novelty claim.
 
-## Next bounded stage (not started)
+## Completed confirmation protocol (historical)
 
 Confirm the transfer signal on five fresh teachers with separately varied optimizer seeds. Suggested disjoint seed ranges: teachers90000–90004,source inputs91000–91004,optimizer seeds92000–92001,adaptation93000–93004. Freeze protocol before outputs. Preserve sourceN256,12training/4held-out tasks,3000steps, same two teacher regimes, adaptation8/32/128, fixed penalties0/.001. Primary comparisons k32/128 specified from development. Do not introduce held-out validation labels or test selection.
 
@@ -29,7 +35,7 @@ Compare teacher-block paired means; components/tasks/optimizer seeds are not ind
 
 ## Remaining scope — not complete
 
-- E1/multi-task learning: independent five-teacher confirmation with stronger budget controls; broader sample/task-count behavior and the role of useful component recovery.
+- E1/multi-task learning: fresh confirmation with stronger budget controls is complete; broader sample/task-count behavior and the role of useful component recovery remain.
 - E2: existing exact metric projection, optimization-budget controls, and singular-feature conditioning results are complete for their stated settings. Tiny-network spectrum/scaling comparisons may accompany depth experiments; do not reopen old sweeps without a new discriminating question.
 - E3: known-family instrumented graph recovery and generic exact feature identifiability are now established under explicit assumptions. Learned models show only partial feature recovery. Need confirmation/robustness and operational transfer beyond this small family, not an unsupported universal graph claim.
 - Theory: generic fiber dimension and a local regular-quotient RLCT are derived with an exact rank witness; scalar singular examples remain in MATHEMATICS.md. Degenerate/global RLCTs and robust approximate-identifiability bounds are not solved or claimed.
