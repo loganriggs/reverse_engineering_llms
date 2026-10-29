@@ -1,5 +1,7 @@
 # Fixed-direction diagnostic: training complete; held-out derivative accounting unresolved
 
+Follow-up: [precision diagnosis and full fixed-direction comparison are complete](PRODUCT_DICTIONARY_DIRECTION_RESULTS.md). The original failure below remains preserved.
+
 M97 follows the frozen coefficient direction from each KL-only fit to its joint-supervised fit. It measures whether this correction has opposing local effects across training and held-out examples, or whether downstream curvature changes its finite effect. No model is trained or selected.
 
 The training-only implementation preflight passed its declared criteria: four endpoint directions, twelve finite-difference steps, independent NumPy affine tangents, and exact saved endpoint output/loss replay (196 native forwards). Tangent discrepancies were below 6.5e-8 relative. Float32 endpoint secants differ from the ideal tangent by roughly 0.014–0.016%, so values are anchored to their actual saved endpoints while derivatives use the affine tangent.

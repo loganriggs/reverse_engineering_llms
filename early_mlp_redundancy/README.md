@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Fixed-direction results](PRODUCT_DICTIONARY_DIRECTION_RESULTS.md). Local slopes predict all56held-out source-change signs; aggregate causal loss still improves. Precision issue diagnosed with original flag retained. Next: matched causal-example coverage comparison.
+
 Latest: [Fixed-direction diagnostic status](PRODUCT_DICTIONARY_DIRECTION_STATUS.md). Training derivatives and endpoint replay audited; source-group run stopped at a small derivative-accounting discrepancy. Exact failure retained; precision diagnosis next, no held-out conclusion yet.
 
 Latest: [Fixed-run diagnosis](PRODUCT_DICTIONARY_FIXED_RUN_DIAGNOSIS.md). Joint supervision improves actual training causal targets, but same-family source-group reversals remain. Natural write movement is about0.21%; capacity/convergence unproven.
