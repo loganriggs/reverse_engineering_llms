@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Four product-dictionary fits completed](PRODUCT_DICTIONARY_FITS.md). Calibration and all528updates audited; all4finals and2initials frozen for held-out joint-fidelity evaluation. No transfer outcome yet.
+
 Latest: [Product-dictionary initialization and derivative checks](PRODUCT_DICTIONARY_PREFLIGHT.md). Both exact starts and guarded execution verified. Small-step derivative failures retained and resolved by one numerical-resolution diagnostic; optimizer/schedule audit and training-only calibration remain before fitting.
 
 Latest: [Why smaller errors can combine worse](PRODUCT_ERROR_INTERACTION.md). All49028 conditions audited: whole-task reversals lose beneficial approximation-error cancellation even while interaction norms shrink. Next: a fixed native-product dictionary with jointly supervised output coefficients.

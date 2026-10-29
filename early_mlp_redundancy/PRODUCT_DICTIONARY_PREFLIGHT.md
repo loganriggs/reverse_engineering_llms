@@ -1,5 +1,7 @@
 # Product-dictionary initialization and derivative checks
 
+Follow-up: [calibration and four fixed fits are now complete](PRODUCT_DICTIONARY_FITS.md). The account below records the earlier preflight stage.
+
 M95 returns to the featurizer comparison after closing the M89–M94 deletion and error-decomposition series. The implementation and local derivative checks are complete. **No calibration or fitting has run.** Optimizer/schedule auditing and training-only calibration remain before fitting.
 
 ## Computational question
