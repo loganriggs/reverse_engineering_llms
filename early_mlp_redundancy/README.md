@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Continuous-versus-hard joint fidelity comparison](CONTINUOUS_JOINT_FIDELITY_RESULTS.md). All frozen task tests and norm controls complete. Continuous maps improve selected final-position responses but often lose to simply shrinking hard-gate changes under equal-family scoring, worsen many source-position responses, and reconstruct native states less faithfully. Continuity is a useful prior, not a sufficient definition of a computational unit. This adaptation study is closed; no more tuning. Earlier “next” actions below are historical.
+Current: [Sparse continuity constraints](SPARSE_CONTINUITY_CONSTRAINTS.md). A precise proof shows why unrestricted signed hard-block selection with linear decoding cannot be globally continuous unless its decoded contribution is zero. Restricted-domain toys show how shared computation can escape the assumptions. All4encoders and64native sphere-tangent Jacobians have full128rowrank; real-text manifold reachability remains open. No new fitting. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
