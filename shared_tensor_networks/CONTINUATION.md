@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest allocation control complete; all SVHN data verified
+
+Currentgoalturn: progress. NONUNIFORM_BUDGET_RESULTS.md:3CPUfits withleafwidth16/8/4,upperwidth32,nearstackparameterbudgets;30epochsstandardSVHNsameprotocol. Val83.56/78.26/77.98%, versusuniformbudget82.76/79.96/65.78%. Depth4gain12.20points yet6.60belowstack. One seed, differentinitialfunctions; notcausalproofthatsharingexplainsremaininggap. Nonuniformclass exactuniformreduction6cases,storage/countchecks,finite-differencegradcheck,NumPyforward pass. Independentfulltrain/val/logit auditsall3pass. CPU/CUDAfloat32gradientcheckmax6.258e-6. Allproducer/auditorhandles82664/57825/82358/96038/18724/46814terminal. No livejob/GPUtraining.
+
+SVHNextradownload51470terminalsuccess; referenceMD5a93ce644f1a588dc4d68dda5feec44a7 passed,531131NCHWimages. prepareextra28298terminalsuccess;fullarraybyteequalitychecks andSHA256saved. Metadata copiedresults/svhn_data; largearchives/npyoutside repo in/home/loganriggs/.cache/shared_tensor_networks/svhn. Bothstandard+extra ready; pool599388train plusfixed5000standardval. DoNOTredownload. Nextimplement pairedstandard-onlyGPUandstandard+extraGPUdepth2stage (sameprecision,TF32off), checkpointat8010updates forcomputecontrol plusfull30epochs; thenextenddepth3/4asplanned. RecheckGPUavailability, avoidcollidingwitholdproject. CurrentGPUreadiness tests passed; noGPUtrainingsweephasrun. Goalactive,allocationdetourclosed.
+
 ## Latest standard SVHN complete; extra download remains live
 
 Currentgoalturn: progress. SVHN_STANDARD_RESULTS.md:10CPUfits,68,257train/5,000val,30epochs,RMSNorm,onefreshseed; all independentNumPytrain/val/logit audits andhistogrampreprocessingchecks passed. Producers46368/92202/93276and auditors19499/27896/21323terminal. Stackvaldepth2/3/4=84.86/83.94/84.58%; equalwidthtree84.92/83.30/80.16%; uniformbudgettree82.76/79.96/65.78%;MLP82.84%. Single-seeddevelopment, noofficialtest. Treefits trainbetter butgeneralizesworse deep; uniformbudgetdepth4underfits. Plan nonuniformleafwidth16/8/4 withupperwidth32 toseparateparameterbudget fromoutputbottleneck (notimplemented/trainedyet).
