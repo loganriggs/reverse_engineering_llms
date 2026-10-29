@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Mixed-interaction results](NATIVE_MIXED_INTERACTION_RESULTS.md). Retaining interactions between64data-selectedcontextcoordinates andtheircomplement lowersnaturalKL fromabout0.24–0.25 to0.021–0.024 andsubstantiallyimprovesheldoutcausalresponses. Lower-ranksourcefailures remain. No newfit, semanticunit ornativepruningclaim. Next: a fixedrandom-subspace null. Earliercheckpoint “next” actions below arehistoricalandsuperseded.
+Current: [Random-subspace comparison](NATIVE_RANDOM_SUBSPACE_RESULTS.md). Data PCA directions outperform rank-matched random directions on natural fidelity and most aggregate causal measures. Rank-4 source-group exceptions remain. Random rank-64 candidates preserve 100% binary source-group accuracy while failing causal fidelity. This supports useful data-dependent context subspaces, not semantic axes or removable native neurons. Next: a bounded within-span rotation diagnostic to distinguish subspace structure from coordinate-dependent localization. Earlier checkpoint “next” actions below are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
