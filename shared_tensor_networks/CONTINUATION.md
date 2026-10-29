@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest depth5 basin controls
+
+Current goal turn: progress. DEPTH5_BASIN_RESULTS.md records9 audited fits on frozen depth5 importance datasets. Random-start lr1e-4/1e-5 still yields relativeerror~1; teacher+1%RMSnoise positive controls give.000258/.000672/.001686. Two absolute precision gates fail and remain flagged. NumPy evaluation/objective replay, perturbation replay and input hashes pass. All producers/auditors terminal; no GPU/live training jobs.
+
+Norm traces: random readout shrinks markedly, trunk norms barely change. Do not describe simultaneous all-parameter shrinkage as observed mechanism. Initial random empirical alignment~1e-6. Exact power-function pairing formula demonstrates that input-degree32 can make moderate directional overlap nearly function-orthogonal; independently checked against exact circle quadrature. This is illustrative, not a theorem about these general networks.
+
+Next bounded step: initialization/curriculum control manipulating early feature alignment, with teacher access labeled privileged. Avoid unbounded LR sweeps. Determine whether deep learning can be stabilized for sharing/task-transfer comparisons, or document a depth limit and complete representative feasible scaling. Independent-teacher, budget controls and whole-task transfer remain outstanding in the deep regime. Overall goal remains incomplete.
+
 ## Latest coverage-training stage
 
 Current goal turn: progress. COVERAGE_AND_COLLAPSE_RESULTS.md:12paired depth3/5 fits(3fresh teachers, uniform vs exact weighted importance sampling),1024examples600Adamsteps. Independent output calibration and fresh final proposals; full states/data saved. Producers and audits terminal, no jobs live. NumPy replay/weighted gradient audit passes. Depth3 importance improves all3pairs; depth5 predictions lose alignment and collapse nearzero. Four of six depth5 absolute-energy precision gates fail and remain reported. Cross-fitted scalar correction does not recover depth5 signal.
