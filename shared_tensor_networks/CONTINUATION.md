@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest theory-to-image experiment: gradient-flow control complete
+
+Current goal turn: progress. FASHION_FLOW_RESULTS.md:9cases×4arms=36fits,55ktraining,215steps,depth2/3/4,threefreshseeds,width16,float64SGDlr.01. Initial functions equal; correctedtied vsprojectedtree maximum recorded parametererror3.272e-13. Initial disagreement fractionsdepth2.363–.479,depth3.738–.776,depth4.838–.920. IndependentNumPy audit final36validationmetrics passes; finite-difference initial loss derivatives pass. Producer85540 and auditor57282terminal; no livejob. NoGPU/testevaluation. Sources/models/results saved. GenericCPU+pinnedcore0 run didnotcrash, not a definitive runtimefix.
+
+Ordinarytied/free medianaccuracy near eachother atdepth3/4; corrected/projected substantiallyslower atsamebaselr. This is a finite-budget metric/control result, notconvergence/generalization evidence. Next bounded B control: independentlyfixed learning-rate/function-speed controls and multipleprobes; A certifiedreuse-complexity teacher experiments remainqueued. Scaling/seedreplication andSVHNloader provenance remainoutstanding. Goalactive.
+
 ## Explicit theory directions A and B — active
 
 User requested reuse-aware rank/complexity and sharing gradient-flow proofs. SHARING_COMPLEXITY_AND_FLOW.md now defines grammar-dependent circuit/formula complexity and resource profiles, proves q^(2^L) small-DAG/large-formula/large-flattening separation, and derives tangent-kernel PSD decomposition and multiplicity bounds. These are classical/elementary results applied here, not novelty claims. check_sharing_complexity_flow.py passed exact rational moment/coefficient/rank fixtures and4actual-network Jacobian/kernel checks with/withoutRMSNorm. E2 existing20trajectories verified correctedSGD/projectedSGD equivalence. A did not previously have an implemented minimal-circuit measure.
