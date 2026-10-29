@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest ALS optimizer control complete — bounded detour closed
+
+Currentgoalturn: progress. REUSE_ALS_RESULTS.md:54ALSfits, samearchivedfourfactorinitializations/data asSGD;100sweeps400exactLSblocks. Independent21,600blocknormal-equation/monotonicity checks and54populationreplays pass(maxnormalres4.534e-15). ALSimproves46/54pairedpopulationerrors. GenericnoiselessN512median~3.4e-30 vsSGD.0467,recovery3/3. Notcomputematched,nouniversalwin; noisyN32canoverfit.
+
+Two1factorteacherN128noiselessplateaus remain:positive trainMSE.0181/.184, tinygradients,3explicitgaugezeros+9positivetransverseHessianeigenvalues(min.01165/.03281). Explicitnearzerolossfeasiblepoints. Numericalnongloballocalminimumcandidates, notrigorousintervalcertificates. Conditionalquotientsecondderivativetheorem documented. No livejob/GPU. Product-familyoptimizerdetour nowclosed; nextreturnbroaderimage seedreplication/largerdata pipeline. Rigorouslocalminimumcertificate remains explicit theoryfollowup, not an excuse for endless rescues. Goalactive/generalcircuitrecovery stillopen.
+
 ## Latest finite-data/noise reuse study complete
 
 Currentgoalturn: progress. REUSE_SAMPLE_NOISE_RESULTS.md:162factorizedfits+54OLSbaselines, fresh3seeds, N32/128/512,noise0/.1, fixedquartic3D. Allfinite andaudited; exactmomentauditmaxrel1.732e-15, trainingobjectives+54normal-equationchecks pass. Producer90763terminal,no livejob/GPU. OLSnoiseless recovery numericalprecisionN32already; factorizedoptimizationpoorfor2/4factorfamilies. Modest1factormatchedsharingnoiseN512median.000421 vsOLS.000624, notbroadadvantage. Correct2/4factor strictrecovery0/3allN.
