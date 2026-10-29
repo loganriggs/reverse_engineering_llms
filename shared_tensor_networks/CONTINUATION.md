@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: readout timescale dynamics COMPLETE
+
+Previous response turn: no progress (research summary only). Current turn: progress. READOUT_TIMESCALE_PLAN/THEORY/RESULTS.md and check/audit/summarize_readout_timescale.py add a bounded B dynamics test: 30 flows, three teachers247101–3, d3/h2, fiveepsilon=.1,.03,.01,.003,.001, optimal/perturbedreadouts; samehiddeninitialization and horizon. All6sequences approachreducedflow monotonicallyinendpointdistance;100xspeed reducesdistance13.1–111x. Notfeature-recovery/transferbenchmark.
+
+Theory: exact moving-optimum tracking equation; positive readout curvature gives exponentially decaying initial mismatch plus O(epsilon K/lambda) tracking, conditional finite-time hidden-flow convergence underuniformlocalbounds. Notglobalconvergence or optimizer superiority. Numerical evidence:60Torchgradient/finite-difference checks,3030independentforward/SVDtracking observations; max tight replay4.28e-10. ExplicitDOP853stiffness documented;3completedpaths retained andagreewithRadauwithin5.55e-8; subsequentattemptinterrupted; final30Radaupaths complete. Producer46184terminal;auditterminal;nojobs.
+
+Next B experiment: finite readout speeds and separately finite-dwell alternatingflow on recovery/whole-tasktransfer, keeping joint/reduced baselines and resource accounting. Do not confuse fastreadoutlimitwithbetterrepresentation. Larger d64/h32 crossedtask/inputscaling remains unstarted/open; fullgoalactive; nativeMLPpaused.
+
 ## Latest: d32/h16 crossed scaling COMPLETE
 
 Previous/currentturn progress. TASK_COVERAGE_H16_PLAN/RESULTS.md:60GPUfits (fivefresh242101–5,random243001/2+teacherstarts),heads34/136,inputs512/2048,3000Adamsteps,.003,clip10,float32TF32off. Primarytransfer512labels (136features);128secondaryunderdetermined. Audited60source/240transferfits,allmetrics/initialpairing/noise/inactiveheads/curvecoverage. No nonfinitefailures. Teacherbatches6.2–6.6sec,peakallocated~195MB/reserved~229MB;CPUanalysisexcluded. Allprocesses terminal.

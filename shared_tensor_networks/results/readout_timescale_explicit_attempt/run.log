@@ -1,0 +1,41 @@
+{'seed': 247101, 'initialization': 'optimal', 'epsilon': 0.1, 'trajectory': '247101_optimal_0.1.npz', 'hidden_endpoint_distance': 0.21637515441706529, 'hidden_max_distance': 0.6620958028975714, 'final_tracking': 0.07356504067440883, 'initial_tracking': 0.0, 'max_sampled_forcing': 1837.620955394477, 'final_loss': 0.8888369854249386, 'replay_max_abs': 5.545348380486814e-08, 'reference_replay_max_abs': 9.67965541054383e-09, 'nfev': 15641}
+{'seed': 247101, 'initialization': 'optimal', 'epsilon': 0.03, 'trajectory': '247101_optimal_0.03.npz', 'hidden_endpoint_distance': 0.06442620274767422, 'hidden_max_distance': 0.2894962155215616, 'final_tracking': 0.0019248112299870572, 'initial_tracking': 0.0, 'max_sampled_forcing': 1837.620955394477, 'final_loss': 0.692384564204011, 'replay_max_abs': 4.0629434039374246e-08, 'reference_replay_max_abs': 9.67965541054383e-09, 'nfev': 28301}
+{'seed': 247101, 'initialization': 'optimal', 'epsilon': 0.01, 'trajectory': '247101_optimal_0.01.npz', 'hidden_endpoint_distance': 0.025903797122302414, 'hidden_max_distance': 0.1438171611630135, 'final_tracking': 0.0008645014018592006, 'initial_tracking': 0.0, 'max_sampled_forcing': 1837.620955394477, 'final_loss': 0.6901375117665082, 'replay_max_abs': 4.681933130079585e-08, 'reference_replay_max_abs': 9.67965541054383e-09, 'nfev': 61481}
+Traceback (most recent call last):
+  File "/home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/check_readout_timescale.py", line 111, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/check_readout_timescale.py", line 75, in main
+    sol=integrate(flow,initial);tight=integrate(flow,initial,True)
+  File "/home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/check_readout_timescale.py", line 36, in integrate
+    sol = solve_ivp(fun, (0,.5), initial, method='DOP853', t_eval=GRID,
+                    rtol=1e-11 if tight else 1e-9, atol=1e-13 if tight else 1e-11)
+  File "/home/loganriggs/Coding/neuron_circuits/.venv/lib/python3.13/site-packages/scipy/integrate/_ivp/ivp.py", line 660, in solve_ivp
+    message = solver.step()
+  File "/home/loganriggs/Coding/neuron_circuits/.venv/lib/python3.13/site-packages/scipy/integrate/_ivp/base.py", line 201, in step
+    success, message = self._step_impl()
+                       ~~~~~~~~~~~~~~~^^
+  File "/home/loganriggs/Coding/neuron_circuits/.venv/lib/python3.13/site-packages/scipy/integrate/_ivp/rk.py", line 144, in _step_impl
+    y_new, f_new = rk_step(self.fun, t, y, self.f, h, self.A,
+                   ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           self.B, self.C, self.K)
+                           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/loganriggs/Coding/neuron_circuits/.venv/lib/python3.13/site-packages/scipy/integrate/_ivp/rk.py", line 64, in rk_step
+    K[s] = fun(t + c * h, y + dy)
+           ~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/loganriggs/Coding/neuron_circuits/.venv/lib/python3.13/site-packages/scipy/integrate/_ivp/base.py", line 158, in fun
+    return self.fun_single(t, y)
+           ~~~~~~~~~~~~~~~^^^^^^
+  File "/home/loganriggs/Coding/neuron_circuits/.venv/lib/python3.13/site-packages/scipy/integrate/_ivp/base.py", line 24, in fun_wrapped
+    return np.asarray(fun(t, y), dtype=dtype)
+                      ~~~^^^^^^
+  File "/home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/check_readout_timescale.py", line 73, in flow
+    gt,gu,*_=state(v[:K],v[K:].reshape(P,TASKS),x,y)
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/check_readout_timescale.py", line 18, in state
+    phi, D, radial, Jrad, _ = normalized_design(theta, x, HIDDEN)
+                              ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/normalized_readout.py", line 14, in normalized_design
+    phi,J=predict_jacobian(np.r_[unit.ravel(),np.eye(p).ravel()],x,h)
+                                 ~~~~~~~~~~^^
+KeyboardInterrupt

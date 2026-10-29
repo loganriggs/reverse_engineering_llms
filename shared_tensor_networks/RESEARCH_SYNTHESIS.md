@@ -49,3 +49,7 @@ The complete task-product-span assumption is sufficient, not known necessary in 
 Subsequent result: TASK_COVERAGE_H8_RESULTS.md reports60fresh d16/h8fits.36tasks beats12in4/5teachers at fixed input counts, but only2/5at equal total labels. The proposed information-budget question has now been tested at this width, with a conditional rather than universal benefit. Larger-width scaling remains.
 
 Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal69632labels,34tasks×2048inputs beats136tasks×512inputs in5/5teachers. This supports input coverage alongside task diversity, while all low-input random fits have explicit lower-loss teacher-start candidates. The proposed larger envelope is still not fully executed.
+
+## Readout learning timescale extension
+
+[READOUT_TIMESCALE_RESULTS.md](READOUT_TIMESCALE_RESULTS.md) completes 30 finite-time two-timescale flows and independent checks. Faster readout adaptation approaches reduced gradient flow in all six tested teacher/initialization sequences. [READOUT_TIMESCALE_THEORY.md](READOUT_TIMESCALE_THEORY.md) states the conditioning-sensitive tracking bound and uniform local assumptions. This is an ODE mechanism result, not evidence that faster readout learning improves feature recovery or transfer. Finite-dwell alternating recovery tests and larger-width scaling remain open.
