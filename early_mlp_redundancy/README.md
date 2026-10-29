@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Matched early-layer operator geometry](MATCHED_LAYER_OPERATOR_GEOMETRY.md). Individual sampled changes involve about 14–16 effective response coordinates, while invariant local operator dimension averages 33.4, 45.8 and 49.0 within the respective PCA64 spans of MLP0/1/2. Input concentration, operator dimension, channel redundancy and downstream use remain distinct. This bounded comparison is closed; next return to task-conditioned block validation using existing featurizers and causal caches. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Native-background block-role preflight](BLOCK_CHANGE_ROLE_PREFLIGHT.md). Four frozen block models pass independent gate/decode checks and64 sampled native-background intervention checks. Weight-only cross-seed assignments and100 random controls are frozen. The upcoming test asks whether individual encoded task changes have reusable causal roles; no new role-transfer result is claimed yet. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
