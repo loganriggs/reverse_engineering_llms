@@ -1,0 +1,26 @@
+{
+  "stage": "M89",
+  "status": "frozen_before_execution",
+  "question": "Can output-feature dimension be separated from the number of input products needed to compute it?",
+  "motivation": "M88 output-projection/input-prediction gap; not a demonstrated capacity cause",
+  "toy_cases": [
+    "Independent x,y in R^k, k=1,2,4,8, scalar sum_i x_i*y_i; coefficient matrix identity of rank k establishes k separable x/y products for exact equality on open support.",
+    "Same scalar target with data restricted to x=t*u: one separable product t*(u dot y) suffices on support, despite rank-k ambient matrix.",
+    "k collinear-output channels x_i*y_i versus k duplicated channels x_1*y_1/k; compare exact deletion effects and output dimension, without conflating common output direction with removal redundancy."
+  ],
+  "native_scope": {
+    "layer": 1,
+    "models": "all16 frozen M87 decoder spans",
+    "data": "M77 natural training inputs only; no heldout selection",
+    "identity": "c+P(F(z)-c)=(I-P)c+(P W)[(Lz)*(Rz)]",
+    "checks": [
+      "Independent float64 projection and reassociated computation; same native bias convention as M88.",
+      "Predetermined relative tolerance 1e-5; retain every failure and record absolute errors.",
+      "Record matrix shapes, operation counts, and use of all4608 native products.",
+      "No claim of compression, minimal rank, causal sufficiency, or semantic units."
+    ]
+  },
+  "deliverable": "Verified product-dictionary/output-dictionary interface and conceptual report distinguishing representation dimension, algebraic computation, on-data equivalence, and removal redundancy.",
+  "stopping_rule": "One complete toy suite and all16 training-only equivalence checks, then decide what on-data capacity test is justified; no optimizer restart, rank sweep, or new fitting in this stage.",
+  "source_manifest_sha256": "bf645b75a5652b9e54a31d17f936cc84b93e0bf98fb4c616e8b09be4b9dcc459"
+}

@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Executable featurizer transfer and the computation gap](BILINEAR_INPUT_TRANSFER.md). All frozen evaluations audited: mixed causal gains, worse natural retention, and a large gap between output projection and input computation. Next: separate output dimension from product count.
+
 Latest: [Sixteen input-supervision fits audited](BILINEAR_INPUT_SUPERVISION_FITS.md). All final models and their privileged reconstruction references are frozen; held-out causal evaluation is next.
 
 Latest: [Stable starting states and calibrated causal supervision](BILINEAR_INPUT_TRAINING_READY.md). All eight full-population warmups pass audit; one global causal weight is verified. The optimizer diagnostic series is closed.
