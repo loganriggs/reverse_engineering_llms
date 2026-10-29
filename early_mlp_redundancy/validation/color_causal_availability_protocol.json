@@ -1,0 +1,21 @@
+{
+  "stage": "M56 frozen native availability and common-target comparison; no fitting",
+  "manifest_sha256": "792f7808d9f17976b0e5c94505de47828a692eb30ca437f344a5f4c1a3dbd1bc",
+  "competence_sha256": "6a2804b11bf059417328a448d0093d67642cbe187079a9b5059b3c9d12e5407f",
+  "selected_family": "object_color",
+  "selected_format": "few_shot_completion",
+  "selection": "Only passing family/format under predeclared training gate; all four pairs/eight endpoints including native errors retained.",
+  "site": "Native MLP1 final-position product write, excluding Down bias; zero-based layer1.",
+  "target_directions": "For each recipient, delta is opposite endpoint donor final-position native product write minus recipient final-position product write. Add delta at recipient final position only. Also use same-object explicit-QA donor as a format-change diagnostic, and identity zero delta. Final-position alignment is explicit and allows unequal prompt lengths; it is not full-sequence semantic alignment.",
+  "semantics": "Task donor may carry nuisance object/context changes. QA donor changes prompt format and may alter behavior; do not assume invariance or describe it as a pure nuisance control.",
+  "native_metrics": [
+    "Full-vocabulary native probability weighted squared final logprob response energy",
+    "Recipient intended-vs-alternate answer margin change",
+    "Output KL",
+    "Intended answer top1 before/after"
+  ],
+  "candidate_models": "All18 M37 initial/control/joint scalar,block,shared states from joint_shared_models.json; exact same saved native deltas applied to each reconstructed MLP1 baseline as M37. No candidate-specific target or recipient magnitude oracle.",
+  "candidate_metrics": "Native probability weighted response prediction error and margin-response error, relative to native target energy. Retain zeros; report raw energies, per-input values, ordinary-output fidelity and actual active cost.",
+  "scope": "Training-family feasibility/development benchmark, not heldout transfer or new-task discovery. External write perturbation response, not proof of native neuron redundancy.",
+  "stop": "Complete all8recipients\u00d73donorconditions and all18frozen candidate comparisons, audit, then report regardless of signs. No amplitude/layer/prompt/candidate search. Subsequent fitting requires separately frozen dataset/compute-matched control and preserved whole-family holdouts."
+}

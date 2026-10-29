@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: joint evidence and task-diversity audit
+## Current: one candidate family passes the fixed format screen
+
+[M55](BROADER_TRAINING_FORMAT_SCREEN.md): object-color completion passes at75%both-endpoint preference/50%top1;13other family/format cells fail. All112prompts frozen before inference,100validendpoint scores independently audited. This is modest training coverage, not discovered computation. Next is a bounded native causal bank and common-target frozen-featurizer comparison, retaining failed endpoints and unequal lengths explicitly.
+
+## Previous: joint evidence and task-diversity audit
 
 [M54](JOINT_RESEARCH_EVIDENCE.md) reconciles18common-training states and704common native targets. Causal supervision helps7/12matched comparisons; computational-unit and new-task-discovery claims remain unproven. An older20-family screen supplies zero additional eligible training families beyond the current panel. Next is a bounded training-only format screen of its seven nonpassing candidates, preserving whole-family exclusions.
 
