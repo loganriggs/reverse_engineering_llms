@@ -4,6 +4,18 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## ACTIVE: full d128/h64 training RUNNING — do not duplicate
+
+Previous/current turns progress. TASK_COVERAGE_H64_PLAN.md frozen; train_task_coverage_h64.py launched scientific3000-step run after real-shape two-step smoke and full preflight audit. Smoke98145terminal0; preflight79936terminal0 verifies12checkpoints,128regeneratedsourceblocks,32adaptationblocks,initialhashes/inactiveheads/finitefloat32weights. Smokeartifacts in /tmp/task_coverage_h64_smoke, only compact checks committed; not scientific outcomes.
+
+LIVE producer unified-exec session14051, Python PID202441(parent202437), log /tmp/task_coverage_h64.log. Lastverifiedfirstteacher256101,n8192_t520 atstep1600, GPU99%. Poll existinghandle/processbeforeanythingelse; neverduplicateonobservationtimeout. Sourcefilesmustremainunchangedwhileproducerusesprotocolhashes. Scientificroot results/task_coverage_h64 isuntracked/mutable; donotcommituntilstablegroups/resultsselecteddeliberately.
+
+Protocol: fivefresh256101–5teachers,random257001/2+teacherstart;d128/h64/P2080,520/2080tasks×8192/32768inputs,equal17,039,360labels;60fits/20groups,3000Adamsteps,lr.003,clip10,float32TF32off. Primaryadapt8192,secondary2048. CPUknownGaussianRMSnormalization. Sourcefixed256rowblocks,seedteacher+5000,stream0;adaptstream1;rawsourcearraysregenerablefromrecipes+teacherchunks+hashes. Storedadaptation8192examples/fourheldouts. Activeparams16384+tasks×2080.
+
+Producerpersistseach3-modelgroup(finalfloat32A/B/W,curves,resources,initial/finalhashes) then atomicallytrained.json; roottraining_progress.json countscompletedfits. Finaltraining_complete.json meansTRAINED_NOT_EVALUATED, notgoalcomplete. Itdoesnotresumeautomatically; ifterminalfailureinspectcompletedgroupsbeforeanydocumentedrestart. No scientificresultclaimyet. NativeMLPpaused/fullgoalactive.
+
+NEXT whileproducer runs: implement separate h64population/transfer evaluator and independent audit using saveddata/checkpoints. Use literal quadratic-product features in bounded sample blocks; avoid materializing N×P×4 products. Regenerate/checksourcehashes, preserve teacher/randomgroups, compute exactWicksource/transfer and independent quadratic-coefficient matching withoutdense8256×8256Gram. Saveanalysis separately; no need reruntrainingforanalysisfailure. Heavy CPUanalysis may wait forGPUtrainingcompletion toavoidstarvingthepinnedCPUdispatcher. Later summaries needwhole-taskholdouts,conditions,teacher-levelmeans/resources/explicitlower-losswitnesses.
+
 ## Latest: d128/h64 memory/storage preparation COMPLETE
 
 Previous/currentturnprogress. ACTIVE_COVERAGE_PLAN/RESULTS.md; active_coverage.py evaluatesactiveinput/headprefixes and splits12independentcasesinto4groups3. FiveCPU64Adamupdates/losses/gradients match originalmaskedpaddedbatch(maxparam2.22e-16);inactiveWexact;CPU/CUDAgradrelative3.63e-7. Initialcheck99243exit134afterassertionsduringteardown; retainedfailure. ExplicitGPUcleanupadded,replay24894exit0withsamenumbers; notgeneralruntimefix.
