@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: matched response-balance experiment prepared, no fits yet
+## Current: all18 matched objective fits complete; evaluation pending
+
+[M61](BALANCED_RESPONSE_TRAINING.md): all18final states retained after2376fixedupdates; independent schedule/state/objective audit passes. Natural branch preflight passed before launch. No performance improvement claimed yet. Next run the already-frozen training/source-holdout/natural-retention evaluation on every state.
+
+## Previous: matched response-balance experiment prepared, no fits yet
 
 [M60](BALANCED_RESPONSE_PREFLIGHT.md) freezes18fits comparing intactKL,rawcausalresponse,andtraining-onlyfamily/regionscaledresponse fromsixcommonstarts. All792calibration rows independently verified;24task finite differences pass(max0.107%relative). Natural-text branch/runner verification remains before fitting. This tests fidelity objectives, not semantic units or discovery.
 
