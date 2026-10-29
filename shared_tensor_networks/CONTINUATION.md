@@ -4,6 +4,16 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
 
+## Current five-seed data/capacity confirmation is LIVE
+
+Previous goal turn: progress (actual bilinear alternating-gradient panel completed). Current turn: progress. Implemented run_svhn_confirmation.py, audit_svhn_confirmation.py, sequential run_svhn_confirmation_panel.py and all30-required summarize_svhn_confirmation.py. Five fresh seeds212001–212005; depth3standard/extra; width32stack, width32tree, width120stack chosen by parameter count (796080vs792896tree). Same fixed optimizer/data recipe,8010-update checkpoints,full30epochs. Wider-stack CPU/CUDAcheck passed relativeforward1.11e-6,gradient1.22e-6. All initial training-probe output/gradient statistics independently replayed in audit, and equalwidthinitialfunctions checked. No seed selection or pooling development seed.
+
+Live session74676; parent PID181303. panel_status.json and closed per-case logs in results/svhn_confirmation; verify actual session/process before trusting status or restarting. Latest observed configuration: seed212001_extra_tree; phase training; 181555 childPID. 4 cases audited so far. First fresh standardseed212001 stack/tree/widestack79.48/83.02/83.66%; illustrates seed variation, NOT completedpanel evidence. Stop only after all30audits and pairedsummary; no recipe changes based on interim ranking. If subprocess fails, preservefailureandinspect; do not duplicate a livejob. GPU reserved for this sequentialpanel; no othertraining launched.
+
+While GPU runs, check_metric_gauss_newton.py derived/verified occurrence-metric damping equivalence and linear-coordinate covariance on actual-network Jacobians:9checks,maxrelativeerror<9.26e-12. Isotropic distinct-coordinate damping changes local prediction steps1–13% infixtures. SectionF ofSHARING_COMPLEXITY_AND_FLOW.md statesproof andscope. No curvatureoptimizer training has run. This is a control for the next B experiment, not a convergence claim.
+
+Next: finish panel/audits, run summarize_svhn_confirmation.py, publish completedresults and pairedseed comparisons. Then choose a bounded curvature-aware training comparison or circuit-recovery extension based on evidence. Overall goal remains active. Committed manifest excludes mutable live-run artifacts until terminal.
+
 ## Latest actual-bilinear alternating-gradient panel complete
 
 Current goal turn: progress. run_bilinear_alternation.py and _long.py completed108fits each (sessions5718,33104terminal). Depth2,d3,h3,q3; tied/untied teachers;3paired teacher/init seeds; tiedraw/tiedcorrected/untiedraw students; joint/forward/reverse layer blocks;lr.01/.003,per-blocktime3/30. Independent A/B features, untied occurrences copied for same initialfunctions, exact Gaussian population objective, frozenRMSscales. No RMSNorm/clipping/momentum. All216finite final losses independently audited with coefficient moments; analyticgradients and3sweepupdates agreeautograd at~1e-15. Short prefixes deterministically reproduced. No general convergence/recovery claim.

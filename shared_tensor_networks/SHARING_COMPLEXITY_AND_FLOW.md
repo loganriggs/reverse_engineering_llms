@@ -125,3 +125,23 @@ P(z-eta D_g grad_z L) = S(theta-eta E_g M^-1 S^T grad_z L).
 Proof: use P=S M^-1 S^T and S^T D_g=E_g S^T. Applying the identity after every selected block proves matching projected/corrected trajectories for any common block schedule and minibatches. This does not apply unchanged to schedules that update only one occurrence of a tied parameter, or to Adam/momentum states without a corresponding derivation.
 
 check_alternating_projection.py verifies20sweeps for joint, forward-layer and reverse-layer schedules at3initializations. Maximum corrected/projected parameter discrepancy6.67e-16. It also checks the rowwise reciprocal-gauge derivative identity and exact finite-GD balance drift from section E, with maximum residual below1.8e-15. These checks accompany an algebraic proof; they do not establish optimizer superiority.
+
+## F. Damped Gauss–Newton needs a specified parameter metric
+
+For squared loss on a fixed probe set, let r be the residual vector, J the occurrence-space prediction Jacobian, z=S theta, and M=S^T S. Ordinary isotropic damping in distinct coordinates solves
+
+min_delta ||JS delta+r||^2 + lambda ||delta||^2.
+
+It is not generally the same as isotropic damping in occurrence space. To compare on a common occurrence metric, instead solve
+
+min_delta ||JS delta+r||^2 + lambda delta^T M delta.
+
+For lambda>0 and full-column-rank S, the unique solution is
+
+delta=-(S^T J^T J S+lambda M)^(-1) S^T J^T r.
+
+Proof of equivalence: under delta_z=S delta, delta^T M delta=||delta_z||^2. This is exactly damped linearized least squares over delta_z in im(S). With Q=S M^(-1/2), solve in the orthonormal tangent coordinates instead; multiplying by Q yields the same occurrence step. Under an invertible linear coordinate change theta=T phi, transform the damping metric to T^T M T along with the Jacobian; the induced prediction/occurrence step is unchanged. Keeping a numerical identity matrix as damping after changing coordinates generally changes the step.
+
+This distinction matters for our next curvature-aware optimizer comparison: a Gauss–Newton label alone does not remove the sharing metric confound. The result is about a local damped linearized problem, not an exact Newton step, full nonlinear reparameterization invariance of finite updates, or a convergence/generalization guarantee.
+
+check_metric_gauss_newton.py verifies the equality and linear-coordinate covariance for actual depth2bilinear-network Jacobians,3seeds×3positive damping values. Maximum relative occurrence-step error5.21e-12 and coordinate error9.26e-12. Identity damping changes predicted steps by about1.0–13.0% in these fixtures. These11-probe checks establish an implementation control; they are not a population optimization experiment or evidence that one damping rule learns better.
