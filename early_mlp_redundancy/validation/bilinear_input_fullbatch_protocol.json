@@ -1,0 +1,17 @@
+{
+  "stage": "M85 one full-population gradient intervention frozen before fit",
+  "hypothesis": "Intermittent high-gradient input exposure contributes to instability beyond first-moment memory. Fullpopulation gradients retain the uniform objective but eliminate sampling intermittency.",
+  "intervention": "Use all4092naturaltraining positions for eachgradient update instead of128random draws. OriginalAdam betas(.9,.999),lr.001,eps1e-8 andotherdefaults, original8states,1000updates,decoder normalization unchanged. No task/evaluation data, clipping, point exclusion or optimizer search.",
+  "population": "All8original M81states, all4092positions. Preserve inputs/statistics and uniform per-position per-output MSE.",
+  "measurement": "Record all1000trainingobjective values, retain everyfinalstate. Audit actual fullpopulation sample coverage,optimizersteps/defaults,buffers,finalstates and independent fulltraining predictionMSE/activecost/errorconcentration. Compareall8withoriginalM82 andnomomentumM84. ReportmeanwriteMSE1 reference.",
+  "cost": "Fullpopulation is31.96875times the examples perupdate relative tobatch128. Equalupdates andlearningrate do NOT mean equalcompute or equaldataexposure. No efficiency claim.",
+  "stop": "Exactly8x1000updates. No batch-size/lr/seed/architecture sweep. After audit, stop this optimizer diagnostic series and explicitly decide readiness or a new architectural/objective revision. No downstreamcalibration unless starting-state quality is assessed and amendedtrainingprotocol recorded.",
+  "references": {
+    "bilinear_input_initial_states.json": "be898a5ac7091e9fd7b3b3eebfc5ac8d66d081f93a0cd2cfd1ff3d7c8c2bada3",
+    "bilinear_input_warmup_results.json": "c9257df74c7f4a789c53a0b5342feab6b1edac1953f53139f07b855976f02f38",
+    "bilinear_input_warmup_audit.json": "4cafdf256a4f871aa26bd02b4b6ada6b29c57ce973e25d702af061929e0658bb",
+    "bilinear_input_nomomentum_results.json": "549776b909bde42d73c1c56c97db81e7eded8c216e54f08264bacbbf1ee03f72",
+    "bilinear_input_nomomentum_audit.json": "c0fcee291d4818135089e26ed40ef1a7321e5992aa593b50135be39102f240a4",
+    "bilinear_input_optimization_replay_analysis.json": "e7f6c99a5ee199e03aa21de78d0b0f9d43a5524c2df1110e5f71cf50aac8ceb8"
+  }
+}
