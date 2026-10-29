@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: contextual sharing affects outputs, but transfer is task-dependent
+## Current: shared-group interventions are defined and audited
+
+[M48](SHARED_GROUP_DECOMPOSITION.md) verifies that gate removal deletes only exclusive atoms, while shared-atom removal affects contributions preserved by another gate. All eight candidates/all32groups/all4096positions pass the identities. Learned groups have22–23%shared selected memberships versus18%for random groups. This is architectural overlap; a fixed native-intervention protocol is frozen, with causal results pending.
+
+## Previous: contextual sharing affects outputs, but transfer is task-dependent
 
 [M47](NATIVE_HALF_PAIRING_OUTPUTS.md): correct same-token context pairing lowers natural output KL33.5%/20.0%/19.0% atMLP0/1/2 versus a frozen permutation, with both mask directions improving. Task results include reversals despite better local reconstruction. This establishes downstream-relevant contextual information on the tested natural data, not interchangeable semantic computations. The native-half sequence is closed; its conditional pairing control now feeds shared-featurizer validation.
 
