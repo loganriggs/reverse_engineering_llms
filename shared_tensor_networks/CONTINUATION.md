@@ -2,7 +2,15 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (finite-data development). Current turn: progress (120-fit fresh-teacher confirmation audited and summarized with all teacher outcomes). Goal active.
+Previous goal turn: progress (fresh d6h3confirmation). Current turn: progress (d8h4scaling120fits, directimplementationchecks and full independent audit). Goal active.
+
+## Current: four-feature fixed-budget scaling COMPLETE
+
+FINITE_READOUT_H4_PLAN.md fixedbeforeexecution:5freshteachers225001–5,3randominit226001–3+teacherdiagnostic,heads1/4/10,budgets1280/5120,noise.05,200eval=120fits. direct_bilinear_readout.py computes sampleforward/JacobianwithoutcoefficientJacobian;check_direct_bilinear_readout.py tests6d4h2/d6h3/d8h4fixturesagainstpolynomialexpansion+autogradbeforetraining. run_finite_readout_h4.py terminal85641. Auditor72743terminalpasses120seededteacher/data/noise/initial/budget, directtorchJac1.19e-15,polynomialloss1.96e-14,6561nodecomponentquadrature,allOLSnormal equations. Norescues;allfailures/budgetstopsretained.
+
+5120randommediantransferone/four/ten=.310219/.033245/.000852;four/teneachbeatone5/5teachers. Recoveryall4cos>.99one5/15,four7/15,ten13/15. At1280medians.474317/.027805/.160603;fourwins5/5,ten2/5. Teacherstartsrecoverallconditions withmuchlowertransfererrors; goodsolutionsaccessible,globalbasinfindinglimitation. Tenhighbudgetoneaggregate.01229remains;no universalrecoveryclaim. FINITE_READOUT_H4_RESULTS.md retainsallteachermeans. Largerbudgets/modelbothchanged;notpurewidthcausalityorfulltensorDAGrecovery.
+
+Thisconfirmsbudget-dependentdiversityacrossd6h3andd8h4underfixedrecipe. Beforeblindlyscalingagain, prioritize mechanisms ofbasinfinding/taskcoverage or shared-versus-separate controls at matchedsupervision: distinguish representationreuse from extraheads/readoutcapacity andoptimizerwork. Fourwholeheldoutheadsandcomponentmetricsremainessential. No livejobs;nativeMLPprojectpaused;overallgoalnotcomplete.
 
 ## Current: fresh-teacher finite-label confirmation COMPLETE
 
