@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (two-feature recovery and scalar theorem). Current turn: progress (scaled d6h3 recovery, 24 audited fits, exact generic local-rank certificate). Goal active.
+Previous goal turn: progress (scaled recovery and generic rank). Current turn: progress (48 audited local-noise fits,12geometry fixtures,9profiled-information checks). Goal active.
+
+## Current: local readout stability COMPLETE
+
+run_readout_stability.py / audit_readout_stability.py / summarize_readout_stability.py: exactteacherinitialization for3d6h3teachers x4arms xrandom/worstnoise x1e-5/1e-3 =48fits. CoefficientnoiseafterGaussianwhitening/perheadRMS/meanoutputnormalization,NOT iidfiniteexamplelabelnoise. Featuremetricmeanunitnormquadraticfunctionchange,localordering,notrawweights. All48terminationwithin100evals; no restarts. AuditdirecttorchoutputJ5.22e-16,featurederivative8.93e-16,independentpolynomialloss3.80e-20. ActualteacherJranksparametersminus6;Dnullannihilation andparameterunitinvariance DJ+ checked.
+
+Linearfeatureprediction medianrelativeerror4.65e-5 atnoise1e-5 and.00465 at.001;max.000314/.03159. IsotropicRMSfeaturegain decreasesone->three->six all3teachers. Worstgainnotmonotonic withmeanerrornormalization;interventionsnotuniformlybest. READOUT_STABILITY_RESULTS.md hasperteacher table,counts/scope/proof.
+
+check_profiled_readout_information.py eliminatesindependentheadreadoutnuisance: Ft=AtT(I-PBt)At,PSDadditive. Hiddenprofiledrank30of36;6scales. LocalcovarianceD(sumFt)+DT/126matchesDJ+response all9geometries;6nestedinformation/covariancePSDchecks pass. Moreindependentheads improveisotropiclocalstability withfixedperheadnoisevariance;notglobalconvergenceorworstcaseunderallbudgets. Thisconnects supervision toconditioningwithoutclaimingmissinglocalinformation.
+
+Nextfinite-noisysampleexperimentwithwholeheldoutheadsandexplicitannotationbudgets; populationcoefficientnoiseisnotstatisticalsamplecomplexity. Keeptrue-teacherinitializationasprivilegeddiagnosticandrandominitializationseparate. No livejobs;nativeMLPprojectpaused.
 
 ## Current: three-feature readout recovery COMPLETE
 
