@@ -4,6 +4,22 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
 
+## Latest completed dynamics and image controls
+
+Current goal turn: progress. All depth4fits/audits complete (producer36633terminal): standard stack/tree84.52/80.40%; extra matched8010updates83.74/86.80%; extra30epochs87.36/89.00%. SVHN_GPU_RESULTS_DEPTH4.md records one-seed evidence.
+
+Long-standard depth3stack passed in session47654, but tree launch crashed SIGSEGV before status. Failure retained in runtime_failure.json. Same scripts retried core0 in session50094: training+audit terminalsuccess. At70260updates standard stack/tree83.22/82.88% versusextra87.34/89.46%; standardtrain96.32/99.26%, validationCE.9667/1.6498. SVHN_LONG_STANDARD_RESULTS.md. No optimization conclusions from nativecrash; rootcauseunknown. Full-update control does not explain extra-data gains; distribution/capacity/seed confounds remain.
+
+User-requested alternating dynamics:36exact-population quartic gradient-step fits plus18exact frozen-block-flow fits completed and audited. Identical archived symmetric four-factor initialization,3teachers,rates/dwells.03/.01/.003,per-blocktime30. Cyclic updates split factors but no strict recovery in54fits. Median MSE at.03 simultaneous.405501,cyclicgradient.404284,exactblockflow.404335; effects shrink withstep/dwell. Thus finite switching itself breaks symmetry, not solely Euler error, but no practical recovery demonstrated. Five-sweep autograd/expm audits and final coefficient-moment replay pass. DOP853simultaneous reference agreesacross2tolerances<1e-8. ALTERNATING_DYNAMICS_RESULTS.md; sources run_/audit_alternating_quartic[_flow].py. Producer7970/37280terminal; auditors passed;43935terminalsuccess. No further training live.
+
+Next meaningful work: five-fresh-seed depth3data/capacity confirmation perSVHN_EXPERIMENT_PLAN.md, plus actual bilinear layerwise alternation with independent initialization and matched work/step-size panels. Do not extend this symmetric-product toy indefinitely to rescue a desired outcome. Broad theory/circuit-recovery/scaling goal remains active.
+
+## Current continuation: full-update control queued, depth4 completing
+
+Previous status-answer turn was a verified wait on live session36633. Current turn made progress: implemented run_svhn_long_standard.py and audit_svhn_long_standard.py, restoring audited standard GPU model+Adam states from8010updates and continuing to70260updates (263epochs+39batches). Source reviewed against original runner; compile check passed. Depth3stack/tree long controls queued in live session47654, which waits for all four depth4 audits, then runs/audits sequentially. Do not duplicate. Revalidate36633 and47654; depth4extra tree finished training and audit was running at latest check. Pending results remain unpublished until verified.
+
+User asks all B results and extensions including alternating gradient flow. SHARING_COMPLEXITY_AND_FLOW.md section E now records cyclic-gradient/continuous-flow/ALS distinctions, second-order block-order expansion, and exact reciprocal-gauge norm-balance invariant. Next targeted dynamics study is tiny exact-population quartics with paired initial functions, simultaneous versus cyclic/reverse/random blocks, step-size and work controls, then informative image extensions. Do not treat matrix-factorization convergence theorems as applying unchanged to RMSNorm bilinear networks. Existing long-image control continues independently.
+
 ## Latest depth-3 comparison and normalization theory
 
 All four depth3 GPU fits and independent full-training/validation audits passed. Standard stack/tree final84.30/83.34%; extra stack/tree matched8010updates84.28/86.18%, final30epochs87.34/89.46%. SVHN_GPU_RESULTS_DEPTH3.md reports one-seed results. Extra data reverses the standard-data ranking here; tree has792896parameters vs201024stack, so no isolated sharing benefit or universal claim.
