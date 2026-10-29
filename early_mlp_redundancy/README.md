@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Native repetition cube](REPETITION_CUBE_RESULTS.md). First-value, last-value and majority rules poorly describe conflicting repetitions. Three-way terms account for41.5% of measured output-margin variation, but below0.1% of early-MLP Euclidean write variation. Exact bilinear input-coefficient composition is verified; slight MLP2 cancellation is limited to two small cubic terms, not native channels. Next proposed test links degree-specific causal interventions to fixed-featurizer fidelity. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Causal interaction and featurizer comparison](CUBE_CAUSAL_FEATURIZER_RESULTS.md). Removing the tiny final-position cubic write components in MLP0–2 barely affects outputs. Frozen sparse featurizers preserve the selected margin pattern much better than local variation or full-vocabulary predictions; dense same-dictionary controls improve fidelity. This closes the repetition detour. Next: distinguish gate-induced structure from native computational structure across diverse existing tasks. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
