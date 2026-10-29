@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: dominant effects hide uneven featurizer coverage
+## Current: source-position gains transfer, final-position family fidelity worsens
+
+[M59](SOURCE_HOLDOUT_FEATURIZERS.md): on14fixed source-group holdout pairs, causal supervision improves source equal-family error6/6but worsens final equal-family error6/6. All1512responses audited. Historical calibration sampled families equally but used raw response error with one global scale; its loss dominance differs from evaluation-energy dominance. Next freeze a matched three-arm objective-balance test and verify/calibrate it using training data only, before fitting.
+
+## Previous: dominant effects hide uneven featurizer coverage
 
 [M58](TRAINING_COVERAGE_FEATURIZERS.md): agreement/sentiment supply90%of source-target energy. Scalar71scores.155pooled error but1.039equal-family error; zeroresponse=1. Causal supervision improves pooledsource scores6/6butfamilymeans only2/6. All7524response vectors audited. Next is the fixed14-pair source-group development holdout check, with absentfamilycoverage explicit and no newtraining.
 
