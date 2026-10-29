@@ -115,3 +115,13 @@ A second exact diagnostic follows from the bilinear gauge a->c*a,b->b/c for a pa
 Priority experiment: tiny exact-population quartic targets, paired initial functions, ordinary/corrected simultaneous GD versus layerwise/factorwise cyclic and reverse/random-order updates, with a step-size panel and equal gradient-work accounting. Include exact ALS only where output is affine in the selected block (unnormalized distinct occurrences or linear readout under squared loss). Shared early blocks can enter polynomially more than once; RMSNorm and classification cross-entropy invalidate generic linear-least-squares claims. Then extend the informative variants to the existing image comparison, with momentum/Adam and damping-aware Gauss-Newton as separate metric controls rather than assumed equivalents.
 
 Relevant primary context: Ward and Kolda, Convergence of Alternating Gradient Descent for Matrix Factorization (https://arxiv.org/abs/2305.06927). Their guarantees concern a specified asymmetric matrix-factorization objective and initialization, not these deep bilinear/RMSNorm classifiers. Generalization of such guarantees is open here.
+
+### Alternating projection equivalence
+
+The metric correction remains exact under blockwise updates when each block contains all occurrences of each selected shared parameter. Let E_g select a distinct-parameter block and D_g its corresponding occurrence block, so D_g S=S E_g. For coordinate replication, M=S^T S is diagonal and commutes with E_g. At z=S theta,
+
+P(z-eta D_g grad_z L) = S(theta-eta E_g M^-1 S^T grad_z L).
+
+Proof: use P=S M^-1 S^T and S^T D_g=E_g S^T. Applying the identity after every selected block proves matching projected/corrected trajectories for any common block schedule and minibatches. This does not apply unchanged to schedules that update only one occurrence of a tied parameter, or to Adam/momentum states without a corresponding derivation.
+
+check_alternating_projection.py verifies20sweeps for joint, forward-layer and reverse-layer schedules at3initializations. Maximum corrected/projected parameter discrepancy6.67e-16. It also checks the rowwise reciprocal-gauge derivative identity and exact finite-GD balance drift from section E, with maximum residual below1.8e-15. These checks accompany an algebraic proof; they do not establish optimizer superiority.

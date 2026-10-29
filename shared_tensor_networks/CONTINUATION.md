@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
 
+## Latest actual-bilinear alternating-gradient panel complete
+
+Current goal turn: progress. run_bilinear_alternation.py and _long.py completed108fits each (sessions5718,33104terminal). Depth2,d3,h3,q3; tied/untied teachers;3paired teacher/init seeds; tiedraw/tiedcorrected/untiedraw students; joint/forward/reverse layer blocks;lr.01/.003,per-blocktime3/30. Independent A/B features, untied occurrences copied for same initialfunctions, exact Gaussian population objective, frozenRMSscales. No RMSNorm/clipping/momentum. All216finite final losses independently audited with coefficient moments; analyticgradients and3sweepupdates agreeautograd at~1e-15. Short prefixes deterministically reproduced. No general convergence/recovery claim.
+
+BILINEAR_ALTERNATION_RESULTS.md: naive layer alternation has small effects for many cases and large order-sensitive effects on one difficult raw-tied case. Atmatchedfullgradientevaluations (jointtime30 vs alternatingtime10), forward/reverse beatjoint0/36pairs each. Alternatingimplementation computes3fullgradients/sweep vsjoint1; not an optimal specializedblockimplementation or exactFLOPclock. Stop this bounded naive-alternation panel; do not repeatedly extend budgets to findawinner.
+
+check_alternating_projection.py proves/checks metriccorrected/projectedSGD equivalence survives block schedules selecting all shared occurrences;9cases×20sweeps,maxparametererror6.67e-16. Reciprocalrowgauge gradientidentity and exact finiteGDnormdrift residual<1.8e-15. Theory note appended proof. All producer/auditor/checker sessions terminal, no live jobs. Next: prespecified five-seed SVHN data/capacity confirmation and/or a conditioning-motivated damped Gauss-Newton comparison with explicit work controls; learned circuit recovery remains open. Overall goal active.
+
 ## Latest completed dynamics and image controls
 
 Current goal turn: progress. All depth4fits/audits complete (producer36633terminal): standard stack/tree84.52/80.40%; extra matched8010updates83.74/86.80%; extra30epochs87.36/89.00%. SVHN_GPU_RESULTS_DEPTH4.md records one-seed evidence.
