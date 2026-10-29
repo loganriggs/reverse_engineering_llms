@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Executable product-subset preflight](PRODUCT_SUBSET_PREFLIGHT.md). All119 input-only replacements and2142 intervention constructions pass; full native output KL is0. Held-out causal evaluation is next.
+
 Latest: [Product-subset substitution on held-out text](PRODUCT_SUBSET_TRANSFER.md). All8160 document cases audited; frozen scalar compensation transfers locally. Next: executable causal replacement, with no further subset search.
 
 Latest: [Native-product deletion and constructive distribution](PRODUCT_SUBSET_COMPUTATION.md). All255 cases audited; energy concentration and scalar compensation help, but a small removable product set is not established. Exact random-deletion theory explains the observed scale.
