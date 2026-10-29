@@ -1,0 +1,94 @@
+{
+  "d": 8,
+  "h": 4,
+  "training_tasks": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "heldout_tasks": [
+    12,
+    13,
+    14,
+    15
+  ],
+  "teacher_types": [
+    "shared",
+    "independent"
+  ],
+  "teacher_seeds": [
+    80000,
+    80001,
+    80002
+  ],
+  "optimizer_seeds": [
+    82000,
+    82001
+  ],
+  "input_seeds": [
+    81000,
+    81001,
+    81002
+  ],
+  "adaptation_seeds": [
+    83000,
+    83001,
+    83002
+  ],
+  "ntrain": [
+    64,
+    256
+  ],
+  "adaptation_labels": [
+    8,
+    32,
+    128
+  ],
+  "steps": 3000,
+  "optimizer": "full-batch Adam",
+  "lr": 0.003,
+  "clip": 10.0,
+  "models": {
+    "shared": {
+      "h": 4,
+      "parameters": 184
+    },
+    "separate_width": {
+      "h": 4,
+      "parameters": 888
+    },
+    "separate_budget": {
+      "h": 1,
+      "parameters": 204
+    }
+  },
+  "baselines": [
+    "random initial predicted training-task outputs",
+    "minimum-norm quartic training-task outputs",
+    "rank10 truncation of polynomial baseline in Gaussian metric",
+    "oracle training-task outputs"
+  ],
+  "transfer_features": "predictions for the 12 training tasks, each normalized by exact Gaussian RMS",
+  "transfer_solvers": {
+    "minnorm": 0.0,
+    "ridge_fixed": 0.001
+  },
+  "supervision": "exactly k adaptation labels for each heldout task; no heldout validation labels or test selection",
+  "metrics": "training-task fit, exact IID/OOD Gaussian MSE, target-subspace coverage/rank, task-heldout transfer",
+  "limitations": "predicted task-output span is not hidden-node or execution-graph recovery; no early stopping",
+  "source_sha256": "ddd1ada52e088fbc75efb37643994c12c1032fb723abbb7641a56e58071d087b",
+  "dependencies": {
+    "multitask.py": "4838364812d4281926e526fad887f26f750848a136095761860491888f96a53c",
+    "experiment.py": "3788b0da5dd0e0a3aecd8c41435defd19718e3d1275f216ed1489a1e085eb7bf",
+    "regression_baselines.py": "5fbde80b07f85543130651ed33196ab5a2515057eccdf3d6c22f935b1aa9c7bf"
+  }
+}
