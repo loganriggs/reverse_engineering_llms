@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: normalized readout comparison COMPLETE
+
+Previous goal turn was progress (verified variable projection pilot). This turn is progress: normalized_readout.py and six independent derivative fixtures,20source fits on5fresh d8/h4 teachers×2starts×joint/reduced, whole-task transfer and exact population audit. NORMALIZED_READOUT_PLAN/RESULTS.md. All terminal; no live jobs. Source/transfer checkpoint replay, independent QR readouts, initial-function match, normalization bounds, and profiling identity pass.
+
+Joint all4component cosine>.99 recovery9/10; reduced6/10. Seven pairs essentially sameobjective, three additional reduced failures. Median teacher-mean transfer joint .00037355/reduced .02469650. No universal benefit; pilot protocol differs, do not pool. Radial penalty and unit-row prediction eliminate scale growth (max norm error8.38e-11). Positive ridge makes readout unique: exact completing-square identity proves joint/reduced local minima correspond; optimization paths differ. No certified local-minimum claim for failed endpoints.
+
+Next bounded control: crossed normalization/ridge panel on SAME archived data/starts, rather than new random teachers; retain whole-task transfer. No native-MLP restart. Full broad goal remains active.
+
 ## Latest: variable projection development COMPLETE
 
 Previous user-update turn was no progress by goal criteria (read-only synthesis). This goal turn made progress: implemented variable_projection.py, independent six-fixture Jacobian/finite-difference/envelope tests, and three paired fresh-teacher development fits. VARIABLE_PROJECTION_PLAN.md fixed before runs; VARIABLE_PROJECTION_RESULTS.md records exact population audit and limitations. Reduced versus joint population MSE: .0630/.0877, .000157742/.000157742, .000313/.05891. No whole-task transfer yet. All processes terminal. Initial absolute normal-equation assertion failed; retained aborted checkpoint, normalized diagnostic plus independent QR replay passes. No training change or selective rescue.

@@ -1,8 +1,10 @@
 # Shared tensor networks: geometry, learnability, and circuit recovery
 
-This separate CPU-first project implements the user's proposal. The earlier native-MLP research remains paused. Synthetic and initial image studies ran on CPU; the larger SVHN data comparison now runs on RTX 5080. The native experiments remain unchanged.
+This separate CPU-first project implements the user's proposal. The earlier native-MLP research remains paused. Synthetic and initial image studies ran on CPU; the larger SVHN data comparison completed on RTX 5080. The native experiments remain unchanged.
 
 Theory directions: [reuse-aware complexity, rank separation, and gradient-flow proofs](SHARING_COMPLEXITY_AND_FLOW.md).
+
+Latest dynamics result: [fixed-scale exact readout elimination](NORMALIZED_READOUT_RESULTS.md) matched joint training in seven paired runs but produced three additional poor fits. All20fits and held-out transfers are audited. See [continuation](CONTINUATION.md) for current state; no experiment is running.
 
 ## Thesis and distinctions
 
