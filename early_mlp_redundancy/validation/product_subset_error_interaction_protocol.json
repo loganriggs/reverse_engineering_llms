@@ -1,0 +1,37 @@
+{
+  "stage": "M94",
+  "status": "frozen_before_analysis",
+  "question": "Why can improved isolated substitutions produce worse combined causal fidelity, and how does this differ by task/site?",
+  "data": "Existing M93 whole-task and source-group full response vectors only; no new native forwards, fits, subsets or tasks",
+  "cases": "All119 models, every eligible endpoint/site including full and identity controls; preserve weak/ineligible records and all51 raw/scaled comparisons",
+  "definitions": {
+    "R00": "Native background/native change response (teacher), each response centered on its own unchanged background",
+    "R10": "Predicted background/native change response",
+    "R01": "Native background/predicted change response",
+    "R11": "Predicted background/predicted change response",
+    "A": "R10-R00, background-only error vector",
+    "B": "R01-R00, change-only error vector",
+    "I": "R11-R10-R01+R00, finite background/change interaction vector",
+    "E": "R11-R00 = A+B+I",
+    "weight": "Native baseline probability, identical across corners for an endpoint"
+  },
+  "measurements": [
+    "Squared weighted norms of A,B,I and totalE",
+    "All signed cross terms 2<A,B>,2<A,I>,2<B,I>; report energy identity ||E||\u00b2=||A||\u00b2+||B||\u00b2+||I||\u00b2+cross terms",
+    "Counterfactual additive-error vector A+B (diagnostic algebra, not an executed model intervention)",
+    "Raw to scaled change in each energy/cross term; separate smaller isolated errors from loss of cancellation or larger finite interaction",
+    "Reproduce original M93 corner errors and total response errors; native full numerical-control residuals retained, not forced to zero"
+  ],
+  "aggregation": "Raw per-condition energies; pooled target-energy normalization and equal-family ratios consistent with M93. No per-example floor or deletion of tiny/zero teacher responses. Identity/null cases explicit, normalized fields null when denominator zero.",
+  "audit": "Independent algebra and saved-logit rescoring. Vector identity maxabsolute<=1e-10, raw energy identities/replays rtol1e-7 atol1e-10. Keep failures and inspect conditioning rather than relaxing tolerances. Independently verify all aggregate sums.",
+  "interpretation": "Opposing approximation-error vectors and downstream finite interaction are not native channel cancellation. Factorial contrasts depend on the chosen native/predicted coordinates and response metric; not a unique mechanistic decomposition or causal attribution of scalar error differences.",
+  "deliverable": "One audited vector decomposition distinguishing error alignment, finite interaction and site-dependent change error; then choose whether future featurizer supervision needs joint consistency or conditional coordinate computation. No immediate loss/scale search.",
+  "stopping_rule": "Complete one fixed all-case analysis and conceptual synthesis; return to a bounded featurizer/task-supervision decision.",
+  "source_hashes": {
+    "product_subset_models.json": "d722fafa0696dffc99bbb822574a02e17258e80d1e3936b55d23e116b3140e5f",
+    "product_subset_factorial.json": "c0b4459cb95be0d6a9473749cdf99cb07025ea1017a5b38aa05ebd48eed6c717",
+    "product_subset_factorial_audit.json": "47f59bdcac9f6283754afa59312c89d38327c131c1ea95903fc8be327c7bd6c3",
+    "product_subset_source_factorial.json": "9502354ad5598cdc7e92bf454dd6302e5c47ca39f332bc76226c25ab834f32cb",
+    "product_subset_source_factorial_audit.json": "579d3b48d126a6ea936b7c68396274e9f15e05da92c222a11bf83ba54c8745af"
+  }
+}

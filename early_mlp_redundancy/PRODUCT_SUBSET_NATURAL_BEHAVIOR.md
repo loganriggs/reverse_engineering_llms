@@ -1,6 +1,6 @@
 # Half-product replacements: natural-text behavior, causal tests pending
 
-The natural-text portion of M93 is complete and independently audited: 119 frozen executable candidates across 32 held-out documents, producing 3808 full output vectors in 3840 native forwards. The whole-task causal run is still active; no causal conclusion is reported here.
+The natural-text portion of M93 is complete and independently audited: 119 frozen executable candidates across 32 held-out documents, producing 3808 full output vectors in 3840 native forwards. The subsequent causal evaluation is now complete; see [causal results](PRODUCT_SUBSET_CAUSAL_RESULTS.md). This report covers natural retention only.
 
 ## Natural-text retention
 
@@ -34,6 +34,6 @@ We still do not know whether this preservation extends to task-changing directio
 
 Every saved full output vector, prediction, support and product code is independently checked. Prediction reconstruction uses float64 input products and SVD output bases, versus the executable predictor's float32 products and QR-derived output maps. Maximum metric discrepancy is2.67e-15; maximum prediction relative discrepancy is6.27e-7. Native writes exactly replay the prior cache, and the native full-product control has KL0 on all32documents.
 
-The whole-task producer remains active across56pairs and119candidates. Its audit, the14-pair source-group run and audit, and the joint causal interpretation remain outstanding. No causal faithfulness, semantic manifold or newly discovered task is established by this report.
+The whole-task and source-group runs and audits have since completed; see the linked causal report. No causal faithfulness, semantic manifold or newly discovered task is established by this report.
 
 Evidence: [natural results](validation/product_subset_natural.json), [all paired comparisons](validation/product_subset_natural_comparison.json), [independent audit](validation/product_subset_natural_audit.json), [fixed causal protocol](validation/product_subset_causal_protocol.json), [interpretation plan](validation/product_subset_causal_interpretation_plan.json).
