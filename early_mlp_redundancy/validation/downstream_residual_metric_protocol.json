@@ -1,0 +1,15 @@
+{
+  "stage": "M74 planned: downstream metric versus finite nonlinear disruption",
+  "references": {
+    "pca_evaluation_comparison.json": "8d8bd9301a18cb938780069b80d7efa1f3c680872d3f313164aa50b108fbf8b9",
+    "pca_natural.json": "04366f51df90000bfc869bfc253525450db4c7c862117a68b77a80dc4eac75de",
+    "least_squares_natural.json": "9248501c9c5edc7639ad3432b2acc2bf9faa588eb7c3ffcbb6af2447080120e0",
+    "least_squares_evaluation_models.json": "a764ec49a6a4197a2cde4377ae567a5ca2ecbb94aade29168912602712e698cd"
+  },
+  "hypothesis": "The PCA128 versus dense128 KL reversal is explained by orientation under the local downstream Fisher metric; alternative: finite nonlinear departure dominates.",
+  "cohort": "Same32 natural evaluation documents32\u201363, all128 positions. PCA128 plus all18 frozen full_dictionary_LS encoders. No fit, seed selection, labels or evaluation-based optimization.",
+  "perturbation": "For each independent reconstruction, fix e=reconstruction-native product write. Evaluate native write+alpha*e at alpha0,0.25,0.5,1. Native baseline and alpha1 reuse hash-bound outputs when saved, otherwise replay and compare previous metrics. Bias remains native. Do not rescale e by teacher outcomes.",
+  "preflight": "Implement downstream directional derivative of actual softcapped logits at native write using autograd; check central finite differences at fixed small steps before scoring. Freeze implementation/provenance before full evaluation. If autodiff unsupported or memory limited, record failure and fix implementation without choosing outcome-favorable steps.",
+  "scores": "Per-document Euclidean residual energy, Fisher directional energy E_p[(J e)^2]-E_p[J e]^2, predicted KL alpha\u00b2/2 times energy, actual full-distribution KL, Taylor discrepancy, and paired PCA versus every dense rank128 reference. Retain raw and document averages; no claims about all tasks.",
+  "stop": "One fixed residual-amplitude diagnostic, no fitted loss/rank/amplitude selection. Determine whether local sensitivity predicts the observed reversal or finite effects are necessary. Then return to causally appropriate representation comparison and manifold validation; no semantic discovery or neuron-removal inference."
+}

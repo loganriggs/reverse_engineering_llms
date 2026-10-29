@@ -273,3 +273,7 @@ Return to the native mechanism: decompose actual donor-minus-recipient bilinear 
 ## M72: independent dense LS works better, while sparse LS harms natural retention
 
 [Independent encoder comparison](LEAST_SQUARES_ENCODER_EVALUATION.md): dense128LS improves naturalKL18/18by24.7–48.7% andencoded-directionfamilyerrors18/18bothsites, butonly5/18 both-reconstructed finalcases beat zero. Own-supportLS improveslocalnaturalMSE18/18yetworsensnaturalKL18/18by9.8–17.9%, andfinalencodedfamilybelowzero0/18. Thus pairwiseoracle benefit isnotindependent sparseencoder benefit; localoptimality andreaderfidelity remain distinct. Dense128cost exceedsoriginal28–32coordinates; intacttaskKL improvesonly6/18. Next fixedtrain-onlyPCA32/128 distinguisheslinear dimension fromconditional support machinery, no ranksearch ornewtasklabels.
+
+## M73: output geometry depends on the downstream metric
+
+PCA128 beats all18 dense learned spans on natural local reconstruction, but loses to all18 on natural and intact-task KL and both-reconstructed causal family errors. Thus equal-dimensional distributed representations can differ in behavioral relevance. Conditional gates are not required for this difference (both compared encoders are affine); semantic units and literal neuron redundancy remain unproven. The next bounded test distinguishes local Fisher sensitivity from finite nonlinear disruption. See [PCA_ENCODER_BASELINE.md](PCA_ENCODER_BASELINE.md).

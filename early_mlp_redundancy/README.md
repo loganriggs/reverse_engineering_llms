@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [PCA baseline and computational fidelity](PCA_ENCODER_BASELINE.md). PCA128 preserves more local variance than the dense learned spans but preserves model behavior less well.
+
 A shareable research handoff for the 18-layer bilinear language model, assembled 2026-10-28.
 **MLP1 is the second block**, using zero-based indices. MLP0 is the preceding comparison;
 MLP2 has historical pruning failures, but the matched layer comparison does not establish it as generally cancellation-dominated.
