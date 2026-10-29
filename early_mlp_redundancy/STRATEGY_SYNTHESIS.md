@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Output dimension versus computation and redundancy](COMPUTATIONAL_RANK_DIAGNOSTIC.md). Controlled toys and all16 native projected computations verified; shared output directions need not be removable computations.
+
 Latest: [Executable featurizer transfer and the computation gap](BILINEAR_INPUT_TRANSFER.md). All frozen evaluations audited: mixed causal gains, worse natural retention, and a large gap between output projection and input computation. Next: separate output dimension from product count.
 
 Latest: [Sixteen input-supervision fits audited](BILINEAR_INPUT_SUPERVISION_FITS.md). All final models and their privileged reconstruction references are frozen; held-out causal evaluation is next.
