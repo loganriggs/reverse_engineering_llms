@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Causal interaction and featurizer comparison](CUBE_CAUSAL_FEATURIZER_RESULTS.md). Removing the tiny final-position cubic write components in MLP0–2 barely affects outputs. Frozen sparse featurizers preserve the selected margin pattern much better than local variation or full-vocabulary predictions; dense same-dictionary controls improve fidelity. This closes the repetition detour. Next: distinguish gate-induced structure from native computational structure across diverse existing tasks. Earlier “next” actions below are historical.
+Current: [Hard block-selection boundaries](GATE_BOUNDARY_RESULTS.md). Exact crossing analysis finds finite decoded jumps on117/224 continuous task-write paths. The jumps are extractor artifacts on these paths; native downstream distributions change modestly and no top1 predictions flip. Next: verify a continuous sparse alternative and evaluate its reconstruction/causal-fidelity tradeoff. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
