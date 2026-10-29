@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Half-product natural behavior](PRODUCT_SUBSET_NATURAL_BEHAVIOR.md). All3808 outputs audited: frozen scaling improves KL51/51 but CE45/51; native energy-half changes about9% of top-token choices. Causal tests are still running.
+
 Latest: [Executable product-subset preflight](PRODUCT_SUBSET_PREFLIGHT.md). All119 input-only replacements and2142 intervention constructions pass; full native output KL is0. Held-out causal evaluation is next.
 
 Latest: [Product-subset substitution on held-out text](PRODUCT_SUBSET_TRANSFER.md). All8160 document cases audited; frozen scalar compensation transfers locally. Next: executable causal replacement, with no further subset search.
