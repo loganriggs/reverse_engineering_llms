@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest fixed-degree reuse experiment complete
+
+Current goal turn: progress. FIXED_DEGREE_REUSE_RESULTS.md:81fits of quartic3Dproducts, teacher/studentgroups1/2/4,3seeds,symmetric/.05perturbed/independentinitialization. ExactGaussianpopulationobjective via125Gauss-Hermitenodes;1000correctedSGDsteps. Independentcoefficientmomentauditall81passes; coefficient-gradientaudit81maxrel1.742e-15; exactrationalteacherfactor distinctness checks pass. Symmetrictrajectoryparameterdifference2.665e-15 acrossstudentgroups. Fourfactorteacher/fourfactorstudent medianMSEsym.4055,perturbed.3937,independent.000453. Notconvergedgeneralcomparison; independentinit matchesRMS notfunction. Restrictedproductfactorcomplexity1/2/4 certified byunique factorization, notgeneralminimalcircuitrank.
+
+Producer13526terminal, auditscomplete, no livejob/GPU. Next: evaluate factorrecovery up to scaling/permutation beforeclaimingrecovery; perturbation-size control can test symmetry escape. Then finite-data/noise sample-efficiency with exactevaluation and wider scaling. Overallgoal active; image/SVHN and generalcircuitrecovery remainopen.
+
 ## Latest completed controls and exact reuse family
 
 Current goal turn: progress. FASHION_FLOW_RATE_RESULTS.md:18new calibratedSGDfits, all audited, no failure. Rate chosen from initialtrainingprobe to equalize instantaneouslossdecrease, notoutputspeed;3disjointtrainingprobes assess transfer without tuning. Correctedmedianaccuracydepth2/3/4 now77.50/77.42/76.88%, versus73.70/67.02/60.58% atbase.01. Freenormalizedmedians78.64/76.20/74.56%. Finite-budget3seedcontrol, no robust architecture ranking. Producer21914/auditor70954terminal. No livejob/GPU.
