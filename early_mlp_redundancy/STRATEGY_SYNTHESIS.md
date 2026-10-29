@@ -245,3 +245,11 @@ The common-training causal objective improves native log-probability response fi
 ## M49: distinguish architectural gate protection from native redundancy
 
 [Exclusive/shared native interventions](SHARED_GROUP_NATIVE_EFFECTS.md) show larger shared-removal KL than exclusive-removal KL in8/8candidates on natural/task-evaluation data. Magnitudes differ, and1709/4608selections are no-ops. A small gate effect does not establish an unimportant atom, since other active gates retain it; larger shared effects do not establish semantic reuse or better architecture. Conditional controls must specify native-response fidelity or selective role, not merely intervention size.
+
+## M63–M65: representing a change is a separate requirement
+
+The [factorial](STATE_DIRECTION_FACTORIAL.md), [support decomposition](SUPPORT_CHANGE_DIAGNOSTIC.md), and [norm control](SUPPORT_NORM_CONTROL.md) separate three properties: a reconstructed state supports native responses; an encoder represents the task-changing direction; and that direction has appropriate magnitude. Better performance on the first does not establish the others. Final-position fixed-support directions beat norm-matched full directions13/18 by equal-family error, but only9/18 fixed-support models beat zero. Source-position full changes usually need switching; pooled comparisons favor matched-full over fixed-support18/18.
+
+This limits interpretation of featurizer structure. Selected blocks are not yet validated computational units, and shared atoms are not evidence of native removal redundancy. Hard boundaries are a plausible source of spurious small-change directions; attenuation is also empirically relevant. Remaining explanations include encoder-coordinate errors, limited dictionary capacity and downstream sensitivity. Close this development-panel tuning series.
+
+Return to the native mechanism: decompose actual donor-minus-recipient bilinear writes into signed channel contributions acrossMLP0/1/2. Measure whether the *change*, rather than the intact write, is distributed, constructive or cancelling; verify the exact finite bilinear identity. This gives continuous computation-linked supervision for featurizers and a falsifiable prediction for subset interventions. It still does not equate local cancellation with behavioral redundancy or define semantic manifolds by fiat.

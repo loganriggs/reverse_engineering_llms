@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: support switching helps source changes but hurts final-position fidelity
+## Current: magnitude and direction both contribute to representation errors
+
+[M65](SUPPORT_NORM_CONTROL.md): matching full-direction magnitude improves final-position family fidelity18/18; fixed-support directions still beat that matched control13/18. Source-position pooled comparisons favor matched full18/18. All3024 response vectors audited. This closes the boundary-control series; next map exact native task-change contributions acrossMLP0/1/2 to distinguish distributed, constructive and cancelling computation.
+
+## Previous: support switching helps source changes but hurts final-position fidelity
 
 [M64](SUPPORT_CHANGE_DIAGNOSTIC.md): fixing recipient feature selection improves final-position response error18/18, but source-position error only4/18. Only9/18 final fixed-support scores beat zero response. All4536 vectors audited and1512 prior controls replayed exactly. This suggests a representation-boundary issue, with an unresolved magnitude confound. Next is one candidate-norm-matched control, with no training or amplitude search.
 
