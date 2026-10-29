@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: cross-stage evidence review COMPLETE; larger hidden transfer still open
+
+Previous turn progress; current turn progress: RESEARCH_EVIDENCE_MAP.md maps original E0–E4/theory requirements to evidence and limits. audit_research_evidence.py verifies selected audit/result provenance and30SVHNaudits and their referenced checkpoints; explicitly not a full fresh numerical replay or completion proof. Goal remains active. No jobs running.
+
+Important recovered gap: SCALING_RESULTS.md and historical continuation deferred frozen hidden-feature transfer on saved d16/32models. Later d8/h4hidden extraction did not fulfill it. Twelve source outputs under-span36/136teacher products. Next prioritize saved-checkpoint direct-hidden versus source-output transfer; first exact depth2then separately higher-degree depth3precision. Preserve independent-teacher controls, within-head separate dictionaries,32/128same labels, fixed penalties and oracle privileges. Do not restart optimizer rescue sweeps.
+
+quartic_cross_gram.py implements blocked arbitrary quartic dictionary cross-moments without expanding input monomials or constructing cross-head products. check_quartic_cross_gram.py passes independent quadrature d2/3/4,max9.71e-16,block/transposition,oldstructuredGram and Gaussian/sphere radial moment checks. This is infrastructure verified, not a completed larger transfer experiment. NativeMLPpaused.
+
 ## Latest: isolated curvature mechanism COMPLETE
 
 Previous turn progress; current turn progress. PROFILED_CURVATURE_PLAN/RESULTS.md freeze and report20paired fits with only curvature AᵀA versus AᵀA+BᵀB changed, same actual reduced objective/damping/Armijo. Projected improves4pairs,worsens2,ties4; component threshold8/10versus7/10. One full run cap,other19relative-loss stop; no line-search failures. All20trajectories/654steps audited (QR loss,normal equations,Armijo decisions,final autograd gradients,Gaussian source/transfer errors). All jobs terminal.

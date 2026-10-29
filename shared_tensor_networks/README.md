@@ -4,11 +4,7 @@ This separate CPU-first project implements the user's proposal. The earlier nati
 
 Theory directions: [reuse-aware complexity, rank separation, and gradient-flow proofs](SHARING_COMPLEXITY_AND_FLOW.md).
 
-Latest dynamics result: [fixed-scale exact readout elimination](NORMALIZED_READOUT_RESULTS.md) matched joint training in seven paired runs but produced three additional poor fits. All20fits and held-out transfers are audited. See [continuation](CONTINUATION.md) for current state; no experiment is running.
-
-Further control: [crossed normalization and ridge results](CROSSED_READOUT_RESULTS.md) and [profiled Gauss–Newton geometry](PROFILED_GAUSS_NEWTON_GEOMETRY.md) separate coordinate effects from readout elimination. The crossed80fit panel is complete and audited.
-
-Latest isolated mechanism: [curvature intervention](PROFILED_CURVATURE_RESULTS.md) changes only the extra variable-projection curvature term; it helps4paired outcomes and hurts2. All20trajectories and654steps audited. This bounded optimizer panel is closed.
+Current overview: [research evidence map](RESEARCH_EVIDENCE_MAP.md) distinguishes completed panels from open claims. The main remaining experiment is direct hidden-feature transfer on the saved larger synthetic models. The recent [curvature intervention](PROFILED_CURVATURE_RESULTS.md) is complete; no experiment is currently running.
 
 ## Thesis and distinctions
 
