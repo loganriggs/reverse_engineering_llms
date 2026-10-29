@@ -237,3 +237,7 @@ The common-training causal objective improves native log-probability response fi
 ## M46: contextual sharing survives token-constant correction controls
 
 [Within-token pairing](NATIVE_HALF_CONTEXT_PAIRING.md) uses unique causal prefixes and exact off-diagonal expected loss. Correct pairing improves natural reconstruction22.8%/22.7%/10.7% atMLP0/1/2. The gain is a within-token centered prediction–target cross term; token-constant offsets cannot explain it. MLP1 gains span250tokens but41%comes from one. This is predictive context information, not identification of a variable, operation, or downstream role. Next native paired/permuted intervention, without fitting.
+
+## M47: conditional sharing is downstream-relevant but not universally substitutable
+
+[Native paired/permuted replacements](NATIVE_HALF_PAIRING_OUTPUTS.md) improve natural output KL33.5%/20.0%/19.0% atMLP0/1/2, both masks,60–63/64document–mask cases. Task-training MLP2 and task-evaluation MLP1 reverse despite improved local reconstruction. This links within-token predictive covariance to downstream effects at a limited scope; it does not identify semantics or duplicate operations. Close half/donor tuning and use the audited conditional pairing control when testing exclusive/shared featurizer contributions.

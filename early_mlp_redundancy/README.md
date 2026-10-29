@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: context pairing predicts more than token identity alone
+## Current: contextual sharing affects outputs, but transfer is task-dependent
+
+[M47](NATIVE_HALF_PAIRING_OUTPUTS.md): correct same-token context pairing lowers natural output KL33.5%/20.0%/19.0% atMLP0/1/2 versus a frozen permutation, with both mask directions improving. Task results include reversals despite better local reconstruction. This establishes downstream-relevant contextual information on the tested natural data, not interchangeable semantic computations. The native-half sequence is closed; its conditional pairing control now feeds shared-featurizer validation.
+
+## Previous: context pairing predicts more than token identity alone
 
 [M46](NATIVE_HALF_CONTEXT_PAIRING.md): correct within-token pairing lowers missing-half error22.8%/22.7%/10.7% atMLP0/1/2 versus the exact other-context expectation on eligible natural prefixes. Token-constant offsets cancel. This establishes conditional predictive information, not semantic units or functional substitution; native paired/permuted output testing is next.
 
