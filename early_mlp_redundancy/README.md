@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: one candidate family passes the fixed format screen
+## Current: color competence does not establish an early-MLP causal target
+
+[M56](COLOR_CAUSAL_AVAILABILITY.md): opposite-answer final-position MLP1 swaps have very small task effects; all18frozen candidates lose to zero-response prediction in both pooled full-distribution tests. All432student responses independently audited. The color-only comparison is closed; no training or site tuning follows. Next is a broad training-only causal-coverage map across approved families, separating informative targets from null controls.
+
+## Previous: one candidate family passes the fixed format screen
 
 [M55](BROADER_TRAINING_FORMAT_SCREEN.md): object-color completion passes at75%both-endpoint preference/50%top1;13other family/format cells fail. All112prompts frozen before inference,100validendpoint scores independently audited. This is modest training coverage, not discovered computation. Next is a bounded native causal bank and common-target frozen-featurizer comparison, retaining failed endpoints and unequal lengths explicitly.
 
