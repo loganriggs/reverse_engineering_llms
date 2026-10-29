@@ -15,3 +15,4 @@ ax.scatter(sample,observed,color='#222222',s=40,zorder=3,label='Measured rank (a
 ax.set(xlabel='Number of common input samples',ylabel='Distinguishable hidden tangent directions',title='Sampled hidden information: d=4, h=2, three tasks',ylim=(-.5,13),xticks=[2,3,4,6,7,8,10,12,15])
 ax.grid(alpha=.2);ax.legend(loc='lower right',fontsize=9)
 fig.savefig(root/'rank_bounds.png',dpi=180);fig.savefig(root/'rank_bounds.svg');plt.close(fig)
+svg=root/'rank_bounds.svg';svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
