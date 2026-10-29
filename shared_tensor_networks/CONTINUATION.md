@@ -2,7 +2,13 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: no progress (user-facing synthesis only). This turn: progress (closed and aggregated the 30-fit SVHN confirmation after verifying all audit/result/checkpoint hashes). Overall goal remains active.
+Previous goal turn: progress (completed and published five-seed SVHN panel). Current turn: progress (54-fit block Gauss–Newton panel and independent audit complete). Overall goal active.
+
+## Current: block Gauss–Newton complete
+
+run_bilinear_block_gauss_newton.py, audit_bilinear_block_gauss_newton.py, summarize_bilinear_block_gauss_newton.py completed. 18 archived teacher/student/metric fixtures times full/forward/reverse, damping .001, maximum100 full-Jacobian calls. Each block iteration computes full Jacobian/Gram but solves restricted system; no optimized block kernel or matched wall-time claim. All18full trajectories reproduce priorGNexactly. All54 finite, no failedline searches; all states coefficient-moment audited, restricted solves/Armijo/unchanged coordinates checked, sampledJacobiansautogradverified. AuditmaxJ7.31e-16,linear2.54e-10,moment1.45e-14.
+
+Untiedstudent full/forward/reverse near-exact6/5/6 of6, medianJcalls17/44.5/40.5. Across18pairs forward4wins5tolerance-ties9losses; reverse4wins6ties8losses. Some corrected-tied fits improve, no general blockadvantage. BILINEAR_BLOCK_GAUSS_NEWTON_RESULTS.md includes local quadratic-model dominance proof and nonlinear limitations. Close bounded order panel. Next controlled gauge balancing or E3 multiple-readout/intervention recovery; do not optimize indefinitely to rescue tiedfits. No trainingjobs live. NativeMLPproject stayspaused.
 
 ## Current: five-seed SVHN confirmation COMPLETE
 
