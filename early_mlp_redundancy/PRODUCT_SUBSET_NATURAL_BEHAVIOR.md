@@ -18,6 +18,8 @@ For the 16 learned output spaces, full-product reference KL ranges from 0.12972 
 
 Across all 51 matched comparisons (17 spaces × three rankings), scaling improves KL and local native-write error in51/51, but CE only in45/51. In particular, the native energy-ranked half's CE increase over the original model is0.02591 raw and0.02643 scaled: KL improves slightly while next-token loss gets slightly worse. Both other native rankings also have small CE regressions after scaling. These correlated comparisons are descriptive, not51 independent statistical trials.
 
+![Local error and natural-text KL](figures/product_subset_natural.png)
+
 ## Conceptual interpretation
 
 M90–M91 showed that many product contributions add constructively and that rescaling survivors partly recovers local output vectors, including on held-out text. This stage shows that some benefit reaches the model's output distribution: all matched KL comparisons improve. It also demonstrates why equivalence must specify a metric. Smaller local error, lower KL, lower CE, and unchanged top-token choices are different requirements.
