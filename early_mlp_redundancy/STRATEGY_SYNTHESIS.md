@@ -281,3 +281,7 @@ PCA128 beats all18 dense learned spans on natural local reconstruction, but lose
 ## M74: computational relevance is directional and finite
 
 The local downstream Fisher metric correctly ranks PCA128 as less behaviorally faithful than all18dense learned spans, reversing their Euclidean reconstruction ranking. Full replacements produce2.8–3.5times the local Taylor KL prediction, and per-document ranking agreement declines with replacement strength. Thus downstream sensitivity explains the aggregate ordering but does not suffice for finite fidelity. This concerns behavioral use of distributed directions, not literal channel redundancy or cancellation. Return to diverse whole-task validation before further featurizer fitting. See [DOWNSTREAM_RESIDUAL_METRIC.md](DOWNSTREAM_RESIDUAL_METRIC.md).
+
+## M75: competence and format constrain interpretation
+
+A broader7-family cohort has5families passing the fixed pairwise contrast gate, but temporal cues/object functions have low declared-answer top1 rates. Spatial inversion succeeds forleft/right andfailsforabove/below; role binding isweak. A representation can preserve a contrast without preserving the full computation, and a family label can hide format dependence. All56prompts were historically evaluated but remain absent from the audited explicit training inventories. The fixed38representation comparison must retain weakcases and distinguish accuracy, distributional fidelity andcausal responses. See [WHOLE_TASK_VALIDATION_COVERAGE.md](WHOLE_TASK_VALIDATION_COVERAGE.md).

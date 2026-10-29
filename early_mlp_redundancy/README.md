@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Broader whole-task validation coverage](WHOLE_TASK_VALIDATION_COVERAGE.md). Seven training-excluded operations are frozen for comparison; five pass the pairwise contrast gate, with free-form and format limits retained.
+
 Latest: [Downstream sensitivity and finite replacement](DOWNSTREAM_RESIDUAL_METRIC.md). Local sensitivity predicts the PCA/learned-span behavioral ranking, but full replacements cause roughly three times the local prediction.
 
 Latest: [PCA baseline and computational fidelity](PCA_ENCODER_BASELINE.md). PCA128 preserves more local variance than the dense learned spans but preserves model behavior less well.
