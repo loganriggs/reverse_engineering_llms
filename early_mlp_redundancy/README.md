@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: token-conditioned means outperform context donors on natural text
+## Current: local geometry and native causal fidelity can rank differently
+
+[M53](SHARED_CONTEXT_NATIVE_RESPONSE.md): learned shared components favor token means on natural native responses (.267 vs donor .308), while random shared components favor donors (.388 vs token mean .447), reversing the local geometry result. All23040records audited;8967native forwards. Token-conditioned geometry, distributed implementation, and downstream use are distinct properties. The conditional control series is closed; next return this evidence to the common-target featurizer and diverse-task comparison.
+
+## Previous: token-conditioned means outperform context donors on natural text
 
 [M52](SHARED_CONTEXT_TOKEN_MEAN_CONTROL.md): learned shared-direction error is .245 for training-only token means versus .377 for same-token donors and .653 for unconditional group means. Sparse/unseen tokens remain included. This weakens the context-specific reuse interpretation and shows that distributed/shared encoding can coexist with token-conditioned directions. Independent aggregation and saved-table audits pass. Native causal response comparison is now frozen; results are pending.
 
