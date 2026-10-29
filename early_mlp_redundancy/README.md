@@ -2,14 +2,16 @@
 
 A shareable research handoff for the 18-layer bilinear language model, assembled 2026-10-28.
 **MLP1 is the second block**, using zero-based indices. MLP0 is the preceding comparison;
-MLP2 has a separate native-channel cancellation/pruning problem.
+MLP2 has historical pruning failures, but the matched layer comparison does not establish it as generally cancellation-dominated.
 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Paused: learned overlapping groups constructed and audited
+## Current: learned grouping has partial causal value
 
-[M38 handoff](COACTIVATION_GROUPS.md). Local reconstruction improves6.6–8.4% versus random grouping, with frozen dictionaries. Native transfer and selective reuse remain next. Research paused by user; no jobs running.
+[M39 native transfer](COACTIVATION_NATIVE_TRANSFER.md): learned groups reduce native-response prediction error19.6–73.2% versus random groups across all eight seed/objective/region comparisons. All remain worse than the original scalar representations and the zero-response baseline. [M40 ordinary outputs](COACTIVATION_OUTPUT_TRANSFER.md) also improve versus random groups in all eight natural/joint-evaluation comparisons, but remain worse than scalar. Selective reuse remains untested.
+
+[M38 construction](COACTIVATION_GROUPS.md) improved local reconstruction6.6–8.4% versus random grouping with frozen dictionaries. These gains do not establish semantic units or duplicated native computation.
 
 ## Previous: common shared/scalar/block transfer evaluated
 

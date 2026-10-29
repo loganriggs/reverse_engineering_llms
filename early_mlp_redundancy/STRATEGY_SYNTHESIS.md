@@ -209,3 +209,11 @@ All12 common-training fits completed and their final states/schedules passed aud
 ## M37 update
 
 The common-training causal objective improves native log-probability response fidelity in 7/12 architecture/seed/region comparisons and answer-margin response fidelity in 8/12. All18 initial/final states were evaluated on identical within-seed external interventions and the full ordinary-output inventory. These are development transfer results, not semantic-unit validation. Both original generators now common to each architecture. Separate natural forgetting versus foregone control improvement. Fixed random groups do not validate learned sharing.
+
+## M39: grouping gains do not yet identify computational units
+
+[Native transfer](COACTIVATION_NATIVE_TRANSFER.md) improves learned versus random group response fidelity in all eight aggregate comparisons, but every learned-group candidate is worse than its scalar source and the zero-response baseline. Coactivation has predictive structure; imposing these groups loses causal fidelity. Overlap and union decoding are architectural facts, not evidence that native MLP channels compute interchangeable subfunctions. The next selective-reuse assay must distinguish atom removal from gate removal and retain native-response controls. Native-channel substitutability across held-out contexts remains an explicit open mechanistic question.
+
+## M40: local grouping gains also improve ordinary predictions
+
+[Full output evaluation](COACTIVATION_OUTPUT_TRANSFER.md) improves learned versus random groups on natural text6.3–13.0% and joint lexical/template development examples4.7–26.3%, all eight comparisons. All remain worse than scalar. The scalar-trained coordinates and differing active counts limit architecture conclusions. Close this frozen transfer comparison; next separate shared and exclusive contributions with native controls, rather than further membership tuning.
