@@ -6,6 +6,8 @@ Theory directions: [reuse-aware complexity, rank separation, and gradient-flow p
 
 Latest dynamics result: [fixed-scale exact readout elimination](NORMALIZED_READOUT_RESULTS.md) matched joint training in seven paired runs but produced three additional poor fits. All20fits and held-out transfers are audited. See [continuation](CONTINUATION.md) for current state; no experiment is running.
 
+Further control: [crossed normalization and ridge results](CROSSED_READOUT_RESULTS.md) and [profiled Gauss–Newton geometry](PROFILED_GAUSS_NEWTON_GEOMETRY.md) separate coordinate effects from readout elimination. The crossed80fit panel is complete and audited.
+
 ## Thesis and distinctions
 
 Represent a multilinear occurrence contraction as `F(z; u)` and impose fixed linear identifications `z=Sθ`, `u=Rx`. Study parameter tying, repeated inputs, and execution DAG reuse separately. The scientific question is whether sharing helps learn compositional targets beyond parameter count and metric effects, and when incorrect sharing hurts.

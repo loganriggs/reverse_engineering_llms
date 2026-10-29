@@ -1,0 +1,7 @@
+# Crossed normalization/readout penalty control
+
+Reuse all five teachers232101–232105 and two starts233001–233002 from the normalized panel. Same512source inputs/labels,128adaptation examples and four whole-task holdouts. Add three conditions: unit-factor/no-ridge, raw-factor/no-ridge, raw-factor/ridge. Each compares joint versus reduced TRF with200evaluation cap,tolerances1e-10. Ridge is .001 in the sum-squared objective. The archived unit-factor/ridge20fits provide the fourth cell:60newfits,80total. No restarts, no changed labels or teacher generation, no heldout selection.
+
+Within each condition, both methods start with the same hidden rows and optimal readout. Zero-ridge readouts may differ from the ridge optimum; matching starts across penalties means hidden rows, not identical predicted outputs. Unit normalization includes radial norm penalty as previously defined, so this is a normalization/coordinate-control package, not isolated division alone. Raw/ridge has known scale escape and is a diagnostic, not a proposed regularized estimator. Preserve absolute and relative errors, raw parameter norms, ranks and all failures.
+
+Source/transfer exact Gaussian errors, penalized objectives, component recovery, walltime and evaluations. Reuse fixed transfer protocol and teacher-level aggregation. Audit forward coefficient maps, readout QR optimality, adapted predictions and source provenance. Stop after this crossed comparison; then synthesize geometry mechanisms rather than expand a rescue sweep.

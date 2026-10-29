@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: crossed readout control COMPLETE
+
+Previous turn progress; current turn progress:60newfits plus20archived complete raw/unit × ridge0/.001 × joint/reduced on the SAME5teachers×2starts. All60new fits and transfers audited, no jobs running. CROSSED_READOUT_PLAN/RESULTS.md; checks max relative autograd error9.69e-14. Recovery joint/reduced: raw0 8/8, rawridge8/7, unit0 9/5, unitridge9/6(outof10). Thus removing ridge does not repair unit-factor reduced failures. Rawridgeall10joint fits hit cap; retain. Raw reduced norms up to757; unit scales controlled. Stop this crossed sweep, no rescue tuning.
+
+PROFILED_GAUSS_NEWTON_GEOMETRY.md derives exact Jred=A+B with A orthogonal B, same gradient Aᵀr, curvature AᵀA+BᵀB versus profiled joint AᵀA. Ten real initial fixtures pass gradient/curvature and hidden-only-damped Schur-step identities. Extra curvature trace ratio .479–.781. Not proof this causes terminal failures. Next bounded mechanism test: same reduced objective and Armijo schedule with either curvature matrix, retaining whole-task transfer and same gauge control. Overallgoalactive; nativeMLPpaused.
+
 ## Latest: normalized readout comparison COMPLETE
 
 Previous goal turn was progress (verified variable projection pilot). This turn is progress: normalized_readout.py and six independent derivative fixtures,20source fits on5fresh d8/h4 teachers×2starts×joint/reduced, whole-task transfer and exact population audit. NORMALIZED_READOUT_PLAN/RESULTS.md. All terminal; no live jobs. Source/transfer checkpoint replay, independent QR readouts, initial-function match, normalization bounds, and profiling identity pass.
