@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
 
+## Current exact rank certificate complete; five-seed panel LIVE
+
+Previous goal turn: progress (auditedGNfits,tangentdiagnostics). Current turn: progress. certify_bilinear_tangent_rank.py certifiesexactrank15at all6paired archivedinitializations for d3h3q3depth2model. Fifteenintegerprobes,dyadicrationalweights,prime2147483647(trialdivisionverified),nonzero15x15minors. Independentexactcentraldifferences h1/h2verifyeveryJacobianentry becauseindividualparameterdegree<=2. Results/bilinear_tangent_certificate matrices/pivots/inputhashes and BILINEAR_TANGENT_CERTIFICATE.md retained. No floatrankthreshold innewcertificate.
+
+TheorysectionG: localcoefficientsubmersions,regularfixed-functionfiberdim24tied/42untied,fulloutputtangentspaceboth. Under specifiedrealizableGaussianregression atcertifiedsharedoutput andsmoothpositivepriorcompactregularpatch,localRLCT15/2,multiplicity1both. DoesNOTcertifyglobalRLCT,globalrepresentability,trainedteacherrecoveryorRMSNormclassification. DiscretepermutationsdoNOTaddlocaldimensions;scalinggaugesincluded. Elementaryregular-coordinateproof,notnewgeneralSLTclaim.
+
+LIVE SVHNsession74676,parent181303. Latestseed212003_extra_wide_stack training child183249;17fitsclosed/audited. Revalidateactualsession/process;doNOTduplicateorredownload. Continue fixed30-fit panel and independentaudits; all30required for summarize_svhn_confirmation.py. Commitonlyclosedcases,exclude mutableliveartifacts frommanifest. No othertrainingjobs launched. Overallgoalactive,remainingconfirmation/curvature/circuitrecovery worknotcomplete.
+
 ## Current Gauss–Newton control complete; confirmation remains LIVE
 
 Previous goal turn: progress (launched confirmation and checkedmetricdamping). Current turn: progress. run_bilinear_gauss_newton.py completed36fits on exactly archived actualbilinear tasks, fixed damping.001/.1,rawI/correctedM,Armijobacktracking,max100steps. All36 improvepaired fixedGD baseline but notcompute-matched. Untiedstudents atlambda.001 reachMSE<1e-12 all6targets in7–71steps; tiedstudents retainmetric/init-sensitive errors. No failedlinesearch. Auditor53894terminalpassed: everytrajectoryloss coefficient-moment replay, linearsystem/Armijochecks, initial/mid/finaltorch.funcjacrev match; maxJerror7.31e-16,linearres2.55e-10,momenterror1.45e-14. BILINEAR_GAUSS_NEWTON_RESULTS.md. No circuit-recovery claim or global convergence.

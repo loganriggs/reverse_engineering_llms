@@ -28,3 +28,5 @@ Tangent-space diagnostic: both tied and untied initial Jacobians have numerical 
 Conditional mathematical statement: on a probe set with injective evaluation of homogeneous quartics, any such model whose Jacobian has rank15 spans the full quartic evaluation space locally. If both tied and untied Jacobians have that rank, their output tangent spaces coincide. This follows because both are subspaces of the same15dimensional polynomial evaluation space. It does not equate their parameter metrics or finite nonlinear updates.
 
 Next: keep this optimizer result bounded; do not tune damping until every tied run succeeds. Use the geometry controls to design a separately budgeted curvature-aware comparison, while completing the five-seed image data/capacity confirmation.
+
+Subsequent exact upgrade: BILINEAR_TANGENT_CERTIFICATE.md certifies rank15at all six paired starts by nonzero modular minors, and derives local fiber dimensions and a specified realizable local learning coefficient. The numerical diagnostics above remain useful for conditioning; they are no longer the sole evidence for rank.
