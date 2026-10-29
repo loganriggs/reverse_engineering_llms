@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest directional evaluation stage
+
+Current goal turn: progress. See DIRECTIONAL_SAMPLING_RESULTS.md. Rank-one angular central Gaussian mixture with20%uniform floor implemented and validated against exact moments, independent full covariance densities and an exact d2 depth5 circle oracle. Refined d16 depth4/5 proposals(64pilot starts,200steps,stretches32/128,12x32768fresh draws) meet predeclared batchCV<10% gate; depth5 errorCV4.28%, median errorESS570. All jobs terminal, aggregate and density/circle audits pass. No training/GPU jobs active.
+
+Important new finding: earlier4096-point uniform calibration underestimates teacher energy by8.7x(depth4) and234x(depth5) for these fixed models. Next bounded step: independent importance-weighted calibration, then paired uniform-vs-weighted-importance training to distinguish rare-direction coverage from optimizer failure, with fresh per-model evaluation proposals. Save full states for replay. Then representative multi-seed sharing/budget/task-holdout scaling. Methodological evidence uses the same fixed teachers; no claim of deep learned sharing advantage yet. Full goal remains incomplete.
+
 ## Latest evaluation/scaling feasibility stage
 
 Current goal turn: progress. HOMOGENEOUS_EVALUATION_AND_DEPTH.md records exact radial integration and a variance lower bound for naive Gaussian evaluation. Six independent-factor quartic comparisons passed; observed batch SD reduction2–4x. DeepMultiTask at d16/h8/depth2–5 passes NumPy forward, degree, matched-function and cached/recomputed gradient checks. Sixteen100-step CPU smoke fits completed with finite training; aggregate audit passed. All processes terminal (producer session90759 exited0). No GPU work.
