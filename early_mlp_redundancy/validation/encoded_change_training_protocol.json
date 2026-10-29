@@ -1,0 +1,23 @@
+{
+  "stage": "M69 fixed six encoded-change fits after audited M68; evaluation frozen before fitting",
+  "reference_training_protocol_sha256": "5ec87601696305537b50781c6503dd912db20127f5ce2f6082c6330ec7dfc357",
+  "preflight_protocol_sha256": "493fbf3826ab8ca2842f942737ae9b97e4a661a5ca257c7e1a6a246dcd5a5bdb",
+  "calibration_sha256": "ea96cd7dc801a71f3af06377965877a5fd68a45c7ada5d5f0ead42073ab913ed",
+  "calibration_audit_sha256": "acea560e2b50c2136960df914ffc6487e4a57acd49e315941a2cde5d13844c4c",
+  "endpoint_gradient_sha256": "b50d0da6ec6084874f745a80c656afa6628e9a7c09148d474843ebff04998df7",
+  "parameter_gradient_sha256": "1e1bbc46bf7bb478a9ad9f6dd2e684f375c41aa8103064cf39467b22dde4086c",
+  "loss_source_sha256": "c5865274d539660d6346d6a6c587ebd1945d93919386f5d3ce980c2049c4b61c",
+  "natural_runtime_sha256": "26a21d5bcbd90b2a3524f9da35c04cb053afeb54cf10438e29ccc0ea5f68e7a2",
+  "controls_sha256": "00b4d8accb9faa9c23104a4d0aa40db8685065f7ce90fba97b4478d4595dcbbd",
+  "arm": "KL_encoded_balanced_response",
+  "models": "Exactly six starts listed in the hash-bound M60 reference protocol; no new starts.",
+  "schedule": "Copy reference schedules exactly:132 Adam updates,66 natural alternating66 task; natural step first. Task gradient is average of both endpoint losses (each divided by2). Recompute both endpoint encodings per recipient branch. No optimizer-state carryover from earlier fit.",
+  "optimizer": {
+    "name": "Adam",
+    "learning_rate": 0.0001,
+    "other_arguments": "Same PyTorch defaults as M61; same runtime version. Assert runtime versions or report mismatch before treating controls as matched."
+  },
+  "loss": "Natural: identical natural_loss runtime. Task: K + encoded_weight * R_balanced from EncodedExperiment. Fixed global encoded_weight from M68 calibration. Native model frozen. Unit-normalize decoder columns after each update as M61; mean/scale/membership fixed.",
+  "receipt": "Bind all protocol/calibration/audit/loss/runner/runtime/model hashes. Atomic progress snapshots include optimizer state and history; only resume exact receipt. Retain all six final states and never select on online losses.",
+  "stop": "Complete exactly six fixed fits and audit schedules/objective arithmetic/final states. No additional updates, tuning or final-performance claims until the frozen evaluation completes."
+}

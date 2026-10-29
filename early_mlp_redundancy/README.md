@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: downstream task effects can survive inaccurate intermediate changes
+## Current: encoded-change causal objective is verified, fitting is next
+
+[M68](ENCODED_CHANGE_PREFLIGHT.md): the loss now trains effects of the featurizer’s own donor-minus-recipient direction. All792 training calibration rows and1818 saved vectors independently checked;24 endpoint and18 full-parameter finite differences pass. Existing taskK replays exactly and natural retention code is unchanged. No optimizer updates or fidelity gains claimed. Six fixed fits and their full factorial/retention evaluation are frozen prospectively.
+
+## Previous: downstream task effects can survive inaccurate intermediate changes
 
 [M67](NATIVE_CHANGE_SUBSET_RESPONSES.md): doubled-half native changes worsen local reconstruction in all12 layer/site/split aggregates, but improve pooled source output responses6/6. MLP1source evaluation response error falls.481→.167 despite local error rising.391→.565; final-position responses worsen. All12048 candidate responses independently audited. This is partial change substitutability, not neuron deletion. Next return to featurizer training targets that use their own encoded causal changes.
 
