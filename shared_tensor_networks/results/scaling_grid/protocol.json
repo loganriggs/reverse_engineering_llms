@@ -1,0 +1,124 @@
+{
+  "grid": [
+    [
+      16,
+      8,
+      2
+    ],
+    [
+      16,
+      8,
+      3
+    ],
+    [
+      32,
+      16,
+      2
+    ],
+    [
+      32,
+      16,
+      3
+    ]
+  ],
+  "teachers": [
+    "shared",
+    "independent"
+  ],
+  "replicates": 3,
+  "models": [
+    "shared",
+    "separate",
+    "shared_budget"
+  ],
+  "expected_fits": 72,
+  "source_tasks": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "heldout_tasks": [
+    12,
+    13,
+    14,
+    15
+  ],
+  "steps": 600,
+  "ntrain": 1024,
+  "optimizer": "Adam",
+  "lr": 0.001,
+  "clip": 10,
+  "pilot_axes": 32,
+  "pilot_steps": 100,
+  "stretches": [
+    16,
+    64
+  ],
+  "calibration_samples": 16384,
+  "evaluation_batches": 6,
+  "evaluation_batch_size": 8192,
+  "adaptation_labels": [
+    32,
+    128
+  ],
+  "ridge": 0.001,
+  "transfer_features": "12 predicted source outputs normalized on independent source-only calibration",
+  "baseline": "true source outputs with same adaptation data and ridge",
+  "rng": "base=2000000+10000000*grid_index+1000000*regime_index+10000*replicate; offsets specified in frozen source",
+  "heldout_policy": "heldout outputs never influence source proposal, student initialization, source loss, optimizer or checkpoint selection; only adaptation fitting and final evaluation",
+  "teacher_calibration": "all fixed teacher heads normalized using source-only proposal; head scaling is separate, no teacher training",
+  "limitations": "privileged source-teacher gradient proposal and calibration; not equal-total-supervision sample efficiency; three teacher replicates; different classes/metrics",
+  "budgets": [
+    {
+      "d": 16,
+      "h": 8,
+      "depth": 2,
+      "wide": 21,
+      "shared": 688,
+      "separate": 3504,
+      "shared_budget": 3444
+    },
+    {
+      "d": 16,
+      "h": 8,
+      "depth": 3,
+      "wide": 23,
+      "shared": 816,
+      "separate": 5040,
+      "shared_budget": 5106
+    },
+    {
+      "d": 32,
+      "h": 16,
+      "depth": 2,
+      "wide": 43,
+      "shared": 2656,
+      "separate": 13920,
+      "shared_budget": 14104
+    },
+    {
+      "d": 32,
+      "h": 16,
+      "depth": 3,
+      "wide": 46,
+      "shared": 3168,
+      "separate": 20064,
+      "shared_budget": 20148
+    }
+  ],
+  "source_sha256": "94d088d102f92cde91c1d1988e3f13ae00783920d80c715c88fd2d220a7662e7",
+  "dependencies": {
+    "deep_multitask.py": "d9c99b1fb5e035f097559597afdca86cd904c582fcb0630ab35216beb067a52f",
+    "directional_sampling.py": "d6a3eca8373a4d9a27bbc4fb7a7a13fbff784fc530fdc3942716eead3b2e1f06",
+    "homogeneous_evaluation.py": "2189ef2986f304e419aab9767e96741ae281b6c8110ad6958fd710e5a3a84b3a"
+  }
+}

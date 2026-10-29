@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest completed representative scaling sweep
+
+Current goal turn: progress. SCALING_RESULTS.md:72fits complete, no nonfinite failures. Producer47326 and auditor28762 terminal. Independent replay all72passes(maxrelative3.16e-15); design audit and summary/figure complete.70/72source metrics and470/576learnedtransfer task metrics pass10%batchCVgate. NoGPU. Near-budget shared advantage only consistently paired in d16h8depth2 at128labels(3/3); no broad scaling replication. Fullstate/proposal/data archives retained.
+
+New exact diagnosis: Wick105pairing Gram for shared depth2teachers avoids input-monomial expansion. Independent quadrature passes. Exact source-output projection floors: d16h8 .391/.413/.442; d32h16 .739/.806/.779. Twelve source outputs under-span36/136hidden products. This is NOT a lower bound for all learned hidden representations or necessarily approximate source predictions.
+
+Next bounded experiment: transfer directly from frozen students' hidden feature dictionaries vs their12source outputs, on same32/128adaptation labels, with independent feature RMS and fixedpenalties; include true teacher hidden dictionary oracle. No retraining necessary. Preserve heldouttask isolation and use efficient dualridge for wide dictionaries. Only afterward consider source-task-count changes. Overall goal incomplete; publishing current batch authorized.
+
 ## Latest prefix controls — depth5 detour closed
 
 Current goal turn: progress. DEPTH5_PREFIX_RESULTS.md:9audited fits copying1/3/4teacher trunk layers while retaining random readouts and independently recalibrating output energy. Prefix1 population errors1.94/9.45/2.02 despite falling training loss; prefix3 .669/.328/.125; prefix4 .00218/.00327/.00389 (all3 residual precision gates fail). Independent replay and exact prefix/calibration/hash audit pass. Alljobs terminal, noGPU.
@@ -73,7 +81,7 @@ Compare teacher-block paired means; components/tasks/optimizer seeds are not ind
 - E2: existing exact metric projection, optimization-budget controls, and singular-feature conditioning results are complete for their stated settings. Tiny-network spectrum/scaling comparisons may accompany depth experiments; do not reopen old sweeps without a new discriminating question.
 - E3: known-family instrumented graph recovery and generic exact feature identifiability are now established under explicit assumptions. Learned models show only partial feature recovery. Need confirmation/robustness and operational transfer beyond this small family, not an unsupported universal graph claim.
 - Theory: generic fiber dimension and a local regular-quotient RLCT are derived with an exact rank witness; scalar singular examples remain in MATHEMATICS.md. Degenerate/global RLCTs and robust approximate-identifiability bounds are not solved or claimed.
-- E4: larger dimensions, hidden widths, and depth2–5 CPU→GPU experiments remain outstanding. Use representative, frozen configurations and appropriate evaluation when full quartic expansion no longer scales. Report compute, memory, failures, and approximation limits.
+- E4: representative d16/32,h8/16 plus near-budget widths21–46,depth2/3 sharing/transfer sweep is complete; depth4/5 feasibility and optimization limits are documented. Frozen-hidden-feature transfer diagnosis and final synthesis remain. No general d256/h512 scaling success is claimed.
 - Final synthesis must distinguish parameter tying, input identification, physical execution reuse, functional component recovery, and generalization. Preserve negative results and resource comparisons. The full goal is not achieved.
 
 Runtime: /home/loganriggs/Coding/neuron_circuits/.venv/bin/python with OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1. Output directories refuse overwrite. Publication authorized. Repository /home/loganriggs/Coding/reverse_engineering_llms, subdirectory shared_tensor_networks. Native-MLP project remains paused.
