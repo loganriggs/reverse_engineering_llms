@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Keyed-copy challenge](KEYED_COPY_CHALLENGE_RESULTS.md). Historical one-key repetition controls replay exactly; both fixed two-key formats fail native competence. Query sensitivity is partial, and candidate choices often favor the first-mentioned value. This narrows the supported copy claim without identifying a unique shortcut. No featurizer fit, prompt replacement or task-exclusion change. Next proposed direction: characterize actual repetition computation with a fixed conflicting-value factorial panel. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Native repetition cube](REPETITION_CUBE_RESULTS.md). First-value, last-value and majority rules poorly describe conflicting repetitions. Three-way terms account for41.5% of measured output-margin variation, but below0.1% of early-MLP Euclidean write variation. Exact bilinear input-coefficient composition is verified; slight MLP2 cancellation is limited to two small cubic terms, not native channels. Next proposed test links degree-specific causal interventions to fixed-featurizer fidelity. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
