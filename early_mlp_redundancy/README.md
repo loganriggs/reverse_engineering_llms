@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Coordinate gauge and operator dimension](NATIVE_COORDINATE_GAUGE_RESULTS.md). The same fixed MLP1 span gives about 14 effective response coordinates in PCA axes and 22–23 after rotation, while the function is unchanged. Invariant local operator dimension averages 45.84 within the 64-dimensional span. Displacement concentration, operator dimension, and native-channel redundancy are separate properties. Next: a bounded matched early-layer comparison, informed by existing evidence. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Matched early-layer operator geometry](MATCHED_LAYER_OPERATOR_GEOMETRY.md). Individual sampled changes involve about 14–16 effective response coordinates, while invariant local operator dimension averages 33.4, 45.8 and 49.0 within the respective PCA64 spans of MLP0/1/2. Input concentration, operator dimension, channel redundancy and downstream use remain distinct. This bounded comparison is closed; next return to task-conditioned block validation using existing featurizers and causal caches. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
