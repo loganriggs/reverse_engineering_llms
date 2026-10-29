@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest finite-data/noise reuse study complete
+
+Currentgoalturn: progress. REUSE_SAMPLE_NOISE_RESULTS.md:162factorizedfits+54OLSbaselines, fresh3seeds, N32/128/512,noise0/.1, fixedquartic3D. Allfinite andaudited; exactmomentauditmaxrel1.732e-15, trainingobjectives+54normal-equationchecks pass. Producer90763terminal,no livejob/GPU. OLSnoiseless recovery numericalprecisionN32already; factorizedoptimizationpoorfor2/4factorfamilies. Modest1factormatchedsharingnoiseN512median.000421 vsOLS.000624, notbroadadvantage. Correct2/4factor strictrecovery0/3allN.
+
+Exactgeneralizedeigenvalue empirical->population bounds verified81noiselessresiduals andindependentwhiteningSVD. AmplificationN32~944–5888,N512~4–6. ConditionalOLSnoise-risktrace formula derived/evaluated. Identifiability isnotstablelearning. Nextboundedcontrol: fullyuntied4factor alternatingexactLS on same data/init vsSGD; repeatedsharedfactors arenotlinear subproblems. Then concludeoptimizerconfound orretainfailure, notendlesslrsweep. Otherimage/SVHN/generalcircuitgoalsremainopen. Goalactive.
+
 ## Latest factor recovery and intervention assessment complete
 
 Currentgoalturn: progress. FIXED_DEGREE_RECOVERY_RESULTS.md assessesall81fits with24permutation occurrence matching, invariant directions/amplitude andinitialbaselines. Generic4factor independentstudents recover3/3:worstangles2.304/2.837/.765degrees, amplitude.9826/1.0212/1.0011. Restrictedgrammarrecovery, notphysicalDAG. All12canonicalfactor-deletion errors6.41e-5–.004564; shiftedcovarianceerrors.003118/.0001097/.00003979. Independentquadratureaudit36comparisonsmaxrel1.257e-14. No newtraining/livejob/GPU.
