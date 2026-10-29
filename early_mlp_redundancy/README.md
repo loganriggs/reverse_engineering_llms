@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: all18 matched objective fits complete; evaluation pending
+## Current: balanced causal loss improves family coverage, with tradeoffs
+
+[M62](BALANCED_RESPONSE_EVALUATION.md): balancing beats raw supervision on holdout source-family error6/6(8.4–28.9%reduction),final-family5/6,but final pooled error only1/6. NaturalKL remains1.2–2.6%worse than KL-only controls. Alltaskvectors audited; naturalretention checked. This validates a fidelity objective, not semantic units. Next separate reconstructed background from reconstructed task direction with a fixed no-fit factorial.
+
+## Previous: all18 matched objective fits complete; evaluation pending
 
 [M61](BALANCED_RESPONSE_TRAINING.md): all18final states retained after2376fixedupdates; independent schedule/state/objective audit passes. Natural branch preflight passed before launch. No performance improvement claimed yet. Next run the already-frozen training/source-holdout/natural-retention evaluation on every state.
 
