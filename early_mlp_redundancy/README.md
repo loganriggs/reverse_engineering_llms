@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: native task changes are distributed and net constructive
+## Current: downstream task effects can survive inaccurate intermediate changes
+
+[M67](NATIVE_CHANGE_SUBSET_RESPONSES.md): doubled-half native changes worsen local reconstruction in all12 layer/site/split aggregates, but improve pooled source output responses6/6. MLP1source evaluation response error falls.481→.167 despite local error rising.391→.565; final-position responses worsen. All12048 candidate responses independently audited. This is partial change substitutability, not neuron deletion. Next return to featurizer training targets that use their own encoded causal changes.
+
+## Previous: native task changes are distributed and net constructive
 
 [M66](NATIVE_CHANGE_COORDINATION.md): all1002 nonzero layer/site conditions acrossMLP0–2 have net constructive channel changes. Median participation spans121–610 channels; this is not a count of semantic units. None meets the theoretical condition for doubled-half averaging to improve expected local error. All1506 eligible conditions independently audited. Next test fixed subsets of native changes downstream, distinguishing this from ordinary neuron deletion.
 
