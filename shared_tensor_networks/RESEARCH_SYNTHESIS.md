@@ -61,3 +61,9 @@ Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal6
 ## Fresh-teacher readout-speed result: advantage did not replicate
 
 [READOUT_SPEED_CONFIRMATION_RESULTS.md](READOUT_SPEED_CONFIRMATION_RESULTS.md) adds 70 fresh-teacher/fresh-initialization fits, all at accumulated hidden-step time20. Split speed10 loses its previous aggregate advantage: transfer median .2517 versus joint1 .0913 and reduced .1906; wins only2/5 and1/5 teacher blocks respectively. These primary arms already had matching clocks in the old panel. High-speed joint and split methods have similar aggregate errors but substantially different gradient work. This supports stiff-block integration as a computational tool, not a reliable feature-recovery improvement. Larger d64/h32 scaling remains open.
+
+## d64/h32 scaling and sampled information
+
+[TASK_COVERAGE_H32_RESULTS.md](TASK_COVERAGE_H32_RESULTS.md) completes 60 audited GPU fits and 240 adaptation fits. At equal labels, more inputs/fewer tasks wins all five teachers (.0483 versus1.5217 median transfer). Every teacher start recovers all32components; random starts recover zero full sets at low input coverage and3/10at high coverage. Thirty-six of40random endpoints have explicit same-condition lower training-loss witnesses. This extends the coverage/optimization distinction to larger width without proving a universal scaling law.
+
+[SAMPLED_HIDDEN_INFORMATION.md](SAMPLED_HIDDEN_INFORMATION.md) derives profiled finite-sample rank bounds, including sampled hidden-value basis changes that readouts absorb. Sixty-three derivative/rank fixtures and three finite basis-change tests pass. The bounds do not explain the current grid by a simple shortage of constraints; conditioning and optimization remain material. d128/h64 requires verified memory/storage adaptation before launch; the broad goal remains active.

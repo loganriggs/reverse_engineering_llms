@@ -4,15 +4,17 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
-## ACTIVE: d64/h32 crossed scaling RUNNING — do not duplicate
+## Latest: d64/h32 task/input scaling COMPLETE, sampled-information bound checked
 
-Previous/current turns progress. TASK_COVERAGE_H32_PLAN.md frozen; run/audit/summarize_task_coverage_h32.py and coverage_h32_data.py added. Fivefresh251101–5teachers,random252001/2+teacherstart,60fits total. d64/h32,132/528tasks×2048/8192inputs,primaryadapt2048/secondary512,3000Adamsteps,unchanged verifiedbatchedmodule. Equal1,081,344labelcontrol. RTX5080idle atlaunch806MiB/noothercomputeprocesses.
+Previous/current turns progress. Producer46063/PID200252 and auditor15717terminalsuccess. All60fits/240adaptations audited. TASK_COVERAGE_H32_PLAN/RESULTS.md:fivefresh251101–5,random252001/2+teacherstarts;132/528tasks×2048/8192inputs;3000Adamsteps;primaryadapt2048,secondary512. No live jobs/nativeMLPpaused/fullgoalactive.
 
-LIVE producer unified-exec session46063, Python PID200252 (parent200248), log /tmp/task_coverage_h32.log. Lastverified: teacher251101completed12fits,training99.4sec; teacher251102training. Poll this handle/process before any restart. All root/panel result artifacts remain untracked while producer writes them; do NOT commit mutable files. Goalactive/nativeMLPpaused.
+Equal1,081,344labels:132tasks×8192inputs wins5/5teachers against528×2048,mediantransfer.048311vs1.52167. FixedNmoretasks wins4/5both. Randomfull32featurecounts0/10,0/10,3/10,3/10 for(2048,132),(2048,528),(8192,132),(8192,528);teacher20/20. Explicitlowerempiricalloss teacher-trainedwitness36/40random. Doesnotprove strictlocalminima or allpopulationgapoptimization. Teacherstartsprivileged.
 
-Firstteacher data chunk roundtrip checked independently:8192×64inputs/8192×528targets,2048×64adaptation/fourheldoutheads; maxliteral target error2.84e-14,largestNPZ17,633,712bytes<20MiB. Four sourcechunks each2048rows plusmetadata;loaderusedbyauditor. No aggregate result claims untilall60fits and240adaptationsaudited. Audit quadraticGram optimized usingexactGaussianmonomialmoments,checksagainstgenericgramford3/4; restpreserves priorindependent checks. Audit currentlyexpectsall60complete.
+GPUtraining99.31–99.40sec per12-modelteacherbatch,peakallocated1.882GiB/reserved2.035GiB;CPUanalysisexcluded. Alltarget/noise/chunkroundtrip/Wicksource/transfer/SVD/featuremetrics/inactiveheads/initialpairing/curvecoverage checks pass. Sourcechunkfiles<20MiB; finishedartifacts readyforcommit.
 
-When producerterminalsuccess: run audit_task_coverage_h32.py with pinnedCPU/singleBLASthread; then summarize_task_coverage_h32.py. Inspect outcomes/resources, update synthesis/evidence/checkpoint, stagecompletedartifacts andmanifest, push. Ifproducerstilllive, wait/poll existinghandle withoutduplication. Do not reinterpretpoor fitsasfailuretoexecute or tuneforrescue.
+SAMPLED_HIDDEN_INFORMATION.md: profiledsampleJacobian A[v]=(I-PhiPhi+)DPhi[v]W has rank<=min(q,(N-rankPhi)rankW). Full-row-rankPhi withN<=P permits arbitrarylocalinterpolation,nohiddenidentificationfromunregularizedMSEalone. For fullproductreadout andsampledZfullcolumnrank, GL(h)basisabsorption givesadditionalrankbound h(N-h). This neednot beaglobalfactorizationgauge. d4/h2check63fixtures ranksN7with3heads10notnaive12;N8reaches12;3finiteGLchecks;maxderivativeerror1.49e-8. Plotrendered/inspected. Boundsnecessaryforregularfirstorderidentification,notgloballearning/samplecomplexity;currenth32Nwellabovecountthresholds.
+
+Next scale target d128/h64; first design resource-bounded independent-case batching and deterministic data/checkpoint storage, verify against the existing full-batch updates before launching. Current12-case paddedbatch memory grows sharply; do not silently alter objective ordrop controls. Keep equal-label/input-coverage comparisons,teacher-startdiagnostics,heldouttasks andexactmetricverification. Largerdepth3–5 recovery stillopen; don'trestartclosedoptimizerrescuepanels.
 
 ## Latest: fresh-teacher matched-clock confirmation COMPLETE
 
