@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Fitted affine input-to-write test](AFFINE_INPUT_PREDICTOR.md). A global affine map preserves many task answers but fails causal replacement; next test explicitly context-dependent local computation.
+
 2026-10-28. A compact reading guide after the fixed capacity/noise/dropout grid. This is a synthesis,
 not a declaration that the LLM is reverse engineered.
 

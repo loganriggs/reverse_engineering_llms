@@ -1,0 +1,24 @@
+{
+  "stage": "M79 frozen: task-blind local affine charts",
+  "purpose": "Test whether input-space covering produces reusable local computation and whether routing discontinuities limit fidelity; distinguish function geometry from native implementation.",
+  "training": "Exactly the M77 4092 training positions, natural documents 0\u201331. No task or evaluation data in anchors or selection.",
+  "models": [
+    "One centroid at training mean",
+    "32 random training points without replacement, NumPy default_rng seed7901",
+    "32 k-means centroids initialized from the same random points, exactly50 Lloyd steps"
+  ],
+  "routing": "Raw normalized-input Euclidean nearest anchor in float64; lowest-index ties. Empty clusters keep their previous centroids. Recompute final assignments. No whitening, K, seed, temperature or objective search.",
+  "chart": "T_c(z)=F(c)+J(c)(z-c), F(z)=D[(Lz)*(Rz)]. Slopes/intercepts derived from native weights. The exact residual is F(z-c). Native Down bias added separately. No low-rank restriction.",
+  "theory": "Quadratic remainder admits norm bound ||D|| ||L|| ||R|| ||z-c||^2; reducing nearest-anchor distance only reduces this upper bound, not necessarily the actual residual or downstream error. Nearest-chart routing can be discontinuous on equal-distance boundaries. Chart-switch term alone does not establish causal harm or rule out amplitude confounding.",
+  "preflight": "Independent analytic/finite-difference toy Jacobians, exact remainder and routing-change decomposition; explicit continuous-native/discontinuous-chart counterexample. On real inputs verify routing, chart outputs and explicit affine matrices against native polynomial formulas before downstream use; float64 relative tolerance1e-8, float32 applied prediction relative tolerance1e-5. Override native forward with product guard. Freeze all anchors/state before evaluation.",
+  "evaluation": "Same32 natural held-out docs and56taskpairs, all7families/14formats, all3background-change corners/source/final/identity, all ineligible and weak cases retained. Independently audit saved vectors and predictions. Fixed M78 affine and M76/M77 references. Record anchor distance, occupancy, chart switches and within-chart/routing decomposition; do not select models or examples by results.",
+  "cost": "Report full chart storage and native-weight access. Full slopes for32charts are approximately42million coefficients, exceeding native MLP parameter count; no compression, speed, semantic-unit or manifold claim.",
+  "stop": "Exactly one three-model comparison, then decide whether geometry improves causal fidelity enough to motivate a constrained learned representation. If not, return to targeted reusable subcomputation tests and broader causal supervision; no indefinite chart sweep.",
+  "references": {
+    "native_input_reference.json": "9f04e106400802777d80632870183e37953117a8349a65c92dc7193972721b6f",
+    "affine_input_comparison.json": "f419c02c11ca3a3a436ecc5b4e3b292f55ea59f279fedaf9748e50b1f40cf752",
+    "affine_input_predictor_protocol.json": "f0b686725bef9b417fa549c7ee4635849209258dd00b76f62141555955a3c421",
+    "whole_task_native_protocol.json": "e0646ab536d0daaeefa287d34837d9a53cd8ea43a8dfeeab7138d42b0afd4762",
+    "whole_task_factorial_comparison.json": "881d0506f8d93e384ef3b56d69868b6eb56dc5d8ea47cbd89336a40a58466342"
+  }
+}
