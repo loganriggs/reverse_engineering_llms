@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest factor recovery and intervention assessment complete
+
+Currentgoalturn: progress. FIXED_DEGREE_RECOVERY_RESULTS.md assessesall81fits with24permutation occurrence matching, invariant directions/amplitude andinitialbaselines. Generic4factor independentstudents recover3/3:worstangles2.304/2.837/.765degrees, amplitude.9826/1.0212/1.0011. Restrictedgrammarrecovery, notphysicalDAG. All12canonicalfactor-deletion errors6.41e-5–.004564; shiftedcovarianceerrors.003118/.0001097/.00003979. Independentquadratureaudit36comparisonsmaxrel1.257e-14. No newtraining/livejob/GPU.
+
+Failures retained: correct2factorindependentstudent strictrecovery0/3; onefactor symmetric seed170001 MSE.940894 despite nearzero median fromother2. Do not implyuniversal success. Exact repeatedfactor perturbation fixture gives functionMSE=(3/35)delta^4 while directionangle~delta, proving ill-conditioning atfactorcollisions. Checks passed. Next meaningfulstep: finite-data/noise sampleefficiency with exactpopulation and factorrecoverymetrics, optionally separationcontrol. Broaderimagescaling/SVHN/generalcircuitrecovery stillopen. Goalactive.
+
 ## Latest fixed-degree reuse experiment complete
 
 Current goal turn: progress. FIXED_DEGREE_REUSE_RESULTS.md:81fits of quartic3Dproducts, teacher/studentgroups1/2/4,3seeds,symmetric/.05perturbed/independentinitialization. ExactGaussianpopulationobjective via125Gauss-Hermitenodes;1000correctedSGDsteps. Independentcoefficientmomentauditall81passes; coefficient-gradientaudit81maxrel1.742e-15; exactrationalteacherfactor distinctness checks pass. Symmetrictrajectoryparameterdifference2.665e-15 acrossstudentgroups. Fourfactorteacher/fourfactorstudent medianMSEsym.4055,perturbed.3937,independent.000453. Notconvergedgeneralcomparison; independentinit matchesRMS notfunction. Restrictedproductfactorcomplexity1/2/4 certified byunique factorization, notgeneralminimalcircuitrank.
