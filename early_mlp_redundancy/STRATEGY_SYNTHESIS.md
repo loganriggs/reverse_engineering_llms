@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Why smaller errors can combine worse](PRODUCT_ERROR_INTERACTION.md). All49028 conditions audited: whole-task reversals lose beneficial approximation-error cancellation even while interaction norms shrink. Next: a fixed native-product dictionary with jointly supervised output coefficients.
+
 Latest: [Product-subset causal results](PRODUCT_SUBSET_CAUSAL_RESULTS.md). All147084 task responses audited. Isolated corrections do not reliably compose, and final-position transfer reverses across cohorts. Next: one saved-vector error-interaction analysis.
 
 Latest: [Half-product natural behavior](PRODUCT_SUBSET_NATURAL_BEHAVIOR.md). All3808 outputs audited: frozen scaling improves KL51/51 but CE45/51; native energy-half changes about9% of top-token choices. Causal tests are still running.

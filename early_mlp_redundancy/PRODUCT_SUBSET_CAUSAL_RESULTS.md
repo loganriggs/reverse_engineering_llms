@@ -1,5 +1,7 @@
 # Distributed computation is partly substitutable—but corrections do not compose reliably
 
+Follow-up: [the completed error-interaction analysis](PRODUCT_ERROR_INTERACTION.md) distinguishes smaller interaction norms from loss of beneficial error cancellation.
+
 M93 is complete: all 119 executable replacements were evaluated on natural text, 56 whole-task contrast pairs and 14 historical source-group holdout pairs. All full-vector audits pass. The results support partial, metric-dependent substitutability of distributed MLP1 computation. They do not establish exact redundancy, uniform causal fidelity, or native cancelling channels.
 
 ## What was compared
