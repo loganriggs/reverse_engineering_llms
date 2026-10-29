@@ -2,7 +2,15 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (local stability). Current turn: progress (72 audited finite-noisy-label fits with fixed source annotation budgets). Goal active.
+Previous goal turn: progress (finite-data development). Current turn: progress (120-fit fresh-teacher confirmation audited and summarized with all teacher outcomes). Goal active.
+
+## Current: fresh-teacher finite-label confirmation COMPLETE
+
+Plan FINITE_READOUT_CONFIRMATION_PLAN.md written before execution:5freshteacher222001–5,3randominit223001–3 +teacherdiagnostic,sourcebudgets384/1536,heads1/3/6,noise.05,200eval,norescues=120fits. run_/audit_/summarize_finite_readout_confirmation.py done. Audit120passes seededteachers/input/noise,initialstates,budgets,directJac9.19e-16,trainMSE1.59e-15,Gaussianloss/componentquadrature/transfer. Freshteachersnotpooledwithdevelopment; primarymean4heldouttasks128labels thenmean3randominitswithinteacher,5independentteacherblocks. Allfailures/32label/baselinesretained.
+
+1536randommediantransferone/three/six=.123145/.036296/.000413;threebeatsone4/5,six5/5. At384medians.198323/.175004/.266925;threewins3/5,six2/5. Sixcomponentcosinesall>.99in11/15randomfitsat1536,three8/15,one2/15;teacherstartthree/six5/5. Highbudgetbenefitreplicates,lowbudgetdoesnot;no3headoptimalityclaim. Onehighbudgetsixteacheraggregate.072964: failuresmatter. Moreheads tradeinputcoverageandreadoutparams;notpurecausalsharing/equalcompute.
+
+FINITE_READOUT_CONFIRMATION_RESULTS.md plusfigures/finite_readout_confirmation.png (visuallyinspected) showeveryteacher. No recipechanges,addedseeds,restarts;panelclosed. Nextjustifiedscaling: largerhidden dictionary/inputdimension with fixedlabelbudget controls, including wholeheldouttransfer/componentrecovery and optimizerfailures. Avoid furtherrescuetuningofthiscompletedpanel. Broadgoalremainsactive; no jobs live;nativeMLPprojectpaused.
 
 ## Current: finite noisy readout recovery COMPLETE
 
