@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: bounded depth3 measurement replication COMPLETE
+
+Previous/current turn progress. DEPTH3_MEASUREMENT_PLAN/RESULTS.md cover all12d32independent cases:24original128label readouts plus48new (two calibration draws),two independent task-specific proposals,96evaluation batches. Same65536evalsamples/model asprior butmoreproposalcompute (256axes/proposal). Originalfixedpredictor precisionpass20/96→80/96; allcalibrations240/288. IndependentNumPy audit calibration96batches/eval96batches/72SVDfits,originalfitbyteequality,hashes,pooledmetrics passes. Allhandles terminal,nolivejobs.
+
+Norescue: source/hidden median errors originalnormnew evaluation shared1.212/48.63,separate1.145/4.434,budget1.129/2.058,oracle1.105/1.283; calibration repeats shiftbutdo notfix hidden errors. Paired hidden-minus-source positiveall12conditionalcases; descriptiveSEonly,notformalcoverage. Remaining16/96precisionfailures retained. Stopboundedreplication,noendlesssampling.
+
+CALIBRATION_AS_REGULARIZATION.md exact ridge identity: normalizedfeaturesFD^-1 with penaltylambda||B||² equalrawfeaturesF withlambda tr(CᵀD²C). Finitechange H1(C1-C0)=-lambda(D1²-D0²)C0 verified48fits; separatescalibrationfromevaluationnoise. Next overallresearchsynthesis/completionaudit withlimits; nooptimizerrescue. Fullgoalactive; nativeMLPpaused.
+
 ## Latest: depth3 frozen hidden transfer COMPLETE with precision limits
 
 Previous/current turns progress. DEPTH3_HIDDEN_TRANSFER_PLAN/RESULTS.md:48model/oracle jobs,192adaptation fits,all12depth3groups/36learnedmodels. Same32/128noiseless adaptation targets,sourcevswithin-headhidden,source-only sampled RMS,ridge.001. Evaluation:heldouttarget/residual proposal onlyafterfits;8fresh8192point batches,defensive20%uniform. All384batches,calibrationjobs,192SVDfits replay independently inNumPy; hashes,degree8homogeneity,heldoutsource-slot isolation pass. Allhandles terminal,no jobs.

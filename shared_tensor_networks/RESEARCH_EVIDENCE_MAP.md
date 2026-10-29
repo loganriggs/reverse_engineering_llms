@@ -1,3 +1,5 @@
+Latest measurement update: DEPTH3_MEASUREMENT_RESULTS.md improves the weakest d32independent regime’s original-readout precision count from20/96to80/96, without reversing its poor-transfer result. Remaining failures and calibration uncertainty remain explicit.
+
 Update: DEPTH3_HIDDEN_TRANSFER_RESULTS.md now covers all saved depth3groups; 542/768task/error estimates pass the descriptive precision gate. This closes execution of the finite-label comparison, not its unresolved calibration/measurement uncertainty.
 
 # Research synthesis and completion evidence

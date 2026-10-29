@@ -1,0 +1,9 @@
+# Bounded depth-three measurement/calibration replication
+
+Restrict to all12model/oracle cases in the weakest prior regime: d32independent teachers, three teacher replicates, shared/separate/budget students and source-only oracle. This selection is diagnostic after observing precision failures, not fresh confirmation. Source models/data stay frozen;128adaptation labels only.
+
+Keep original calibration/readouts. Repeat calibration twice with the SAME archived source-only proposal, four fresh4096point batches each. Refit source/hidden ridge .001 from identical128labels for each new calibration (48newfits plus24original fits). This isolates calibration sampling, not an improved feature estimator. No held-out access before readouts are frozen.
+
+Evaluate all six fixed predictors together (three calibrations ×source/hidden). Fit two independent evaluation proposals. Each has64target axes (16per held-out task) and192residual axes (8per prediction/task pair),100gradient steps, using per-axis log squared target/error rather than averaging tasks into one objective. This prevents a large-energy task from taking every target axis. Each proposal retains20%uniform mixture and uses four fresh8192point batches. Save both panels separately and pooled errors/SEs. Held-out functions are privileged evaluation access only.
+
+Report changes for the original fixed readouts (measurement effect), variability across normalization draws on common evaluation samples (calibration effect), both-panel discrepancies, and original numerator/target batchCV<.10gate. All failures retained; do not choose calibration/proposal by held-out score. Eight batches are descriptive precision evidence, not rigorous error bounds. Audit independent forward/SVD/refits and all saved evaluation/calibration arrays. Stop this bounded replication after the two panels; do not keep increasing samples until a preferred ranking appears.

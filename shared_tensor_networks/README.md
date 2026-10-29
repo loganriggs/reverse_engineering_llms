@@ -4,7 +4,7 @@ This separate CPU-first project implements the user's proposal. The earlier nati
 
 Theory directions: [reuse-aware complexity, rank separation, and gradient-flow proofs](SHARING_COMPLEXITY_AND_FLOW.md).
 
-Current overview: [research evidence map](RESEARCH_EVIDENCE_MAP.md) distinguishes completed panels from open claims. The [larger depth-two hidden-feature transfer analysis](LARGER_HIDDEN_TRANSFER_RESULTS.md) is complete; the [depth-three diagnosis](DEPTH3_HIDDEN_TRANSFER_RESULTS.md) is also complete, with substantial measurement and calibration uncertainty explicitly retained. The recent [curvature intervention](PROFILED_CURVATURE_RESULTS.md) is complete; no experiment is currently running.
+Current overview: [research evidence map](RESEARCH_EVIDENCE_MAP.md) distinguishes completed panels from open claims. The [larger depth-two hidden-feature transfer analysis](LARGER_HIDDEN_TRANSFER_RESULTS.md) is complete; the [depth-three diagnosis](DEPTH3_HIDDEN_TRANSFER_RESULTS.md) is also complete, with measurement and calibration uncertainty explicitly retained. A [bounded replication](DEPTH3_MEASUREMENT_RESULTS.md) improves the weakest regime’s precision while confirming its poor transfer. The recent [curvature intervention](PROFILED_CURVATURE_RESULTS.md) is complete; no experiment is currently running.
 
 ## Thesis and distinctions
 
