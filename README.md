@@ -17,3 +17,7 @@ The [neuron_circuits](neuron_circuits/) directory contains experiment code, conf
 This is a publication snapshot, not a full data backup or a verified portable reproduction environment. Large tensors, activation captures, arrays, and JSON artifacts above 1 MiB are excluded. [The manifest](neuron_circuits/PUBLICATION_MANIFEST.json) lists included file hashes and excluded paths/sizes. The original full workspace remains at `/home/loganriggs/Coding/neuron_circuits`.
 
 See [publication notes](neuron_circuits/PUBLICATION_NOTES.txt) for external checkpoint/code dependencies, absolute-path assumptions, and archival scope. Historical pause/publication-status notes record the state at snapshot creation.
+
+## Shared tensor network toy experiments
+
+The separate [shared_tensor_networks](shared_tensor_networks/) project studies parameter tying, repeated inputs, execution reuse, and learning geometry. Start with its [CPU results](shared_tensor_networks/RESULTS.md) and [mathematical note](shared_tensor_networks/MATHEMATICS.md). The native-MLP research remains paused.
