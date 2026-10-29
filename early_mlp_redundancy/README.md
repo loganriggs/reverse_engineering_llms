@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Native-background block-role preflight](BLOCK_CHANGE_ROLE_PREFLIGHT.md). Four frozen block models pass independent gate/decode checks and64 sampled native-background intervention checks. Weight-only cross-seed assignments and100 random controls are frozen. The upcoming test asks whether individual encoded task changes have reusable causal roles; no new role-transfer result is claimed yet. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Native-background block-role results](BLOCK_CHANGE_ROLE_RESULTS.md). All124,280 saved responses are audited. Geometry carries some whole-task role information, but individual block effects are poorly predicted across seeds; only one of12 trained-group aggregate errors beats zero prediction. Complete encoded changes have much more consistent whole-task effects, while source-group final effects remain unstable. This supports separating reproducible broader effects from stable block units. The matching experiment is closed; next proposed direction is a native-screened factorial task-composition challenge. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
