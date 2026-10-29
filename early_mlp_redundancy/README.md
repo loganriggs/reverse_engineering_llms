@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Fact-query competence screen](FACT_QUERY_PANEL_RESULTS.md). All six fixed domain/format cohorts fail native competence; across96 query switches, candidate choice changes only9 times and both requested answers are correct once. No featurizer was fitted or tested on intended retrieval labels, and no prompts were replaced. This closes the screen and motivates stronger factor-dependence checks for task supervision. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Keyed-copy challenge](KEYED_COPY_CHALLENGE_RESULTS.md). Historical one-key repetition controls replay exactly; both fixed two-key formats fail native competence. Query sensitivity is partial, and candidate choices often favor the first-mentioned value. This narrows the supported copy claim without identifying a unique shortcut. No featurizer fit, prompt replacement or task-exclusion change. Next proposed direction: characterize actual repetition computation with a fixed conflicting-value factorial panel. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
