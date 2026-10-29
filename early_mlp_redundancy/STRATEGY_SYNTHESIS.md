@@ -277,3 +277,7 @@ Return to the native mechanism: decompose actual donor-minus-recipient bilinear 
 ## M73: output geometry depends on the downstream metric
 
 PCA128 beats all18 dense learned spans on natural local reconstruction, but loses to all18 on natural and intact-task KL and both-reconstructed causal family errors. Thus equal-dimensional distributed representations can differ in behavioral relevance. Conditional gates are not required for this difference (both compared encoders are affine); semantic units and literal neuron redundancy remain unproven. The next bounded test distinguishes local Fisher sensitivity from finite nonlinear disruption. See [PCA_ENCODER_BASELINE.md](PCA_ENCODER_BASELINE.md).
+
+## M74: computational relevance is directional and finite
+
+The local downstream Fisher metric correctly ranks PCA128 as less behaviorally faithful than all18dense learned spans, reversing their Euclidean reconstruction ranking. Full replacements produce2.8–3.5times the local Taylor KL prediction, and per-document ranking agreement declines with replacement strength. Thus downstream sensitivity explains the aggregate ordering but does not suffice for finite fidelity. This concerns behavioral use of distributed directions, not literal channel redundancy or cancellation. Return to diverse whole-task validation before further featurizer fitting. See [DOWNSTREAM_RESIDUAL_METRIC.md](DOWNSTREAM_RESIDUAL_METRIC.md).
