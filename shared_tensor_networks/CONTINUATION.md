@@ -4,6 +4,16 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: variable projection development COMPLETE
+
+Previous user-update turn was no progress by goal criteria (read-only synthesis). This goal turn made progress: implemented variable_projection.py, independent six-fixture Jacobian/finite-difference/envelope tests, and three paired fresh-teacher development fits. VARIABLE_PROJECTION_PLAN.md fixed before runs; VARIABLE_PROJECTION_RESULTS.md records exact population audit and limitations. Reduced versus joint population MSE: .0630/.0877, .000157742/.000157742, .000313/.05891. No whole-task transfer yet. All processes terminal. Initial absolute normal-equation assertion failed; retained aborted checkpoint, normalized diagnostic plus independent QR replay passes. No training change or selective rescue.
+
+New theory/control: unregularized reduced objective depends only on feature column span; readout-only ridge permits scale escape when hidden features scale freely. Observed reduced hidden max parameters6/40/459. Next verify constrained/normalized feature coordinates before a larger paired whole-task-transfer panel. Do not conflate residual Jacobian with envelope gradient. Full goal active; native MLP work remains paused.
+
+## Empirical extraction COMPLETE (previous uncommitted stage preserved)
+
+EMPIRICAL_EXTRACTION_RESULTS.md:300 empirical extractions/900 projection-adaptation fits independently audited. Source512 empirical normalization/SVD preserves released-model quadratic-consensus median transfer .001213 versus analytic .001215; random independent remains poor. Fresh512/4096 pools do not establish monotone improvements. Fixed ranks remain privileged; Gaussian moments only evaluate, not select, features. Exact second-moment variance examples verified; not a full spectral concentration theorem.
+
 ## Current: hidden extraction COMPLETE
 
 HIDDEN_EXTRACTION_PLAN.md fixedbeforeevaluation:15shared/15randomindependent/15released/5teacherindependent storedmodels; no source retraining. Compare10outputs,withinheadhiddenproductunion10or100,rank4quadraticGaussianuncenteredSVDthen10products,quarticunionrank10SVD. Noheldoutlabels/teacherfeaturesselectextraction;knowninputGaussianmetric+declaredrank4privilegedassumptions. SVDquadraticbasisnotnecessarilybilinear;subspacenotcomponentidentity. assess_/audit_/summarize_hidden_extraction.py completed50models600fits,sourcehashes400freshinputevals,eigenspaceequations,normalization,OLSnormal+minnormconditions/populationlossverified.
