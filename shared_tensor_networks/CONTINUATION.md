@@ -4,6 +4,22 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest completed work: full-pool Fashion-MNIST
+
+Current goal turn: progress. All10 full-pool classifiers complete at30epochs,55k training/5k validation; independent NumPy replay of train/validation metrics and saved logits passes. Producer34085 crashed SIGILL, resume43211 crashed SIGILL, generic26747 crashed SIGSEGV after budget-tree epoch16; pinned generic resume18656 completed. Final auditor32389 terminal passed. No active experiment. Sources/checkpoints/curves/crash traces saved; report FASHION_FULL_RESULTS.md and figures/fashion_full.png. Runtime root cause unresolved; genericCPU alone did not fix it. CPU affinity0 plus genericCPU completed, but that is not proof of a fix. NoGPU, officialtest unused.
+
+Depth2/3/4 final stack accuracies88.50/88.90/89.04%; equalwidthtree89.12/89.16/89.06%; budgettree89.32/87.90/87.00%. Equalwidthtree trainaccuracy97–97.5%, stacks95.3–95.4%, little validation gain. Late validationCE mostly worsens while trainingCE improves. One seed only: no significance or universal ranking claim. Pilot vsfull changes bothdata andupdatecount, not an isolated samplecomplexity measurement.
+
+Next: nested data-size/seed replication with explicit epoch and update budgets, preserving officialtest, and SVHN standard versusstandard+extra. svhn_data.py loader prepared with torchvision-reference checksums and layout/label assertions, but officialhost HTTP andHTTPS connections refused; noSVHN data downloaded or training started. Obtain a checksum-matching trusted mirror or restored officialsource; avoid arbitrary unverified data. Existing Fashiondata allows independent progress. Preserve synthetic frozen-hidden-feature transfer as deferred work. Overallgoal incomplete.
+
+## Latest user direction: real-image occurrence-tree comparison
+
+User requested Fashion-MNIST, then potentially SVHN/ImageNet, depths2–4 with RMSNorm as a controlled factor. Implemented vision_circuits.py and eight float64 correctness conditions (independent occurrence storage, function/input-gradient equality, summed occurrence gradients), all passed. Fashion-MNIST publisher checksums verified; cache outside repository.
+
+Pilot: 2048 training / 5000 validation from official training split; official test unused. One seed, five epochs, 19 planned fits, shared stack / equal-width untied tree / narrower near-budget tree, normalization on/off, ReLU MLP baseline. Producer session76751 exited139 (segmentation fault); results/fashion_pilot/results.json now explicitly interrupted. Saved rows preserved. No producer remains live. Cause undiagnosed; independent replay audit not yet run. Do not present pilot as complete or sample-complexity evidence. Next: diagnose crash, independently audit saved rows, resume missing configurations without overwriting completed evidence, then freeze multi-seed/sample-size study. No GPU started.
+
+The synthetic frozen-hidden-feature transfer experiment below is deferred in favor of this explicit user steering.
+
 ## Latest completed representative scaling sweep
 
 Current goal turn: progress. SCALING_RESULTS.md:72fits complete, no nonfinite failures. Producer47326 and auditor28762 terminal. Independent replay all72passes(maxrelative3.16e-15); design audit and summary/figure complete.70/72source metrics and470/576learnedtransfer task metrics pass10%batchCVgate. NoGPU. Near-budget shared advantage only consistently paired in d16h8depth2 at128labels(3/3); no broad scaling replication. Fullstate/proposal/data archives retained.
