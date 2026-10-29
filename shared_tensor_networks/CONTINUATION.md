@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest standard SVHN complete; extra download remains live
+
+Currentgoalturn: progress. SVHN_STANDARD_RESULTS.md:10CPUfits,68,257train/5,000val,30epochs,RMSNorm,onefreshseed; all independentNumPytrain/val/logit audits andhistogrampreprocessingchecks passed. Producers46368/92202/93276and auditors19499/27896/21323terminal. Stackvaldepth2/3/4=84.86/83.94/84.58%; equalwidthtree84.92/83.30/80.16%; uniformbudgettree82.76/79.96/65.78%;MLP82.84%. Single-seeddevelopment, noofficialtest. Treefits trainbetter butgeneralizesworse deep; uniformbudgetdepth4underfits. Plan nonuniformleafwidth16/8/4 withupperwidth32 toseparateparameterbudget fromoutputbottleneck (notimplemented/trainedyet).
+
+RTX5080briefCPU/CUDAcheck22949terminalpassed,TF32off,float32maxrelativegrad2.913e-6,float64~4e-15. NoGPUtraining yet; read-onlyGPUcheck showedonlyourCPUprocesscontexts,nocompetingcompute then; recheckbeforeuse. Extra-data GPUruns needstandard-onlyGPUcontrol, because initial agreement isnotAdamtrajectoryequivalence.
+
+SVHNextra downloadstilllive handle51470,PID174791,/tmp/svhn_mirror.log, externalcacheextra_32x32.download (~819MiBobserved, notcomplete/verified). DoNOTduplicate; revalidatehandle. Whencomplete runprepare_svhn_cache.py --splits extra, verifychecksum andcopyprovenance. Standardarraysalreadyverified. Next nonuniformbudgetcontrol and/or pairedstandard/extraGPUdepth2stage, thenextenddepth3/4; matchoptimizerupdatecheckpoint aswellasepochs. Overallgoalactive.
+
 ## Latest image replication complete; SVHN download live
 
 Currentgoalturn: progress. FASHION_REPLICATION_RESULTS.md:30freshseedfullpoolfits(190001/2/3),55k/5k,30epochs,10configs; all independentlyaudited fortrain/validation/logits. Producers14557/4762/44260and auditors2650/56959/7696terminal. Meanaccuracytree-minusstack+.47/.63/.58points depth2/3/4 withmoreparams; meanCEworseall3depths. Budgettree-depth4 variable/weaker. NoGPU/testevaluation. Originalseednotpooled.

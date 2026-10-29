@@ -1,4 +1,4 @@
-# SVHN scaling protocol draft — not yet training
+# SVHN scaling plan — standard stage complete
 
 Purpose: test whether shared-stack/untied-occurrence-tree findings transfer to a larger real-image dataset, and separate more standard examples from the easier additional-data distribution. This is predictive/optimization evidence, not circuit recovery.
 
@@ -14,4 +14,12 @@ Start standardtraining with fullpool,30epochs, Adam.001,batch256,clip10, fixedfi
 
 CPU-first. GenericCPUdispatch/pinnedcore has completed recent runs but prior nativecrash rootcause remains unresolved. Per-epoch model/optimizer/RNG-compatible checkpoints and terminalstatus needed. GPU remains untouched; only move largertraining workloads after checking availability against the existing project.
 
-Validation: independently replay logits and CE/accuracy, verify imagechannel/layout conventions and data/split hashes, preserve failures. Use a fixed protocol before launch. This document is a plan, not evidence that SVHNtraining has run.
+Validation: independently replay logits and CE/accuracy, verify imagechannel/layout conventions and data/split hashes, preserve failures. Use a fixed protocol before launch. Standard-only training is now complete and independently audited in SVHN_STANDARD_RESULTS.md. Extra-data and nonuniform-width controls below remain planned.
+
+## GPU transition control
+
+CPU/CUDAforward andgradient agreement checks passed fordepth2/4stack/tree in float32/64 withTF32disabled (results/vision_cuda/checks.json). A short numerical check isnottrajectoryequivalence forAdam. For an added-data GPUexperiment, include a standard-only GPUcontrol with the same precision/optimizer/backend so hardware isnotconfoundedwith data. Preserve the existing CPUstandard runs as separate evidence. GPUavailability must be rechecked beforelaunch. First paireddepth2runs can establish throughput before extending allplanneddepths; do not silently treatdepth2ascompletion of thedepth2–4plan.
+
+## Budget-allocation control prompted by standard-data runs
+
+Uniform-width budget matching shrinks the root representation along with every leaf. A separate nonuniform-width tree should keep upperlevelswidth32 and reduce only leafwidth to16/8/4 atdepth2/3/4. Withd3072,classcount10, parametercounts are197952/200000/204096 versusstacks198976/201024/203072. Counts follow sum_l[2 * 2^(D-1-l) * width_l * inputwidth_l] +10*width_(D-1), with inputwidth0=d and laterinputwidth=previouslevelwidth. This is a separate undeployed architecture/control, not part of the completed uniformwidthcomparison. Implement and verify it before interpreting budgettreefailures as evidence for sharing.
