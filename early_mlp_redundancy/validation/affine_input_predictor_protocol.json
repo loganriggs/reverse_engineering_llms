@@ -1,0 +1,19 @@
+{
+  "stage": "M78 planned: one executable global affine input-to-write baseline",
+  "purpose": "M77 rejects the training-mean Jacobian as a good shared operator but does not test an empirically fitted affine map. Fit that specific alternative before concluding context conditioning is necessary.",
+  "training": "Exactly4092 M7 unique-prefix positions in natural documents0\u201331. Inputs are M77 native MLP1 normalized-input captures; targets are corresponding cached native product writes from M4. Verify cache/indices/document hashes. No task/evaluation input or targets enter fitting.",
+  "model": "One full affine map fhat(z)=mean_write+(z-mean_z)A. Float64 centered least-squares SVD solve with fixed relative cutoff1e-10, no ridge/regularization/rank sweep. Save all singular values/effective rank, matrix, means, train residual and coefficient norm. Input/output1152 dimensions; full affine storage1152\u00b2+1152 effective coefficients, not matched to128-coordinate featurizers.",
+  "preflight": "Independent mean/index/normal-equation and QR-based solve checks at the same numerical rank, with declared tolerances before fitting. Verify training empirical MSE optimality to numerical accuracy. Freeze state before native evaluation. Test that replacing the MLP forward with the affine function plus native Down bias reproduces the instrumented callback without relying on native product outputs; restore native method afterwards. No speed claim.",
+  "evaluation": "Same32natural evaluation documents, all56M75taskpairs/sevenfamilies/14formats; all3background-change corners and source/final/identity, preserving ineligibilities and weak competence cases. Reference native targets and M76fixed candidate scores, plus M77shared/recipient change controls where applicable. No refit or model selection. Independently score all32natural full outputs and all saved task vectors; independently compute every affine output.",
+  "interpretation": "This is a fitted input-to-write replacement, unlike output-write encoders. It is the empirical MSE affine solution on training data, not the best possible behaviorally trained affine map or proof about all linear models. Distinguish nonzero training approximation residual, heldout distribution shift, local write fidelity, intact KL/CE, and causal response fidelity. No semantic manifold, unit, or literal neuron-removal inference.",
+  "stop": "One full-rank affine baseline and fixed audits/evaluation. No extra rank/loss/regularization sweep. Use the result to choose an explicit context-dependent input representation or targeted computational component test; all task-training exclusions remain.",
+  "references": {
+    "native_input_operator_comparison.json": "1c903afa7c266f549f4651037bed2b895bfaa30057c5e7ccbfb407a17215e394",
+    "native_input_reference.json": "9f04e106400802777d80632870183e37953117a8349a65c92dc7193972721b6f",
+    "natural_token_context.json": "d27bddc66aa94b7330a739d4bf8f067e9a1d3fa13447d0de6d3adf125c506ca5",
+    "natural_token_context_cohort.json": "666290da2b16f9d39e2729a3dddf9b9d54847852fb82b2218304b5c91bfbccbb",
+    "whole_task_native_protocol.json": "e0646ab536d0daaeefa287d34837d9a53cd8ea43a8dfeeab7138d42b0afd4762",
+    "whole_task_native.json": "7ac21b66ee33a9fb392e7fe64b405019146ce79d5a06ab0defe6691431780cd3",
+    "whole_task_factorial_comparison.json": "881d0506f8d93e384ef3b56d69868b6eb56dc5d8ea47cbd89336a40a58466342"
+  }
+}

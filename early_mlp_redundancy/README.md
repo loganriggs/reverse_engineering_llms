@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Native input-to-write operator test](NATIVE_INPUT_OPERATOR_TEST.md). Recipient-local operators explain changes much better than the fixed training-mean operator; an exact quadratic midpoint control verifies the distinction.
+
 Latest: [Whole-task featurizer comparison](WHOLE_TASK_FEATURIZER_COMPARISON.md). Dense gains transfer, but PCA also captures useful changes and background compatibility remains limited.
 
 Latest: [Broader whole-task validation coverage](WHOLE_TASK_VALIDATION_COVERAGE.md). Seven training-excluded operations are frozen for comparison; five pass the pairwise contrast gate, with free-form and format limits retained.
