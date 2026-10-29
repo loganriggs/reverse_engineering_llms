@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: representing task changes remains a separate gap
+## Current: support switching helps source changes but hurts final-position fidelity
+
+[M64](SUPPORT_CHANGE_DIAGNOSTIC.md): fixing recipient feature selection improves final-position response error18/18, but source-position error only4/18. Only9/18 final fixed-support scores beat zero response. All4536 vectors audited and1512 prior controls replayed exactly. This suggests a representation-boundary issue, with an unresolved magnitude confound. Next is one candidate-norm-matched control, with no training or amplitude search.
+
+## Previous: representing task changes remains a separate gap
 
 [M63](STATE_DIRECTION_FACTORIAL.md) completes the fixed background/direction factorial. Balancing improves all six source comparisons when the direction is supplied, but only two when the representation supplies it. Every final-position reconstructed-direction family score remains worse than zero response. All4536 response vectors audited. Next: distinguish within-support coordinate changes from support switches, with fixed native causal tests and no retraining.
 
