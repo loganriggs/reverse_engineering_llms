@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
 
+## Current hidden-recovery assessment complete; final confirmation fits LIVE
+
+Previous goal turn: progress (exactrankcertificate). Current turn: progress. assess_bilinear_hidden_recovery.py assessedall36GNendpoints withoutretraining. Eight near-exactfunctionfits(MSE<1e-12) allfail fullteacherbranchsubspace recovery evenallowingGLbasis changes andbranchswap; worstangles42.7–89.5degrees. Projectingstudentfeatures into matchedteacherbranchspaces andkeepingreadoutfixed changesoutputMSE.00722–1.8133inselected8. All36andinitialbaselines retained; coefficientGram/quadrature projections/patchlosses agree; end-to-endGLinvariancechecked. Teacher-informed evaluation,nottrainingsupervision,notallpossiblecomputationalequivalences. BILINEAR_HIDDEN_RECOVERY_RESULTS.md andfigure.
+
+check_hidden_nonidentifiability.py symbolicallyproves equal18parameterdepth2networks computingsame(x²+y²)² withh=(x²,y²) vs h=(x²-y²,2xy). Eachspanrank2,joint3; notlinearbasisequivalent. ActualNetworkforwardchecks pass. Ablationsdiffer butnotclaimedcanonicallymatched. Illustrativesymmetrictarget,notgeneric theorem. This shows outputfitcannotuniversallyidentify intermediates; futureE3 needs additionalreadouts/interventions andheld-outtransfer,explicitlycounting supervision.
+
+LIVE SVHNsession74676,parent181303; latestseed212005_extra_tree training child183993,28fitsclosedandaudited. Revalidateactualsession/process; doNOTduplicate. Finishall30andrun summarize_svhn_confirmation.py beforeaggregateclaim. Fixedrecipeunchanged. Onlyclosedartifactscommitted;mutablelivefilesexcludedfrommanifest. Noothertrainingjobs. Overallgoalactive.
+
 ## Current exact rank certificate complete; five-seed panel LIVE
 
 Previous goal turn: progress (auditedGNfits,tangentdiagnostics). Current turn: progress. certify_bilinear_tangent_rank.py certifiesexactrank15at all6paired archivedinitializations for d3h3q3depth2model. Fifteenintegerprobes,dyadicrationalweights,prime2147483647(trialdivisionverified),nonzero15x15minors. Independentexactcentraldifferences h1/h2verifyeveryJacobianentry becauseindividualparameterdegree<=2. Results/bilinear_tangent_certificate matrices/pivots/inputhashes and BILINEAR_TANGENT_CERTIFICATE.md retained. No floatrankthreshold innewcertificate.
