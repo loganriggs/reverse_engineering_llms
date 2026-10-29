@@ -1,0 +1,7 @@
+# Isolate the variable-projection curvature term
+
+Twenty fits: same5teachers232101–232105 ×2starts233001–233002 × full-reduced versus projected-joint curvature. Use archived512source inputs/ten labels and whole-task128adaptation labels; no data generation or tuning. Unit-factor prediction plus unit radial penalty; readout ridge .001. At every state solve the readout exactly.
+
+Full uses JredᵀJred; projected uses AᵀA, where A projects Jred orthogonally off the readout-Jacobian column space. Both use the same gradient Jredᵀr, hidden-step damping .001 I, Armijo coefficient1e-4, twelve candidate scales1,1/2,...,1/2048, maximum100curvature evaluations. Stop at gradient infinity norm<1e-8, relative accepted objective change<1e-10, exhausted search, or cap. No restart or rescue. This is NOT the previous scipy TRF budget or an optimizer ranking against it.
+
+Save every accepted state, attempted full step, gradient, actual/predicted decrease, curvature ratio, line-search count and termination. Exact Gaussian source/transfer error and component recovery evaluated after source optimization. Same ten hidden-product features and128label OLS for transfer. Preserve failed/capped cases. Independent audit should check objective replay, directions/equations, Armijo decisions, selected-state autograd gradients, final population and transfer, and source/checkpoint hashes. Interpretation is confined to this bounded curvature intervention; close this mechanism panel before another broad optimizer sweep.

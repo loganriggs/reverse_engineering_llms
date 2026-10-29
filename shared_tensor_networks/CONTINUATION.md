@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: isolated curvature mechanism COMPLETE
+
+Previous turn progress; current turn progress. PROFILED_CURVATURE_PLAN/RESULTS.md freeze and report20paired fits with only curvature AᵀA versus AᵀA+BᵀB changed, same actual reduced objective/damping/Armijo. Projected improves4pairs,worsens2,ties4; component threshold8/10versus7/10. One full run cap,other19relative-loss stop; no line-search failures. All20trajectories/654steps audited (QR loss,normal equations,Armijo decisions,final autograd gradients,Gaussian source/transfer errors). All jobs terminal.
+
+Proof: H positive definite,E PSD implies gᵀH^-1g >= gᵀ(H+E)^-1g; greater common-state infinitesimal descent does not imply better finite training or recovery. Initial10pairs check. This term is a controlled mechanism affecting outcomes, not universally harmful. Do not launch another optimizer rescue sweep. Next synthesize completion evidence across E0–E4 and identify remaining substantive scaling/identifiability claims. Overallgoalactive; nativeMLPpaused.
+
 ## Latest: crossed readout control COMPLETE
 
 Previous turn progress; current turn progress:60newfits plus20archived complete raw/unit × ridge0/.001 × joint/reduced on the SAME5teachers×2starts. All60new fits and transfers audited, no jobs running. CROSSED_READOUT_PLAN/RESULTS.md; checks max relative autograd error9.69e-14. Recovery joint/reduced: raw0 8/8, rawridge8/7, unit0 9/5, unitridge9/6(outof10). Thus removing ridge does not repair unit-factor reduced failures. Rawridgeall10joint fits hit cap; retain. Raw reduced norms up to757; unit scales controlled. Stop this crossed sweep, no rescue tuning.
