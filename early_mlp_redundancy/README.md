@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Bilinear warmup failure and diagnosis](BILINEAR_INPUT_WARMUP.md). Derivative checks pass locally, but seven of eight fixed warmups worsen; downstream causal training is deferred while the instability is traced.
+
 Latest: [Bilinear input-featurizer preflight](BILINEAR_INPUT_PREFLIGHT.md). Architecture, executable replacement and three-corner loss arithmetic pass; native finite-difference checks remain before fitting.
 
 Latest: [Executable input-featurizer readiness](INPUT_FEATURIZER_READINESS.md). Training inputs are captured and independently verified; a matched causal-supervision comparison is specified, with implementation preflight next.

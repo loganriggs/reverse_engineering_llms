@@ -1,6 +1,6 @@
 # Executable bilinear input featurizers: correctness preflight
 
-M81 is in progress. The architecture, initial states, executable replacement, native loss arithmetic and gradient connectivity are checked. Native-model finite-difference checks remain required before any optimizer updates. No new feature-learning result is claimed.
+M81 local derivative preflight is complete. Original hard-gate crossings and a separately frozen smaller-step follow-up are both retained. The subsequent fixed warmups failed for seven of eight models; see [warmup diagnostic](BILINEAR_INPUT_WARMUP.md). No successful feature-discovery claim is made.
 
 ## Implemented representation
 
@@ -19,10 +19,12 @@ All eight initial states are frozen with zero optimizer updates. Statistics use 
 - Autograd reaches both predicted endpoints; all featurizer parameter gradients are finite, at least one is nonzero, and all native model gradients remain absent. This establishes connectivity, not native derivative accuracy.
 - Providing true native donor/recipient writes recovers the teacher on four cases; maximum recovery loss2.03e-12. The native loss checks use142forwards, for160native forwards total in this stage so far.
 
-## Remaining gates and next action
+## Original gates, now completed, and current next action
 
 Before fitting, freeze and execute native endpoint and model-parameter directional finite-difference checks, with explicit perturbation scales, gate-crossing reporting and numerical tolerances. Check training-only natural KL arithmetic/gradients through the same input adapter. Verify that saved initial states and normalization are the exact ones used. Then freeze warmup/evaluation receipts before running the already specified eight warmup starts. Calibration occurs after warmup, using training data only, before the16matched downstream fits.
 
 The existing comparison remains fixed: two supervision arms within each architecture, matched initial state, parameters, schedule and updates. No additional seeds, architecture tuning, checkpoint selection or evaluation-driven loss weights. All holdouts remain excluded. See validation/bilinear_input_featurizer_preflight_protocol.json for the complete planned comparison.
 
 Files: bilinear_input_featurizer.py, bilinear_input_runtime.py, bilinear_input_causal_loss.py, check_bilinear_input_architecture.py, prepare_bilinear_input_starts.py, check_bilinear_input_override.py, check_bilinear_input_native_loss.py, and their hash-bound validation JSON. Large initial states and native-loss samples remain in the research artifact directory.
+
+Update: the native finite-difference and natural-KL checks described above are now completed under validation/bilinear_input_preflight_completion.json. Eight warmups ran after their execution/evaluation protocols were frozen. Downstream calibration remains deferred because the audited warmup results are unstable. See BILINEAR_INPUT_WARMUP.md for the complete evidence and next diagnostic.

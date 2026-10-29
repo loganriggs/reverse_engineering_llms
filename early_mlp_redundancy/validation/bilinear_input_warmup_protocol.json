@@ -1,0 +1,16 @@
+{
+  "stage": "M82 fixed natural-MSE warmup, before optimization",
+  "preflight_sha256": "301cdc4a54113a44591ae171c7486196da5d3897689711388651c9baacfabf18",
+  "initial_states_sha256": "be898a5ac7091e9fd7b3b3eebfc5ac8d66d081f93a0cd2cfd1ff3d7c8c2bada3",
+  "architecture_protocol_sha256": "05d23d4ca87c0fd7d400c984c3c2c3b48f4bc0d431674edd4793f7bb5e437ebe",
+  "models": "All8frozen initial states, retain all8final states",
+  "steps": 1000,
+  "batch_size": 128,
+  "learning_rate": 0.001,
+  "optimizer": "torch.optim.Adam defaults; record actual runtime/defaults",
+  "data": "Exactly4092naturaltrainpositions, docs0\u201331; z fromM77 verifiedcapture, writes fromM4 cache; use immutable perinitial normalization. No task/evaluation data.",
+  "sampling": "Perseed CPU torch.Generator seed+1000; draw128 torch.randint indices eachstep; identical streams acrosskinds. Record hash of full index schedule.",
+  "loss": "Mean squared error in output normalized units; model consumes input normalized units. Decoder normalized during forward and column-renormalized afterupdate. No extra loss.",
+  "resumption": "Exact receipt, optimizer state, completehistory andrandomgenerator state; atomic save every100updates. No optimizerstate carried into downstreamtraining.",
+  "stop": "Exactly1000updates/model; no performance selection. Independently audit schedules, allfinal states and final fulltraining loss. Heldout outcomes remain unavailable duringwarmup."
+}
