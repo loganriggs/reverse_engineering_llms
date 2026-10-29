@@ -1,0 +1,76 @@
+{
+  "stage": "M87 fixed16supervision fits, frozen after audited training-only calibration",
+  "models": [
+    {
+      "kind": "dense",
+      "seed": 71,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_dense_71.pt",
+      "sha256": "d111ca8f3efc702e262046594a4411683f36b7a7b63f5760a5dc18275b827348"
+    },
+    {
+      "kind": "scalar",
+      "seed": 71,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_scalar_71.pt",
+      "sha256": "d9f2fea1ffe3600b7ed0af592c2de18462b437ba2c20371cfd18051c5ec23864"
+    },
+    {
+      "kind": "block",
+      "seed": 71,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_block_71.pt",
+      "sha256": "45b289c304cd78a95b890026a0af1f9e2931bc24f67d58bc0905bc2b8d78f24e"
+    },
+    {
+      "kind": "shared_fixed",
+      "seed": 71,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_shared_fixed_71.pt",
+      "sha256": "cda3b23eb8b7c92d6707bc777c0102fd98826f2b0ca66b4e6dd7c785613f05ca"
+    },
+    {
+      "kind": "dense",
+      "seed": 72,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_dense_72.pt",
+      "sha256": "227a1960c3e7fc077232f3e57ac3e1e806fabe05bdebc1630269d05b957784b8"
+    },
+    {
+      "kind": "scalar",
+      "seed": 72,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_scalar_72.pt",
+      "sha256": "9c95ee86372e3d642b1097639234523db65e4ae47b65dea698c4072a856cf0ca"
+    },
+    {
+      "kind": "block",
+      "seed": 72,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_block_72.pt",
+      "sha256": "fc809f2f5738322ecbce69b0925b8947e31cb1925450478a99f50f89b7ef96a1"
+    },
+    {
+      "kind": "shared_fixed",
+      "seed": 72,
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m85_fullbatch_shared_fixed_72.pt",
+      "sha256": "6a8a076ba5430640842001f7464eb191f2acd9b7dd42b01f9a4976266ccff2fb"
+    }
+  ],
+  "arms": [
+    "intact_KL",
+    "joint_three_corner"
+  ],
+  "joint_weight": 0.25899696662820665,
+  "steps": 132,
+  "learning_rate": 0.0001,
+  "schedule": "ExactM60perseed schedules:66natural updates alternating66taskupdates,naturalfirst. Bothendpoint tasklossesaveraged. Natural allpositionKL inbotharms. No task/evaluationdata used forwarmup.",
+  "objective": "intact_KL taskarm:K only. joint_three_corner taskarm:K+joint_weight*B fromInputCausalExperiment. B mean overalleligible nonidentityregion/corner entries, fixedM60denominators. Each responsecenteredonownbackground; gradients tobothdonor/recipient, includingpredictedbackground. Noheldoutdata.",
+  "optimizer": "Adam defaults withlr1e-4; freshstate for eacharm; unit-column decoder renormalization aftereachupdate. Immutablemean/scales/membership.",
+  "execution": "Hash-bind code, runtime, starts, schedules, calibration/audit andevaluation. Atomicprogress includesmodel/optimizer/history; resume onlyexactreceipt. Finitegradients andnativemodelnograds asserted. Retain all16finalstates. No earlystopping, bestmodelselection, extraupdates orparametersearch.",
+  "audit": "Verify all16exactinitialstate hashes,schedules/lossarithmetic, optimizerupdates/defaults, immutablebuffers andfinalstates. Independently replay fixed training losses before finalqualityclaims. Freeze finalevaluationmanifest without selecting anymodel.",
+  "evaluation": "Existing prospective evaluation retained:32naturalheldoutdocs,14sourcegroup pairs,56whole-taskpairs/7families/14formats, all3corners/source-final-identity/weak-ineligiblecases. Include matchingdecoder privilegedfullLS references as localMSE-only ceilings, notbehavioralbounds. Reportcosts andbothseeds.",
+  "stop": "Complete16fits and auditthem, then fixedevaluation. Failedlearning doesnotestablishno reusablefeatures. Optimizerdiagnosticseriesclosed; any further change requires explicit newhypothesis/protocol.",
+  "references": {
+    "bilinear_input_joint_calibration_protocol.json": "abf9414216c2d84f2c6d3c83502d903dd4467fb1aeafe2cf9480987a71e64cae",
+    "bilinear_input_joint_calibration.json": "6544c8fd18e833705cadc41c7c24a02134abb5466b6f427a33d2141eb97ee36f",
+    "bilinear_input_joint_calibration_audit.json": "9d684e64e2d9f7b3756967736fc15076404b94d5cdc3d50bb9d007ae6c7335de",
+    "bilinear_input_fullbatch_audit.json": "7e0c8e48730f81e4539fd9ff6c468b8801dc4ac28721b24ce3a846481987fa96",
+    "balanced_response_training_protocol.json": "5ec87601696305537b50781c6503dd912db20127f5ce2f6082c6330ec7dfc357",
+    "bilinear_input_prospective_evaluation.json": "5dfc125c21ffceab569d2f4841bc2be0c0302b5e8ebac872374e0aba62403f5b",
+    "bilinear_input_initial_states.json": "be898a5ac7091e9fd7b3b3eebfc5ac8d66d081f93a0cd2cfd1ff3d7c8c2bada3"
+  }
+}

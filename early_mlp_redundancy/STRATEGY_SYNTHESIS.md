@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Stable starting states and calibrated causal supervision](BILINEAR_INPUT_TRAINING_READY.md). All eight full-population warmups pass audit; one global causal weight is verified. The optimizer diagnostic series is closed.
+
 Latest: [Optimization replay and controlled memory test](BILINEAR_OPTIMIZATION_DIAGNOSIS.md). Exact replay confirms the failures; removing first-moment memory is insufficient. One full-population gradient test is specified next.
 
 Latest: [Bilinear warmup failure and diagnosis](BILINEAR_INPUT_WARMUP.md). Derivative checks pass locally, but seven of eight fixed warmups worsen; downstream causal training is deferred while the instability is traced.
