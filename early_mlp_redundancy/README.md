@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: conditional predictability does not guarantee functional repair
+## Current: predicted repair usually helps initially, then overshoots
+
+[M43](NATIVE_HALF_INTERPOLATION.md): on MLP1 natural text,61/64document–mask cases improve initially but all64 worsen at full predicted strength. Fixed10% repair improves pooled KL in all nine layer/cohort comparisons. Two-scale slopes agree in1,148/1,152cases. Shared predictable information exists, but its reconstruction-trained magnitude is not automatically calibrated for downstream use. This closes the bounded half-repair sequence without amplitude optimization.
+
+## Previous: conditional predictability does not guarantee functional repair
 
 [M42](NATIVE_HALF_SUBSTITUTION.md): six rank32 maps trained only on natural-text training documents reduce missing-half reconstruction error across all three early MLPs. Yet MLP1’s repaired outputs are worse than raw half deletion in every cohort; natural-text KL roughly doubles. Statistical predictability and successful causal substitution must be distinguished. No rank/ridge search or semantic duplication claim.
 
