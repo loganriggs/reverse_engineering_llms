@@ -1,0 +1,38 @@
+{
+  "stage": "M90",
+  "status": "frozen_before_execution",
+  "data": "All4092 unique M77 training positions only; natural docs0-31; no evaluation data",
+  "spaces": "Native1152-dimensional product write plus all16 M87 learned128-dimensional decoder spans",
+  "subsets": [
+    128,
+    512,
+    2048,
+    2304,
+    4608
+  ],
+  "methods": [
+    "descending mean squared individual contribution energy, stable lower-index ties",
+    "uniform random nested permutation seed9001",
+    "uniform random nested permutation seed9002"
+  ],
+  "score": "mean_t(product[t,i]^2)*squared_norm(projected_down_column_i)",
+  "interventions": [
+    "raw deletion of unselected native products",
+    "separate diagnostic: single unconstrained least-squares scalar multiplying retained dynamic sum, estimated only on these training positions"
+  ],
+  "fixed_offsets": "Native Down_bias excluded. Projected affine offset (I-P)c unchanged; report dynamic-energy and full-affine-output-energy normalizations separately.",
+  "metrics": [
+    "relative squared local error against respective full native/projected output",
+    "retained individual energy fraction",
+    "cosine of retained and full dynamic output",
+    "training-optimal scalar and its relative squared residual",
+    "full sum individual energy, net cross term, total dynamic energy",
+    "selected/omitted dot product; positive constructive, negative cancelling in this aggregate split"
+  ],
+  "audits": "All255 direct-output cases independently rescored using native product Gram and SVD projector rather than producer QR; tolerances metric atol1e-8 rtol1e-7. Full4608 control must have error<1e-20 and scalar1 within1e-10. Save exact rankings and hash-bound inputs.",
+  "interpretation": "Raw deletion and scalar compensation are different interventions. Single score failure does not prove irreducibility; training-local geometry is not downstream causal fidelity. Global net cross terms do not exclude pairwise cancellations.",
+  "deliverable": "Bounded concentration/substitutability comparison to guide product dictionary design; no native training, no sweep or winner selection. Freeze evaluation follow-up separately after this inventory.",
+  "stopping_rule": "Complete all17 spaces x3 rankings x5 sizes and audit; report including failures; stop this training-only inventory.",
+  "manifest_sha256": "bf645b75a5652b9e54a31d17f936cc84b93e0bf98fb4c616e8b09be4b9dcc459",
+  "reference_receipt_sha256": "9f04e106400802777d80632870183e37953117a8349a65c92dc7193972721b6f"
+}

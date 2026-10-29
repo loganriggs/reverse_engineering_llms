@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Native-product deletion and constructive distribution](PRODUCT_SUBSET_COMPUTATION.md). All255 cases audited; energy concentration and scalar compensation help, but a small removable product set is not established. Exact random-deletion theory explains the observed scale.
+
 Latest: [Output dimension versus computation and redundancy](COMPUTATIONAL_RANK_DIAGNOSTIC.md). Controlled toys and all16 native projected computations verified; shared output directions need not be removable computations.
 
 Latest: [Executable featurizer transfer and the computation gap](BILINEAR_INPUT_TRANSFER.md). All frozen evaluations audited: mixed causal gains, worse natural retention, and a large gap between output projection and input computation. Next: separate output dimension from product count.
