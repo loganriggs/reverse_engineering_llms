@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: d128/h64 memory/storage preparation COMPLETE
+
+Previous/currentturnprogress. ACTIVE_COVERAGE_PLAN/RESULTS.md; active_coverage.py evaluatesactiveinput/headprefixes and splits12independentcasesinto4groups3. FiveCPU64Adamupdates/losses/gradients match originalmaskedpaddedbatch(maxparam2.22e-16);inactiveWexact;CPU/CUDAgradrelative3.63e-7. Initialcheck99243exit134afterassertionsduringteardown; retainedfailure. ExplicitGPUcleanupadded,replay24894exit0withsamenumbers; notgeneralruntimefix.
+
+Benchmark60306terminal0: allfour d128h64 shapes(N8192/32768,T520/2080)fitGPU; largestpeakallocated6.619GiB,reserved7.330GiB. Randomzero-target6-stepcapacityprobeonly; no scientificlargertrainingyet. Dataregen50087terminal0 verifiesfixed256rowblocks,inputprefixes,source/adaptstreams,repeatchecksums; exactreadoutchunkroundtrip;h64teacherchunks8.16MB/finalfloat32W16.07MB. recipesandNumPyversionmustbesaved;crossBLASfloatbitportabilitynotassumed. Noactivejobs/nativeMLPpaused/goalactive.
+
+NEXT freeze d128h64scienceprotocolwithfreshseeds,520/2080tasks×8192/32768inputs,primaryadaptbudgetabove2080features,teacher+2randomstarts,3000Adamsteps. Use3-modelgroups;checkpointtrainingbeforeCPUanalysis. Keep deterministicfullteacher-widthgenerationthenprefixslicing,storedblockhashes/teacherchunks/finalWfloat32. Needproducer+independentaudit,notclaimcompletedscalingfromresourceprobe. Exactanalysis/costmaybesignificant; preserveallfailures/norescues.
+
 ## Latest: d64/h32 task/input scaling COMPLETE, sampled-information bound checked
 
 Previous/current turns progress. Producer46063/PID200252 and auditor15717terminalsuccess. All60fits/240adaptations audited. TASK_COVERAGE_H32_PLAN/RESULTS.md:fivefresh251101–5,random252001/2+teacherstarts;132/528tasks×2048/8192inputs;3000Adamsteps;primaryadapt2048,secondary512. No live jobs/nativeMLPpaused/fullgoalactive.
