@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Bilinear input-featurizer preflight](BILINEAR_INPUT_PREFLIGHT.md). Architecture, executable replacement and three-corner loss arithmetic pass; native finite-difference checks remain before fitting.
+
 Latest: [Executable input-featurizer readiness](INPUT_FEATURIZER_READINESS.md). Training inputs are captured and independently verified; a matched causal-supervision comparison is specified, with implementation preflight next.
 
 Latest: [Local affine charts](LOCAL_AFFINE_CHARTS.md). Completed causal tests show better geometric coverage does not yield reliable computational units; routing explains only part of local error. See also [20 conceptual hypotheses](CONCEPTUAL_HYPOTHESES_M79.md).
