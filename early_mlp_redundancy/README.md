@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Continuous block-shrinkage preflight](CONTINUOUS_BLOCK_PREFLIGHT.md). A parameter-matched continuous sparse map passes formula, gradient, tie/zero, and all117 known boundary checks. Cold substitution reduces code energy to44.5–46.1%, improves local change error but worsens reconstruction. Matched training and downstream fidelity remain necessary; no improved-manifold claim. Earlier “next” actions below are historical.
+Current: [Matched continuous-block training and natural fidelity](CONTINUOUS_TRAINING_NATURAL_RESULTS.md). Four fixed adaptation runs audited; both hard controls reproduce historical checkpoints bit-for-bit. Continuous maps have worse KL, CE and reconstruction on all32reserved documents per seed, despite removing selection jumps. Task causal-transfer and magnitude-control evaluation is still pending; no architecture or manifold win claimed. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 

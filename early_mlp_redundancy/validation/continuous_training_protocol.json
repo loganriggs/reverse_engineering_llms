@@ -1,0 +1,47 @@
+{
+  "status": "frozen_before_optimizer_updates",
+  "runner_sha256": "67a0a71d21d9a277491cfe7d07fa8040e39a5843bdc1aecc2000dbcc882911b0",
+  "dependencies": {
+    "encoded_change_loss.py": "c5865274d539660d6346d6a6c587ebd1945d93919386f5d3ce980c2049c4b61c",
+    "balanced_response_loss.py": "0d3d06eefc698cbc28d9746a501e2a8f8e59823ac7c73e626c02db9ee16948bb",
+    "balanced_training_runtime.py": "26a21d5bcbd90b2a3524f9da35c04cb053afeb54cf10438e29ccc0ea5f68e7a2",
+    "train_write_featurizers.py": "dcfa1fa5a49f5bf5b5c96da814780a8955061980ecc8e4c3045facbfa02841ab",
+    "continuous_write_featurizer.py": "f9493e51ca1bf2c26739083858f0b24cd579e5cc18146db6ef01d8cbbac0de28",
+    "continuous_block_shrinkage.py": "71aa9ef26d665c029c72f81417a142d5f2fa6cf3106ce706de908cd2e57fdbe8"
+  },
+  "bindings": {
+    "continuous_causal_gradient_checks.json": "c55de1d9f8ceff79af0517b30bbd93507dca77c0f1a9a62bd61d77675220f202",
+    "continuous_block_shrinkage_checks.json": "8b3402b2812214df4801a533f2fec5e2e68eba04b0480b3ae4ef9dd94e6cb4bd",
+    "continuous_featurizer_adapter_checks.json": "4dabecf660737aa2dcc696a01aeff46bf8e7a677f53fe6573d368143dc1c4593",
+    "balanced_response_training_protocol.json": "5ec87601696305537b50781c6503dd912db20127f5ce2f6082c6330ec7dfc357",
+    "encoded_change_calibration.json": "ea96cd7dc801a71f3af06377965877a5fd68a45c7ada5d5f0ead42073ab913ed",
+    "encoded_change_training_results.json": "98a4d6ebcbbbbcca0d2386419e4564ee1a597244c09226f47a483a3df99d0df5"
+  },
+  "starts": [
+    {
+      "kind": "block",
+      "seed": 71,
+      "arm": "intact_KL",
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m36_joint_shared_training/block_71_intact_KL.pt",
+      "sha256": "367f6f030d8f879d649a3da146d17f4a3d3e62de3e1e9ac13d7f35f4b73ab2f4"
+    },
+    {
+      "kind": "block",
+      "seed": 72,
+      "arm": "intact_KL",
+      "path": "/home/loganriggs/Coding/neuron_circuits/artifacts/bilin18_tensor_decomposition/emlp_m36_joint_shared_training/block_72_intact_KL.pt",
+      "sha256": "070a88a93968220ad843028b37962faccc81d9f5cb5d61763352559252f22da2"
+    }
+  ],
+  "modes": [
+    "hard",
+    "continuous"
+  ],
+  "causal_weight": 0.0930050359836775,
+  "schedule": "132 Adam updates per state, identical existing seed-specific schedule:66 natural alternating66 task updates; both task endpoints averaged. Learning rate and all defaults unchanged. Normalize decoder columns after each update.",
+  "initialization": "Same historical M36 hard-block-trained state per seed, copied into both maps; this is matched adaptation, not from-scratch architectural comparison.",
+  "objective": "Natural full-output KL; task intact KL plus fixed weight times family/site-balanced encoded-change response error. No map-specific recalibration, gain fit or threshold detach.",
+  "retention": "All four final states and initial references retained. No loss-based selection, extra steps or optimizer tuning.",
+  "replay": "Rerun hard models and compare final parameters to historical M69 hard block states. Record nonexact differences rather than claiming replay without checking.",
+  "limitations": "Same initial parameters need not mean same initial function or optimization difficulty. Continuous shrinkage alters amplitudes; fixed weight is a common objective, not equal initial gradient scale."
+}
