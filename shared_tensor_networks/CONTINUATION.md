@@ -2,7 +2,13 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
+Previous goal turn: no progress (user-facing synthesis only). This turn: progress (closed and aggregated the 30-fit SVHN confirmation after verifying all audit/result/checkpoint hashes). Overall goal remains active.
+
+## Current: five-seed SVHN confirmation COMPLETE
+
+All 30 fits and independent audits complete. summarize_svhn_confirmation.py requires all audits and verifies result/checkpoint hashes before aggregating. Results: standard accuracy narrow stack/tree/wide stack 82.07/83.20/83.05%; extra data 87.26/88.96/89.74%. Extra-data wide stack wins accuracy over tree in 5/5 seeds, also 5/5 at matched 8010 updates; tree wins cross-entropy in 5/5 (.4089 vs .4874). Parameter budgets 201024/792896/796080. All five seeds on one split; not dataset-level replication. Equal-width stack/tree initial functions match, wider stack differs. Development seed excluded. No official test used.
+
+Course correction: do not generalize the earlier single-seed reversal into an intrinsic untying advantage. Parameter allocation and evaluation metric materially change the conclusion. Close the fixed image panel; no further seed or hyperparameter rescue. Next B priority is block curvature-aware optimization and gauge balancing on archived exact-population bilinear tasks, with work accounting and paired initial functions. Recovery remains a separate E3 target requiring multiple readouts/interventions and held-out transfer. Do not equate better fitting with recovered hidden computation. No new training launched this turn. Earlier LIVE entries below are historical and superseded by this terminal status.
 
 ## Current hidden-recovery assessment complete; final confirmation fits LIVE
 
