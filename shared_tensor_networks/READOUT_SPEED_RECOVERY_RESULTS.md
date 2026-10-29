@@ -33,3 +33,7 @@ Each fit uses2000gradient evaluations. Reduced methods additionally solve readou
 ## Decision
 
 This supports testing moderate finite readout adaptation, but does not establish its superiority. Next use fresh teachers and match accepted hidden-time budgets for joint arms, with measured compute reported separately; include whole-task transfer and feature matching. Do not tune these same starts until every method recovers. Larger d64/h32 scaling remains open.
+
+## Subsequent fresh-teacher confirmation
+
+The moderate-speed advantage did not replicate on fresh teachers and initializations. See [READOUT_SPEED_CONFIRMATION_RESULTS.md](READOUT_SPEED_CONFIRMATION_RESULTS.md): split10 beats joint1 on2/5 and reduced on1/5 new teacher blocks, with worse median transfer. Do not use the earlier favorable panel alone to select an optimizer.

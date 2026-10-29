@@ -7,6 +7,7 @@ from quartic_cross_gram import product_factors,cross_gram
 from readout_speed import calc
 
 ROOT=Path('results/readout_speed');SOURCE=Path('results/normalized_readout/panel')
+CLOCK_TARGET=None
 PAIRS=list(itertools.combinations_with_replacement(range(4),2))
 
 def literal(rows,x):
@@ -37,7 +38,9 @@ def main():
   else:initials[key]=initial
   log=saved['logs'];assert len(log)==r['steps'] and np.all(log[:,2]<=log[:,1]+1e-10)
   if len(log)>1:np.testing.assert_allclose(log[1:,1],log[:-1,2],atol=1e-12)
-  np.testing.assert_allclose(log[:,3],.01*2.**(-log[:,4]),atol=0,rtol=1e-14)
+  before=np.r_[0,np.cumsum(log[:-1,3])]
+  base=np.full(len(log),.01) if CLOCK_TARGET is None else np.minimum(.01,CLOCK_TARGET-before)
+  np.testing.assert_allclose(log[:,3],base*2.**(-log[:,4]),atol=1e-13,rtol=1e-10)
   np.testing.assert_allclose(log[:,3].sum(),r['hidden_clock'],rtol=1e-12)
   for step,state in zip(saved['state_steps'],saved['states']):
    rr=state[:64].reshape(8,8);uu=state[64:].reshape(10,10);np.testing.assert_allclose(np.linalg.norm(rr,axis=1),1,atol=1e-12)

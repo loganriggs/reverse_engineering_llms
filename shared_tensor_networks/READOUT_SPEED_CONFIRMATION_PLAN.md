@@ -1,0 +1,9 @@
+# Fresh-teacher, matched-hidden-clock confirmation
+
+Frozen before generation/training. Previous turn made progress with70paired archived-teacher fits. No experiment is running. This confirmation addresses their teacher reuse and unequal accepted hidden-time confounds; it is not the outstanding larger-width scaling experiment.
+
+Five fresh seeds249101–249105 generate d8/h4 unit-factor teachers,14Gaussian-RMS-normalized readouts,512source examples for ten tasks,128adaptation examples for four whole-task holdouts, and Gaussian label noise SD.05. Two fresh independent student starts250001/250002 have unit rows and exact initial source readouts. Preserve same data/initial functions across all seven methods from READOUT_SPEED_RECOVERY_PLAN.md: joint speeds1/10/100, reduced, and hidden-first split speeds1/10/100.
+
+Same mean objective (archived sum loss with ridge.001, divided512), retraction, base step.01, Armijo1e-4/twelve halvings. Run to accumulated accepted hidden-step size20, shortening the last proposed step to the remaining time; cap100,000updates per fit. Keep cap and line-search failures in results. A clock cap may not be reached; do not describe unmatched cases as matched. No rescue or tuning. Equal clock does not equal equal FLOPs, wall time, error-controlled continuous flow, or switched physical time.
+
+Primary paired comparisons: split10 versus joint1 and reduced on teacher-mean held-out transfer (average both starts and four held-out tasks); retain all other methods as speed/stability controls. Report every method, component recovery, source error, attained clocks and work. No pooling with old teachers. Independently audit saved states, gradients, source/noise generation, moments, SVD transfer, initial pairing and resource counters. Retain all checkpoints and code hashes. Next direction follows the evidence rather than selecting more rates on these seeds.

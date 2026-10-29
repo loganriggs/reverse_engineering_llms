@@ -57,3 +57,7 @@ Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal6
 ## Finite readout speed and recovery
 
 [READOUT_SPEED_RECOVERY_RESULTS.md](READOUT_SPEED_RECOVERY_RESULTS.md) reports 70 paired fits: moderate-speed exact readout-flow splitting improves aggregate transfer over joint speed1 on all five archived teachers, but beats reduced training on only three. Fast explicit joint steps lose hidden-learning time to stability-driven backtracking. These are finite-budget results with independent metric audits; fresh-teacher and matched-time confirmation remain open.
+
+## Fresh-teacher readout-speed result: advantage did not replicate
+
+[READOUT_SPEED_CONFIRMATION_RESULTS.md](READOUT_SPEED_CONFIRMATION_RESULTS.md) adds 70 fresh-teacher/fresh-initialization fits, all at accumulated hidden-step time20. Split speed10 loses its previous aggregate advantage: transfer median .2517 versus joint1 .0913 and reduced .1906; wins only2/5 and1/5 teacher blocks respectively. These primary arms already had matching clocks in the old panel. High-speed joint and split methods have similar aggregate errors but substantially different gradient work. This supports stiff-block integration as a computational tool, not a reliable feature-recovery improvement. Larger d64/h32 scaling remains open.

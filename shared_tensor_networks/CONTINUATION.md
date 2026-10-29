@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: fresh-teacher matched-clock confirmation COMPLETE
+
+Previous/current turns progress. READOUT_SPEED_CONFIRMATION_PLAN/RESULTS.md:70freshfits,249101–5teachers/250001–2starts, same sevenarms, all reachhiddenclock20. Joint100median44507gradientcalls vs2000split; joint10median5279. Allfinite/no linesearchfailures/nostepcaps. No tuning.
+
+Moderate-speed recovery advantage DID NOT REPLICATE. Mediantransfer joint1=.09127,split10=.25172,reduced=.19060,split100=.19392,joint100=.19537. Split10wins2/5teachersvsjoint1,1/5vsreduced. Fullfeaturecounts joint1/split1/joint10/split10 each1/10;others0/10. Primaryarmsalreadyhadclock20inoldpanel,so reversalnotclockmatching; both teachersandstarts changed. Atmatchedspeeds joint/splitaggregates similar; exactflow reducesgradientworkforstiffreadoutbutnotprovenbetterrecovery.
+
+Audit70fits/32556states; freshteacherRMS/targetnoisegeneration/holdoutisolation,independentWicksource/transfer,quadraticcoefcosines,SVDadaptation,initialpairing,clock/resourcecounters;70autogradfinalchecksmax5.45e-15. Doesnotreplayallinternaltrials. Producer27435/auditor45719terminal; nojobs. CloseboundedBconfirmation; NEXT outstanding d64/h32 task/input scaling with inputcoverage andteacherstartcontrols. NativeMLPpaused/fullgoalactive.
+
 ## Latest: finite readout speed recovery COMPLETE
 
 Previous/current turns progress. READOUT_SPEED_RECOVERY_PLAN/RESULTS.md:70fits on five archived232101–5 teachers/two233001/2starts, seven predeclared arms;2000sweeps each. Joint speeds1/10/100; reduced exact readout; hidden-first split with exact readout flow speeds1/10/100. Unit-row retraction, same archived objective divided512; all reachbudget, no linesearchfailures/nonfinite cases. This is finite-step gradient/splitting, NOT exact alternating integration of bothblocks.
