@@ -1,0 +1,23 @@
+{
+  "stage": "M72 independent least-squares encoder comparison, no fitting",
+  "models_sha256": "737bda3084ad4a78aae9101fc9a7f666804694237cf6bb15ccdf0ebc8677afb7",
+  "span_result_sha256": "e684d5b57b47b1f0e4d92906b131731c1668e8a278b40338c0b1ce0b4bb351be",
+  "span_audit_sha256": "6542956715208d0acb09a53e75fe341da6d520e4b304ac01c48ef5fa8e07af26",
+  "equivalence_sha256": "5ad3c0c7ccba48fed629f637c1dd6f7b3aa6358eb2052c1c525c093ec429af1f",
+  "factorial_sha256": "4852a4c2fd4b2adad500dffad50cd61bf733ca5e7e5504bb0973322ab69bab41",
+  "natural_sha256": "09d2f93cee2bcde36115c4b4725b7480721ee65f8d699f474613d589c96e7024",
+  "population": "All18 M70 dictionaries and all14 existing source-group pairs/both endpoints/source-final-identity; all32 natural eval documents32\u201363. No model/task selection or fitting. Compare fixed original encoders as controls.",
+  "variants": [
+    "own_support_LS",
+    "full_dictionary_LS"
+  ],
+  "encoder": "For each input native write independently, x=(w-mu)/scale. Choose support Q from original frozen encoder/gates for own_support_LS, or all128 atoms for full_dictionary_LS. Solve a_Q = D_Q^+(x-b) using float64 SVD relative cutoff1e-10, exact shared union. Reconstruct mu+scale*(b+D_Q a_Q) in float64, then cast full per-input reconstruction to float32 for native replacement. No donor information, response targets, joint-pair support, centering refit or ridge tuning.",
+  "cost": "Own-support retains original active support capacity<=32; full dictionary128. Report selected support, numerical nonzero coordinates, rank and parameter/computation distinction. Do not claim sparsity-matched dominance of dense128.",
+  "preflight": "Check per-input local LS optimality versus original decoded reconstruction on same support, union semantics, ranks, residual orthogonality and independent solves. Verify affine dense difference against M71 projections with float32 rounding disclosed. No native response claim from algebra alone.",
+  "task_evaluation": "Complete M63/M70 factorial for independently encoded donor/recipient: reconstructed background/native direction; native background/reconstructed direction; both reconstructed; native/native teacher. Actual original controls replay M70. Preserve original baseline centering and identity. M71 projection responses are reference only, not exact replacement for new float32 independently decoded directions.",
+  "natural_evaluation": "Same32documents and native baseline metrics as M70; local reconstruction, KL,CE/top1, support/rank. No retention threshold tuning. Preserve training/test/whole-task exclusions.",
+  "verification": "Hash-bound source/protocol/data/models. Independent projection/decoder checks and saved full task-response vectors; original-control replay. Natural metrics independently score fixed docs32/63 with all-document inventory/aggregates, explicitly label sampled full-output audit.",
+  "metrics": "All raw/family/pooled full-distribution response errors, margin errors, intact KL/task accuracy, local difference and reconstruction error, support/rank/cost, natural retention. Every dictionary/objective/seed/variant retained.",
+  "interpretation": "Tests coefficient estimation and sparse selection separately using the same frozen dictionaries, without learned new architectures. Full dense projection is per-input computable, unlike pair-union delta projection. Useful causal error reductions still do not establish semantic features or task discovery.",
+  "stop": "One fixed comparison. No step-size/threshold/rank/regularization sweep. Then assess whether coefficient correction or active-subspace selection is the concrete next featurizer design target and whether any candidate is ready for manifold/whole-task-transfer validation."
+}

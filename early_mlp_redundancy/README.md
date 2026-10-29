@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: training gains do not yet yield broadly faithful encoded changes
+## Current: useful directions exist beyond the current encoded changes
+
+[M71](ENCODED_SPAN_DIAGNOSTIC.md): re-estimating changes in selected union spans improves family response errors18/18 at both sites; full dictionaries improve further18/18 source and16/18 final. Every full-span final score beats zero, though errors remain substantial. All6048 vectors audited. Full-span projection is algebraically an independent dense least-squares encoder, verified on504 endpoint reconstructions; next test its actual backgrounds/retention and a matched-support LS alternative.
+
+## Previous: training gains do not yet yield broadly faithful encoded changes
 
 [M70](ENCODED_CHANGE_EVALUATION.md): encoded-response training scores improve6/6 at both sites, but source-group evaluation gains are mixed and every new final-position family score remains worse than zero response. NaturalKL improves6/6 against supplied-direction controls,2/6 against KL-only. All19584 task-response vectors audited; a training-evaluation runtime fault was recovered from a verified checkpoint. Next separate dictionary span, support selection and coefficient errors with a fixed projection diagnostic.
 
