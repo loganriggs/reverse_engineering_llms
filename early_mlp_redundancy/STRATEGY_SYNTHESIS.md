@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Local affine charts](LOCAL_AFFINE_CHARTS.md). Training-only k-means improves natural-text fidelity over fixed chart controls; task interventions and routing analysis remain pending.
+
 Latest: [Fitted affine input-to-write test](AFFINE_INPUT_PREDICTOR.md). A global affine map preserves many task answers but fails causal replacement; next test explicitly context-dependent local computation.
 
 2026-10-28. A compact reading guide after the fixed capacity/noise/dropout grid. This is a synthesis,

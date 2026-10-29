@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Local affine charts](LOCAL_AFFINE_CHARTS.md). Training-only k-means improves natural-text fidelity over fixed chart controls; task interventions and routing analysis remain pending.
+
 Latest: [Fitted affine input-to-write test](AFFINE_INPUT_PREDICTOR.md). A global affine map preserves many task answers but fails causal replacement; next test explicitly context-dependent local computation.
 
 Latest: [Native input-to-write operator test](NATIVE_INPUT_OPERATOR_TEST.md). Recipient-local operators explain changes much better than the fixed training-mean operator; an exact quadratic midpoint control verifies the distinction.
