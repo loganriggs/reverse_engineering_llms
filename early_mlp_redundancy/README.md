@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: source positions reveal stronger early-MLP causal coverage
+## Current: dominant effects hide uneven featurizer coverage
+
+[M58](TRAINING_COVERAGE_FEATURIZERS.md): agreement/sentiment supply90%of source-target energy. Scalar71scores.155pooled error but1.039equal-family error; zeroresponse=1. Causal supervision improves pooledsource scores6/6butfamilymeans only2/6. All7524response vectors audited. Next is the fixed14-pair source-group development holdout check, with absentfamilycoverage explicit and no newtraining.
+
+## Previous: source positions reveal stronger early-MLP causal coverage
 
 [M57](TRAINING_CAUSAL_COVERAGE.md): the frozen11-family map finds larger MLP1effects at changed input-token positions than at final positions. Agreement margin changes6.53vs.024, with24/24source swaps reducing the recipient margin. All1254evaluated conditions audited; alignment failures retained. This establishes position-dependent causal availability, not abstract computation or redundancy. Next compare all18frozen featurizers on every eligible MLP1target without selecting strong tasks.
 
