@@ -2,7 +2,17 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (fresh d6h3confirmation). Current turn: progress (d8h4scaling120fits, directimplementationchecks and full independent audit). Goal active.
+Previous goal turn: progress (d8h4scaling). Current turn: progress (300 independent-head fits audited, equal-output-dimension transfer comparison,13explicit suboptimality certificates,20hypothesisledger). Goal active.
+
+## Current: shared versus independent dictionaries COMPLETE
+
+SHARED_SEPARATE_READOUT_PLAN.md fixedhighbudgetd8h4tenheadcomparisononexisting5teachers225001–5 x3init226001–3: shared164params, separateh4 740params, separateh1 170params. Same512inputs/5120labels/noise.05,independenth4sameinitialfunctions. Independent200TRFevals/head changesoptimizerwork/schedule;notpuretyingorcomputecontrol.300newheadfits=30groups plus15sharedreanalyses. Transferfeaturesfixed10normalizedpredictedsourceoutputsforallmethods,not100unionhiddenproducts. All45groupsaudited,300headinitial/finalautograd1.03e-15,400freshinputcoefficientcheck,sourceGaussianloss,alltransfernormal equations/errors. run_/audit_/summarize_shared_separate_readouts.py complete.
+
+Mediantheachertransfer128shared/separatewidth/budget=.000852/.109226/.336919;sharedwinsboth5/5. Populationprojectionfloors.0000753/.086619/.23402,indicatinglearnedsourcefunctionspaninadequacyinindependentfits. Existingteachersmechanisticcontrol,notfreshconfirmation;allfailuresretained.
+
+check_shared_solution_embedding.py copies learnedsharedsolutionintoindependenth4heads,checksidenticalpredictions/trainingloss;13/15independentfits haveexplicitlowerlossfeasiblecandidate. Sinceuntiedclasscontainssharedandnoextraparameterpenalty,thesefitscertifiablynotglobalempiricalminima. Doesnotprovethatalltransfergapoptimizationorsharedfitsglobaloptimal. SHARED_SEPARATE_READOUT_RESULTS.mdincludesproof/scope. RECOVERY_HYPOTHESIS_LEDGER.mdlists20competinghypotheses,narrows1/4/6/8/9/10;6hasdirectevidencebeyondteacherstartgap.
+
+Nextdisentanglejointconstraintgeometryvsoptimizerprotocol,orprivilegedlocalstatisticalcomparison forindependentheads;avoidbroadrescuetuning. Overallobjectiveactive;no jobs live;nativeMLPprojectpaused.
 
 ## Current: four-feature fixed-budget scaling COMPLETE
 
