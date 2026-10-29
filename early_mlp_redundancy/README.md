@@ -1,5 +1,7 @@
 # How much of MLP1 can be removed while preserving its computation?
 
+Latest: [Sixteen input-supervision fits audited](BILINEAR_INPUT_SUPERVISION_FITS.md). All final models and their privileged reconstruction references are frozen; held-out causal evaluation is next.
+
 Latest: [Stable starting states and calibrated causal supervision](BILINEAR_INPUT_TRAINING_READY.md). All eight full-population warmups pass audit; one global causal weight is verified. The optimizer diagnostic series is closed.
 
 Latest: [Optimization replay and controlled memory test](BILINEAR_OPTIMIZATION_DIAGNOSIS.md). Exact replay confirms the failures; removing first-moment memory is insufficient. One full-population gradient test is specified next.
