@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: shared-group interventions are defined and audited
+## Current: gate robustness can hide a consequential shared contribution
+
+[M49](SHARED_GROUP_NATIVE_EFFECTS.md): shared-component removal changes native outputs more than exclusive removal in all eight candidates on natural text and task evaluation. Shared deltas also carry more energy; this is not evidence of better semantic units or native duplicate computations. All4608rows, including1709no-ops, passed audit. The next conditional-reuse control needs an explicit causal target rather than rewarding larger disruption.
+
+## Previous: shared-group interventions are defined and audited
 
 [M48](SHARED_GROUP_DECOMPOSITION.md) verifies that gate removal deletes only exclusive atoms, while shared-atom removal affects contributions preserved by another gate. All eight candidates/all32groups/all4096positions pass the identities. Learned groups have22–23%shared selected memberships versus18%for random groups. This is architectural overlap; a fixed native-intervention protocol is frozen, with causal results pending.
 

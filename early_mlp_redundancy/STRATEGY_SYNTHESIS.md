@@ -241,3 +241,7 @@ The common-training causal objective improves native log-probability response fi
 ## M47: conditional sharing is downstream-relevant but not universally substitutable
 
 [Native paired/permuted replacements](NATIVE_HALF_PAIRING_OUTPUTS.md) improve natural output KL33.5%/20.0%/19.0% atMLP0/1/2, both masks,60–63/64document–mask cases. Task-training MLP2 and task-evaluation MLP1 reverse despite improved local reconstruction. This links within-token predictive covariance to downstream effects at a limited scope; it does not identify semantics or duplicate operations. Close half/donor tuning and use the audited conditional pairing control when testing exclusive/shared featurizer contributions.
+
+## M49: distinguish architectural gate protection from native redundancy
+
+[Exclusive/shared native interventions](SHARED_GROUP_NATIVE_EFFECTS.md) show larger shared-removal KL than exclusive-removal KL in8/8candidates on natural/task-evaluation data. Magnitudes differ, and1709/4608selections are no-ops. A small gate effect does not establish an unimportant atom, since other active gates retain it; larger shared effects do not establish semantic reuse or better architecture. Conditional controls must specify native-response fidelity or selective role, not merely intervention size.
