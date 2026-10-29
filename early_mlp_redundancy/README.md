@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: learned grouping has partial causal value
+## Current: native compensation tests a conceptual mechanism
+
+[M41](NATIVE_HALF_COMPENSATION.md) derives and tests when doubling a surviving half can repair channel deletion. MLP0 improves locally and in output KL on tasks and natural text; MLP1 worsens on both. MLP2 worsens locally but has mixed output effects. Distributed, net constructive contributions therefore need not be interchangeable duplicates. This is a mechanism test, not a semantic-unit claim.
+
+## Previous: learned grouping has partial causal value
 
 [M39 native transfer](COACTIVATION_NATIVE_TRANSFER.md): learned groups reduce native-response prediction error19.6–73.2% versus random groups across all eight seed/objective/region comparisons. All remain worse than the original scalar representations and the zero-response baseline. [M40 ordinary outputs](COACTIVATION_OUTPUT_TRANSFER.md) also improve versus random groups in all eight natural/joint-evaluation comparisons, but remain worse than scalar. Selective reuse remains untested.
 

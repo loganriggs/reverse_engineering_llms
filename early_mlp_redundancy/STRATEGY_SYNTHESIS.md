@@ -217,3 +217,7 @@ The common-training causal objective improves native log-probability response fi
 ## M40: local grouping gains also improve ordinary predictions
 
 [Full output evaluation](COACTIVATION_OUTPUT_TRANSFER.md) improves learned versus random groups on natural text6.3–13.0% and joint lexical/template development examples4.7–26.3%, all eight comparisons. All remain worse than scalar. The scalar-trained coordinates and differing active counts limit architecture conclusions. Close this frozen transfer comparison; next separate shared and exclusive contributions with native controls, rather than further membership tuning.
+
+## M41: constructive distribution is weaker than averaging redundancy
+
+[Native half compensation](NATIVE_HALF_COMPENSATION.md) derives the criterion C/S<(N+2)/(3N), approximately1/3, for doubling a uniformly retained half to improve expected local error. Mere constructive interference requires only C/S<1. MLP0 passes this stronger signature and improves local/output fidelity; MLP1 does not and worsens both; MLP2 worsens locally with mixed output effects. Thus simple averaging, broader redundancy, and downstream tolerance are distinct hypotheses. Theoretical toy verification and real task/natural-text interventions agree on the local layer split, without explaining training causes or identifying semantic units.
