@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest coverage-training stage
+
+Current goal turn: progress. COVERAGE_AND_COLLAPSE_RESULTS.md:12paired depth3/5 fits(3fresh teachers, uniform vs exact weighted importance sampling),1024examples600Adamsteps. Independent output calibration and fresh final proposals; full states/data saved. Producers and audits terminal, no jobs live. NumPy replay/weighted gradient audit passes. Depth3 importance improves all3pairs; depth5 predictions lose alignment and collapse nearzero. Four of six depth5 absolute-energy precision gates fail and remain reported. Cross-fitted scalar correction does not recover depth5 signal.
+
+The simultaneous parameter-scaling path has degree2^(depth+1)-3 (=61atdepth5), verified alongside its loss derivative. Inputdegree is32; do not conflate them. This gives a candidate flatness mechanism, not measured causal explanation of Adam trajectories. Next bounded experiment: reuse exact frozen depth5 datasets/calibrated states, compare smaller learning rates and teacher-near initialization positive control, record norm/alignment/gradient traces and fresh evaluations. Then broaden to independent teachers, budget controls, task holdouts and representative scaling. Full goal remains incomplete; no GPU work.
+
 ## Latest directional evaluation stage
 
 Current goal turn: progress. See DIRECTIONAL_SAMPLING_RESULTS.md. Rank-one angular central Gaussian mixture with20%uniform floor implemented and validated against exact moments, independent full covariance densities and an exact d2 depth5 circle oracle. Refined d16 depth4/5 proposals(64pilot starts,200steps,stretches32/128,12x32768fresh draws) meet predeclared batchCV<10% gate; depth5 errorCV4.28%, median errorESS570. All jobs terminal, aggregate and density/circle audits pass. No training/GPU jobs active.
