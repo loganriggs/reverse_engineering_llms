@@ -2,6 +2,8 @@
 
 This separate CPU-first project implements the user's proposal. The earlier native-MLP research remains paused. No model downloads, GPU use, or changes to the native experiments are needed.
 
+Theory directions: [reuse-aware complexity, rank separation, and gradient-flow proofs](SHARING_COMPLEXITY_AND_FLOW.md).
+
 ## Thesis and distinctions
 
 Represent a multilinear occurrence contraction as `F(z; u)` and impose fixed linear identifications `z=Sθ`, `u=Rx`. Study parameter tying, repeated inputs, and execution DAG reuse separately. The scientific question is whether sharing helps learn compositional targets beyond parameter count and metric effects, and when incorrect sharing hurts.

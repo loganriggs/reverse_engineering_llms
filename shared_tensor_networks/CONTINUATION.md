@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Explicit theory directions A and B — active
+
+User requested reuse-aware rank/complexity and sharing gradient-flow proofs. SHARING_COMPLEXITY_AND_FLOW.md now defines grammar-dependent circuit/formula complexity and resource profiles, proves q^(2^L) small-DAG/large-formula/large-flattening separation, and derives tangent-kernel PSD decomposition and multiplicity bounds. These are classical/elementary results applied here, not novelty claims. check_sharing_complexity_flow.py passed exact rational moment/coefficient/rank fixtures and4actual-network Jacobian/kernel checks with/withoutRMSNorm. E2 existing20trajectories verified correctedSGD/projectedSGD equivalence. A did not previously have an implemented minimal-circuit measure.
+
+Next theory experiments explicitly queued in note: A controlled reusable-polynomial teachers with degree/reuse controls and certified bounds; B image-probe disagreement gradients and ordinary/corrected/projected/freeSGD from equal functions, multipledepths/seeds. No large new sweep running. Do not let image accuracy replace these theoretical questions; both contribute to broadergoal alongside scaling. Exact minimum general circuit complexity and full circuit recovery remain unsolved here.
+
 ## Latest completed work: full-pool Fashion-MNIST
 
 Current goal turn: progress. All10 full-pool classifiers complete at30epochs,55k training/5k validation; independent NumPy replay of train/validation metrics and saved logits passes. Producer34085 crashed SIGILL, resume43211 crashed SIGILL, generic26747 crashed SIGSEGV after budget-tree epoch16; pinned generic resume18656 completed. Final auditor32389 terminal passed. No active experiment. Sources/checkpoints/curves/crash traces saved; report FASHION_FULL_RESULTS.md and figures/fashion_full.png. Runtime root cause unresolved; genericCPU alone did not fix it. CPU affinity0 plus genericCPU completed, but that is not proof of a fix. NoGPU, officialtest unused.
