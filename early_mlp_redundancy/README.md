@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Native-background block-role results](BLOCK_CHANGE_ROLE_RESULTS.md). All124,280 saved responses are audited. Geometry carries some whole-task role information, but individual block effects are poorly predicted across seeds; only one of12 trained-group aggregate errors beats zero prediction. Complete encoded changes have much more consistent whole-task effects, while source-group final effects remain unstable. This supports separating reproducible broader effects from stable block units. The matching experiment is closed; next proposed direction is a native-screened factorial task-composition challenge. Earlier checkpoint “next” actions are historical and superseded.
+Current: [Fact-query competence screen](FACT_QUERY_PANEL_RESULTS.md). All six fixed domain/format cohorts fail native competence; across96 query switches, candidate choice changes only9 times and both requested answers are correct once. No featurizer was fitted or tested on intended retrieval labels, and no prompts were replaced. This closes the screen and motivates stronger factor-dependence checks for task supervision. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
