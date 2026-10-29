@@ -2,25 +2,29 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous substantive goal work: progress (implemented E0/E1/E2 controls). Current continuation: progress (new regression controls, d=8 learning study, independent audits, and algebraic characterization). No blocker and no live experiment left at this checkpoint.
+Previous goal turn: progress (regression controls, d=8 study, quotient geometry). Current goal turn: progress (readout audits, 10x optimization extension, singular-capacity theory and experiments). All current producers/auditors are terminal and passed. No blocker or live run.
 
 ## Evidence current through this batch
 
-- Initial: README.md, MATHEMATICS.md, RESULTS.md; E0, d=4 E1, E2 metric control.
-- New: REGRESSION_AND_D8_RESULTS.md and POLYNOMIAL_QUOTIENT_GEOMETRY.md.
-- Frozen data/results: results/e1_regression (640 records), results/e1_d8 (150 fits), results/e1_d8_regression (400 records), results/multiplication_geometry.
-- All above producers and auditors are terminal and passed. Do not rerun or overwrite their output directories.
-- Same source experiment.py as the original harness; d=8 uses h=q=8, lr=.003, matched initialization, 600 steps, five seeds, N=64,128,256,512,1024, both teacher types. Not an exact replication of the user's pasted script; differences are documented.
+- Latest report: READOUT_AND_OPTIMIZATION_RESULTS.md; theory: SINGULAR_READOUT_GEOMETRY.md.
+- results/readout_refits: 1,400 readouts, 700 Gaussian population projections; independent direct-feature/metric/Pythagorean audit passed.
+- results/longer_training: 60 trajectories at N256/1024 × 600/1800/6000 steps = 180 snapshots; all 60 old 600-step states replay exactly; all 180 quadrature and floor checks pass.
+- results/singular_feature_paths: all 50 width-matched untied initial-to-600-step hidden parameter paths × 7 epsilon values = 350 records; pivoted-QR/linear-solve audit passes; analytic Hessian/noise toy checks pass.
+- Historical: initial README/MATHEMATICS/RESULTS; REGRESSION_AND_D8_RESULTS.md; POLYNOMIAL_QUOTIENT_GEOMETRY.md. All old outputs remain immutable. No GPU work/native-MLP research resumed.
 
 ## Findings that change the next action
 
-Quartic least squares outperforms the neural fits and recovers all targets once N exceeds the quartic coefficient count. Oracle hidden features recover d=8 targets already at N=64. Need to isolate learning useful features versus fitting the top readout. No general tying advantage, circuit recovery, or basis-invariant cancellation interpretation established.
+Training improves fixed hidden-span floors in147/150 cases. At N1024, refitting top weights adds little; hidden-span floors account for most remaining error. Extending training to6000 steps improves population MSE in58/60 trajectories and markedly improves representations. Neither the600-step nor6000-step results prove convergence/capacity limits. No general tying advantage emerges; do not keep extending this same single-output optimization sweep to seek a desired winner.
 
-Polynomial identities induced by repeated inputs create a multiplication-map kernel. For fixed symmetric Q, minimum bilinear top width is max(positive inertia, negative inertia). For a fixed hidden polynomial dictionary, minimize that over all equivalent Q. Verified constructive identities; no novelty claim. At d=4 untied hidden maps span the entire quartic space, so that setting is weak for distinctive feature recovery. d=8 oracle maps are substantially lower dimensional (36/64 versus330).
+Unregularized span floors need conditioning/norm controls. In all50 untied parameter paths, rank36 at exact equal branches becomes64 byepsilon1e-5, but median exact-fit readout norm~76379 and ridge benefits negligible. Verified toy(u,u+epsilon*v) explains discontinuous ideal span capacity, weight blowup1/epsilon, Hessian small eigenvalue~epsilon^2/2, independent feature-noise amplification2sigma^2/epsilon^2; common-mode noise cancels. These are mathematical/diagnostic results, not an RLCT estimate or proof of the optimizer's specific mechanism.
 
-## Next bounded experiment (not yet started)
+## Next bounded stage (not started)
 
-Refit the top scalar readout and the full hidden-product readout of ALL frozen d=8 trained states, alongside exactly matched random-initialized and oracle controls. Use existing sample sets, both teachers, all five seeds and sizes. Freeze the ridge grid and metric summaries before outcomes; use validation only. Separate changes to top representable class from optimizer-only changes. Save maps/coefficient outputs; audit direct forward equivalence, exact population errors, and solve residuals. No seed/example selection or extra learning-rate tuning. This is a diagnostic on reused development data, not fresh confirmation.
+Move toward reusable computation across tasks and E3 observability, rather than another single-output fit. Design a fresh multi-output teacher family where several task heads reuse one hidden dictionary, preserving whole-task head holdouts. Compare shared and independent task trunks with width/parameter controls, random and oracle features, and a simple multitask polynomial baseline. Evaluate few-label fitting of unseen heads, Gaussian/OOD error, and conditioning-aware subspace recovery. Output-function subspace recovery is NOT literal graph recovery.
+
+Before claiming actual graph recovery, explicitly define observations/equivalence: output-only data cannot distinguish a reused state from identical recomputation with tied parameters. A small controlled DAG family with interventions on internal states can test that distinction; state which access identifies physical fan-out and which equivalences remain. Keep parameter tying, repeated inputs, and cached/intermediate execution reuse separate; their numerical gradients may coincide but execution cost/intervention responses can differ.
+
+Freeze the next protocol before outputs. The current data are reused development panels. Use new teacher/data seed ranges and separate teacher from optimizer seeds when confirming learning/transfer claims. Preserve original CPU-first→GPU scaling direction; deeper/wider experiments remain required when informative. Do not overwrite or rerun completed outputs.
 
 ## Remaining scope — not complete
 

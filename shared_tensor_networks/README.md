@@ -8,7 +8,9 @@ Represent a multilinear occurrence contraction as `F(z; u)` and impose fixed lin
 
 There is an essential identifiability limit: computing an identical deterministic state twice with tied parameters is mathematically equivalent to computing it once and reusing it. Outputs, derivatives, and any training procedure using only those derivatives cannot distinguish the two. Their execution costs differ. Function observations cannot uniquely recover the actual execution DAG without additional assumptions or observations. See [the mathematical note](MATHEMATICS.md).
 
-Current findings: [regression controls and d=8 results](REGRESSION_AND_D8_RESULTS.md), [polynomial quotient geometry](POLYNOMIAL_QUOTIENT_GEOMETRY.md), and [initial CPU results](RESULTS.md). E0, audited d=4/d=8 E1 studies, and a bounded E2 metric control are complete. Circuit recovery and deeper scaling remain open; see [continuation](CONTINUATION.md).
+Latest: [readout and longer-training results](READOUT_AND_OPTIMIZATION_RESULTS.md) and [singular readout geometry](SINGULAR_READOUT_GEOMETRY.md).
+
+Earlier findings: [regression controls and d=8 results](REGRESSION_AND_D8_RESULTS.md), [polynomial quotient geometry](POLYNOMIAL_QUOTIENT_GEOMETRY.md), and [initial CPU results](RESULTS.md). E0, audited d=4/d=8 E1 studies, and a bounded E2 metric control are complete. Circuit recovery and deeper scaling remain open; see [continuation](CONTINUATION.md).
 
 ## Implemented starting point
 
@@ -56,3 +58,5 @@ The degree-four scalar function space has only binomial(d+3,4) monomials: 35 at 
 5. E4: no GPU scaling until the CPU results and controls justify it. The proposed larger sweeps (input dimensions 16–256, widths 16–512, depths 2–5) are future work. The exact coefficient expansion here is deliberately only suitable for small dimensions.
 
 Do not infer universal tying benefits, native-MLP mechanisms, or semantic manifolds from this study.
+
+Analysis and plotting additionally use SciPy and Matplotlib. All saved experiments run on CPU with the environment recorded in their source/protocol artifacts.
