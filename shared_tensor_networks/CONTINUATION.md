@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest completed controls and exact reuse family
+
+Current goal turn: progress. FASHION_FLOW_RATE_RESULTS.md:18new calibratedSGDfits, all audited, no failure. Rate chosen from initialtrainingprobe to equalize instantaneouslossdecrease, notoutputspeed;3disjointtrainingprobes assess transfer without tuning. Correctedmedianaccuracydepth2/3/4 now77.50/77.42/76.88%, versus73.70/67.02/60.58% atbase.01. Freenormalizedmedians78.64/76.20/74.56%. Finite-budget3seedcontrol, no robust architecture ranking. Producer21914/auditor70954terminal. No livejob/GPU.
+
+REUSE_COMPLEXITY_AND_FLATNESS.md adds exact scalar repeated-squaring minimalmultiplicationD/formula2^D-1certificate, closed-formgradientflow and specifiedGaussianlikelihood localRLCT=1/2^(D+1). Six derivative/gradient/flow checks passed. Classical elementary results, notnovelty; changingdegree isexplicitconfound. NextA: fixed-degree multivariate repeatedvsdistinctfactor teachers with known sharing and matchedfunctionscale/metrics. Nextscaling: seed/sample-size controls, SVHN verifiedsource outstanding. Avoid unbounded one-epoch SGD tuning. Goalactive.
+
 ## Latest theory-to-image experiment: gradient-flow control complete
 
 Current goal turn: progress. FASHION_FLOW_RESULTS.md:9cases×4arms=36fits,55ktraining,215steps,depth2/3/4,threefreshseeds,width16,float64SGDlr.01. Initial functions equal; correctedtied vsprojectedtree maximum recorded parametererror3.272e-13. Initial disagreement fractionsdepth2.363–.479,depth3.738–.776,depth4.838–.920. IndependentNumPy audit final36validationmetrics passes; finite-difference initial loss derivatives pass. Producer85540 and auditor57282terminal; no livejob. NoGPU/testevaluation. Sources/models/results saved. GenericCPU+pinnedcore0 run didnotcrash, not a definitive runtimefix.
