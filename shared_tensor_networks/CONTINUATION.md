@@ -2,7 +2,15 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
+Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
+
+## Latest depth-3 comparison and normalization theory
+
+All four depth3 GPU fits and independent full-training/validation audits passed. Standard stack/tree final84.30/83.34%; extra stack/tree matched8010updates84.28/86.18%, final30epochs87.34/89.46%. SVHN_GPU_RESULTS_DEPTH3.md reports one-seed results. Extra data reverses the standard-data ranking here; tree has792896parameters vs201024stack, so no isolated sharing benefit or universal claim.
+
+LIVE sequential producer session36633 (parent Python PID177521): runs depth3 then depth4, standard/extra × stack/tree, each followed by independent audit. All depth3 terminalsuccess; depth4 began and is live. Logs results/svhn_gpu/{standard,extra}_d{3,4}_{stack,tree}_{run,audit}.log. Revalidate session/process before resuming; do not duplicate. Existing GPU runner recovers at complete epochs; 8010-update snapshots saved separately. Next finish/audit depth4, summarize with summarize_svhn_gpu.py --depth 4, then replicate seeds and assess longer-update standard-data control as needed.
+
+Theory: SHARING_COMPLEXITY_AND_FLOW.md sections C/D derive RMS Jacobian radial/tangential eigenvalues and prove zero-epsilon intermediate-normalization cancellation for bias-free bilinear DAGs with nonzero intermediates. check_rms_geometry.py:12float64 differential/eigenspace checks pass; descriptive local condition measurements on512validation examples/model. check_rms_collapse.py:6depth2–4 stack/tree output+gradient equivalence fixtures pass. All5000validation examples in each of4trained depth2 models show0predictionchanges between every-node/root-only finite-epsilon evaluation; relative logit differences3.26e-8–2.36e-7. Explicit scalar small-input counterexample prevents claiming exact finite-epsilon equivalence. These are elementary results, not new rank theory or evidence of causal optimization advantage. Sessions39853,23155,45872 terminalsuccess. Theory and completed depth3 artifacts publishable; live depth4 artifacts must not be snapshotted into a supposedly final manifest.
 
 ## Latest GPU SVHN depth-2 comparison
 

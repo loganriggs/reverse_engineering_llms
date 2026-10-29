@@ -71,3 +71,35 @@ A-next: controlled q^k and perturbed-target teachers, report certified circuit u
 B-next: at identical stack/tree initial states on a fixed image probe set, measure disagreement-gradient energy and multiplicity-corrected versus ordinary tied SGD. Compare free occurrence SGD with both. Repeat at multiple depths/seeds and log training curves; do not substitute Adam as a proof check. At tiny sizes independently compute J and the three kernels. This tests whether optimization differences arise from the induced metric or exploitable untied directions.
 
 Both directions are active theory work alongside image scaling, not completed research programs. No new large theory-training sweep is currently running.
+
+## C. RMS normalization creates a separate source of weak amplitude sensitivity
+
+The image experiments use N_epsilon(z)=z/s, where s=sqrt(||z||^2/h+epsilon). For epsilon>0 its differential is
+
+DN_epsilon(z)=I/s - zz^T/(h s^3).
+
+Proof: differentiate s to obtain ds[v]=(z^T v)/(h s), then apply the quotient rule. Every direction perpendicular to z has eigenvalue 1/s. For z!=0 the radial direction has eigenvalue epsilon/s^3. Consequently the local Jacobian condition number is exactly
+
+kappa(DN_epsilon)=1+||z||^2/(h epsilon),
+
+and radial sensitivity relative to tangential sensitivity is epsilon/(||z||^2/h+epsilon). At z=0 all eigenvalues equal1/s and the condition number is1. These are singular values as well because the Jacobian is symmetric positive definite. With epsilon=0 and z!=0, the radial eigenvalue is zero: positive rescaling of a node's pre-normalization output leaves its normalized output exactly unchanged. For fixed nonzero epsilon this is only an approximate invariance, not an exact gauge symmetry.
+
+For a bilinear node, scaling its entire A matrix by a positive factor scales its pre-normalization output by that factor. Thus normalization can hide amplitude differences between parameterizations even without changing parameter sharing. Reciprocal scaling A->cA,B->B/c remains a separate exact invariance of the bilinear product. Do not conflate the two.
+
+This is a local activation-space statement. It does not determine the spectrum of the full parameter Hessian, guarantee poorly conditioned optimization, or explain a stack/tree performance difference. Composing derivatives with upstream maps and a loss can remove or amplify particular directions. It also does not invalidate the fixed-linear-identification gradient pullback in section B, which applies to differentiable normalized networks.
+
+check_rms_geometry.py checks the analytic Jacobian and both eigenspaces in float64 for12fixtures (including zero activation), and measures the local radial/tangential ratio at every node in four completed depth-2 SVHN models on the first512 fixed validation examples. This is a descriptive probe, not validation-selected training. The exact conditions and checkpoint hashes are in results/rms_geometry/checks.json. The calculation is standard normalization geometry, not a claim of a novel theorem or an RLCT estimate.
+
+## D. Intermediate RMS normalization cancels in the zero-epsilon homogeneous model
+
+Consider a DAG of bias-free bilinear nodes b_v(u,w)=(A_v u) elementwise-times (B_v w), with one output root, no residual additions, and no affine normalization gain or bias. Repeated input leaves, tied parameters and shared intermediate states are permitted. Let H_v be the output at node v with no normalization. Normalize each node instead by N_0(z)=z/sqrt(||z||^2/h_v), assuming all relevant intermediates are nonzero.
+
+**Proposition.** The normalized state at every node equals N_0(H_v). In particular, normalizing all nodes and normalizing only the root produce identical outputs and identical derivatives wherever both computations are defined. A common linear readout preserves the equality.
+
+Proof by topological induction: each normalized parent is a positive scalar times its unnormalized state, by the inductive hypothesis. Bilinearity multiplies the two positive scalars. N_0(cz)=N_0(z) for positive c, so normalization at the child removes their product. This remains true when the same parent is used twice: its scalar is squared. Leaves establish the base case. Equality on the open domain of nonzero intermediates implies equality of derivatives there. Tying parameters restricts two already equal maps and therefore preserves equality.
+
+Consequences: in this idealization, intermediate normalization changes numerical evaluation, not the represented function family or exact gradient flow of the root-normalized model. This does NOT say normalization has no effect compared with a wholly unnormalized polynomial network. The root-normalized function is generally nonpolynomial. It also does not imply root-only evaluation is numerically safe: the raw intermediate polynomial values can overflow or underflow.
+
+With epsilon>0, N_epsilon(cz)=z/sqrt(||z||^2/h+epsilon/c^2) for c>0, so cancellation is generally inexact. Zero intermediates, biases, residual addition, nonhomogeneous activations, or normalization variants require separate analysis. Learned coordinatewise gains also fall outside the proposition as stated.
+
+check_rms_collapse.py checks exact-limit output and parameter-gradient equivalence in six stack/tree fixtures at depths2–4. It separately reports finite-epsilon logit differences and changed predictions on all5000 validation examples for four trained depth-2 models. Those measurements do not prove a uniform finite-epsilon approximation bound or a training-trajectory equivalence. This is an elementary homogeneity result, not a claimed novel theorem.
