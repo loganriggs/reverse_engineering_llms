@@ -1,0 +1,16 @@
+{
+  "stage": "M73 fixed train-only PCA32/PCA128 baseline; no rank search",
+  "reference_results_sha256": "fa5dc895a5c5f10d972fa91f2bcb4dc07af6c4e6ef63d5f3f6b3b3c1be497c1e",
+  "reference_factorial_sha256": "9eaf2b2adf2ca4b3cf9db67e353a4b012d1bf34a743efde32cd84ed234cfbc3e",
+  "reference_natural_sha256": "9248501c9c5edc7639ad3432b2acc2bf9faa588eb7c3ffcbb6af2447080120e0",
+  "natural_cohort_sha256": "666290da2b16f9d39e2729a3dddf9b9d54847852fb82b2218304b5c91bfbccbb",
+  "natural_cache_receipt_sha256": "d27bddc66aa94b7330a739d4bf8f067e9a1d3fa13447d0de6d3adf125c506ca5",
+  "training": "Use native MLP1 product writes from the hash-bound natural cache, exactly unique_indices whose documents<32 as in M7. No evaluation documents, task labels, causal targets or heldout-pair data in fitting. Assert train/eval document hashes disjoint and save training index hash. Native cache includes evaluation data but selection is explicit and checked.",
+  "models": "Exactly two global affine orthogonal projections, rank32 and rank128. Float64 training-only mean/covariance and eigendecomposition/SVD, descending eigenvalues. No whitening, per-token conditioning, slope/threshold/rank sweep, seed/model selection or fitting to downstream loss.",
+  "encoder": "For each native write independently, mean_train + U_r U_r^T (write-mean_train), computed float64 then castfloat32. Report ranks, parameter/storage sizes, training variance explained and eigenvalue gaps. Basis rotations/signs do not change the projected function and do not identify semantic features.",
+  "preflight": "Independent covariance/mean/index checks and eigen residual/orthogonality/idempotence; reconstruction nesting rank128<=rank32 on every heldout example; finite/cast error checks. Fit artifacts immutable before native task/natural scoring.",
+  "evaluation": "Same14 familiar source-group pairs,source/final/identity,fullthree-corner factorial with native teacher/baseline replays. Same32natural evaluation docs32\u201363. Original/ownLS/denseLS scores from hash-bound M72 remain fixed references; do not refit any dictionary. Use raw/family/pooled/answer-margin/local/intact/natural metrics and both PCA ranks.",
+  "verification": "Hash-bound fitting/evaluation source/protocol/state/data. Independently reconstruct applied PCA outputs and all saved final task responses. For just two PCA models, save and independently score all64 natural model/document outputs, rather than subsampling. Keep every failure/ineligible case.",
+  "interpretation": "Rank32 is a coordinate-budget baseline, not equal model-class/parameter capacity to conditional32-of128. Rank128 compares global linear spaces at dense LS rank. PCA fits local training variance, so better reconstruction need not improve native response. This separates linear dimension from conditional supports; no manifold/semantic-unit claim by itself.",
+  "stop": "One fixed two-rank comparison. Then make a concrete decision about linear subspaces versus conditional feature groups and the next validation of computational structure. No further rank/loss sweep on the development panel. Whole-task training exclusions persist."
+}

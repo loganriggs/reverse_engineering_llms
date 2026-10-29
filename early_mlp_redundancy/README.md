@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: useful directions exist beyond the current encoded changes
+## Current: dense least squares helps; locally optimal sparse coefficients can hurt
+
+[M72](LEAST_SQUARES_ENCODER_EVALUATION.md): independent denseLS improves naturalKL18/18by25–49% andcausalchange scores broadly, at128coordinates versus28–32. Sparse own-supportLS improveslocal reconstruction butworsensnaturalKL18/18by10–18%. Only5/18dense both-reconstructed finalcases beat zero. All13608taskvectors audited. Next fixedtrain-onlyPCA32/128 controls isolate rank versusconditional support structure.
+
+## Previous: useful directions exist beyond the current encoded changes
 
 [M71](ENCODED_SPAN_DIAGNOSTIC.md): re-estimating changes in selected union spans improves family response errors18/18 at both sites; full dictionaries improve further18/18 source and16/18 final. Every full-span final score beats zero, though errors remain substantial. All6048 vectors audited. Full-span projection is algebraically an independent dense least-squares encoder, verified on504 endpoint reconstructions; next test its actual backgrounds/retention and a matched-support LS alternative.
 
