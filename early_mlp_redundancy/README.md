@@ -7,7 +7,11 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: twenty hypotheses and a token-identity control
+## Current: token centering helps some layers, but does not prove contextual reuse
+
+[M45](NATIVE_HALF_TOKEN_TRANSFER.md): token-centered prediction improves natural output KL over the original rank32 map11.3%/16.8% atMLP0/1, but worsensMLP2 by1.7%. Covered-token reconstruction improves beyond token means in all three layers. Noisy token tables remain a confound; within-token pairing controls are needed before calling this shared contextual computation. Original rank32 outputs replay exactly.
+
+## Previous: twenty hypotheses and a token-identity control
 
 [M44 hypothesis refresh](MECHANISM_HYPOTHESES_M44.md) separates20mechanistic explanations and chooses the next discriminator: common token identity versus additional contextual sharing between native halves. Training-only token controls are built and audited; all existing maps stay frozen. Coverage is60.25% on natural evaluation positions, and1250/1760training token types are singletons. Native transfer is pending; no outcome claim yet.
 

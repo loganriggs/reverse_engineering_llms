@@ -229,3 +229,7 @@ The common-training causal objective improves native log-probability response fi
 ## M43: distinguish directional usefulness from calibrated substitution
 
 [Fixed repair interpolation](NATIVE_HALF_INTERPOLATION.md) finds1,044stable helpful and104stable harmful initial slopes, with4scale-ambiguous cases. Of682cases harmed by full repair,578initially improve. MLP1 natural61/64initially improve but64/64full repairs harm. A fixed10% step improves all nine pooled layer/cohort KL comparisons. The dominant failure is compatible with overshoot, which does not require nonlinear readers. Local reconstruction, conditional predictability, useful causal direction, and calibrated functional substitution are separate claims. Close the half-repair/amplitude series; use these signatures to choose a broader mechanistic comparison.
+
+## M45: common token dependence and conditional prediction must be separated
+
+[Token-controlled half transfer](NATIVE_HALF_TOKEN_TRANSFER.md) improves covered-token local error beyond token means in all nine layer/cohort aggregates. Natural output KL improves versus original rank32 atMLP0/1, but worsens atMLP2; task-evaluation token means beat conditional prediction on output KL despite worse local reconstruction. Sparse token-mean estimation and corrective shrinkage remain alternatives to shared contextual computation. Next preserve token identity and prediction marginals while shuffling context pairing, rather than declaring residual coordinates reusable units.
