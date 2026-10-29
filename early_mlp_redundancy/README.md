@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Sparse continuity constraints](SPARSE_CONTINUITY_CONSTRAINTS.md). A precise proof shows why unrestricted signed hard-block selection with linear decoding cannot be globally continuous unless its decoded contribution is zero. Restricted-domain toys show how shared computation can escape the assumptions. All4encoders and64native sphere-tangent Jacobians have full128rowrank; real-text manifold reachability remains open. No new fitting. Earlier “next” actions below are historical.
+Current: [Boundaries on native computation paths](NATIVE_PATH_BOUNDARY_RESULTS.md). All32model/path cases have hard-extractor transitions along genuine bilinear MLP input-sphere paths;409crossings independently verified. Native write changes vanish while extracted jumps persist. This closes the boundary detour, without claiming text-manifold reachability or improved featurizers. Next return to competent task diversity and native causal structure. Earlier “next” actions below are historical.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
