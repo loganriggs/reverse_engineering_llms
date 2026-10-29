@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (four verified GPU depth-2 fits). Current goal turn: progress (four verified depth-3 fits, RMS geometry/cancellation proofs and checks, depth-4 producer running). Overall goal remains active.
 
+## Current Gauss–Newton control complete; confirmation remains LIVE
+
+Previous goal turn: progress (launched confirmation and checkedmetricdamping). Current turn: progress. run_bilinear_gauss_newton.py completed36fits on exactly archived actualbilinear tasks, fixed damping.001/.1,rawI/correctedM,Armijobacktracking,max100steps. All36 improvepaired fixedGD baseline but notcompute-matched. Untiedstudents atlambda.001 reachMSE<1e-12 all6targets in7–71steps; tiedstudents retainmetric/init-sensitive errors. No failedlinesearch. Auditor53894terminalpassed: everytrajectoryloss coefficient-moment replay, linearsystem/Armijochecks, initial/mid/finaltorch.funcjacrev match; maxJerror7.31e-16,linearres2.55e-10,momenterror1.45e-14. BILINEAR_GAUSS_NEWTON_RESULTS.md. No circuit-recovery claim or global convergence.
+
+assess_gauss_newton_tangents.py: all12initialteacher/studentfixtures numericallyrank15 andpairedoutputtangentprojectorsmatch; undampedlinearizedresidualfit succeeds. Rankfloating-point threshold1e-10,notexactsymboliccertificate. Fullquarticspace locally available toboth; metric/conditioning/nonlineartrajectory explanations remain. Avoid describing this tinycase as simply missing first-order output directions.
+
+LIVE SVHN session74676,parent181303. Current configurationseed212002_extra_wide_stack,phasetraining,childPID182423;11closedfits independentlyaudited. Revalidateactualsession/process,doNOTduplicate. All30fit/audit panel mustfinish before aggregateconclusion. Fixedseed/data/capacityrecipeunchanged. Publishclosedcasesonly; liveartifacts excludedfromcommittedmanifest. Next finishconfirmationpairedsummary; then decide separatelybudgeted curvature/circuitrecovery experiment without dampingrescue sweeps. Overallgoalactive.
+
 ## Current five-seed data/capacity confirmation is LIVE
 
 Previous goal turn: progress (actual bilinear alternating-gradient panel completed). Current turn: progress. Implemented run_svhn_confirmation.py, audit_svhn_confirmation.py, sequential run_svhn_confirmation_panel.py and all30-required summarize_svhn_confirmation.py. Five fresh seeds212001–212005; depth3standard/extra; width32stack, width32tree, width120stack chosen by parameter count (796080vs792896tree). Same fixed optimizer/data recipe,8010-update checkpoints,full30epochs. Wider-stack CPU/CUDAcheck passed relativeforward1.11e-6,gradient1.22e-6. All initial training-probe output/gradient statistics independently replayed in audit, and equalwidthinitialfunctions checked. No seed selection or pooling development seed.
