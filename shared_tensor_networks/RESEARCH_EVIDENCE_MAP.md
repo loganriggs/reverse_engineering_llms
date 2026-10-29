@@ -1,5 +1,7 @@
 # Research synthesis and completion evidence
 
+Update: LARGER_HIDDEN_TRANSFER_RESULTS.md now closes the depth2portion of the frozen-hidden-transfer gap identified below (192fits); depth3remains. The review below records the evidence and remaining scope at its original audit point.
+
 Status: the broad goal is NOT complete. This review checks the original E0–E4 direction against saved results, rather than declaring completion because the recent optimizer panel ended. Historical reports describe their own time point; their old “next” sections are not current job queues. No experiment is currently running.
 
 ## What the research presently says

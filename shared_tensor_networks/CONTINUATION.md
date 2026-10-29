@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: larger depth2 hidden transfer COMPLETE
+
+Previous turn progress; current turn progress. LARGER_HIDDEN_TRANSFER_PLAN/RESULTS.md,192fits/48dictionaries cover ALL12depth2teacher groups and36learnedmodels+12teacher-source oracles. Same32/128adaptation targets, no newnoise/retraining/tuning; exact sphere RMS bothrepresentationarms, ridge.001. Hiddenwithinheadproducts only. Savedfactors/readouts/provenance; audit actual network forwards,SVD ridge,checked Wick errors. Historical72source-output readouts replay separately; maxexact-vsMC discrepancy.2304, originals retained.
+
+Findings: directhidden does not broadly rescue transfer despite lower population floors. d32sharedstudent sourcefloor.961→hidden.873,128transfer1.15→21.85; truesharedoracle hiddenfloor0 and128transfer.0694. d16sharedoraclehidden128~1e-5; learnedseparate/budgethiddenfloors~.27butfiniteadaptation~.86/1.15. Incomplete representation AND finite-label readout error. No labelnoise added: do not explain as noiseamplification alone. Independentoracle onlysource12trunks, nottrueheldoutfeatures. Twofloorcutoffsagree,nestedspaninequalitiespass. All producer/auditor handles terminal; no jobs.
+
+Depth2deferredscalinggap closed; depth3frozenhidden diagnosis/precision remains. Next depth3evaluation with calibrateduncertainty, not moreoptimizerrescue. Fullgoalactive; nativeMLPpaused.
+
 ## Latest: cross-stage evidence review COMPLETE; larger hidden transfer still open
 
 Previous turn progress; current turn progress: RESEARCH_EVIDENCE_MAP.md maps original E0–E4/theory requirements to evidence and limits. audit_research_evidence.py verifies selected audit/result provenance and30SVHNaudits and their referenced checkpoints; explicitly not a full fresh numerical replay or completion proof. Goal remains active. No jobs running.
