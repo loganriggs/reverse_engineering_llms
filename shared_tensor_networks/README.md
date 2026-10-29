@@ -8,7 +8,9 @@ Represent a multilinear occurrence contraction as `F(z; u)` and impose fixed lin
 
 There is an essential identifiability limit: computing an identical deterministic state twice with tied parameters is mathematically equivalent to computing it once and reusing it. Outputs, derivatives, and any training procedure using only those derivatives cannot distinguish the two. Their execution costs differ. Function observations cannot uniquely recover the actual execution DAG without additional assumptions or observations. See [the mathematical note](MATHEMATICS.md).
 
-Latest: [depth5 basin controls and alignment theory](DEPTH5_BASIN_RESULTS.md).
+Latest: [depth5 prefix alignment and scaling boundary](DEPTH5_PREFIX_RESULTS.md).
+
+Previous: [depth5 basin controls and alignment theory](DEPTH5_BASIN_RESULTS.md).
 
 Previous: [coverage training and deep collapse](COVERAGE_AND_COLLAPSE_RESULTS.md).
 

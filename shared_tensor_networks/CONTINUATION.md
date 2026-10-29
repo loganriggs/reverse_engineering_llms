@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (readout/optimization controls and singular geometry). Current turn: progress (fresh multi-task transfer, explicit graph recovery, generic component-identifiability proof, and exact fiber/Jacobian certificate). All producers/auditors are terminal and passed; no live job or blocker. No GPU/native-MLP work started.
 
+## Latest prefix controls — depth5 detour closed
+
+Current goal turn: progress. DEPTH5_PREFIX_RESULTS.md:9audited fits copying1/3/4teacher trunk layers while retaining random readouts and independently recalibrating output energy. Prefix1 population errors1.94/9.45/2.02 despite falling training loss; prefix3 .669/.328/.125; prefix4 .00218/.00327/.00389 (all3 residual precision gates fail). Independent replay and exact prefix/calibration/hash audit pass. Alljobs terminal, noGPU.
+
+Do not turn teacher-copy success into an unprivileged learning or computation-discovery claim. Fixed training proposal may cover modified student errors differently. This bounds the current depth5 detour: coverage, calibration, smallerLRs, localbasin and prefixes are tested. Return to representative feasible depth2/3 sharing/transfer scaling instead of more privileged rescues.
+
+Next: implement and finalize SCALING_GRID_DRAFT.json (not launched/frozen):d16h8/d32h16,depth2/3,bothteacherregimes,3teacherreplicates,3studentarchitectures,width/budgetcontrols,12source+4whole-taskholdouts,expected72fits. Resolve independent calibration, teacher/source-only proposal isolation, exact budgets and residual-focused evaluation. Include oracle source-output span because12tasks do not span larger hidden dictionaries. Save fullstates/replay; report precisionfailures. Main goal remains incomplete.
+
 ## Latest depth5 basin controls
 
 Current goal turn: progress. DEPTH5_BASIN_RESULTS.md records9 audited fits on frozen depth5 importance datasets. Random-start lr1e-4/1e-5 still yields relativeerror~1; teacher+1%RMSnoise positive controls give.000258/.000672/.001686. Two absolute precision gates fail and remain flagged. NumPy evaluation/objective replay, perturbation replay and input hashes pass. All producers/auditors terminal; no GPU/live training jobs.

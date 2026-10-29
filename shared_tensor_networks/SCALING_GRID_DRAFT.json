@@ -1,0 +1,57 @@
+{
+  "status": "design draft; not launched or claimed frozen",
+  "purpose": "return from depth5 privileged diagnostics to sharing and transfer",
+  "configurations": [
+    {
+      "d": 16,
+      "h": 8,
+      "depth": 2
+    },
+    {
+      "d": 16,
+      "h": 8,
+      "depth": 3
+    },
+    {
+      "d": 32,
+      "h": 16,
+      "depth": 2
+    },
+    {
+      "d": 32,
+      "h": 16,
+      "depth": 3
+    }
+  ],
+  "teacher_regimes": [
+    "shared",
+    "independent"
+  ],
+  "teacher_replicates": 3,
+  "students": [
+    "shared matched width",
+    "separate matched width",
+    "shared wider near separate parameter budget"
+  ],
+  "source_tasks": 12,
+  "whole_task_holdouts": 4,
+  "ntrain": 1024,
+  "steps": 600,
+  "primary_transfer_labels": [
+    32,
+    128
+  ],
+  "transfer_features": "source task predictions; preserve this primary to match previous comparisons",
+  "transfer_penalty": 0.001,
+  "training": "importance weighted angular loss, with privileged source teacher pilot access explicit",
+  "open_controls": [
+    "choose nearest shared width by actual parameter count",
+    "normalize teacher/student source energies using independent weighted calibration",
+    "source proposal and all fitting must exclude heldout task outputs",
+    "audit oracle source-output span when source tasks do not span full hidden-product dictionary",
+    "fresh final residual-focused evaluation proposals, report CV/ESS failures",
+    "save full states and reproducible data; CPU runtime feasibility before GPU"
+  ],
+  "expected_fits": 72,
+  "deep_limit": "depth4/5 are documented difficult homogeneous cases; do not imply successful unprivileged learning from teacher-copy controls"
+}
