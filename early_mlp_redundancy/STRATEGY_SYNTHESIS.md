@@ -1,5 +1,7 @@
 # What the toy and real-model studies currently say about computational strategies
 
+Latest: [Fixed-direction diagnostic status](PRODUCT_DICTIONARY_DIRECTION_STATUS.md). Training derivatives and endpoint replay audited; source-group run stopped at a small derivative-accounting discrepancy. Exact failure retained; precision diagnosis next, no held-out conclusion yet.
+
 Latest: [Fixed-run diagnosis](PRODUCT_DICTIONARY_FIXED_RUN_DIAGNOSIS.md). Joint supervision improves actual training causal targets, but same-family source-group reversals remain. Natural write movement is about0.21%; capacity/convergence unproven.
 
 Latest: [Product-dictionary transfer results](PRODUCT_DICTIONARY_TRANSFER.md). All192natural and7416causal responses audited: joint supervision yields small, site-dependent gains, with source-position regressions and capital-recall-dominated final gains. No broad causal-unit claim.
