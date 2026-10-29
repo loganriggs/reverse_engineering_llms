@@ -1,6 +1,6 @@
 # How much of MLP1 can be removed while preserving its computation?
 
-Current: [Random-subspace comparison](NATIVE_RANDOM_SUBSPACE_RESULTS.md). Data PCA directions outperform rank-matched random directions on natural fidelity and most aggregate causal measures. Rank-4 source-group exceptions remain. Random rank-64 candidates preserve 100% binary source-group accuracy while failing causal fidelity. This supports useful data-dependent context subspaces, not semantic axes or removable native neurons. Next: a bounded within-span rotation diagnostic to distinguish subspace structure from coordinate-dependent localization. Earlier checkpoint “next” actions below are historical and superseded.
+Current: [Coordinate gauge and operator dimension](NATIVE_COORDINATE_GAUGE_RESULTS.md). The same fixed MLP1 span gives about 14 effective response coordinates in PCA axes and 22–23 after rotation, while the function is unchanged. Invariant local operator dimension averages 45.84 within the 64-dimensional span. Displacement concentration, operator dimension, and native-channel redundancy are separate properties. Next: a bounded matched early-layer comparison, informed by existing evidence. Earlier checkpoint “next” actions are historical and superseded.
 
 Recent context: [Native operator geometry](NATIVE_OPERATOR_METRIC_SETUP.md), [restricted-quadratic transfer](NATIVE_OPERATOR_METRIC_TRANSFER.md), [gradient compatibility](PRODUCT_DICTIONARY_COMPONENT_COMPATIBILITY.md), and [coverage comparison](PRODUCT_DICTIONARY_COVERAGE_RESULTS.md).
 
