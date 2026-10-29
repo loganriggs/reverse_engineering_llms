@@ -7,7 +7,15 @@ MLP2 has historical pruning failures, but the matched layer comparison does not 
 The user clarified that **redundancy means tolerance of removing parts**, not shared decodability,
 token-table replaceability, or a useful steering direction. This is the primary question below.
 
-## Current: gate robustness can hide a consequential shared contribution
+## Current: conditional donors beat a fixed group direction
+
+[M51](SHARED_CONTEXT_MEAN_CONTROL.md): natural learned shared-component error is .377 for same-token donors versus .653 for training-only group means (zero=1). All 72 donor rows replay and all 768 group/component means pass independent NumPy checks. This rules out an unconditional mean as the full explanation; token identity remains a confound. Native response transfer is still pending.
+
+## Previous: shared directions transfer geometrically, conditional on oracle magnitude
+
+[M50](SHARED_CONTEXT_DIRECTION_TRANSFER.md) freezes same-token/same-group context donors and retains zero-donor failures. Natural relative vector error is.377for learned shared contributions versus.814for exclusive contributions (zero predictor=1). This is not yet native causal fidelity. Next add a training-only group-mean direction baseline before native response testing, so a stable average direction is not mistaken for context-specific reuse.
+
+## Previous: gate robustness can hide a consequential shared contribution
 
 [M49](SHARED_GROUP_NATIVE_EFFECTS.md): shared-component removal changes native outputs more than exclusive removal in all eight candidates on natural text and task evaluation. Shared deltas also carry more energy; this is not evidence of better semantic units or native duplicate computations. All4608rows, including1709no-ops, passed audit. The next conditional-reuse control needs an explicit causal target rather than rewarding larger disruption.
 
