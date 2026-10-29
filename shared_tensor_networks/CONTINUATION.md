@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: research synthesis and renewed completion audit
+
+Previous/current turns progress. RESEARCH_SYNTHESIS.md now consolidates resource/metric/identification/transfer/scaling findings with links to scoped evidence. RESEARCH_EVIDENCE_MAP.md rewritten to current status, removing stale statements that larger hidden transfer is unfinished. audit_research_evidence.py now includes192depth2/192depth3fits and48newmeasurementreadouts in provenance counts. Synthesis local links verified. This is not freshnumericalreplayofallhistory or fullcompletionproof.
+
+BOUNDED_APPROXIMATE_IDENTIFICATION.md gives qualitative stability: fixed teacher withindependent2hforms/fullproducttaskspan,exacthcompetitor,unitfactors,boundedreadout ⇒populationerror→0forcesfeaturemismatch→0 modulo signs/permutation. Compactness+exactidentifiability+nonzeroGaussianquadraticnorm prove it. No computableepsilon/quantitativerate or necessityofboundedreadout claimed; no noveltyclaim.
+
+Fullgoalstillactive: proposedlargeenvelope notcomplete,quantitativerobustnessopen,qualifiedprecisionfailuresremain. Nextsubstantivelearningtest taskcoveragevsexamplebudget atlargerfeasiblefixedwidth,with exactevaluation andpredeclaredcontrols.12tasksbelow36/136products violate a SUFFICIENTidentificationcondition,not a provennecessaryone; noimpossibilityclaim. Do notrestartclosedoptimizerrescuepanels. Alljobs terminal; nativeMLPpaused.
+
 ## Latest: bounded depth3 measurement replication COMPLETE
 
 Previous/current turn progress. DEPTH3_MEASUREMENT_PLAN/RESULTS.md cover all12d32independent cases:24original128label readouts plus48new (two calibration draws),two independent task-specific proposals,96evaluation batches. Same65536evalsamples/model asprior butmoreproposalcompute (256axes/proposal). Originalfixedpredictor precisionpass20/96→80/96; allcalibrations240/288. IndependentNumPy audit calibration96batches/eval96batches/72SVDfits,originalfitbyteequality,hashes,pooledmetrics passes. Allhandles terminal,nolivejobs.

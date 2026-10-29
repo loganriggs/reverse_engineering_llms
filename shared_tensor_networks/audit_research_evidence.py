@@ -19,6 +19,9 @@ checks.append(dict(area='svhn_confirmation',verified_audits=30,verified_checkpoi
 # New optimizer panel has lists rather than a status flag.
 p=Path('results/profiled_curvature/audit.json');a=json.loads(p.read_text());assert len(a)==20 and sum(r['audited_steps'] for r in a)==654
 checks.append(dict(area='profiled_curvature',verified_fits=20,verified_steps=654,audit_sha256=sha(p)))
+for directory,count_field,expected in [('larger_hidden_transfer','fits',192),('depth3_hidden_transfer','adaptation_fits',192),('depth3_measurement','new_readouts',48)]:
+ p=Path('results')/directory/'audit.json';a=json.loads(p.read_text());assert a['status']=='passed' and a[count_field]==expected
+ checks.append(dict(area=directory,audit=str(p),audit_sha256=sha(p),verified_count=expected,count_field=count_field))
 result=dict(scope='Selected claim-to-evidence counts and provenance; not a fresh numerical replay of historical experiments or full completion proof',goal_complete=False,checks=checks,
- remaining=['Frozen hidden-feature transfer for larger saved scaling models','Depth-three evaluation precision and representation diagnosis','Cross-stage synthesis of statistical versus optimizer effects','Broad robust/global identifiability and general circuit recovery are not established'])
+ remaining=['Full proposed scaling envelope not executed','Quantitative robust feature recovery not established','Depth-three precision failures remain qualified','Larger fixed-width task coverage versus example budget not isolated','Generic physical circuit recovery remains unidentifiable without additional observations'])
 out=Path('results/research_evidence');out.mkdir(exist_ok=True);(out/'audit.json').write_text(json.dumps(result,indent=2)+'\n');print('Verified selected historical audit counts and SVHN checkpoint hashes; goal remains incomplete.')
