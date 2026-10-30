@@ -4,6 +4,30 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Current status: h64 training, evaluation, independent audit and report are COMPLETE. All 60 cases passed; auditor session50906 terminal exit0 verified. Scientific artifacts are stable and ready for publication. Goal remains active; native MLP work remains paused.
 
+## Latest: bounded checkpoint storage verified; analysis preflight still live
+
+Previous/current turns progress. chunked_checkpoint.py provides dtype-preserving factors/readout storage with bounded individual NPZ files, chunk ranges and SHA256 verification; no directory overwrite. check_chunked_checkpoint.py terminalexit0 tests h128 feature width8256 with257rows (uneven last chunks), float32/float64 bit-exact roundtrip, strict8MiB file cap, rejection of reordered/corrupt chunks. Results results/chunked_checkpoint_check; this tests storage rather than scientific model quality. Uncompressed chunks avoid compression-dependent size guarantees.
+
+Analysis benchmark session33806/PID216554 directly verified live,elapsed3:03/RSS3.71GiB. Gram22.48sec;8192row lstsq95.31sec completed, explicitSVD running. No restart; log /tmp/h128_analysis_preflight.log. Wait for both8192/32768 audited solves and terminalsuccess before selecting final h128 scientific protocol. h64 push already verified remote a2782526. New preflight sources/results await manifest/commit; exclude live results/h128_analysis_preflight until terminal.
+
+## Latest: h64 publication verified; h128 full analysis preflight live
+
+Previous turn progress; current turn progress. Upload session38247 terminalexit0. Remote main verified at a2782526e2981553d9733fd031757843fb355022, containing audited h64 artifacts and cross-width synthesis. No upload remains live.
+
+New benchmark_h128_analysis.py running in unified-exec33806 onCPU0 with single-thread BLAS, log /tmp/h128_analysis_preflight.log. Full d256/h128/8256product Gram;32768example feature matrix; adaptation8192/32768 via lstsq and separately explicitSVD, plus difference-vector population-error replay. Synthetic random known dictionary only, no trained-model scientific claim. Save results/h128_analysis_preflight; source/provenance recorded at success. Monitor samehandle, do not duplicate if log temporarily empty. Native Torch is absent from this NumPy analysis process.
+
+Next: confirm terminalsuccess and memory/timing suitability, then freeze d256/h128 scientific protocol. Candidate crossed inputs25000/100000 andtasks2064/8256 preserve equal scalarlabel comparison while reaching requested100k input scale; select only after feasibility is known. Maintain five independent teachers, randomstarts and privilegedcontrols, whole-taskholdouts and all failure records. Need generalized chunked checkpoints (<20MiB files), reproducible data regeneration, exact normalization and independent audit before scientific launch. Update manifest and publish preflight sources/results. Goal remains active.
+
+## Latest: h128 streamed training preflight passes; publication upload live
+
+Previous turn progress (committed h64 artifacts/cross-width synthesis a2782526); current turn progress. Push session38247 remains live, git-push PID215599. Do not launch duplicate push; poll same session and verify remote hash on exit. Existing wrapper writes /tmp/shared_tensor_push.log without exposing remote credentials. Avoid process command-line listings because remote transport may contain credentials.
+
+check_streamed_coverage.py verifies accumulation across unequal chunks with one clipping/Adam step per complete dataset against full-batch updates: five steps, two models, inactive heads. CPUfloat64 maxgradient difference2.84e-14/maxparameter1.11e-16; CUDAfloat32 maxgradient1.91e-5/maxparameter1.01e-7. First attempt assertions passed but process shutdown aborted exit134; retained exact source, results and runtime_failure.txt. Explicit cleanup retry passed terminalexit0; cause of native shutdown is not established. Evidence results/streamed_coverage_check_retry.
+
+benchmark_h128_training.py terminalexit0, real d256/h128/8256products and100000rows, chunks512, single model, two Adam steps with random targets. Low2064tasks: .986/.688sec steps,1.319GiB allocated. Full8256tasks:1.811/1.824sec,4.584GiB allocated. This is resource feasibility, not learning evidence; no exact scientific target normalization. Results results/h128_training_preflight. Full3000step timing extrapolations need sustained-run validation; no scientific training launched.
+
+NEXT: independent-analysis resource preflight at8256product coordinates (exact population Gram, adaptation solve and independent check), then freeze scientific h128 protocol with adequate input coverage and controls. Update manifest and publish new preflight artifacts after existing push completes. Broad goal remains active; nativeMLPpaused.
+
 ## Latest: h64 audited results and next decision
 
 Previous turn verified wait; this turn progress. Independent audit PID214227/session50906 completed exit0, all60 passed. summarize_task_coverage_h64.py completed successfully and wrote TASK_COVERAGE_H64_RESULTS.md plus evaluation/summary.json after validating the audit and provenance hashes.
