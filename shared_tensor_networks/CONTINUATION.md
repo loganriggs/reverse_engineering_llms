@@ -2,7 +2,35 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Current status: h64 training, evaluation, independent audit and report are COMPLETE. All 60 cases passed; auditor session50906 terminal exit0 verified. Scientific artifacts are stable and ready for publication. Goal remains active; native MLP work remains paused.
+Current status: h64 science is audited and published. h128 training/analysis resource checks and tiny orchestration audit pass; full scientific evaluator/auditor and protocol freeze remain before launch. No experiment process is currently live. Broad goal active; native MLP paused.
+
+## Latest: full h128 analysis and sustained timing retry pass
+
+Previous/current turns progress. Analysis session33806 terminalexit0, full8,256feature Gram and independentSVD checks at8192/32768examples pass. Ranks8192/8256; peakRSS12,718,012KiB=12.13GiB. Timings Gram22.48sec, lstsq95.31/188.99sec, independentSVD154.82/375.86sec. Results/h128_analysis_preflight stable; no scientific recovery claim.
+
+Sustained timing retry session80299 terminalexit0 onCPU0 with no concurrent analysis. Four12-step configurations pass; results/h128_grid_preflight_retry. Full100k/8256task steady median1.830sec/step, peak4.584GiB. Estimated full60fit×3000step training39.52GPUhours, excluding prep/evaluation/persistence/long-run contention. Original CPU1 concurrent native crash retained with source and partial records; clean retry does not establish its cause. No runtime remains live.
+
+NEXT: implement generalized resumable full-size evaluator and independent audit, preserving actualfloat32 training inputs/labels when replaying empirical loss; tiny12case audit does not replace that. Freeze source/protocol only after complete scientific path checked. Prepare resource accounting (including ~20GB artifacts plus Git storage, current~75GB diskfree) before launch. Candidate25k/100k×2064/8256tasks and60fits scope retained; no scientific h128 run yet. Publish all stablepreflightwork/manifest now. NativeMLPpaused/broadgoalactive.
+
+## Latest: 12-case orchestration and unchanged-resume audit pass
+
+Previous/current turns progress. run_task_coverage_h128.py implements locked single-worker orchestration, exact normalization, recorded data regeneration, paired starts, bounded checkpoints and completed-case resume with protocol equality checks. Scientific launch refuses unless candidate plan is explicitly FROZEN. Smoke d4/h2 grid:1teacher×2inputs×2taskcounts×3starts=12 cases,3CPUsteps each, terminalexit0/session83508.
+
+Independent audit_h128_runner_smoke.py terminalexit0/session30751 verifies all12 checkpoints, inactive heads, exact625-node Gaussian quadrature for source/transfer error and explicitSVD at16/64 adaptationexamples. Re-running completed smoke leaves every artifact byte unchanged. Teacher normalization independently matches quadrature. Persisted full small fixture and source/protocol snapshots in results/h128_runner_smoke_audit for reproducibility. Separate521-row pipeline smoke covers partial data/chunk boundaries. Not a full h128 scientific result or a full-size audit implementation.
+
+Analysis session33806/PID216554 verifiedlive elapsed11:32/RSS5.74GiB; final32768rowSVDpending. After terminalsuccess retry failed sustainedGPUgrid onCPU0 fresh output; then confirm implementation/protocol gates, storage/resource budget and full-size evaluator before scientific launch. Candidate run could take tens ofGPUhours. No scientific run has started. Latest remote stillab9a3cb4; new work not yet published.
+
+## Latest: generalized training/storage/evaluation smoke passes
+
+Previous/current turns progress. New streamed_training_case.py trains one full-batch case through chunked gradients, one clip/Adam update per full dataset, persists bounded checkpoint and source hashes, and checks inactive readout rows. check_streamed_pipeline.py terminalexit0/session54585: d4/h2,521 source examples spanning3fixed256-row blocks with9-rowtail, independent literal RNG/target regeneration,5CPUsteps, checkpoint reload, adaptation64 and independentSVD. Both source and heldout transfer errors match625-point exactGaussianquadrature; maxsource discrepancy1.33e-15. Results results/streamed_pipeline_check. Small CPU smoke establishes this path, not full h128 orchestration or recovery. PyTorch emits a singleton-batch gradient-layout performance warning; no numerical failure.
+
+Analysis session33806/PID216554 directlyverifiedlive at8:33/RSS5.23GiB;32768row leastsquares completed188.99sec, finalexplicitSVDpending. Do not duplicate. After terminalsuccess retry sustainedGPUtiming onCPU0 in a fresh output directory, preserving originalexit139. Candidate scientific protocol remains unfrozen until that runtime gate and generalized full-grid orchestration checks pass. No scientific h128training launched.
+
+## Latest: sustained grid timing failed; preserve and retry after analysis
+
+Previous/current turns progress. h128 grid timing benchmark session65249 terminalexit139 (native segmentation fault), CPU1 while NumPy analysis runs CPU0. Three12-step shape records preserved in results/h128_grid_preflight/progress.json; fourth100000/8256 did not persist. Exact source and runtime_failure.json retained. Do not claim full grid feasibility from partial timings or classify as optimization failure. Prior two-step all-shape smoke passed onCPU0. Retry with fresh output directory onCPU0 AFTER analysis completes; determine whether runtime issue repeats. No scientific training launched.
+
+Candidate TASK_COVERAGE_H128_PLAN.md records60fit crossed25k/100k×2064/8256 study with fixed3ksteps,5teachers,2random+privilegedstarts,whole-taskholdouts,technical gates. It remains explicitly unfrozen pending full preflight and end-to-end generalized runner/audit smoke. Analysis session33806 remains live;8192 SVD audit completed154.82sec and agrees with lstsq;32768 analysis pending. Latest published commit ab9a3cb4 remote verified. New scripts/plan/results remain uncommitted; never stage live analysis outputs.
 
 ## Latest: bounded checkpoint storage verified; analysis preflight still live
 
