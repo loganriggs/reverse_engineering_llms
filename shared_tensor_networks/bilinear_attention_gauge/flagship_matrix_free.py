@@ -1,8 +1,8 @@
-"""Full-width, corpus-free WTG pilot on a flagship first-layer attention head.
+"""Full-width WTG pilot on a flagship first-layer attention head.
 
-Token IDs are sampled uniformly from the *entire* vocabulary. The bond stays
-at physical width 128; there is no selected-domain SVD quotient. Monte Carlo
-samples approximate the uniform first-layer token/position metric. CPU-only.
+The bond stays at physical width 128; there is no selected-domain SVD quotient.
+Monte Carlo samples approximate declared uniform or corpus-weighted
+first-layer token/position metrics. CPU-only.
 """
 
 from __future__ import annotations
@@ -26,20 +26,30 @@ CORPUS=Path("/home/loganriggs/Coding/neuron_circuits/artifacts/"
             "bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy")
 
 
-def sample_pairs(rng,vocab,n,length):
-    positions=np.array([(i,j) for i in range(length) for j in range(i+1)])
+def causal_positions(length,mode="all"):
+    positions=np.array([(i,j) for i in range(length) for j in range(i+1)
+                        if mode=="all" or (mode=="self" and i==j) or
+                        (mode=="cross" and i!=j)])
+    assert len(positions)>0,(length,mode)
+    return positions
+
+
+def sample_pairs(rng,vocab,n,length,token_pool=None,position_mode="all"):
+    positions=causal_positions(length,position_mode)
     p=positions[rng.integers(0,len(positions),size=n)]
-    q=rng.integers(0,vocab,size=n,dtype=np.int64)
-    k=rng.integers(0,vocab,size=n,dtype=np.int64)
+    pool=np.arange(vocab,dtype=np.int64) if token_pool is None else np.asarray(token_pool,dtype=np.int64)
+    assert len(pool)>0 and np.all((pool>=0)&(pool<vocab))
+    q=pool[rng.integers(0,len(pool),size=n)]
+    k=pool[rng.integers(0,len(pool),size=n)]
     same=p[:,0]==p[:,1]
     k[same]=q[same]
     return q,k,p[:,0],p[:,1]
 
 
-def sample_corpus_pairs(rng,corpus,n,length,doc_start,doc_end):
+def sample_corpus_pairs(rng,corpus,n,length,doc_start,doc_end,position_mode="all"):
     assert corpus.ndim==2 and corpus.shape[1]>=length
     assert 0<=doc_start<doc_end<=len(corpus)
-    positions=np.array([(i,j) for i in range(length) for j in range(i+1)])
+    positions=causal_positions(length,position_mode)
     p=positions[rng.integers(0,len(positions),size=n)]
     docs=rng.integers(doc_start,doc_end,size=n)
     starts=rng.integers(0,corpus.shape[1]-length+1,size=n)
@@ -79,16 +89,17 @@ def rotate(z,pos,cos,sin):
 
 
 def rows(state,head,seed,n_train,n_val,length,swap=False,
-         distribution="uniform",corpus=None,train_docs=(0,15000),val_docs=(15000,20000)):
+         distribution="uniform",corpus=None,train_docs=(0,15000),val_docs=(15000,20000),
+         token_pool=None,position_mode="all"):
     vocab=state["transformer.wte.weight"].shape[0]
     rng=np.random.default_rng(seed)
     if distribution=="uniform":
-        train=sample_pairs(rng,vocab,n_train,length)
-        val=sample_pairs(rng,vocab,n_val,length)
+        train=sample_pairs(rng,vocab,n_train,length,token_pool,position_mode)
+        val=sample_pairs(rng,vocab,n_val,length,token_pool,position_mode)
     elif distribution=="corpus":
         assert corpus is not None
-        train=sample_corpus_pairs(rng,corpus,n_train,length,*train_docs)
-        val=sample_corpus_pairs(rng,corpus,n_val,length,*val_docs)
+        train=sample_corpus_pairs(rng,corpus,n_train,length,*train_docs,position_mode)
+        val=sample_corpus_pairs(rng,corpus,n_val,length,*val_docs,position_mode)
     else:
         raise ValueError(distribution)
     q_ids=np.concatenate((train[0],val[0]))
@@ -122,8 +133,10 @@ def rows(state,head,seed,n_train,n_val,length,swap=False,
     train_rows=make(train,0,n_train)
     val_rows=make(val,n_train,n_train+n_val)
     return train_rows,val_rows,dict(vocab=vocab,distribution=distribution,
+        token_pool_size=None if token_pool is None else int(len(token_pool)),
+        position_mode=position_mode,
         unique_query_tokens=int(len(q_unique)),unique_key_tokens=int(len(k_unique)),
-        sampled_causal_positions=length*(length+1)//2)
+        sampled_causal_positions=int(len(causal_positions(length,position_mode))))
 
 
 def local_svd(u,v,rank):

@@ -150,10 +150,14 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    and 4; see [full-width results](FULL_WIDTH_FLAGSHIP_RESULTS.md). These
    results avoid both a dense `128^2 x 128^2` transfer matrix and a tiny
    token-domain quotient. A local-window FineWeb corpus metric and matched
-   direct-fit control are also complete on head 0. The next tests are
-   rare-token strata, unseen combinations, longer contexts, downstream CE,
-   and interventions. Uniform Monte Carlo is not exact all-vocabulary
-   enumeration; corpus-pair fidelity is not a semantic result.
+   direct-fit control are also complete on head 0. A
+   [context-transfer red team](FLAGSHIP_CONTEXT_TRANSFER_RESULTS.md) shows
+   the four-position measure overweights self-pairs and establishes a rank
+   16–96 long-context Pareto curve on held-out FineWeb, WikiText, and
+   TinyStories. Next combine long-context uniform, corpus, and QK2-intervention
+   environments at fixed weights, then test full-model KL/CE and component
+   semantics. Uniform Monte Carlo is not exact all-vocabulary enumeration;
+   corpus-pair fidelity is not a semantic result.
 
 Across all stages, report **function reconstruction, downstream task
 performance, causal fidelity, rule recovery, and new-rule discovery** as

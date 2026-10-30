@@ -83,7 +83,7 @@ def main(args):
     state=torch.load(SNAPSHOT/"pytorch_model.bin",map_location="cpu",
                      weights_only=True,mmap=True)
     corpus=np.load(CORPUS,mmap_mode="r") if args.distribution=="corpus" else None
-    train,val,coverage=rows(state,args.head,args.seed,args.n_train,args.n_val,4,
+    train,val,coverage=rows(state,args.head,args.seed,args.n_train,args.n_val,args.length,
                             distribution=args.distribution,corpus=corpus)
     def make_env(part):
         u,v,w,_,_=part
@@ -91,6 +91,7 @@ def main(args):
     train_env,val_env=make_env(train),make_env(val)
     stem=f"head{args.head}_seed{args.seed}_n{args.n_train}"
     if args.distribution=="corpus":stem+="_corpus"
+    if args.length!=4:stem+=f"_l{args.length}"
     source=Path(__file__).with_name("full_width_results")/(stem+".npz")
     saved=np.load(source)
     outcomes=[];arrays={}
@@ -105,7 +106,7 @@ def main(args):
         print(args.head,args.distribution,rank,outcomes[-2:])
     output=args.output or Path(__file__).with_name("full_width_results")/(stem+"_fet.json")
     np.savez_compressed(output.with_suffix(".npz"),**arrays)
-    output.write_text(json.dumps(dict(head=args.head,seed=args.seed,
+    output.write_text(json.dumps(dict(head=args.head,seed=args.seed,length=args.length,
         distribution=args.distribution,n_train=args.n_train,n_val=args.n_val,
         max_iter=args.max_iter,selection="training loss only; no validation selection",
         source=str(source),coverage=coverage,outcomes=outcomes),indent=2)+"\n")
@@ -118,6 +119,7 @@ if __name__=="__main__":
     p.add_argument("--distribution",choices=["uniform","corpus"],default="corpus")
     p.add_argument("--n-train",type=int,default=16384)
     p.add_argument("--n-val",type=int,default=16384)
+    p.add_argument("--length",type=int,default=4)
     p.add_argument("--ranks",type=int,nargs="+",default=[16])
     p.add_argument("--max-iter",type=int,default=300)
     p.add_argument("--output",type=Path)

@@ -12,6 +12,8 @@ Identifiability control: [shared versus duplicated attention computation](SHARED
 
 Full-width flagship follow-up: [matrix-free first-layer heads](FULL_WIDTH_FLAGSHIP_RESULTS.md). The width-128 physical bond is reduced without an eight-token domain quotient. Uniform and corpus measures, a branch-swap control, and a matched direct-fit comparison separate gauge truncation from the metric it is meant to optimize.
 
+Context-transfer follow-up: [length, rare-token, cross-corpus, and sequence-output tests](FLAGSHIP_CONTEXT_TRANSFER_RESULTS.md). The original four-position metric overweights self-pairs; length-128 fitting and larger ranks improve long-context head fidelity but still do not establish downstream CE or semantic legibility.
+
 This experiment tests Glen Evenbly's [weighted trace gauge (WTG) and full-environment truncation (FET)](https://arxiv.org/abs/1801.05390) on a repeated-token, bilinear-attention circuit. It distinguishes three claims:
 
 1. A fixed attention-network representation has a reproducible internal gauge.

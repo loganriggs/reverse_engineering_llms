@@ -1,4 +1,6 @@
-# Full-width, corpus-free first-layer head reduction
+# Full-width first-layer head reduction
+
+Follow-up: [long-context, rare-token, and sequence-output transfer](FLAGSHIP_CONTEXT_TRANSFER_RESULTS.md) shows that the four-position metric overweights self-pairs and gives a rank 16–96 fidelity curve on independent corpora.
 
 `matrix_free_environment.py` applies the double-layer bond environment without building its \(d^2\times d^2\) Gram or transfer matrix. It computes the two weighted-trace-gauge (WTG) boundary operators by power iteration, then truncates the physical QK1 bond. The bond remains width **128** throughout; unlike the earlier eight-token pilot, there is **no domain quotient**.
 
