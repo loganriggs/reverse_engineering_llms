@@ -161,8 +161,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    [direct sequence-response fit](SEQUENCE_OBJECTIVE_RESULTS.md) now beats
    the saved half mixture and an extra-optimization pair-refit control on
    held-out head outputs. Its sequence-level constant-QK2 prior transfers
-   to a held-out QK2 key shift. Next test downstream KL/CE at the saved cuts.
-   After fixing a fidelity budget, a sparse-prior sweep on this
+   to a held-out QK2 key shift. A [full 18-layer propagation test](FULL_MODEL_BEHAVIOR_RESULTS.md)
+   finds the natural sequence fit has the lowest original-to-edited KL on
+   three corpora at rank 64; the zero-head baseline is far more damaging.
+   The next test should establish the Pareto frontier of fidelity versus
+   legibility. After fixing a fidelity budget, a sparse-prior sweep on this
    head compare native-weight, WTG-coordinate, effective-pair, group, and
    intervention-support sparsity. Uniform Monte Carlo is not exact
    all-vocabulary enumeration; corpus-pair fidelity is not a semantic result.

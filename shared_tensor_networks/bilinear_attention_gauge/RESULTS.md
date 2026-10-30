@@ -6,6 +6,8 @@ Flagship metric follow-up: [fixed uniform–corpus and intervention mixtures on 
 
 Sequence-objective follow-up: [directly optimize the summed first-layer head response](SEQUENCE_OBJECTIVE_RESULTS.md). With disjoint FineWeb fit/selection/test documents and two separate test corpora, rank-64 sequence fits beat the initial WTG cut and a direct pair-refit control. A 25% sequence-level QK2-constant objective improves that intervention and a held-out QK2 key shift. Full-model behavior and component legibility remain open.
 
+Full-model follow-up: [propagate the saved cuts through all 18 layers](FULL_MODEL_BEHAVIOR_RESULTS.md). On 18,432 next-token positions across disjoint FineWeb, WikiText-103, and TinyStories samples, the natural sequence fit has the lowest original-to-edited KL in both seeds of each corpus. A zero-head edit has roughly 47–54 times its KL. CE shifts are tiny and do not establish an accuracy gain; component legibility remains open.
+
 Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LANGUAGE_RESULTS.md). The pair-function extraction is exact; whole-sequence and pair-frequency environments differ beyond sampling noise, while the task is too redundant for accuracy to distinguish the reduced heads.
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
