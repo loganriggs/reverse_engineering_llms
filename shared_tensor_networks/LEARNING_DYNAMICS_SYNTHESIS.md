@@ -31,6 +31,8 @@ Sources: [layerwise alternation](BILINEAR_ALTERNATION_RESULTS.md), [block flow](
 
 A further exact local comparison is now available: for a positive-definite quadratic in two scalar blocks, finite-dwell exact alternating flow has asymptotic spectral contraction no better than joint flow at equal per-coordinate active time, strictly worse with nonzero coupling. The proof compares traces at equal determinant using convexity of cosh(sqrt(t)). This does not order every finite trajectory or cover vector blocks/nonconvex escape. Matrix-exponential and selected ODE checks pass across480settings. See [two-block rate proof](TWO_BLOCK_FLOW_RATE.md).
 
+The rate bound has subsequently been extended to **two arbitrary vector blocks** on a fixed positive-definite quadratic. Transforming to energy coordinates makes both block generators symmetric; order-monotonicity of the matrix logarithm proves the spectral-radius bound. Symmetric half/full/half splitting has the same spectrum. Unlike the scalar case, nonzero coupling need not make the worst-rate inequality strict: an uncoupled slower direction can dominate. All192 numerical fixtures and selected independent ODE checks pass. This is a standard matrix-inequality application, not a novelty claim, and does not cover three-or-more-block cycles or nonlinear escape. See [vector-block extension](VECTOR_BLOCK_FLOW_RATE.md).
+
 ## 3. Readout adaptation: easier integration does not imply better features
 
 Faster readout adaptation approaches exactly refitted-readout gradient flow under uniform local conditioning assumptions. Thirty two-timescale flows support that limit. Exact readout elimination nevertheless need not select better hidden representations.

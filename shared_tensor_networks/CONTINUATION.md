@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Current status: h128 scientific training LIVE, unified-exec2603/PID218538, CPU0/singleBLAS andCUDAfloat32. Root results/task_coverage_h128; log /tmp/task_coverage_h128.log. Protocol frozen,60fits planned. Do not duplicate or stage mutable scientific outputs. h64 results already published. Broad goal active/nativeMLPpaused.
 
+## Latest: vector-block alternating-flow rate extension
+
+Previous turn verified wait; this turn substantive theory progress. VECTOR_BLOCK_FLOW_RATE.md extends the scalar local bound to two arbitrary complementary coordinate blocks on a fixed SPD quadratic. In energy coordinates U+V=H; T=exp(-tau V/2)exp(-tau U)exp(-tau V/2)<=rho I implies exp(-tau U)<=rho exp(tau V). Matrix-log monotonicity gives rho>=exp(-tau lambda_min(H)). Includes a self-contained integral proof of log monotonicity, positivity/convergence proof, reverse-order/symmetric-split spectral equivalence, and unequal-duration comparison to the appropriately preconditioned joint flow. No novelty claim; primary matrix-inequality context linked. No claims for general multi-block/nonconvex training or circuit recovery.
+
+check_vector_block_flow_rate.py terminal exit0 on CPU1/singleBLAS, NumPy/SciPy only:192 fixtures, literal affine block maps versus exponentials max error7.60e-15, energy similarity6.83e-15, spectra2.34e-15, selected DOP853 endpoints2.15e-14. Coupled 3D example proves strictness need not hold in vector blocks (uncoupled slow coordinate dominates). Results/source hashes in results/vector_block_flow_rate/checks.json. Scientific training dependencies and frozen protocol unchanged. Continue monitoring existing h128 process; full evaluation/audit/report remain required after all60 fits.
+
 ## Latest: exact two-scalar-block alternating-flow rate comparison
 
 Previous turn verifiedwait; currentturnprogress. TWO_BLOCK_FLOW_RATE.md proves forSPDquadratic H=[[a,c],[c,b]], exact blockflows eachactivetime tau have cycletrace u+v+q(1-u)(1-v),detuv. Jensenconvexity ofcosh(sqrt(t)) gives trace>=joint exp(-tauH),equal det implies spectralradius>=exp(-lambda_minH*tau),strictforc!=0. Positiveeigenvalues andrho<1verifiedalgebraically. This is asymptoticworst-casepercycle rate, not finite-loss ordering, walltime, vectorblocks, Adam, generaldeepnetworks, or nonconvexescape. No noveltyclaim.
