@@ -1,6 +1,6 @@
 # Current evidence map and completion status
 
-Start with [the research synthesis](RESEARCH_SYNTHESIS.md). This file maps the original E0–E4/theory requirements to their present evidence. Historical reports retain their original “next” sections; those are not live job queues. No experiment is running. The broad goal remains active.
+Start with [the research synthesis](RESEARCH_SYNTHESIS.md). This file maps the original E0–E4/theory requirements to their present evidence. Historical reports retain their original “next” sections; those are not live job queues. Historical status superseded by the latest update below. The broad goal remains active.
 
 | Requirement | Authoritative evidence | Status and scope |
 |---|---|---|
@@ -58,3 +58,8 @@ Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal6
 ## Verified infrastructure for d128/h64
 
 [ACTIVE_COVERAGE_RESULTS.md](ACTIVE_COVERAGE_RESULTS.md) verifies independent-case grouping against the original full-batch updates and tests all four larger shapes on GPU (largest allocated6.62GiB). Deterministic block regeneration and lossless checkpoint chunks pass. An initial post-check shutdown abort is retained; cleanup replay exited successfully. This prepares larger scientific runs; it supplies no new recovery result at h64.
+
+
+## Exact sampled-information extension; h64 training active
+
+SAMPLED_HIDDEN_INFORMATION.md now includes exact rank certificates for d4/h2 and three product tasks: seven generic inputs leave two local non-scaling ambiguities, whereas eight give local identification modulo scaling. Thirty integer fixtures retain nongeneric small-range deficits alongside broader-range witnesses. This supplies no conditioning, noise or global-recovery guarantee. The d128/h64 producer was directly confirmed live; evaluation/audit and scientific results remain pending. Aggregation code has fixture tests but no h64 scientific outcome is claimed.

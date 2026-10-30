@@ -38,7 +38,7 @@ On extra-data SVHN at depth3, the five-seed mean accuracy is87.26%for the narrow
 
 ## What remains open
 
-The current bounded experiments are complete and published in the repository with checkpoints, protocols and audits. The broader objective remains active because the proposal's full scaling envelope and quantitative robust-recovery claims are not established. No current job is running.
+The current bounded experiments are complete and published in the repository with checkpoints, protocols and audits. The broader objective remains active because the proposal's full scaling envelope and quantitative robust-recovery claims are not established. Historical status superseded by the latest update below.
 
 The most useful next learning experiment is to test sufficient task coverage and more source examples at a larger still-tractable fixed width, before jumping to depth5or width512. The old h8/h16scaling study used only12source tasks, below the36/136product dimensions, and a fixed600step training recipe. The recent hidden-transfer diagnosis shows incomplete learned dictionaries; it does not distinguish insufficient source information from optimization and model-selection limits. A fixed-width, task-count/sample-count experiment with exact evaluation is more informative than another optimizer rescue sweep.
 
@@ -71,3 +71,8 @@ Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal6
 ## Verified infrastructure for d128/h64
 
 [ACTIVE_COVERAGE_RESULTS.md](ACTIVE_COVERAGE_RESULTS.md) verifies independent-case grouping against the original full-batch updates and tests all four larger shapes on GPU (largest allocated6.62GiB). Deterministic block regeneration and lossless checkpoint chunks pass. An initial post-check shutdown abort is retained; cleanup replay exited successfully. This prepares larger scientific runs; it supplies no new recovery result at h64.
+
+
+## Exact sampled-information extension; h64 training active
+
+SAMPLED_HIDDEN_INFORMATION.md now includes exact rank certificates for d4/h2 and three product tasks: seven generic inputs leave two local non-scaling ambiguities, whereas eight give local identification modulo scaling. Thirty integer fixtures retain nongeneric small-range deficits alongside broader-range witnesses. This supplies no conditioning, noise or global-recovery guarantee. The d128/h64 producer was directly confirmed live; evaluation/audit and scientific results remain pending. Aggregation code has fixture tests but no h64 scientific outcome is claimed.

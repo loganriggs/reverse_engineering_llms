@@ -38,6 +38,32 @@ check_sampled_hidden_information.py evaluates the actual normalized bilinear fea
 
 ## Numerical findings
 
-All63fixtures pass; ranks agree at both relative thresholds. With three or six tasks, observed ranks at N=2,3,4,6,7,8,15 are0,0,3,8,10,12,12 for every seed. With one task they are0,0,1,3,4,5,12. Thus N=7 does not reach the naive count12, while N=8 reaches12 in these fixtures, consistent with the second bound. The largest finite-difference derivative discrepancy is1.49e-8. Three independent direct product/readout refits also verify finite GL(2) basis-change invariance. No exact-rank certificate or conditioning lower bound is claimed.
+All63fixtures pass; ranks agree at both relative thresholds. With three or six tasks, observed ranks at N=2,3,4,6,7,8,15 are0,0,3,8,10,12,12 for every seed. With one task they are0,0,1,3,4,5,12. Thus N=7 does not reach the naive count12, while N=8 reaches12 in these fixtures, consistent with the second bound. The largest finite-difference derivative discrepancy is1.49e-8. Three independent direct product/readout refits also verify finite GL(2) basis-change invariance. Those numerical fixtures alone provide no exact-rank certificate or conditioning lower bound; the separate exact extension below establishes generic ranks for the three-task case.
 
 ![Sampled hidden information rank bounds](results/sampled_hidden_information/rank_bounds.png)
+
+
+## Exact finite-sample certificate: seven versus eight inputs
+
+The separate script `certify_sampled_information.py` now certifies the three-task d4/h2 case with integer arithmetic, finite-field minors and independent SymPy rational ranks. Write the two hidden features as z1=x1*x2 and z2=x3*x4, and take the three readouts to be z1², z1*z2, z2². There are 25 raw parameters: 16 factor entries and nine readout entries. At full-column-rank Phi the readout derivative has rank nine. Profiling it out gives rank(A)=rank(J_full)-9, by the dimension formula for the sum of the hidden and readout derivative ranges.
+
+Four independent continuous scaling directions preserve outputs: reciprocal scaling within each quadratic and scaling each quadratic while compensating its readout columns. The stored Jacobians annihilate all four explicit directions. Together with the previous sampled-value and observation bounds,
+
+    rank(J_full) <= 9 + min(12, 3(N-3), 2(N-2)).
+
+For each N in {4,6,7,8,15}, three input fixtures drawn from integers -30 through 30 attain this upper bound. Selected minors have nonzero determinants modulo the prime 2147483647, proving nonzero determinants over the rationals. Their profiled ranks are respectively 3,8,10,12,12. The script independently checks every Jacobian column by exact central differences at steps one and two: each output has degree at most two in any individual parameter, so these differences are exact derivatives here. SymPy rational elimination agrees with every modular rank.
+
+A nonzero minor is a polynomial witness. Therefore, outside a proper algebraic subset of joint inputs and parameters, these ranks are attained in the full-rank regime. For these dimensions and three independent product tasks, eight generic inputs suffice for full first-order hidden identification modulo the four scaling freedoms; seven cannot. At N=8 the generic local fixed-output fiber has dimension 25-21=4, exactly the scaling-orbit dimension. At N=7 it has dimension 25-19=6, leaving two further local degrees of ambiguity beyond scaling. This is local identification, not global uniqueness, an optimization theorem, a noise tolerance or a useful conditioning bound.
+
+### Retained degeneracies and protocol amendment
+
+The first attempt used inputs from -3 through 3 and incorrectly asserted that every fixture must attain the generic bound. It stopped at seed260101,N6 with full rank16 rather than17. We removed that unjustified assertion, retained all 15 original fixtures, and added a separately identified broader-range suite using the same three seeds. Exact rational ranks certify the original deficits; they are not floating-point threshold artifacts or modular-prime rank losses.
+
+| Integer input range | Seed | Profiled ranks at N=4,6,7,8,15 |
+|---|---:|---|
+| -3…3 | 260101 | 3,7,9,11,12 |
+| -3…3 | 260102 | 0,3,5,7,12 |
+| -3…3 | 260103 | 0,6,8,10,12 |
+| -30…30 | all three seeds | 3,8,10,12,12 |
+
+Both suites keep full sampled Z rank two and Phi rank three. Thus those two rank checks alone do not ensure generic hidden information. These examples support the distinction between nominal sample count and informative input coverage. They do not estimate how often such degeneracies occur under Gaussian sampling. The broad-range suite supplies algebraic witnesses, not an unbiased empirical success-rate estimate. All 30 input sets, Jacobians, selected minors and ranks are saved in `results/sampled_information_certificate/certificate.json`. No literature novelty claim is made.

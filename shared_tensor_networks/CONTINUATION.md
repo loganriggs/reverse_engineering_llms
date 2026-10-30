@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: exact sampled-information certificate and h64 aggregation prepared
+
+Previous user-facing turn was a results explanation (no new scientific state); this continuation made progress. Producer PID202441 was directly confirmed live at elapsed32:33, teacher256102 n32768_t2080 step200; seven groups/21 models saved. Do not duplicate or change producer/imported sources. Full h64 scientific evaluation and audit still pending terminal training success.
+
+certify_sampled_information.py passed30 integer fixtures. Generic d4/h2/three-task profiled ranks at N4/6/7/8/15 certified3/8/10/12/12 by nonzero modular minors plus independent rational elimination. Exact local fibers at N7/N8 have dimensions6/4; four scaling directions are explicit. Initial small-range fixture failed saturation; retained all15 lower-information fixtures and documented broader-range addition. No global identification, noise conditioning or optimization guarantee. See SAMPLED_HIDDEN_INFORMATION.md and results/sampled_information_certificate.
+
+aggregate_h64.py and summarize_task_coverage_h64.py prepared; check_h64_aggregation.py verifies teacher-level averaging, separate privileged controls, paired comparisons, and rejection of invalid condition sets/nonfinite errors. Report writer requires completed60-fit audit and matching provenance. It has not been run on scientific outcomes. Next: monitor existing producer14051/PID202441, then evaluate, audit and summarize full scientific results with pinned CPU and single BLAS thread. Goal remains active; native MLP remains paused.
+
 ## Latest: h64 audit prepared/tested; producer STILL RUNNING
 
 Previous/currentturnprogress. coverage_audit.py and audit_task_coverage_h64.py implemented. Independentliteralproducts/127-rowempiricalloss,monomialquadraticcosine,explicitSVDreadouts andexactWickmetricreplay(sharedverifiedkernel). Fullcasecoverage/hash/initial/inactive/curve/resource checks; auditorresumewithprovenance. Scientificmetricsnotrunyet.
