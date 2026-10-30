@@ -2,7 +2,15 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Current status: h64 training is live; evaluation/audit/report handoff are verified and await training completion. Recent turns either advanced theory/experiments or directly verified the live producer. Read the newest entry below; older entries are chronological history, not a live queue. Goal active.
+Current status: h64 training completed successfully; population/transfer evaluation is live. Training structure passed; full metric audit and report remain pending. Recent turns either advanced theory/experiments or directly verified the live producer. Read the newest entry below; older entries are chronological history, not a live queue. Goal active.
+
+## Latest: all60 h64models trained; evaluation LIVE
+
+Previous turnverifiedwait; currentturnprogress. Producer14051 terminalexit0; training_complete.json confirms20groups/60fits trained_not_evaluated. Final256105n32768_t2080 savedafter3000steps. No restart. Training-only audit16935terminalexit0 checkedall60 source/checkpoint/initial/inactive/curve/shape/resourceconditions; outputroot/audit_training.json. This doesnotcertifyscientificmetrics.
+
+LIVE evaluator unified-exec75791/PID213446,parent213442, log /tmp/task_coverage_h64_evaluation.log. CPU0/singleBLAS. Atlatestcheck evaluatingfirstteacher largestcondition; savedcasecountreadfromevaluation/results.json. Do notduplicate/restartonobservationtimeout; inspectsamehandle/process. Evaluation source/protocol locked. Scientificroot trainingfilesnowstable butevaluationmutating; leaveuncommitteduntilaudited.
+
+NEXT: verifyevaluator terminalsuccess andevaluation/complete.json (60fits,240metricentries,120learnedfits,10oraclefits), then run audit_task_coverage_h64.py onCPU0/singleBLAS, then summarize_task_coverage_h64.py. Auditresume usescase/provenancehashes. Anyfailuremustbeinspected,notcause trainingrerun. Afterfullauditstageallstableartifacts(each<20MiB),updatemanifest/report/synthesisandpush. Broadgoalstillactive; nativeMLPpaused. Noadditionaloptimizerrescuepanelswhilefinishingthisstudy.
 
 ## Latest: consolidated B guide; h64 wait remains verified
 
