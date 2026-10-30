@@ -83,3 +83,8 @@ DEPTH3_INTERNAL_MIXING.md supplies an exact width-two counterexample: complete p
 ## Which intervention identifies deep axes?
 
 DEPTH3_INTERVENTION_IDENTIFICATION.md proves that one named internal deletion with two informative output measurements resolves the width-two mixing ambiguity. Eight exact Jacobian certificates distinguish first-order from higher-order information. One squared-task readout provides a quartic weak signal along a mixing direction; the mixed task provides a quadratic signal. Constrained scalar-flow identities are verified, not claimed as full-network dynamics. Larger h64 training remains live,30/60models saved at latest check.
+
+
+## Training with deep causal supervision
+
+DEPTH3_CAUSAL_TRAINING_RESULTS.md reports20 audited fixed-firstlayer population fits. Adding ablation observations improves axis recovery1/10→3/10 and lowers ablation error on5/5teacher fixtures, but worsens ordinary error on5/5 and reduces exact ordinary fits5/10→3/10. All near-exact observation-only fits recover the feature plane, while axes remain ambiguous. One capped case retained. This distinguishes useful additional information from reliable optimization; no general deep-recovery claim follows. h64 remains running.

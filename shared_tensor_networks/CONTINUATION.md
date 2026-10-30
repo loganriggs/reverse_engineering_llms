@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: causal depth-three training test completed; mixed outcomes
+
+Previous/currentturnprogress. DEPTH3_CAUSAL_TRAINING_PLAN.md frozen before20fits; RESULTS reports exactpopulation knownfirstlayer depth3,width2,17params,5teacherfixtures(sameproductspan/differentaxes),2randomstarts,obs vsobs+allfirst-feature-ablationoutputs. Allaudited via625point polynomial-exactGH/literalforward/FD/SVD. Causal axisrecovery3/10vs1/10; ordinarynear-exactfits3/10vs5/10. Causal lowers ablatederrormean5/5teachers but worsens ordinary5/5. All5near-exactobservationfits recoverplane<6e-12,notuniqueaxes. Onecausal263103/264002 hits300evalcap,retained. Norescue. Closeboundedpanel; don'tturnidentificationtheorem intooptimizer guarantee.
+
+Artifacts depth3_causal_model.py,run_depth3_causal_training.py,audit_depth3_causal_training.py,results/depth3_causal_training. InitialauditJSONnumpyintserializationfixedwithoutscientificchanges. Producerh64PID202441 confirmedlive elapsed52:55,teacher256103 n32768_t520 step2800;30/60saved. Existing14051; nextterminalsuccess->evaluate_task_coverage_h64.py->audit_task_coverage_h64.py->summarize_task_coverage_h64.py. Don'tduplicate/editproducer orstage mutablescientificroot. Fullgoalactive/nativeMLPpaused.
+
 ## Latest: intervention identification and weak-signal dynamics
 
 Previous/currentturnprogress. DEPTH3_INTERVENTION_IDENTIFICATION.md proves exact component-axis identification in the fixed-firstlayer width2family when matching originaltasks plus mixeduv/second-squarev² outputs after deletingfirstfeature. Eight measurement subsets certified by exactrationalminors and independentintegerfinite differences. Ranks11(noablation/u²only),12(singleuv/v² oru²+one),13(uv+v²/all). Four scales persist. u²+v² also gives exactglobalaxes but firstorderrank12; higher-orderidentification explicitlydistinguished.
