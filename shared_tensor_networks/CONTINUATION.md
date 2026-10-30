@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: full-size analysis smoke and audit-to-report contract pass
+
+Previous/currentturnprogress. benchmark_h64_analysis.py completed realshape smoke d128/h64:teacher/candidategeometry,520sourceerrors,componentmatching,2048/8192adaptation andindependentSVD rank2048/2080 pass. PeakRSS1.45GiB; fit1.37/2.78sec,independentSVD2.34/5.76sec. CPUcore1/singleBLAS avoidsproducerCPU0. No scientifictrainedoutcomes evaluated. H64_EVALUATION_PREPARATION.md updated; results/h64_analysis_preflight checks+hashes.
+
+check_h64_report_handoff.py tested actualreportwriter on synthetic60records/20groups/eightconditions; confirmsresourcegroupcounting and rejects fourinvalidstates (pendingaudit,changedresults,changedcasehash,changedsource). Output results/h64_report_handoff. Nochanges toproducer/evaluator/auditor sources. Fullscientific orchestrationstillawaitsproducerterminalsuccess. Keepcurrentgoalactive; no more optimizerrescuepanels needed.
+
+At turnstartPID202441confirmedlive elapsed54:26,teacher256103 n32768_t2080 step200;33/60models saved. Existing14051. NEXT verifylivehandle/status, then afterterminalsuccess evaluate_task_coverage_h64.py->audit_task_coverage_h64.py->summarize_task_coverage_h64.py withsingleBLAS/pinnedCPU. Do notduplicateorstage mutable scientificroot. NativeMLPpaused.
+
 ## Latest: causal depth-three training test completed; mixed outcomes
 
 Previous/currentturnprogress. DEPTH3_CAUSAL_TRAINING_PLAN.md frozen before20fits; RESULTS reports exactpopulation knownfirstlayer depth3,width2,17params,5teacherfixtures(sameproductspan/differentaxes),2randomstarts,obs vsobs+allfirst-feature-ablationoutputs. Allaudited via625point polynomial-exactGH/literalforward/FD/SVD. Causal axisrecovery3/10vs1/10; ordinarynear-exactfits3/10vs5/10. Causal lowers ablatederrormean5/5teachers but worsens ordinary5/5. All5near-exactobservationfits recoverplane<6e-12,notuniqueaxes. Onecausal263103/264002 hits300evalcap,retained. Norescue. Closeboundedpanel; don'tturnidentificationtheorem intooptimizer guarantee.

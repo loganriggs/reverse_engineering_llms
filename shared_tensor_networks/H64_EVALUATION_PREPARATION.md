@@ -24,3 +24,14 @@ coverage_audit.py independently reconstructs literal products, empirical loss in
 audit_task_coverage_h64.py validates complete condition coverage, saved data/code/checkpoint hashes, teacher and initial-model files, inactive weights, logged curve coverage and basic resource consistency before scientific metric checks. Its training-only mode passes all12real-size two-step smoke checkpoints. It does not replay all3,000optimizer steps or independently measure GPU memory. Full metric auditing is resumable with separate source/result hashes.
 
 Actual transfer fits are counted as120learned plus10shared oracle fits for the planned full study. The240per-case metric entries repeat those oracle controls; they are not240independent fits. The scientific audit is still pending while training runs.
+
+
+## Real-shape analysis and report handoff verified
+
+benchmark_h64_analysis.py ran on the saved two-step d128/h64 smoke checkpoint, using CPU core1 and one BLAS thread while scientific training continued on its existing resources. Teacher/candidate Wick geometry,520source-task population errors, component matching, and2048/8192-label adaptation passed. Independent explicit SVD refits agree at ranks2048/2080. Independent feature ordering and error replay pass. These are smoke checks, not trained-model scientific outcomes.
+
+Measured teacher geometry1.27s, candidate geometry2.05s; adaptation1.37s/2.78s for2048/8192labels; independent SVD2.34s/5.76s. Peak process RSS1,518,700KiB (about1.45GiB). Timings are one checkpoint on one CPU core, exclude full source regeneration/empirical replay, and do not guarantee total scientific analysis duration. Larger source arrays and concurrent state can increase peak memory. Raw measurements and input/source hashes are in results/h64_analysis_preflight/checks.json.
+
+check_h64_report_handoff.py tests the actual report writer in an isolated synthetic60-record filesystem fixture. It verifies eight aggregate conditions,20resourcegroups counted once, teacher starts separate, and transfer-fit wording. It rejects unfinished audit status, changed result hashes, changed per-case audited records even after updating the outer hash, and changed source hashes. This is a contract test, not a scientific audit. Results in results/h64_report_handoff/checks.json.
+
+Scientific orchestration remains: verify producer terminalsuccess and training_complete.json; run evaluate_task_coverage_h64.py, then audit_task_coverage_h64.py, then summarize_task_coverage_h64.py. Preserve any evaluation/audit failure, inspect its cause, and resume only with compatible locked provenance. Do not rerun training merely because analysis fails or observation times out. The full producer and imported sources were unchanged by these checks.
