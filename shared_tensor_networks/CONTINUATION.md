@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Current status: h128 scientific training LIVE, unified-exec2603/PID218538, CPU0/singleBLAS andCUDAfloat32. Root results/task_coverage_h128; log /tmp/task_coverage_h128.log. Protocol frozen,60fits planned. Do not duplicate or stage mutable scientific outputs. h64 results already published. Broad goal active/nativeMLPpaused.
 
+## Latest: h64 partial-recovery and feature-span diagnosis
+
+Previous/current turns progress. Posthoc reanalysis of60auditedh64fits: lowN/lowtasks all10randomruns recover0features at.99; lowN/fulltasks four recover0and six59–64, with bothstarts agreeing on broadfailures for2/5teachers. HighN runs recover58–64; .95threshold yields unchanged counts. Learned quadratic spans allrank64, so not numerical rankcollapse. Population projection of missed teacherfeatures leaves runmean residual25–33% at highN, beyond axes-only ambiguity; overall meanresidualsmall because fewdirectionsmissed. Independent Euclidean embedding/lstsq replays all60Gaussian Gram projections. See H64_PARTIAL_RECOVERY_RESULTS.md and results/h64_feature_span_verified. Exploratorydescription, not causation, phase transition, or downstream quarticspan guarantee. Frozenh128protocol unchanged.
+
+Scientific h128worker2603/PID218538 directlyverifiedlive elapsed5:02,RSS4.00GiB, stillpreparingnormalizedinitial/teacherdata. Emptylogatthisstage expected; do not duplicate. Source frozen; no changes to training/evaluation/audit files. Publish new stableanalysisonly, not mutablerootresults/task_coverage_h128.
+
 ## Latest: generalized analysis checks pass; scientific protocol frozen
 
 Previous/current turns progress. evaluate_task_coverage_h128.py and audit_task_coverage_h128.py passed all12 persisted smoke cases, with source/data/checkpoint provenance, exact float32 training-data replay, independent literal empirical prediction, quadratic feature matching and explicitSVD. Shared checked Wick kernel remains scoped. check_h128_analysis_guards.py passed positive byte-stable resume and three negative checks: changed numerical metric with cache removed, corrupted checkpoint chunk, altered source recipe. Results/h128_analysis_guard_check and fixture/evaluation preserve evidence. No replay of every optimizer step or hardware counter verification claimed.
