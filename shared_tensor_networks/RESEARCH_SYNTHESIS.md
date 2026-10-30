@@ -91,3 +91,8 @@ LOCAL_NOISE_RECOVERY_RESULTS.md reports450 privileged teacher-start local fits w
 ## Depth-three component ambiguity
 
 DEPTH3_INTERNAL_MIXING.md supplies an exact width-two counterexample: complete product-task functions do not identify second-layer feature axes. Legal mixtures preserve all output functions but change coordinate-ablation effects. Four rational examples and a rank11/17parameter certificate show two local mixing freedoms beyond four scales. This refines deeper recovery criteria; it is not a general-width impossibility theorem or an explanation of all historical deep-learning failures. h64 training remains live (27/60 models saved at latest check).
+
+
+## Which intervention identifies deep axes?
+
+DEPTH3_INTERVENTION_IDENTIFICATION.md proves that one named internal deletion with two informative output measurements resolves the width-two mixing ambiguity. Eight exact Jacobian certificates distinguish first-order from higher-order information. One squared-task readout provides a quartic weak signal along a mixing direction; the mixed task provides a quadratic signal. Constrained scalar-flow identities are verified, not claimed as full-network dynamics. Larger h64 training remains live,30/60models saved at latest check.

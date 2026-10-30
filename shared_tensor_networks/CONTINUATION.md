@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: intervention identification and weak-signal dynamics
+
+Previous/currentturnprogress. DEPTH3_INTERVENTION_IDENTIFICATION.md proves exact component-axis identification in the fixed-firstlayer width2family when matching originaltasks plus mixeduv/second-squarev² outputs after deletingfirstfeature. Eight measurement subsets certified by exactrationalminors and independentintegerfinite differences. Ranks11(noablation/u²only),12(singleuv/v² oru²+one),13(uv+v²/all). Four scales persist. u²+v² also gives exactglobalaxes but firstorderrank12; higher-orderidentification explicitlydistinguished.
+
+Along compensated shear, u²ablationloss=t⁴/2 versus mixedloss=t²/2 after commonenergy normalization. Exact constrainedscalarflows verified symbolically: algebraic vs exponentialdecay. Not full17parametergradientflow orglobalRLCT. Artifacts certify_depth3_interventions.py,results/depth3_interventions/certificate.json. Next deeperempiricaltest can compare samearchitecture/teachers/initializations with/without specifiedcausalsupervision,reportfunction/span/axis/intervention separately. h64 priority preserved.
+
+ProducerPID202441 confirmedlive elapsed49:11,teacher256103 n32768_t520 step800;30/60models saved. Existing14051handle; do notduplicate/editproducer orstage mutable scientificroot. Next terminalsuccess->evaluate_task_coverage_h64.py->audit_task_coverage_h64.py->summarize_task_coverage_h64.py. Fullgoalactive/nativeMLPpaused.
+
 ## Latest: depth-three internal-mixing obstruction certified
 
 Previous/currentturnprogress. DEPTH3_INTERNAL_MIXING.md and check_depth3_mixing.py establish exact global-function ambiguity in width-two depth-three network, even with complete three-task product span and fixed independent firstlayer. u=z1²-z2²,v=2z1z2; g=u+t*v remains bilinear, transformed readouts preserve every task, coordinate ablations differ. Four rational fixtures verified. Exact17parameter/15coefficient Jacobian rank11,minor-4096,localfiber6; four independent scalegauges leave two extra local mixing dimensions. Exact evaluated-output central differences independently check all17columns at two steps. Full-function ambiguity, not merely sampledGL. Not a theorem for all wider deep networks; don't attribute historical deep failures to it without evidence.
