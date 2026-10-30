@@ -86,3 +86,8 @@ PROFILED_INFORMATION_AND_CONDITIONING.md adds fixed-weight information monotonic
 ## Local nonlinear noise check
 
 LOCAL_NOISE_RECOVERY_RESULTS.md reports450 privileged teacher-start local fits with independent audit. All150 paired noise sequences approach their linearized hidden-coordinate prediction as noise decreases. This supports the conditioning interpretation locally, not recovery from random initialization or global convergence. The h64 producer remains active; full scientific evaluation is pending.
+
+
+## Depth-three component ambiguity
+
+DEPTH3_INTERNAL_MIXING.md supplies an exact width-two counterexample: complete product-task functions do not identify second-layer feature axes. Legal mixtures preserve all output functions but change coordinate-ablation effects. Four rational examples and a rank11/17parameter certificate show two local mixing freedoms beyond four scales. This refines deeper recovery criteria; it is not a general-width impossibility theorem or an explanation of all historical deep-learning failures. h64 training remains live (27/60 models saved at latest check).

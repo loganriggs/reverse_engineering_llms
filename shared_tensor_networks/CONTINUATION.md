@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: depth-three internal-mixing obstruction certified
+
+Previous/currentturnprogress. DEPTH3_INTERNAL_MIXING.md and check_depth3_mixing.py establish exact global-function ambiguity in width-two depth-three network, even with complete three-task product span and fixed independent firstlayer. u=z1²-z2²,v=2z1z2; g=u+t*v remains bilinear, transformed readouts preserve every task, coordinate ablations differ. Four rational fixtures verified. Exact17parameter/15coefficient Jacobian rank11,minor-4096,localfiber6; four independent scalegauges leave two extra local mixing dimensions. Exact evaluated-output central differences independently check all17columns at two steps. Full-function ambiguity, not merely sampledGL. Not a theorem for all wider deep networks; don't attribute historical deep failures to it without evidence.
+
+Deeper protocol must distinguish span/component/intervention recovery and justify target uniqueness or equivalences/internal supervision. Full task span alone is insufficient in this example; no optimizer rescue addresses it. h64 remains priority. Producer202441 directly verifiedlive elapsed45:18, teacher256103 n8192_t2080 step600;27/60models saved. Existing session14051,mutable scientificroot untouched. NEXT monitor then terminalsuccess->evaluate_task_coverage_h64.py->audit_task_coverage_h64.py->summarize_task_coverage_h64.py, singleBLAS/pinnedCPU. Goalactive/nativeMLPpaused.
+
 ## Latest: local nonlinear noise panel completed and audited
 
 Previous/current goal turns progress. LOCAL_NOISE_RECOVERY_PLAN.md frozen before450 fits; LOCAL_NOISE_RECOVERY_RESULTS.md reports150/150 paired noise sequences approach linear prediction as sigma decreases. Five fresh fixtures262101–5,N16/64/256,ten draws,three sigmas,unit-factor12D chart; every fit starts attruehidden. These are privileged local estimator tests, not global discovery. All solver statuses successful; largest finalgradient2.55e-7,notexactstationarity. Independent literal/SVD/data/FD audit passed450cases. Retain finite-draw risk-ratio deviations; no rescue tuning. Scripts run_local_noise_recovery.py and audit_local_noise_recovery.py,results/local_noise_recovery.
