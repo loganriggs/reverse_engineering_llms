@@ -2,7 +2,13 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
+Current status: h64 training is live; evaluation/audit/report handoff are verified and await training completion. Recent turns either advanced theory/experiments or directly verified the live producer. Read the newest entry below; older entries are chronological history, not a live queue. Goal active.
+
+## Latest: consolidated B guide; h64 wait remains verified
+
+Previous turnverifiedwait; currentturnprogress byconsolidating completedlearning-dynamics evidence into LEARNING_DYNAMICS_SYNTHESIS.md,with19verifiedlocalreportlinks. Distinguishesmetric effects,alternation/curvature/readoutnegativeconfirmation,informationrank/conditioning,deepidentification/interventions,andfailedoptimization. No newscientificresultorcompletionclaim. Historicalheadercorrectedtoavoidstaledirection.
+
+PID202441 directlyverifiedlive elapsed1:16:09,teacher256104 n32768_t2080 step200;45/60savedmodels. Existing14051. Continue verifiedwait; noadditionaloptimizerrescue. Afterterminalsuccess run evaluator,auditor,summary inthatorder. Do notduplicate/editproducer orstage mutable results/task_coverage_h64. Fullgoalactive/nativeMLPpaused.
 
 ## Latest: full-size analysis smoke and audit-to-report contract pass
 

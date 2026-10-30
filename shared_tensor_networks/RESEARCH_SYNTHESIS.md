@@ -16,6 +16,8 @@ The research separates parameter tying, repeated inputs and reuse of computed st
 
 **Some reusable features are identifiable under strong, explicit assumptions.** Independent teacher factors, complete task-product span, exact function equality and a fixed minimal bilinear width identify components up to scale/permutation. A new [compactness argument](BOUNDED_APPROXIMATE_IDENTIFICATION.md) gives qualitative approximate stability when normalized factors and readouts lie in a bounded set. It provides no usable numerical error threshold, no overcomplete guarantee and no guarantee gradient training finds the solution.
 
+See [the consolidated learning-dynamics guide](LEARNING_DYNAMICS_SYNTHESIS.md) for current B results, later conditioning/intervention evidence, and the limits of optimizer comparisons.
+
 ## What the dynamics experiments add
 
 Alternating gradients, exact block flow, ALS, full/block Gauss–Newton, factor balancing and variable projection were tested separately. None universally wins. Naive layerwise alternation did not justify its extra full-gradient work in the tested panel. ALS and GN exposed substantial optimizer-dependent error, but exact function fit still did not establish circuit recovery.
