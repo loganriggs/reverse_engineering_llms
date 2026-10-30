@@ -8,6 +8,8 @@ Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPU
 
 Legibility-prior follow-up: [key-family and query-conditional group penalties](DUAL_GROUP_PRIOR_RESULTS.md). The supplied token-family partition and a broader intervention panel do not rescue the hard held-out rule at rank one; group concentration is not itself a mechanistic success criterion.
 
+Identifiability control: [shared versus duplicated attention computation](SHARED_COMPUTATION_IDENTIFIABILITY.md). Two graphs have exactly the same external function, including input-edit responses, while one internal-node intervention distinguishes their reuse structure. Shortest-description structure is a prior, not proof of the implemented graph.
+
 Full-width flagship follow-up: [matrix-free first-layer heads](FULL_WIDTH_FLAGSHIP_RESULTS.md). The width-128 physical bond is reduced without an eight-token domain quotient. Uniform and corpus measures, a branch-swap control, and a matched direct-fit comparison separate gauge truncation from the metric it is meant to optimize.
 
 This experiment tests Glen Evenbly's [weighted trace gauge (WTG) and full-environment truncation (FET)](https://arxiv.org/abs/1801.05390) on a repeated-token, bilinear-attention circuit. It distinguishes three claims:
