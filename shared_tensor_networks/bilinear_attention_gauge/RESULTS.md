@@ -50,7 +50,26 @@ The Zipf-1 width-16/rank-2 run gives 0.011738, 0.003839, and 0.000424 under its 
 - **Exact branch-swap counterexample.** Swapping the two QK branches leaves the entire head token function identical to within \(7.2\times10^{-15}\). Yet cycle entropy on the now-targeted bond changes from **0.659 to 0.286 bits** (width 8), **0.959 to 0.383 bits** (width 16), and **0.673 to 0.593 bits** (width 32). In the two-head checkpoint, head 0 changes **0.258 to 0.303** and head 1 **0.336 to 0.640** bits. This is a representation change, not an internal gauge transformation of one fixed bond. It proves that these bond entropies are not invariants of the attention function and cannot alone identify which multiplicative branch is the physical or preferred mechanism.
 - **Causal stress.** Setting QK2 to a constant while keeping QK1 and OV fixed generally preserves the tight-rank ordering here. For width 16/rank 2, intervention error is 0.01341 (local), 0.00363 (WTG), 0.000628 (full environment). Thus the in-distribution win does transfer to this one branch intervention; it does not establish broad causal fidelity. Every intervention score is retained in the JSON.
 
-These checkpoints are small trained attention-only models, not the 546M bilinear transformer. The two-head check verifies exact summation into logits, but does not test a joint decomposition that redistributes computation between heads. Exact WTG currently uses a dense \(d_{head}^{2}\times d_{head}^{2}\) transfer eigensolve. Scaling it directly to head width 128 would be impractical; a matrix-free eigensolver and stochastic/structured environment contractions would be needed. The earlier flagship gauge work also found that simple private-bond rotations bought little compression, so the small-model bond-truncation gain must not be read as a flagship gain.
+The small checkpoints do not test a joint decomposition that redistributes computation between heads. The earlier flagship gauge work also found that simple private-bond rotations bought little compression, so the small-model bond-truncation gain must not be read as a full-model gain.
+
+## Bounded 546M-checkpoint pilot
+
+`flagship_pilot.py` uses only cached weights from the 18-layer, nine-head bilinear model, without loading its full module or using the GPU. It examines first-layer heads 0 and 4 on two independently chosen sets of eight token IDs and four positions. The model's QK RMS normalization and bf16-rounded rotary tables are included. The raw post-RoPE QK1 bond has width 128, but on each selected domain its exact score matrix has rank 32. An SVD refactors that *restricted function* into a 32-dimensional bond before WTG. It is a domain quotient, **not** a gauge transformation of the full 128-dimensional physical bond.
+
+An independent sequence calculation of all nine heads, including OV mixing, agrees with the sum of the token tables to max absolute error \(5.7\times10^{-14}\). The restricted QK quotient and QK-branch swap also pass exact-function checks. The checkpoint and chosen token IDs are recorded in `flagship_results.json`.
+
+Uniform valid-pair relative squared error on the selected domain:
+
+| Token seed | Head | Bond rank | Local SVD | WTG truncation | Full-environment ALS |
+|---:|---:|---:|---:|---:|---:|
+| 17 | 0 | 4 | 0.06007 | 0.06812 | **0.01014** |
+| 17 | 4 | 4 | 0.00384 | 0.00288 | **0.00136** |
+| 23 | 0 | 4 | 0.03685 | 0.06323 | **0.00408** |
+| 23 | 4 | 4 | 0.02206 | 0.00766 | **0.00319** |
+
+Here full-environment optimization wins all four rank-4 cases, but WTG truncation is **worse than local SVD in both head-0 cases**. The WTG is still gauge-consistent; canonical coefficients alone need not give the best truncation when cycle entropy is nonzero. At rank 8, full-environment errors are 0.000130, 0.0000288, 0.0000235, and 0.0000461 in the same case order. The seed-23/head-0 rank-8 ALS ran its 600-step cap and was still improving slowly, so that number is an upper bound on the best achievable error, not a converged optimum.
+
+The exact QK swap again preserves the selected-domain function while changing cycle entropy: seed 17/head 4 gives **0.612 versus 1.593 bits**. This extends the representation-dependence finding to the flagship weights, but only on the declared token subset. No conclusion follows about full-vocabulary compression, later layers, CE loss, or whether a recovered bond names the model's physical computation. Exact WTG here uses a dense \(32^2\times32^2\) transfer eigensolve; applying it directly to a full width-128 head would require a matrix-free implementation and a tractable full-domain environment.
 
 ## Reproduce
 
@@ -64,6 +83,8 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/neuron_circuits/.venv/bin/python 
 
 The script asserts exact-forward matching, gauge invariance, WTG boundary conditions, agreement between literal and environment errors, and a bridge control. JSON contains all metrics and optimization traces; companion NPZ files contain the fitted bond matrices and WTG gauge matrices. The original model checkpoints are referenced by path and SHA-256 rather than copied into this repository.
 
+The CPU flagship pilot runs with `OPENBLAS_NUM_THREADS=1` and `flagship_pilot.py`; its output is `flagship_results.json`.
+
 ## Decision
 
-Evenbly's methods are useful for **bond-level compression within a chosen copy-tensor network**, especially when the bond is genuinely cyclic. They do not solve function-level canonicalization. The branch-swap counterexample is an exact, architecture-native reason to keep those objectives separate. The next experiment, if we scale this line, should compare candidate function-equivalent factorizations on held-out, branch-specific interventions and use a matrix-free environment on selected flagship heads; merely collecting more WTG spectra would not answer which computation the model uses.
+Evenbly's methods are useful for **bond-level compression within a chosen copy-tensor network**, especially when the bond is genuinely cyclic. They do not solve function-level canonicalization. The branch-swap counterexample is an exact, architecture-native reason to keep those objectives separate. The selected-domain flagship pilot supports testing a matrix-free environment on larger token coverage, but the next mechanistic experiment should compare candidate function-equivalent factorizations on held-out, branch-specific interventions; merely collecting more WTG spectra would not answer which computation the model uses.
