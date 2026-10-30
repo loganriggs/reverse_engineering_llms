@@ -125,12 +125,13 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    class-rule penalty is a separate condition and must not count as unsupervised
    discovery. Check the same proposed component under QK branch swaps and
    jointly across heads.
-2. **Trained toy language.** The first one-layer, two-head retrieval task is
-   complete, but single-head ablations reveal substantial redundancy; see
-   [trained toy results](TRAINED_TOY_LANGUAGE_RESULTS.md). Build a harder task
-   with two independent outputs or multi-step binding, confirm both heads are
-   causally necessary, then test rare rules, held-out combinations, and
-   QK2/OV interventions. Keep generator labels out of unsupervised fitting.
+2. **Trained toy language.** The first retrieval task was redundant; see
+   [trained toy results](TRAINED_TOY_LANGUAGE_RESULTS.md). A harder
+   [dual-output task](DUAL_OUTPUT_LANGUAGE_RESULTS.md) now passes the
+   two-head-ablation gate across ten seeds. Next optimize legibility priors
+   on those trained heads and test component-level predictions on held-out
+   combinations and QK2/OV interventions. Keep generator labels out of
+   unsupervised fitting and model selection.
 3. **Small real checkpoints.** The existing vocabulary-100 heads permit exact
    all-token environments. Use a real held-out text distribution for the
    data-aware measure, report pair-frequency coverage, and compare uniform,
