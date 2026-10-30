@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: h64 audit prepared/tested; producer STILL RUNNING
+
+Previous/currentturnprogress. coverage_audit.py and audit_task_coverage_h64.py implemented. Independentliteralproducts/127-rowempiricalloss,monomialquadraticcosine,explicitSVDreadouts andexactWickmetricreplay(sharedverifiedkernel). Fullcasecoverage/hash/initial/inactive/curve/resource checks; auditorresumewithprovenance. Scientificmetricsnotrunyet.
+
+Tests:55638terminal0 verifies12smallcases/24learnedtransfermetrics, independentauditorchecks and rejectionofalteredpopulationerror, data/checkpointchanges. Actualh64smoke training-only auditor77896terminal0 verifies12checkpoints. Noall-optimizer-stepreplayorindependentGPUmemorymeasurementclaimed. Evaluationcomplete schema now counts240transfermetricentries separately from120learned/10uniqueoraclefits. Bothscriptscompiled/tested; fullscientificorchestrationstillawaitsproducercompletion.
+
+Producer14051/PID202441live; latestobservedteacher256101,n32768_t2080 step2600 (firstthreegroupssaved). Log /tmp/task_coverage_h64.log. Do notduplicateorchangeproducerfiles; scientificrootmutable/untracked. NEXT monitorexistinghandle; once training_complete.json andterminalsuccess, runheavyCPU evaluate_task_coverage_h64.py then audit_task_coverage_h64.py usingpinnedCPU/singleBLASthread. Whilewaiting canpreparefrozenaggregate/plotreportor pursue relevanttheory,notrestartclosedoptimizerpanels. Fullgoalactive/nativeMLPpaused.
+
 ## Latest: h64 evaluation pipeline prepared; training STILL RUNNING
 
 Previous/currentturnprogress. H64_EVALUATION_PREPARATION.md, coverage_evaluation.py and evaluate_task_coverage_h64.py added. Corechecks45177exit0 andfullpipeline25444exit0. Smallpolynomialfixtures independentlyvalidatepopulation/adaptationerrors; actualh64smokeforwardmatchesTorch;12-caseartifactfixture validates24learnedtransfermetrics, unchangedresume andrejectionofcheckpoint/datachanges. These ARE NOT h64scientificresults. Scientificauditstillpending.

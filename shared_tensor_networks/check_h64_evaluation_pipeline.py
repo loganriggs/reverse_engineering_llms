@@ -6,6 +6,7 @@ from regenerated_coverage import blocks,digest,save_readout_chunks
 from quartic_cross_gram import product_factors,cross_gram
 from multitask import monomials,product_map
 from experiment import gram
+from coverage_audit import audit_case
 
 def dump(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -34,6 +35,7 @@ with tempfile.TemporaryDirectory(prefix='h64_evaluation_fixture_') as temp:
  command=[sys.executable,'evaluate_task_coverage_h64.py','--root',str(root),'--smoke']
  first=subprocess.run(command,capture_output=True,text=True);assert first.returncode==0,first.stdout+first.stderr
  out=root/'evaluation';original=(out/'results.json').read_bytes();records=json.loads(original);assert len(records)==12
+ complete=json.loads((out/'complete.json').read_text());assert (complete['transfer_metrics'],complete['learned_transfer_fits'],complete['oracle_transfer_fits'])==(48,24,2)
  truth=product_map(TA,TB,keys)@TW.T
  for record in records:
   n,t=record['n'],record['tasks'];path=directory/f'n{n}_t{t}'/f'{record["initialization"]}.npz'
@@ -44,6 +46,12 @@ with tempfile.TemporaryDirectory(prefix='h64_evaluation_fixture_') as temp:
    for k in [2048,8192]:
     coef=saved[f'learned_{k}'];err=F@coef-truth[:,3:]
     np.testing.assert_allclose(record['transfer'][f'learned_{k}']['errors'],np.sum(err*(M@err),axis=0),rtol=1e-9,atol=1e-8)
+   audit_case(A,B,W,TA,TB,TW,source[0]['x'][:n],source[0]['y'][:n],xa,ya,{key:saved[key] for key in saved.files},record)
+   if record is records[0]:
+    bad=json.loads(json.dumps(record));bad['population_mse'][0]+=max(1.,abs(bad['population_mse'][0]))*.1
+    try:audit_case(A,B,W,TA,TB,TW,source[0]['x'][:n],source[0]['y'][:n],xa,ya,{key:saved[key] for key in saved.files},bad)
+    except AssertionError:pass
+    else:raise AssertionError('Auditor accepted a deliberately altered population error')
  second=subprocess.run(command,capture_output=True,text=True);assert second.returncode==0,second.stderr
  assert (out/'results.json').read_bytes()==original and 'Evaluating' not in second.stdout
  data_path=directory/'adaptation.npz';original_data=data_path.read_bytes();data_path.write_bytes(original_data+b'checksum-test')
@@ -52,5 +60,5 @@ with tempfile.TemporaryDirectory(prefix='h64_evaluation_fixture_') as temp:
  # Deliberate temp-fixture corruption must be rejected; no scientific file is touched.
  path=directory/'n16_t1'/'first.npz';path.write_bytes(path.read_bytes()+b'corruption-test')
  rejected=subprocess.run(command,capture_output=True,text=True);assert rejected.returncode!=0
-result=dict(fits=12,learned_transfer_metrics=24,first_exit=first.returncode,resume_exit=second.returncode,unchanged_resume=True,checkpoint_corruption_rejected=True,data_corruption_rejected=True,scope='Small synthetic full-pipeline fixture, not h64 scientific analysis')
+result=dict(fits=12,learned_transfer_metrics=24,independent_case_audits=12,metric_corruption_rejected=True,first_exit=first.returncode,resume_exit=second.returncode,unchanged_resume=True,checkpoint_corruption_rejected=True,data_corruption_rejected=True,scope='Small synthetic full-pipeline fixture, not h64 scientific analysis')
 destination=Path('results/coverage_evaluation');destination.mkdir(exist_ok=True);dump(destination/'pipeline_checks.json',result);print(result)

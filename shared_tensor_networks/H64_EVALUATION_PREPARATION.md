@@ -1,6 +1,6 @@
 # h64 post-training evaluation preparation
 
-The separate evaluator is implemented and its numerical/file-handling checks pass. It has NOT yet evaluated the running h64 scientific sweep, and the separate scientific audit remains to be implemented.
+The separate evaluator is implemented and its numerical/file-handling checks pass. It has NOT yet evaluated the running h64 scientific sweep, and the separate audit has now been implemented and tested on fixtures, but not run on the full scientific results.
 
 coverage_evaluation.py computes empirical loss in bounded sample blocks, exact Gaussian source errors with verified Wick moments, readout adaptation and quadratic-feature matching. It never materializes N×P×4 linear-factor products. Zero candidate quadratics receive matching cosine0 by convention. Oracle readouts are fitted once per teacher/budget, not separately for every student.
 
@@ -15,4 +15,12 @@ evaluate_task_coverage_h64.py requires training_complete.json before scientific 
 
 ## Next
 
-Implement and test the independent h64 scientific audit while the existing producer runs. After all60training fits finish, run evaluation and then audit; keep training, evaluated and audited completion states separate. Avoid heavy CPU analysis while the same pinned core is dispatching GPU work. Existing training session14051 must be polled, not duplicated. The broader research goal remains active.
+After all60training fits finish, run evaluate_task_coverage_h64.py and then audit_task_coverage_h64.py; keep training, evaluated and audited completion states separate. Avoid heavy CPU analysis while the same pinned core is dispatching GPU work. Existing training session14051 must be polled, not duplicated. The broader research goal remains active.
+
+## Independent audit preparation
+
+coverage_audit.py independently reconstructs literal products, empirical loss in127-row blocks, quadratic-function cosine from monomial coefficients, and readout solutions with explicit SVD. The exact population calculation shares the previously verified Wick kernel; it is not a wholly separate symbolic implementation. The helper passes all12small fixture cases,24learned transfer metrics and a negative test with a deliberately wrong population error.
+
+audit_task_coverage_h64.py validates complete condition coverage, saved data/code/checkpoint hashes, teacher and initial-model files, inactive weights, logged curve coverage and basic resource consistency before scientific metric checks. Its training-only mode passes all12real-size two-step smoke checkpoints. It does not replay all3,000optimizer steps or independently measure GPU memory. Full metric auditing is resumable with separate source/result hashes.
+
+Actual transfer fits are counted as120learned plus10shared oracle fits for the planned full study. The240per-case metric entries repeat those oracle controls; they are not240independent fits. The scientific audit is still pending while training runs.

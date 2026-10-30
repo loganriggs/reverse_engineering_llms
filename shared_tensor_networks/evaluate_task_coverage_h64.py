@@ -60,7 +60,7 @@ def main(root,smoke=False):
     write_json(record_path,record);rows.append(record);write_json(out/'results.json',rows)
   del x,y,teacher,TW,TA,TB
  assert len(rows)==expected
- write_json(out/'results.json',rows);write_json(out/'complete.json',dict(status='evaluated_not_audited',fits=len(rows),transfer_fits=4*len(rows)))
+ write_json(out/'results.json',rows);write_json(out/'complete.json',dict(status='evaluated_not_audited',fits=len(rows),transfer_metrics=4*len(rows),learned_transfer_fits=2*len(rows),oracle_transfer_fits=2*len({r['teacher'] for r in rows})))
 
 if __name__=='__main__':
  parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path,default=Path('results/task_coverage_h64'));parser.add_argument('--smoke',action='store_true');args=parser.parse_args();main(args.root,args.smoke)
