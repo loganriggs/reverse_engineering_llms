@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: h64 evaluation pipeline prepared; training STILL RUNNING
+
+Previous/currentturnprogress. H64_EVALUATION_PREPARATION.md, coverage_evaluation.py and evaluate_task_coverage_h64.py added. Corechecks45177exit0 andfullpipeline25444exit0. Smallpolynomialfixtures independentlyvalidatepopulation/adaptationerrors; actualh64smokeforwardmatchesTorch;12-caseartifactfixture validates24learnedtransfermetrics, unchangedresume andrejectionofcheckpoint/datachanges. These ARE NOT h64scientificresults. Scientificauditstillpending.
+
+Producer session14051/PID202441 remainslive, log /tmp/task_coverage_h64.log; latestobservedteacher256101,n32768_t520 step2800. Earliern8192groupssaved. Do notduplicate,changeproducerfiles,orstagescientificmutableartifacts. Evaluatorrequires training_complete.json andthenwrites evaluated_not_audited. It checks provenance+checkpoint+datahashes onresume and saves eachcaseindependently. Full-source data regeneratedinCPUarrays; candidateforwardlossblocks256rows avoidsN×P×4intermediates. Zeroquadraticmatchingconvention0explicit.
+
+NEXT implement separateaudit(e.g.independentliteralforward/SVD/quadcoefficientmetric/regeneration+counterchecks), testonfixtures; afterproducerterminalsuccess runheavyCPUevaluationthenaudit. Oraclefitscachedperteacherwithinrun. Sourceprovenancehashchecksrejectmixingchangedanalysissources. No claim thatfullgoalcomplete;nativeMLPpaused.
+
 ## ACTIVE: full d128/h64 training RUNNING — do not duplicate
 
 Previous/current turns progress. TASK_COVERAGE_H64_PLAN.md frozen; train_task_coverage_h64.py launched scientific3000-step run after real-shape two-step smoke and full preflight audit. Smoke98145terminal0; preflight79936terminal0 verifies12checkpoints,128regeneratedsourceblocks,32adaptationblocks,initialhashes/inactiveheads/finitefloat32weights. Smokeartifacts in /tmp/task_coverage_h64_smoke, only compact checks committed; not scientific outcomes.
