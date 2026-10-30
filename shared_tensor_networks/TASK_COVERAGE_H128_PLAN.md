@@ -1,6 +1,6 @@
 # d256/h128 task and input coverage — candidate protocol
 
-Status: design recorded before scientific outcomes; NOT yet launch-approved by the technical gates below. No scientific h128 run has started. The objective remains broader than this panel, including deeper-network recovery and theory.
+Status: FROZEN before scientific outcomes. All technical gates below passed; scientific launch is authorized by the persistent research goal. The objective remains broader than this panel, including deeper-network recovery and theory.
 
 ## Question and comparisons
 
@@ -23,8 +23,8 @@ Known exact Gaussian normalization is a simulation privilege. All-source readout
 1. Streamed versus full-batch losses, gradients and Adam updates: numerical checks passed on CPUfloat64/CUDAfloat32; first process shutdown failure retained, cleanup retry terminalexit0.
 2. Full-size training memory and12-step throughput check for all four shapes: clean retry passed onCPU0 with no concurrent analysis. Original CPU1 concurrent attempt crashed and is retained. Estimated full grid39.52GPUhours excludes preparation/evaluation and is not a long-run throughput guarantee.
 3. Full8,256-product population Gram plus adaptation solves and independently explicit SVD at8,192/32,768 inputs: passed with terminalexit0. PeakRSS12.13GiB; Gram22.48sec, solves95.31/188.99sec, independentSVD154.82/375.86sec. This is a known random dictionary, not trained-model recovery.
-4. End-to-end tiny orchestration smoke:12cases completed and passed independent source/transfer quadrature andSVD checks; completed-case resume left artifacts byte unchanged. A separate521-row smoke covers partial data/chunk boundaries. Full-size resumable scientific evaluator/auditor remains to implement before launch.
-5. Reviewer-readable resource estimate and frozen source/protocol hashes before scientific launch. Resume only matching completed cases; preserve interrupted artifacts and never duplicate a live worker.
+4. End-to-end tiny orchestration smoke:12cases completed and passed independent source/transfer quadrature andSVD checks; completed-case resume left artifacts byte unchanged. A separate521-row smoke covers partial data/chunk boundaries. Generalized evaluator/auditor passed all12 smoke cases; resume preserves bytes and negative tests reject altered metrics, checkpoint content and data recipes. Float32 source inputs/labels are explicitly reconstructed for empirical loss.
+5. Resource estimate:39.52GPUhours for training from12-step measurements, plus preparation/evaluation/publication. Full analysis peakRSS12.13GiB on a32GiBhost; estimated~20GB artifacts plus Git storage, with at least45GiB free required at launch. Training writes frozen source/protocol hashes. Resume only matching completed cases; preserve interrupted artifacts and never duplicate a live worker.
 
 ## Resource decision
 

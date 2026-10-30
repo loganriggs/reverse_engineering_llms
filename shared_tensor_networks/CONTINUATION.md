@@ -2,7 +2,13 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Current status: h64 science is audited and published. h128 training/analysis resource checks and tiny orchestration audit pass; full scientific evaluator/auditor and protocol freeze remain before launch. No experiment process is currently live. Broad goal active; native MLP paused.
+Current status: h128 scientific training LIVE, unified-exec2603/PID218538, CPU0/singleBLAS andCUDAfloat32. Root results/task_coverage_h128; log /tmp/task_coverage_h128.log. Protocol frozen,60fits planned. Do not duplicate or stage mutable scientific outputs. h64 results already published. Broad goal active/nativeMLPpaused.
+
+## Latest: generalized analysis checks pass; scientific protocol frozen
+
+Previous/current turns progress. evaluate_task_coverage_h128.py and audit_task_coverage_h128.py passed all12 persisted smoke cases, with source/data/checkpoint provenance, exact float32 training-data replay, independent literal empirical prediction, quadratic feature matching and explicitSVD. Shared checked Wick kernel remains scoped. check_h128_analysis_guards.py passed positive byte-stable resume and three negative checks: changed numerical metric with cache removed, corrupted checkpoint chunk, altered source recipe. Results/h128_analysis_guard_check and fixture/evaluation preserve evidence. No replay of every optimizer step or hardware counter verification claimed.
+
+TASK_COVERAGE_H128_PLAN.md now FROZEN. GPU compute-app inventory empty and >45GiB diskfree verified before launch. Expected39.52GPUtraininghours plus preparation/analysis, approximate~20GBscientificartifacts andadditionalGitstorage. Launch run_task_coverage_h128.py --root results/task_coverage_h128 onCPU0/singleBLAS, CUDAfloat32. Live handle2603/PID218538 verified R at27seconds during initial preparation. Monitor this same worker; empty log during normalization is not failure. Scientific evaluation requires all60 fits and then independent audit before interpreting outcomes. Existing smoke protocol/source snapshots remain historical; do not mutate them to pretend they used later sources.
 
 ## Latest: full h128 analysis and sustained timing retry pass
 
