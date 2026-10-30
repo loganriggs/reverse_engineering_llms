@@ -4,6 +4,20 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Current status: h128 scientific training LIVE, unified-exec2603/PID218538, CPU0/singleBLAS andCUDAfloat32. Root results/task_coverage_h128; log /tmp/task_coverage_h128.log. Protocol frozen,60fits planned. Do not duplicate or stage mutable scientific outputs. h64 results already published. Broad goal active/nativeMLPpaused.
 
+## Latest: full h64 population-refit decomposition complete
+
+Previous turn verifiedwait; currentturnprogress. Analysis55559/PID219631 terminalexit0 withall60cases and checks. H64_TRANSFER_DECOMPOSITION_RESULTS.md: highNrandom medianactualtransfer.0160/.0237 versuspopulationrefit.00985/.01521 for520/2080tasks. Thus incompletefrozenfeatures persist even with privilegedoptimalreadout; finite-label estimation also adds error. Teachercontrols highNrefit~2–4e-6 versusactual~.00104. LowN/lowtasksactual1.436,refit.958. Separatecolumnmedians need notaddexactly. All2080Gramdirectionsretained atbothcutoffs; cutoffchanges0, maxcross2.79e-15, independentlstsqreplay7.44e-15. Allsource/checkpoint/transferrecords tied toaudit. No localminimum or noise-only claim. Closepanel, nooptimizerrescue.
+
+Scientific h128worker2603/PID218538 remains live; do notstage mutableroot. Stabledecompositionartifacts nowreadyforpublication. Broadergoalactive/nativeMLPpaused. Remaininglongrun completion/evaluation/audit/report and deeperrecovery/theory scope remain.
+
+## Latest: population-refit transfer decomposition launched
+
+Previous/current turns progress. H64_TRANSFER_DECOMPOSITION_PLAN.md fixes an exploratory decomposition of all60auditedh64models' existing8192-label transferreadouts, using no new data/training. Exact identity R(u)=R(u*)+||u-u*||G²+2(u-u*)ᵀ(Gu*-b), with explicit cross term for numerical truncation. Gaussian-Gram cutoffs1e-10/1e-12, independent least-squares refit replay, pairedteacher aggregation planned. This extends existing smaller-width populationfloor work; not a novel general identity or an attainable finite-label estimator.
+
+LIVE analysis session55559/PID219631 onCPU1/singleBLAS, log /tmp/h64_transfer_decomposition.log, output results/h64_transfer_decomposition. DirectlyverifiedR elapsed11sec,2/60complete. Do not interpret partial outcomes; preserve any failure. It computes fixed-feature approximation versus excess readout error (not noise variance alone). Sources/protocol saved before results. Do not stage mutable output until terminalsuccess; sources and plan currently uncommitted.
+
+h128scientific worker2603/PID218538 directlyverifiedlive elapsed12:50,Rl/RSS5.55GiB; no changes or extraGPUexperiments. Next: verify decomposition completion/replay checks, summarize teacher-level patterns and publish stable artifacts; keep h128run progressing. Fullgoalactive/nativeMLPpaused.
+
 ## Latest: audit-gated h128 reporting handoff verified
 
 Previous/current turns progress. summarize_task_coverage_h128.py validates complete training grid, passed full audit, provenance/source hashes and per-case record hashes before reporting. Aggregates teacher means, keeps privilegedcontrols separate, reports partial/full recovery, paired equal-label and fixed-input differences, lower-loss witnesses, and sums independent per-model resources once. check_h128_report_handoff.py terminalexit0:8conditions/12smokecases, resource sum verified, rejects pendingaudit/changedresult/missingcase. Initial reporter assertion exposed smokegrid128/512×1/3unequalbudgets; corrected by explicitly marking smokecomparison ineligible while retaining mandatoryequalbudgetscientific assertion. Scientificprotocol unchanged. Fullsmokereport labeled nonscientific at fixture/evaluation/REPORT.md.
