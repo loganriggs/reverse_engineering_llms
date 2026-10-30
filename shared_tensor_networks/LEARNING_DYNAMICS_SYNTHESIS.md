@@ -29,6 +29,8 @@ Finite alternating steps, finite-dwell switched flow and exact block minimizatio
 
 Sources: [layerwise alternation](BILINEAR_ALTERNATION_RESULTS.md), [block flow](ALTERNATING_DYNAMICS_RESULTS.md), [ALS](REUSE_ALS_RESULTS.md), [GN](BILINEAR_GAUSS_NEWTON_RESULTS.md), [block GN](BILINEAR_BLOCK_GAUSS_NEWTON_RESULTS.md), [balancing](BILINEAR_GAUGE_BALANCE_RESULTS.md).
 
+A further exact local comparison is now available: for a positive-definite quadratic in two scalar blocks, finite-dwell exact alternating flow has asymptotic spectral contraction no better than joint flow at equal per-coordinate active time, strictly worse with nonzero coupling. The proof compares traces at equal determinant using convexity of cosh(sqrt(t)). This does not order every finite trajectory or cover vector blocks/nonconvex escape. Matrix-exponential and selected ODE checks pass across480settings. See [two-block rate proof](TWO_BLOCK_FLOW_RATE.md).
+
 ## 3. Readout adaptation: easier integration does not imply better features
 
 Faster readout adaptation approaches exactly refitted-readout gradient flow under uniform local conditioning assumptions. Thirty two-timescale flows support that limit. Exact readout elimination nevertheless need not select better hidden representations.

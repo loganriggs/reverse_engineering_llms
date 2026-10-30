@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Current status: h128 scientific training LIVE, unified-exec2603/PID218538, CPU0/singleBLAS andCUDAfloat32. Root results/task_coverage_h128; log /tmp/task_coverage_h128.log. Protocol frozen,60fits planned. Do not duplicate or stage mutable scientific outputs. h64 results already published. Broad goal active/nativeMLPpaused.
 
+## Latest: exact two-scalar-block alternating-flow rate comparison
+
+Previous turn verifiedwait; currentturnprogress. TWO_BLOCK_FLOW_RATE.md proves forSPDquadratic H=[[a,c],[c,b]], exact blockflows eachactivetime tau have cycletrace u+v+q(1-u)(1-v),detuv. Jensenconvexity ofcosh(sqrt(t)) gives trace>=joint exp(-tauH),equal det implies spectralradius>=exp(-lambda_minH*tau),strictforc!=0. Positiveeigenvalues andrho<1verifiedalgebraically. This is asymptoticworst-casepercycle rate, not finite-loss ordering, walltime, vectorblocks, Adam, generaldeepnetworks, or nonconvexescape. No noveltyclaim.
+
+check_two_block_flow_rate.py terminalexit0:480curvature/coupling/dwellfixtures; independentmatrixexponential agreement1.18e-14, selectedDOP853 trajectories4.75e-14. Canonicala=b=1,c=.5,tau1 ratesalternating.615927 versusjoint.606531. Numericalcheck complementsproof. Initial benign complex-to-real formattingwarning removed afterexplicit imaginary-part assertion; originalcheck retained/tmp/two_block_flow_rate_first_check. Guideupdated; no training/evaluation sourcechange.
+
+Scientific h128worker2603/PID218538 directlyverifiedlive elapsed22:16, secondfitinprogress. No duplication or extraGPUtraining. After producer completes60fits, use frozen evaluator,auditor,reporter sequentially. Broadgoalactive/nativeMLPpaused.
+
 ## Latest: full h64 population-refit decomposition complete
 
 Previous turn verifiedwait; currentturnprogress. Analysis55559/PID219631 terminalexit0 withall60cases and checks. H64_TRANSFER_DECOMPOSITION_RESULTS.md: highNrandom medianactualtransfer.0160/.0237 versuspopulationrefit.00985/.01521 for520/2080tasks. Thus incompletefrozenfeatures persist even with privilegedoptimalreadout; finite-label estimation also adds error. Teachercontrols highNrefit~2–4e-6 versusactual~.00104. LowN/lowtasksactual1.436,refit.958. Separatecolumnmedians need notaddexactly. All2080Gramdirectionsretained atbothcutoffs; cutoffchanges0, maxcross2.79e-15, independentlstsqreplay7.44e-15. Allsource/checkpoint/transferrecords tied toaudit. No localminimum or noise-only claim. Closepanel, nooptimizerrescue.
