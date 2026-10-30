@@ -127,11 +127,14 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    jointly across heads.
 2. **Trained toy language.** The first retrieval task was redundant; see
    [trained toy results](TRAINED_TOY_LANGUAGE_RESULTS.md). A harder
-   [dual-output task](DUAL_OUTPUT_LANGUAGE_RESULTS.md) now passes the
-   two-head-ablation gate across ten seeds. Next optimize legibility priors
-   on those trained heads and test component-level predictions on held-out
-   combinations and QK2/OV interventions. Keep generator labels out of
-   unsupervised fitting and model selection.
+   [dual-output task](DUAL_OUTPUT_LANGUAGE_RESULTS.md) passes the
+   two-head-ablation gate across ten seeds. Native, canonical, pair-response,
+   and [family-group priors](DUAL_GROUP_PRIOR_RESULTS.md) have now been tested
+   with held-out combinations and several interventions. None rescues the
+   difficult rare rule at rank one. The next test needs explicit reusable
+   components and a prediction of which component responds to which
+   intervention. Keep generator labels out of unsupervised fitting and
+   model selection.
 3. **Small real checkpoints.** The existing vocabulary-100 heads permit exact
    all-token environments. Use a real held-out text distribution for the
    data-aware measure, report pair-frequency coverage, and compare uniform,

@@ -108,11 +108,13 @@ The distinction matters for the research objective: **task prediction,
 faithful reconstruction, and causal transfer can rank the same rank-one
 circuits differently**. A canonical gauge and a sparsity prior must be
 judged on all three, with held-out labels excluded from model selection.
-The next step is a class/group prior and a broader intervention panel on this
-genuinely multi-head task, testing whether a named component predicts
-held-out input and internal interventions. A corpus-free, full-physical-width
-546M matrix-free pilot is now reported in `FULL_WIDTH_FLAGSHIP_RESULTS.md`;
-corpus-weighted and human-legibility comparisons remain outstanding.
+Follow-up: `DUAL_GROUP_PRIOR_RESULTS.md` tests family and query-conditional
+family priors with bit-flip, query-switch, key-family removal, and QK2
+interventions, plus the held-out sequence combination. No tested prior rescues
+the difficult held-out rule. A
+full-width 546M uniform-versus-corpus metric comparison is reported in
+`FULL_WIDTH_FLAGSHIP_RESULTS.md`; human-legibility validation on that model
+remains outstanding.
 
 ## Reproduce
 
