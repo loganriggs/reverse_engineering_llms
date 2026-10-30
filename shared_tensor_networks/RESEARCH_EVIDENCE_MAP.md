@@ -63,3 +63,8 @@ Latest scaling update: TASK_COVERAGE_H16_RESULTS.md adds60d32/h16fits. At equal6
 ## Exact sampled-information extension; h64 training active
 
 SAMPLED_HIDDEN_INFORMATION.md now includes exact rank certificates for d4/h2 and three product tasks: seven generic inputs leave two local non-scaling ambiguities, whereas eight give local identification modulo scaling. Thirty integer fixtures retain nongeneric small-range deficits alongside broader-range witnesses. This supplies no conditioning, noise or global-recovery guarantee. The d128/h64 producer was directly confirmed live; evaluation/audit and scientific results remain pending. Aggregation code has fixture tests but no h64 scientific outcome is claimed.
+
+
+## Profiled information and conditioning
+
+PROFILED_INFORMATION_AND_CONDITIONING.md adds fixed-weight information monotonicity, exact linearized noise risk, a local reduced-flow rate and a certified path showing arbitrarily poor conditioning despite full rank. Checks cover60 configurations,85 PSD comparisons and15 linear-noise simulations; no nonlinear recovery experiment is claimed. This motivates measuring spectra rather than relying only on dimension counts. The h64 producer remains live; scientific outcomes remain pending.

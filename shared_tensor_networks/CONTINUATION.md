@@ -4,6 +4,14 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: profiled conditioning theory and checks complete
+
+Previous and current goal turns made progress. PROFILED_INFORMATION_AND_CONDITIONING.md proves positive-semidefinite information monotonicity for appended inputs/tasks at fixed observation weights; derives linearized noise covariance and a conditional local reduced-flow convergence bound. Exact certificate endpoints prove full rank can be arbitrarily ill-conditioned along a bounded rational input path. These are local statements, not nonlinear random-start recovery guarantees.
+
+check_profiled_information.py passes60 Gaussian configurations,85 nested information comparisons,15 linear-noise checks (4000 draws each; max risk discrepancy1.997%). Both explicit readout-nuisance least squares and profiled derivative agree. plot_profiled_information.py generates inspected conditioning.png; all outputs in results/profiled_information. Unit-factor chart/unnormalized observation weighting explicit. Next theory-to-empirics step could check local nonlinear fits and spectra at teacher/trained states; do not conflate linear-noise checks with nonlinear recovery.
+
+Producer PID202441 directly verified live at elapsed38:06, teacher256102 n32768_t2080 step1600;21/60 saved models. Continue existing session14051, never duplicate. Await terminalsuccess then evaluate_task_coverage_h64.py, audit_task_coverage_h64.py, summarize_task_coverage_h64.py, pinnedCPU/singleBLASthread. Mutable scientificroot remains uncommitted. Full goal active; nativeMLPpaused.
+
 ## Latest: exact sampled-information certificate and h64 aggregation prepared
 
 Previous user-facing turn was a results explanation (no new scientific state); this continuation made progress. Producer PID202441 was directly confirmed live at elapsed32:33, teacher256102 n32768_t2080 step200; seven groups/21 models saved. Do not duplicate or change producer/imported sources. Full h64 scientific evaluation and audit still pending terminal training success.
