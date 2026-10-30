@@ -1,0 +1,11 @@
+# Unknown quadratic basis: identification and ambiguity controls
+
+Protocol fixed before execution. CPU1, NumPy/SciPy only; no changes to h128 or native-model work. This is a new restricted family, not a continuation that silently assumes unknown coordinates were already solved.
+
+Hidden features h=B x with unknown invertible B, outputs y0=sum h_i² and y1=sum lambda_i h_i². Each square is a bilinear gate with identical factors. Use dimensions4/8, B condition numbers1/3,20 seeds283000..283019, noise SD0/.001/.01, for240 cases. Generate B with random left/right orthogonal factors and singular values geometrically spaced from1 to the declared condition number. Use distinct lambda_i evenly spaced on[-1,1]; inference is not given B or lambda. The positive reference readout y0 fixes the scale convention. Architecture and square-gate/shared-basis assumption are supplied.
+
+Measure both outputs at d(d+1)/2 unit-norm physical interventions: e_i and (e_i+e_j)/sqrt(2). Count both scalar readouts. Recover Q0,Q1 by polarization. If estimated Q0 is not positive definite, retain a failure, do not clip eigenvalues or retry. Whiten Q0, diagonalize the whitened Q1, and reconstruct basis rows. Evaluate row alignment up to sign/permutation and output prediction on512 independent unit-sphere inputs. Noise is additive independently for each scalar measurement; reuse standardized noise within each seed/shape across noise levels. No tuning.
+
+Controls: with only Q0, B and O B for a nontrivial orthogonal O give identical output for all inputs. With repeated lambda values, rotations within that repeated-eigenvalue block preserve both outputs, leaving individual axes unidentified. Verify these controls numerically and state their algebraic proofs. They are limits on this output/intervention interface, not unrestricted white-box impossibility results.
+
+Validation: independently compare literal hidden-feature outputs with quadratic forms; replay noiseless polarization and basis recovery; compare reconstructed predictions against measured quadratic matrices; record all240 cases and source hashes. No universal graph recovery or real-model safety claim. The next stage should test competing structural families, not merely more seeds of this favorable shared-square model.
