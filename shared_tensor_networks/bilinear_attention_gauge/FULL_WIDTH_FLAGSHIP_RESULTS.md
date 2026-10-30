@@ -27,13 +27,28 @@ Each line uses 16,384 fit pairs and **16,384 independent validation pairs**. Err
 
 Head 0 gains modestly from the full environment; at rank 32, validation error is about .122–.123, compared with .126 for local SVD. Head 4 is far easier to compress under this *particular measure*, with rank-eight error about .025–.026. WTG does not improve over local SVD there. Different heads therefore warrant separate budgets; a common rank is not justified by this pilot.
 
+## Same function, different branch chosen for reduction
+
+The two QK scores multiply. Interchanging which branch supplies the reducible bond and which supplies the scalar environment leaves every unreduced pair response **exactly equal**; the sampled-score comparison is zero in float64 for heads 0 and 4. At identical seed, fit and validation samples, and rank, the WTG validation errors change:
+
+| Head | Rank | Original QK1 bond | Swapped QK2 bond |
+|---:|---:|---:|---:|
+| 0 | 8 | .6418 | .4686 |
+| 0 | 16 | .3787 | .2672 |
+| 0 | 32 | .1217 | .1015 |
+| 4 | 8 | .0251 | .0658 |
+| 4 | 16 | .0197 | .0594 |
+| 4 | 32 | .0134 | .0415 |
+
+Thus the *same attention function* can look easier or harder to compress depending on which multiplicative branch is designated as the bond. WTG is a canonical gauge for the selected representation; these results do not define a canonical decomposition of the function. They also make branch-swap comparisons a necessary control for any human-legibility claim.
+
 The smaller 4,096-fit-pair head-0 seed-17 run gives WTG validation errors .6465/.3873/.1340 at ranks 8/16/32, compared with .6418/.3787/.1217 at 16,384 fit pairs. A 512-pair smoke test had a much larger fit/validation gap, so low-sample measurements would have overstated compression. Even 16,384 pairs cover a tiny fraction of the complete vocabulary-by-vocabulary domain and only four positions. The independent validation tests the *same uniform sampling law*, not rare-token, corpus, long-context, task, or causal generalization.
 
 This establishes that a full physical-bond, weight-only **measure** can be approximated and checked without loading a language corpus or selecting eight special tokens. It does not establish human-legible directions, a canonical attention *function* across QK branch swaps, or mechanistic relevance. The next stage should compare (1) corpus-weighted versus uniform measures with matched independent evaluations, and (2) class/group or intervention-aware legibility objectives at matched pair-function error. The dual-output toy provides known component provenance and held-out combinations for that second stage. A component should earn a name only if its ablation and transfer predictions survive held-out input and internal interventions.
 
 ## Reproduce and artifacts
 
-`full_width_results/` stores JSON metrics and NPZ bond matrices for both heads and seeds, plus a 4,096-pair sample-size check. The external checkpoint is referenced, not copied. On this host numerical jobs are pinned to CPU 2 to avoid intermittent process crashes on another core:
+`full_width_results/` stores JSON metrics and NPZ bond matrices for both heads and seeds, the branch-swap controls, plus a 4,096-pair sample-size check. The external checkpoint is referenced, not copied. On this host numerical jobs are pinned to CPU 2 to avoid intermittent process crashes on another core:
 
 ```bash
 cd /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge

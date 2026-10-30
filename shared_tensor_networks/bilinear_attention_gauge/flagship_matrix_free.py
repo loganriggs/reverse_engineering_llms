@@ -64,7 +64,7 @@ def rotate(z,pos,cos,sin):
     return np.concatenate((left*c+right*s,-left*s+right*c),axis=-1)
 
 
-def rows(state,head,seed,n_train,n_val,length):
+def rows(state,head,seed,n_train,n_val,length,swap=False):
     vocab=state["transformer.wte.weight"].shape[0]
     rng=np.random.default_rng(seed)
     train=sample_pairs(rng,vocab,n_train,length)
@@ -90,6 +90,8 @@ def rows(state,head,seed,n_train,n_val,length):
         v=rotate(key["c_k"][ki],j,cos,sin)
         u2=rotate(query["c_q2"][qi],i,cos,sin)
         v2=rotate(key["c_k2"][ki],j,cos,sin)
+        if swap:
+            u,v,u2,v2=u2,v2,u,v
         b=np.sum(u2*v2,axis=1)/(HD**2)
         w=b*b*c_norm[ki]
         assert np.all(np.isfinite(w)) and np.sum(w)>0
@@ -141,7 +143,8 @@ def main(args):
     state=torch.load(SNAPSHOT/"pytorch_model.bin",map_location="cpu",
                      weights_only=True,mmap=True)
     direct_gate=gate(state,args.head,args.length,args.seed)
-    train,val,coverage=rows(state,args.head,args.seed,args.n_train,args.n_val,args.length)
+    train,val,coverage=rows(state,args.head,args.seed,args.n_train,args.n_val,args.length,
+                            swap=args.swap)
     u,v,w,_,_=train
     uv,vv,wv,_,_=val
     env=SampledBondEnvironment(u,v,w/np.sum(w))
@@ -164,11 +167,12 @@ def main(args):
     np.savez_compressed(array_path,**arrays)
     data=dict(scope="full physical width-128 head; uniform Monte Carlo over full vocab and causal positions",
               checkpoint=str(SNAPSHOT/"pytorch_model.bin"),head=args.head,
+              swap_qk_branches=args.swap,
               seed=args.seed,length=args.length,n_train=args.n_train,n_val=args.n_val,
               direct_factor_gate_max_abs=direct_gate,coverage=coverage,
               boundary=info,results=results,arrays=str(array_path))
     output.write_text(json.dumps(data,indent=2)+"\n")
-    print(json.dumps(dict(output=str(output),head=args.head,seed=args.seed,
+    print(json.dumps(dict(output=str(output),head=args.head,seed=args.seed,swap=args.swap,
                           n_train=args.n_train,n_val=args.n_val,
                           gate_max_abs=direct_gate,results=results),indent=2))
 
@@ -176,6 +180,7 @@ def main(args):
 if __name__=="__main__":
     p=argparse.ArgumentParser()
     p.add_argument("--head",type=int,default=0)
+    p.add_argument("--swap",action="store_true")
     p.add_argument("--seed",type=int,default=17)
     p.add_argument("--length",type=int,default=4)
     p.add_argument("--n-train",type=int,default=4096)
