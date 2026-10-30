@@ -22,6 +22,8 @@ from matrix_free_environment import SampledBondEnvironment
 
 HD=128
 WIDTH=1152
+CORPUS=Path("/home/loganriggs/Coding/neuron_circuits/artifacts/"
+            "bilin18_layers_0_2/corpus/fineweb_viewer_20k.npy")
 
 
 def sample_pairs(rng,vocab,n,length):
@@ -31,6 +33,18 @@ def sample_pairs(rng,vocab,n,length):
     k=rng.integers(0,vocab,size=n,dtype=np.int64)
     same=p[:,0]==p[:,1]
     k[same]=q[same]
+    return q,k,p[:,0],p[:,1]
+
+
+def sample_corpus_pairs(rng,corpus,n,length,doc_start,doc_end):
+    assert corpus.ndim==2 and corpus.shape[1]>=length
+    assert 0<=doc_start<doc_end<=len(corpus)
+    positions=np.array([(i,j) for i in range(length) for j in range(i+1)])
+    p=positions[rng.integers(0,len(positions),size=n)]
+    docs=rng.integers(doc_start,doc_end,size=n)
+    starts=rng.integers(0,corpus.shape[1]-length+1,size=n)
+    q=np.asarray(corpus[docs,starts+p[:,0]],dtype=np.int64)
+    k=np.asarray(corpus[docs,starts+p[:,1]],dtype=np.int64)
     return q,k,p[:,0],p[:,1]
 
 
@@ -64,11 +78,19 @@ def rotate(z,pos,cos,sin):
     return np.concatenate((left*c+right*s,-left*s+right*c),axis=-1)
 
 
-def rows(state,head,seed,n_train,n_val,length,swap=False):
+def rows(state,head,seed,n_train,n_val,length,swap=False,
+         distribution="uniform",corpus=None,train_docs=(0,15000),val_docs=(15000,20000)):
     vocab=state["transformer.wte.weight"].shape[0]
     rng=np.random.default_rng(seed)
-    train=sample_pairs(rng,vocab,n_train,length)
-    val=sample_pairs(rng,vocab,n_val,length)
+    if distribution=="uniform":
+        train=sample_pairs(rng,vocab,n_train,length)
+        val=sample_pairs(rng,vocab,n_val,length)
+    elif distribution=="corpus":
+        assert corpus is not None
+        train=sample_corpus_pairs(rng,corpus,n_train,length,*train_docs)
+        val=sample_corpus_pairs(rng,corpus,n_val,length,*val_docs)
+    else:
+        raise ValueError(distribution)
     q_ids=np.concatenate((train[0],val[0]))
     k_ids=np.concatenate((train[1],val[1]))
     q_unique,q_inverse=np.unique(q_ids,return_inverse=True)
@@ -99,7 +121,7 @@ def rows(state,head,seed,n_train,n_val,length,swap=False):
 
     train_rows=make(train,0,n_train)
     val_rows=make(val,n_train,n_train+n_val)
-    return train_rows,val_rows,dict(vocab=vocab,
+    return train_rows,val_rows,dict(vocab=vocab,distribution=distribution,
         unique_query_tokens=int(len(q_unique)),unique_key_tokens=int(len(k_unique)),
         sampled_causal_positions=length*(length+1)//2)
 
@@ -143,8 +165,10 @@ def main(args):
     state=torch.load(SNAPSHOT/"pytorch_model.bin",map_location="cpu",
                      weights_only=True,mmap=True)
     direct_gate=gate(state,args.head,args.length,args.seed)
+    corpus=np.load(args.corpus,mmap_mode="r") if args.distribution=="corpus" else None
     train,val,coverage=rows(state,args.head,args.seed,args.n_train,args.n_val,args.length,
-                            swap=args.swap)
+                            swap=args.swap,distribution=args.distribution,corpus=corpus,
+                            train_docs=tuple(args.train_docs),val_docs=tuple(args.val_docs))
     u,v,w,_,_=train
     uv,vv,wv,_,_=val
     env=SampledBondEnvironment(u,v,w/np.sum(w))
@@ -165,14 +189,19 @@ def main(args):
         f"flagship_matrix_free_h{args.head}_n{args.n_train}_seed{args.seed}.json")
     array_path=output.with_suffix(".npz")
     np.savez_compressed(array_path,**arrays)
-    data=dict(scope="full physical width-128 head; uniform Monte Carlo over full vocab and causal positions",
+    data=dict(scope="full physical width-128 head; Monte Carlo over declared token and causal-position measure",
               checkpoint=str(SNAPSHOT/"pytorch_model.bin"),head=args.head,
               swap_qk_branches=args.swap,
+              distribution=args.distribution,
+              corpus=str(args.corpus) if corpus is not None else None,
+              train_docs=args.train_docs if corpus is not None else None,
+              val_docs=args.val_docs if corpus is not None else None,
               seed=args.seed,length=args.length,n_train=args.n_train,n_val=args.n_val,
               direct_factor_gate_max_abs=direct_gate,coverage=coverage,
               boundary=info,results=results,arrays=str(array_path))
     output.write_text(json.dumps(data,indent=2)+"\n")
     print(json.dumps(dict(output=str(output),head=args.head,seed=args.seed,swap=args.swap,
+                          distribution=args.distribution,
                           n_train=args.n_train,n_val=args.n_val,
                           gate_max_abs=direct_gate,results=results),indent=2))
 
@@ -181,6 +210,10 @@ if __name__=="__main__":
     p=argparse.ArgumentParser()
     p.add_argument("--head",type=int,default=0)
     p.add_argument("--swap",action="store_true")
+    p.add_argument("--distribution",choices=["uniform","corpus"],default="uniform")
+    p.add_argument("--corpus",type=Path,default=CORPUS)
+    p.add_argument("--train-docs",type=int,nargs=2,default=[0,15000])
+    p.add_argument("--val-docs",type=int,nargs=2,default=[15000,20000])
     p.add_argument("--seed",type=int,default=17)
     p.add_argument("--length",type=int,default=4)
     p.add_argument("--n-train",type=int,default=4096)

@@ -44,11 +44,30 @@ Thus the *same attention function* can look easier or harder to compress dependi
 
 The smaller 4,096-fit-pair head-0 seed-17 run gives WTG validation errors .6465/.3873/.1340 at ranks 8/16/32, compared with .6418/.3787/.1217 at 16,384 fit pairs. A 512-pair smoke test had a much larger fit/validation gap, so low-sample measurements would have overstated compression. Even 16,384 pairs cover a tiny fraction of the complete vocabulary-by-vocabulary domain and only four positions. The independent validation tests the *same uniform sampling law*, not rare-token, corpus, long-context, task, or causal generalization.
 
-This establishes that a full physical-bond, weight-only **measure** can be approximated and checked without loading a language corpus or selecting eight special tokens. It does not establish human-legible directions, a canonical attention *function* across QK branch swaps, or mechanistic relevance. The next stage should compare (1) corpus-weighted versus uniform measures with matched independent evaluations, and (2) class/group or intervention-aware legibility objectives at matched pair-function error. The dual-output toy provides known component provenance and held-out combinations for that second stage. A component should earn a name only if its ablation and transfer predictions survive held-out input and internal interventions.
+## Corpus measure and optimization method
+
+The local tokenized FineWeb sample has 20,000 documents of 513 tokens. For a corpus-weighted comparison, the script samples a random four-token window per draw, then one causal pair uniformly from its ten positions. Documents 0–14,999 supply fit pairs; documents 15,000–19,999 supply validation/test pairs. Positions are **rebased to 0–3 within each window**. This tests local corpus co-occurrence, not full-context attention or the model's downstream loss. The corpus file stays in the separate research workspace and is referenced by path rather than copied into this repository.
+
+On head 0, corpus-fitted WTG rank 16 has about .289 error on fresh corpus pairs, *worse* than the uniform-fitted WTG's .201 on those same pairs. That is not evidence against corpus weighting: WTG singular truncation does not minimize pair-function error under its own environment. `flagship_fet.py` directly optimizes a rank-16 bond in that weighted environment, starting separately from WTG and local SVD. Its analytic gradient matches central differences to \(3.9\times10^{-9}\). Both starts were run for 300 L-BFGS iterations, hit the iteration cap, and are therefore **nonconverged upper bounds** on attainable error.
+
+At the matched budget of **65,536 fit pairs per measure**, with 65,536 fresh test pairs per measure (test seed 23), head 0 rank 16 gives:
+
+| Fit measure / method | Uniform test error | Corpus test error |
+|---|---:|---:|
+| Uniform / WTG cut | .3666 | .2038 |
+| Corpus / WTG cut | .6100 | .2940 |
+| Uniform / direct fit, WTG start | .1604 | .1743 |
+| Uniform / direct fit, local start | .1603 | .1540 |
+| Corpus / direct fit, WTG start | .2514 | **.0987** |
+| Corpus / direct fit, local start | .2456 | **.0999** |
+
+Thus, once the optimization method is held fixed, the measures create a real tradeoff: corpus fitting improves the corpus pair function, while uniform fitting improves the uniform pair function. Merely changing the WTG environment produced the opposite and misleading comparison. Direct fitting is sample-hungry: corpus rank-16 fit error is .0296 at 65,536 pairs, versus .0981 on document-held-out validation; at 16,384 fit pairs it was about .0055 versus .18–.19. The pair weights have a long tail; in a 16,384-pair corpus draw their effective sample size was about 2,053 for head 0. More samples, regularization, and broader document-held-out tests are needed before treating the fitted bond as stable, and none of these figures measure semantic legibility.
+
+This establishes that a full physical-bond, weight-only **measure** can be approximated and checked without loading a language corpus or selecting eight special tokens. The corpus comparison then shows why metric choice and optimizing the metric are separate decisions. Neither establishes human-legible directions, a canonical attention *function* across QK branch swaps, or mechanistic relevance. The next stage is class/group or intervention-aware legibility objectives at matched pair-function error, with rare-token, longer-context, downstream, and intervention evaluations. The dual-output toy provides known component provenance and held-out combinations for that stage. A component should earn a name only if its ablation and transfer predictions survive held-out input and internal interventions.
 
 ## Reproduce and artifacts
 
-`full_width_results/` stores JSON metrics and NPZ bond matrices for both heads and seeds, the branch-swap controls, plus a 4,096-pair sample-size check. The external checkpoint is referenced, not copied. On this host numerical jobs are pinned to CPU 2 to avoid intermittent process crashes on another core:
+`full_width_results/` stores JSON metrics and NPZ bond matrices for both heads and seeds, the branch-swap controls, corpus and direct-fit comparisons, cross-measure tests, plus sample-size checks. The external checkpoint is referenced, not copied. On this host numerical jobs are pinned to CPU 2 to avoid intermittent process crashes on another core:
 
 ```bash
 cd /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge

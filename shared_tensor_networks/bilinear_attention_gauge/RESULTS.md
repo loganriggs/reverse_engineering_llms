@@ -6,7 +6,7 @@ Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LA
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
 
-Full-width flagship follow-up: [matrix-free, full-vocabulary-sampled first-layer heads](FULL_WIDTH_FLAGSHIP_RESULTS.md). The width-128 physical bond is reduced without an eight-token domain quotient; independent Monte Carlo pairs show head-specific compression behavior.
+Full-width flagship follow-up: [matrix-free first-layer heads](FULL_WIDTH_FLAGSHIP_RESULTS.md). The width-128 physical bond is reduced without an eight-token domain quotient. Uniform and corpus measures, a branch-swap control, and a matched direct-fit comparison separate gauge truncation from the metric it is meant to optimize.
 
 This experiment tests Glen Evenbly's [weighted trace gauge (WTG) and full-environment truncation (FET)](https://arxiv.org/abs/1801.05390) on a repeated-token, bilinear-attention circuit. It distinguishes three claims:
 
