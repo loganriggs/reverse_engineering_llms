@@ -157,10 +157,12 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    TinyStories. [Fixed long-context metric mixtures](MIXED_METRIC_RESULTS.md)
    now show that a half uniform–corpus measure improves held-out natural
    sequence head-output fidelity at rank 32/64. A third pair-level QK2-constant
-   term does not improve sequence-level intervention fidelity. The next fit
-   should target the aggregated sequence response directly, then compare its
-   intervention behavior and full-model KL/CE against the saved half mixture.
-   Only after fixing a fidelity budget should a sparse-prior sweep on this
+   term does not improve sequence-level intervention fidelity. A
+   [direct sequence-response fit](SEQUENCE_OBJECTIVE_RESULTS.md) now beats
+   the saved half mixture and an extra-optimization pair-refit control on
+   held-out head outputs. Its sequence-level constant-QK2 prior transfers
+   to a held-out QK2 key shift. Next test downstream KL/CE at the saved cuts.
+   After fixing a fidelity budget, a sparse-prior sweep on this
    head compare native-weight, WTG-coordinate, effective-pair, group, and
    intervention-support sparsity. Uniform Monte Carlo is not exact
    all-vocabulary enumeration; corpus-pair fidelity is not a semantic result.

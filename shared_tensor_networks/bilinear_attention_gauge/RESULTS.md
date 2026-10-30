@@ -4,6 +4,8 @@ Follow-up: [metric × legibility-prior plan and known-rule two-head toy results]
 
 Flagship metric follow-up: [fixed uniform–corpus and intervention mixtures on the 546M head](MIXED_METRIC_RESULTS.md). A half uniform–corpus fit improves held-out sequence head-output fidelity on FineWeb, WikiText-103, and TinyStories at matched rank; adding a pair-level QK2 intervention objective does not improve sequence-level interventions. Sparse and human-legibility priors remain untested on this head.
 
+Sequence-objective follow-up: [directly optimize the summed first-layer head response](SEQUENCE_OBJECTIVE_RESULTS.md). With disjoint FineWeb fit/selection/test documents and two separate test corpora, rank-64 sequence fits beat the initial WTG cut and a direct pair-refit control. A 25% sequence-level QK2-constant objective improves that intervention and a held-out QK2 key shift. Full-model behavior and component legibility remain open.
+
 Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LANGUAGE_RESULTS.md). The pair-function extraction is exact; whole-sequence and pair-frequency environments differ beyond sampling noise, while the task is too redundant for accuracy to distinguish the reduced heads.
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
