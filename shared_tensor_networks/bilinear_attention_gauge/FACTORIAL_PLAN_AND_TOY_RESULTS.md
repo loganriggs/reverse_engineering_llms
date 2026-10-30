@@ -154,10 +154,16 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    [context-transfer red team](FLAGSHIP_CONTEXT_TRANSFER_RESULTS.md) shows
    the four-position measure overweights self-pairs and establishes a rank
    16–96 long-context Pareto curve on held-out FineWeb, WikiText, and
-   TinyStories. Next combine long-context uniform, corpus, and QK2-intervention
-   environments at fixed weights, then test full-model KL/CE and component
-   semantics. Uniform Monte Carlo is not exact all-vocabulary enumeration;
-   corpus-pair fidelity is not a semantic result.
+   TinyStories. [Fixed long-context metric mixtures](MIXED_METRIC_RESULTS.md)
+   now show that a half uniform–corpus measure improves held-out natural
+   sequence head-output fidelity at rank 32/64. A third pair-level QK2-constant
+   term does not improve sequence-level intervention fidelity. The next fit
+   should target the aggregated sequence response directly, then compare its
+   intervention behavior and full-model KL/CE against the saved half mixture.
+   Only after fixing a fidelity budget should a sparse-prior sweep on this
+   head compare native-weight, WTG-coordinate, effective-pair, group, and
+   intervention-support sparsity. Uniform Monte Carlo is not exact
+   all-vocabulary enumeration; corpus-pair fidelity is not a semantic result.
 
 Across all stages, report **function reconstruction, downstream task
 performance, causal fidelity, rule recovery, and new-rule discovery** as
