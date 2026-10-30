@@ -2,7 +2,15 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Current status: h64 training completed successfully; all population/transfer evaluations completed successfully. The independent full metric audit is live; report remains pending. Recent turns either advanced theory/experiments or directly verified the live producer. Read the newest entry below; older entries are chronological history, not a live queue. Goal active.
+Current status: h64 training, evaluation, independent audit and report are COMPLETE. All 60 cases passed; auditor session50906 terminal exit0 verified. Scientific artifacts are stable and ready for publication. Goal remains active; native MLP work remains paused.
+
+## Latest: h64 audited results and next decision
+
+Previous turn verified wait; this turn progress. Independent audit PID214227/session50906 completed exit0, all60 passed. summarize_task_coverage_h64.py completed successfully and wrote TASK_COVERAGE_H64_RESULTS.md plus evaluation/summary.json after validating the audit and provenance hashes.
+
+Random-start median transfer MSE (N/tasks): 8192/520=1.43575, 8192/2080=.0320563, 32768/520=.0160153, 32768/2080=.0237113. Full64-feature recovery0/10,1/10,4/10,3/10 respectively. All20 privileged teacher starts recover all64, transfer about.00104. Equal17,039,360-label more-inputs condition wins4/5 teacher blocks; adding tasks at fixedN wins5/5 at8192 and3/5 at32768. Higher median with more tasks at32768 coexists with3/5 paired wins: preserve heterogeneity, do not substitute pooled medians for paired comparisons. 38/40 random endpoints have same-condition lower-loss teacher-start witnesses; not certificates of local minima. Training1.767 GPU hours excluding prep/analysis,6.619GiB peak allocated.
+
+NEXT: publish stable artifacts and update manifest/synthesis; largest artifact16,166,238 bytes, below20MiB. Root remains untracked until staged. Then compare audited h16/h32/h64 teacher-level outcomes to choose a scaling protocol with sufficient input coverage, retaining random starts and privileged controls. Do not infer a universal task-count benefit or a scaling law; high-input task benefits are mixed. Avoid another small optimizer rescue sweep. Depth3–5 recovery and broader scaling remain incomplete, and the broad goal remains active.
 
 ## Latest: all60evaluations completed; independentaudit LIVE
 

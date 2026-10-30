@@ -2,7 +2,7 @@
 
 The evidence supports three distinct explanations: sharing changes the parameter metric; available observations constrain some hidden directions much more strongly than others; and an identifiable target can still be difficult to optimize. We have not found an alternating update rule that reliably recovers reusable features better across fresh teachers.
 
-This guide consolidates completed panels. Experiment counts below are not independent replications: several panels reuse teachers, starts or trajectory prefixes. The current d128/h64 task/input run is still training; no results from it are used here. The full research objective remains active.
+This guide consolidates completed panels. Experiment counts below are not independent replications: several panels reuse teachers, starts or trajectory prefixes. The d128/h64 task/input study has now passed its full audit; see TASK_COVERAGE_H64_RESULTS.md for the separate scaling results. The full research objective remains active.
 
 ## 1. Geometry: the same function can learn differently
 
@@ -59,4 +59,4 @@ Sources: [ambiguity](DEPTH3_INTERNAL_MIXING.md), [intervention identification](D
 
 ## Current decision
 
-Keep ordinary joint learning as a baseline. Do not reopen closed optimizer sweeps to search for a favorable ranking. Finish and audit the live larger-width task/input study, then use its complete teacher-level results to choose the next scaling step. Deeper studies must separately measure function fit, feature-plane agreement, axis agreement and intervention agreement, with justified identification assumptions. Global convergence, universal sharing advantages, robust deep circuit recovery and the full proposed scaling envelope remain unestablished. No result in this guide is presented as a literature novelty claim.
+Keep ordinary joint learning as a baseline. Do not reopen closed optimizer sweeps to search for a favorable ranking. Use the completed, audited larger-width task/input study to choose the next scaling step. At equal label budget more inputs won on4/5teachers; additional tasks helped5/5at low input count but3/5at high input count. Feature recovery remains inconsistent from random starts. Deeper studies must separately measure function fit, feature-plane agreement, axis agreement and intervention agreement, with justified identification assumptions. Global convergence, universal sharing advantages, robust deep circuit recovery and the full proposed scaling envelope remain unestablished. No result in this guide is presented as a literature novelty claim.

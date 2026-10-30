@@ -103,3 +103,20 @@ DEPTH3_INTERVENTION_IDENTIFICATION.md proves that one named internal deletion wi
 ## Training with deep causal supervision
 
 DEPTH3_CAUSAL_TRAINING_RESULTS.md reports20 audited fixed-firstlayer population fits. Adding ablation observations improves axis recovery1/10→3/10 and lowers ablation error on5/5teacher fixtures, but worsens ordinary error on5/5 and reduces exact ordinary fits5/10→3/10. All near-exact observation-only fits recover the feature plane, while axes remain ambiguous. One capped case retained. This distinguishes useful additional information from reliable optimization; no general deep-recovery claim follows. h64 remains running.
+
+
+## Audited width-64 extension: task diversity depends on input coverage
+
+The completed [h64 report](TASK_COVERAGE_H64_RESULTS.md) extends the same depth-two shared-feature family to d128/h64. All60 training fits and scientific evaluations passed the independent audit. At equal scalar-label budget, allocating labels to more input examples rather than more task heads wins4/5 teachers, following5/5 at h16 and5/5 at h32. These are separate five-teacher panels, not a controlled width-only comparison.
+
+| Hidden width | High input count | Low / full task count | Transfer MSE, low / full tasks | Complete feature recovery, low / full tasks |
+|---:|---:|---:|---:|---:|
+|16|2048|34 /136|.0322085 / .0134433|2/10 /6/10|
+|32|8192|132 /528|.048311 / .0267005|3/10 /3/10|
+|64|32768|520 /2080|.0160153 / .0237113|4/10 /3/10|
+
+Transfer errors are medians of teacher means, averaging two random starts and four whole-task holdouts. Primary adaptation sample counts scale with width and differ across panels. Recovery demands every matched feature exceed cosine.99, so its criterion becomes stricter as width grows. Do not fit a sample-complexity exponent to this table.
+
+At h64, adding tasks improves paired transfer on5/5 teachers at8192inputs and3/5 at32768inputs. The latter majority coexists with a worse aggregate median: teacher heterogeneity matters. All20 privileged teacher-start controls recover all64features;38/40 random fits have same-condition lower empirical-loss witnesses. This establishes remaining optimization difficulty but not strict local minima, nor that all generalization error is optimization error.
+
+Next scaling decision: preserve adequate input coverage and whole-task holdouts; do not simply multiply task heads. Before d256/h128 training, perform a memory/work preflight covering both data generation and independent population/transfer analysis. Its8256 product coordinates make dense readout and SVD costs substantially larger. Choose the feasible training layout from that measurement and verify any streamed gradients against the existing full-batch implementation before freezing a scientific protocol. No additional optimizer rescue is justified by these data alone. Depth3–5 learned recovery remains a separate incomplete requirement.
