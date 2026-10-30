@@ -110,8 +110,9 @@ circuits differently**. A canonical gauge and a sparsity prior must be
 judged on all three, with held-out labels excluded from model selection.
 The next step is a class/group prior and a broader intervention panel on this
 genuinely multi-head task, testing whether a named component predicts
-held-out input and internal interventions. The full-vocabulary 546M
-matrix-free experiment remains outstanding.
+held-out input and internal interventions. A corpus-free, full-physical-width
+546M matrix-free pilot is now reported in `FULL_WIDTH_FLAGSHIP_RESULTS.md`;
+corpus-weighted and human-legibility comparisons remain outstanding.
 
 ## Reproduce
 
