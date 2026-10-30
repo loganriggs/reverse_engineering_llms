@@ -1,5 +1,7 @@
 # Bilinear-attention gauge canonicalization: completed small-model comparison
 
+Follow-up: [metric × legibility-prior plan and known-rule two-head toy results](FACTORIAL_PLAN_AND_TOY_RESULTS.md). This follow-up separates uniform versus usage-weighted reduction from native-bond, WTG-bond, pair-response, and intervention objectives. It is a hand-built toy and does not establish interpretation of a trained model.
+
 This experiment tests Glen Evenbly's [weighted trace gauge (WTG) and full-environment truncation (FET)](https://arxiv.org/abs/1801.05390) on a repeated-token, bilinear-attention circuit. It distinguishes three claims:
 
 1. A fixed attention-network representation has a reproducible internal gauge.

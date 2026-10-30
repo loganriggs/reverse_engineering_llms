@@ -1,0 +1,102 @@
+# Canonicalization, reduction, and legibility: factorial program
+
+The proposed experiment has two independent choices. **Measure:** what input
+distribution defines a good functional approximation? **Legibility prior:**
+among similarly faithful reduced circuits, what structure do we prefer? Keep
+those axes separate. Weighted trace gauge (WTG) fixes a bond coordinate system
+for one specified network and measure; it does not itself identify a semantic
+mechanism or choose a unique function-level factorization.
+
+## First completed test: known-rule two-head toy
+
+`toy_factorial.py` makes a first-layer, two-position bilinear-attention pair
+function with two heads, each containing a common and a rare query-key rule.
+It retains rank one of the original rank-two QK1 bond per head. QK2 remains a
+separate multiplicative path and each head has a two-dimensional OV output.
+The toy uses the exact pair function: no sample data are needed to construct
+its environment. The `usage` measure is an *invented* independent-token
+frequency law, not a language corpus. Three seeds vary background weights.
+
+The measure axis is uniform, usage-weighted, or a 50:50 mixture. After WTG
+initialization, four further objectives were tried at a single coefficient
+`lambda=0.02`: no prior, L1 on native bond entries, L1 on WTG-normalized bond
+entries, L1 on the resulting pair-response norms, and fidelity after replacing
+QK2 by a constant score. All fits use four starts and a CPU Adam optimizer.
+Analytic gradients are checked against central differences; the exact gauge
+check is asserted. The JSON files retain per-head and summed-head metrics.
+
+Mean relative squared error over six head/seed cases; lower is better:
+
+| Fit measure / objective | Common-rule error | Rare-rule error | QK2-intervention error on uniform pairs |
+|---|---:|---:|---:|
+| Uniform / fidelity | 0.967 | 0.000 | 0.094 |
+| Uniform / canonical-bond L1 | 1.000 | 0.000 | 0.088 |
+| Usage / fidelity | 0.024 | 0.145 | 0.848 |
+| Usage / canonical-bond L1 | 0.028 | 0.162 | 0.831 |
+| Hybrid / fidelity | 0.282 | 0.002 | 0.316 |
+| Hybrid / canonical-bond L1 | 0.328 | 0.003 | 0.295 |
+
+**Interpretation:** at rank one, the uniform measure preserves the large rare
+rule and mostly sacrifices the common rule. The invented usage measure strongly
+favors the common rule and impairs rare-rule and uniform intervention fidelity.
+The hybrid sits between them. That is a deliberately capacity-limited example
+of why the measure must be specified before calling an axis "important."
+At this one weak prior strength, none of the legibility penalties gives a
+compelling gain over fidelity alone. A lambda/error-budget sweep is necessary.
+
+An exact non-orthogonal QK1 gauge changes the native entrywise L1 from 1.35
+to 1.7985 while changing the pair function by at most `9e-16`. The pair
+response L1 is unchanged. The WTG-relative bond L1 is unchanged to `2e-15`
+under the same gauge in all three seeds. Thus native-weight sparsity is not a
+function-level prior; WTG-relative or response-level sparsity is better posed.
+This checks internal gauges, not QK branch swaps or cross-head redistribution.
+
+The toy is hand-built, so rule labels are known for evaluation. It does **not**
+show discovery on a trained model, task accuracy, held-out language
+generalization, or a sparse explanation of the 546M model. Four-start
+optimization is not a global certificate; some near-kink native- and
+canonical-L1 runs have gradient norm above `1e-4`, so those comparisons remain
+exploratory.
+
+Reproduce with `OPENBLAS_NUM_THREADS=1` and the project Python environment:
+
+```bash
+for seed in 0 1 2; do
+  OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/neuron_circuits/.venv/bin/python \
+    /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge/toy_factorial.py \
+    --seed "$seed"
+done
+```
+
+## Next comparisons and gates
+
+1. **Pareto sweep, not one lambda.** For each measure and prior, match
+   reconstruction error and active-component budget. Compare native-weight,
+   WTG-weight, pair-response, and class-pair/group sparsity. A supervised
+   class-rule penalty is a separate condition and must not count as unsupervised
+   discovery. Check the same proposed component under QK branch swaps and
+   jointly across heads.
+2. **Trained toy language.** Generate sequences with balanced common/rare
+   grammar rules and held-out token combinations; train one- and two-layer,
+   multi-head bilinear models to convergence across seeds. Evaluate whether a
+   reduction trained on frequent examples recovers the rare grammar rule,
+   whether sparse components predict QK2/OV interventions, and whether an
+   inferred rule transfers to unseen combinations. Keep generator labels out
+   of unsupervised fitting.
+3. **Small real checkpoints.** The existing vocabulary-100 heads permit exact
+   all-token environments. Use a real held-out text distribution for the
+   data-aware measure, report pair-frequency coverage, and compare uniform,
+   data-aware, and floored/hybrid measures on full pair and sequence outputs.
+4. **546M first-layer heads.** Build a matrix-free full-width environment
+   operator so a dense `128^2 x 128^2` transfer matrix and a tiny token-domain
+   quotient are unnecessary. A uniform, corpus-free metric and a large-corpus
+   usage metric should be separately estimated. Split corpus by document and
+   task; test rare-token strata, unseen combinations, lengths, downstream CE,
+   and interventions. The existing eight-token pilot is only a correctness
+   and selected-domain pilot. Do not claim full-vocabulary canonicalization
+   from it.
+
+Across all stages, report **function reconstruction, downstream task
+performance, causal fidelity, rule recovery, and new-rule discovery** as
+separate outcomes. A low reconstruction error is not evidence that an axis is
+human-legible or that the physical model implements the inferred module.
