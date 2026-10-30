@@ -1,0 +1,11 @@
+# Local nonlinear noise experiment — frozen before results
+
+Question: does the profiled information matrix predict nonlinear least-squares response near a known noiseless solution as observation noise decreases?
+
+Use d4/h2, the coordinate-product teacher z1=x1*x2,z2=x3*x4, three Gaussian readouts. Five fresh seeds262101–262105, common nested Gaussian inputs N16/64/256. Ten independent standard-normal noise matrices per fixture, reused at noise SD .001/.0001/.00001. This is450 local fits, not450 independent teachers. Keep absolute output scale: no target-dependent normalization. Archive inputs, readouts and noise draws.
+
+Hidden local coordinates v have12 dimensions, using normalized rows theta(v)=normalize(theta0+Qv) with Q selecting the orthonormal tangents at theta0. Refit free readouts exactly by unregularized least squares. Start every solve at v=0 (privileged true hidden features); scipy least_squares TRF, analytic reduced Jacobian, ftol/xtol/gtol1e-12,max_nfev100. No bounds, rate tuning, retries or rescue starts. Record failure statuses and any nonfinite outcome rather than dropping them. This tests a local estimator, not discovery from random initialization.
+
+For each fixed noise draw compare v_fit against v_linear=A^+ noise, where A is the noiseless profiled Jacobian. Record absolute error, relative linearization discrepancy, coordinate norm, loss and gradient norm, steps and wall time. Aggregate paired discrepancies separately by N/noise, with fixtures as blocks. Compare mean squared error to sigma² trace((A^T A)^-1), but ten draws are not a precision test for the expectation. Primary outcome: whether paired nonlinear/linear discrepancy decreases as noise decreases. No assumed success threshold is imposed on the scientific outcomes.
+
+Verification: independently finite-difference the reduced residual Jacobian at a nonzero chart point; replay outputs/readouts using literal quadratic products and SVD; replay final first-order optimality using independent residual finite differences. Archive all local coordinates, solver counters and final readouts. Do not modify or compete with the GPU producer's CPU core0: use single-thread BLAS on core1. The h64 run and broader goal remain active.

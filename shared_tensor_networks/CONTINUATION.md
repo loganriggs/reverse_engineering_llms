@@ -4,6 +4,12 @@ Goal: complete the toy experiments, scale them as justified, and derive/test int
 
 Previous goal turn: progress (release-sharing controls). Current turn: progress (50-model fixed hidden extraction,600audited projections/adaptations,400conditional-risk decompositions). Goal active.
 
+## Latest: local nonlinear noise panel completed and audited
+
+Previous/current goal turns progress. LOCAL_NOISE_RECOVERY_PLAN.md frozen before450 fits; LOCAL_NOISE_RECOVERY_RESULTS.md reports150/150 paired noise sequences approach linear prediction as sigma decreases. Five fresh fixtures262101–5,N16/64/256,ten draws,three sigmas,unit-factor12D chart; every fit starts attruehidden. These are privileged local estimator tests, not global discovery. All solver statuses successful; largest finalgradient2.55e-7,notexactstationarity. Independent literal/SVD/data/FD audit passed450cases. Retain finite-draw risk-ratio deviations; no rescue tuning. Scripts run_local_noise_recovery.py and audit_local_noise_recovery.py,results/local_noise_recovery.
+
+Producer202441 verifiedlive elapsed40:56,teacher256102 n32768_t2080 step2400;21/60 saved models. Existing session14051. Next monitor; after terminalsuccess evaluate_task_coverage_h64.py then audit_task_coverage_h64.py then summarize_task_coverage_h64.py. Heavyanalysisawaitsproducercompletion; do not duplicate/editproducer or commit mutable scientificroot. Broadgoalactive/nativeMLPpaused.
+
 ## Latest: profiled conditioning theory and checks complete
 
 Previous and current goal turns made progress. PROFILED_INFORMATION_AND_CONDITIONING.md proves positive-semidefinite information monotonicity for appended inputs/tasks at fixed observation weights; derives linearized noise covariance and a conditional local reduced-flow convergence bound. Exact certificate endpoints prove full rank can be arbitrarily ill-conditioned along a bounded rational input path. These are local statements, not nonlinear random-start recovery guarantees.

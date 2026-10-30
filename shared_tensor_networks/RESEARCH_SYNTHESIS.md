@@ -81,3 +81,8 @@ SAMPLED_HIDDEN_INFORMATION.md now includes exact rank certificates for d4/h2 and
 ## Profiled information and conditioning
 
 PROFILED_INFORMATION_AND_CONDITIONING.md adds fixed-weight information monotonicity, exact linearized noise risk, a local reduced-flow rate and a certified path showing arbitrarily poor conditioning despite full rank. Checks cover60 configurations,85 PSD comparisons and15 linear-noise simulations; no nonlinear recovery experiment is claimed. This motivates measuring spectra rather than relying only on dimension counts. The h64 producer remains live; scientific outcomes remain pending.
+
+
+## Local nonlinear noise check
+
+LOCAL_NOISE_RECOVERY_RESULTS.md reports450 privileged teacher-start local fits with independent audit. All150 paired noise sequences approach their linearized hidden-coordinate prediction as noise decreases. This supports the conditioning interpretation locally, not recovery from random initialization or global convergence. The h64 producer remains active; full scientific evaluation is pending.
