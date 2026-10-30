@@ -2,7 +2,13 @@
 
 Goal: complete the toy experiments, scale them as justified, and derive/test interesting theoretical results. The prior native-MLP research remains paused. This project is separate and must not be redirected automatically into the old featurizer loop.
 
-Current status: h64 training completed successfully; population/transfer evaluation is live. Training structure passed; full metric audit and report remain pending. Recent turns either advanced theory/experiments or directly verified the live producer. Read the newest entry below; older entries are chronological history, not a live queue. Goal active.
+Current status: h64 training completed successfully; all population/transfer evaluations completed successfully. The independent full metric audit is live; report remains pending. Recent turns either advanced theory/experiments or directly verified the live producer. Read the newest entry below; older entries are chronological history, not a live queue. Goal active.
+
+## Latest: all60evaluations completed; independentaudit LIVE
+
+Previous turnverifiedwait; currentturnprogress. Evaluator75791/PID213446 terminalexit0; evaluation/complete.json confirms60fits,240transferentries,120learnedfits,10sharedoraclefits, evaluated_not_audited. Training60alreadyterminalexit0. No scientificconclusionsbeforeaudit.
+
+LIVE auditor unified-exec50906/PID214227(parent214223),CPU0/singleBLAS,log /tmp/task_coverage_h64_audit.log. Source/provenancelocked; caseauditcache in evaluation/audit_cases. Monitor samehandle; no restartonobservationtimeout. NEXT afterauditterminalsuccess andaudit.jsonpassed60,run summarize_task_coverage_h64.py,inspecttable/pairedcomparisons,thenstageallstabletraining/evaluationartifacts(<20MiBeach),manifest,report/synthesisandpush. Root~1.2GiB; evaluation/auditstillmutating,donotstageyet. Fullgoalactive/nativeMLPpaused.
 
 ## Latest: all60 h64models trained; evaluation LIVE
 
