@@ -136,14 +136,14 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    all-token environments. Use a real held-out text distribution for the
    data-aware measure, report pair-frequency coverage, and compare uniform,
    data-aware, and floored/hybrid measures on full pair and sequence outputs.
-4. **546M first-layer heads.** Build a matrix-free full-width environment
-   operator so a dense `128^2 x 128^2` transfer matrix and a tiny token-domain
-   quotient are unnecessary. A uniform, corpus-free metric and a large-corpus
-   usage metric should be separately estimated. Split corpus by document and
-   task; test rare-token strata, unseen combinations, lengths, downstream CE,
-   and interventions. The existing eight-token pilot is only a correctness
-   and selected-domain pilot. Do not claim full-vocabulary canonicalization
-   from it.
+4. **546M first-layer heads.** The matrix-free full-width operator and
+   corpus-free uniform Monte Carlo comparison are now complete for heads 0
+   and 4; see [full-width results](FULL_WIDTH_FLAGSHIP_RESULTS.md). These
+   results avoid both a dense `128^2 x 128^2` transfer matrix and a tiny
+   token-domain quotient. A large-corpus usage metric remains to be measured.
+   Split that corpus by document and task; test rare-token strata, unseen
+   combinations, longer contexts, downstream CE, and interventions. Uniform
+   Monte Carlo is not exact all-vocabulary enumeration or a semantic result.
 
 Across all stages, report **function reconstruction, downstream task
 performance, causal fidelity, rule recovery, and new-rule discovery** as
