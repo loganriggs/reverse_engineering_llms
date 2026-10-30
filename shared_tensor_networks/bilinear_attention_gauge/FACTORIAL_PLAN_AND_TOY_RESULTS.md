@@ -135,6 +135,12 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    components and a prediction of which component responds to which
    intervention. Keep generator labels out of unsupervised fitting and
    model selection.
+   An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
+   now proves that external function data alone cannot always identify
+   computation reuse. A noisy intervention assay distinguishes those graphs
+   and transfers to a different patch strength and input law. The remaining
+   challenge is to infer candidate components rather than supply their
+   locations and graph families.
 3. **Small real checkpoints.** The existing vocabulary-100 heads permit exact
    all-token environments. Use a real held-out text distribution for the
    data-aware measure, report pair-frequency coverage, and compare uniform,
