@@ -1,0 +1,9 @@
+# Fresh-seed regularized intervention-design confirmation
+
+Fixed before running: repeat the known-interface experiment with seeds282000..282019, disjoint from the original281000..281019. Retain eight contrasts,28 Gaussian N(0,1) coefficients, acquisition pool224 two-support unit-norm interventions, fresh512 three/four-support tests, budgets14/28/56/112, noise SD.05/.2 and random/balanced/determinant/singleton strategies. Reuse the frozen original feature and selection routines. Do not tune against held-out outputs or change the original artifacts.
+
+Fit both minimum-norm least squares and ridge with penalty lambda=sigma^2. This is the exact posterior mean for the supplied N(0,I) teacher prior and Gaussian measurement noise, not a universally appropriate unknown-model regularizer. It intentionally gives every strategy the correct prior/noise model. Evaluate clean test MSE and rank, report paired seed-level wins rather than claiming universal dominance.
+
+Validate ridge against augmented least squares and independent per-coordinate scalar solutions. Compute exact prior-and-noise averaged predictive risk conditional on each design: c*trace(C), where C=(I+A^T A/sigma^2)^-1 and c=0.5*((3-1)/(8*7*(3+2))+(4-1)/(8*7*(4+2))). The test monomial second-moment matrix is cI by uniform supports, spherical amplitudes and sign symmetry. Separately check the posterior covariance identity through bias-plus-noise covariance. These calculations distinguish measurement coverage/strength from an unregularized estimator failure; they do not identify unknown features or higher-order interactions.
+
+Save all1280 endpoints, sources/hashes, validation errors and summary. Use single-thread NumPy onCPU1. Leave h128 producer/evaluator/auditor unchanged. No follow-up hyperparameter search after viewing outcomes.
