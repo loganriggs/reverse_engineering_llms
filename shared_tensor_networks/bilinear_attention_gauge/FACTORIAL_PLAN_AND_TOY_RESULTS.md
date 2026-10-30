@@ -164,10 +164,13 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    to a held-out QK2 key shift. A [full 18-layer propagation test](FULL_MODEL_BEHAVIOR_RESULTS.md)
    finds the natural sequence fit has the lowest original-to-edited KL on
    three corpora at rank 64; the zero-head baseline is far more damaging.
-   The next test should establish the Pareto frontier of fidelity versus
-   legibility. After fixing a fidelity budget, a sparse-prior sweep on this
-   head compare native-weight, WTG-coordinate, effective-pair, group, and
-   intervention-support sparsity. Uniform Monte Carlo is not exact
+   An [exact-gauge prior comparison](EXACT_GAUGE_SPARSITY_RESULTS.md) now
+   holds the entire cut fixed and compares factor-weight, pair-activation,
+   QK2-intervention-weighted, and rare-balanced sparsity. It improves
+   held-out concentration but yields weak cross-seed component alignment.
+   The next test should examine token exemplars and selective causal effects
+   under withheld labels, then establish the Pareto frontier once sparsity
+   is allowed to alter the cut. Uniform Monte Carlo is not exact
    all-vocabulary enumeration; corpus-pair fidelity is not a semantic result.
 
 Across all stages, report **function reconstruction, downstream task

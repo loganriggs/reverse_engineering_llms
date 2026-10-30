@@ -8,6 +8,8 @@ Sequence-objective follow-up: [directly optimize the summed first-layer head res
 
 Full-model follow-up: [propagate the saved cuts through all 18 layers](FULL_MODEL_BEHAVIOR_RESULTS.md). On 18,432 next-token positions across disjoint FineWeb, WikiText-103, and TinyStories samples, the natural sequence fit has the lowest original-to-edited KL in both seeds of each corpus. A zero-head edit has roughly 47–54 times its KL. CE shifts are tiny and do not establish an accuracy gain; component legibility remains open.
 
+Exact-gauge legibility-prior follow-up: [factor-weight versus activation sparsity on the fixed rank-64 cut](EXACT_GAUGE_SPARSITY_RESULTS.md). Orthogonal rotations preserve the entire attention function to numerical precision. Activation objectives lower effective active-component count on held-out corpora, but the gain concentrates on common tokens and independently fitted component bases align weakly. Factor-weight L1 drops sharply without comparable pair-response sparsity. These are sparsity proxies, not semantic components.
+
 Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LANGUAGE_RESULTS.md). The pair-function extraction is exact; whole-sequence and pair-frequency environments differ beyond sampling noise, while the task is too redundant for accuracy to distinguish the reduced heads.
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
