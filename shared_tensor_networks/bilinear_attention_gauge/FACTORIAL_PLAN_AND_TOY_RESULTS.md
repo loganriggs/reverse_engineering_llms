@@ -61,11 +61,60 @@ exploratory.
 Reproduce with `OPENBLAS_NUM_THREADS=1` and the project Python environment:
 
 ```bash
+cd /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge
 for seed in 0 1 2; do
-  OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/neuron_circuits/.venv/bin/python \
+  OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_venv/bin/python \
     /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge/toy_factorial.py \
     --seed "$seed"
 done
+```
+
+## Matched-error sweep
+
+`toy_pareto.py` sweeps prior weights from 0 to 1. A candidate may spend at
+most **0.02 additional relative function MSE** above the best rank-one fit for
+that head and measure. Candidates with gradient norm `>=1e-4` are excluded
+from selection. All three seeds were run separately and merged; the merged
+`toy_pareto.json` retains every raw fit and selected candidate. This is an
+*oracle diagnostic on a hand-built function*: lambda selection sees the same
+toy function and intervention being reported. It is not held-out transfer.
+
+Mean across six head/seed cases, choosing the candidate with smallest
+uniform-pair QK2-intervention error within that error allowance:
+
+| Fit measure | Fidelity only: intervention MSE | Canonical L1: intervention MSE | Intervention prior: intervention MSE |
+|---|---:|---:|---:|
+| Uniform | 0.094 | 0.088 | 0.088 |
+| Usage | 0.848 | 0.781 | 0.768 |
+| Hybrid | 0.316 | 0.248 | **0.160** |
+
+On the hybrid measure, the intervention-prior selection spends the allowed
+reconstruction error: mean training MSE rises from 0.105 to 0.120. Its lower
+intervention error is therefore a meaningful Pareto trade, **not a free
+interpretability gain**. The native-L1 candidate reaches 0.700 intervention
+MSE under the usage measure, but that prior is gauge-dependent and is not a
+stable description of the function.
+
+The effective number of active pair responses (an inverse-concentration
+index, not a count of semantic rules) changes only modestly. For example,
+under hybrid fitting it is 4.57 for fidelity only, 4.43 for canonical L1,
+4.29 for pair-response L1, and 4.17 for the intervention prior. Those
+reductions also spend error and do not establish more recognizable concepts.
+The sweep therefore sharpens the next test: use trained models and evaluate
+rule recovery and interventions on *held-out* combinations and intervention
+types, instead of trusting this in-sample sparsity proxy.
+
+```bash
+cd /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge
+for seed in 0 1 2; do
+  OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_venv/bin/python \
+    /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge/toy_pareto.py \
+    --seeds "$seed" --output "toy_pareto_seed${seed}.json"
+done
+OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_venv/bin/python \
+  /home/loganriggs/Coding/reverse_engineering_llms/shared_tensor_networks/bilinear_attention_gauge/toy_pareto.py \
+  --merge toy_pareto_seed0.json toy_pareto_seed1.json toy_pareto_seed2.json \
+  --output toy_pareto.json
 ```
 
 ## Next comparisons and gates

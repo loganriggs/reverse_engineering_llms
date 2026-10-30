@@ -129,7 +129,7 @@ def rule_recall(head, x, which):
     return float(np.sum((altered-original)**2)/np.sum(original**2))
 
 
-def fit(head, measure, objective, seed, lam=.02):
+def fit(head, measure, objective, seed, lam=.02, steps=2000, starts=4):
     env = environment(head,measure)
     _, s, gx, gy = weighted_trace_gauge(env,1)
     canonical = np.linalg.solve(gx,np.diag([s[0],0.])) @ np.linalg.inv(gy)
@@ -188,13 +188,13 @@ def fit(head, measure, objective, seed, lam=.02):
     gradient_check=float(np.max(np.abs(analytic-numeric)))
     assert gradient_check<1e-6,(objective,gradient_check)
 
-    starts=[initial]+[rng.normal(size=2*D) for _ in range(3)]
+    start_vectors=[initial]+[rng.normal(size=2*D) for _ in range(starts-1)]
     best=(float("inf"),None,0,float("inf"))
-    for start in starts:
+    for start in start_vectors:
         z=start.copy()
         first=np.zeros_like(z)
         second=np.zeros_like(z)
-        for step in range(1,2001):
+        for step in range(1,steps+1):
             value,gradient=loss_and_grad(z)
             gnorm=float(np.linalg.norm(gradient))
             if value<best[0]:
@@ -205,6 +205,28 @@ def fit(head, measure, objective, seed, lam=.02):
             second=.999*second+.001*gradient**2
             z-=.03*(first/(1-.9**step))/(np.sqrt(second/(1-.999**step))+1e-8)
             z=np.clip(z,-10,10)
+    # Adam's last useful point can have a large gradient, especially near the
+    # smoothed L1 kink. A monotone line-search polish supplies a tighter gate.
+    z=best[1].copy()
+    polish_steps=0
+    for polish_steps in range(1,501):
+        value,gradient=loss_and_grad(z)
+        norm=float(np.linalg.norm(gradient))
+        if norm<1e-6:
+            break
+        rate=1.
+        for _ in range(35):
+            proposal=np.clip(z-rate*gradient,-10,10)
+            proposal_value=loss_and_grad(proposal)[0]
+            if proposal_value<=value-1e-4*rate*norm**2:
+                break
+            rate*=.5
+        if rate<1e-10:
+            break
+        z=proposal
+        if proposal_value<best[0]:
+            best=(proposal_value,z.copy(),steps+polish_steps,
+                  float(np.linalg.norm(loss_and_grad(z)[1])))
     x=np.outer(best[1][:D],best[1][D:])
     return x,canonical,dict(success=best[3]<1e-4,iterations=best[2],
                              objective_loss=best[0],gradient_norm=best[3],
