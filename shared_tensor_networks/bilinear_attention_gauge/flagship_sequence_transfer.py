@@ -20,7 +20,7 @@ from flagship_transfer import ART,load_cuts
 from flagship_ood_corpora import DATASETS
 
 
-def sequence_head(state,tokens,head,cuts):
+def sequence_head(state,tokens,head,cuts,qk2_mode="natural"):
     length=len(tokens)
     ids,inverse=np.unique(tokens,return_inverse=True)
     projection=project(state,ids,head,("c_q","c_k","c_q2","c_k2","c_v"))
@@ -30,7 +30,14 @@ def sequence_head(state,tokens,head,cuts):
     v=rotate(projection["c_k"][inverse],positions,cos,sin)
     u2=rotate(projection["c_q2"][inverse],positions,cos,sin)
     v2=rotate(projection["c_k2"][inverse],positions,cos,sin)
-    b=(u2@v2.T)/(HD**2)
+    if qk2_mode=="constant":
+        b=np.ones((length,length))
+    elif qk2_mode=="key_shift":
+        b=np.roll((u2@v2.T)/(HD**2),1,axis=1)
+    elif qk2_mode=="natural":
+        b=(u2@v2.T)/(HD**2)
+    else:
+        raise ValueError(qk2_mode)
     b*=np.tril(np.ones((length,length)))
     sl=slice(head*HD,(head+1)*HD)
     output=state["transformer.h.0.attn.c_proj.weight"][:,sl].to(torch.float64).numpy()
@@ -94,7 +101,10 @@ def run(n_docs=32,seeds=(23,29)):
            "corpus_fit_l128_wtg16","corpus_fit_l128_direct_wtg_start16",
            "uniform_fit_l128_wtg32","uniform_fit_l128_wtg64",
            "uniform_fit_l128_wtg96","corpus_fit_l128_wtg32",
-           "corpus_fit_l128_wtg64","corpus_fit_l128_wtg96")
+           "corpus_fit_l128_wtg64","corpus_fit_l128_wtg96",
+           "uniform_corpus_half_wtg32","uniform_corpus_half_wtg64",
+           "uniform_corpus_intervention_thirds_wtg32",
+           "uniform_corpus_intervention_thirds_wtg64")
     cuts={name:all_cuts[name] for name in names}
     corpora={"fineweb_heldout":(CORPUS,15000,20000),
              **{name:(path,0,1200) for name,path in DATASETS.items()}}
@@ -108,31 +118,51 @@ def run(n_docs=32,seeds=(23,29)):
                 rng=np.random.default_rng(seed+length*1000)
                 docs=rng.choice(np.arange(begin,end),size=n_docs,replace=False)
                 totals={name:dict(sse=0.,target_energy=0.,final_sse=0.,
-                                  final_energy=0.) for name in names}
+                                  final_energy=0.,intervention_sse=0.,
+                                  intervention_energy=0.,key_shift_sse=0.,
+                                  key_shift_energy=0.) for name in names}
                 for doc in docs:
                     start=int(rng.integers(0,corpus.shape[1]-length+1))
                     tokens=np.asarray(corpus[doc,start:start+length],dtype=np.int64)
                     outputs=sequence_head(state,tokens,0,cuts)
+                    counterfactual=sequence_head(state,tokens,0,cuts,
+                                                 qk2_mode="constant")
+                    shifted=sequence_head(state,tokens,0,cuts,
+                                          qk2_mode="key_shift")
                     original=outputs["identity"]
+                    cf_original=counterfactual["identity"]
+                    shift_original=shifted["identity"]
                     energy=float(np.sum(original**2))
                     final_energy=float(np.sum(original[-1]**2))
+                    cf_energy=float(np.sum(cf_original**2))
+                    shift_energy=float(np.sum(shift_original**2))
                     for name in names:
                         delta=outputs[name]-original
+                        cf_delta=counterfactual[name]-cf_original
+                        shift_delta=shifted[name]-shift_original
                         totals[name]["sse"]+=float(np.sum(delta**2))
                         totals[name]["target_energy"]+=energy
                         totals[name]["final_sse"]+=float(np.sum(delta[-1]**2))
                         totals[name]["final_energy"]+=final_energy
+                        totals[name]["intervention_sse"]+=float(np.sum(cf_delta**2))
+                        totals[name]["intervention_energy"]+=cf_energy
+                        totals[name]["key_shift_sse"]+=float(np.sum(shift_delta**2))
+                        totals[name]["key_shift_energy"]+=shift_energy
                 for name,stat in totals.items():
                     records.append(dict(corpus=corpus_name,length=length,
                         seed=seed,n_docs=n_docs,cut=name,
                         sequence_head_error=stat["sse"]/stat["target_energy"],
                         final_position_head_error=stat["final_sse"]/stat["final_energy"],
+                        qk2_constant_sequence_head_error=stat["intervention_sse"]/
+                                                         stat["intervention_energy"],
+                        qk2_key_shift_sequence_head_error=stat["key_shift_sse"]/
+                                                          stat["key_shift_energy"],
                         **stat))
                 print(corpus_name,length,seed,flush=True)
     result=dict(head=0,ranks=[16,32,64,96],small_exact_gate_max_abs=gate,
         direct_length128_gate_max_abs=long_gate,
         seeds=list(seeds),n_docs_per_seed=n_docs,
-        scope="layer-0 head output after causal sum and OV; no later layers or CE",
+        scope="layer-0 head output after causal sum and OV, natural, QK2-constant, and QK2 key-shift; no later layers or CE",
         corpus_paths={k:str(p) for k,(p,_,_) in corpora.items()},records=records)
     output=ART/"head0_sequence_transfer.json"
     output.write_text(json.dumps(result,indent=2)+"\n")

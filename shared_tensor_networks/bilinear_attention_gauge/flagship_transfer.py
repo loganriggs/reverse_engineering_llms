@@ -1,6 +1,6 @@
 """Out-of-fit-measure checks for width-128 first-layer QK1 reductions.
 
-All cuts were fit on four-position windows. Evaluate on disjoint corpus
+Cuts were fit on four- or 128-position windows. Evaluate on disjoint corpus
 documents, longer windows, token-frequency strata, and a QK2-constant
 intervention. This remains a head-level pair-function metric, not model CE.
 """
@@ -38,6 +38,11 @@ def load_cuts():
             if fit_length==128:
                 for rank in (32,64,96):
                     cuts[f"{prefix}_wtg{rank}"]=base[f"wtg_rank{rank}"]
+    for mixture in ("uniform_corpus_half",
+                    "uniform_corpus_intervention_thirds"):
+        arrays=np.load(ART/f"head0_l128_{mixture}.npz")
+        for rank in (32,64):
+            cuts[f"{mixture}_wtg{rank}"]=arrays[f"rank{rank}"]
     return cuts
 
 

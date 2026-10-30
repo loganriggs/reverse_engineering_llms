@@ -2,6 +2,8 @@
 
 Follow-up: [metric × legibility-prior plan and known-rule two-head toy results](FACTORIAL_PLAN_AND_TOY_RESULTS.md). This follow-up separates uniform versus usage-weighted reduction from native-bond, WTG-bond, pair-response, and intervention objectives. It is a hand-built toy and does not establish interpretation of a trained model.
 
+Flagship metric follow-up: [fixed uniform–corpus and intervention mixtures on the 546M head](MIXED_METRIC_RESULTS.md). A half uniform–corpus fit improves held-out sequence head-output fidelity on FineWeb, WikiText-103, and TinyStories at matched rank; adding a pair-level QK2 intervention objective does not improve sequence-level interventions. Sparse and human-legibility priors remain untested on this head.
+
 Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LANGUAGE_RESULTS.md). The pair-function extraction is exact; whole-sequence and pair-frequency environments differ beyond sampling noise, while the task is too redundant for accuracy to distinguish the reduced heads.
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
