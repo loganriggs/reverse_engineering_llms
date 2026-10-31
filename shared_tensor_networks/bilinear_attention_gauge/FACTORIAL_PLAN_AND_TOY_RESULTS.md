@@ -168,8 +168,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    holds the entire cut fixed and compares factor-weight, pair-activation,
    QK2-intervention-weighted, and rare-balanced sparsity. It improves
    held-out concentration but yields weak cross-seed component alignment.
-   The next test should examine token exemplars and selective causal effects
-   under withheld labels, then establish the Pareto frontier once sparsity
+   A [post-fit token-form label test](COMPONENT_LABEL_TRANSFER_RESULTS.md)
+   finds no held-out enrichment advantage for activation-sparse gauges over
+   SVD or random bases; the coarse categories are an inadequate legibility
+   target. The next test should examine selective full-model causal effects
+   on withheld contexts or known-rule tasks, then establish the Pareto frontier once sparsity
    is allowed to alter the cut. Uniform Monte Carlo is not exact
    all-vocabulary enumeration; corpus-pair fidelity is not a semantic result.
 

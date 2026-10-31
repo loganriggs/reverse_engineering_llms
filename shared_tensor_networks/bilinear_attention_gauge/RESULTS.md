@@ -10,6 +10,8 @@ Full-model follow-up: [propagate the saved cuts through all 18 layers](FULL_MODE
 
 Exact-gauge legibility-prior follow-up: [factor-weight versus activation sparsity on the fixed rank-64 cut](EXACT_GAUGE_SPARSITY_RESULTS.md). Orthogonal rotations preserve the entire attention function to numerical precision. Activation objectives lower effective active-component count on held-out corpora, but the gain concentrates on common tokens and independently fitted component bases align weakly. Factor-weight L1 drops sharply without comparable pair-response sparsity. These are sparsity proxies, not semantic components.
 
+Label red team: [post-fit token-form labels and exemplars for the exact-gauge components](COMPONENT_LABEL_TRANSFER_RESULTS.md). At 262,144 pairs per corpus, activation-sparse gauges do not beat random or SVD gauges on coarse held-out label enrichment. The label taxonomy is dominated by broad word-form classes; selective full-model causal effects remain untested.
+
 Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LANGUAGE_RESULTS.md). The pair-function extraction is exact; whole-sequence and pair-frequency environments differ beyond sampling noise, while the task is too redundant for accuracy to distinguish the reduced heads.
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
