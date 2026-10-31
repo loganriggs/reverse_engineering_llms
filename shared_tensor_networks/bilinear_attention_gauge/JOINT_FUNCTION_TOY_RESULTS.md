@@ -17,6 +17,21 @@ Use ordinary SVD to truncate \(M\), or apply rank-one SVD separately to each hea
 
 The combined rank-two table remains perfect on the withheld rare combination even in **seed 2**, where two separate rank-one head tables give only **87.5%** exhaustive accuracy and **0%** held-out rare accuracy. Across seeds, combined rank-two table error ranges from nearly zero to **.0351**, yet classification remains 100%. The head-preserving joint fit also succeeds, so the advantage is not dependent on literally deleting head identity; allowing a **shared key dictionary across heads** is enough at a larger representation budget. This is a concrete example of function-level reduction retaining a compositional task rule that a local headwise reduction can lose.
 
+## Uniform versus dataset-aware reduction
+
+The all-pair table above uses equal weight on each role-valid query–key–output cell. As a data-aware alternative, estimate query–key frequencies from 100,000 generated training-distribution sentences per seed, with the rare A0/B1 combination still withheld. Fit a rank-one or rank-two factorization by weighted least squares. A 50/50 mixture of uniform and empirical weights is the third condition. The fit sees frequencies and model outputs, never task labels. All 12 role-valid pair cells have nonzero frequency. Least squares is initialized from the uniform SVD and is a local optimization, so the weighted solutions are not global-optimum certificates.
+
+| Rank | Metric | Mean exhaustive joint accuracy | Mean rare-heldout joint accuracy | Mean uniform relative table MSE |
+|---:|---|---:|---:|---:|
+| 1 | Uniform | .500 | .100 | .437 |
+| 1 | Training frequency | .513 | .300 | .492 |
+| 1 | Half uniform / frequency | .500 | .100 | .442 |
+| 2 | Uniform | 1.000 | 1.000 | .00491 |
+| 2 | Training frequency | 1.000 | 1.000 | .00737 |
+| 2 | Half uniform / frequency | 1.000 | 1.000 | .00559 |
+
+Rank one is too small for this two-bit task under every metric. Its apparent rare-case gain with frequency weighting occurs in only three of ten seeds and is not reliable compositional recovery. At rank two, all three metrics preserve the full task, so this toy does not select one metric by accuracy. Uniform weighting best preserves the *uniform* table by construction; the broader question is how metric choice behaves on richer tasks with genuine capacity pressure and unseen pair cells. Per-seed fits and scores are in `dual_joint_metric.json`; `dual_joint_metric.py` reproduces them.
+
 ## Does a label-free sparsity prior find the two task variables?
 
 Write the combined rank-two matrix as \(M=LD\), with \(D\in\mathbb R^{2\times6}\) a key-token dictionary. An orthogonal rotation \(R\) gives the *exactly same reduced function*: \(M=(LR^{\mathsf T})(RD)\). Search 4,096 rotations to minimize \(\|RD\|_1\). This key sparsity prior sees **no A/B labels or sentence targets**. A separate normalized factor-L1 prior over both \(L\) and \(D\) is also tested. Only after selection do we compare the learned dictionary rows with the true A-bit contrast \((-1,+1,0,0,0,0)\) and B-bit contrast \((0,0,-1,+1,0,0)\), allowing sign and permutation.
