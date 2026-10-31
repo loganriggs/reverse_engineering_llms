@@ -138,6 +138,12 @@ why: the task-faithful rank-three space predicts constant-one QK1/QK2
 edits poorly in both token codings. Joint fitting to ordinary and edited
 tables needs more key directions, and exact gauge rotations cannot
 recover directions omitted by the ordinary reduction. The
+[546M full-context QK2-response comparison](FULL_MODEL_BRANCH_RESPONSE_RESULTS.md)
+tests four matched rank-256 QK1-key bases on 24 disjoint documents per
+corpus. Branch-aware fitting yields a small FineWeb gain over ordinary
+function-aware fitting, with no established external-corpus advantage;
+both beat uniform key-table SVD on all three edited-logit response panels.
+The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.
@@ -151,11 +157,11 @@ whether its proposed query/key direction generalizes is a separate test.
 The toy work has reached its immediate stopping criterion: a function-level
 canonical graph survives a dense-token red team and task-faithful pruning,
 while [small QK-branch doses](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) expose
-causal directions outside that semantic subspace. The next experiment should
-move to the 546M model: measure ordinary and small-dose QK-branch response
-subspaces for the first layer, then evaluate context-level logit responses
-on disjoint corpora and held-out edit families. Compare weight-only,
-natural-data, and branch-preserving reductions at matched rank before
-optimizing condition-wise legibility. The earlier query/key-form factorial
-already rejected pair-level directional labels, so selected-pair and
-full-model readouts must remain separate.
+causal directions outside that semantic subspace. The matched-rank 546M
+QK2-response test is now complete for one edit family. The next experiment
+should extend full-context causal response signatures to **held-out edit
+families**, such as QK1 or two-branch perturbations, and optimize
+condition-wise legibility only after reduction fidelity is gated on
+disjoint corpora and downstream logits. The earlier query/key-form
+factorial already rejected pair-level directional labels, so
+selected-pair and full-model readouts must remain separate.
