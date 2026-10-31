@@ -111,6 +111,11 @@ alone.
 The known A/B/C contrasts were used only after fitting; using them to
 choose a gauge would be a different, supervised experiment.
 
+A [trained-readout follow-up](THREE_COUNT_TRAINED_COMPOSITION_RESULTS.md)
+replicates the variable-alignment versus deletion-additivity conflict in ten
+learned quadratic compositions, both with frozen pretrained attention and
+after joint fine-tuning.
+
 Reproduce with `three_count_nonlinear_gauge.py`. The full per-seed gauge
 choices, training/test/shift metrics, random controls, and family profiles
 are in `three_count_nonlinear_gauge.json`. The [plot](three_count_nonlinear_gauge.png)
