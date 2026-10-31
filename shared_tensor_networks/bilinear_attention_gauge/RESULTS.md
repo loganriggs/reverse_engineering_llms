@@ -28,6 +28,8 @@ Sparse-basis follow-up: [rotate the intervention-aware key spaces without task l
 
 Unlabeled-grouping follow-up: [pair sparse atoms by sentence co-occurrence](UNSUPERVISED_GROUPING_RESULTS.md). With a supplied two-pairs-of-two structure and only 32 unlabeled sentences, the rank-four sparse axes form groups with selective A/B effects in 10/10 seeds; SVD axes do so in 4/10 or 2/10, and random rotations around 30%. Group deletion preserves the other bit's exhaustive accuracy. This is constrained group recovery, not discovery of an unknown number of concepts or physical nodes.
 
+Variable-size grouping follow-up: [correlation-graph groups on a five-direction intervention-aware basis](GRAPH_GROUPING_RESULTS.md). Without supplying group count or sizes, 32 unlabeled sentences identify selective A/B groups in 10/10 seeds, versus 3/10 for SVD and about 10% for random rotations. A third group is filler-specific in nine seeds. The toy grammar still makes mutual exclusion highly informative; this does not establish open-ended task discovery.
+
 Legibility-prior follow-up: [key-family and query-conditional group penalties](DUAL_GROUP_PRIOR_RESULTS.md). The supplied token-family partition and a broader intervention panel do not rescue the hard held-out rule at rank one; group concentration is not itself a mechanistic success criterion.
 
 Identifiability control: [shared versus duplicated attention computation](SHARED_COMPUTATION_IDENTIFIABILITY.md). Two graphs have exactly the same external function, including input-edit responses, while one internal-node intervention distinguishes their reuse structure. Shortest-description structure is a prior, not proof of the implemented graph.
