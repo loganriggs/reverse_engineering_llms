@@ -670,3 +670,17 @@ SVD start remain available, so this is finite *measure* estimation, not
 data-only function discovery. Stop using this easy rank-three toy as a
 discovery claim; construct a weak competent rare rule or strong nuisance
 and withhold its edit family from selection.
+The [four-rule weak-output control](WEAK_RULE_CANONICALIZATION_RESULTS.md)
+trains ten new four-head count-attention models, then scales one competent
+output by 0.1 without changing its decisions. At rank three, uniform,
+usage, and mixed cuts report under 0.5% global edit error but reduce the
+weak bit to chance in every seed. A per-output relative fidelity gate
+chooses rank four for all four reduction metrics and retains every task;
+an output-balanced rank-three fit preserves the weak bit only by losing
+another rule. Exact sparse rotations of those faithful rank-four cuts
+recover all four known token axes across seeds, including when D-token
+edits are excluded from the rotation objective. Because the full weight
+table enters reduction and SVD already isolates D, this is a metric and
+coordinate control, not unseen-rule discovery. Stop treating global edit
+error as sufficient; the next test needs dense mixed token coding, a
+weak competent rule, and a genuinely withheld edit family.
