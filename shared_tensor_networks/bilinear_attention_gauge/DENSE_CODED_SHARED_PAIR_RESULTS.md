@@ -110,3 +110,11 @@ exact-gauge, three-node pruning, and node-deletion checks used for the
 paired-token control. Both grammars' JSON reports and checkpoints are
 saved alongside these scripts. `check_shared_pair_nullspace.py` verifies
 the ideal exact-form construction under 100 random orthogonal gauges.
+
+The [physical head-pair alignment test](SHARED_PAIR_PHYSICAL_NODE_ALIGNMENT_RESULTS.md)
+now compares those three readable product nodes with the six actual
+head-pair terms entering the trained quadratic readout. Individual
+semantic nodes lie substantially outside even the **span** of those
+physical terms, while their nonphysical parts cancel in the complete
+function. This makes the function-level versus physical-computation
+distinction exact for this trained toy.
