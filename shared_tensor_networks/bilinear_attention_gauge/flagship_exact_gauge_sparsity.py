@@ -58,12 +58,15 @@ def weight_loss(a,b,rotation):
     return ((a@rotation).abs().mean()+(b@rotation).abs().mean())
 
 
-def fit(kind,train,validation,a,b,seed,steps=400,batch_size=2048,lr=.01):
+def fit(kind,train,validation,a,b,seed,steps=400,batch_size=2048,lr=.01,
+        initial_rotation=None):
     generator=np.random.default_rng(seed)
     n=a.shape[1]
     k=torch.nn.Parameter(torch.zeros((n,n),dtype=torch.float64))
     optimizer=torch.optim.Adam((k,),lr=lr)
-    best_rotation=torch.eye(n,dtype=torch.float64)
+    origin=(torch.eye(n,dtype=torch.float64) if initial_rotation is None else
+            torch.from_numpy(initial_rotation).to(torch.float64))
+    best_rotation=origin.clone()
     if kind in ("activation","intervention_activation",
                 "rare_balanced_activation"):
         names=(("uniform","corpus") if kind=="activation" else
@@ -76,7 +79,7 @@ def fit(kind,train,validation,a,b,seed,steps=400,batch_size=2048,lr=.01):
     best_step=0;trace=[]
     for step in range(steps):
         optimizer.zero_grad()
-        rotation=torch.matrix_exp(k-k.T)
+        rotation=origin@torch.matrix_exp(k-k.T)
         if kind in ("activation","intervention_activation",
                     "rare_balanced_activation"):
             minibatches=[]
@@ -97,7 +100,7 @@ def fit(kind,train,validation,a,b,seed,steps=400,batch_size=2048,lr=.01):
         optimizer.step()
         if step==0 or (step+1)%50==0 or step+1==steps:
             with torch.no_grad():
-                rotation=torch.matrix_exp(k-k.T)
+                rotation=origin@torch.matrix_exp(k-k.T)
                 measured=(activation_loss([validation[name] for name in names],
                                           rotation)
                           if kind in ("activation","intervention_activation",
@@ -154,7 +157,10 @@ def check_gradient():
 
 
 def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
-        seeds=(0,1,2),lr=.01,cut_name="sequence_fit_rank64_cw0"):
+        seeds=(0,1,2),lr=.01,cut_name="sequence_fit_rank64_cw0",
+        kinds=("activation","intervention_activation",
+               "rare_balanced_activation","factor_weight"),
+        random_start=False):
     torch.set_num_threads(1)
     gradient_check=check_gradient()
     state=torch.load(SNAPSHOT/"pytorch_model.bin",map_location="cpu",
@@ -207,10 +213,13 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
         rng=np.random.default_rng(100+seed)
         q,r=np.linalg.qr(rng.normal(size=(rank,rank)))
         rotations[f"random_{seed}"]=q@np.diag(np.sign(np.diag(r)))
-        for kind in ("activation","intervention_activation",
-                     "rare_balanced_activation","factor_weight"):
+        for kind in kinds:
+            initial_rotation=None
+            if random_start:
+                q0,r0=np.linalg.qr(rng.normal(size=(rank,rank)))
+                initial_rotation=q0@np.diag(np.sign(np.diag(r0)))
             rotation,info=fit(kind,fit_parts,val_parts,ta,tb,seed,
-                              steps,batch_size,lr)
+                              steps,batch_size,lr,initial_rotation)
             rotations[f"{kind}_{seed}"]=rotation
             fit_info[f"{kind}_{seed}"]=info
     identity=np.eye(rank)
@@ -230,8 +239,7 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
     signatures={name:signature(test_parts["corpus"],torch.from_numpy(rotation))
                 for name,rotation in rotations.items()}
     matches=[]
-    for kind in ("activation","intervention_activation",
-                 "rare_balanced_activation","factor_weight","random"):
+    for kind in (*kinds,"random"):
         for i,seed in enumerate(seeds):
             for other_seed in seeds[i+1:]:
                 a_name=f"{kind}_{seed}";b_name=f"{kind}_{other_seed}"
@@ -242,6 +250,7 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
         n_fit_pairs_per_law=n_pairs,n_validation_pairs_per_law=n_pairs,
         n_test_pairs_per_law=n_ood,steps=steps,batch_size=batch_size,
         seeds=list(seeds),learning_rate=lr,
+        kinds=list(kinds),random_start=random_start,
         fit_fineweb_documents=[0,15000],
         validation_fineweb_documents=[15000,17500],
         test_fineweb_documents=[17500,20000],
@@ -250,6 +259,7 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
         gradient_check=gradient_check,fit_info=fit_info,
         records=records,matches=matches)
     suffix="" if cut_name=="sequence_fit_rank64_cw0" else f"_{cut_name}"
+    if random_start:suffix+="_random_start"
     (ART/f"head0_exact_gauge_sparsity{suffix}.json").write_text(
         json.dumps(output,indent=2)+"\n")
     np.savez_compressed(ART/f"head0_exact_gauge_rotations{suffix}.npz",**rotations)
@@ -266,6 +276,14 @@ if __name__=="__main__":
     parser.add_argument("--lr",type=float,default=.01)
     parser.add_argument("--cut-name",default="sequence_fit_rank64_cw0",
                         choices=tuple(get_cuts()))
+    parser.add_argument("--kinds",nargs="+",default=None,
+                        choices=("activation","intervention_activation",
+                                 "rare_balanced_activation","factor_weight"))
+    parser.add_argument("--random-start",action="store_true")
     args=parser.parse_args()
     run(args.n_pairs,args.n_ood,args.steps,args.batch_size,tuple(args.seeds),
-        args.lr,args.cut_name)
+        args.lr,args.cut_name,
+        tuple(args.kinds) if args.kinds is not None else
+        ("activation","intervention_activation",
+         "rare_balanced_activation","factor_weight"),
+        args.random_start)

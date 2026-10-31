@@ -4,6 +4,8 @@ Rank-96 fidelity and causal panel: [full-vocabulary, natural full-model, and QK2
 
 Rank-96 legibility-prior panel: [exact sparse gauges, held-out label transfer, and calibrated full-model ablations](RANK96_LEGIBILITY_PRIORS.md). Activation sparsity lowers effective active-coordinate counts on external text for both fidelity priors, but axes vary across seeds, coarse token-form labels are weaker than simple baselines, and causal localization does not transfer consistently. The next test needs grouped functional or downstream-sensitive targets.
 
+Group-stability follow-up: [energy-selected rank-96 groups across seeds and random starts](RANK96_GROUP_STABILITY_RESULTS.md). Four-axis sparse groups have strong projector and pair-response agreement despite weak single-axis alignment, and their calibrated full-model document-effect profiles are more reproducible than random groups on three corpora. This establishes one stable high-energy functional subspace within a chosen bond, not semantic or multi-group discovery.
+
 Follow-up: [metric × legibility-prior plan and known-rule two-head toy results](FACTORIAL_PLAN_AND_TOY_RESULTS.md). This follow-up separates uniform versus usage-weighted reduction from native-bond, WTG-bond, pair-response, and intervention objectives. It is a hand-built toy and does not establish interpretation of a trained model.
 
 Flagship metric follow-up: [fixed uniform–corpus and intervention mixtures on the 546M head](MIXED_METRIC_RESULTS.md). A half uniform–corpus fit improves held-out sequence head-output fidelity on FineWeb, WikiText-103, and TinyStories at matched rank; adding a pair-level QK2 intervention objective does not improve sequence-level interventions. Sparse and human-legibility priors remain untested on this head.
