@@ -143,6 +143,13 @@ tests four matched rank-256 QK1-key bases on 24 disjoint documents per
 corpus. Branch-aware fitting yields a small FineWeb gain over ordinary
 function-aware fitting, with no established external-corpus advantage;
 both beat uniform key-table SVD on all three edited-logit response panels.
+The [held-out QK2 edit-family check](FULL_MODEL_HELDOUT_BRANCH_EDIT_RESULTS.md)
+shifts QK2 scores across neighboring causal keys before the QK1·QK2
+product. It preserves the small FineWeb branch-aware gain but finds no
+external-corpus advantage over ordinary function-aware fitting. Both
+function-aware bases substantially outperform uniform weight-only SVD in
+full-model edited-response prediction. This is compression/response
+fidelity, not yet a legible causal decomposition.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -158,9 +165,10 @@ The toy work has reached its immediate stopping criterion: a function-level
 canonical graph survives a dense-token red team and task-faithful pruning,
 while [small QK-branch doses](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) expose
 causal directions outside that semantic subspace. The matched-rank 546M
-QK2-response test is now complete for one edit family. The next experiment
-should extend full-context causal response signatures to **held-out edit
-families**, such as QK1 or two-branch perturbations, and optimize
+QK2-response test is now complete for two edit families, one held out from
+branch-aware fitting. The next experiment should define full-context
+causal response signatures across **multiple edit families and corpora**,
+including QK1 or two-branch perturbations, and optimize
 condition-wise legibility only after reduction fidelity is gated on
 disjoint corpora and downstream logits. The earlier query/key-form
 factorial already rejected pair-level directional labels, so

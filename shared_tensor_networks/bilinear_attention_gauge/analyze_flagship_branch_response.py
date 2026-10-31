@@ -10,8 +10,10 @@ FILES=('all_head_shared_key_branch_response_n8_s891_l128_d50.json',
        'all_head_shared_key_branch_response_n16_s892_l128_d50.json')
 
 
-def run(files=FILES,bootstrap=10000):
+def run(files=FILES,bootstrap=10000,output_name='all_head_shared_key_branch_response_summary_n24_d50.json'):
     sources=[json.loads((ART/name).read_text()) for name in files]
+    edit_families={source.get('edit_family','constant_one') for source in sources}
+    assert len(edit_families)==1, edit_families
     for source in sources:
         assert source['length']==128 and source['dose']==.05
         assert source['ordinary_identity_max_abs_logit']<1e-3
@@ -57,13 +59,19 @@ def run(files=FILES,bootstrap=10000):
             response_energy_effective_n=float(denominator.sum()**2/np.sum(denominator**2)),
             largest_document_energy_share=float(denominator.max()/denominator.sum()),
             methods=summaries,paired=paired)
-    output=dict(source_files=list(files),bootstrap=bootstrap,
+    output=dict(source_files=list(files),edit_family=next(iter(edit_families)),bootstrap=bootstrap,
         bootstrap_unit='document within each corpus',
-        metric='full-model edited-minus-unedited five-logit response relative SSE',
+        metric='full-model edited-minus-unedited full-vocabulary logit response relative SSE',
         corpora=result)
-    (ART/'all_head_shared_key_branch_response_summary_n24_d50.json').write_text(
+    (ART/output_name).write_text(
         json.dumps(output,indent=2)+'\n')
     return output
 
 
-if __name__=='__main__':run()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--files',nargs='+',default=FILES)
+    parser.add_argument('--output-name',default='all_head_shared_key_branch_response_summary_n24_d50.json')
+    args=parser.parse_args()
+    run(files=args.files,output_name=args.output_name)

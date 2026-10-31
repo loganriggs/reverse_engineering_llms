@@ -17,6 +17,7 @@ from flagship_transfer import ART
 class BranchResponseEdit(KeyDictionaryEdit):
     def __init__(self,model,length):
         self.dose=0.
+        self.edit_family='constant_one'
         super().__init__(model,length)
 
     def forward(self,q,k,v,q2,k2):
@@ -34,7 +35,13 @@ class BranchResponseEdit(KeyDictionaryEdit):
             k=torch.einsum('bthd,tde->bthe',changed,rotation)
         score1=torch.einsum('bihd,bjhd->bhij',q,k)/HD
         score2=torch.einsum('bihd,bjhd->bhij',q2,k2)/HD
-        score2=(1-self.dose)*score2+self.dose
+        if self.edit_family=='constant_one':
+            target=torch.ones_like(score2)
+        elif self.edit_family=='previous_key_score':
+            target=torch.cat((score2[...,:1],score2[...,:-1]),dim=-1)
+        else:
+            raise ValueError(self.edit_family)
+        score2=(1-self.dose)*score2+self.dose*target
         pattern=(score1*score2).tril()
         return torch.einsum('bhij,bjhd->bhid',pattern,v)
 
@@ -53,7 +60,8 @@ def load_methods():
     return methods
 
 
-def run(n_docs=2,seed=891,length=128,dose=.05):
+def run(n_docs=2,seed=891,length=128,dose=.05,
+        edit_family='constant_one'):
     torch.set_num_threads(4)
     config=json.loads((SNAPSHOT/'config.json').read_text())
     config.pop('step',None)
@@ -63,6 +71,7 @@ def run(n_docs=2,seed=891,length=128,dose=.05):
     model.load_state_dict(state)
     del state
     editor=BranchResponseEdit(model,length)
+    editor.edit_family=edit_family
     methods=load_methods()
     corpora={'fineweb_test':(CORPUS,17500,20000),
              **{name:(path,0,1200) for name,path in DATASETS.items()}}
@@ -110,12 +119,15 @@ def run(n_docs=2,seed=891,length=128,dose=.05):
             print(corpus_name,'docs',len(docs),flush=True)
     result=dict(layer=0,heads=list(range(9)),length=length,dose=dose,
         n_docs_per_corpus=n_docs,seed=seed,methods=list(methods),
-        first_layer_edit='QK2 score becomes (1-dose)*score+dose before multiplication with QK1',
+        edit_family=edit_family,
+        first_layer_edit=('QK2 score becomes (1-dose)*score+dose*target before multiplication with QK1; '
+            'target is constant one or the score of the immediately preceding key, with key zero replicated'),
         response='full 18-layer final logits; compare edited-minus-unedited output within each basis',
         ordinary_identity_max_abs_logit=ordinary_gate,
         edited_identity_max_abs_logit=identity_gate,
         records=records)
-    name=f'all_head_shared_key_branch_response_n{n_docs}_s{seed}_l{length}_d{round(dose*1000)}.json'
+    suffix='' if edit_family=='constant_one' else '_previous_key'
+    name=f'all_head_shared_key_branch_response_n{n_docs}_s{seed}_l{length}_d{round(dose*1000)}{suffix}.json'
     (ART/name).write_text(json.dumps(result,indent=2)+'\n')
     return result
 
@@ -125,4 +137,6 @@ if __name__=='__main__':
     p.add_argument('--seed',type=int,default=891)
     p.add_argument('--length',type=int,default=128)
     p.add_argument('--dose',type=float,default=.05)
-    a=p.parse_args();run(a.n_docs,a.seed,a.length,a.dose)
+    p.add_argument('--edit-family',choices=('constant_one','previous_key_score'),
+                   default='constant_one')
+    a=p.parse_args();run(a.n_docs,a.seed,a.length,a.dose,a.edit_family)

@@ -66,7 +66,10 @@ gain.
 
 This tests a **structured QK1-key reduction** whose fitting objective
 includes a QK2 edit. It is not yet a canonicalization of the complete
-attention function across both branches and heads. The toy's
+attention function across both branches and heads. A
+separate [held-out QK2 edit-family test](FULL_MODEL_HELDOUT_BRANCH_EDIT_RESULTS.md)
+preserves the small FineWeb benefit but finds no established external-corpus
+gain over ordinary function-aware fitting. The toy's
 condition-wise product and joint-nullspace priors cannot be transplanted
 unchanged: the real model has many heads, RoPE positions, and no supplied
 output/query cells known to each contain one product. The next
