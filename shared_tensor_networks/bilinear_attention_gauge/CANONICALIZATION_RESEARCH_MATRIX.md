@@ -787,3 +787,13 @@ heads nonetheless exceed the training rule's .02 validation margin. For
 L9H7, its chosen .5 floor cuts bracket-path error from .372 at a fixed .1
 floor to .193, still above the .122 pooled baseline. This is a partial
 stage-one fidelity improvement, not evidence for a legibility prior.
+The [whole-edit-family transfer test](NEW_FAMILY_PATH_TRANSFER_RESULTS.md)
+introduces modal, connective, tense, and code-comparison substitutions
+absent from both fitting and floor selection. At rank 32, L9H7's
+training-floor cut has .437 mean finite final-logit path MSE on these new
+families versus .428 pooled; at rank 64 the two are .183/.184, and at
+rank 96 .069/.068. The floor's familiar-family improvement does not
+generalize to these families. Higher rank helps markedly, but rank 96
+retains three quarters of the 128-dimensional head. Proceed to stage-two
+legibility optimization only under an explicitly declared fidelity gate,
+not by assuming that familiar-edit local coverage transfers.
