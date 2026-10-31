@@ -282,6 +282,22 @@ head path is lost, so subsequent legibility work must retain finite
 path-effect fidelity as a separate gate. The bracket and agreement heads are
 the immediate fixed-function gauge testbeds; their exact within-subspace
 rotations can compare sparsity objectives without changing the rank cut.
+The [exact later-head gauge comparison](LATER_HEAD_EXACT_GAUGE_RESULTS.md)
+now executes that test: exact rank-4 rotations of bracket and agreement
+head responses compare output-weight L1, edit-vector L1, local-effect
+concentration, SVD, and 64 random orientations. A single intervention-
+supervised axis reproduces the full rank-4 finite path within about 0.4–2%
+on new token edits and within 0.4–0.8% on 26 new prompt formats. Weight L1
+does not provide the same coordinate. Whole-target-family exclusion fails:
+neither rotation nor axis selection from unrelated tasks recovers the target
+path. Thus this is a validated *supervised* gauge for two selected heads,
+not unsupervised task discovery or a canonical decomposition of the entire
+attention function. Reverse head-state patches now confirm the selected
+axis has the expected opposite-sign effect on 38/38 fresh pairs, but even
+restoring the full native head state flips the edited answer back in only
+3/38 cases. The axis is a compact influential path, not a demonstrated
+necessary answer circuit. Broader natural-language tasks and redundant-
+path analysis are the next causal and generalization gates.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures

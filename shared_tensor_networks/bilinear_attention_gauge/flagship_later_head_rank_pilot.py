@@ -36,10 +36,15 @@ class HeadCut:
         self.head=None
         self.basis=None
         self.injection=None
+        self.capture_grad=False
         attention.c_proj.forward=self.forward
 
     def forward(self,x):
-        self.last_input=x.detach().clone()
+        if self.capture_grad:
+            x=x.detach().requires_grad_(True)
+            self.last_input=x
+        else:
+            self.last_input=x.detach().clone()
         if self.basis is not None:
             a=self.head*self.head_dim
             z=x[:,-1,a:a+self.head_dim]
