@@ -106,7 +106,11 @@ effects look additive. A
 replicates this conflict across ten learned compositions. A
 [from-scratch control](THREE_COUNT_SCRATCH_COMPOSITION_RESULTS.md) confirms
 it in ten independent end-to-end-trained models and tests a weight-only
-quadratic diagonalization gauge. The
+quadratic diagonalization gauge. A [reuse-aware graph-prior sweep](THREE_COUNT_GRAPH_PRIOR_RESULTS.md)
+on those same exact reduced functions trades key sparsity against the number
+of quadratic product nodes: a moderate penalty preserves most designed-variable
+alignment and reduces held-out one-node pruning error. This remains a toy,
+post-sweep result; it does not recover the physical circuit. The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.

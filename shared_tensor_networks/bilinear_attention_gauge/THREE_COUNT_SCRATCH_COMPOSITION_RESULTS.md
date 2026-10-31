@@ -88,6 +88,12 @@ natural language; the next step is to define a reuse-aware graph prior
 that chooses product nodes without those labels, then test transfer on
 held-out edits and the 546M model.
 
+The first follow-up is a [label-free quadratic graph-prior sweep](THREE_COUNT_GRAPH_PRIOR_RESULTS.md).
+A moderate graph penalty retains most A/B variable alignment while reducing
+the error from pruning one quadratic node on held-out and shifted contexts.
+It has not yet been selected on independent model families or tested for
+physical circuit recovery.
+
 Reproduce with `train_three_count_composed_scratch.py`,
 `three_count_composed_scratch_analysis.py`, and
 `three_count_composed_gauge.py --scratch`. Ten checkpoints and histories,
