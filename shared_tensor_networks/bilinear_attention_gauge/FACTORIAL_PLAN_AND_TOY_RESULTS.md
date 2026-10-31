@@ -171,8 +171,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    A [post-fit token-form label test](COMPONENT_LABEL_TRANSFER_RESULTS.md)
    finds no held-out enrichment advantage for activation-sparse gauges over
    SVD or random bases; the coarse categories are an inadequate legibility
-   target. The next test should examine selective full-model causal effects
-   on withheld contexts or known-rule tasks, then establish the Pareto frontier once sparsity
+   target. A [matched full-model component ablation](COMPONENT_ABLATION_RESULTS.md)
+   finds no context-localization advantage for these activation-sparse bases
+   over a random rotation, despite their pair-level concentration. The next
+   test should use named tasks or known-rule language and selective causal
+   effects, then establish the Pareto frontier once sparsity
    is allowed to alter the cut. Uniform Monte Carlo is not exact
    all-vocabulary enumeration; corpus-pair fidelity is not a semantic result.
 

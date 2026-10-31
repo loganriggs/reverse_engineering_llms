@@ -10,7 +10,9 @@ Full-model follow-up: [propagate the saved cuts through all 18 layers](FULL_MODE
 
 Exact-gauge legibility-prior follow-up: [factor-weight versus activation sparsity on the fixed rank-64 cut](EXACT_GAUGE_SPARSITY_RESULTS.md). Orthogonal rotations preserve the entire attention function to numerical precision. Activation objectives lower effective active-component count on held-out corpora, but the gain concentrates on common tokens and independently fitted component bases align weakly. Factor-weight L1 drops sharply without comparable pair-response sparsity. These are sparsity proxies, not semantic components.
 
-Label red team: [post-fit token-form labels and exemplars for the exact-gauge components](COMPONENT_LABEL_TRANSFER_RESULTS.md). At 262,144 pairs per corpus, activation-sparse gauges do not beat random or SVD gauges on coarse held-out label enrichment. The label taxonomy is dominated by broad word-form classes; selective full-model causal effects remain untested.
+Label red team: [post-fit token-form labels and exemplars for the exact-gauge components](COMPONENT_LABEL_TRANSFER_RESULTS.md). At 262,144 pairs per corpus, activation-sparse gauges do not beat random or SVD gauges on coarse held-out label enrichment. The label taxonomy is dominated by broad word-form classes; the subsequent full-model ablation tests context localization separately.
+
+Component-causality red team: [full-model deletion and matched partial deletion of exact-gauge components](COMPONENT_ABLATION_RESULTS.md). Top activation-sparse components have larger uncalibrated effects because they carry more head response. After calibrating all edits to the same head-output error on separate documents, their downstream KL is no more localized across contexts than random-basis components in this limited assay.
 
 Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LANGUAGE_RESULTS.md). The pair-function extraction is exact; whole-sequence and pair-frequency environments differ beyond sampling noise, while the task is too redundant for accuracy to distinguish the reduced heads.
 
