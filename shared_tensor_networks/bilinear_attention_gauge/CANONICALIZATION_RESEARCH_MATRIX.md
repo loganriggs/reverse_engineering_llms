@@ -493,6 +493,15 @@ its own two-axis group reproduces that reduced path within 1.25%. All five
 cuts retain 21/21 forced-choice answers. This demonstrates why **stage-one
 causal fidelity must gate stage-two legibility**: an exact rotation or
 group inside a bad cut cannot restore omitted head-state information.
+The independent [agreement-head factorial](AGREEMENT_REDUCTION_GROUP_FACTORIAL_RESULTS.md)
+repeats the gate at layer 11/head 3 on 20 competent lexical and format-shift
+pairs. It fits an answer-free two-axis group from 44 noun-number edits after
+excluding every validation token-swap identity. Weight, task-edit, and mixed
+rank-four cuts miss 4–5% of the native head path, whereas natural-corpus PCA
+misses 72%. Corpus's two-axis group nevertheless misses its *own* rank-four
+path by only 0.54%. Corpus loses two forced-choice pairs; a random cut
+misses 96% of the head path yet retains all 20 answers. The reduction gate
+is therefore a cross-task mechanistic issue, not a bracket-only artifact.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.
