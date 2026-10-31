@@ -108,13 +108,18 @@ complete per-document records.
 
 ## Interpretation and next gate
 
+The [conditional full-model follow-up](PREROPE_CONDITIONAL_LEXICAL_RESULTS.md)
+tests the group at matched key tokens and nearby key positions; its strongest
+effect narrows to `" as"` and `" so"` and replicates on new documents.
+
 The evidence so far favors **a gauge-dependent sparse coordinate system
 containing a more stable functional subspace**. It does not establish that
 the subspace is a unique decomposition of attention, that individual axes
-are reproducible, or that it has a selective downstream role. The next
-decisive experiment should compare a connective-key-conditioned deletion
-against frequency-matched key controls at the full-model level, and then
-test a second independently discovered group. A learned one- or two-layer
+are reproducible, or that it has a broad semantic role. The conditional
+follow-up establishes a narrow lexical causal association, but the next
+experiment must compare independent-start groups and random rank-matched
+groups under the same token mask, inspect edited predictions, and test
+smaller intervention strengths. A learned one- or two-layer
 toy language model with known multiple head rules would make selectivity and
 missed rare rules directly measurable. Whole-task labels must remain hidden
 from unsupervised fitting and selection.

@@ -16,12 +16,17 @@ from flagship_prerope_group_label_test import CONNECTIVES
 from flagship_transfer import ART
 
 
-def matched_sets(decoder,corpus,n_null=100,seed=910):
+def matched_sets(decoder,corpus,n_null=100,seed=910,pool_size=100,
+                 target_ids=None):
     vocab=50304
     names=[decoder.decode(i).strip().lower() for i in range(vocab)]
     categories=np.array([decoder.category(i) for i in range(vocab)])
-    connector_ids=np.array([i for i,name in enumerate(names)
-                            if name in CONNECTIVES],dtype=np.int64)
+    connector_ids=(np.array([i for i,name in enumerate(names)
+                             if name in CONNECTIVES],dtype=np.int64)
+                   if target_ids is None else
+                   np.array(sorted(set(target_ids)),dtype=np.int64))
+    assert len(connector_ids)>0 and np.all((connector_ids>=0)&
+                                           (connector_ids<vocab))
     counts=np.bincount(np.asarray(corpus[:15000,:512]).ravel(),
                        minlength=vocab)
     eligible=np.setdiff1d(np.arange(vocab),connector_ids)
@@ -30,7 +35,7 @@ def matched_sets(decoder,corpus,n_null=100,seed=910):
     for token in connector_ids:
         same=eligible[categories[eligible]==categories[token]]
         distance=np.abs(np.log1p(counts[same])-np.log1p(counts[token]))
-        nearest=same[np.argpartition(distance,min(100,len(same)-1))[:100]]
+        nearest=same[np.argpartition(distance,min(pool_size,len(same)-1))[:pool_size]]
         pools.append(nearest)
     controls=[np.array([rng.choice(pool) for pool in pools],dtype=np.int64)
               for _ in range(n_null)]
