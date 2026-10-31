@@ -143,8 +143,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    one-percent fidelity, while fitting one edit at rank two does not transfer
    to the other. Even fitting both single edits at rank four leaves .105 error
    on their held-out double-edit composition; the multiplicative cross term
-   requires separate coverage. The next test should use richer task grammars
-   and held-out intervention strengths or families. Keep
+   requires separate coverage. A [sparse-gauge test](INTERVENTION_SPARSE_BASIS_RESULTS.md)
+   finds that rank-four key spaces preserve the A/B contrast *subspace*, but
+   sparse components split each bit into roughly two token-specific axes.
+   The next test should infer groups of these axes and use richer task
+   grammars and held-out intervention families. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
