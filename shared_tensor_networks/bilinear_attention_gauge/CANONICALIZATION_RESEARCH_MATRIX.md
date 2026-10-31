@@ -504,6 +504,17 @@ also retains behavior but can require rank four through six in the bad
 gauge. This demonstrates the need to fix a functional metric and gauge
 *before* sparsity/group optimization. It is an exact factorization
 control, not evidence that the trained physical heads use that gauge.
+A [trained QK-quotient gauge test](DUAL_QK_QUOTIENT_GAUGE_STRESS_RESULTS.md)
+checks the analogous choice at an actual attention branch. Ten trained
+necessary-two-head models supply exact rank-two QK1 score quotients;
+six invertible quotient gauges per head leave each uncut function unchanged.
+At rank one, local key-factor SVD plus output-aware amplitude refitting can
+range from 1.5% to 45% mean ordinary head-output error by gauge, whereas
+environment WTG stays at 1.0% and its reduced output changes by at most
+`1.2e-12` across gauges. One rare-rule seed still fails under WTG's tight
+rank-one budget. This verifies gauge-stable reduction on trained attention
+without conflating quotient coordinates with the physical width-four bond
+or claiming semantic head identification.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,
