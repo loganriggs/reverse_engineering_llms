@@ -401,6 +401,16 @@ generalization limit rather than a competent task result. The agreement
 axis transfers within about 3% of rank four on four unseen noun-number
 swaps for which the model is competent. Interpret stable axes against
 both context and token-identity holdouts.
+The [bracket edit-span follow-up](BRACKET_EDIT_SPAN_RESULTS.md) adds
+brace edits to the fitting measure without using output labels and
+finds a second strong direction inside the same exact rank-four cut.
+On held-out brace contexts and old-pair new formats, a rank-two
+response group retains the rank-four finite head path to about 0.1%
+and 0.7% relative error respectively, while every rank-one choice
+misses a swap type. This supports grouped coordinates as a
+representation of broader input-side response geometry, but the model
+is not competent on the brace-closing task, so semantic and behavioral
+claims require a different validation panel.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,
