@@ -150,10 +150,14 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    recovers two selectively causal groups in all ten seeds from 32 unlabeled
    sentences, given the prior that four axes form two disjoint pairs. The next
    [five-direction graph test](GRAPH_GROUPING_RESULTS.md) removes the supplied
-   group count and size and still recovers A/B groups in all ten seeds, with
-   a filler group in nine. The next test needs richer grammars and distractors
-   that challenge simple mutual-exclusion grouping, while preserving held-out
-   intervention families. Keep
+   group count and size and finds selective-effect A/B groups in all ten
+   seeds, with **complete signed contrasts** in nine. A
+   [grammar-shift red team](GROUPING_GRAMMAR_SHIFT_RESULTS.md) shows that
+   variable key counts or independent token sampling erase the co-occurrence
+   signal: the complete-group success rate falls to zero at the original
+   threshold, despite misleadingly perfect effect-only scores. The next
+   featurizer needs functional or intervention evidence for grouping, plus a
+   trained richer grammar. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)

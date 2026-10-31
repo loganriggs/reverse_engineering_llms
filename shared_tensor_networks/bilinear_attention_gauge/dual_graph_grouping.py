@@ -9,7 +9,7 @@ import torch
 
 from dual_intervention_dictionary import tables_for_model
 from dual_intervention_sparse_basis import random_rotation
-from dual_joint_function_canonical import HERE
+from dual_joint_function_canonical import HERE,TRUTH
 from dual_unsupervised_grouping import group_ablation,group_effects
 from train_dual_output_language import DualOutputAttention,batch,exhaustive
 
@@ -38,9 +38,18 @@ def evaluate(original,dictionary,sequences,threshold,eval_context=None):
     effects=group_effects(original,dictionary,groups)
     recovered=all(any(e["dominant"]==bit and e["purity"]>.9
                       for e in effects) for bit in ("A","B"))
+    contrast_coverage=[dict(A=float(np.linalg.norm(TRUTH[0]@
+        dictionary[group].T@dictionary[group])),
+        B=float(np.linalg.norm(TRUTH[1]@
+        dictionary[group].T@dictionary[group]))) for group in groups]
+    complete=all(any(e["dominant"]==bit and e["purity"]>.9 and
+        c[bit]>.9 for e,c in zip(effects,contrast_coverage))
+        for bit in ("A","B"))
     result=dict(groups=groups,n_groups=len(groups),
                 correlation=correlation.tolist(),group_effects=effects,
-                A_B_groups_recovered=recovered)
+                A_B_groups_recovered=recovered,
+                A_B_complete_groups_recovered=complete,
+                group_contrast_coverage=contrast_coverage)
     if eval_context is not None:
         result["group_ablation"]=group_ablation(original,dictionary,groups,
                                                  effects,eval_context)
@@ -81,7 +90,7 @@ def run():
     output=dict(task="infer connected groups from unlabeled sparse key activations",
         grouping="edge if absolute Pearson correlation exceeds threshold; connected components; no group count or size supplied",
         fitting="no token-family labels, output targets, or bit-flip responses used for grouping",
-        evaluation="post-fit A/B bit-flip purity above .9 for at least one group per bit; additional groups allowed",
+        evaluation="post-fit A/B bit-flip purity above .9; separately require >.9 whole signed contrast coverage per group",
         rows=rows)
     (HERE/"dual_graph_grouping.json").write_text(json.dumps(output,indent=2)+"\n")
     for n in sample_sizes:
