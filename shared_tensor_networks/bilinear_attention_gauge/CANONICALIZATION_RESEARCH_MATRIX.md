@@ -133,8 +133,13 @@ full and rare accuracy; label-free all-pair edit sparsity recovers the two
 known key variables about as well as the role-aware control. Crucially,
 whole-sequence response L1 instead selects coactivation mixtures and makes
 reduced-function component deletions less selective, especially under a
-synthetic correlated usage law. Train a correlated-variable task next;
-the current models themselves were trained on the original distribution. The
+synthetic correlated usage law. A
+[correlated-training follow-up](CORRELATED_DUAL_JOINT_GAUGE_RESULTS.md)
+confirms the conflict in ten freshly trained models under a strongly
+correlated law. Its unlabeled frequency-weighted rank-two cut also repairs
+all four full-model failures on the withheld rare combination, while
+moving further from the original function than a uniform cut. This is a
+task-versus-faithfulness tradeoff, not a better reconstruction. The
 [trained toy sequence](THREE_COUNT_CANONICAL_RESULTS.md) shows rank competition
 and differing uniform, frequency, and supervised-CE outcomes. The
 [nonlinear-readout follow-up](THREE_COUNT_NONLINEAR_METRIC_RESULTS.md) shows
