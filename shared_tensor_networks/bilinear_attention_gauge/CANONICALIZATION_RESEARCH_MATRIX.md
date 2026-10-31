@@ -167,6 +167,18 @@ constructive joint-nullspace gauge recover the reusable graph and retain
 the rare holdout after three-node pruning. This isolates a stronger
 functional prior than token sparsity, but still does not identify the
 physical attention implementation. The
+[trained dense-code edit-gauge test](SHARED_PAIR_DENSE_EDIT_GAUGE_RESULTS.md)
+adds a different label-free prior: L1 on all 28 token-swap responses
+within the fixed rank-three function. Across ten trained seeds and both
+uniform and frequency cuts, it nearly perfectly recovers the three
+known variables and retains 100% five-output accuracy after selecting
+three quadratic nodes, including the rare whole-combination holdout.
+It does not need hand-chosen Hamming-one edges, but exploits the
+complete eight-token cube geometry. A three-model random-subset sweep
+shows that 24 distinct swaps succeed in 89/90 panels, whereas 56 draws
+with replacement (24 distinct on average) succeed in 61/90. This
+strengthens the case for intervention diversity and controlled weights
+as gauge priors; physical QK-branch faithfulness remains unsolved. The
 [branch-intervention control](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) shows
 why: the task-faithful rank-three space predicts constant-one QK1/QK2
 edits poorly in both token codings. Joint fitting to ordinary and edited
