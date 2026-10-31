@@ -756,3 +756,15 @@ but only 65.8% with that edit family omitted. The faithful heads are
 already known bracket or weak punctuation loci. Do not claim a new
 circuit from this input-side geometry; improve stage-one fidelity or
 freeze and test a genuinely new downstream prediction.
+The [all-head reduction-fidelity frontier](ALL_HEAD_RANK_FIDELITY_FRONTIER_RESULTS.md)
+corrects the interpretation of head-state coverage by applying each
+head's learned `c_proj` block. On the known bracket head, rank-four
+pooled-edit PCA loses 6.4% head-state but only 2.74% aggregate immediate
+output response. Yet it loses 93–97% of eight other edit types separately.
+Across 36 heads, weight-only rank four has .813 mean aggregate output
+relative MSE, pooled edit PCA .592, and equal-type edit PCA .642; mean
+worst-type errors remain .936/.922/.904. In the tested spectral family,
+a fixed 50:50 weight/equal-output-type measure needs median rank 96 for
+all ten types to pass 10% immediate-output error. A gauge cannot restore
+families excluded at reduction; decide which counterfactuals matter,
+then gate them on disjoint inputs and final logits.

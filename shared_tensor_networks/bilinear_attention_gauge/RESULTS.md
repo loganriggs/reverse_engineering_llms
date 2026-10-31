@@ -195,7 +195,9 @@ New-task transfer follow-up: [64-label probes on raw-majority and XOR compositio
 
 Learned group follow-up: [nonorthogonal four-atom overlapping groups with group-link and edit-response penalties](LEARNED_OVERLAPPING_GROUP_RESULTS.md). Pure group sparsity picks eight output-specific links; an edit prior recovers the intended 18-link reusable-bit graph while keeping the fixed attention function exact. Restarts and an answer-free edit-gauge warm start expose optimizer sensitivity. The learned static group representation does not materially outperform the simpler exact rotation on unseen sparse-probe tasks.
 
-All-head real-model follow-up: [intervention-covariance joint diagonalization of 36 later heads](ALL_HEAD_JOINT_EDIT_GEOMETRY_RESULTS.md). A type-defined input-edit prior yields reproducible held-out axes, but most rank-four response cuts are unfaithful and excluding a specialist's edit family weakens its axis. This is coordinate geometry, not a newly identified downstream circuit.
+All-head real-model follow-up: [intervention-covariance joint diagonalization of 36 later heads](ALL_HEAD_JOINT_EDIT_GEOMETRY_RESULTS.md). A type-defined input-edit prior yields reproducible held-out axes, but most rank-four cuts retain little raw head-state edit energy, and excluding a specialist's edit family weakens its axis. Output fidelity is checked separately below; this geometry does not identify a new downstream circuit.
+
+All-head fidelity correction: [weight-only versus pooled and type-balanced edit cuts at ranks 4–128](ALL_HEAD_RANK_FIDELITY_FRONTIER_RESULTS.md). A rank-four bracket cut retains most aggregate immediate output response despite losing head-state energy, but discards almost all of several weaker edit families. In the tested spectral family, a per-type fidelity gate requires much larger rank than aggregate fidelity. This is immediate `c_proj` response, not final-model KL.
 
 ## Reproduce
 

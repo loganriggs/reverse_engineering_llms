@@ -45,9 +45,12 @@ The geometry objective generalizes to a second panel of the *same ten edit
 types*. This is not a whole-task discovery result: token substitution
 identities can repeat across panels, and the edit families are supplied.
 More importantly, the average rank-four cut discards **62%** of native
-edit-response energy. Its median coverage is only .319; just four of 36
-heads exceed .75 on the validation panel. A stable basis inside an
-unfaithful cut is not a useful mechanistic explanation.
+*head-state* edit-response energy. Its median coverage is only .319; just
+four of 36 heads exceed .75 on the validation panel. This is a warning,
+not a downstream-fidelity verdict: the learned output projection may
+suppress some discarded directions. The subsequent
+[all-head rank frontier](ALL_HEAD_RANK_FIDELITY_FRONTIER_RESULTS.md) checks
+that immediate output response and each edit family separately.
 
 The four heads selected *only by training-panel rank-four coverage above
 .75* are 11/5, 13/3, 13/5, and 13/8. Their independent validation
@@ -86,9 +89,10 @@ unseen specialist.
 
 Intervention covariance is a reproducible coordinate prior when a type
 has support in fitting data, consistent with the toy result. It does not
-solve the two harder problems: finding a faithful low-rank cut for most
-heads, and predicting a **new downstream behavior** when its edit family
-was absent. More rotation tuning on these already studied bracket and
+solve the two harder problems: choosing a cut that preserves the
+**relevant immediate-output edit families**, and predicting a new
+downstream behavior when its edit family was absent. More rotation tuning
+on these already studied bracket and
 punctuation heads would duplicate prior work. The next real-model test
 should either improve stage-one coverage with a weight-only or mixed
 function/usage reduction before gauge fitting, or freeze a novel output
