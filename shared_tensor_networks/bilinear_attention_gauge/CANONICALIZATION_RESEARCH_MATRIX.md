@@ -514,6 +514,18 @@ proving that the small 256-context unweighted PCA fit is the best possible
 dataset-aware reduction. The next useful comparison should improve the
 dataset-aware *objective or fit coverage*, rather than merely enlarge its
 evaluation panel.
+The [output-aware rank-four follow-up](OUTPUT_AWARE_HEAD_REDUCTION_RESULTS.md)
+does both: fit 2,048 unlabeled FineWeb head states at two lengths, optimize
+the orthogonal projector for `E||W(I-P)z||²`, then evaluate on the same
+576 held-out windows per head and competent edit paths. The bracket
+cut improves equal-panel next-token KL from 0.000977 (weight-only) to
+0.000803, with a paired 95% interval for the difference entirely below
+zero, but loses 66% of the native bracket head path versus 2.3% for
+weight-only. Agreement's KL gain is unresolved and path loss rises from
+5.2% to 8.9%. This is the clearest observed reduction-metric conflict:
+dataset-aware output fidelity and targeted mechanistic fidelity cannot
+be conflated. The next discriminator is a predeclared mixture of natural
+output and edit-response moments with both KL and finite-path gates.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.

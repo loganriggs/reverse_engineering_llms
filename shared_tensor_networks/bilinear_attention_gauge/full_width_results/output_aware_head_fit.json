@@ -1,0 +1,91 @@
+{
+  "description": "Rank-four orthogonal head projectors: old weight and 256-context PCA, 2048-context uncentered PCA, and 2048-context output-weighted orthogonal projector optimized with QR from three starts",
+  "seed": 20261118,
+  "rank": 4,
+  "train_contexts_per_length": 1024,
+  "validation_contexts_per_length": 128,
+  "lengths": [
+    32,
+    64
+  ],
+  "fit_fineweb_docs": [
+    0,
+    16000
+  ],
+  "validation_fineweb_docs": [
+    16000,
+    17500
+  ],
+  "objective": "E[||W(I-UU^T)z||^2] / E[||Wz||^2]",
+  "output_aware_starts": [
+    "weight",
+    "old_corpus",
+    "large_corpus"
+  ],
+  "records": [
+    {
+      "target": "bracket_closure",
+      "method": "weight",
+      "normalized_output_mse_train": 0.6843974248130857,
+      "normalized_output_mse_validation": 0.7294643921089091,
+      "normalized_head_mse_train": 0.8892500911400422,
+      "normalized_head_mse_validation": 0.9109462634227762
+    },
+    {
+      "target": "bracket_closure",
+      "method": "corpus_256",
+      "normalized_output_mse_train": 0.71038606251333,
+      "normalized_output_mse_validation": 0.7390030697863447,
+      "normalized_head_mse_train": 0.8295461261965719,
+      "normalized_head_mse_validation": 0.852994041971261
+    },
+    {
+      "target": "bracket_closure",
+      "method": "corpus_2048",
+      "normalized_output_mse_train": 0.6842313954671144,
+      "normalized_output_mse_validation": 0.7279931283713476,
+      "normalized_head_mse_train": 0.802509742722605,
+      "normalized_head_mse_validation": 0.8405902572762227
+    },
+    {
+      "target": "bracket_closure",
+      "method": "output_aware_2048",
+      "normalized_output_mse_train": 0.649496769144939,
+      "normalized_output_mse_validation": 0.7027716503107996,
+      "normalized_head_mse_train": 0.8341829473657172,
+      "normalized_head_mse_validation": 0.8698934640450234
+    },
+    {
+      "target": "subject_verb_agreement",
+      "method": "weight",
+      "normalized_output_mse_train": 0.715751338337996,
+      "normalized_output_mse_validation": 0.7606775132678211,
+      "normalized_head_mse_train": 0.9014705382881764,
+      "normalized_head_mse_validation": 0.9211962336942813
+    },
+    {
+      "target": "subject_verb_agreement",
+      "method": "corpus_256",
+      "normalized_output_mse_train": 0.8051666044763989,
+      "normalized_output_mse_validation": 0.8232494256346984,
+      "normalized_head_mse_train": 0.8900565362741579,
+      "normalized_head_mse_validation": 0.8991129521395177
+    },
+    {
+      "target": "subject_verb_agreement",
+      "method": "corpus_2048",
+      "normalized_output_mse_train": 0.6890397811329428,
+      "normalized_output_mse_validation": 0.7666240378786233,
+      "normalized_head_mse_train": 0.8125912721043271,
+      "normalized_head_mse_validation": 0.8673105398391502
+    },
+    {
+      "target": "subject_verb_agreement",
+      "method": "output_aware_2048",
+      "normalized_output_mse_train": 0.6582795470916083,
+      "normalized_output_mse_validation": 0.7348260012160456,
+      "normalized_head_mse_train": 0.8325024465090024,
+      "normalized_head_mse_validation": 0.8804318588227186
+    }
+  ]
+}
