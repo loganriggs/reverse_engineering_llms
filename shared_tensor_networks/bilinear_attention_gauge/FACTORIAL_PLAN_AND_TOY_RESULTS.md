@@ -146,8 +146,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    requires separate coverage. A [sparse-gauge test](INTERVENTION_SPARSE_BASIS_RESULTS.md)
    finds that rank-four key spaces preserve the A/B contrast *subspace*, but
    sparse components split each bit into roughly two token-specific axes.
-   The next test should infer groups of these axes and use richer task
-   grammars and held-out intervention families. Keep
+   An [unlabeled co-occurrence grouping test](UNSUPERVISED_GROUPING_RESULTS.md)
+   recovers two selectively causal groups in all ten seeds from 32 unlabeled
+   sentences, given the prior that four axes form two disjoint pairs. The next
+   test should remove that pairing oracle with richer grammars, distractors,
+   or variable group sizes, while preserving held-out intervention families. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
