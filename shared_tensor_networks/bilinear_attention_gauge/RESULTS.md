@@ -193,6 +193,8 @@ Internal-head follow-up: [recover reusable rules from QK1×QK2×V head responses
 
 New-task transfer follow-up: [64-label probes on raw-majority and XOR compositions](NEW_TASK_FEW_SHOT_TRANSFER_RESULTS.md). Edit-sparse head atoms support nearly 99.7% one-atom primitive and 99.4% two-atom XOR accuracy on fresh sequences, versus roughly 74.6% and 65.1% for SVD. This tests sparse accessibility of supplied unseen tasks, not whether the original network executes them or whether the featurizer discovers task labels autonomously.
 
+Learned group follow-up: [nonorthogonal four-atom overlapping groups with group-link and edit-response penalties](LEARNED_OVERLAPPING_GROUP_RESULTS.md). Pure group sparsity picks eight output-specific links; an edit prior recovers the intended 18-link reusable-bit graph while keeping the fixed attention function exact. Restarts and an answer-free edit-gauge warm start expose optimizer sensitivity. The learned static group representation does not materially outperform the simpler exact rotation on unseen sparse-probe tasks.
+
 ## Reproduce
 
 Use a Python environment with PyTorch, NumPy, SciPy, and einops. For example, the local environment used here is `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python`.

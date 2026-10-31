@@ -731,3 +731,15 @@ not extra information or automatic task invention. Withholding direct D
 flips from gauge fitting worsens D and composition transfer. The next
 gate needs an actual learned group featurizer and a whole-composition
 holdout, with task prediction and intervention fidelity kept separate.
+The [learned static overlapping-group comparison](LEARNED_OVERLAPPING_GROUP_RESULTS.md)
+fits nonorthogonal four-atom dictionaries at exactly fixed function fidelity.
+On eight model seeds held out from ratio selection, group-link L1 alone
+chooses the minimal eight output-specific links and gives .939/.886
+one-atom/XOR few-shot transfer. A preselected edit weight of 80 plus 32
+starts recovers the intended 18-link graph in seven of eight weight-only
+and eight of eight usage-weighted fits; a label-free edit-gauge warm start
+recovers it in all seeds. The simple orthogonal edit gauge was already
+~99.99% accurate on these new tasks, so the learned static group model adds
+little measurable transfer here. Stop scalar penalty tuning on this toy;
+test sample-dependent gates on an independently held-out composition family
+or move the prior to the flagship model with downstream causal validation.
