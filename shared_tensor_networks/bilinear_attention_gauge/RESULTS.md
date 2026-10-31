@@ -1,5 +1,7 @@
 # Bilinear-attention gauge canonicalization: completed small-model comparison
 
+Rank-96 fidelity and causal panel: [full-vocabulary, natural full-model, and QK2-intervention comparisons](RANK96_METRIC_AND_CAUSAL_PANEL.md). A uniform weight-only QK1 cut best preserves natural next-token distributions across three corpora; a FineWeb-weighted cut better survives a strong QK2-constant edit. This is a measured objective tradeoff before the next legibility-prior sweep.
+
 Follow-up: [metric × legibility-prior plan and known-rule two-head toy results](FACTORIAL_PLAN_AND_TOY_RESULTS.md). This follow-up separates uniform versus usage-weighted reduction from native-bond, WTG-bond, pair-response, and intervention objectives. It is a hand-built toy and does not establish interpretation of a trained model.
 
 Flagship metric follow-up: [fixed uniform–corpus and intervention mixtures on the 546M head](MIXED_METRIC_RESULTS.md). A half uniform–corpus fit improves held-out sequence head-output fidelity on FineWeb, WikiText-103, and TinyStories at matched rank; adding a pair-level QK2 intervention objective does not improve sequence-level interventions. Sparse and human-legibility priors remain untested on this head.

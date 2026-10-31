@@ -41,16 +41,28 @@ class BondEdit:
         self.attn=model.transformer.h[0].attn
         self.native=self.attn.squared_attention
         self.cut=None
+        self.qk2_mode="natural"
         self.attn.squared_attention=self.forward
 
     def forward(self,q,k,v,q2,k2):
         native=self.native(q,k,v,q2,k2)
-        if self.cut is None:
+        if self.cut is None and self.qk2_mode=="natural":
             return native
         d=q.shape[-1]
-        qx=q[:,:,0,:]@self.cut.to(device=q.device,dtype=q.dtype)
+        matrix=(torch.eye(d,device=q.device,dtype=q.dtype)
+                if self.cut is None else
+                self.cut.to(device=q.device,dtype=q.dtype))
+        qx=q[:,:,0,:]@matrix
         score1=(qx@k[:,:,0,:].transpose(-1,-2))/d
-        score2=(q2[:,:,0,:]@k2[:,:,0,:].transpose(-1,-2))/d
+        if self.qk2_mode=="natural":
+            score2=(q2[:,:,0,:]@k2[:,:,0,:].transpose(-1,-2))/d
+        elif self.qk2_mode=="constant":
+            score2=torch.ones_like(score1)
+        elif self.qk2_mode=="key_shift":
+            score2=torch.roll((q2[:,:,0,:]@k2[:,:,0,:].transpose(-1,-2))/d,
+                              shifts=1,dims=-1)
+        else:
+            raise ValueError(self.qk2_mode)
         pattern=(score1*score2).tril()
         edited=pattern@v[:,:,0,:]
         result=native.clone()
@@ -67,6 +79,9 @@ def get_cuts():
         name=f"sequence_fit_rank64_cw{weight}"
         cuts[name]=np.load(ART/f"head0_l128_{name}.npz")["cut"]
     cuts["pair_refit_rank64"]=np.load(ART/"head0_l128_pair_refit_rank64.npz")["cut"]
+    for measure in ("uniform","corpus"):
+        name=f"{measure}_fit_l128_wtg96"
+        cuts[name]=saved[name]
     return cuts
 
 
@@ -85,7 +100,7 @@ def metrics(reference,candidate,target):
 
 
 def run(n_docs=8,length=128,seeds=(23,29),batch_size=4,threads=1,
-        cut_names=None):
+        cut_names=None,output_name=None):
     torch.set_num_threads(threads)
     config=json.loads((SNAPSHOT/"config.json").read_text())
     config.pop("step",None)
@@ -149,7 +164,9 @@ def run(n_docs=8,length=128,seeds=(23,29),batch_size=4,threads=1,
                                             values["ce_original_sum"])/values["token_count"],
                         flip_fraction=values["argmax_flips"]/values["token_count"]))
                 print(corpus_name,seed,flush=True)
-    result=dict(head=0,layer=0,rank=64,length=length,
+    result=dict(head=0,layer=0,
+        cut_ranks={name:int(np.linalg.matrix_rank(all_cuts[name]))
+                   for name in selected},length=length,
         n_docs_per_seed=n_docs,seeds=list(seeds),batch_size=batch_size,
         threads=threads,
         identity_cut_max_abs_logit=identity_gate,
@@ -159,7 +176,8 @@ def run(n_docs=8,length=128,seeds=(23,29),batch_size=4,threads=1,
         scope="full 18-layer model; QK1 cut on layer-0 head-0 only; original-to-edited KL and next-token CE",
         records=records)
     suffix="_zero" if selected==("head0_zero",) else ""
-    (ART/f"head0_full_model_l{length}_n{n_docs}{suffix}.json").write_text(
+    destination=ART/(output_name or f"head0_full_model_l{length}_n{n_docs}{suffix}.json")
+    destination.write_text(
         json.dumps(result,indent=2)+"\n")
     return result
 
@@ -172,6 +190,7 @@ if __name__=="__main__":
     parser.add_argument("--batch-size",type=int,default=4)
     parser.add_argument("--threads",type=int,default=1)
     parser.add_argument("--cuts",nargs="+",default=None)
+    parser.add_argument("--output-name",default=None)
     args=parser.parse_args()
     run(args.n_docs,args.length,tuple(args.seeds),args.batch_size,args.threads,
-        None if args.cuts is None else tuple(args.cuts))
+        None if args.cuts is None else tuple(args.cuts),args.output_name)
