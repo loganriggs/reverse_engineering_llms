@@ -22,6 +22,11 @@ def run():
     all_rot,angles=rotations()
     seq_t,target_t,attrs=exhaustive()
     seq=seq_t.numpy();target=target_t.numpy().astype(float)
+    key_counts=np.eye(6)[seq[:,:3]].sum(axis=1)
+    query=seq[:,-1]-6
+    same=np.array([a['A']==a['B'] for a in attrs])
+    correlated=np.where(same,.9,.1).astype(float)
+    correlated/=correlated.sum()
     rows=[]
     for seed in range(10):
         model=DualOutputAttention().double()
@@ -55,6 +60,11 @@ def run():
                 objective['row_l1']/np.linalg.norm(left))
             objective['component_response_l1']=np.einsum(
                 'trc,tck->t',np.abs(candidate_left),np.abs(candidates))
+            key_sums=np.einsum('tck,nk->tnc',candidates,key_counts)
+            left_query=candidate_left.reshape(len(all_rot),2,2,2)[:,query]
+            sequence_response=np.abs(left_query*key_sums[:,:,None,:]).sum(axis=(2,3))
+            objective['sequence_response_uniform_l1']=sequence_response.mean(axis=1)
+            objective['sequence_response_correlated90_l1']=sequence_response@correlated
             for name,pairs in PAIRS.items():
                 edges=np.asarray(pairs)
                 changes=candidates[:,:,edges[:,1]]-candidates[:,:,edges[:,0]]
@@ -70,6 +80,8 @@ def run():
                 causal=causal_metrics(l,d,seq,target,attrs,bias)
                 results[name]=dict(angle=float(angles[index]),
                     dictionary=d.tolist(),row_factors=l.tolist(),
+                    objective_scores={key:float(value[index])
+                                      for key,value in objective.items()},
                     matched_A_B_cosine=matched_cosines(d)[0],
                     key_l1=float(np.abs(d).sum()),
                     all_pair_edit_l1=float(np.mean([
@@ -79,6 +91,8 @@ def run():
                     mean_intended_bit_effect_fraction=float(np.mean([
                         z['intended_bit_energy_fraction_including_filler']
                         for z in causal.values()])),
+                    component_removal={key:value['after_component_removal']
+                                       for key,value in causal.items()},
                     exhaustive_joint_accuracy=predictions['joint_accuracy'],
                     rare_joint_accuracy=predictions['rare_heldout']['joint_accuracy'])
             rows.append(dict(seed=seed,measure=measure,fit=fit,
@@ -89,12 +103,15 @@ def run():
         seeds=list(range(10)),all_pair_count=len(PAIRS['all_pairs']),
         within_role_pair_count=len(PAIRS['within_role']),
         n_frequency_fit_sequences=100000,
+        correlated_sequence_gauge_same_bit_probability=.9,
+        correlated_sequence_gauge_is_synthetic_stress_test=True,
         model_training_uses_task_labels=True,gauge_fit_uses_task_labels=False,
         rows=rows)
     (HERE/'dual_joint_edit_gauge.json').write_text(json.dumps(result,indent=2)+'\n')
     for measure in ('uniform','empirical','half_uniform_empirical'):
         for name in ('svd','key_l1','row_l1','balanced_factor_l1',
-                     'component_response_l1','all_pairs','within_role'):
+                     'component_response_l1','sequence_response_uniform_l1',
+                     'sequence_response_correlated90_l1','all_pairs','within_role'):
             part=[r['gauges'][name] for r in rows if r['measure']==measure]
             print(measure,name,'cosine',round(np.mean([r['matched_A_B_cosine'] for r in part]),3),
                 'min',round(min(r['matched_A_B_cosine'] for r in part),3),

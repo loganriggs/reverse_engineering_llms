@@ -127,11 +127,14 @@ is a control, not blind discovery; trained toy-language and fresh-edit
 transfer remain the required gate. The
 [trained necessary-two-head retrieval factorial](DUAL_JOINT_EDIT_GAUGE_RESULTS.md)
 crosses uniform, empirical, and mixed rank-two reductions with key, output,
-component-response, all-pair edit, and role-aware edit gauges on ten
-independently trained models. All rank-two functions keep full and rare
-accuracy; label-free all-pair edit sparsity recovers the two known key
-variables about as well as the role-aware control. Several priors agree here,
-so a harder correlated-variable task is needed to distinguish them. The
+component-response, whole-sequence response, all-pair edit, and role-aware
+edit gauges on ten independently trained models. All rank-two functions keep
+full and rare accuracy; label-free all-pair edit sparsity recovers the two
+known key variables about as well as the role-aware control. Crucially,
+whole-sequence response L1 instead selects coactivation mixtures and makes
+reduced-function component deletions less selective, especially under a
+synthetic correlated usage law. Train a correlated-variable task next;
+the current models themselves were trained on the original distribution. The
 [trained toy sequence](THREE_COUNT_CANONICAL_RESULTS.md) shows rank competition
 and differing uniform, frequency, and supervised-CE outcomes. The
 [nonlinear-readout follow-up](THREE_COUNT_NONLINEAR_METRIC_RESULTS.md) shows
