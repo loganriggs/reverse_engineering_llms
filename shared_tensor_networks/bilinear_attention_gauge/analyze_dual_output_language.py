@@ -56,8 +56,10 @@ def score(tables,seq,targets,bias,attrs=None):
     if attrs is not None:
         for name,mask in (
             ("common",np.array([not a["swap"] for a in attrs])),
-            ("rare_seen",np.array([a["swap"] and not a["heldout"] for a in attrs])),
+            ("rare_seen",np.array([bool(a["swap"]) and not a["heldout"]
+                                    for a in attrs],dtype=bool)),
             ("rare_heldout",np.array([a["heldout"] for a in attrs]))):
+            assert mask.dtype==np.bool_,name
             result[name]=dict(n=int(mask.sum()),joint_accuracy=float(np.mean(joint[mask])),
                               bit_accuracy=float(np.mean((p==y)[mask])),
                               bce=float(np.mean(ce[mask])))

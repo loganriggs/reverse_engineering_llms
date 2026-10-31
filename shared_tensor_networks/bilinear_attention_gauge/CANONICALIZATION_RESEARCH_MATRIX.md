@@ -648,3 +648,13 @@ criterion for more scalar all-head ranking on the present ten types:
 progress now requires a withheld-task toy or a new behavior prediction
 predeclared from unlabeled signatures, and the reduction-metric × legibility
 comparison should be judged on that gate.
+The [ten-model unseen-query toy test](UNSEEN_QUERY_COVERAGE_RESULTS.md)
+gives the reduction-first rule a sharp support boundary: two rank-two
+functions fit every observed ordinary-query cell exactly but differ from
+10% to 100% accuracy on the withheld swapped-query combination. Weight-only
+information chooses a successful completion; a zero-support data metric
+cannot distinguish them. An exact sparse gauge aligns the known A/B key
+variables under either completion and cannot restore the missing query
+mapping. Next use finite unlabeled corpus coverage and a withheld output
+rule, rather than treating exact expected positive mass as finite-data
+evidence.
