@@ -164,7 +164,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    [variable-count trained grammar](COUNT_LANGUAGE_CANONICAL_RESULTS.md) now
    has 50,000 training sentences per seed and an almost rank-two combined
    function whose label-free sparse rotation cleanly finds the two count bits.
-   It does not yet impose a hard rank budget or test branch-edit transfer. Keep
+   A [branch-edit red team](COUNT_INTERVENTION_RESULTS.md) finds the ordinary
+   two-direction basis fails QK branch edits; fitting all four original and
+   edited conditions at rank four cuts mean error below one percent. The next
+   trained task should add a third variable or distractor rule to create real
+   competition for rank while preserving whole-task holdouts. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
