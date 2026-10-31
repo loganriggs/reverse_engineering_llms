@@ -390,6 +390,17 @@ clusters. Axis clustering sometimes improves over full-head norm and
 sometimes does not. These are input-side candidate variables only; the
 next gate is frozen output predictions and finite patches on disjoint
 contexts before claiming a newly found behavioral mechanism.
+The [unseen token-ID edit test](UNSEEN_TOKEN_EDIT_TRANSFER_RESULTS.md)
+shows why pair identity matters in addition to context: both 800-edit
+panels reused one parenthesis/square substitution, despite disjoint
+full prompts. A frozen bracket axis loses about 45% of the rank-four
+head path on two new brace-swap identities, with a much larger failure
+on brace→parenthesis; the rank-four cut itself remains faithful. The
+model is not competent on brace-closing prompts, so this is a path
+generalization limit rather than a competent task result. The agreement
+axis transfers within about 3% of rank four on four unseen noun-number
+swaps for which the model is competent. Interpret stable axes against
+both context and token-identity holdouts.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,

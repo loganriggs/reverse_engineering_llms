@@ -13,11 +13,16 @@ answer-free intervention supervision, not a fully blind discovery method.
 We generated two independent panels of 800 one-token edits each: 80 in
 each of ten types (opening bracket, singular/plural noun, adjective, color,
 country, name, number, punctuation, preposition, and a random substitution
-in natural text). The panels have no exact or reversed pair overlap;
+in natural text). The panels have no exact or reversed **full-sequence** pair overlap;
 random-context edits use disjoint FineWeb document ranges. The fitting
 prompts differ from the held-out bracket/grammar answer prompts. We
 captured each edit's final-position head-output difference in the frozen
 four-dimensional subspace.
+Token-ID substitution identities do repeat across panels: all bracket
+edits use the same parenthesis/square swap, while noun-number edits use
+ten singular/plural swaps. The later
+[token-identity holdout](UNSEEN_TOKEN_EDIT_TRANSFER_RESULTS.md) tests
+the resulting generalization limit directly.
 
 ## Exact rotations and finite tests
 
