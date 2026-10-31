@@ -16,7 +16,8 @@ from flagship_rank96_group_stability import CUTS,selection_order
 from flagship_transfer import ART
 
 
-def candidates(state,cut_name,group_size=4,n_selection=16384):
+def candidates(state,cut_name,group_size=4,n_selection=16384,
+               group_indices=(0,)):
     fineweb=np.load(CORPUS,mmap_mode="r")
     _,selection,_=rows(state,0,71,1,n_selection,128,
         distribution="corpus",corpus=fineweb,val_docs=(15000,17500))
@@ -42,17 +43,22 @@ def candidates(state,cut_name,group_size=4,n_selection=16384):
             rotation=rotation_files[family][f"{kind}_{seed}"]
             name=f"{family}_{seed}"
         order=selection_order(selection,a,b,rotation)
-        basis=rotation[:,order[:group_size]]
-        effect=(a@basis)@(b@basis).T
-        assert np.linalg.norm(effect)/np.linalg.norm(base)>0
-        edits[name]=base-effect
-        details[name]=dict(kind=kind,start=family,seed=seed,
-            group_size=group_size,components=order[:group_size].tolist())
+        for group_index in group_indices:
+            components=order[group_size*group_index:group_size*(group_index+1)]
+            basis=rotation[:,components]
+            effect=(a@basis)@(b@basis).T
+            assert np.linalg.norm(effect)/np.linalg.norm(base)>0
+            group_name=name if group_indices==(0,) else f"{name}_g{group_index}"
+            edits[group_name]=base-effect
+            details[group_name]=dict(kind=kind,start=family,seed=seed,
+                group_index=group_index,group_size=group_size,
+                components=components.tolist())
     return base,edits,details
 
 
 def run(n_docs=4,seeds=(23,29),batch_size=4,group_size=4,
-        target_head_error=.001,calibration_docs=64):
+        target_head_error=.001,calibration_docs=64,
+        group_indices=(0,)):
     torch.set_num_threads(4)
     config=json.loads((SNAPSHOT/"config.json").read_text())
     config.pop("step",None)
@@ -66,7 +72,8 @@ def run(n_docs=4,seeds=(23,29),batch_size=4,group_size=4,
     records=[];all_details={};calibrations={};identity_gate=0.
     with torch.no_grad():
         for cut_name in CUTS:
-            base,edits,details=candidates(state,cut_name,group_size)
+            base,edits,details=candidates(state,cut_name,group_size,
+                                           group_indices=group_indices)
             edits,calibration=calibrate(state,base,edits,details,
                                          calibration_docs,target_head_error)
             all_details[cut_name]=details;calibrations[cut_name]=calibration
@@ -103,7 +110,8 @@ def run(n_docs=4,seeds=(23,29),batch_size=4,group_size=4,
                                     document_position=offset+position,
                                     group=name,base_to_removed_kl=float(effect[position])))
                     print(cut_name,corpus_name,seed,flush=True)
-    output=dict(layer=0,head=0,group_size=group_size,n_docs=n_docs,
+    output=dict(layer=0,head=0,group_size=group_size,
+        group_indices=list(group_indices),n_docs=n_docs,
         seeds=list(seeds),target_calibration_head_error=target_head_error,
         calibration_documents=calibration_docs,
         selection_fineweb_docs=[15000,17500],
@@ -111,7 +119,8 @@ def run(n_docs=4,seeds=(23,29),batch_size=4,group_size=4,
         identity_gate_max_abs_logit=identity_gate,
         scope="calibrated group partial deletion, full-model per-document KL from each rank-96 base cut",
         details=all_details,calibrations=calibrations,records=records)
-    (ART/f"head0_rank96_group_ablation_n{n_docs}.json").write_text(
+    suffix="" if group_indices==(0,) else "_groups"+"_".join(map(str,group_indices))
+    (ART/f"head0_rank96_group_ablation_n{n_docs}{suffix}.json").write_text(
         json.dumps(output,indent=2)+"\n")
     return output
 
@@ -119,5 +128,6 @@ def run(n_docs=4,seeds=(23,29),batch_size=4,group_size=4,
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("--n-docs",type=int,default=8)
+    parser.add_argument("--groups",type=int,nargs="+",default=[0])
     args=parser.parse_args()
-    run(n_docs=args.n_docs)
+    run(n_docs=args.n_docs,group_indices=tuple(args.groups))

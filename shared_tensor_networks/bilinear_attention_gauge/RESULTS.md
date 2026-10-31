@@ -6,6 +6,8 @@ Rank-96 legibility-prior panel: [exact sparse gauges, held-out label transfer, a
 
 Group-stability follow-up: [energy-selected rank-96 groups across seeds and random starts](RANK96_GROUP_STABILITY_RESULTS.md). Four-axis sparse groups have strong projector and pair-response agreement despite weak single-axis alignment, and their calibrated full-model document-effect profiles are more reproducible than random groups on three corpora. This establishes one stable high-energy functional subspace within a chosen bond, not semantic or multi-group discovery.
 
+Multi-group red team: [disjoint energy-ranked quartets and a null-calibrated co-activation graph](MULTIPLE_RANK96_GROUPS_RESULTS.md). The first quartet remains robust; a second has partial pair and causal-profile transfer, while third/later quartets and a simple graph do not yield a reliable multi-group explanation. The next target is a functional or downstream-causal grouping objective with task-level holdouts.
+
 Follow-up: [metric × legibility-prior plan and known-rule two-head toy results](FACTORIAL_PLAN_AND_TOY_RESULTS.md). This follow-up separates uniform versus usage-weighted reduction from native-bond, WTG-bond, pair-response, and intervention objectives. It is a hand-built toy and does not establish interpretation of a trained model.
 
 Flagship metric follow-up: [fixed uniform–corpus and intervention mixtures on the 546M head](MIXED_METRIC_RESULTS.md). A half uniform–corpus fit improves held-out sequence head-output fidelity on FineWeb, WikiText-103, and TinyStories at matched rank; adding a pair-level QK2 intervention objective does not improve sequence-level interventions. Sparse and human-legibility priors remain untested on this head.
