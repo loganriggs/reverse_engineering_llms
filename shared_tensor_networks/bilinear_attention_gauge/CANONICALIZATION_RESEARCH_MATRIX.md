@@ -809,3 +809,13 @@ partly repairs transfer by retaining 75% of the head's 128 dimensions,
 not by revealing a small canonical computation. Stage two should compare
 exact rotations within this fixed faithful subspace, while stage one
 separately seeks a lower-rank projector that passes the same gates.
+The [rank-96 exact-gauge prior comparison](RANK96_EXACT_GAUGE_PRIORS_RESULTS.md)
+does that controlled stage-two test. Output-isometric rotations preserve
+the fixed reduced `c_proj` response to about 1e-15 relative error.
+Weight varimax makes decoder entries modestly sparser, while edit
+activation varimax sharply concentrates familiar interventions and
+separates their type-energy profiles. Yet pooled PCA concentrates the
+ten unseen-family edit responses more, and refitted varimax axes have
+only .443 mean absolute cosine agreement with independent-panel axes,
+close to PCA's .422. Exact gauge sparsity and type selectivity are
+therefore not enough to name stable reusable components.
