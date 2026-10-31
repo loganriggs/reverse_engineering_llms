@@ -658,3 +658,15 @@ variables under either completion and cannot restore the missing query
 mapping. Next use finite unlabeled corpus coverage and a withheld output
 rule, rather than treating exact expected positive mass as finite-data
 evidence.
+The [finite usage-measure sweep](FINITE_USAGE_METRIC_COVERAGE_RESULTS.md)
+uses ten trained three-bit-plus-parity models and five independent sampled
+unlabeled corpora at six sizes. At rank two, empirical usage improves rare
+held-out accuracy as coverage grows but plateaus near 53%; a half-uniform
+mixture lowers broad table error while cutting that rare accuracy to 19%.
+At rank three, all 900 weighted fits are at least 99.64% rare-accurate,
+and an answer-free all-pair edit criterion selects rank three in all
+1,800 threshold decisions. The exact weight-derived function and full-table
+SVD start remain available, so this is finite *measure* estimation, not
+data-only function discovery. Stop using this easy rank-three toy as a
+discovery claim; construct a weak competent rare rule or strong nuisance
+and withhold its edit family from selection.
