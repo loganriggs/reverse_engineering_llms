@@ -684,3 +684,16 @@ table enters reduction and SVD already isolates D, this is a metric and
 coordinate control, not unseen-rule discovery. Stop treating global edit
 error as sufficient; the next test needs dense mixed token coding, a
 weak competent rule, and a genuinely withheld edit family.
+The [dense-coded weak-rule follow-up](DENSE_WEAK_SHARED_ATOM_RESULTS.md)
+trains ten new four-head models on nonorthogonal four-bit token features.
+After scaling a competent D output, uniform, usage, and mixed rank-three
+cuts pass a 1% global all-pair edit gate in every seed while preserving
+only 64.5% D prediction agreement. A per-output gate retains rank four.
+At fixed rank four, label-free edit-sparse rotations recover the designed
+overlapping four-atom function graph with .976 graph-cell accuracy, versus
+.719 for SVD and .601 for random rotations; a prior withholding direct
+raw-D flips reaches .968. The full weight-derived function still enters
+the cut and the same-D-bit edits retain mixed D information, so this is
+function-level graph recovery, not physical-node or wholly unseen-rule
+discovery. The next gate is a shared-dictionary/overlapping-group model
+with a whole-rule holdout, compared at matched error and rank.

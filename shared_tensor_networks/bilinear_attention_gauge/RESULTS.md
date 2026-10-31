@@ -185,6 +185,8 @@ Here full-environment optimization wins all four rank-4 cases, but WTG truncatio
 
 The exact QK swap again preserves the selected-domain function while changing cycle entropy: seed 17/head 4 gives **0.612 versus 1.593 bits**. This extends the representation-dependence finding to the flagship weights, but only on the declared token subset. No conclusion follows about full-vocabulary compression, later layers, CE loss, or whether a recovered bond names the model's physical computation. Exact WTG here uses a dense \(32^2\times32^2\) transfer eigensolve; applying it directly to a full width-128 head would require a matrix-free implementation and a tractable full-domain environment.
 
+Dense-coded weak-rule follow-up: [ten trained four-head attention models, reduction-metric failure, and shared-atom graph recovery](DENSE_WEAK_SHARED_ATOM_RESULTS.md). A weak but competent output passes global edit-error rank gates while losing substantial prediction agreement. At a faithful fixed rank, edit-response sparsity recovers overlapping reusable function-level atoms much better than SVD, including when direct raw-D flips are withheld from rotation fitting. This does not establish physical-head recovery or wholly unseen-task discovery.
+
 ## Reproduce
 
 Use a Python environment with PyTorch, NumPy, SciPy, and einops. For example, the local environment used here is `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python`.
