@@ -135,9 +135,12 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    [exact joint-function analysis](JOINT_FUNCTION_TOY_RESULTS.md) instead
    preserves it in all ten seeds with a rank-two shared key dictionary;
    label-free key sparsity yields components whose post-fit bit-flip effects
-   are selective. The next test should ask whether this function-level
-   representation predicts physical interventions or transfers to richer
-   task grammars. Keep generator labels out of unsupervised fitting and
+   are selective. A [physical-head red team](JOINT_FUNCTION_PHYSICAL_REDTEAM.md)
+   finds that this fixed key space reconstructs each original head very well,
+   but fails QK1/QK2 branch edits despite their exact rank-two tables. The
+   next test should train on richer task grammars and compare function-only
+   with intervention-aware dictionaries under held-out branch edits. Keep
+   generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
    now proves that external function data alone cannot always identify
