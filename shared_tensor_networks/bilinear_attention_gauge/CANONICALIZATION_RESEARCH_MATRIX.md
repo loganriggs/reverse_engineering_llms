@@ -298,6 +298,19 @@ restoring the full native head state flips the edited answer back in only
 3/38 cases. The axis is a compact influential path, not a demonstrated
 necessary answer circuit. Broader natural-language tasks and redundant-
 path analysis are the next causal and generalization gates.
+The [unlabeled natural-activation red team](LATER_HEAD_UNLABELED_GAUGE_RESULTS.md)
+tested PCA, activation L1, fourth-moment rotations, 8,192 short FineWeb
+contexts, independent halves, external corpora, and balanced multicorpus
+fits inside the same exact rank-4 subspaces. A 512-context bracket success
+was destroyed by removing one high-norm natural sample; the 8,192-context
+fit and both large halves failed finite path tests. Balanced multicorpus
+fits did not recover bracket and gave only variable partial agreement
+recovery. This specific unlabeled-activation route lacks a stable axis.
+The next legibility test should use diverse **unlabeled interventions**
+(token substitutions and context edits) with whole-edit-type and whole-task
+holdouts, rather than more generic activation sparsity. It must retain
+finite head-path fidelity and show sample/seed stability before claiming
+new-task discovery.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
