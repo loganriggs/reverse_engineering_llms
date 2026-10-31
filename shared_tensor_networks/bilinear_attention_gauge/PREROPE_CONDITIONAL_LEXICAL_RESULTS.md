@@ -90,9 +90,10 @@ the relevant replication.
 
 This still does not tell us whether the model uses the group to represent a
 linguistic relation, a token-specific lookup, or a particular next-token
-prediction pattern. A decisive next test should examine edited predictions
-and context classes for the high-effect windows, compare independent-start
-group projectors and random rank-matched groups under the same token mask,
-and test smaller intervention strengths. If a coherent behavior survives
-these checks, the corresponding group signature can become a causal target
-for the broader featurizer program.
+prediction pattern. The [group-and-dose follow-up](PREROPE_GROUP_DOSE_AND_PREDICTION_RESULTS.md)
+now compares independent starts, random groups, smaller edits, and selected
+prediction examples. It finds reproducible activity on these keys but no
+special downstream KL at matched response energy. Occurrence-level and
+construction-level holdouts remain necessary before treating the signature
+as a reusable grammatical computation or a causal target for the broader
+featurizer program.

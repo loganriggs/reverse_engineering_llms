@@ -31,6 +31,7 @@ class KeyConditionalEdit:
         self.base_matrices=None
         self.effect_matrices=None
         self.key_mask=None
+        self.fraction=1.
         self.removed_head_energy=None
 
     def set_matrices(self,base,effect,length):
@@ -56,7 +57,7 @@ class KeyConditionalEdit:
         removed=torch.einsum('btd,tde->bte',query,effect)@key.transpose(-1,-2)/d
         score2=q2[:,:,0,:]@k2[:,:,0,:].transpose(-1,-2)/d
         key_mask=self.key_mask.to(device=q.device).unsqueeze(1)
-        delta=((removed*score2)*key_mask).tril()@v[:,:,0,:]
+        delta=self.fraction*(((removed*score2)*key_mask).tril()@v[:,:,0,:])
         self.removed_head_energy=delta.square().sum(dim=(1,2)).cpu().numpy()
         result=native.clone()
         result[:,0]=(score1*score2).tril()@v[:,:,0,:]-delta
