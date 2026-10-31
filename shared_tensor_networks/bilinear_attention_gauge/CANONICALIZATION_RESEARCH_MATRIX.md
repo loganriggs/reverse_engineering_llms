@@ -209,6 +209,14 @@ all 120 seed–pair cases are below 1% error. The full rank-three cut has
 .00030 native edit-response error. This is strong toy-level evidence for a
 task-supervised functional variable, not physical head identity or 546M
 transfer.
+A first [balanced 546M output-stratum test](BALANCED_OUTPUT_GAUGE_RESULTS.md)
+holds two next-token-form categories out of fitting while rotating the same
+fixed rank-256 QK1-key projector. Full-context gradient sparsity transfers
+to those strata on FineWeb, WikiText-103, and TinyStories, but train-selected
+category axes do not preserve their labels on disjoint documents. An
+all-category oracle has similar sparsity with substantially different axes.
+This is generic gradient compression, not a validated semantic component;
+the coarse-category detour stops before finite axis selection.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -234,9 +242,11 @@ produced a stable broad output rule. The first diverse explicit-task toy
 comparison is complete: eleven competent outputs, five whole-task reduction
 holdouts, dense-token red teaming, and exact rank-three gauge priors. Its
 next discriminator is transfer to task families beyond three count bits and
-a matched-fidelity, held-edit version on the 546M model. For the
-546M model, compare weight-only, data-aware, and causal priors at matched
-rank/fidelity on multiple explicit task families with whole-task holdouts.
+a matched-fidelity, held-edit version on the 546M model. The first coarse
+546M output-stratum panel has already ruled out naming axes from gradient
+sparsity alone. Continue only with multiple **competent explicit behaviors**
+and whole-task holdouts; compare weight-only, data-aware, and causal priors
+at matched rank/fidelity.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
