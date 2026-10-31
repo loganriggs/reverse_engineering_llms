@@ -48,3 +48,9 @@ heads and random head/axis controls.
 Reproduce with `flagship_all_head_unlabeled_edit_scan.py`. Per-head
 response arrays and scores are in `full_width_results/all_head_unlabeled_edit_scan.npz`
 and `.json`.
+
+A [finite-path follow-up](SECONDARY_HEAD_FINITE_RESULTS.md) patches the
+layer-11 bracket candidates 5 and 6 in the native model. Their joint
+full-head output path is small and approximately additive on the held-out
+edit panel, far below the known layer-13 bracket head's path. Input-side
+response clustering therefore remains only a candidate generator.

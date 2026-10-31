@@ -434,6 +434,15 @@ clusters. Axis clustering sometimes improves over full-head norm and
 sometimes does not. These are input-side candidate variables only; the
 next gate is frozen output predictions and finite patches on disjoint
 contexts before claiming a newly found behavioral mechanism.
+The [secondary-head finite-path gate](SECONDARY_HEAD_FINITE_RESULTS.md)
+patches layer-11 bracket candidates 5 and 6 on independent validation
+edits. Their full-head directional logit paths are about 4.2% and 2.0% of
+the native bracket edit, jointly 6.2% with negligible interaction; the
+known layer-13 head 8 carries about 31%. Unlabeled edit-response energy
+therefore finds additional input-sensitive heads but does not by itself
+find a comparably strong output mechanism. The same edit families were
+used for axis fitting and validation, so new token identities and frozen
+output predictions remain required.
 The [unseen token-ID edit test](UNSEEN_TOKEN_EDIT_TRANSFER_RESULTS.md)
 shows why pair identity matters in addition to context: both 800-edit
 panels reused one parenthesis/square substitution, despite disjoint
