@@ -484,6 +484,26 @@ examples, explains most of the gain. Weight-SVD rank two misses 26% on the
 competent holdout and random planes miss 55% median. A 19-pair code-like brace
 screen finds zero native brace forced-choice successes, making this a
 transferable response group, not an established brace-rule mechanism.
+The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
+fits uniform weight-only, usage-weighted, and mixed token functions at ranks
+one through six on ten independently trained three-variable attention models.
+An answer-free within-pair edit-response criterion selects rank three under
+all three measures and three thresholds; every selected cut retains the
+withheld rare combination and all four task outputs. Rank two has large edit
+error and often fails the rare task. This checks the decision rule in an easy
+regime, but does not yet test whether it retains a *low-energy* competent
+rule when high-energy nuisance responses compete for rank.
+An [exact internal-bond gauge stress test](THREE_COUNT_BOND_GAUGE_STRESS_RESULTS.md)
+then rescales a singular coordinate in a factorization of those same ten
+trained functions while compensating in the other factor. The complete
+function and task are mathematically unchanged. At a 5% error budget,
+local factor-energy truncation selects rank two in every seed under
+`ε=.1` or `.03`, with only 10% rare held-out accuracy; the full-function
+SVD selects rank three and retains 100%. Answer-free decoded edit fidelity
+also retains behavior but can require rank four through six in the bad
+gauge. This demonstrates the need to fix a functional metric and gauge
+*before* sparsity/group optimization. It is an exact factorization
+control, not evidence that the trained physical heads use that gauge.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,
