@@ -26,9 +26,14 @@ TRUTH=TOKEN_SIGNS.T/np.linalg.norm(TOKEN_SIGNS.T,axis=1,keepdims=True)
 
 
 def fit_edit(base,pairs,seed):
-    rng=np.random.default_rng(seed)
     edges=np.asarray(pairs,dtype=int)
     changes=base[:,edges[:,1]]-base[:,edges[:,0]]
+    return fit_changes(base,changes,seed)
+
+
+def fit_changes(base,changes,seed):
+    assert changes.ndim==2 and changes.shape[0]==3 and changes.shape[1]>0
+    rng=np.random.default_rng(seed)
     starts=np.vstack([np.zeros(3),rng.uniform(-np.pi,np.pi,(128,3))])
     def score(params):
         rotation=Rotation.from_euler('xyz',params).as_matrix()

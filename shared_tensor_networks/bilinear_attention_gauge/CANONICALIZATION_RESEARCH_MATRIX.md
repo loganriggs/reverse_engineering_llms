@@ -179,6 +179,15 @@ shows that 24 distinct swaps succeed in 89/90 panels, whereas 56 draws
 with replacement (24 distinct on average) succeed in 61/90. This
 strengthens the case for intervention diversity and controlled weights
 as gauge priors; physical QK-branch faithfulness remains unsolved. The
+[synthetic edit-noise red team](SHARED_PAIR_DENSE_EDIT_NOISE_RESULTS.md)
+shows a second constraint: exact all-pair recovery is fragile to noisy
+edit-vector estimates. At noise standard deviation .2 times median
+edit norm, one observation per pair succeeds in 2/30 trials, whereas
+averaging 16 independent observations succeeds in 30/30; a persistent
+pair-specific bias remains at 2/30 regardless of repetitions. At
+higher noise, 64–256 independent repeats are needed. This is an
+observation-noise control, not a claim about measured 546M activations.
+The
 [branch-intervention control](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) shows
 why: the task-faithful rank-three space predicts constant-one QK1/QK2
 edits poorly in both token codings. Joint fitting to ordinary and edited
