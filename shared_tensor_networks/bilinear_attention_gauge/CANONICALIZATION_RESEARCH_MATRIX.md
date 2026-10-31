@@ -351,6 +351,14 @@ sweep shows that a small explicit coverage floor can be decisive; increasing
 sample count alone cannot recover an edit type assigned zero mass.
 A genuinely blind next pass should scan many heads/layers, compare with
 head-norm controls, and reserve task-family labels for downstream validation.
+The [first all-head answer-free scan](ALL_HEAD_UNLABELED_EDIT_SCAN_RESULTS.md)
+now covers 36 native heads in four later layers with independent 800-edit
+panels. Its top unlabeled-energy head is the known bracket locus; other
+top heads show reproducible punctuation, bracket, and noun-number response
+clusters. Axis clustering sometimes improves over full-head norm and
+sometimes does not. These are input-side candidate variables only; the
+next gate is frozen output predictions and finite patches on disjoint
+contexts before claiming a newly found behavioral mechanism.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
