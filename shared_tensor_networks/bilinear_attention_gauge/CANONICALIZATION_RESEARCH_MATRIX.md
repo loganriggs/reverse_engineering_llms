@@ -63,6 +63,30 @@ whole withheld task families and fresh test interventions.
 
 ## Testbed ladder and decision rule
 
+The next comparison should be a small factorial, with **reduction fitted
+before legibility optimization**. At a matched rank and function-error
+budget, cross three fitting measures (uniform weight-only token domain,
+natural corpus, and a mixture with an explicit uniform/rare-edit floor)
+with four coordinate objectives (weight sparsity, token-response sparsity,
+intervention-response concentration, and sparse reusable conditional
+products). Include the unrotated SVD basis, exact random rotations, and
+full-head response norm as controls. For the first pass, use exact rotations
+inside a fixed reduced subspace so every objective has *identical* reduced
+function fidelity; only then let the subspace itself move under a stated
+error budget. Plot broad-domain error, natural-domain error, held-out
+finite-intervention error, and legibility/rule recovery as separate axes.
+
+Use a two-head synthetic attention function with a common rule, a rare
+rule, a shared computation reused by both heads, and a duplicated-function
+alternative to test identifiability. Vary the rare-rule probability and
+noise in query/key tokens; evaluate enumerated token pairs as the exact
+weight-only reference. Then train one- and two-layer toy-language models
+with the same rules and with held-out rule combinations. Finally test
+predeclared winners and failures in the 546M model, including all-head
+scans so a head is not chosen with the target label. Require independent
+seeds and fresh edit types or task families before calling a recovered
+coordinate a discovered mechanism.
+
 1. **Hand-built attention controls:** two heads with common and rare rules,
    shared versus duplicated computation, branch swapping, and exact token
    function. These prove algebraic invariances and expose obvious biases but
@@ -311,6 +335,22 @@ The next legibility test should use diverse **unlabeled interventions**
 holdouts, rather than more generic activation sparsity. It must retain
 finite head-path fidelity and show sample/seed stability before claiming
 new-task discovery.
+The [answer-free intervention follow-up](LATER_HEAD_UNLABELED_INTERVENTION_RESULTS.md)
+tests exactly this next step on two independently generated, disjoint
+800-pair panels spanning ten edit types. At the same fixed rank-4 head
+cuts, raw edit-response PCA and edit L1 recover bracket and agreement
+axes from input edits without answer labels; independently fitted axes
+nearly coincide and one-axis finite patches reproduce the rank-4 path
+within about 1.5–3% on new prompts. Removing the matching edit type
+substantially degrades path fidelity. The top-decile edit-response cluster
+also gives input-side candidate labels, but full-head response norm is
+nearly as informative and the heads were preselected with task knowledge.
+This establishes a useful answer-free *intervention prior* under covered
+edit types, not genuine discovery of a novel task. A rare-edit prevalence
+sweep shows that a small explicit coverage floor can be decisive; increasing
+sample count alone cannot recover an edit type assigned zero mass.
+A genuinely blind next pass should scan many heads/layers, compare with
+head-norm controls, and reserve task-family labels for downstream validation.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
