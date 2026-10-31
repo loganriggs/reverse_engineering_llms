@@ -29,7 +29,8 @@ def head_state(model, probe, ids, layer, head):
     return probe.last_input[0,-1,start:start+probe.head_dim].clone()
 
 
-def run():
+def run(basis_filename='output_aware_head_fit_bases.npz', methods=METHODS,
+        output_filename='output_aware_head_eval.json', check_old=True):
     torch.set_num_threads(4)
     rng=np.random.default_rng(SEED)
     config=json.loads((SNAPSHOT/'config.json').read_text())
@@ -42,8 +43,8 @@ def run():
     model.requires_grad_(False)
     probes={layer:HeadCut(model.transformer.h[layer].attn)
             for layer in sorted({layer for layer,_ in TARGETS.values()})}
-    bases=np.load(ART/'output_aware_head_fit_bases.npz')
-    old=json.loads((ART/'later_head_rank4_kl_scale.json').read_text())
+    bases=np.load(ART/basis_filename)
+    old=json.loads((ART/'later_head_rank4_kl_scale.json').read_text()) if check_old else None
     records=[]
     with torch.no_grad():
         for length,count in PANELS:
@@ -55,7 +56,7 @@ def run():
                 native_probs=native_log.exp()
                 for target,(layer,head) in TARGETS.items():
                     probe=probes[layer];probe.head=head
-                    for method in METHODS:
+                    for method in methods:
                         basis=bases[f'{target}__{method}']
                         assert np.linalg.norm(basis.T@basis-np.eye(4))<1e-10
                         probe.basis=torch.tensor(basis.copy(),dtype=torch.float32)
@@ -66,7 +67,7 @@ def run():
                         record=dict(target=target,corpus=corpus_name,length=length,count=count,
                             method=method,kl=kl.tolist(),mean_kl=float(kl.mean()),
                             top1_flips=flips.astype(int).tolist(),flip_count=int(flips.sum()))
-                        if method in ('weight','corpus_256'):
+                        if check_old and method in ('weight','corpus_256'):
                             previous=next(r for r in old['records'] if
                                 r['target']==target and r['corpus']==corpus_name and
                                 r['length']==length and
@@ -110,7 +111,7 @@ def run():
                 native_path=margin(model,before,a,b)-native_base
                 probe.injection=None
                 effects={};task_margins={}
-                for method in METHODS:
+                for method in methods:
                     basis=torch.tensor(bases[f'{target}__{method}'].copy(),dtype=torch.float32)
                     probe.basis=basis
                     baseline=margin(model,before,a,b)
@@ -130,7 +131,7 @@ def run():
             subset=[x for x in edit_rows if x['target']==target and
                     (panel=='all' or x['panel']==panel)]
             norm=np.mean([abs(x['native_head_path']) for x in subset])
-            for method in METHODS:
+            for method in methods:
                 edit_summary.append(dict(target=target,panel=panel,method=method,
                     count=len(subset),mean_abs_native_head_path=float(norm),
                     relative_mae_vs_native=float(np.mean([
@@ -138,10 +139,10 @@ def run():
                         for x in subset])/norm),
                     both_forced_choice_correct=sum(x['task_margins'][method]['base']>0
                         and x['task_margins'][method]['edited']<0 for x in subset)))
-    result=dict(description='Frozen 256-context and newly fitted 2048-context rank-four later-head cuts on the same 576-context-per-head natural KL panel as rank4_kl_scale, plus competent bracket/agreement finite head paths',
-        fit_source='output_aware_head_fit_bases.npz',natural_test_seed=SEED,
-        methods=METHODS,kl_records=records,edit_rows=edit_rows,edit_summary=edit_summary)
-    (ART/'output_aware_head_eval.json').write_text(json.dumps(result,indent=2)+'\n')
+    result=dict(description='Rank-four later-head cuts on the same 576-context-per-head natural KL panel as rank4_kl_scale, plus competent bracket/agreement finite head paths',
+        fit_source=basis_filename,natural_test_seed=SEED,
+        methods=methods,kl_records=records,edit_rows=edit_rows,edit_summary=edit_summary)
+    (ART/output_filename).write_text(json.dumps(result,indent=2)+'\n')
     for item in edit_summary:
         if item['panel']=='all':print('path',item,flush=True)
 

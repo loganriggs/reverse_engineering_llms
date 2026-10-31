@@ -526,6 +526,20 @@ weight-only. Agreement's KL gain is unresolved and path loss rises from
 dataset-aware output fidelity and targeted mechanistic fidelity cannot
 be conflated. The next discriminator is a predeclared mixture of natural
 output and edit-response moments with both KL and finite-path gates.
+The [joint moment frontier](JOINT_HEAD_MOMENT_FRONTIER_RESULTS.md) now
+executes that discriminator at rank four. A predeclared seven-point
+natural-output/edit-response mixture yields a bracket λ=.1 cut with
+equal-panel next-token KL 0.000810, below weight-only's 0.000977,
+while matching the native head edit path within 2.05% versus weight's
+2.29%; paired KL interval is entirely favorable, while the small path
+difference is uncertain. A new 24-expression, six-token-identity
+confirmation retains 2.10% path error versus 2.83% for weight and
+64.57% for natural-only. Agreement does not show the same improvement:
+the best mixed edit path is 8.05% versus weight-only's 5.16%, and its
+KL ranking remains unresolved. The useful compromise is therefore
+head/task-specific. The next stage is to compare sparse, grouped, and
+intervention legibility priors *within the faithful joint bracket cut*,
+keeping the cut and its KL/path gates fixed.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.
