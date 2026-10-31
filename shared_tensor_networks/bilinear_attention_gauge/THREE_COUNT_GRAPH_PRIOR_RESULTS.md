@@ -45,6 +45,26 @@ four-output task accuracy or a physical internal-node intervention. The
 uniform and frequency cuts are distinct reduced functions; compare gauges
 within a cut, not raw numbers between cuts.
 
+The downstream task check uses the same 30,000-sentence independent test
+and whole-combination holdout as the original scratch analysis. It deletes
+the fit-selected node from parity while retaining the reduced A/B/C logits:
+
+| Reduction and gauge | Full-test parity accuracy | Rare-holdout parity accuracy | Full-test four-output accuracy |
+|---|---:|---:|---:|
+| Uniform, unpruned rank 2 | .733 | .158 | .578 |
+| Uniform, key L1 then prune | .710 | .182 | .563 |
+| Uniform, graph prior then prune | **.728** | .175 | **.571** |
+| Frequency, unpruned rank 2 | .661 | .734 | .523 |
+| Frequency, key L1 then prune | .660 | .747 | .530 |
+| Frequency, graph prior then prune | **.667** | .733 | .528 |
+
+The graph-pruned parity is close to its unpruned rank-two function, especially
+under the frequency cut. It does **not** rescue the poor rank-two four-output
+accuracy. On the uniform cut, rare four-output accuracy remains .100 under
+all these gauges because the three ordinary bits already fail there. This
+separates economical representation of a reduced function from selecting a
+reduction that preserves the actual task.
+
 The prior has an observable cost: at `τ=.1, λ=1`, uniform-cut alignment falls
 to .909 while deletion MSE improves to .019. At small `λ=.1`, it behaves
 almost like pure key sparsity. The `λ=.3` point above was identified within
@@ -54,10 +74,10 @@ trained toys*, but does not identify the physical computation graph:
 functionally equivalent circuits remain possible.
 
 Next: select `τ,λ` using development toy seeds, test on wholly unseen toy
-mechanisms and architectures, and score post-pruning task accuracy and
-interventions. Then transfer the same fixed objective to the first-layer
+mechanisms and architectures, and score interventions. Then transfer the same fixed objective to the first-layer
 all-head 546M cut, where no A/B/C oracle is available and full-context
 effects determine whether the components are useful.
 
-Reproduce with `three_count_graph_prior.py`; per-seed and full-sweep values
-are in `three_count_graph_prior.json`.
+Reproduce with `three_count_graph_prior.py` and
+`three_count_graph_prior_task.py`; per-seed values and the full sweep are in
+`three_count_graph_prior.json` and `three_count_graph_prior_task.json`.
