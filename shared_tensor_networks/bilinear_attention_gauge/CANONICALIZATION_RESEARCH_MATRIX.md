@@ -368,6 +368,14 @@ one axis retains essentially all of that path. The punctuation clusters
 are selective input responses, not yet strong newly discovered circuits.
 This failure mode should be built into known-rule toys when comparing
 response sparsity with intervention and downstream priors.
+The [joint native patch](LAYER13_JOINT_PATCH_RESULTS.md) checks whether
+the two punctuation heads cancel: together they follow about 9% of the
+input edit's logit change, nearly the sum of their separate paths; all
+nine layer-13 heads follow about 12%. The weak path is not explained by
+mutual cancellation of heads 3 and 5 at this intervention dose. Stop
+single-head punctuation interpretation here unless a stronger frozen
+output prediction appears; use it as a negative control in the toy prior
+comparison.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
