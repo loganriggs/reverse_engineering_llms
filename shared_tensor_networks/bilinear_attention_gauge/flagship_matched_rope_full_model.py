@@ -52,7 +52,7 @@ class PositionAwareBondEdit(BondEdit):
 
 
 def run(n_docs=8, length=128, seeds=(23, 29), model_seeds=(41, 43, 47),
-        batch_size=4, threads=4, corpora=None):
+        batch_size=4, threads=4, corpora=None, factorial=False):
     torch.set_num_threads(threads)
     config = json.loads((SNAPSHOT / "config.json").read_text())
     config.pop("step", None)
@@ -64,11 +64,15 @@ def run(n_docs=8, length=128, seeds=(23, 29), model_seeds=(41, 43, 47),
     editor = PositionAwareBondEdit(model)
     cuts = {}
     for seed in model_seeds:
-        path = ART / f"head0_matched_rope_fit_n32768_s0_q128_k8192_seed{seed}.npz"
+        path = (ART / f"head0_rope_metric_factorial_seed{seed}.npz" if factorial
+                else ART / f"head0_matched_rope_fit_n32768_s0_q128_k8192_seed{seed}.npz")
         arrays = np.load(path)
-        for geometry in ("post", "pre"):
-            cuts[f"seed{seed}/{geometry}"] = (
-                geometry, arrays[f"wtg_joint__{geometry}"])
+        priors = ("uniform", "mixed", "corpus") if factorial else ("wtg_joint",)
+        for prior in priors:
+            for geometry in ("post", "pre"):
+                name = (f"seed{seed}/{prior}/{geometry}" if factorial else
+                        f"seed{seed}/{geometry}")
+                cuts[name] = (geometry, arrays[f"{prior}__{geometry}"])
     datasets = {"fineweb_test": (CORPUS, 17500, 20000),
                 **{name: (path, 0, 1200) for name, path in DATASETS.items()}}
     if corpora is not None:
@@ -128,12 +132,14 @@ def run(n_docs=8, length=128, seeds=(23, 29), model_seeds=(41, 43, 47),
                 print(corpus_name, sample_seed, flush=True)
     result = dict(layer=0, head=0, rank=96, length=length,
         n_docs_per_seed=n_docs, sample_seeds=list(seeds),
-        model_seeds=list(model_seeds), batch_size=batch_size,
+        model_seeds=list(model_seeds), batch_size=batch_size,factorial=factorial,
         identity_pre_cut_max_abs_logit=identity_gates,
         fineweb_test_documents=[17500, 20000],
         scope="full 18-layer model; rank-96 QK1 cut on layer-0 head-0; original-to-edited KL and CE",
         records=records)
     suffix = f"_n{n_docs}_s{'-'.join(map(str, seeds))}"
+    if factorial:
+        suffix += "_factorial"
     if corpora is not None:
         suffix += "_" + "-".join(corpora)
     (ART / f"head0_matched_rope_full_model{suffix}.json").write_text(
@@ -150,7 +156,8 @@ if __name__ == "__main__":
     p.add_argument("--batch-size", type=int, default=4)
     p.add_argument("--threads", type=int, default=4)
     p.add_argument("--corpora", nargs="+", default=None)
+    p.add_argument("--factorial",action="store_true")
     a = p.parse_args()
     run(a.n_docs, a.length, tuple(a.seeds), tuple(a.model_seeds),
         a.batch_size, a.threads,
-        None if a.corpora is None else tuple(a.corpora))
+        None if a.corpora is None else tuple(a.corpora),a.factorial)

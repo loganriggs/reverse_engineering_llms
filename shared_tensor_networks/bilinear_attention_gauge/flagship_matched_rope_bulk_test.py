@@ -36,12 +36,17 @@ def evaluate(state,law,n_pairs,seed,cuts):
         for split,mask in (("all",np.ones(n_pairs,dtype=bool)),
                            ("allowed_gaps",~np.isin(gap,HELDOUT_GAPS)),
                            ("heldout_gaps",np.isin(gap,HELDOUT_GAPS))):
-            for model_seed,geometry,matrix in cuts:
+            for item in cuts:
+                if len(item)==3:
+                    model_seed,geometry,matrix=item
+                    prior="mixed"
+                else:
+                    model_seed,prior,geometry,matrix=item
                 features=(u,v) if geometry=="post" else (pu,pv)
                 env=SampledBondEnvironment(
                     features[0][mask],features[1][mask],w[mask])
                 records.append(dict(law=law,branch=branch,split=split,
-                    model_seed=model_seed,geometry=geometry,
+                    model_seed=model_seed,prior=prior,geometry=geometry,
                     n_pairs=int(mask.sum()),relative_pair_mse=env.relative_error(matrix)))
     return records,gate
 
