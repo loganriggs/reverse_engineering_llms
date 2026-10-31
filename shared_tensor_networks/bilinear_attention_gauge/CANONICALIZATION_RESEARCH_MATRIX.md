@@ -263,6 +263,15 @@ that competent task labels and transferable gradient selectivity still do
 not establish causal use of first-layer QK1 keys. Continue to compare
 weight-only, data-aware, and causal priors at matched rank/fidelity only
 after such a path-specific behavior gate passes.
+The [later-layer attention-locus scan](LATER_LAYER_ATTENTION_LOCUS_RESULTS.md)
+now passes a **path-sufficiency** gate on these competent tasks: full
+attention-output patches at layers 11 or 13 have large margin effects, and
+frozen single-head selections survive 21 new token-swap pairs. The effect
+is almost entirely at the final prompt position. This redirects the next
+matched canonicalization comparison to later-layer 64-dimensional head
+outputs, with native-model finite interventions and whole-task holdouts.
+Head-output sufficiency does not yet prove necessity, source computation, or
+a human-readable component; these remain separate validation gates.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
