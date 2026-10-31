@@ -1,5 +1,9 @@
 # A task-faithful canonical gauge exposes reusable product structure
 
+**Physical-edit follow-up:** [separate QK-branch tests](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md)
+show that the task-faithful rank-three reduction does not preserve the
+branch counterfactuals; this is independent of the exact gauge.
+
 **Dense-token red team:** [overlapping A/B/C token attributes](DENSE_CODED_SHARED_PAIR_RESULTS.md)
 show that key-entry sparsity is coding-dependent. A condition-wise
 product prior and a constructive joint-nullspace gauge recover the

@@ -133,6 +133,11 @@ constructive joint-nullspace gauge recover the reusable graph and retain
 the rare holdout after three-node pruning. This isolates a stronger
 functional prior than token sparsity, but still does not identify the
 physical attention implementation. The
+[branch-intervention control](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) shows
+why: the task-faithful rank-three space predicts constant-one QK1/QK2
+edits poorly in both token codings. Joint fitting to ordinary and edited
+tables needs more key directions, and exact gauge rotations cannot
+recover directions omitted by the ordinary reduction. The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.
@@ -143,8 +148,14 @@ coordinates and label enrichment can disagree. The
 small, reproducible punctuation-edit effect for one selected component;
 whether its proposed query/key direction generalizes is a separate test.
 
-The immediate experiment is a held-out four-cell query/key form factorial for
-two opposite-labelled components. Its selected-pair and full-model
-key-edit-response readouts must be reported separately. If they disagree,
-the next legibility target should be a named task or a full-context response
-signature, rather than another pair-form sparsity proxy.
+The toy work has reached its immediate stopping criterion: a function-level
+canonical graph survives a dense-token red team and task-faithful pruning,
+while [small QK-branch doses](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) expose
+causal directions outside that semantic subspace. The next experiment should
+move to the 546M model: measure ordinary and small-dose QK-branch response
+subspaces for the first layer, then evaluate context-level logit responses
+on disjoint corpora and held-out edit families. Compare weight-only,
+natural-data, and branch-preserving reductions at matched rank before
+optimizing condition-wise legibility. The earlier query/key-form factorial
+already rejected pair-level directional labels, so selected-pair and
+full-model readouts must remain separate.

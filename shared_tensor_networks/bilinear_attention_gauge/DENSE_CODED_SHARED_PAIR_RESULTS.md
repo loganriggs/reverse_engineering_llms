@@ -1,5 +1,10 @@
 # Dense token coding separates useful computation priors from token sparsity
 
+**Physical-edit follow-up:** [QK-branch interventions](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md)
+show that the ordinary rank-three semantic function space is not a
+faithful description of internal branch counterfactuals, regardless of
+which exact gauge is chosen within it.
+
 The [paired-token shared-product toy](SHARED_PAIR_CANONICAL_RESULTS.md)
 recovered three variables with key-entry L1, but its token code made each
 variable a sparse pair contrast. We kept the same three-head bilinear
