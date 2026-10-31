@@ -158,6 +158,15 @@ TinyStories, but only about half the axes match closely across independent
 starts. Coarse key-token-form enrichment is mixed and raw energy scores
 are tail-dominated, so this remains a sparse downstream coordinate prior,
 not a canonical or selectively causal mechanism.
+The [finite full-context-axis tests](FULL_CONTEXT_FINITE_AXIS_RESULTS.md)
+select two stable punctuation-associated axes from FineWeb training gradients.
+Natural-key deletions are position-confounded; a fresh same-position
+punctuation-versus-word substitution shows strong full-vocabulary
+punctuation selectivity for one axis across three corpora, but its
+next-token-target effect is less consistent. An older pair-response axis is
+at least as selective after a partial training-energy-matched deletion.
+This establishes a narrow finite association in the reduced model, not
+that the full-context sparsity prior recovers a superior or unique mechanism.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -174,9 +183,12 @@ canonical graph survives a dense-token red team and task-faithful pruning,
 while [small QK-branch doses](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) expose
 causal directions outside that semantic subspace. The matched-rank 546M
 QK2-response test is now complete for two edit families, one held out from
-branch-aware fitting. The first full-context gradient gauge is also complete;
-its axes require **finite, held-out causal tests and cross-fit matching**.
-The next experiment should define full-context causal response signatures
+branch-aware fitting. The first full-context gradient gauge and matched
+finite-axis tests are also complete. The gradient prior passes a narrow
+punctuation response test but does not beat the prior pair-response gauge.
+The next experiment should target held-out **token IDs and named behavior**,
+then trace how earlier-position QK1-key effects reach final outputs. A
+separate branch-level experiment can define causal response signatures
 across multiple edit families and corpora, including QK1 or two-branch
 perturbations, and optimize
 condition-wise legibility only after reduction fidelity is gated on

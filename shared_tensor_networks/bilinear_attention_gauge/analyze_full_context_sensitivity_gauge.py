@@ -76,6 +76,7 @@ def run(stem,bootstrap=10000,extra_starts=2):
         methods=list(METHODS),corpora=corpora,axis_matches=matches,
         caveat='sensitivity sparsity is not semantic identification; energy-weighted label enrichment is tail-sensitive')
     (ART/f'{stem}_analysis.json').write_text(json.dumps(output,indent=2)+'\n')
+    np.savez_compressed(ART/f'{stem}_independent_starts.npz',**starts)
     return output
 
 
