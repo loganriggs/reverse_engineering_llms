@@ -359,6 +359,15 @@ clusters. Axis clustering sometimes improves over full-head norm and
 sometimes does not. These are input-side candidate variables only; the
 next gate is frozen output predictions and finite patches on disjoint
 contexts before claiming a newly found behavioral mechanism.
+The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
+finds only a small output path: complete head-13/3 and 13/5 patches follow
+roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,
+and their leading axes follow about 3% and 2%. In contrast, the known
+bracket head 13/8 follows about 31% of bracket-edit logit change and its
+one axis retains essentially all of that path. The punctuation clusters
+are selective input responses, not yet strong newly discovered circuits.
+This failure mode should be built into known-rule toys when comparing
+response sparsity with intervention and downstream priors.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
