@@ -198,6 +198,17 @@ task-response geometry as a prior. Fresh finite-axis edits on eight held-out
 outputs preserve its sparsity advantage at .05 and .25 of a matched axis dose,
 but lose it at full deletion. The gradient prior is local; physical head
 identity and 546M transfer remain untested.
+The [finite-fit and token-edit continuation](DIVERSE_TASK_CANONICAL_RESULTS.md#unseen-token-replacements)
+shows why the edit distribution matters. Fitting finite coordinate-deletion
+sparsity or activation-weighted gradients improves those deletion objectives
+but no longer recovers the known variables. On a separate discrete-token family
+of 24 directed one-attribute token replacements, the unweighted XOR-response
+gauge instead predicts eight held-out output changes using one axis with
+.00008 mean normalized error, versus .166 for SVD and .440 for key L1;
+all 120 seed–pair cases are below 1% error. The full rank-three cut has
+.00030 native edit-response error. This is strong toy-level evidence for a
+task-supervised functional variable, not physical head identity or 546M
+transfer.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -222,9 +233,8 @@ punctuation-axis detour has reached its stopping point: neither gauge
 produced a stable broad output rule. The first diverse explicit-task toy
 comparison is complete: eleven competent outputs, five whole-task reduction
 holdouts, dense-token red teaming, and exact rank-three gauge priors. Its
-next discriminator is finite-intervention fitting at declared doses,
-holdout-dose tests, real token edits, and transfer to task families beyond
-three count bits. For the
+next discriminator is transfer to task families beyond three count bits and
+a matched-fidelity, held-edit version on the 546M model. For the
 546M model, compare weight-only, data-aware, and causal priors at matched
 rank/fidelity on multiple explicit task families with whole-task holdouts.
 A concrete position-to-position path hypothesis could separately

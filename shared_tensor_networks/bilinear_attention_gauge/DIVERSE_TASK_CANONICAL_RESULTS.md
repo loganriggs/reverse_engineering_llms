@@ -165,8 +165,62 @@ on average than either baseline. The large edit strongly changes the input
 to the frozen nonlinear readout; a derivative-based prior is therefore local.
 These are interventions **inside the reduced toy function**, not a test that
 the original physical attention heads admit the same independent edits.
-The next test should fit finite-response objectives at declared doses and
-challenge them with unseen doses and real token edits.
+We next fitted a finite-response objective at dose .25, with 600 fit and 600
+validation contexts per seed, using only XOR outputs. An activation-weighted
+derivative control fitted the local response to naturally active coordinates.
+Their results reveal that these are genuinely different notions of sparsity:
+
+| Gauge, dense XOR fit | Known-variable cosine | Held-output finite L1/L2 at .05 | At .25 | At 1.0 |
+|---|---:|---:|---:|---:|
+| SVD | .884 | 109.56 | 114.38 | 162.04 |
+| Key L1 | .700 | 123.69 | 129.76 | 162.92 |
+| Unweighted response-gradient L1 | 1.000 | 83.17 | 85.31 | 164.70 |
+| Finite XOR-response L1 at .25 | .843 | 105.68 | 111.42 | 162.10 |
+| Activation-weighted gradient L1 | .808 | 99.63 | 105.67 | 154.69 |
+
+The finite fit improves the *training XOR finite-sparsity objective* over
+SVD, but sacrifices variable recovery and held-output sparsity relative to
+the unweighted gradient gauge. The activation-weighted derivative fits
+finite deletions better and has the lowest full-dose held-output sparsity,
+yet also loses variable alignment. Coordinate sensitivity, natural-amplitude
+deletion, and variable recovery are distinct priors; selecting one score
+after seeing a test result would erase that distinction.
+
+## Unseen token replacements
+
+We then tested an edit family absent from all gauge fits: replace one of the
+eight dense-coded key tokens with a token differing in exactly one attribute.
+There are 24 directed replacements, each evaluated on 200 fresh contexts in
+each of five seeds. For every gauge and edit, choose the **single** coordinate
+with the largest predicted bit-logit change from the frozen reduced table;
+this choice uses no task labels. Propagate that one-coordinate edit through
+the frozen nonlinear readout and compare the eight held-out output changes
+with the full rank-three cut. The error below is normalized by the native
+model's held-output edit-effect energy.
+
+| Gauge | Mean single-axis error | Largest error among 120 seed–pair cases |
+|---|---:|---:|
+| SVD | .16646 | .62743 |
+| Key L1 | .44004 | .66194 |
+| Unweighted XOR-response L1 | **.00008** | **.00055** |
+| Finite XOR-response L1 | .25454 | .64851 |
+| Activation-weighted gradient L1 | .32049 | .65153 |
+
+The full rank-three cut itself predicts the native edit response with .00030
+relative error, and direct model forwards agree with the exact native token
+table to 3.6e-14. The unweighted response gauge has <1% single-axis error in
+all 120 seed–pair cases. This is a concrete transfer from three supervised
+XOR outputs to eight held-out outputs and unseen discrete-token edits.
+About 90.1% of edited examples remain inside the generator's nonzero-contrast
+training support; restricting to those examples leaves the XOR-response
+single-axis error at .00008, versus .151 for SVD and .418 for key L1.
+It is not evidence that the learned physical heads are individually causal
+variables, or that a comparable axis exists in a large language model.
+
+The next substantive test is task-family transfer beyond three count bits,
+then a matched-fidelity version on the 546M model with frozen label selection
+and held-out edit families. It should report exact reduced-function fidelity,
+top-component edit-response error, and downstream KL separately.
 
 ## Reproduction
 
@@ -176,6 +230,8 @@ Run `diverse_task_benchmark.py --seed 0` (repeat seeds 0–4), then
 The benchmark saves selected checkpoints, scores, and cut matrices in
 `diverse_task_benchmark*_seed*.pt/.json`; the gauge script saves dictionaries
 and per-seed scores in `diverse_task_gauge*.json`. Run `diverse_task_finite.py`
-for the fresh finite-axis check. All use CPU only. The
+for the fresh finite-axis check, `diverse_task_finite_fit.py` for the two
+deletion priors, and `diverse_task_token_edits.py` for real token replacements.
+All use CPU only. The
 native-table equality, rank constraints, and exact-gauge equality are
 asserted in code.
