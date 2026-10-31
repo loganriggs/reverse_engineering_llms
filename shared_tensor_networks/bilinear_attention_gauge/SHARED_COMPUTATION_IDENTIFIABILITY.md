@@ -49,3 +49,15 @@ The recovery test instead selects the graph by squared error on \(n\) noisy **ze
 The held-out half-patch prediction error also falls as selection improves; the JSON records its MSE and the alternative graph's MSE for every cell. This is a controlled **information-gain** example: targeted internal data can resolve a distinction that arbitrarily large external data cannot. It is not a trained attention-graph discovery result. QK/OV factors and the two candidate graph families are supplied, the intervention address is known, and the equal-detector condition is exact by construction. A realistic recovery test must infer candidate components and show that a small number of interventions generalizes across additional targets and tasks.
 
 Reproduce on CPU with `shared_computation_identifiability.py --seed 0` through `--seed 4`, followed by `intervention_graph_selection.py --trials 1000`. No GPU is used.
+
+The [active-intervention follow-up](ACTIVE_GRAPH_INTERVENTION_RESULTS.md)
+chooses zero-patch input pairs by the two candidate graphs' predicted
+Gaussian measurement KL before seeing internal labels. It compares the
+same candidate pool against random, high-input-norm, and high-unpatched-
+activity choices, then tests a held-out half-strength patch under
+covariance shift. A single active patch identifies the graph more
+reliably than the controls across both teachers, three noise levels,
+and 64/512-pair pools. The advantage shrinks as both strategies receive
+more patches. This demonstrates *which internal observation to request*
+in a known candidate-graph problem; it does not infer graph candidates
+or physical nodes from a trained LLM.
