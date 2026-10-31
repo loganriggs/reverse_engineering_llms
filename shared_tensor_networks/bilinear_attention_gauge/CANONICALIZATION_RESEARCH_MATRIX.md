@@ -220,6 +220,17 @@ task after two-node pruning. Seven edits already retain the task in every
 fit but leave some variable axes unstable. Because the edit graph is
 connected and all tokens are seen, this tests orientation transfer to
 withheld edges, not prediction of unseen-token effects.
+The [finite-input-edit transfer](THREE_COUNT_FINITE_EDIT_TRANSFER_RESULTS.md)
+then evaluates 51,200 actual before/after substitutions in the trained
+models on fresh ordinary and higher-count contexts. The exact token table
+passes a direct-logit check below `2.1e-12`; rank-three function edits have
+relative MSE around `.0004`–`.0011`. A gauge fitted without the bit-flip
+edges assigns roughly `99.95%` of the A/B/C finite-effect attribution to
+the matched component and predicts the full edit better than SVD axes.
+Training-frequency reduction favors common-query edit fidelity while
+uniform weighting better preserves the rare whole-combination slice.
+These are input interventions and surrogate-coordinate attributions,
+not physical head or neuron patches.
 The
 [branch-intervention control](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) shows
 why: the task-faithful rank-three space predicts constant-one QK1/QK2
