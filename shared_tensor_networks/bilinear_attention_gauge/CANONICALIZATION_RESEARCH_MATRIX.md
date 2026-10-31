@@ -819,3 +819,14 @@ ten unseen-family edit responses more, and refitted varimax axes have
 only .443 mean absolute cosine agreement with independent-panel axes,
 close to PCA's .422. Exact gauge sparsity and type selectivity are
 therefore not enough to name stable reusable components.
+The [finite top-k axis-pruning red team](RANK96_CAUSAL_AXIS_PRUNING_RESULTS.md)
+uses those same exact gauges to patch only the strongest 8, 16, or 32
+output-isometric axes of independent edit responses into the full model.
+At 16 axes, pooled-edit PCA beats edit varimax in final-logit path
+error on familiar edits (.211 vs .241) and ten unseen-family edits
+(.285 vs .316), with nine of ten unseen family means favoring PCA.
+The earlier inverse-Simpson sparsity and type-purity gains do not
+translate into better causal top-k compression. Stop treating this
+varimax prior as evidence of interpretable reusable components; the
+next meaningful comparison is group-level, answer-level, and
+matched-dose rather than another single-axis sparsity score.

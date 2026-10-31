@@ -6,18 +6,18 @@ fixed and changes only its coordinates. It therefore separates the
 stage-one question, *which head-state directions survive?*, from the
 stage-two question, *which axes make the surviving function legible?*
 
-Let (U\in\mathbb{R}^{128\times96}) be the frozen orthonormal cut, (W)
-the head's learned `c_proj` block, and (G=U^\top W^\top WU). Define
+Let $U\in\mathbb{R}^{128\times96}$ be the frozen orthonormal cut, $W$
+the head's learned `c_proj` block, and $G=U^\top W^\top WU$. Define
 
-\[
+$$
 A(x)=xU G^{1/2},\qquad D=WU G^{-1/2}.
-\]
+$$
 
-Then (D^\top D=I) and the reduced immediate output is
-(A(x)D^\top=xUU^\top W^\top). For **any orthogonal** 96×96 rotation
-(R), ((A(x)R)(DR)^\top=A(x)D^\top). The output-isometric coordinates
+Then $D^\top D=I$ and the reduced immediate output is
+$A(x)D^\top=xUU^\top W^\top$. For **any orthogonal** 96×96 rotation
+$R$, $(A(x)R)(DR)^\top=A(x)D^\top$. The output-isometric coordinates
 make each decoder axis have unit immediate-output norm. The measured
-relative reconstruction error for every gauge was about (10^{-15})
+relative reconstruction error for every gauge was about $10^{-15}$
 on held-out native edit responses; the script also verifies the formula
 against direct `c_proj` projection. Thus all prior stage-one final-logit
 path and KL results are exactly shared by these gauges.
@@ -54,7 +54,7 @@ metric. The type-signature gauge is explicitly supervised by the ten
 designed family labels, though it uses no answer labels.
 
 The priors disagree even though the reduced function is identical.
-Weight varimax makes (D) about 5% sparser by mean absolute entry than
+Weight varimax makes $D$ about 5% sparser by mean absolute entry than
 random controls, but spreads familiar edit effects across roughly twice
 as many axes as edit varimax. Edit varimax sharply concentrates familiar
 edits and improves familiar type purity, yet PCA concentrates the
