@@ -35,6 +35,19 @@ The key-L1 basis reaches at least **.9965** alignment in every seed; its key L1 
 
 Expanding the original bilinear MLP in the two sparse coordinates gives a direct compositional check. For each query and seed, the absolute coefficient of the XOR cross monomial \(z_Az_B\) exceeds the sum of the absolute two square coefficients by a factor **3.32–49.82**. Keeping only the learned signed cross monomial (zero threshold, no refit) predicts XOR with **100%** accuracy on a further independent 30,000 variable-count sentences per seed, including the rare combination. The full XOR logit also has linear, square, and constant terms; the cross-only diagnostic establishes a sufficient rule on this test distribution, not a globally exact symbolic identity on all real counts. Seed 4 illustrates the distinction sharply: its XOR cross-term generalizes while its rare A/B output ordering fails.
 
+## Physical-branch red team
+
+The ordinary semantic two-dimensional key space is not a complete explanation of the physical attention circuit. Replacing the QK1 or QK2 score with the constant 1 defines two branch interventions; doing both is a third, held-out combination. The following are ten-seed mean relative table MSEs of head-preserving key-space projections. The logit column passes projected heads through the original bilinear MLP and reports relative squared deviation from the corresponding *intervened* model's logits on 20,000 independent test sentences per seed.
+
+| Key-space fit | Rank | Original table | QK1 constant | QK2 constant | Both constant | Both-constant logit MSE |
+|---|---:|---:|---:|---:|---:|---:|
+| Ordinary function only | 2 | .0013 | .4945 | .5016 | .5461 | .8464 |
+| Original + both single edits | 4 | .0009 | .0031 | .0035 | .0627 | .0747 |
+| Original + both single edits | 5 | .0002 | .0007 | .0005 | .0395 | .0427 |
+| All four conditions | 5 | .0009 | .0016 | .0021 | .0014 | .0031 |
+
+Every fit uses exact weight-derived tables, no task labels, and no sampled inputs. Each fitted condition is normalized before stacking so its total scale does not dominate. The double edit is absent from the first three fits. Thus the nonlinear output does not rescue an ordinary-function dictionary from unseen branch interventions. The extra dimensions describe the specified counterfactual family; they do not prove the learned axes are physical nodes. The double-edit failure of the single-edit fit also cautions against treating individual branch coverage as compositional coverage.
+
 This extends the earlier additive toy in a useful way: the weight-only sparse function basis reveals two reusable count variables, and the downstream bilinear MLP combines them to compute a third, nonlinear rule. It remains a small synthetic task with designed token families and a simple first-layer count table. It does not show that key L1 is the right prior for natural language or for the 546M model, nor that function-level axes identify physical QK branches. The next discriminating test is a natural-language one/two-layer model or the existing 546M head with matched weight-only/data-aware reductions, then predeclared component labels and held-out downstream/branch interventions. Keep ordinary-function fidelity, task prediction, and physical-intervention fidelity separate.
 
-Reproduction: `train_xor_count_language.py` creates the ten checkpoints and training histories; `analyze_xor_count_language.py`, `xor_count_metric.py`, `xor_count_sparse.py`, `xor_count_prior_grid.py`, and `xor_count_polynomial.py` create their matching JSON records. All scripts run on CPU with PyTorch, NumPy, and SciPy.
+Reproduction: `train_xor_count_language.py` creates the ten checkpoints and training histories; `analyze_xor_count_language.py`, `xor_count_metric.py`, `xor_count_sparse.py`, `xor_count_prior_grid.py`, `xor_count_polynomial.py`, and `xor_count_intervention.py` create their matching JSON records. All scripts run on CPU with PyTorch, NumPy, and SciPy.

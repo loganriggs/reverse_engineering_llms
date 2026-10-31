@@ -10,7 +10,7 @@ import torch
 from analyze_xor_count_language import (attention_from_table,attention_table,
     downstream,flatten,unflatten)
 from dual_intervention_sparse_basis import sparse_rotation
-from dual_joint_function_canonical import HERE,TRUTH,matched_cosines
+from dual_joint_function_canonical import HERE,matched_cosines
 from train_xor_count_language import XorCountAttention,examples
 
 
