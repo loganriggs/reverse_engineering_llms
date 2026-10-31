@@ -111,7 +111,11 @@ judged on all three, with held-out labels excluded from model selection.
 Follow-up: `DUAL_GROUP_PRIOR_RESULTS.md` tests family and query-conditional
 family priors with bit-flip, query-switch, key-family removal, and QK2
 interventions, plus the held-out sequence combination. No tested prior rescues
-the difficult held-out rule. A
+the difficult held-out rule under the per-head rank-one QK1 constraint. A
+[joint-function follow-up](JOINT_FUNCTION_TOY_RESULTS.md) changes the
+canonical object to the summed effective token table: rank two preserves the
+rare rule in all ten seeds, and a label-free sparse key basis separates A/B
+effects post-fit. This does not identify the model's physical head circuits. A
 full-width 546M uniform-versus-corpus metric comparison is reported in
 `FULL_WIDTH_FLAGSHIP_RESULTS.md`; human-legibility validation on that model
 remains outstanding.

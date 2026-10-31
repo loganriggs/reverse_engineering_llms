@@ -131,9 +131,13 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    two-head-ablation gate across ten seeds. Native, canonical, pair-response,
    and [family-group priors](DUAL_GROUP_PRIOR_RESULTS.md) have now been tested
    with held-out combinations and several interventions. None rescues the
-   difficult rare rule at rank one. The next test needs explicit reusable
-   components and a prediction of which component responds to which
-   intervention. Keep generator labels out of unsupervised fitting and
+   difficult rare rule at rank one on the physical QK1 bond. An
+   [exact joint-function analysis](JOINT_FUNCTION_TOY_RESULTS.md) instead
+   preserves it in all ten seeds with a rank-two shared key dictionary;
+   label-free key sparsity yields components whose post-fit bit-flip effects
+   are selective. The next test should ask whether this function-level
+   representation predicts physical interventions or transfers to richer
+   task grammars. Keep generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
    now proves that external function data alone cannot always identify

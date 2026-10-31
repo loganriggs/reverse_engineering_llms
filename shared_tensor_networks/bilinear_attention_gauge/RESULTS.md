@@ -18,6 +18,8 @@ Trained follow-up: [two-head toy-language reduction and red team](TRAINED_TOY_LA
 
 Stronger trained follow-up: [necessary two-head dual-output language](DUAL_OUTPUT_LANGUAGE_RESULTS.md). Ten seeds establish a real two-head dependency; rank-one reduction usually preserves the task, while a difficult seed separates uniform, data-aware, task, and intervention criteria.
 
+Joint function follow-up: [exact combined-table reduction and sparse key dictionary](JOINT_FUNCTION_TOY_RESULTS.md). On ten trained dual-output toy checkpoints, a rank-two reduction of the summed token function preserves the rare withheld rule in every seed, including the difficult seed that fails a same-raw-factor-count headwise reduction. A label-free sparse rotation of that function's key dictionary aligns with the two task bits and gives selective post-fit bit-flip effects. This is an interpretable **function-level** basis, not recovery of physical head computations.
+
 Legibility-prior follow-up: [key-family and query-conditional group penalties](DUAL_GROUP_PRIOR_RESULTS.md). The supplied token-family partition and a broader intervention panel do not rescue the hard held-out rule at rank one; group concentration is not itself a mechanistic success criterion.
 
 Identifiability control: [shared versus duplicated attention computation](SHARED_COMPUTATION_IDENTIFIABILITY.md). Two graphs have exactly the same external function, including input-edit responses, while one internal-node intervention distinguishes their reuse structure. Shortest-description structure is a prior, not proof of the implemented graph.
