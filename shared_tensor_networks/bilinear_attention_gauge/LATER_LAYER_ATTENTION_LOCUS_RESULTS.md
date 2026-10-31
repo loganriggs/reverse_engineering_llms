@@ -53,7 +53,7 @@ largest at its layer for every holdout family, and its effect has the native
 edit's sign on **all 21 pairs**. Almost all of that single-head effect is
 caused by transplanting its vector at the **final prompt position**; the
 earlier-position-only patch is small. This gives a precise representation to
-reduce and analyze: the 64-dimensional, final-position output of a selected
+reduce and analyze: the 128-dimensional, final-position output of a selected
 later-layer attention head before its output projection.
 
 ## Interpretation and next experiment
@@ -70,7 +70,7 @@ The small, templated forced-choice panels do not establish broad language
 generalization or human-readable features.
 
 The next canonicalization comparison should work on this later-layer
-64-dimensional head response, first at a fixed faithful function. Compare
+128-dimensional head response, first at a fixed faithful function. Compare
 weight-only directions from its output projection, broad corpus-variance
 directions, a mixed broad/rare metric, and task/intervention-aware response
 directions at matched rank. Separately test coordinate sparsity, edit-effect

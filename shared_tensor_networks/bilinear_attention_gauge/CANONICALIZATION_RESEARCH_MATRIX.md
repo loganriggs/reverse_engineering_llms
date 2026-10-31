@@ -268,10 +268,20 @@ now passes a **path-sufficiency** gate on these competent tasks: full
 attention-output patches at layers 11 or 13 have large margin effects, and
 frozen single-head selections survive 21 new token-swap pairs. The effect
 is almost entirely at the final prompt position. This redirects the next
-matched canonicalization comparison to later-layer 64-dimensional head
+matched canonicalization comparison to later-layer 128-dimensional head
 outputs, with native-model finite interventions and whole-task holdouts.
 Head-output sufficiency does not yet prove necessity, source computation, or
 a human-readable component; these remain separate validation gates.
+The first [later-head matched-rank metric comparison](LATER_HEAD_REDUCTION_METRIC_RESULTS.md)
+uses weight-only, natural-corpus, task-edit, mixed, and random rank-4/8/16
+orthogonal cuts on those 128-dimensional vectors. Weight or edit-informed
+rank-4 bases preserve the held-out bracket and agreement head-path effects;
+corpus PCA misses most of them. Capital and antonym remain poorly preserved
+even at rank 16. Forced-choice accuracy can stay perfect while a selected
+head path is lost, so subsequent legibility work must retain finite
+path-effect fidelity as a separate gate. The bracket and agreement heads are
+the immediate fixed-function gauge testbeds; their exact within-subspace
+rotations can compare sparsity objectives without changing the rank cut.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
