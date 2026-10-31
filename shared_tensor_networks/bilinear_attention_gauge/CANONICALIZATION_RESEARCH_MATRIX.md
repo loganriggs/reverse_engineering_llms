@@ -211,6 +211,15 @@ on this paired-token coding, so the result strengthens transfer across
 related tasks rather than establishing a universal advantage. Broader
 token codings, context-dependent tasks, and physical-branch tests remain
 necessary.
+The [edit-family holdout and coverage sweep](THREE_COUNT_EDIT_FAMILY_HOLDOUT_RESULTS.md)
+withholds all four direct within-pair bit flips from gauge fitting. Across
+ten trained three-variable models and five connected edit-graph orders,
+fourteen cross-pair swaps suffice for all 100 uniform/frequency fits to
+recover the variable axes above .999 cosine and preserve the full and rare
+task after two-node pruning. Seven edits already retain the task in every
+fit but leave some variable axes unstable. Because the edit graph is
+connected and all tokens are seen, this tests orientation transfer to
+withheld edges, not prediction of unseen-token effects.
 The
 [branch-intervention control](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) shows
 why: the task-faithful rank-three space predicts constant-one QK1/QK2
