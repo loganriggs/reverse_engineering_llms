@@ -3,6 +3,7 @@
 Current research design: [reduction metric × legibility-prior matrix](CANONICALIZATION_RESEARCH_MATRIX.md).
 Latest red team: [pair-level labels versus full-model directional key edits](ALL_HEAD_DIRECTIONAL_REVERSAL_RESULTS.md). The labelled cells separate in an isolated pair table, but the proposed full-context double dissociation reverses on 48 new windows. The next legibility target should use context-level edit responses or named task outcomes.
 Nonlinear toy follow-up: [rank-two metric tradeoff across ten trained attention checkpoints](THREE_COUNT_NONLINEAR_METRIC_RESULTS.md). Preserving an analytic bilinear readout raises full-test parity accuracy to .931 but loses a withheld rare combination entirely; a rank-three weight-only cut preserves both.
+Fixed-function legibility follow-up: [key sparsity versus context-edit sparsity](THREE_COUNT_NONLINEAR_GAUGE_RESULTS.md). Key sparsity recovers the designed A/B key directions (mean cosine .996) but exposes a real cross-axis parity interaction. Context-edit sparsity mixes those directions while making single-axis deletion effects more additive. This separates intervention sparsity from variable recovery.
 
 Rank-96 fidelity and causal panel: [full-vocabulary, natural full-model, and QK2-intervention comparisons](RANK96_METRIC_AND_CAUSAL_PANEL.md). A uniform weight-only QK1 cut best preserves natural next-token distributions across three corpora; a FineWeb-weighted cut better survives a strong QK2-constant edit. This is a measured objective tradeoff before the next legibility-prior sweep.
 

@@ -83,6 +83,13 @@ reconstruction budgets on a genuinely trained nonlinear toy, then validate
 selected components on held-out interventions before scaling the prior to
 the 546M model.
 
+An [exact-gauge follow-up](THREE_COUNT_NONLINEAR_GAUGE_RESULTS.md) now
+compares key sparsity with context-edit sparsity on these fixed rank-two
+functions. It finds that sparse keys can leave nearly all of the nonlinear
+edit response in a cross-axis interaction, while a context-edit gauge
+concentrates individual effects by mixing the clean A/B key directions that
+key sparsity recovers.
+
 The [plot](three_count_nonlinear_metric.png) shows individual seeds and
 means. Reproduce with `three_count_nonlinear_metric.py` and
 `three_count_nonlinear_plot.py`. Full matrices, validation traces, and
