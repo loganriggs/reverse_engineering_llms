@@ -830,3 +830,5 @@ translate into better causal top-k compression. Stop treating this
 varimax prior as evidence of interpretable reusable components; the
 next meaningful comparison is group-level, answer-level, and
 matched-dose rather than another single-axis sparsity score.
+
+The [paired construction-and-dose follow-up](PREROPE_AS_CONSTRUCTION_DOSE_RESULTS.md) tested the previously discovered first-layer QK1 `" as"` response group on 24 fresh sentences with two occurrences of tokenizer ID 355. Editing first versus second `" as"` had different effects on the same suffix at matched post-`c_proj` residual energy, but three Haar rank-ten controls showed the same pattern and comparable KL. Context-dependent lexical activation survives; a distinct grammatical causal channel does not. This meets the stopping rule for this single-lexeme branch. Return to multiple learned rules, whole-task holdouts, and matched-dose group interventions.

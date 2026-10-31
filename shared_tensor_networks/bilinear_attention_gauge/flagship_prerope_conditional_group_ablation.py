@@ -59,6 +59,9 @@ class KeyConditionalEdit:
         key_mask=self.key_mask.to(device=q.device).unsqueeze(1)
         delta=self.fraction*(((removed*score2)*key_mask).tril()@v[:,:,0,:])
         self.removed_head_energy=delta.square().sum(dim=(1,2)).cpu().numpy()
+        output_weight=self.attn.c_proj.weight[:,:d]
+        self.removed_head_output_energy=(delta@output_weight.T).square().sum(
+            dim=(1,2)).cpu().numpy()
         result=native.clone()
         result[:,0]=(score1*score2).tril()@v[:,:,0,:]-delta
         return result

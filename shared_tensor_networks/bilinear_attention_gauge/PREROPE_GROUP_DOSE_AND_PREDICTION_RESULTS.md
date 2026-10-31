@@ -65,3 +65,11 @@ occurrence at a time, stratify `" as"` by construction (comparison, role,
 coordination, etc.), and test those strata on new documents. Those labels
 must be used for validation or explicit supervised fitting, not described
 as unsupervised discoveries.
+
+The [construction-stratified matched-dose follow-up](PREROPE_AS_CONSTRUCTION_DOSE_RESULTS.md)
+has now performed a controlled version on fresh curated prompts. First
+versus second `" as"` effects survive matching post-`c_proj` residual
+energy within identical sentences, but three Haar rank-ten groups show
+the same pattern and bracket the discovered group's KL. This supports
+context-dependent lexical activation, not a distinctive grammatical
+causal channel; this single-lexeme branch is closed for now.
