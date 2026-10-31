@@ -189,6 +189,8 @@ Dense-coded weak-rule follow-up: [ten trained four-head attention models, reduct
 
 Shared-dictionary identifiability red team: [exact same-function output-specific and reusable-bit factorizations](DENSE_WEAK_GROUP_IDENTIFIABILITY_RESULTS.md). Both are four-atom, nonorthogonal dictionaries that reproduce the identical trained function. Pure sparse output-to-atom membership prefers eight output-specific links to eighteen reusable-bit links, while edit sparsity favors the known reusable input rules. A group featurizer needs more than link sparsity to recover computation.
 
+Internal-head follow-up: [recover reusable rules from QK1×QK2×V head responses without the D readout](UNLABELED_HEAD_RULE_RECOVERY_RESULTS.md). Exact rank-four rotations fitted on all token-pair edits identify the known raw-bit atoms far better than SVD and retain the full native function. Withholding direct D-flip edits weakens the matched D component on held-out responses despite 32 starts. The underlying models were trained on D, so this is label-blind post-hoc interpretation, not new-task discovery.
+
 ## Reproduce
 
 Use a Python environment with PyTorch, NumPy, SciPy, and einops. For example, the local environment used here is `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python`.

@@ -708,3 +708,15 @@ purity. Thus raw sparse membership favors output-specific atoms, while
 intervention structure favors reusable input-rule atoms. A learned group
 model must include an explicit input/intervention prior and earn its place
 on withheld compositions; static support minimization is insufficient.
+The [internal-head no-readout test](UNLABELED_HEAD_RULE_RECOVERY_RESULTS.md)
+fits rank-four dictionaries to QK1×QK2×V head responses without consulting
+the D output readout or task labels. Weight-only and unlabeled usage fits
+both preserve >99.98% native D decisions. At fixed function, all-pair
+edit-sparse gauges reach .994 raw-bit atom alignment and ~.003 D-flip
+component-response error, versus ~.691 and ~.323 for SVD. Excluding the
+eight direct D-flip edits from gauge fitting degrades the latter to .157
+weight-only and .124 usage-weighted, even with 32 starts. The model was
+trained on D and other training edits still contain mixed D information:
+this is an internal representation audit, not wholly unseen-task discovery.
+Next use independent rule compositions and whole-composition holdouts to
+test whether a learned group architecture adds value over exact rotations.

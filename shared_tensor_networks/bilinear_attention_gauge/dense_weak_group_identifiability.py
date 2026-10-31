@@ -40,7 +40,7 @@ def bit_edit_purity(dictionary):
     """Post-fit audit: fraction of each atom's edit energy in its top bit."""
     by_bit = []
     for bit in range(4):
-        pair = np.array([(t, t ^ (1 << (3-bit))) for t in range(16)
+        pair = np.array([(t, t ^ (1 << bit)) for t in range(16)
                          if SIGNS[t,bit] == -1])
         changes = dictionary[:, pair[:,1]]-dictionary[:,pair[:,0]]
         by_bit.append(np.mean(changes**2,axis=1))
