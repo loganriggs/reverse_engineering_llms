@@ -13,7 +13,7 @@ import numpy as np
 import torch
 from torch.nn import functional as F
 
-from flagship_full_model_eval import BondEdit,GPT,GPTConfig,logits
+from flagship_full_model_eval import BondEdit,GPT,GPTConfig,logits,get_cuts
 from flagship_matrix_free import CORPUS,HD,SNAPSHOT
 from flagship_ood_corpora import DATASETS
 from flagship_sequence_transfer import sequence_head
@@ -26,15 +26,20 @@ KEY_GAUGES=("svd","random_0","activation_0","key_uniform_0",
             "key_corpus_0")
 
 
-def selected_cuts(top_components=2,gauge_panel="original"):
-    x=np.load(ART/"head0_l128_sequence_fit_rank64_cw0.npz")["cut"]
+def selected_cuts(top_components=2,gauge_panel="original",
+                  cut_name="sequence_fit_rank64_cw0"):
+    x=get_cuts()[cut_name]
     left,s,right=np.linalg.svd(x,full_matrices=False)
-    a=left[:,:64]*np.sqrt(s[:64]);b=right[:64].T*np.sqrt(s[:64])
+    rank=int(np.linalg.matrix_rank(x))
+    a=left[:,:rank]*np.sqrt(s[:rank]);b=right[:rank].T*np.sqrt(s[:rank])
     if gauge_panel=="original":
         gauges=GAUGES
-        rotations=np.load(ART/"head0_exact_gauge_rotations.npz")
-        label_data=json.loads((ART/"head0_component_label_transfer.json").read_text())
+        suffix="" if cut_name=="sequence_fit_rank64_cw0" else f"_{cut_name}"
+        rotations=np.load(ART/f"head0_exact_gauge_rotations{suffix}.npz")
+        label_data=json.loads((ART/f"head0_component_label_transfer{suffix}.json").read_text())
     elif gauge_panel=="key":
+        if cut_name!="sequence_fit_rank64_cw0":
+            raise ValueError("key panel is available only for the original rank-64 cut")
         gauges=KEY_GAUGES
         rotations=np.load(ART/"head0_key_sparse_rotations.npz")
         label_data=json.loads((ART/"head0_key_sparse_label_transfer.json").read_text())
@@ -93,7 +98,7 @@ def calibrate(state,base,cuts,details,n_docs,target_error):
 
 def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
         top_components=2,target_head_error=None,calibration_docs=64,
-        gauge_panel="original"):
+        gauge_panel="original",cut_name="sequence_fit_rank64_cw0"):
     torch.set_num_threads(threads)
     config=json.loads((SNAPSHOT/"config.json").read_text())
     config.pop("step",None)
@@ -102,7 +107,7 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
                      weights_only=True,mmap=True)
     model.load_state_dict(state)
     editor=BondEdit(model)
-    base_np,cut_np,details=selected_cuts(top_components,gauge_panel)
+    base_np,cut_np,details=selected_cuts(top_components,gauge_panel,cut_name)
     calibration=None
     if target_head_error is not None:
         cut_np,calibration=calibrate(state,base_np,cut_np,details,
@@ -158,7 +163,8 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
                                 original_to_removed_kl=float(original_kl[index]),
                                 relative_head_output_error=head_error))
                 print(corpus_name,seed,flush=True)
-    result=dict(head=0,layer=0,rank=64,length=128,
+    result=dict(head=0,layer=0,rank=int(np.linalg.matrix_rank(base_np)),
+        cut=cut_name,length=128,
         n_docs_per_seed=n_docs,seeds=list(seeds),batch_size=batch_size,
         top_components_per_gauge=top_components,
         gauge_panel=gauge_panel,
@@ -170,7 +176,8 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
         details=details,records=records)
     suffix="_matched" if target_head_error is not None else ""
     panel_suffix="" if gauge_panel=="original" else "_key_panel"
-    (ART/f"head0_component_ablation_n{n_docs}{suffix}{panel_suffix}.json").write_text(
+    cut_suffix="" if cut_name=="sequence_fit_rank64_cw0" else f"_{cut_name}"
+    (ART/f"head0_component_ablation_n{n_docs}{suffix}{panel_suffix}{cut_suffix}.json").write_text(
         json.dumps(result,indent=2)+"\n")
     return result
 
@@ -185,7 +192,9 @@ if __name__=="__main__":
     parser.add_argument("--target-head-error",type=float,default=None)
     parser.add_argument("--calibration-docs",type=int,default=64)
     parser.add_argument("--gauge-panel",choices=("original","key"),default="original")
+    parser.add_argument("--cut-name",default="sequence_fit_rank64_cw0",
+                        choices=tuple(get_cuts()))
     args=parser.parse_args()
     run(args.n_docs,tuple(args.seeds),args.batch_size,args.threads,
         args.top_components,args.target_head_error,args.calibration_docs,
-        args.gauge_panel)
+        args.gauge_panel,args.cut_name)

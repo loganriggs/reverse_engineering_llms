@@ -16,6 +16,7 @@ import torch
 from flagship_matrix_free import CORPUS,HD,SNAPSHOT,project,rotate,rotary,sample_corpus_pairs
 from flagship_ood_corpora import DATASETS
 from flagship_transfer import ART
+from flagship_full_model_eval import get_cuts
 
 
 VOCAB=Path("/home/loganriggs/.cache/huggingface/hub/models--gpt2/"
@@ -127,14 +128,16 @@ def exemplars(part,z,component,decoder,n=6):
     return result
 
 
-def run(n_pairs=32768,top_components=10):
+def run(n_pairs=32768,top_components=10,
+        cut_name="sequence_fit_rank64_cw0"):
     torch.set_num_threads(1)
     decoder=Decoder();check_decoder(decoder)
     state=torch.load(SNAPSHOT/"pytorch_model.bin",map_location="cpu",
                      weights_only=True,mmap=True)
-    x=np.load(ART/"head0_l128_sequence_fit_rank64_cw0.npz")["cut"]
+    x=get_cuts()[cut_name]
     left,s,right=np.linalg.svd(x,full_matrices=False)
-    a=left[:,:64]*np.sqrt(s[:64]);b=right[:64].T*np.sqrt(s[:64])
+    rank=int(np.linalg.matrix_rank(x))
+    a=left[:,:rank]*np.sqrt(s[:rank]);b=right[:rank].T*np.sqrt(s[:rank])
     fineweb=np.load(CORPUS,mmap_mode="r")
     parts={"selection":sample(state,fineweb,15000,17500,n_pairs,71,a,b,decoder),
            "fineweb_test":sample(state,fineweb,17500,20000,n_pairs,73,a,b,decoder)}
@@ -155,7 +158,8 @@ def run(n_pairs=32768,top_components=10):
                                  energy_fraction=float(by_label[index]/energy.sum()),
                                  sampled_pairs=int(np.sum(part["label"]==index)))
                             for index in order[:10]])
-    rotations=np.load(ART/"head0_exact_gauge_rotations.npz")
+    suffix="" if cut_name=="sequence_fit_rank64_cw0" else f"_{cut_name}"
+    rotations=np.load(ART/f"head0_exact_gauge_rotations{suffix}.npz")
     records=[];examples={}
     for gauge in rotations.files:
         rotation=rotations[gauge]
@@ -187,7 +191,7 @@ def run(n_pairs=32768,top_components=10):
                     log2_enrichment=float(np.log2(max(fraction,1e-30)/
                                                    max(base_fraction,1e-30))),
                     selection_label=bool(corpus_name=="selection")))
-    result=dict(head=0,rank=64,n_pairs_per_corpus=n_pairs,
+    result=dict(head=0,rank=rank,cut=cut_name,n_pairs_per_corpus=n_pairs,
         top_components=top_components,label_categories=list(CATEGORIES),
         label_rule="max selection enrichment among categories with >=2% original-response energy",
         selection_fineweb_documents=[15000,17500],
@@ -195,7 +199,8 @@ def run(n_pairs=32768,top_components=10):
         scope="post-fit token-form labels; no labels in gauge fitting; not full-model causal validation",
         sample_diagnostics=sample_diagnostics,
         records=records,examples=examples)
-    (ART/"head0_component_label_transfer.json").write_text(json.dumps(result,indent=2)+"\n")
+    (ART/f"head0_component_label_transfer{suffix}.json").write_text(
+        json.dumps(result,indent=2)+"\n")
     return result
 
 
@@ -203,5 +208,7 @@ if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("--n-pairs",type=int,default=32768)
     parser.add_argument("--top-components",type=int,default=10)
+    parser.add_argument("--cut-name",default="sequence_fit_rank64_cw0",
+                        choices=tuple(get_cuts()))
     args=parser.parse_args()
-    run(args.n_pairs,args.top_components)
+    run(args.n_pairs,args.top_components,args.cut_name)

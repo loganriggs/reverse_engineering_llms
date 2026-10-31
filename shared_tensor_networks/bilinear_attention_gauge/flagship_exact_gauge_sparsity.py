@@ -18,6 +18,7 @@ import torch
 from flagship_matrix_free import CORPUS,SNAPSHOT,rows
 from flagship_ood_corpora import DATASETS
 from flagship_transfer import ART
+from flagship_full_model_eval import get_cuts
 
 
 def pair_features(part,a,b,constant=False):
@@ -153,15 +154,16 @@ def check_gradient():
 
 
 def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
-        seeds=(0,1,2),lr=.01):
+        seeds=(0,1,2),lr=.01,cut_name="sequence_fit_rank64_cw0"):
     torch.set_num_threads(1)
     gradient_check=check_gradient()
     state=torch.load(SNAPSHOT/"pytorch_model.bin",map_location="cpu",
                      weights_only=True,mmap=True)
     corpus=np.load(CORPUS,mmap_mode="r")
-    x=np.load(ART/"head0_l128_sequence_fit_rank64_cw0.npz")["cut"]
+    x=get_cuts()[cut_name]
     left,s,right=np.linalg.svd(x,full_matrices=False)
-    a=left[:,:64]*np.sqrt(s[:64]);b=right[:64].T*np.sqrt(s[:64])
+    rank=int(np.linalg.matrix_rank(x))
+    a=left[:,:rank]*np.sqrt(s[:rank]);b=right[:rank].T*np.sqrt(s[:rank])
     ta=torch.from_numpy(a);tb=torch.from_numpy(b)
     fit_parts={};val_parts={};test_parts={}
     for law in ("uniform","corpus"):
@@ -199,11 +201,11 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
         test_parts[name]=pair_features(test,a,b)
         test_parts[name+"_constant"]=pair_features(test,a,b,True)
     del state
-    rotations={"svd":np.eye(64)}
+    rotations={"svd":np.eye(rank)}
     fit_info={}
     for seed in seeds:
         rng=np.random.default_rng(100+seed)
-        q,r=np.linalg.qr(rng.normal(size=(64,64)))
+        q,r=np.linalg.qr(rng.normal(size=(rank,rank)))
         rotations[f"random_{seed}"]=q@np.diag(np.sign(np.diag(r)))
         for kind in ("activation","intervention_activation",
                      "rare_balanced_activation","factor_weight"):
@@ -211,7 +213,7 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
                               steps,batch_size,lr)
             rotations[f"{kind}_{seed}"]=rotation
             fit_info[f"{kind}_{seed}"]=info
-    identity=np.eye(64)
+    identity=np.eye(rank)
     records=[]
     for name,rotation in rotations.items():
         orthogonal=float(np.linalg.norm(rotation.T@rotation-identity))
@@ -236,7 +238,7 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
                 matches.append(dict(kind=kind,seeds=[seed,other_seed],
                     mean_matched_abs_correlation=match_signature(
                         signatures[a_name],signatures[b_name])))
-    output=dict(head=0,rank=64,cut="natural sequence-output fit",
+    output=dict(head=0,rank=rank,cut=cut_name,
         n_fit_pairs_per_law=n_pairs,n_validation_pairs_per_law=n_pairs,
         n_test_pairs_per_law=n_ood,steps=steps,batch_size=batch_size,
         seeds=list(seeds),learning_rate=lr,
@@ -247,8 +249,10 @@ def run(n_pairs=32768,n_ood=8192,steps=400,batch_size=2048,
         scope="exact orthogonal gauges of fixed bond; sparsity proxies, not semantic labels",
         gradient_check=gradient_check,fit_info=fit_info,
         records=records,matches=matches)
-    (ART/"head0_exact_gauge_sparsity.json").write_text(json.dumps(output,indent=2)+"\n")
-    np.savez_compressed(ART/"head0_exact_gauge_rotations.npz",**rotations)
+    suffix="" if cut_name=="sequence_fit_rank64_cw0" else f"_{cut_name}"
+    (ART/f"head0_exact_gauge_sparsity{suffix}.json").write_text(
+        json.dumps(output,indent=2)+"\n")
+    np.savez_compressed(ART/f"head0_exact_gauge_rotations{suffix}.npz",**rotations)
     return output
 
 
@@ -260,5 +264,8 @@ if __name__=="__main__":
     parser.add_argument("--batch-size",type=int,default=2048)
     parser.add_argument("--seeds",type=int,nargs="+",default=[0,1,2])
     parser.add_argument("--lr",type=float,default=.01)
+    parser.add_argument("--cut-name",default="sequence_fit_rank64_cw0",
+                        choices=tuple(get_cuts()))
     args=parser.parse_args()
-    run(args.n_pairs,args.n_ood,args.steps,args.batch_size,tuple(args.seeds),args.lr)
+    run(args.n_pairs,args.n_ood,args.steps,args.batch_size,tuple(args.seeds),
+        args.lr,args.cut_name)
