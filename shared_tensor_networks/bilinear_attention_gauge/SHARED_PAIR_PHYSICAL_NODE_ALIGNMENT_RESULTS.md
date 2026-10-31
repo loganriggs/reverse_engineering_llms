@@ -91,11 +91,12 @@ QK-branch response, even at a small edit dose.
 This result is specific to the six head-pair terms of this trained
 quadratic readout. It does not rule out other physical intermediate
 nodes, other groupings, or equivalence on a restricted data
-distribution. The next comparison should ask which semantic-node
-counterfactuals are approximately realizable **on task data**, under
-a distribution-weighted metric and a constrained set of actual
-internal patches. A positive match there would be weaker than
-polynomial identity but more relevant to the model's ordinary uses.
+distribution. The [task-distribution follow-up](SHARED_PAIR_DATA_EQUIVALENT_NODE_EDITS_RESULTS.md)
+fits both unrestricted physical-pair combinations and executable head
+attenuations on seen task sentences, then tests new and rare sentences.
+Some product nodes become partially approximable, but no gauge's
+three strong nodes collectively receive a faithful physical-edit
+interpretation under these candidates.
 
 Reproduce with shared_pair_physical_node_alignment.py. Its JSON
 contains every seed, coding, gauge, selected node, exact-sum gate,
