@@ -102,6 +102,9 @@ def run():
         u,s,v=np.linalg.svd(matrix,full_matrices=False)
         test_t,target_t,attrs=examples(30000,30000+seed,False)
         test=test_t.numpy();targets=target_t.numpy().astype(float)
+        common_bits=attrs["bits"][~attrs["rare"]]
+        observed_patterns=np.unique(common_bits@np.array([4,2,1]))
+        assert np.array_equal(observed_patterns,np.arange(8)),observed_patterns
         direct=model(test_t).detach().numpy()
         bias=model.read.bias.detach().numpy()
         gate=float(np.max(np.abs(direct-logits(tables,test,bias))))
@@ -124,6 +127,7 @@ def run():
                               test,targets,attrs,bias,direct)
                         for head in range(3)]
         rows.append(dict(seed=seed,direct_table_gate=gate,
+            observed_common_bit_patterns=observed_patterns.tolist(),
             singular_values=s.tolist(),relative_uniform_table_mse=errors,
             scores=scored,head_deletions=head_deletions))
         print(seed,scored["original"]["rare_heldout"]["joint_accuracy"],
