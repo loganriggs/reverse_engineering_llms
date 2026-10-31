@@ -187,6 +187,8 @@ The exact QK swap again preserves the selected-domain function while changing cy
 
 Dense-coded weak-rule follow-up: [ten trained four-head attention models, reduction-metric failure, and shared-atom graph recovery](DENSE_WEAK_SHARED_ATOM_RESULTS.md). A weak but competent output passes global edit-error rank gates while losing substantial prediction agreement. At a faithful fixed rank, edit-response sparsity recovers overlapping reusable function-level atoms much better than SVD, including when direct raw-D flips are withheld from rotation fitting. This does not establish physical-head recovery or wholly unseen-task discovery.
 
+Shared-dictionary identifiability red team: [exact same-function output-specific and reusable-bit factorizations](DENSE_WEAK_GROUP_IDENTIFIABILITY_RESULTS.md). Both are four-atom, nonorthogonal dictionaries that reproduce the identical trained function. Pure sparse output-to-atom membership prefers eight output-specific links to eighteen reusable-bit links, while edit sparsity favors the known reusable input rules. A group featurizer needs more than link sparsity to recover computation.
+
 ## Reproduce
 
 Use a Python environment with PyTorch, NumPy, SciPy, and einops. For example, the local environment used here is `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python`.

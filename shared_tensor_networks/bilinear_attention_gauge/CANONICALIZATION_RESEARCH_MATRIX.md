@@ -697,3 +697,14 @@ the cut and the same-D-bit edits retain mixed D information, so this is
 function-level graph recovery, not physical-node or wholly unseen-rule
 discovery. The next gate is a shared-dictionary/overlapping-group model
 with a whole-rule holdout, compared at matched error and rank.
+The [exact shared-dictionary identifiability test](DENSE_WEAK_GROUP_IDENTIFIABILITY_RESULTS.md)
+shows why group sparsity alone is not that gate. Across 40 fixed rank-four
+cuts, an output-row dictionary and an oracle raw-bit dictionary represent
+the identical function to below `3.2e-13` maximum error. The former is
+nonorthogonal, well conditioned, and needs only eight active output-to-atom
+links; the intended reusable-bit graph needs eighteen. Fitted edit-sparse
+gauges nearly recover the latter and have far higher single-bit edit
+purity. Thus raw sparse membership favors output-specific atoms, while
+intervention structure favors reusable input-rule atoms. A learned group
+model must include an explicit input/intervention prior and earn its place
+on withheld compositions; static support minimization is insufficient.
