@@ -1,5 +1,6 @@
 """Case-level paired bootstrap for frozen later-head matched-dose interventions."""
 
+import argparse
 import collections
 import json
 
@@ -8,10 +9,14 @@ import numpy as np
 from flagship_transfer import ART
 
 
-def run(seed=302031, draws=10000):
-    raw = json.loads((ART / 'later_head_matched_axis_dose.json').read_text())
+def run(seed=302031, draws=10000, mode='supervised'):
+    assert mode in ('supervised', 'unlabeled', 'unlabeled_validation')
+    stem = ('later_head_matched_axis_dose' if mode == 'supervised' else
+            'later_head_unlabeled_matched_axis_dose' if mode == 'unlabeled' else
+            'later_head_unlabeled_validation_matched_axis_dose')
+    raw = json.loads((ART / f'{stem}.json').read_text())
     records = raw['records']
-    assert len(records) == 38 * 4 * 8
+    assert len(records) == 38 * len(raw['variants']) * 8
     grouped = collections.defaultdict(list)
     for row in records:
         assert 0 < row['candidate_fraction'] <= 1 + 1e-6
@@ -63,9 +68,9 @@ def run(seed=302031, draws=10000):
                                               for c in chosen),
                 median_matched_post_c_proj_l2=float(np.median([
                     c['median_target_post_c_proj_l2'] for c in chosen])))
-    result = dict(description='Finite full-model correct-minus-foil margin response divided by exactly matched post-c_proj residual dose. Prompt is bootstrap unit; resample separately within lexical and format panels. Intervals condition on this single trained model and on templated prompt families.', seed=seed,
+    result = dict(description='Finite full-model correct-minus-foil margin response divided by exactly matched post-c_proj residual dose. Prompt is bootstrap unit; resample separately within lexical and format panels. Intervals condition on this single trained model and on templated prompt families.', seed=seed, mode=mode,
                   draws=draws, cases=cases, summary=summary)
-    path = ART / 'later_head_matched_axis_dose_analysis.json'
+    path = ART / f'{stem}_analysis.json'
     path.write_text(json.dumps(result, indent=2) + '\n')
     for name, row in summary.items():
         print(name, 'ratio', round(row['candidate_over_random_ratio'], 3),
@@ -76,4 +81,8 @@ def run(seed=302031, draws=10000):
 
 
 if __name__ == '__main__':
-    run()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', choices=('supervised', 'unlabeled',
+                                           'unlabeled_validation'),
+                        default='supervised')
+    run(mode=parser.parse_args().mode)

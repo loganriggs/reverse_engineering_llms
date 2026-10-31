@@ -18,6 +18,13 @@ from flagship_transfer import ART
 
 
 VARIANTS = ('effect__all', 'edit__all', 'svd', 'weight__all')
+UNLABELED_VARIANTS = (
+    ('raw_pca_all', 'all', 'raw_pca'),
+    ('edit_l1_all', 'all', 'edit_l1'),
+    ('normalized_pca_all', 'all', 'normalized_pca'),
+    ('raw_pca_exclude', 'exclude_target_type', 'raw_pca'),
+    ('edit_l1_exclude', 'exclude_target_type', 'edit_l1'),
+)
 RANDOM_POOL = 64
 RANDOM_CONTROLS = 8
 
@@ -26,7 +33,8 @@ def signed_margin(logits, answer_a, answer_b):
     return (logits[:, answer_a] - logits[:, answer_b]).double().numpy()
 
 
-def run(limit=None):
+def run(limit=None, mode='supervised'):
+    assert mode in ('supervised', 'unlabeled', 'unlabeled_validation')
     torch.set_num_threads(4)
     tokenizer = Tokenizer.from_file(TOKENIZER)
     config = json.loads((SNAPSHOT / 'config.json').read_text())
@@ -42,6 +50,18 @@ def run(limit=None):
     bases = np.load(ART / 'later_head_rank_pilot_bases.npz')
     rotations = np.load(ART / 'later_head_exact_gauge_rotations.npz')
     selected = json.loads((ART / 'later_head_exact_gauge_finite.json').read_text())['summary']
+    if mode.startswith('unlabeled'):
+        edit_panel = 'train' if mode == 'unlabeled' else 'validation'
+        edit_rotations = np.load(ART / 'later_head_unlabeled_edit_gauge_rotations.npz')
+        edit_rows = json.loads((ART / 'later_head_unlabeled_edit_gauge.json').read_text())['records']
+        edit_axes = {(r['target'], r['condition'], r['method']): r['selected_axis']
+                     for r in edit_rows if r['panel'] == edit_panel
+                     and r['selection_rule'] == 'global_energy'}
+        variants = tuple(v[0] for v in UNLABELED_VARIANTS)
+        variant_lookup = {name: (condition, method)
+                          for name, condition, method in UNLABELED_VARIANTS}
+    else:
+        variants = VARIANTS
     panels = {'lexical_holdout': lexical_pairs(), 'format_shift': format_pairs()}
     records = []
     with torch.no_grad():
@@ -103,10 +123,16 @@ def run(limit=None):
                 controls = sorted(null, key=lambda item: item[2], reverse=True)[
                     :RANDOM_CONTROLS]
                 assert controls[-1][2] > 1e-8
-                for variant in VARIANTS:
-                    rotation = (np.eye(4) if variant == 'svd'
-                                else rotations[f'{family}__{variant}'])
-                    axis_index = selected[f'{family}__{variant}']['selected_axis']
+                for variant in variants:
+                    if mode.startswith('unlabeled'):
+                        condition, method = variant_lookup[variant]
+                        rotation = edit_rotations[
+                            f'{family}__{edit_panel}__{condition}__{method}']
+                        axis_index = edit_axes[(family, condition, method)]
+                    else:
+                        rotation = (np.eye(4) if variant == 'svd'
+                                    else rotations[f'{family}__{variant}'])
+                        axis_index = selected[f'{family}__{variant}']['selected_axis']
                     axis = basis @ rotation[:, axis_index]
                     axis /= np.linalg.norm(axis)
                     candidate, candidate_dose = injection_and_dose(axis)
@@ -150,12 +176,16 @@ def run(limit=None):
                 probe.basis = None
                 print(panel, family, base_text, 'full effect', round(full_effect, 3),
                       'records', len(records), flush=True)
-    result = dict(description='Frozen rank-four later-head gauges. For each held-out token edit, compare selected task axis against eight Haar axes preselected by the largest local post-c_proj edit dose, with both interventions scaled to the exact smaller dose for that pair. Finite full-model correct-minus-foil margin changes are oriented by the full rank-four path sign. This is a within-reduced-model causal-dose comparison, not a physical necessity test.',
+    result = dict(description='Frozen rank-four later-head gauges. For each held-out token edit, compare selected axis against eight task-discovery-selected random-rotation axes with the largest local post-c_proj edit dose. Both interventions are scaled to the smaller dose for that pair. Finite full-model correct-minus-foil margin changes are oriented by the full rank-four path sign. The unlabeled mode uses answer-free edit-response fitting and global response-energy axis selection; excluded conditions remove the entire matching edit type. This is a within-reduced-model causal-dose comparison, not a physical necessity test.',
+                  mode=mode,
                   random_axis_selection='best mean absolute local task effect on discovery pairs for each random rotation',
-                  variants=VARIANTS, random_pool=RANDOM_POOL,
+                  variants=variants, random_pool=RANDOM_POOL,
                   random_controls=RANDOM_CONTROLS, limit=limit, records=records)
     suffix = '_smoke' if limit is not None else ''
-    path = ART / f'later_head_matched_axis_dose{suffix}.json'
+    stem = ('later_head_matched_axis_dose' if mode == 'supervised' else
+            'later_head_unlabeled_matched_axis_dose' if mode == 'unlabeled' else
+            'later_head_unlabeled_validation_matched_axis_dose')
+    path = ART / f'{stem}{suffix}.json'
     path.write_text(json.dumps(result, indent=2) + '\n')
     print('saved', path, len(records), flush=True)
     return result
@@ -164,4 +194,8 @@ def run(limit=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--limit', type=int)
-    run(parser.parse_args().limit)
+    parser.add_argument('--mode', choices=('supervised', 'unlabeled',
+                                           'unlabeled_validation'),
+                        default='supervised')
+    args = parser.parse_args()
+    run(args.limit, args.mode)
