@@ -47,6 +47,20 @@ def run():
     assert all(swap(x['base_ids'],x['edited_ids']) not in fitted for x in tests)
     with np.load(ART/'bracket_edit_span_rotations.npz') as source:
         rotations={name:source[name].copy() for name in source.files}
+    # Matched-rank controls: the native weight SVD, the old edit family alone,
+    # and isotropic planes. None use the validation prompts or their answers.
+    rotations['weight_rank2']=np.eye(4,dtype=np.float64)[:,:2]
+    original_edits=np.load(ART/'later_head_unlabeled_edits.npz')['bracket_closure__train']
+    original_meta=fit['panels']['train']
+    original_edits=np.asarray([v for v,m in zip(original_edits,original_meta)
+                               if m['type']=='bracket'],dtype=np.float64)
+    assert len(original_edits)==80 and original_edits.shape[1]==4
+    _,original_vec=np.linalg.eigh(original_edits.T@original_edits)
+    rotations['original_edits_rank2']=original_vec[:,-2:][:,::-1].copy()
+    rng=np.random.default_rng(20261115)
+    for j in range(32):
+        q,_=np.linalg.qr(rng.standard_normal((4,2)))
+        rotations[f'random_rank2_{j:02d}']=q
     basis_array=np.load(ART/'later_head_rank_pilot_bases.npz')
     basis=torch.tensor(basis_array['bracket_closure__weight'][:,:4].copy(),dtype=torch.float32)
     config=json.loads((SNAPSHOT/'config.json').read_text());config.pop('step',None)
@@ -88,7 +102,7 @@ def run():
             relative_mae={name:float(np.mean([abs(x['effects'][name]-x['rank4_path'])
                          for x in group])/max(denominator,1e-20))
                           for name in rotations}))
-    result=dict(description='Frozen rank-one and rank-two edit-response groups at fixed weight-derived rank-four head cut, tested on six competent token-ID families absent from group fitting',
+    result=dict(description='Frozen rank-one and rank-two edit-response groups and matched rank-two controls at fixed weight-derived rank-four head cut, tested on six competent token-ID families absent from group fitting',
         group_fit_token_swaps=[list(x) for x in sorted(fitted)],
         all_test_swaps_absent_from_group_fit=True,
         summary=summary,rows=rows)

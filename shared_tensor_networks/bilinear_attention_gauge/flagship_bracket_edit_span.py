@@ -80,6 +80,9 @@ def run():
     projections={'old_axis':prior[:,chosen:chosen+1],
                  **{f'balanced_rank{r}':rotation[:,:r] for r in (1,2,3)},
                  **{f'raw_rank{r}':raw_rotation[:,:r] for r in (1,2,3)}}
+    _,original_rotation=eigenbasis(moment(original))
+    projections['original_edits_rank2']=original_rotation[:,:2]
+    projections['weight_rank2']=np.eye(4,dtype=np.float64)[:,:2]
     np.savez_compressed(ART/'bracket_edit_span_rotations.npz',**projections)
     tests=[]
     for case in test_brace:

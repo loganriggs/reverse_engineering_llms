@@ -476,9 +476,14 @@ claims require a different validation panel. In a
 [further frozen identity-holdout test](BRACE_COMPETENCE_AND_GROUP_TRANSFER_RESULTS.md),
 the rank-two group retains the rank-four path within 0.6% on 21 native-competent
 parenthesis/square prompts using six new token-ID substitutions, versus 4.4%
-for the old one-axis gauge. A 19-pair code-like brace screen finds zero native
-brace forced-choice successes, making this a transferable response group,
-not an established brace-rule mechanism.
+for the old one-axis gauge. A matched rank-two control fitted on the original
+parenthesis/square edits alone does equally well (0.56%) and captures held-out
+brace paths within .19–.31%. The second direction was already present at
+.73% of original edit energy; **retaining rank**, rather than adding brace
+examples, explains most of the gain. Weight-SVD rank two misses 26% on the
+competent holdout and random planes miss 55% median. A 19-pair code-like brace
+screen finds zero native brace forced-choice successes, making this a
+transferable response group, not an established brace-rule mechanism.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,

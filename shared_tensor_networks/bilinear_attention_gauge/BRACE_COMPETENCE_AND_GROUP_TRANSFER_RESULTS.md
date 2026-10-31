@@ -39,17 +39,30 @@ same weight-derived rank-four patch, rather than to the full input edit.
 | Frozen response projector | Mean absolute path error / mean absolute rank-four path |
 |---|---:|
 | Original parenthesis/square one-axis | 4.39% |
+| Original parenthesis/square edit covariance, rank two | **0.56%** |
 | Raw edit-covariance rank one | 5.34% |
 | Balanced edit-covariance rank one | 29.53% |
 | Raw edit-covariance rank two | **0.59%** |
 | Balanced edit-covariance rank two | **0.60%** |
+| Weight-SVD rank two | 26.43% |
+| Random rank-two planes, median of 32 | 55.09% |
 
 The mean absolute rank-four margin path is 5.30 logits. The two-axis
 projectors were below 1.1% relative path error in every validation format.
+None of the 32 random planes beats the two edit-derived groups; the best
+random plane misses .85%. Critically, the rank-two projector fit *only* on
+the original parenthesis/square edits performs just as well as either
+brace-augmented group on this competent holdout. On the separate six
+brace-context cases, that original-only rank-two projector also misses
+only .19% or .31% of the rank-four path (brace→parenthesis/square), compared
+with .08% or .10% for the brace-augmented balanced projector. The second
+direction was already present in the original edit data, despite carrying
+only .73% of its edit energy.
+
 The earlier competent-identity validation independently found the rank-four
-path within 2.29% of the native full-head path. The added brace-response axis
-therefore does not spoil the original competent relation; it improves its
-finite-path approximation while covering additional input edit directions.
+path within 2.29% of the native full-head path. The second edit-derived axis
+therefore improves finite-path approximation across token identities, but the
+brace examples were **not necessary** to find it in this fixed rank-four cut.
 
 This establishes **transferable input-response geometry** for a small group
 inside a weight-only cut. It does not yet identify a learned abstract
