@@ -173,6 +173,14 @@ positions. Both selected axes retain finite punctuation-associated output
 effects on every pair, with good native-to-reduced input-edit fidelity.
 The older pair-response axis is still at least as selective; sparse
 full-context gradients add no demonstrated legibility gain for this label.
+The [frozen output-signature test](OUTPUT_SIGNATURE_TRANSFER_RESULTS.md)
+uses four unseen-token pairs on FineWeb validation documents to propose a
+signed logit direction and output-category contrast, then tests the other
+four pairs on three corpora. Axis 7 has only weak same-corpus direction
+alignment and no established external-corpus output rule; the pair-response
+axis is also incoherent. The punctuation effect is real as a conditional
+magnitude in the reduced model, but it should not be named a
+punctuation-prediction circuit.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -192,9 +200,13 @@ QK2-response test is now complete for two edit families, one held out from
 branch-aware fitting. The first full-context gradient gauge and matched
 finite-axis tests are also complete. The gradient prior passes a narrow
 punctuation response test but does not beat the prior pair-response gauge.
-The held-out key-ID test is complete. The next experiment should target
-**named output behavior** and trace how earlier-position QK1-key effects
-reach final outputs. A
+The held-out key-ID and named-output-signature tests are complete. The
+punctuation-axis detour has reached its stopping point: neither gauge
+produced a stable broad output rule. The next experiment should use
+**diverse explicit tasks with output predictions** to compare weight-only,
+data-aware, and causal priors at matched rank/fidelity with whole-task
+holdouts. A concrete position-to-position path hypothesis could separately
+justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
 across multiple edit families and corpora, including QK1 or two-branch
 perturbations, and optimize

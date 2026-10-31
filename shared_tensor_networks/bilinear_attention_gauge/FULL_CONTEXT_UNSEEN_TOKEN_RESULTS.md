@@ -80,6 +80,12 @@ specific output-token consequences, test more natural minimal-pair edits,
 and trace which earlier-position signals later layers use. Another
 full-context sparsity sweep is not justified by the current comparison.
 
+The [frozen output-signature follow-up](OUTPUT_SIGNATURE_TRANSFER_RESULTS.md)
+finds weak same-corpus alignment but no established external-corpus signed
+logit direction or output-category rule for this axis. Its robust
+punctuation-conditioned effect magnitude should therefore remain a
+conditional sensitivity claim, not a named punctuation-prediction circuit.
+
 Reproduce with `flagship_full_context_same_position_edit.py --n-docs 24
 --seed 1331 --token-panel unseen`, followed by
 `augment_full_context_pair_control.py --source
