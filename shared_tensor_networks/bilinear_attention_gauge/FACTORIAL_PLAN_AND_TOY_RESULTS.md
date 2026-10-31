@@ -141,8 +141,10 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    [intervention-aware comparison](INTERVENTION_DICTIONARY_RESULTS.md) shows
    that fitting both edits needs roughly four shared key directions for
    one-percent fidelity, while fitting one edit at rank two does not transfer
-   to the other. The next test should use richer task grammars and held-out
-   intervention strengths or families. Keep
+   to the other. Even fitting both single edits at rank four leaves .105 error
+   on their held-out double-edit composition; the multiplicative cross term
+   requires separate coverage. The next test should use richer task grammars
+   and held-out intervention strengths or families. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)

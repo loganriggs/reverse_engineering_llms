@@ -14,7 +14,8 @@ from train_dual_output_language import DualOutputAttention
 
 
 def tables_for_model(model):
-    rows={"original":[],"qk1_constant":[],"qk2_constant":[]}
+    rows={"original":[],"qk1_constant":[],"qk2_constant":[],
+          "both_constant":[]}
     for index in range(2):
         h=factors(model,index)
         rows["original"].append(flatten(pair_table(h,np.eye(h["rank"]))))
@@ -22,6 +23,8 @@ def tables_for_model(model):
         rows["qk1_constant"].append(flatten(pair_table(qk1,np.eye(1))))
         qk2=dict(h,b=np.ones_like(h["b"]))
         rows["qk2_constant"].append(flatten(pair_table(qk2,np.eye(h["rank"]))))
+        both=dict(qk1,b=np.ones_like(h["b"]))
+        rows["both_constant"].append(flatten(pair_table(both,np.eye(1))))
     return {name:np.vstack(tables) for name,tables in rows.items()}
 
 
@@ -30,7 +33,9 @@ def run():
     conditions={"original_only":["original"],
                 "original_plus_qk1":["original","qk1_constant"],
                 "original_plus_qk2":["original","qk2_constant"],
-                "all_three":["original","qk1_constant","qk2_constant"]}
+                "all_three":["original","qk1_constant","qk2_constant"],
+                "all_four":["original","qk1_constant","qk2_constant",
+                            "both_constant"]}
     rows=[]
     for seed in range(10):
         model=DualOutputAttention().double()
