@@ -1,0 +1,965 @@
+{
+  "seed": 3,
+  "steps": 4000,
+  "batch_size": 512,
+  "ntrain": 50000,
+  "nval": 10000,
+  "ntest": 20000,
+  "task": "two independent count-contrast bits; rare query swaps output order",
+  "count_law": "independent Poisson(.75) token counts, A/B ties and >8 keys rejected",
+  "holdout": "rare query with A count0>count1 and B count1>count0",
+  "history": [
+    {
+      "step": 1,
+      "train_bce": 0.7913857698440552,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 0.22349999845027924,
+          "bit_accuracy": 0.48899999260902405,
+          "bce": 0.7461950778961182
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 0.25005653500556946,
+          "bit_accuracy": 0.4990956485271454,
+          "bce": 0.7432115077972412
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 0.019930675625801086,
+          "bit_accuracy": 0.41161179542541504,
+          "bce": 0.7690657377243042
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.2536500096321106,
+          "bit_accuracy": 0.5105249881744385,
+          "bce": 0.7345142364501953
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 0.24955835938453674,
+          "bit_accuracy": 0.5015310049057007,
+          "bce": 0.7396569848060608
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 0.03874944895505905,
+          "bit_accuracy": 0.41677674651145935,
+          "bce": 0.7655845284461975
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.5231441855430603
+        }
+      }
+    },
+    {
+      "step": 250,
+      "train_bce": 0.006976834032684565,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.007029953878372908
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.004495521076023579
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.02645767293870449
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9922000169754028,
+          "bit_accuracy": 0.9961000084877014,
+          "bce": 0.017865901812911034
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.004576155450195074
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.027180062606930733
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.7911646366119385,
+          "bit_accuracy": 0.8955823183059692,
+          "bce": 0.2916732132434845
+        }
+      }
+    },
+    {
+      "step": 500,
+      "train_bce": 0.001315364963375032,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.001316788257099688
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.000841731671243906
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.004958341363817453
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9975500106811523,
+          "bit_accuracy": 0.9987750053405762,
+          "bce": 0.005449812859296799
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0008529244223609567
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.005205995868891478
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9344043135643005,
+          "bit_accuracy": 0.9672021269798279,
+          "bce": 0.11069487780332565
+        }
+      }
+    },
+    {
+      "step": 750,
+      "train_bce": 0.0005939439288340509,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0005324957310222089
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0003456786216702312
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0019645451102405787
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9979000091552734,
+          "bit_accuracy": 0.9989500045776367,
+          "bce": 0.00391383795067668
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00034959017648361623
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00210363301448524
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9437751173973083,
+          "bit_accuracy": 0.9718875288963318,
+          "bce": 0.09044533967971802
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "train_bce": 0.00029091068427078426,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00028239141101948917
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00018200419435743243
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0010519105708226562
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9980499744415283,
+          "bit_accuracy": 0.9990249872207642,
+          "bce": 0.003335858229547739
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00018401934357825667
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0012543690390884876
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9477911591529846,
+          "bit_accuracy": 0.9738956093788147,
+          "bce": 0.08131656795740128
+        }
+      }
+    },
+    {
+      "step": 1250,
+      "train_bce": 0.00019181492098141462,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.000176918096258305
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00011272580013610423
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0006689848960377276
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.998199999332428,
+          "bit_accuracy": 0.9991000294685364,
+          "bce": 0.002963699633255601
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00011397375783417374
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0007096258923411369
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9518072009086609,
+          "bit_accuracy": 0.9759036302566528,
+          "bce": 0.07460098713636398
+        }
+      }
+    },
+    {
+      "step": 1500,
+      "train_bce": 0.00011900194658664986,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0001155380523414351
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 7.43592536309734e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.000431194668635726
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9990500211715698,
+          "bit_accuracy": 0.9995250105857849,
+          "bce": 0.0017902418039739132
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 7.505752728320658e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0004703020676970482
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9745649099349976,
+          "bit_accuracy": 0.9872824549674988,
+          "bce": 0.044795386493206024
+        }
+      }
+    },
+    {
+      "step": 1750,
+      "train_bce": 7.096229819580913e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 8.011872705537826e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 5.2415041864151135e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00029248165083117783
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9988999962806702,
+          "bit_accuracy": 0.9994500279426575,
+          "bce": 0.001949800061993301
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 5.293271897244267e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00034096318995580077
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9705488681793213,
+          "bit_accuracy": 0.9852744340896606,
+          "bce": 0.04996354505419731
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "train_bce": 5.092550054541789e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 5.927797610638663e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 3.850517168757506e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.000218512155697681
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9991000294685364,
+          "bit_accuracy": 0.9995499849319458,
+          "bce": 0.0015546863432973623
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 3.88729058613535e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00023614043311681598
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9759036302566528,
+          "bit_accuracy": 0.9879518151283264,
+          "bce": 0.04002317413687706
+        }
+      }
+    },
+    {
+      "step": 2250,
+      "train_bce": 4.3497995648067445e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 4.500256181927398e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 2.930653135990724e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00016532065637875348
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9991000294685364,
+          "bit_accuracy": 0.9995499849319458,
+          "bce": 0.001478357007727027
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 2.9590870326501317e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00017690735694486648
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9759036302566528,
+          "bit_accuracy": 0.9879518151283264,
+          "bce": 0.03837064653635025
+        }
+      }
+    },
+    {
+      "step": 2500,
+      "train_bce": 3.898512659361586e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 3.532811388140544e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 2.2774927856517024e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00013155471242498606
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9991999864578247,
+          "bit_accuracy": 0.9995999932289124,
+          "bce": 0.0012482124147936702
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 2.2995682229520753e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.0001366888318443671
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9785810112953186,
+          "bit_accuracy": 0.9892904758453369,
+          "bce": 0.032481007277965546
+        }
+      }
+    },
+    {
+      "step": 2750,
+      "train_bce": 2.845526614692062e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 2.732064967858605e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.7818079868447967e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00010016271698987111
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9991999864578247,
+          "bit_accuracy": 0.9995999932289124,
+          "bce": 0.0011204190086573362
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.7988324543694034e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 0.00010699345148168504
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9785810112953186,
+          "bit_accuracy": 0.9892904758453369,
+          "bce": 0.029263615608215332
+        }
+      }
+    },
+    {
+      "step": 3000,
+      "train_bce": 2.1437881514430046e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 2.1312942408258095e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.4125425877864473e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 7.640891999471933e-05
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9991999864578247,
+          "bit_accuracy": 0.9995999932289124,
+          "bce": 0.001063158386386931
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.4245172678784002e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 9.418785339221358e-05
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9785810112953186,
+          "bit_accuracy": 0.9892904758453369,
+          "bce": 0.02785455994307995
+        }
+      }
+    },
+    {
+      "step": 3250,
+      "train_bce": 1.8855293092201464e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.758673352014739e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.1515819096530322e-05
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 6.412340007955208e-05
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9993000030517578,
+          "bit_accuracy": 0.9996500015258789,
+          "bce": 0.0010525372345000505
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.1616977644735016e-05
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 6.883513560751453e-05
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9812583923339844,
+          "bit_accuracy": 0.9906291961669922,
+          "bce": 0.027707014232873917
+        }
+      }
+    },
+    {
+      "step": 3500,
+      "train_bce": 1.2484529179346282e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.4307737728813663e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 9.480491826252546e-06
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 5.1311046263435856e-05
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9991999864578247,
+          "bit_accuracy": 0.9995999932289124,
+          "bce": 0.001081999740563333
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 9.562886589264963e-06
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 5.602748569799587e-05
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9785810112953186,
+          "bit_accuracy": 0.9892904758453369,
+          "bce": 0.028581468388438225
+        }
+      }
+    },
+    {
+      "step": 3750,
+      "train_bce": 1.0485535312909633e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 1.1726905540854204e-05
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 7.744484719296452e-06
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 4.225420343573205e-05
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9994999766349792,
+          "bit_accuracy": 0.999750018119812,
+          "bce": 0.0008648580405861139
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 7.807590009178966e-06
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 4.634122524294071e-05
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9866130948066711,
+          "bit_accuracy": 0.993306577205658,
+          "bce": 0.022837121039628983
+        }
+      }
+    },
+    {
+      "step": 4000,
+      "train_bce": 1.2297220564505551e-05,
+      "validation": {
+        "all": {
+          "n": 10000,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 9.612279427528847e-06
+        },
+        "common": {
+          "n": 8846,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 6.41514679955435e-06
+        },
+        "rare_seen": {
+          "n": 1154,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 3.411993748159148e-05
+        },
+        "rare_heldout": {
+          "n": 0,
+          "joint_accuracy": NaN,
+          "bit_accuracy": NaN,
+          "bce": NaN
+        }
+      },
+      "test": {
+        "all": {
+          "n": 20000,
+          "joint_accuracy": 0.9994999766349792,
+          "bit_accuracy": 0.999750018119812,
+          "bce": 0.0008177872514352202
+        },
+        "common": {
+          "n": 16982,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 6.470094376709312e-06
+        },
+        "rare_seen": {
+          "n": 2271,
+          "joint_accuracy": 1.0,
+          "bit_accuracy": 1.0,
+          "bce": 3.879480209434405e-05
+        },
+        "rare_heldout": {
+          "n": 747,
+          "joint_accuracy": 0.9866130948066711,
+          "bit_accuracy": 0.993306577205658,
+          "bce": 0.021630212664604187
+        }
+      }
+    }
+  ]
+}

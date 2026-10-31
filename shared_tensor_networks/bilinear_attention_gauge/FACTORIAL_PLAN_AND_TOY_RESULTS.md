@@ -160,7 +160,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    exact combined token function and recovers complete A/B groups in nine of
    ten seeds, without a sentence distribution. The next comparison should
    combine co-occurrence and function signatures on a trained richer grammar,
-   retaining intervention fidelity as a separate outcome. Keep
+   retaining intervention fidelity as a separate outcome. A first
+   [variable-count trained grammar](COUNT_LANGUAGE_CANONICAL_RESULTS.md) now
+   has 50,000 training sentences per seed and an almost rank-two combined
+   function whose label-free sparse rotation cleanly finds the two count bits.
+   It does not yet impose a hard rank budget or test branch-edit transfer. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
