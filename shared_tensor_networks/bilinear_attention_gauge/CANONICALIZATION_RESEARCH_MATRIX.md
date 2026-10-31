@@ -181,6 +181,21 @@ alignment and no established external-corpus output rule; the pair-response
 axis is also incoherent. The punctuation effect is real as a conditional
 magnitude in the reduced model, but it should not be named a
 punctuation-prediction circuit.
+A [diverse-task attention benchmark](DIVERSE_TASK_CANONICAL_RESULTS.md)
+now trains five eleven-output toy models and withholds five complete output
+tasks from reduction fitting. Rank-two cuts cannot preserve all three designed
+count variables; response fitting improves ordinary output error but fails on
+the rare composition. At a fixed rank-three reduced function, key L1 and
+fit-task sensitivity L1 both recover the known count directions across five
+seeds, with no meaningful extra held-task gain from the sensitivity prior.
+The [dense-code continuation](DIVERSE_TASK_CANONICAL_RESULTS.md#dense-token-red-team)
+is now complete across five new trained seeds. Key-entry L1 fails to recover
+the three designed variables under overlapping token attributes, whereas a
+response-sensitivity L1 gauge fitted only to three XOR outputs recovers them
+and produces sparser sensitivities on eight unseen outputs. All gauges leave
+the fixed rank-three reduced function unchanged. This supports supervised
+task-response geometry as a prior, while leaving finite interventions,
+physical head identity, and 546M transfer untested.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -202,10 +217,14 @@ finite-axis tests are also complete. The gradient prior passes a narrow
 punctuation response test but does not beat the prior pair-response gauge.
 The held-out key-ID and named-output-signature tests are complete. The
 punctuation-axis detour has reached its stopping point: neither gauge
-produced a stable broad output rule. The next experiment should use
-**diverse explicit tasks with output predictions** to compare weight-only,
-data-aware, and causal priors at matched rank/fidelity with whole-task
-holdouts. A concrete position-to-position path hypothesis could separately
+produced a stable broad output rule. The first diverse explicit-task toy
+comparison is complete: eleven competent outputs, five whole-task reduction
+holdouts, dense-token red teaming, and exact rank-three gauge priors. Its
+next discriminator is finite-intervention priors and transfer to task
+families beyond three count bits. For the
+546M model, compare weight-only, data-aware, and causal priors at matched
+rank/fidelity on multiple explicit task families with whole-task holdouts.
+A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
 across multiple edit families and corpora, including QK1 or two-branch
