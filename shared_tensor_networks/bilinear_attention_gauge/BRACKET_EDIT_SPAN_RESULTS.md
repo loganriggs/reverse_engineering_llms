@@ -51,4 +51,10 @@ chosen from an activation spectrum alone.
 
 Reproduce with `flagship_bracket_edit_span.py`; fit spectra, frozen
 test cases, and all finite effects are in
-`full_width_results/bracket_edit_span.json`.
+`full_width_results/bracket_edit_span.json`. The frozen projector rotations
+are saved in `full_width_results/bracket_edit_span_rotations.npz`. A
+[separate identity-holdout test](BRACE_COMPETENCE_AND_GROUP_TRANSFER_RESULTS.md)
+finds that both two-axis groups retain the rank-four finite path within
+0.6% over 21 competent parenthesis/square prompts with six new token-ID
+substitutions. An expanded code-like brace screen still fails the native
+competence gate (zero of 19), so the group remains an input-response result.

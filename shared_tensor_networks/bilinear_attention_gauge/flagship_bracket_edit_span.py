@@ -80,6 +80,7 @@ def run():
     projections={'old_axis':prior[:,chosen:chosen+1],
                  **{f'balanced_rank{r}':rotation[:,:r] for r in (1,2,3)},
                  **{f'raw_rank{r}':raw_rotation[:,:r] for r in (1,2,3)}}
+    np.savez_compressed(ART/'bracket_edit_span_rotations.npz',**projections)
     tests=[]
     for case in test_brace:
         tests.append(dict(panel='new_brace_context',base_ids=case['base_ids'],

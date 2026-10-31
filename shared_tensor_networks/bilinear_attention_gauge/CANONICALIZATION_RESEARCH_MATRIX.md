@@ -472,7 +472,13 @@ and 0.7% relative error respectively, while every rank-one choice
 misses a swap type. This supports grouped coordinates as a
 representation of broader input-side response geometry, but the model
 is not competent on the brace-closing task, so semantic and behavioral
-claims require a different validation panel.
+claims require a different validation panel. In a
+[further frozen identity-holdout test](BRACE_COMPETENCE_AND_GROUP_TRANSFER_RESULTS.md),
+the rank-two group retains the rank-four path within 0.6% on 21 native-competent
+parenthesis/square prompts using six new token-ID substitutions, versus 4.4%
+for the old one-axis gauge. A 19-pair code-like brace screen finds zero native
+brace forced-choice successes, making this a transferable response group,
+not an established brace-rule mechanism.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,
