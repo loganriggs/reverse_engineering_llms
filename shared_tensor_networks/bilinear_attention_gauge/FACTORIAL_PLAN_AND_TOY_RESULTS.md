@@ -167,8 +167,13 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    A [branch-edit red team](COUNT_INTERVENTION_RESULTS.md) finds the ordinary
    two-direction basis fails QK branch edits; fitting all four original and
    edited conditions at rank four cuts mean error below one percent. The next
-   trained task should add a third variable or distractor rule to create real
-   competition for rank while preserving whole-task holdouts. Keep
+   [three-variable trained task](THREE_COUNT_CANONICAL_RESULTS.md) now creates
+   real rank competition: rank two cannot preserve all three independent bits,
+   while rank three does. Uniform, frequency-weighted, and supervised CE fits
+   then expose distinct task/fidelity/rare-transfer tradeoffs. A label-free
+   sparse rotation recovers all three bit axes at rank three. The next task
+   should add a non-additive or context-dependent rule and re-test intervention
+   fidelity at matched function and task budgets. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)
