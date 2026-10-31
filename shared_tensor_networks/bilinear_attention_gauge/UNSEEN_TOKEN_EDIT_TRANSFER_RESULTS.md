@@ -55,3 +55,10 @@ remains a separate gate.
 Reproduce with `flagship_unseen_token_edit_transfer.py`; all prompts,
 token IDs, competence checks, and finite paths are in
 `full_width_results/unseen_token_edit_transfer.json`.
+
+A [competent identity follow-up](COMPETENT_BRACKET_IDENTITY_TRANSFER_RESULTS.md)
+tests six new token-ID pairs that still encode the parenthesis-versus-square
+relation. All six pass the forced-choice discovery screen and independent
+validation; the same frozen axis retains the rank-four path within 4.4%
+pooled on validation. This narrows the brace failure to a broader relation
+change or task-competence limit, rather than token-ID change alone.

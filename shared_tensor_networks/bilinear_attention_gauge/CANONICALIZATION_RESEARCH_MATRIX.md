@@ -454,6 +454,15 @@ generalization limit rather than a competent task result. The agreement
 axis transfers within about 3% of rank four on four unseen noun-number
 swaps for which the model is competent. Interpret stable axes against
 both context and token-identity holdouts.
+The [competent bracket-identity follow-up](COMPETENT_BRACKET_IDENTITY_TRANSFER_RESULTS.md)
+now finds six new token-ID substitutions that preserve the parenthesis/
+square relation and pass independent native forced-choice validation.
+The frozen bracket axis retains the rank-four head path within 4.4%
+pooled over 21 new-prefix/new-expression pairs; rank four itself is
+within 2.3% of the native head. Eleven pairs have both expected closers
+as top-1 next tokens, and all expected closers rank top three. This
+shows a real tokenization-identity generalization within one relation,
+while the brace failure remains a limit on broader bracket transfer.
 The [bracket edit-span follow-up](BRACKET_EDIT_SPAN_RESULTS.md) adds
 brace edits to the fitting measure without using output labels and
 finds a second strong direction inside the same exact rank-four cut.
