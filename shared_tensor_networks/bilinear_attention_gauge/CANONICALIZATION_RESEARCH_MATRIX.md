@@ -540,6 +540,19 @@ KL ranking remains unresolved. The useful compromise is therefore
 head/task-specific. The next stage is to compare sparse, grouped, and
 intervention legibility priors *within the faithful joint bracket cut*,
 keeping the cut and its KL/path gates fixed.
+The [fixed-cut bracket legibility comparison](JOINT_BRACKET_LEGIBILITY_RESULTS.md)
+does so at the joint λ=.1 rank-four reduction. Answer-free PCA,
+normalized PCA, edit L1, and varimax of 80 bracket-edit responses
+recover almost identical top axes; train/validation raw-PCA axis cosine
+is 0.99997. Two PCA axes reproduce the joint cut's finite path on 24
+fresh competent expressions within 0.78%, versus 5.84% for one axis,
+19.51% for the original two coordinates, and median 15.34% across 16
+matched random rotations. Exact basis rotations leave the projector
+unchanged to `3.1e-15`; finite full-vocabulary logits agree within
+`6.7e-6`. The axis detects bracket edits in an independent ten-type
+validation mixture, but the full-head norm already detects them
+perfectly. This is compact path representation, not genuine new-task
+discovery or a unique canonical gauge.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.
