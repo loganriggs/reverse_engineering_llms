@@ -156,8 +156,11 @@ OPENBLAS_NUM_THREADS=1 /home/loganriggs/Coding/toy_models_of_tensor_networks/tn_
    variable key counts or independent token sampling erase the co-occurrence
    signal: the complete-group success rate falls to zero at the original
    threshold, despite misleadingly perfect effect-only scores. The next
-   featurizer needs functional or intervention evidence for grouping, plus a
-   trained richer grammar. Keep
+   [functional-response graph](FUNCTIONAL_GROUPING_RESULTS.md) uses only the
+   exact combined token function and recovers complete A/B groups in nine of
+   ten seeds, without a sentence distribution. The next comparison should
+   combine co-occurrence and function signatures on a trained richer grammar,
+   retaining intervention fidelity as a separate outcome. Keep
    generator labels out of unsupervised fitting and
    model selection.
    An [exact shared-versus-duplicated attention control](SHARED_COMPUTATION_IDENTIFIABILITY.md)

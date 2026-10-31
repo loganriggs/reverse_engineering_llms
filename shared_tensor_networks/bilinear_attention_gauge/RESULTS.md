@@ -32,6 +32,8 @@ Variable-size grouping follow-up: [correlation-graph groups on a five-direction 
 
 Grammar-shift red team: [vary unlabeled key counts while holding the trained sparse dictionary fixed](GROUPING_GRAMMAR_SHIFT_RESULTS.md). The complete-variable criterion collapses from 9/10 under exactly one token per family to 0/10 at the original .8 threshold with family dropout, variable counts, or independent Poisson token counts. The earlier effect-only criterion falsely remains 10/10 because singleton axes are individually selective. This identifies a concrete failure of co-occurrence-only grouping and motivates adding functional or intervention evidence.
 
+Functional-grouping follow-up: [connect sparse atoms by exact query/output response similarity](FUNCTIONAL_GROUPING_RESULTS.md). Without sampled sentences, the weight-derived original-function signatures recover complete A/B groups in 9/10 seeds at thresholds .8–.9, versus 2/10 for SVD and roughly 10–21% for random gauges. This bypasses the Poisson co-occurrence failure on the same toy, while leaving one difficult seed and real-language generalization open.
+
 Legibility-prior follow-up: [key-family and query-conditional group penalties](DUAL_GROUP_PRIOR_RESULTS.md). The supplied token-family partition and a broader intervention panel do not rescue the hard held-out rule at rank one; group concentration is not itself a mechanistic success criterion.
 
 Identifiability control: [shared versus duplicated attention computation](SHARED_COMPUTATION_IDENTIFIABILITY.md). Two graphs have exactly the same external function, including input-edit responses, while one internal-node intervention distinguishes their reuse structure. Shortest-description structure is a prior, not proof of the implemented graph.
