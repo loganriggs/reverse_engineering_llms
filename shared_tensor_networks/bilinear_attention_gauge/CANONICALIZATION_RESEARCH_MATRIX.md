@@ -515,6 +515,16 @@ environment WTG stays at 1.0% and its reduced output changes by at most
 rank-one budget. This verifies gauge-stable reduction on trained attention
 without conflating quotient coordinates with the physical width-four bond
 or claiming semantic head identification.
+A [full-model branch-dose test](ALL_HEAD_BRANCH_DOSE_FULL_MODEL_RESULTS.md)
+now propagates four saved rank-256 shared-key cuts through all 18 layers
+while interpolating every first-layer QK2 score toward one. On 32 exactly
+paired held-out windows per corpus and strength, a 50:50 natural/branch
+pair-response fit slightly improves KL to the branch-edited reference on
+FineWeb across strengths and on TinyStories at quarter strength; WikiText
+is mixed. The branch edit itself raises native CE sharply, and no
+consistent CE gain follows from the improved fidelity. This separates
+intervention-preserving reduction from both task improvement and
+legible causal components.
 The [finite punctuation-head red team](PUNCTUATION_HEAD_FINITE_RESULTS.md)
 finds only a small output path: complete head-13/3 and 13/5 patches follow
 roughly 5% and 4% of the punctuation edit's full-vocabulary logit change,

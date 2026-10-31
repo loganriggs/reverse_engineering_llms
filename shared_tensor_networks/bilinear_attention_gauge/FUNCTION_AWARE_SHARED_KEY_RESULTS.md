@@ -110,7 +110,12 @@ The 50:50 fit wins 24/32, 14/32, and 17/32 paired windows, respectively.
 Both function fits beat the rank-256 usage-SVD control on most windows.
 Thus the edited-pair gain does not yield a general downstream-KL gain; the
 WikiText mean is particularly tail-sensitive. Full-model *interventions*
-have not yet been evaluated.
+were subsequently evaluated in
+[the matched-rank branch-dose panel](ALL_HEAD_BRANCH_DOSE_FULL_MODEL_RESULTS.md).
+The 50:50 cut has a small full-model fidelity gain on FineWeb and on
+quarter-strength TinyStories edits, while WikiText is mixed; the QK2 edit
+itself substantially degrades next-token CE. This is intervention-specific
+faithfulness, not a semantic component or language-quality gain.
 
 A branch-only fit (100% QK2-constant training weight) does **not** improve
 edited-response error over the 50:50 fit on any of the three natural-language
