@@ -1,5 +1,6 @@
 """Exact-gauge priors for trained nonlinear count-attention readouts."""
 
+import argparse
 import json
 
 import numpy as np
@@ -16,6 +17,12 @@ REDUCTIONS=('uniform_rank2','empirical_rank2')
 
 def quadratic(y,q):
     return np.einsum('ni,ij,nj->n',y,q,y)
+
+
+def quadratic_cross_fraction(matrix,q,dictionary):
+    coefficients=(matrix@dictionary.T).reshape(2,3,2)
+    h=np.einsum('qic,ij,qjd->qcd',coefficients,q,coefficients)
+    return float(2*np.sum(h[:,0,1]**2)/np.maximum(np.sum(h*h),1e-30))
 
 
 def components(matrix,bias,q,panel,dictionary):
@@ -40,22 +47,24 @@ def components(matrix,bias,q,panel,dictionary):
     return total,effect,max(cross_gate,function_gate)
 
 
-def run(grid=512,ntrain=2048,ntest=2048):
+def run(grid=512,ntrain=2048,ntest=2048,scratch=False):
     torch.set_num_threads(1)
-    analysis=json.loads((HERE/SOURCE).read_text())
+    source=('three_count_composed_scratch_analysis.json' if scratch else SOURCE)
+    analysis=json.loads((HERE/source).read_text())
     angles=np.arange(grid)*np.pi/(2*grid)
     rows=[]
     for row in analysis['rows']:
-        seed=row['seed'];stage=row['stage']
+        seed=row['seed'];stage='scratch' if scratch else row['stage']
         model=ComposedCountModel().double()
-        path=(HERE/f'three_count_composed_frozen_seed{seed}.pt' if stage=='frozen'
-              else HERE/f'three_count_composed_seed{seed}.pt')
+        path=(HERE/f'three_count_composed_scratch_seed{seed}.pt' if scratch
+              else HERE/f'three_count_composed_frozen_seed{seed}.pt'
+              if stage=='frozen' else HERE/f'three_count_composed_seed{seed}.pt')
         model.load_state_dict(torch.load(path,map_location='cpu',weights_only=True))
         bias=model.backbone.read.bias.detach().numpy()
         scale=model.logit_scale.detach().numpy()
         q=model.quadratic.detach().numpy()
         q=.5*(q+q.T)/scale[:,None]/scale[None,:]
-        offset=0 if stage=='frozen' else 100000
+        offset=(200000 if scratch else 0 if stage=='frozen' else 100000)
         train=edit_panel(ntrain,71000+offset+seed,True)
         test=edit_panel(ntest,72000+offset+seed,False)
         shift=edit_panel(ntest,73000+offset+seed,False,rate=1.2)
@@ -64,14 +73,16 @@ def run(grid=512,ntrain=2048,ntest=2048):
             u,s,v=np.linalg.svd(matrix,full_matrices=False)
             assert s[2]<1e-7
             dictionary=v[:2];projector=dictionary.T@dictionary
-            fit=[];key=[]
+            fit=[];key=[];cross=[]
             for angle in angles:
                 d=rotation(angle)@dictionary
                 total,effects,_=components(matrix,bias,q,train,d)
                 fit.append(scores(total,effects)['energy_weighted_effective_axes'])
                 key.append(float(np.abs(d).sum()))
+                cross.append(quadratic_cross_fraction(matrix,q,d))
             selected={'svd':0,'key_l1':int(np.argmin(key)),
-                      'context_edit':int(np.argmin(fit))}
+                      'context_edit':int(np.argmin(fit)),
+                      'quadratic_diagonal':int(np.argmin(cross))}
             choices={};max_projector=0.
             for name,index in selected.items():
                 d=rotation(angles[index])@dictionary
@@ -83,7 +94,9 @@ def run(grid=512,ntrain=2048,ntest=2048):
                     total,effects,gate=components(matrix,bias,q,panel,d)
                     panels[label]=dict(**scores(total,effects),exact_gate=gate)
                 choices[name]=dict(angle=float(angles[index]),key_l1=float(np.abs(d).sum()),
-                    alignment=key_alignment(d),panels=panels)
+                    alignment=key_alignment(d),
+                    quadratic_cross_fraction=quadratic_cross_fraction(matrix,q,d),
+                    panels=panels)
             energies=[c['panels']['test']['total_edit_response_energy']
                       for c in choices.values()]
             relative=(max(energies)-min(energies))/max(energies)
@@ -105,12 +118,19 @@ def run(grid=512,ntrain=2048,ntest=2048):
                     mean_key_alignment=float(np.mean(random_alignment))),
                 gauges=choices))
         print(seed,stage,flush=True)
-    result=dict(source=SOURCE,angle_grid=grid,n_fit_edit_contexts=ntrain,
+    result=dict(source=source,angle_grid=grid,n_fit_edit_contexts=ntrain,
         n_test_edit_contexts=ntest,rank=2,
         task_labels_used_in_gauge_fit=False,
-        stages=['frozen','joint'],reductions=list(REDUCTIONS),rows=rows)
-    (HERE/'three_count_composed_gauge.json').write_text(json.dumps(result,indent=2)+'\n')
+        stages=['scratch'] if scratch else ['frozen','joint'],
+        reductions=list(REDUCTIONS),rows=rows)
+    output=('three_count_composed_scratch_gauge.json' if scratch
+            else 'three_count_composed_gauge.json')
+    (HERE/output).write_text(json.dumps(result,indent=2)+'\n')
     return result
 
 
-if __name__=='__main__':run()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--scratch',action='store_true')
+    args=parser.parse_args()
+    run(scratch=args.scratch)

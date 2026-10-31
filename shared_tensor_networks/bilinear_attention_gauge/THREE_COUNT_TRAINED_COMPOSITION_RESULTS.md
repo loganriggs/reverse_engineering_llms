@@ -91,6 +91,20 @@ L1 to context-edit are -.514 effective axes (bootstrap 95% interval
 [-.533, -.496]) and -.979 cross-axis residual ([-.990, -.967]); key L1's
 alignment advantage is +.261 ([.254, .269]).
 
+A further **weight-only** gauge minimizes the off-diagonal energy of the
+two-dimensional quadratic form induced by the learned readout. If `C_q`
+maps key coordinates to readout logits for query type `q`, the form is
+`H_q = C_qᵀ Q C_q`; we minimize the summed squared off-diagonal entries
+over both query types, without sampled sentences. On the joint frequency
+cut, this gauge has 1.477 held-out effective axes, .0015 interaction
+residual, and .721 key-variable alignment. The data-fitted context-edit
+gauge has 1.476, .0023, and .728 respectively; their selected angles
+differ by only **0.7° on average**. For the frozen frequency cut,
+quadratic diagonalization is less exact (1.531 effective axes versus
+1.425 for context-edit) but has the same direction of tradeoff. Thus
+much of the edit-sparsity gain can be obtained from weights alone, but
+that canonical choice still mixes the task's input variables.
+
 The apparent conflict has an exact algebraic explanation. If the two key
 axes contribute vectors `a` and `c` to the readout logits, a quadratic
 readout contains the explicit interaction node `2 aᵀ Q c`. Summing the
@@ -115,6 +129,10 @@ language has no such oracle. The readout starts from pretrained attention,
 and deletion edits act on a reduced explanatory function rather than
 physical model nodes. Testing graph recovery on a model trained from scratch,
 then on named behaviors in the 546M model, remains necessary.
+
+That [from-scratch control](THREE_COUNT_SCRATCH_COMPOSITION_RESULTS.md) is
+now complete: all ten random-initialized two-stage models solve the
+holdout, and the same variable-versus-deletion-gauge tradeoff persists.
 
 Reproduce with `train_three_count_composed.py`,
 `three_count_composed_analysis.py`, and `three_count_composed_gauge.py`.

@@ -103,7 +103,10 @@ coordinates for the same function: key sparsity recovers A/B key variables,
 while context-edit sparsity rotates them into mixtures to make single-axis
 effects look additive. A
 [trained quadratic-readout control](THREE_COUNT_TRAINED_COMPOSITION_RESULTS.md)
-replicates this conflict across ten learned compositions. The
+replicates this conflict across ten learned compositions. A
+[from-scratch control](THREE_COUNT_SCRATCH_COMPOSITION_RESULTS.md) confirms
+it in ten independent end-to-end-trained models and tests a weight-only
+quadratic diagonalization gauge. The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.
