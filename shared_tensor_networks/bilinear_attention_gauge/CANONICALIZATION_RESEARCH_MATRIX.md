@@ -187,6 +187,15 @@ averaging 16 independent observations succeeds in 30/30; a persistent
 pair-specific bias remains at 2/30 regardless of repetitions. At
 higher noise, 64–256 independent repeats are needed. This is an
 observation-noise control, not a claim about measured 546M activations.
+The [second trained composition task](THREE_COUNT_SCRATCH_EDIT_GAUGE_RESULTS.md)
+now transfers the all-pair edit prior to ten from-scratch single-parity
+models. Under both weight-only and unlabeled-frequency rank-three cuts,
+it recovers the known variables and keeps 100% full and rare-holdout
+accuracy after matched two-node pruning. Key-entry L1 is equally good
+on this paired-token coding, so the result strengthens transfer across
+related tasks rather than establishing a universal advantage. Broader
+token codings, context-dependent tasks, and physical-branch tests remain
+necessary.
 The
 [branch-intervention control](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) shows
 why: the task-faithful rank-three space predicts constant-one QK1/QK2
