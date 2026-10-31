@@ -115,6 +115,16 @@ the same label on the test documents.
 The [factorial toy](FACTORIAL_PLAN_AND_TOY_RESULTS.md) shows that uniform and
 usage-weighted rank-one cuts retain different common/rare rules; the prior
 sweep finds a real fidelity–intervention tradeoff, not a free gain. The
+[causal-decoy two-head control](CAUSAL_DECOY_TOY_RESULTS.md) now explicitly
+separates the two axes of the matrix. Exact uniform pairs favor the rare
+rule, usage pairs favor frequent coactivation, and a uniform floor trades
+between them. Hidden-response rank-one reduction selects a large decoy
+with almost no output value. At an exact full-function gauge, ordinary
+pair/output-response L1 favors mixed coactivation axes, while a designed
+edit-response prior recovers the two ground-truth rule axes in three
+physical gauges. The edit ensemble uses known input structure, so this
+is a control, not blind discovery; trained toy-language and fresh-edit
+transfer remain the required gate. The
 [trained toy sequence](THREE_COUNT_CANONICAL_RESULTS.md) shows rank competition
 and differing uniform, frequency, and supervised-CE outcomes. The
 [nonlinear-readout follow-up](THREE_COUNT_NONLINEAR_METRIC_RESULTS.md) shows
