@@ -105,6 +105,13 @@ documents, and trace which earlier-position signals later layers actually
 use. Further sparsity optimization without those tests has reached its
 stopping criterion.
 
+The [held-out-key-ID follow-up](FULL_CONTEXT_UNSEEN_TOKEN_RESULTS.md)
+tests eight frequency-matched punctuation/word pairs absent from the
+gauge-fitting key positions. Both selected axes retain broad logit-response
+selectivity across all eight pairs, while the earlier pair-response axis
+remains at least as selective. The rank-256 reduction closely preserves
+the native model's input-edit response on those same variants.
+
 Reproduce with `flagship_full_context_finite_axis_test.py --n-docs 24
 --seed 1131`, `flagship_full_context_same_position_edit.py --n-docs 24
 --seed 1231`, `augment_full_context_pair_control.py`, and
