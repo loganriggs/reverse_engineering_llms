@@ -194,8 +194,10 @@ the three designed variables under overlapping token attributes, whereas a
 response-sensitivity L1 gauge fitted only to three XOR outputs recovers them
 and produces sparser sensitivities on eight unseen outputs. All gauges leave
 the fixed rank-three reduced function unchanged. This supports supervised
-task-response geometry as a prior, while leaving finite interventions,
-physical head identity, and 546M transfer untested.
+task-response geometry as a prior. Fresh finite-axis edits on eight held-out
+outputs preserve its sparsity advantage at .05 and .25 of a matched axis dose,
+but lose it at full deletion. The gradient prior is local; physical head
+identity and 546M transfer remain untested.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -220,8 +222,9 @@ punctuation-axis detour has reached its stopping point: neither gauge
 produced a stable broad output rule. The first diverse explicit-task toy
 comparison is complete: eleven competent outputs, five whole-task reduction
 holdouts, dense-token red teaming, and exact rank-three gauge priors. Its
-next discriminator is finite-intervention priors and transfer to task
-families beyond three count bits. For the
+next discriminator is finite-intervention fitting at declared doses,
+holdout-dose tests, real token edits, and transfer to task families beyond
+three count bits. For the
 546M model, compare weight-only, data-aware, and causal priors at matched
 rank/fidelity on multiple explicit task families with whole-task holdouts.
 A concrete position-to-position path hypothesis could separately

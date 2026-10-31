@@ -142,8 +142,31 @@ shared-pair red team. All three gauges compute the **identical rank-three
 reduced function** to numerical precision. The response prior uses task-trained
 model logits and a chosen set of supervised task channels; this is evidence
 for a useful supervised prior and held-task transfer, not an unlabeled
-discovery claim. It remains to test finite interventions and whether the
-same axes map to selectively manipulable modules in the 546M model.
+discovery claim. Whether the same axes map to selectively manipulable modules
+in the 546M model remains open.
+
+## Fresh finite-axis check
+
+We used 3,000 new dense-token contexts per seed, unseen in either gauge fit.
+For each gauge axis, we subtracted a fraction of that axis's contribution to
+the three bit logits, rescaling axes to the same RMS bit-logit dose. We then
+measured the L1/L2 sparsity of **finite** logit changes on the eight outputs
+held out from the XOR gauge fit. Lower is sparser.
+
+| Fraction of matched axis dose | SVD | Key L1 | XOR-response L1 |
+|---|---:|---:|---:|
+| .05 | 109.46 | 123.65 | 83.23 |
+| .25 | 114.21 | 129.91 | 85.34 |
+| 1.00 | 161.60 | 162.95 | 164.51 |
+
+The response prior wins at the two smaller doses in all five seeds. At a
+full-axis deletion, its advantage disappears and it is slightly less sparse
+on average than either baseline. The large edit strongly changes the input
+to the frozen nonlinear readout; a derivative-based prior is therefore local.
+These are interventions **inside the reduced toy function**, not a test that
+the original physical attention heads admit the same independent edits.
+The next test should fit finite-response objectives at declared doses and
+challenge them with unseen doses and real token edits.
 
 ## Reproduction
 
@@ -152,6 +175,7 @@ Run `diverse_task_benchmark.py --seed 0` (repeat seeds 0–4), then
 `--fit-mode xor` to the gauge script for the strictest task-family holdout.
 The benchmark saves selected checkpoints, scores, and cut matrices in
 `diverse_task_benchmark*_seed*.pt/.json`; the gauge script saves dictionaries
-and per-seed scores in `diverse_task_gauge*.json`. Both use CPU only. The
+and per-seed scores in `diverse_task_gauge*.json`. Run `diverse_task_finite.py`
+for the fresh finite-axis check. All use CPU only. The
 native-table equality, rank constraints, and exact-gauge equality are
 asserted in code.
