@@ -114,7 +114,11 @@ post-sweep result; it does not recover the physical circuit. A
 [fresh-seed test](THREE_COUNT_GRAPH_PRIOR_FRESH_RESULTS.md) finds the
 uniform-cut pruning gain only partly transfers and the frequency-cut
 gain mostly disappears; the coefficient-count surrogate is not yet a
-reliable graph prior. The
+reliable graph prior. A [direct post-pruning error-budget comparison](THREE_COUNT_PRUNING_BUDGET_RESULTS.md)
+replaces that proxy with a constrained function measure. Complete uniform
+token enumeration and unlabeled context fitting select different exact
+gauges and transfer differently; neither repairs task information already
+lost in the rank-two cut. The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.
