@@ -31,8 +31,11 @@ class SensitivityEdit(KeyDictionaryEdit):
         self.injection=None
 
     def forward(self,q,k,v,q2,k2):
-        rotation=self.rot.to(device=k.device,dtype=k.dtype)
-        inverse=self.inv.to(device=k.device,dtype=k.dtype)
+        if self.shared is None:
+            self.last_pre=None
+            return self.native(q,k,v,q2,k2)
+        rotation=self.rot[:k.shape[1]].to(device=k.device,dtype=k.dtype)
+        inverse=self.inv[:k.shape[1]].to(device=k.device,dtype=k.dtype)
         pre=torch.einsum('bthd,tde->bthe',k,inverse).detach().requires_grad_(True)
         self.last_pre=pre
         if self.injection is not None:

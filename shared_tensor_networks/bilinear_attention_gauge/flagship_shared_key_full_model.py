@@ -43,8 +43,8 @@ class KeyDictionaryEdit:
     def forward(self,q,k,v,q2,k2):
         if self.shared is None and self.independent is None:
             return self.native(q,k,v,q2,k2)
-        rotation=self.rot.to(device=k.device,dtype=k.dtype)
-        inverse=self.inv.to(device=k.device,dtype=k.dtype)
+        rotation=self.rot[:k.shape[1]].to(device=k.device,dtype=k.dtype)
+        inverse=self.inv[:k.shape[1]].to(device=k.device,dtype=k.dtype)
         pre=torch.einsum('bthd,tde->bthe',k,inverse)
         if self.shared is not None:
             basis=self.shared.to(device=k.device,dtype=k.dtype)

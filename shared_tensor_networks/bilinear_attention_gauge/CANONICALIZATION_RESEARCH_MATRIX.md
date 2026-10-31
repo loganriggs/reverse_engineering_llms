@@ -217,6 +217,20 @@ category axes do not preserve their labels on disjoint documents. An
 all-category oracle has similar sparsity with substantially different axes.
 This is generic gradient compression, not a validated semantic component;
 the coarse-category detour stops before finite axis selection.
+An [explicit-task 546M comparison](EXPLICIT_TASK_GAUGE_RESULTS.md) screens
+seven prompt families and retains five with 100% forced-choice accuracy on
+independent prompts. The fixed rank-256 QK1-key cut preserves those choices.
+A gauge fitted on agreement, number continuation, and bracket closure makes
+their gradients sparse but transfers poorly to whole-family antonym and
+capital holdouts; adding each family chiefly improves itself. Training-selected
+axes retain task-label gradient enrichment and weak finite-dose selectivity,
+but the capital and antonym axes peak at the template's first token “The.”
+On 23 successful minimal answer-changing token swaps, full QK1-key path
+patches alter the margin by only .013–.028 on average versus native input-edit
+changes of 5–18; selected-axis patches are smaller still. Even full layer-0
+attention-output patches are small for most families. Stop optimizing these
+first-layer axes for those tasks: the causal mediation gate fails despite
+supervised sparsity gains.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -241,12 +255,14 @@ punctuation-axis detour has reached its stopping point: neither gauge
 produced a stable broad output rule. The first diverse explicit-task toy
 comparison is complete: eleven competent outputs, five whole-task reduction
 holdouts, dense-token red teaming, and exact rank-three gauge priors. Its
-next discriminator is transfer to task families beyond three count bits and
-a matched-fidelity, held-edit version on the 546M model. The first coarse
-546M output-stratum panel has already ruled out naming axes from gradient
-sparsity alone. Continue only with multiple **competent explicit behaviors**
-and whole-task holdouts; compare weight-only, data-aware, and causal priors
-at matched rank/fidelity.
+next discriminator is an attention-dependent task family whose answer
+changes are materially mediated by the proposed attention path, or a
+later-layer canonical target. The coarse 546M output-stratum panel ruled
+out naming axes from gradient sparsity alone; the explicit-task panel adds
+that competent task labels and transferable gradient selectivity still do
+not establish causal use of first-layer QK1 keys. Continue to compare
+weight-only, data-aware, and causal priors at matched rank/fidelity only
+after such a path-specific behavior gate passes.
 A concrete position-to-position path hypothesis could separately
 justify tracing earlier-position QK1-key effects. A
 separate branch-level experiment can define causal response signatures
