@@ -60,7 +60,11 @@ log2 enrichment, even relative to a random rotation, does not identify a
 semantic rule or a physically localized head circuit. Component sets and
 chosen labels vary with gauge; the table compares each condition's own
 post-fit proposals, not a matched set of semantic mechanisms. No full-model
-component deletion or prediction of a named task has been tested here.
+component deletion or prediction of a named task was tested in this assay.
+A subsequent [full-model input-edit test](ALL_HEAD_COUNTERFACTUAL_CAUSALITY_RESULTS.md)
+finds a narrow punctuation-sensitive response for one response-varimax
+component at matched edit energy. It remains an intervention on the reduced
+explanation, not a uniquely identified physical node.
 
 ## Decision
 
