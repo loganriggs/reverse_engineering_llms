@@ -484,6 +484,15 @@ examples, explains most of the gain. Weight-SVD rank two misses 26% on the
 competent holdout and random planes miss 55% median. A 19-pair code-like brace
 screen finds zero native brace forced-choice successes, making this a
 transferable response group, not an established brace-rule mechanism.
+A [reduction × group factorial](BRACKET_REDUCTION_GROUP_FACTORIAL_RESULTS.md)
+crosses five prefit rank-four layer-13/head-8 cuts with the same unlabeled
+80-edit covariance group, then tests 21 competent unseen token-ID prompts.
+Weight-only rank four misses 2.29% of the native finite head path and its
+two-axis group misses 2.32%; corpus PCA rank four misses 80.25% even though
+its own two-axis group reproduces that reduced path within 1.25%. All five
+cuts retain 21/21 forced-choice answers. This demonstrates why **stage-one
+causal fidelity must gate stage-two legibility**: an exact rotation or
+group inside a bad cut cannot restore omitted head-state information.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.
