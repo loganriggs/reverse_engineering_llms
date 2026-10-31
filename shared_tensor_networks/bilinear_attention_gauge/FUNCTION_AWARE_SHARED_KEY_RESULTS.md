@@ -132,6 +132,11 @@ selectivity, held-out corpora, and task recovery separately. Toy multi-head
 rules with known shared computations give recovery ground truth; the real
 model remains the transfer test.
 
+The fixed-projection orientation comparison is now reported in
+[all-head gauge priors](ALL_HEAD_GAUGE_PRIOR_RESULTS.md). It tests weight and
+token-response sparsity without spending reconstruction error; semantic and
+selective causal validation remain distinct gates.
+
 Artifacts: `full_width_results/all_head_function_aware_shared_key_s641_n8192_t160.*`,
 `all_head_function_aware_shared_key_s642_n32768_t160.*`,
 `all_head_shared_key_full_model_n16_s51-53_newdocs_function.json`,
