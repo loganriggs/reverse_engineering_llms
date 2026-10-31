@@ -553,6 +553,21 @@ unchanged to `3.1e-15`; finite full-vocabulary logits agree within
 validation mixture, but the full-head norm already detects them
 perfectly. This is compact path representation, not genuine new-task
 discovery or a unique canonical gauge.
+The [nested-bracket transfer and removal test](NESTED_BRACKET_TRANSFER_RESULTS.md)
+challenges that same frozen group with an unseen *inner versus outer
+closer* relation. Native forced-choice competence is 12/12 inner and
+10/12 outer, though expected closers are seldom top-1. The joint cut
+misses native finite head paths by 2.8% and 6.0%; its two-axis
+answer-free group reproduces its own cut within 1.7% and 1.3%.
+Its one-axis version misses 77.7% of the inner path. Removing the
+two-axis group leaves 4/12 outer pairs correct, like removing the
+whole cut, while removing the complementary axes leaves 10/12.
+Two of 16 random rank-two groups are comparably disruptive, so this
+is a localized causal contribution, not unique necessity. **Stop the
+single-head bracket detour here**; the next experiment should use
+task-blind head/response selection and withheld behavior families,
+or known-rule multi-task toy language, rather than further tuning
+bracket prompts.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.
