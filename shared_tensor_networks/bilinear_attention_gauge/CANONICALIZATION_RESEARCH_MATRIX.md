@@ -720,3 +720,14 @@ trained on D and other training edits still contain mixed D information:
 this is an internal representation audit, not wholly unseen-task discovery.
 Next use independent rule compositions and whole-composition holdouts to
 test whether a learned group architecture adds value over exact rotations.
+The [few-shot new-task transfer check](NEW_TASK_FEW_SHOT_TRANSFER_RESULTS.md)
+tests four raw-bit majority rules and six XOR-of-majorities compositions
+that the trained models never output. With 64 labels per new task to choose
+one atom or one atom pair, all-pair edit-sparse head dictionaries reach
+~99.7% primitive and ~99.4% XOR accuracy on 20,000 new sequences per
+model, compared with ~74.6% and ~65.1% for SVD. All bases span the same
+~99.995%-complete raw-bit subspace; this is sparse-probe accessibility,
+not extra information or automatic task invention. Withholding direct D
+flips from gauge fitting worsens D and composition transfer. The next
+gate needs an actual learned group featurizer and a whole-composition
+holdout, with task prediction and intervention fidelity kept separate.

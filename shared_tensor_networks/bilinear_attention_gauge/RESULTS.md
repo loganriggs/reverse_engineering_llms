@@ -191,6 +191,8 @@ Shared-dictionary identifiability red team: [exact same-function output-specific
 
 Internal-head follow-up: [recover reusable rules from QK1×QK2×V head responses without the D readout](UNLABELED_HEAD_RULE_RECOVERY_RESULTS.md). Exact rank-four rotations fitted on all token-pair edits identify the known raw-bit atoms far better than SVD and retain the full native function. Withholding direct D-flip edits weakens the matched D component on held-out responses despite 32 starts. The underlying models were trained on D, so this is label-blind post-hoc interpretation, not new-task discovery.
 
+New-task transfer follow-up: [64-label probes on raw-majority and XOR compositions](NEW_TASK_FEW_SHOT_TRANSFER_RESULTS.md). Edit-sparse head atoms support nearly 99.7% one-atom primitive and 99.4% two-atom XOR accuracy on fresh sequences, versus roughly 74.6% and 65.1% for SVD. This tests sparse accessibility of supplied unseen tasks, not whether the original network executes them or whether the featurizer discovers task labels autonomously.
+
 ## Reproduce
 
 Use a Python environment with PyTorch, NumPy, SciPy, and einops. For example, the local environment used here is `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python`.
