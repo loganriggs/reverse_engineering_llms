@@ -1,5 +1,10 @@
 # A task-faithful canonical gauge exposes reusable product structure
 
+**Dense-token red team:** [overlapping A/B/C token attributes](DENSE_CODED_SHARED_PAIR_RESULTS.md)
+show that key-entry sparsity is coding-dependent. A condition-wise
+product prior and a constructive joint-nullspace gauge recover the
+reusable function-level graph in both codings.
+
 The earlier [one-node pruning study](THREE_COUNT_PRUNING_BUDGET_RESULTS.md)
 could not separate graph simplification from information lost in a rank-two
 cut. This experiment trains a new three-head bilinear-attention model from

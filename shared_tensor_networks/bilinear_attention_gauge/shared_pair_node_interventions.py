@@ -12,21 +12,24 @@ from train_three_count_language import examples
 EXPECTED={(0,1):((0,0),), (1,2):((0,1),(1,0)), (0,2):((1,1),)}
 
 
-def run():
-    analysis=json.loads((HERE/'shared_pair_count_analysis.json').read_text())
-    gauges=json.loads((HERE/'shared_pair_gauge.json').read_text())
+def run(analysis_name='shared_pair_count_analysis.json',
+        gauge_name='shared_pair_gauge.json',example_source=examples,
+        output_name='shared_pair_node_interventions.json'):
+    analysis=json.loads((HERE/analysis_name).read_text())
+    gauges=json.loads((HERE/gauge_name).read_text())
     rows=[]
     for row in gauges['rows']:
         seed=row['seed'];reduction=row['reduction']
         source=next(x for x in analysis['rows'] if x['seed']==seed)
         matrix=np.asarray(source['matrices'][reduction])
         q=np.asarray(source['quadratic_effective'])
-        tokens,_,_=examples(30000,530000+seed,False)
+        tokens,_,_=example_source(30000,530000+seed,False)
         tokens=tokens.numpy()
         counts=count_features(tokens).astype(np.float64)
         query=(tokens[:,-1]-8).astype(int)
         choices={}
-        for name in ('svd','key_l1','graph3_lambda3'):
+        for name in ('svd','key_l1','joint_nullspace','graph3_lambda3',
+                     'cell_one_only','cell_one_lambda1'):
             gauge=row['gauges'][name]
             d=np.asarray(gauge['dictionary'])
             t,labels=monomial_strengths(matrix,q,d)
@@ -54,14 +57,14 @@ def run():
             choices[name]=edge_maps
         rows.append(dict(seed=seed,reduction=reduction,gauges=choices))
         print(seed,reduction,flush=True)
-    result=dict(source='shared_pair_gauge.json',
+    result=dict(source=gauge_name,
         expected_cells={'A-B':'common query, first parity',
                         'B-C':'common query second parity and rare query first parity',
                         'A-C':'rare query second parity'},
         labels_used_in_gauge_fit=False,
         note='Known labels enter only post-fit axis matching and selectivity scoring',
         rows=rows)
-    (HERE/'shared_pair_node_interventions.json').write_text(json.dumps(result,indent=2)+'\n')
+    (HERE/output_name).write_text(json.dumps(result,indent=2)+'\n')
     return result
 
 

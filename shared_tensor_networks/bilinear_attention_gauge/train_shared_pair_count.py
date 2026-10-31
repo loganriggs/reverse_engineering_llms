@@ -53,12 +53,14 @@ def evaluate(model,tokens,target,attrs):
     return out
 
 
-def train(seed,steps=3000,ntrain=100000,nval=20000,ntest=30000):
+def train(seed,steps=3000,ntrain=100000,nval=20000,ntest=30000,
+          example_source=examples,name='shared_pair_count',
+          task_description='paired-token count A/B/C bits plus A XOR B and B XOR C'):
     torch.set_num_threads(1)
     torch.manual_seed(500000+seed)
-    train_x,train_bits,_=examples(ntrain,510000+seed,True)
-    val_x,val_bits,val_attrs=examples(nval,520000+seed,True)
-    test_x,test_bits,test_attrs=examples(ntest,530000+seed,False)
+    train_x,train_bits,_=example_source(ntrain,510000+seed,True)
+    val_x,val_bits,val_attrs=example_source(nval,520000+seed,True)
+    test_x,test_bits,test_attrs=example_source(ntest,530000+seed,False)
     assert not val_attrs['heldout'].any() and test_attrs['heldout'].sum()>100
     train_y=targets(train_bits);val_y=targets(val_bits);test_y=targets(test_bits)
     model=SharedPairCountModel()
@@ -85,12 +87,12 @@ def train(seed,steps=3000,ntrain=100000,nval=20000,ntest=30000):
                   round(val['all']['five_output_accuracy'],4),flush=True)
     model.load_state_dict(best['state'])
     test=evaluate(model,test_x,test_y,test_attrs)
-    result=dict(seed=seed,task='count A/B/C bits plus A XOR B and B XOR C',
+    result=dict(seed=seed,task=task_description,
         holdout='rare-query A=0 B=1 C=0 absent from train and validation',
         train_sentences=ntrain,validation_sentences=nval,test_sentences=ntest,
         selected_step=best['step'],test=test,history=history)
-    torch.save(model.state_dict(),HERE/f'shared_pair_count_seed{seed}.pt')
-    (HERE/f'shared_pair_count_seed{seed}.json').write_text(json.dumps(result,indent=2)+'\n')
+    torch.save(model.state_dict(),HERE/f'{name}_seed{seed}.pt')
+    (HERE/f'{name}_seed{seed}.json').write_text(json.dumps(result,indent=2)+'\n')
     print('selected',seed,best['step'],test['all']['five_output_accuracy'],
           test['rare_heldout']['five_output_accuracy'],flush=True)
     return result

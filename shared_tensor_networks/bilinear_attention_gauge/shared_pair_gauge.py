@@ -1,12 +1,35 @@
 """Exact rank-three gauges for two learned products sharing one variable."""
 
 import json
+import itertools
 import numpy as np
 from scipy.optimize import linear_sum_assignment,minimize
 from scipy.spatial.transform import Rotation
 
 from dual_joint_function_canonical import HERE
 from three_count_nonlinear_gauge import TRUTH
+
+
+def joint_nullspace_gauge(matrix,q,base):
+    """Construct a common basis from the three distinct near-null axes."""
+    c=(matrix@base.T).reshape(2,3,3)
+    h=np.einsum('qic,pij,qjd->pqcd',c,q,c).reshape(4,3,3)
+    vectors=[];small=[]
+    for form in h:
+        eigenvalue,eigenvector=np.linalg.eigh(form)
+        index=int(np.argmin(np.abs(eigenvalue)))
+        vectors.append(eigenvector[:,index])
+        small.append(float(abs(eigenvalue[index])))
+    candidates=[]
+    for triple in itertools.combinations(range(4),3):
+        rows=np.stack([vectors[i] for i in triple])
+        candidates.append((abs(float(np.linalg.det(rows))),triple,rows))
+    volume,triple,rows=max(candidates,key=lambda item:item[0])
+    u,_,vt=np.linalg.svd(rows)
+    rotation=u@vt
+    if np.linalg.det(rotation)<0:rotation[0]*=-1
+    return rotation@base,dict(selected_cells=list(triple),
+        null_vector_volume=volume,smallest_absolute_eigenvalues=small)
 
 
 def monomial_strengths(matrix,q,dictionary):
@@ -18,7 +41,7 @@ def monomial_strengths(matrix,q,dictionary):
     return t,labels
 
 
-def profile(matrix,q,dictionary):
+def profile(matrix,q,dictionary,truth=TRUTH):
     t,labels=monomial_strengths(matrix,q,dictionary)
     energy=np.sum(t*t,axis=(0,1))
     strength=np.sqrt(energy)
@@ -26,9 +49,11 @@ def profile(matrix,q,dictionary):
     top3=float(np.sort(energy)[-3:].sum()/max(energy.sum(),1e-20))
     query_top2=[float(np.sort(np.sum(t[:,query]**2,axis=0))[-2:].sum()/
         max(np.sum(t[:,query]**2),1e-20)) for query in range(2)]
+    cell_one=float(np.mean(np.max(t*t,axis=-1)/
+        np.maximum(np.sum(t*t,axis=-1),1e-20)))
     cross=float(np.sum([energy[k] for k,(i,j) in enumerate(labels) if i!=j])/
                 max(energy.sum(),1e-20))
-    cosine=np.abs(dictionary@TRUTH.T)
+    cosine=np.abs(dictionary@truth.T)
     axis,family=linear_sum_assignment(-cosine)
     mapping={int(f):int(a) for a,f in zip(axis,family)}
     # The rare query rotates backbone logits from A/B/C to B/C/A.
@@ -53,6 +78,7 @@ def profile(matrix,q,dictionary):
         top_two_monomial_energy_fraction=top2,
         top_three_monomial_energy_fraction=top3,
         query_top_two_monomial_energy_fraction=query_top2,
+        mean_cell_top_one_monomial_energy_fraction=cell_one,
         cross_monomial_energy_fraction=cross,
         intended_pair_energy_fraction=expected,
         intended_pair_fraction_by_output_and_query=expected_by_query)
@@ -68,8 +94,10 @@ def fit(matrix,q,base,objective,seed,n_random=256):
         energy=np.sum(t*t,axis=(0,1))
         top2=np.sort(energy)[-2:].sum()/max(energy.sum(),1e-20)
         top3=np.sort(energy)[-3:].sum()/max(energy.sum(),1e-20)
+        cell_one=np.mean(np.max(t*t,axis=-1)/
+            np.maximum(np.sum(t*t,axis=-1),1e-20))
         key=np.abs(d).sum()
-        return float(objective(key,top2,top3))
+        return float(objective(key,top2,top3,cell_one))
     values=np.array([score(x) for x in starts])
     best=(float(values.min()),starts[int(np.argmin(values))])
     for idx in np.argsort(values)[:8]:
@@ -79,8 +107,9 @@ def fit(matrix,q,base,objective,seed,n_random=256):
     return Rotation.from_euler('xyz',best[1]).as_matrix()@base,best[0],values
 
 
-def run():
-    analysis=json.loads((HERE/'shared_pair_count_analysis.json').read_text())
+def run(source_name='shared_pair_count_analysis.json',
+        output_name='shared_pair_gauge.json',truth=TRUTH):
+    analysis=json.loads((HERE/source_name).read_text())
     rows=[]
     for row in analysis['rows']:
         seed=row['seed'];q=np.asarray(row['quadratic_effective'])
@@ -90,26 +119,37 @@ def run():
             assert s[3]<1e-7
             base=v[:3]
             sparse,_,random_values=fit(matrix,q,base,
-                lambda key,top2,top3:key,610000+seed)
+                lambda key,top2,top3,cell:key,610000+seed)
             key_scale=np.abs(sparse).sum()
-            choices={'svd':base,'key_l1':sparse}
+            nullspace,null_diagnostic=joint_nullspace_gauge(matrix,q,base)
+            choices={'svd':base,'key_l1':sparse,'joint_nullspace':nullspace}
             for lam in (.3,1,3):
                 d,_,_=fit(matrix,q,base,
-                    lambda key,top2,top3:key/key_scale+lam*(1-top2),
+                    lambda key,top2,top3,cell:key/key_scale+lam*(1-top2),
                     620000+100*seed+int(lam*10))
                 choices[f'graph2_lambda{lam}']=d
             for lam in (1,3):
                 d,_,_=fit(matrix,q,base,
-                    lambda key,top2,top3:key/key_scale+lam*(1-top3),
+                    lambda key,top2,top3,cell:key/key_scale+lam*(1-top3),
                     640000+100*seed+int(lam*10))
                 choices[f'graph3_lambda{lam}']=d
+            cell_only,_,_=fit(matrix,q,base,
+                lambda key,top2,top3,cell:1-cell,650000+seed)
+            choices['cell_one_only']=cell_only
+            for lam in (1,3,10):
+                d,_,_=fit(matrix,q,base,
+                    lambda key,top2,top3,cell:key/key_scale+lam*(1-cell),
+                    660000+100*seed+int(lam*10))
+                choices[f'cell_one_lambda{lam}']=d
             choices_out={}
             for name,d in choices.items():
                 assert np.max(np.abs(d.T@d-base.T@base))<1e-9
-                choices_out[name]=profile(matrix,q,d)
+                choices_out[name]=profile(matrix,q,d,truth)
                 choices_out[name]['dictionary']=d.tolist()
+                if name=='joint_nullspace':
+                    choices_out[name]['construction']=null_diagnostic
             rng=np.random.default_rng(630000+seed)
-            controls=[profile(matrix,q,Rotation.random(random_state=rng).as_matrix()@base)
+            controls=[profile(matrix,q,Rotation.random(random_state=rng).as_matrix()@base,truth)
                       for _ in range(256)]
             rows.append(dict(seed=seed,reduction=reduction,
                 cut_task_scores=row['scores'][reduction],
@@ -118,14 +158,15 @@ def run():
                     for field in ('key_l1','matched_variable_cosine',
                         'top_two_monomial_energy_fraction',
                         'top_three_monomial_energy_fraction',
+                        'mean_cell_top_one_monomial_energy_fraction',
                         'cross_monomial_energy_fraction')},
                 random_control_n=len(controls)))
         print(seed,flush=True)
-    result=dict(source='shared_pair_count_analysis.json',
+    result=dict(source=source_name,
         gauge_fit_uses_task_labels=False,rank=3,
         description='two parity outputs share B; exact orthogonal gauge optimization',
         rows=rows)
-    (HERE/'shared_pair_gauge.json').write_text(json.dumps(result,indent=2)+'\n')
+    (HERE/output_name).write_text(json.dumps(result,indent=2)+'\n')
     return result
 
 

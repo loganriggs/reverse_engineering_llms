@@ -17,21 +17,23 @@ def monomial_features(z):
                      np.sqrt(2)*z[:,1]*z[:,2],z[:,2]**2),axis=1)
 
 
-def run():
-    analysis=json.loads((HERE/'shared_pair_count_analysis.json').read_text())
-    gauges=json.loads((HERE/'shared_pair_gauge.json').read_text())
+def run(analysis_name='shared_pair_count_analysis.json',
+        gauge_name='shared_pair_gauge.json',example_source=examples,
+        model_prefix='shared_pair_count',output_name='shared_pair_graph_prune.json'):
+    analysis=json.loads((HERE/analysis_name).read_text())
+    gauges=json.loads((HERE/gauge_name).read_text())
     rows=[]
     for row in gauges['rows']:
         seed=row['seed'];reduction=row['reduction']
-        source=analysis['rows'][seed]
+        source=next(x for x in analysis['rows'] if x['seed']==seed)
         matrix=np.asarray(source['matrices'][reduction])
         q=np.asarray(source['quadratic_effective'])
         model=SharedPairCountModel().double()
-        model.load_state_dict(torch.load(HERE/f'shared_pair_count_seed{seed}.pt',
+        model.load_state_dict(torch.load(HERE/f'{model_prefix}_seed{seed}.pt',
                                          map_location='cpu',weights_only=True))
         bias=model.backbone.read.bias.detach().numpy()
         pb=model.parity_bias.detach().numpy()
-        tokens,bits,attrs=examples(30000,530000+seed,False)
+        tokens,bits,attrs=example_source(30000,530000+seed,False)
         tokens=tokens.numpy();truth=targets(bits).numpy().astype(bool)
         counts=count_features(tokens).astype(np.float64)
         query=(tokens[:,-1]-8).astype(int)
@@ -40,7 +42,8 @@ def run():
         native=np.c_[logits,parity]
         masks={'all':np.ones(len(tokens),dtype=bool),'rare_heldout':attrs['heldout']}
         choices={}
-        for name in ('svd','key_l1','graph2_lambda3','graph3_lambda3'):
+        for name in ('svd','key_l1','joint_nullspace','graph2_lambda3','graph3_lambda3',
+                     'cell_one_only','cell_one_lambda1'):
             d=np.asarray(row['gauges'][name]['dictionary'])
             t,labels=monomial_strengths(matrix,q,d)
             energy=np.sum(t*t,axis=(0,1))
@@ -68,11 +71,11 @@ def run():
                 pair_joint_accuracy=float(np.mean(np.all((native[mask,3:]>0)==truth[mask,3:],axis=1))))
                 for group,mask in masks.items()},gauges=choices))
         print(seed,reduction,flush=True)
-    result=dict(source='shared_pair_gauge.json',
+    result=dict(source=gauge_name,
         selection='three largest group-squared quadratic coefficients across both outputs and queries',
         selection_uses_task_labels=False,test='30000 independent sentences and rare whole-combination holdout',
         rows=rows)
-    (HERE/'shared_pair_graph_prune.json').write_text(json.dumps(result,indent=2)+'\n')
+    (HERE/output_name).write_text(json.dumps(result,indent=2)+'\n')
     return result
 
 

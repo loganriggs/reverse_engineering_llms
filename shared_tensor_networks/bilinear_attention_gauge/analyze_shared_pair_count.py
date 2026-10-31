@@ -35,15 +35,17 @@ def score(output,truth,attrs,reference=None):
     return result
 
 
-def run(seeds=range(10)):
+def run(seeds=range(10),example_source=examples,
+        model_prefix='shared_pair_count',output_name='shared_pair_count_analysis.json',
+        task_description='count A/B/C, A XOR B, B XOR C'):
     torch.set_num_threads(1)
     rows=[]
     for seed in seeds:
-        train,_,_=examples(20000,510000+seed,True)
-        test,bits,attrs=examples(30000,530000+seed,False)
+        train,_,_=example_source(20000,510000+seed,True)
+        test,bits,attrs=example_source(30000,530000+seed,False)
         tokens=test.numpy();truth=targets(bits).numpy().astype(bool)
         model=SharedPairCountModel().double()
-        model.load_state_dict(torch.load(HERE/f'shared_pair_count_seed{seed}.pt',
+        model.load_state_dict(torch.load(HERE/f'{model_prefix}_seed{seed}.pt',
                                          map_location='cpu',weights_only=True))
         model.eval()
         matrix=flatten(sum(head_tables(model.backbone)))
@@ -77,10 +79,10 @@ def run(seeds=range(10)):
                       if k!='native'}))
         print(seed,scores['native']['all']['five_output_accuracy'],
               scores['uniform_rank3']['rare_heldout']['five_output_accuracy'],flush=True)
-    result=dict(seeds=list(seeds),task='count A/B/C, A XOR B, B XOR C',
+    result=dict(seeds=list(seeds),task=task_description,
         exact_object='6x8 first-layer attention table plus two learned quadratic readouts',
         labels_used_in_reduction=False,rows=rows)
-    (HERE/'shared_pair_count_analysis.json').write_text(json.dumps(result,indent=2)+'\n')
+    (HERE/output_name).write_text(json.dumps(result,indent=2)+'\n')
     return result
 
 

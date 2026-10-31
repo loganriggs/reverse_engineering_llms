@@ -126,6 +126,13 @@ edges and their query-specific reuse. Keeping only those three nodes retains
 the held-out task, whereas the SVD gauge loses accuracy after matched
 pruning. This establishes function-level reuse in a new toy, not physical
 head/node identity. The
+[dense-token red team](DENSE_CODED_SHARED_PAIR_RESULTS.md) changes the
+vocabulary coding so every token contributes to all three variables.
+Key-entry L1 then fails, while condition-wise monomial sparsity and a
+constructive joint-nullspace gauge recover the reusable graph and retain
+the rare holdout after three-node pruning. This isolates a stronger
+functional prior than token sparsity, but still does not identify the
+physical attention implementation. The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.
