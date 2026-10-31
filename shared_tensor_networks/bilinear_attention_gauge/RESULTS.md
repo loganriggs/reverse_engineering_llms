@@ -1,5 +1,8 @@
 # Bilinear-attention gauge canonicalization: completed small-model comparison
 
+Current research design: [reduction metric × legibility-prior matrix](CANONICALIZATION_RESEARCH_MATRIX.md).
+Latest red team: [pair-level labels versus full-model directional key edits](ALL_HEAD_DIRECTIONAL_REVERSAL_RESULTS.md). The labelled cells separate in an isolated pair table, but the proposed full-context double dissociation reverses on 48 new windows. The next legibility target should use context-level edit responses or named task outcomes.
+
 Rank-96 fidelity and causal panel: [full-vocabulary, natural full-model, and QK2-intervention comparisons](RANK96_METRIC_AND_CAUSAL_PANEL.md). A uniform weight-only QK1 cut best preserves natural next-token distributions across three corpora; a FineWeb-weighted cut better survives a strong QK2-constant edit. This is a measured objective tradeoff before the next legibility-prior sweep.
 
 Rank-96 legibility-prior panel: [exact sparse gauges, held-out label transfer, and calibrated full-model ablations](RANK96_LEGIBILITY_PRIORS.md). Activation sparsity lowers effective active-coordinate counts on external text for both fidelity priors, but axes vary across seeds, coarse token-form labels are weaker than simple baselines, and causal localization does not transfer consistently. The next test needs grouped functional or downstream-sensitive targets.

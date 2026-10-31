@@ -99,6 +99,12 @@ behavioral success criterion. The next test should seek a directional
 query/key double dissociation or a task-level prediction, with new templates,
 calibrated within-gauge controls, and held-out outcomes.
 
+That [directional follow-up](ALL_HEAD_DIRECTIONAL_REVERSAL_RESULTS.md) is now
+complete: the proposed pair-level labels distinguish isolated table cells,
+but the full-model key-edit double dissociation reverses on 48 new windows.
+The earlier narrow punctuation-key association remains, while a directional
+full-context causal interpretation does not pass this test.
+
 Reproduce with `flagship_shared_key_counterfactual_causality.py` on the two
 recorded seed/token settings, `flagship_shared_key_input_edit_fidelity.py`,
 `flagship_shared_key_same_gauge_controls.py`, and
