@@ -195,6 +195,8 @@ New-task transfer follow-up: [64-label probes on raw-majority and XOR compositio
 
 Learned group follow-up: [nonorthogonal four-atom overlapping groups with group-link and edit-response penalties](LEARNED_OVERLAPPING_GROUP_RESULTS.md). Pure group sparsity picks eight output-specific links; an edit prior recovers the intended 18-link reusable-bit graph while keeping the fixed attention function exact. Restarts and an answer-free edit-gauge warm start expose optimizer sensitivity. The learned static group representation does not materially outperform the simpler exact rotation on unseen sparse-probe tasks.
 
+All-head real-model follow-up: [intervention-covariance joint diagonalization of 36 later heads](ALL_HEAD_JOINT_EDIT_GEOMETRY_RESULTS.md). A type-defined input-edit prior yields reproducible held-out axes, but most rank-four response cuts are unfaithful and excluding a specialist's edit family weakens its axis. This is coordinate geometry, not a newly identified downstream circuit.
+
 ## Reproduce
 
 Use a Python environment with PyTorch, NumPy, SciPy, and einops. For example, the local environment used here is `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python`.

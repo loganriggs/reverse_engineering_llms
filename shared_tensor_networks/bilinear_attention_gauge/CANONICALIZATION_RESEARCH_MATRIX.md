@@ -743,3 +743,16 @@ recovers it in all seeds. The simple orthogonal edit gauge was already
 little measurable transfer here. Stop scalar penalty tuning on this toy;
 test sample-dependent gates on an independently held-out composition family
 or move the prior to the flagship model with downstream causal validation.
+The [36-head intervention-covariance atlas](ALL_HEAD_JOINT_EDIT_GEOMETRY_RESULTS.md)
+tests an intervention-defined canonical prior across four later layers of
+the 546M model. Joint diagonalization reduces held-out cross-axis edit
+covariance relative to response PCA on 36/36 equal-type and 34/36 raw-energy
+fits, with median independent-panel axis cosines .988/.982. Yet the
+train-PCA rank-four cuts retain only .380 mean validation response energy;
+just four heads exceed .75 coverage. A whole-edit-type exclusion on those
+four shows specialist dependence: bracket head 13/8 concentrates 99.6%
+of its bracket response on one equal-type axis with bracket examples,
+but only 65.8% with that edit family omitted. The faithful heads are
+already known bracket or weak punctuation loci. Do not claim a new
+circuit from this input-side geometry; improve stage-one fidelity or
+freeze and test a genuinely new downstream prediction.
