@@ -768,3 +768,14 @@ a fixed 50:50 weight/equal-output-type measure needs median rank 96 for
 all ten types to pass 10% immediate-output error. A gauge cannot restore
 families excluded at reduction; decide which counterfactuals matter,
 then gate them on disjoint inputs and final logits.
+The [path-selected reduction follow-up](ALL_HEAD_PATH_SELECTED_REDUCTION_RESULTS.md)
+uses native full-model path magnitude to select three edit families per
+head without answer labels. Across 36 heads, rank-32 cuts lower mean
+selected-family immediate-output error from .204 for pooled edits to .159,
+while raising aggregate error from .223 to .269 and worst unselected-family
+error from .532 to .589. A finite full-model test on L9H7 reproduces the
+selected-family path-fidelity benefit but triples bracket-path error
+(.122 to .372). Path relevance is therefore a useful *choice of metric*,
+not evidence that the resulting reduced coordinates are legible or that
+all behavior is covered. The next gate must preserve ordinary forward
+logits and fresh edit families before choosing a sparse gauge.
