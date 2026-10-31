@@ -119,6 +119,13 @@ replaces that proxy with a constrained function measure. Complete uniform
 token enumeration and unlabeled context fitting select different exact
 gauges and transfer differently; neither repairs task information already
 lost in the rank-two cut. The
+[shared-pair task-faithful control](SHARED_PAIR_CANONICAL_RESULTS.md) trains ten
+new models with two related parity outputs. Rank three preserves all five
+outputs; a label-free key-sparse gauge exposes three conditional product
+edges and their query-specific reuse. Keeping only those three nodes retains
+the held-out task, whereas the SVD gauge loses accuracy after matched
+pruning. This establishes function-level reuse in a new toy, not physical
+head/node identity. The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
 improves natural fidelity but loses much of its advantage under a QK2 edit.
