@@ -635,3 +635,16 @@ condition-wise legibility only after reduction fidelity is gated on
 disjoint corpora and downstream logits. The earlier query/key-form
 factorial already rejected pair-level directional labels, so
 selected-pair and full-model readouts must remain separate.
+
+The [36-head finite path and coverage screen](TASKBLIND_HEAD_PATH_SCAN_RESULTS.md)
+tests the next selector without answer labels. The downstream mean-path head
+ranking is stable across same-type panels, but it is dominated by broad
+responders and places the known bracket specialist fourth. A greedy
+three-head maximum-coverage rule selects that specialist and improves
+held-out-example output-path coverage over mean-path and input-energy
+rankings. When the entire bracket edit family is excluded from fitting,
+the specialist drops out of the top five. This is an explicit stopping
+criterion for more scalar all-head ranking on the present ten types:
+progress now requires a withheld-task toy or a new behavior prediction
+predeclared from unlabeled signatures, and the reduction-metric × legibility
+comparison should be judged on that gate.
