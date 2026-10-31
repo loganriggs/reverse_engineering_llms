@@ -59,7 +59,8 @@ class KeyDictionaryEdit:
 
 
 def run(n_docs=8,seeds=(23,29),batch_size=4,length=128,
-        exclude_artifact=None):
+        exclude_artifacts=(),function_basis=None,
+        extra_function_bases=()):
     torch.set_num_threads(4)
     arrays=np.load(ART/'all_head_shared_key_dictionary_bases.npz')
     methods={
@@ -70,6 +71,14 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,length=128,
         'independent_uniform_64':('independent',arrays['independent_uniform']),
         'independent_half_corpus_64':('independent',arrays['independent_half_corpus']),
     }
+    if function_basis is not None:
+        learned=np.load(ART/function_basis)['basis']
+        assert learned.shape==(9*HD,256)
+        methods['function_aware_mixed_256']=('shared',learned)
+    for i,name in enumerate(extra_function_bases):
+        learned=np.load(ART/name)['basis']
+        assert learned.shape==(9*HD,256)
+        methods[f'function_aware_extra{i}_256']=('shared',learned)
     config=json.loads((SNAPSHOT/'config.json').read_text())
     config.pop('step',None)
     model=GPT(GPTConfig(**config)).eval()
@@ -81,8 +90,8 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,length=128,
     corpora={'fineweb_test':(CORPUS,17500,20000),
              **{name:(path,0,1200) for name,path in DATASETS.items()}}
     excluded={}
-    if exclude_artifact is not None:
-        prior=json.loads((ART/exclude_artifact).read_text())
+    for artifact in exclude_artifacts:
+        prior=json.loads((ART/artifact).read_text())
         for row in prior['records']:
             excluded.setdefault(row['corpus'],set()).add(row['document_id'])
     records=[];identity_gate=None
@@ -137,14 +146,19 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,length=128,
         methods={name:dict(kind=kind,rank=basis.shape[-1])
                  for name,(kind,basis) in methods.items()},
         identity_basis_max_abs_logit=identity_gate,
-        excluded_document_artifact=exclude_artifact,
+        excluded_document_artifacts=list(exclude_artifacts),
         excluded_document_counts={k:len(v) for k,v in excluded.items()},
+        function_basis=function_basis,
+        extra_function_bases=list(extra_function_bases),
         fineweb_test_documents=[17500,20000],
         scope='all 18 layers, first-layer QK1 key projection for all nine heads, KL relative to native model',
         records=records)
     suffix=f'n{n_docs}'
     if tuple(seeds)!=(23,29):suffix+='_s'+'-'.join(map(str,seeds))
-    if exclude_artifact is not None:suffix+='_newdocs'
+    if exclude_artifacts:suffix+='_newdocs'
+    if function_basis is not None or extra_function_bases:
+        suffix+='_function'
+    if extra_function_bases:suffix+=f'_extra{len(extra_function_bases)}'
     (ART/f'all_head_shared_key_full_model_{suffix}.json').write_text(
         json.dumps(result,indent=2)+'\n')
     return result
@@ -154,6 +168,11 @@ if __name__=='__main__':
     p=argparse.ArgumentParser()
     p.add_argument('--n-docs',type=int,default=8)
     p.add_argument('--seeds',type=int,nargs='+',default=[23,29])
-    p.add_argument('--exclude-artifact',default=None)
+    p.add_argument('--exclude-artifacts',nargs='+',default=[])
+    p.add_argument('--function-basis',default=None)
+    p.add_argument('--extra-function-bases',nargs='+',default=[])
     a=p.parse_args()
-    run(a.n_docs,tuple(a.seeds),exclude_artifact=a.exclude_artifact)
+    run(a.n_docs,tuple(a.seeds),
+        exclude_artifacts=tuple(a.exclude_artifacts),
+        function_basis=a.function_basis,
+        extra_function_bases=tuple(a.extra_function_bases))
