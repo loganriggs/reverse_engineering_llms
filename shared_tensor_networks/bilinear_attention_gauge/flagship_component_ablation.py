@@ -22,16 +22,26 @@ from flagship_transfer import ART
 
 GAUGES=("svd","random_0","factor_weight_0","activation_0",
         "intervention_activation_0","rare_balanced_activation_0")
+KEY_GAUGES=("svd","random_0","activation_0","key_uniform_0",
+            "key_corpus_0")
 
 
-def selected_cuts(top_components=2):
+def selected_cuts(top_components=2,gauge_panel="original"):
     x=np.load(ART/"head0_l128_sequence_fit_rank64_cw0.npz")["cut"]
     left,s,right=np.linalg.svd(x,full_matrices=False)
     a=left[:,:64]*np.sqrt(s[:64]);b=right[:64].T*np.sqrt(s[:64])
-    rotations=np.load(ART/"head0_exact_gauge_rotations.npz")
-    label_data=json.loads((ART/"head0_component_label_transfer.json").read_text())
+    if gauge_panel=="original":
+        gauges=GAUGES
+        rotations=np.load(ART/"head0_exact_gauge_rotations.npz")
+        label_data=json.loads((ART/"head0_component_label_transfer.json").read_text())
+    elif gauge_panel=="key":
+        gauges=KEY_GAUGES
+        rotations=np.load(ART/"head0_key_sparse_rotations.npz")
+        label_data=json.loads((ART/"head0_key_sparse_label_transfer.json").read_text())
+    else:
+        raise ValueError(gauge_panel)
     cuts={};details={}
-    for gauge in GAUGES:
+    for gauge in gauges:
         r=rotations[gauge]
         factors_a=a@r;factors_b=b@r
         assert np.linalg.norm(factors_a@factors_b.T-x)/np.linalg.norm(x)<1e-10
@@ -82,7 +92,8 @@ def calibrate(state,base,cuts,details,n_docs,target_error):
 
 
 def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
-        top_components=2,target_head_error=None,calibration_docs=64):
+        top_components=2,target_head_error=None,calibration_docs=64,
+        gauge_panel="original"):
     torch.set_num_threads(threads)
     config=json.loads((SNAPSHOT/"config.json").read_text())
     config.pop("step",None)
@@ -91,7 +102,7 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
                      weights_only=True,mmap=True)
     model.load_state_dict(state)
     editor=BondEdit(model)
-    base_np,cut_np,details=selected_cuts(top_components)
+    base_np,cut_np,details=selected_cuts(top_components,gauge_panel)
     calibration=None
     if target_head_error is not None:
         cut_np,calibration=calibrate(state,base_np,cut_np,details,
@@ -150,6 +161,7 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
     result=dict(head=0,layer=0,rank=64,length=128,
         n_docs_per_seed=n_docs,seeds=list(seeds),batch_size=batch_size,
         top_components_per_gauge=top_components,
+        gauge_panel=gauge_panel,
         native_ce_gate=gate,
         component_selection="top pair-response energy on FineWeb label-selection sample; no semantic labels used",
         calibration=calibration,
@@ -157,7 +169,8 @@ def run(n_docs=8,seeds=(23,29),batch_size=4,threads=2,
         scope="full-model per-document component ablation KL; no semantic selectivity claim",
         details=details,records=records)
     suffix="_matched" if target_head_error is not None else ""
-    (ART/f"head0_component_ablation_n{n_docs}{suffix}.json").write_text(
+    panel_suffix="" if gauge_panel=="original" else "_key_panel"
+    (ART/f"head0_component_ablation_n{n_docs}{suffix}{panel_suffix}.json").write_text(
         json.dumps(result,indent=2)+"\n")
     return result
 
@@ -171,6 +184,8 @@ if __name__=="__main__":
     parser.add_argument("--top-components",type=int,default=2)
     parser.add_argument("--target-head-error",type=float,default=None)
     parser.add_argument("--calibration-docs",type=int,default=64)
+    parser.add_argument("--gauge-panel",choices=("original","key"),default="original")
     args=parser.parse_args()
     run(args.n_docs,tuple(args.seeds),args.batch_size,args.threads,
-        args.top_components,args.target_head_error,args.calibration_docs)
+        args.top_components,args.target_head_error,args.calibration_docs,
+        args.gauge_panel)
