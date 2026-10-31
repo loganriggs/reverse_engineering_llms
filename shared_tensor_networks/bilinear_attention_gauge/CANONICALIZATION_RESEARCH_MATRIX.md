@@ -502,6 +502,18 @@ misses 72%. Corpus's two-axis group nevertheless misses its *own* rank-four
 path by only 0.54%. Corpus loses two forced-choice pairs; a random cut
 misses 96% of the head path yet retains all 20 answers. The reduction gate
 is therefore a cross-task mechanistic issue, not a bracket-only artifact.
+The [larger natural-text rank-four KL panel](LATER_HEAD_RANK4_KL_SCALE_RESULTS.md)
+evaluates the five frozen cuts on 576 paired held-out windows per selected
+head across FineWeb, WikiText, and TinyStories at lengths 32 and 64. The
+weight cut also has lower equal-panel mean KL for the bracket head
+(0.000977 vs corpus PCA's 0.002467), while agreement's aggregate ranking
+is unresolved (0.001839 vs 0.001763; paired interval crosses zero).
+Two apparent corpus wins at individual corpus/length cells are uncertain.
+This broadens the fidelity gate beyond hand-selected edit paths without
+proving that the small 256-context unweighted PCA fit is the best possible
+dataset-aware reduction. The next useful comparison should improve the
+dataset-aware *objective or fit coverage*, rather than merely enlarge its
+evaluation panel.
 The [trained-toy rank-selection control](THREE_COUNT_RANK_SELECTION_RESULTS.md)
 fits uniform weight-only, usage-weighted, and mixed token functions at ranks
 one through six on ten independently trained three-variable attention models.
