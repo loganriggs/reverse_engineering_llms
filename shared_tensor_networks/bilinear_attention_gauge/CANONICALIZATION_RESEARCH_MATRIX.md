@@ -797,3 +797,15 @@ generalize to these families. Higher rank helps markedly, but rank 96
 retains three quarters of the 128-dimensional head. Proceed to stage-two
 legibility optimization only under an explicitly declared fidelity gate,
 not by assuming that familiar-edit local coverage transfers.
+The [finite downstream path gate](FINITE_PATH_GATE_RESULTS.md) replaces the
+local constraint for L9H7 with an absolute 10%-per-family final-logit
+head-patch error and mean base-prompt KL below .001, using only training
+edits. Among 20 spectral candidates it selects pooled-edit rank 96;
+no rank-32 or rank-64 candidate passes. The frozen cut passes all ten
+familiar families on independent validation (worst mean error .067)
+and eight of ten wholly new designed families across two panels; modal
+and yes/no polarity miss the .10 gate narrowly (.104 and .101). This
+partly repairs transfer by retaining 75% of the head's 128 dimensions,
+not by revealing a small canonical computation. Stage two should compare
+exact rotations within this fixed faithful subspace, while stage one
+separately seeks a lower-rank projector that passes the same gates.
