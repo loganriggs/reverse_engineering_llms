@@ -779,3 +779,11 @@ selected-family path-fidelity benefit but triples bracket-path error
 not evidence that the resulting reduced coordinates are legible or that
 all behavior is covered. The next gate must preserve ordinary forward
 logits and fresh edit families before choosing a sparse gauge.
+The [training-only floor rule](PATH_FLOOR_GUARDRAIL_RESULTS.md) makes the
+coverage choice adaptive without validation tuning. At rank 32 it improves
+selected-family local output error from .204 to .171 across 36 heads while
+mean worst unselected error stays .534 versus .532 pooled; seven individual
+heads nonetheless exceed the training rule's .02 validation margin. For
+L9H7, its chosen .5 floor cuts bracket-path error from .372 at a fixed .1
+floor to .193, still above the .122 pooled baseline. This is a partial
+stage-one fidelity improvement, not evidence for a legibility prior.

@@ -93,3 +93,6 @@ Reproduce the all-head proxy with `flagship_path_weighted_rank.py` and the
 finite check with `flagship_path_selected_finite.py`. Results are in
 `full_width_results/all_head_path_weighted_rank.json` and
 `full_width_results/path_selected_finite.json`.
+The [training-only floor follow-up](PATH_FLOOR_GUARDRAIL_RESULTS.md) adds a
+fourth finite-check method to the latter JSON and tests whether a local
+coverage guardrail preserves downstream paths.

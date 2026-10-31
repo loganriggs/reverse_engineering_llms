@@ -48,9 +48,16 @@ def run():
         return cov/max(np.trace(cov@gram),1e-30)
     balanced=sum(normalized(name) for name in names)/len(names)
     targeted=(1-FLOOR)*sum(normalized(name) for name in chosen)/len(chosen)+FLOOR*balanced
+    guardrail=json.loads((ART/'path_floor_guardrail.json').read_text())
+    policy=next(r['policy'] for r in guardrail['rows'] if
+                (r['layer'],r['head'],r['rank'])==(LAYER,HEAD,RANK))
+    assert policy['method'].startswith('floor_')
+    selected_floor=float(policy['method'].split('_')[1])
+    guarded=(1-selected_floor)*sum(normalized(name) for name in chosen)/len(chosen)+selected_floor*balanced
     moments={'pooled_edit':train.T@train/len(train),
              'balanced_all_types':balanced,
-             'top_three_path_with_floor':targeted}
+             'top_three_path_with_floor':targeted,
+             'training_guardrail_floor':guarded}
     bases={name:torch.tensor(top_basis(cov/np.trace(cov))[:,:RANK].copy(),
                               dtype=torch.float32) for name,cov in moments.items()}
     indices=[]
@@ -89,9 +96,10 @@ def run():
                     native_path_l2=float(native_effect.norm())))
             probe.basis=None
             print('case',index,case['type'],flush=True)
-    result=dict(description='L9H7 rank32 finite full-model path check. Twelve held-out validation cases from each of train-path top-three edit types plus bracket as unselected guardrail. Each method projects base head state and edit delta, then compares patched-minus-base final logits to native patched-minus-base final logits.',
+    result=dict(description='L9H7 rank32 finite full-model path check. Twelve held-out validation cases from each of train-path top-three edit types plus bracket as unselected guardrail. The training-only guardrail chooses the floor. Each method projects base head state and edit delta, then compares patched-minus-base final logits to native patched-minus-base final logits.',
                 layer=LAYER,head=HEAD,rank=RANK,n_per_type=N_PER_TYPE,
                 train_selected_types=chosen,unselected_guardrail=heldout,
+                training_guardrail_floor=selected_floor,
                 fit_uses_answer_labels=False,rows=rows)
     (ART/'path_selected_finite.json').write_text(json.dumps(result,indent=2)+'\n')
     for kind in [*chosen,heldout]:
