@@ -1,5 +1,10 @@
 # A reuse-aware graph prior on learned quadratic attention
 
+**Independent-seed follow-up:** [ten newly trained models](THREE_COUNT_GRAPH_PRIOR_FRESH_RESULTS.md)
+show only partial transfer. The uniform-cut pruning benefit remains but
+costs more variable alignment; the large frequency-cut benefit below does
+not replicate with the hyperparameters frozen.
+
 The [from-scratch three-count models](THREE_COUNT_SCRATCH_COMPOSITION_RESULTS.md)
 expose a conflict: a sparse key basis recovers the intended A/B variables,
 while a basis that makes single-axis deletions additive mixes those variables.

@@ -87,8 +87,8 @@ def run(grid=1024):
                         alignment=key_alignment(d)['mean_distinct_family_cosine'])
             old=lookup[(row['seed'],reduction)]['gauges']
             # A sparsity count is only meaningful together with the approximation
-            # error incurred by deleting graph nodes. Score on a fixed isotropic
-            # coordinate distribution, independent of task labels.
+            # error incurred by deleting graph nodes. Evaluate on disjoint
+            # sentence-context panels, without fitting the gauge to task labels.
             rows.append(dict(seed=row['seed'],reduction=reduction,candidates=candidates,
                 baselines={k:dict(angle=v['angle'],alignment=v['alignment']['mean_distinct_family_cosine'],
                                   pruning=pruning_scores(matrix,q,rotation(v['angle'])@base,
