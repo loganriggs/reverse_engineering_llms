@@ -150,6 +150,14 @@ external-corpus advantage over ordinary function-aware fitting. Both
 function-aware bases substantially outperform uniform weight-only SVD in
 full-model edited-response prediction. This is compression/response
 fidelity, not yet a legible causal decomposition.
+The [full-context sensitivity gauge](FULL_CONTEXT_SENSITIVITY_GAUGE_RESULTS.md)
+keeps the rank-256 projector fixed and rotates its axes using gradients of
+next-token log probability through all 18 layers. It substantially reduces
+held-out effective sensitivity coordinates on FineWeb, WikiText-103, and
+TinyStories, but only about half the axes match closely across independent
+starts. Coarse key-token-form enrichment is mixed and raw energy scores
+are tail-dominated, so this remains a sparse downstream coordinate prior,
+not a canonical or selectively causal mechanism.
 The
 [all-head real-model comparison](ALL_HEAD_SHARED_KEY_RESULTS.md) shows useful
 shared-key compression; the [function-aware fit](FUNCTION_AWARE_SHARED_KEY_RESULTS.md)
@@ -166,9 +174,11 @@ canonical graph survives a dense-token red team and task-faithful pruning,
 while [small QK-branch doses](SHARED_PAIR_BRANCH_CAUSAL_RESULTS.md) expose
 causal directions outside that semantic subspace. The matched-rank 546M
 QK2-response test is now complete for two edit families, one held out from
-branch-aware fitting. The next experiment should define full-context
-causal response signatures across **multiple edit families and corpora**,
-including QK1 or two-branch perturbations, and optimize
+branch-aware fitting. The first full-context gradient gauge is also complete;
+its axes require **finite, held-out causal tests and cross-fit matching**.
+The next experiment should define full-context causal response signatures
+across multiple edit families and corpora, including QK1 or two-branch
+perturbations, and optimize
 condition-wise legibility only after reduction fidelity is gated on
 disjoint corpora and downstream logits. The earlier query/key-form
 factorial already rejected pair-level directional labels, so
