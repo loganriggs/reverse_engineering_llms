@@ -19,7 +19,9 @@ from surface_mixture_v2 import SurfaceMixtureV2
 from surface_mixture_v2_varied import SurfaceMixtureV2Varied
 from surface_mixture_v2_nested import SurfaceMixtureV2Nested
 from surface_mixture_v2_nested_varlen import SurfaceMixtureV2NestedVarlen
-from surface_mixture_v3 import SurfaceMixtureV3
+from surface_mixture_v3_nested_varlen import SurfaceMixtureV3NestedVarlen
+from surface_mixture_v3 import OBJECT_INDEX, SurfaceMixtureV3
+from surface_mixture_v2 import _frame, _indices, _split
 from surface_mixture_v4 import SurfaceMixtureV4
 from surface_mixture_v5 import SurfaceMixtureV5
 from surface_mixture_v6 import SurfaceMixtureV6
@@ -150,6 +152,67 @@ def query_counterfactuals(gen, x, answer_mask):
     return (edited, targets, mask) if mask.any() else None
 
 
+def object_induction_counterfactuals(gen, x, object_mask, limit, rng):
+    """Change a supported previous same-subject object at a current object slot.
+
+    The current prefix and its exact post-edit distribution are recomputed;
+    subsequent tokens in the copied sequence cannot affect this causal logit.
+    """
+    rows = torch.where(object_mask.any(-1))[0].tolist()
+    if rows:
+        permutation = torch.randperm(len(rows), generator=rng).tolist()
+        rows = [rows[i] for i in permutation]
+    edited_rows, positions, targets = [], [], []
+    for row in rows:
+        ids = x[row].tolist()
+        slots = torch.where(object_mask[row])[0].tolist()
+        if slots:
+            permutation = torch.randperm(len(slots), generator=rng).tolist()
+            slots = [slots[i] for i in permutation]
+        for position in slots:
+            prefix = [gen.id2token[i] for i in ids[:position+1]]
+            history, clause = _split(prefix)
+            frame = _frame(clause)
+            assert len(clause) == OBJECT_INDEX[frame]
+            subject = clause[_indices(frame)[0]]
+            matches = [(i, old) for i, old in enumerate(history)
+                       if old[_indices(_frame(old))[0]] == subject]
+            if not matches:
+                continue
+            old_i, old = matches[-1]
+            old_object_position = (sum(map(len, history[:old_i]))+
+                                   OBJECT_INDEX[_frame(old)])
+            allowed = gen.next_distribution(prefix[:old_object_position])
+            alternatives = [token for token in gen.object_lexicon
+                            if token != prefix[old_object_position] and
+                            allowed.get(token, 0) > 0]
+            if not alternatives:
+                continue
+            alternative = alternatives[int(torch.randint(len(alternatives),
+                                                   (1,), generator=rng))]
+            changed = prefix.copy()
+            changed[old_object_position] = alternative
+            q0, q1 = gen.next_distribution(prefix), gen.next_distribution(changed)
+            assert q0 != q1
+            edited = x[row].clone()
+            edited[old_object_position] = gen.token2id[alternative]
+            target = torch.zeros(len(gen.vocab), dtype=torch.float32,
+                                 device=x.device)
+            for token, mass in q1.items():
+                target[gen.token2id[token]] = mass
+            edited_rows.append(edited)
+            positions.append(position)
+            targets.append(target)
+            break
+        if len(edited_rows) >= limit:
+            break
+    if not edited_rows:
+        return None
+    return (torch.stack(edited_rows),
+            torch.tensor(positions, dtype=torch.long, device=x.device),
+            torch.stack(targets))
+
+
 def source_counterfactuals(gen, x, source_mask):
     """Change only a supported query object to one with another speaker."""
     edited_rows, target_rows, mask_rows = [], [], []
@@ -251,7 +314,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
     p.add_argument('--parenthetical-rate', type=float, default=.55)
     p.add_argument('--alias-fraction', type=float, default=.65)
     p.add_argument('--alias-use', type=float, default=.65)
@@ -319,6 +382,9 @@ def main():
                    help='Additional sampled-token CE on verb slots')
     p.add_argument('--object-soft-weight', type=float, default=0.0,
                    help='Additional exact-oracle expected CE on object slots')
+    p.add_argument('--object-counterfactual-weight', type=float, default=0.0,
+                   help='Exact-oracle CE after a supported previous-object induction edit')
+    p.add_argument('--object-counterfactual-per-batch', type=int, default=8)
     p.add_argument('--answer-soft-weight', type=float, default=0.0,
                    help='Additional exact-oracle expected CE on question answers')
     p.add_argument('--query-counterfactual-weight', type=float, default=0.0,
@@ -344,24 +410,28 @@ def main():
         p.error('Select only one extra verb objective')
     if a.alias_causal_weight and a.generator != 'alias':
         p.error('Alias causal supervision requires the alias generator')
+    if a.object_counterfactual_weight and a.generator != 'v3_nested_varlen':
+        p.error('Object induction counterfactuals require v3_nested_varlen')
+    if a.object_counterfactual_per_batch < 1:
+        p.error('Object counterfactual batch limit must be positive')
     if a.verb_only_soft and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Verb-only soft objective already supervises verb slots')
     if a.verb_only_soft and a.generator != 'alias':
         p.error('Verb-only curriculum currently requires the alias generator')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
-    if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
+    if a.object_vocab_size is not None and a.generator not in ('v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
-    if (a.subject_repeat_mass is not None or a.subject_return_mass is not None) and a.generator not in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen'):
+    if (a.subject_repeat_mass is not None or a.subject_return_mass is not None) and a.generator not in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3_nested_varlen'):
         p.error('Subject repeat/return masses apply to v2 variants only')
-    if a.determiner_variation is not None and a.generator not in ('v2_varied','v2_nested','v2_nested_varlen'):
+    if a.determiner_variation is not None and a.generator not in ('v2_varied','v2_nested','v2_nested_varlen','v3_nested_varlen'):
         p.error('Determiner variation requires a v2 varied/nested generator')
     if a.parenthetical_mass is not None and a.generator != 'v2_varied':
         p.error('Parenthetical mass requires v2_varied')
     if (a.nested_mass is not None or a.inner_mass is not None or
-            a.nested_soft_weight) and a.generator not in ('v2_nested','v2_nested_varlen'):
+            a.nested_soft_weight) and a.generator not in ('v2_nested','v2_nested_varlen','v3_nested_varlen'):
         p.error('Nested options require a v2_nested generator')
-    if a.extra_mass is not None and a.generator != 'v2_nested_varlen':
+    if a.extra_mass is not None and a.generator not in ('v2_nested_varlen', 'v3_nested_varlen'):
         p.error('Extra filler mass requires v2_nested_varlen')
     if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Question-answer supervision requires v4/v5 generator')
@@ -390,6 +460,7 @@ def main():
                        'v2_nested': SurfaceMixtureV2Nested,
                        'v2_nested_varlen': SurfaceMixtureV2NestedVarlen,
                        'v3': SurfaceMixtureV3,
+                       'v3_nested_varlen': SurfaceMixtureV3NestedVarlen,
                        'v4': SurfaceMixtureV4,
                        'v5': SurfaceMixtureV5,
                        'v6': SurfaceMixtureV6,
@@ -397,24 +468,24 @@ def main():
                        'v8': SurfaceMixtureV8,
                        'alias': AliasMixtureLanguage}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
-                        if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
-    if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen') and a.subject_repeat_mass is not None:
+                        if a.generator in ('v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
+    if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3_nested_varlen') and a.subject_repeat_mass is not None:
         generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
-    if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen') and a.subject_return_mass is not None:
+    if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3_nested_varlen') and a.subject_return_mass is not None:
         generator_kwargs['subject_return_mass'] = a.subject_return_mass
     if a.generator == 'v2_varied':
         if a.determiner_variation is not None:
             generator_kwargs['determiner_variation'] = a.determiner_variation
         if a.parenthetical_mass is not None:
             generator_kwargs['parenthetical_mass'] = a.parenthetical_mass
-    if a.generator in ('v2_nested', 'v2_nested_varlen'):
+    if a.generator in ('v2_nested', 'v2_nested_varlen', 'v3_nested_varlen'):
         if a.determiner_variation is not None:
             generator_kwargs['determiner_variation'] = a.determiner_variation
         if a.nested_mass is not None:
             generator_kwargs['nested_mass'] = a.nested_mass
         if a.inner_mass is not None:
             generator_kwargs['inner_mass'] = a.inner_mass
-    if a.generator == 'v2_nested_varlen' and a.extra_mass is not None:
+    if a.generator in ('v2_nested_varlen', 'v3_nested_varlen') and a.extra_mass is not None:
         generator_kwargs['extra_mass'] = a.extra_mass
     if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
@@ -468,7 +539,8 @@ def main():
         model.train()
         for step in range(a.steps):
             if (a.verb_soft_weight > 0 or a.verb_sampled_weight > 0
-                    or a.object_soft_weight > 0 or a.answer_soft_weight > 0
+                    or a.object_soft_weight > 0 or a.object_counterfactual_weight > 0
+                    or a.answer_soft_weight > 0
                     or a.query_counterfactual_weight > 0 or a.count_soft_weight > 0
                     or a.source_soft_weight > 0 or a.source_counterfactual_weight > 0
                     or a.scope_soft_weight > 0 or a.scope_counterfactual_weight > 0
@@ -505,6 +577,18 @@ def main():
                 logp = F.log_softmax(logits.float(), dim=-1)
                 expected_ce = -(train['q'] * logp).sum(-1)
                 loss = loss + a.object_soft_weight * expected_ce[train['obj']].mean()
+            if a.object_counterfactual_weight > 0:
+                edited = object_induction_counterfactuals(
+                    gen, x, train['obj'], a.object_counterfactual_per_batch,
+                    causal_rng)
+                if edited is not None:
+                    edited_x, positions, targets = edited
+                    edited_logits = model(edited_x)[0]
+                    selected = edited_logits[
+                        torch.arange(len(positions), device=device), positions]
+                    counterfactual_ce = -(targets * F.log_softmax(
+                        selected.float(), dim=-1)).sum(-1).mean()
+                    loss = loss + a.object_counterfactual_weight * counterfactual_ce
             if a.answer_soft_weight > 0:
                 if train['answer'].any():
                     logp = F.log_softmax(logits.float(), dim=-1)

@@ -23,8 +23,8 @@ OBJECT_WEIGHTS = dict(adjective_bigram=.40, object_induction=.25,
 
 class SurfaceMixtureV3(SurfaceMixtureV2):
     def __init__(self, seed=0, weights=None, object_weights=None,
-                 object_vocab_size=None):
-        super().__init__(seed=seed, weights=weights)
+                 object_vocab_size=None, **base_kwargs):
+        super().__init__(seed=seed, weights=weights, **base_kwargs)
         assert object_vocab_size is None or 3 <= object_vocab_size <= len(OBJECTS)
         self.object_lexicon = (OBJECTS if object_vocab_size is None else
                                OBJECTS[:object_vocab_size])

@@ -28,11 +28,11 @@ def score_tables(model, length):
 @torch.no_grad()
 def first_layer_from_table(idx, tables, downstream):
     batch, length = idx.shape
-    lag = (torch.arange(length)[:, None] -
-           torch.arange(length)[None, :]).clamp_min(0)
+    lag = (torch.arange(length, device=idx.device)[:, None] -
+           torch.arange(length, device=idx.device)[None, :]).clamp_min(0)
     scores = tables[:, lag, idx[:, :, None], idx[:, None, :]]
     scores = scores.masked_fill(~torch.ones(length, length,
-        dtype=torch.bool).tril()[None, None], 0.)
+        dtype=torch.bool, device=idx.device).tril()[None, None], 0.)
     values = downstream[:, idx]
     return torch.einsum('hbqk,hbkd->bqd', scores, values)
 

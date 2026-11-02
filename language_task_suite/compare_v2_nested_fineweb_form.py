@@ -12,6 +12,7 @@ from tokenizers import Tokenizer
 from audit_fineweb_surfaces import DEFAULT_ROWS, DEFAULT_TOKENIZER
 from surface_mixture_v2_nested import SurfaceMixtureV2Nested, render_nested
 from surface_mixture_v2_nested_varlen import SurfaceMixtureV2NestedVarlen
+from surface_mixture_v3_nested_varlen import SurfaceMixtureV3NestedVarlen
 
 
 def counts(texts):
@@ -34,7 +35,8 @@ def main():
     p.add_argument('--n',type=int,default=480)
     p.add_argument('--length',type=int,default=128)
     p.add_argument('--seed',type=int,default=20261205)
-    p.add_argument('--generator',choices=('fixed','varlen'),default='fixed')
+    p.add_argument('--generator',choices=('fixed','varlen','joint'),default='fixed')
+    p.add_argument('--object-vocab-size',type=int,default=8)
     p.add_argument('--nested-mass',type=float,default=.3)
     p.add_argument('--inner-mass',type=float,default=.6)
     p.add_argument('--extra-mass',type=float,default=.5)
@@ -45,12 +47,15 @@ def main():
     tokenizer=Tokenizer.from_file(str(a.tokenizer))
     natural=[tokenizer.decode(row[:a.length].tolist(),skip_special_tokens=False)
              for row in rows[:a.n]]
-    cls=(SurfaceMixtureV2Nested if a.generator=='fixed'
-         else SurfaceMixtureV2NestedVarlen)
+    cls={'fixed':SurfaceMixtureV2Nested,
+         'varlen':SurfaceMixtureV2NestedVarlen,
+         'joint':SurfaceMixtureV3NestedVarlen}[a.generator]
     kwargs=dict(seed=a.seed,nested_mass=a.nested_mass,
                 inner_mass=a.inner_mass)
-    if a.generator=='varlen':
+    if a.generator in ('varlen','joint'):
         kwargs['extra_mass']=a.extra_mass
+    if a.generator=='joint':
+        kwargs['object_vocab_size']=a.object_vocab_size
     gen=cls(**kwargs)
     synthetic=[render_nested(gen.sample_sequence(a.length)[0])
                for _ in range(a.n)]
