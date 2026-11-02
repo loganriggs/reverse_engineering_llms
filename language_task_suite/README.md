@@ -62,6 +62,8 @@ For the current joint-rule language with varied determiners and parenthetical as
 
 The [matched-width basis transfer test](VARIED_JOINT_RULE_BASIS_TRANSFER.md) compares weight-derived, activation, intervention-trained and sparse-rotated directions on that checkpoint with held-out sentence frames and a parenthetical-rate shift. It separates local response compression from recovery of a rule computation.
 
+The [iterated L1/prune transfer test](VARIED_ITERATED_SPARSITY_PATH_RESULTS.md) applies the earlier revert-and-no-L1-finetune protocol to this varied language model. It reaches 14.23% attention-weight density or 37.72% all-linear density at bounded KL, then tests causal edits, head paths, and an exact first-layer token-space QK/OV fold. Weight sparsity does not yet produce comparably legible rule paths.
+
 The [output-aware shared-group test](VARIED_CAUSAL_GROUP_FEATURIZER_RESULTS.md) keeps previous-place interventions out of featurizer fitting. Shared groups still lose to scalar Top-8 under matched active-support budgets, motivating a direct comparison with the original iterative L1-and-prune path analysis.
 
 ## What existed, and what this adds
