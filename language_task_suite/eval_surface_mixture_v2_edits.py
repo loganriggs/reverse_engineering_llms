@@ -13,6 +13,8 @@ from eval_surface_mixture_edits import predict, replacement, score
 from surface_mixture_v2 import (ADJECTIVES, LEADS, PEOPLE, PLACES,
                                 VERBS, SurfaceMixtureV2, _frame, _indices,
                                 _metadata, _split)
+from surface_mixture_v2_varied import (DETERMINER_SLOTS,
+                                       SurfaceMixtureV2Varied)
 from train_surface_mixture import make_batch
 
 
@@ -88,11 +90,23 @@ def edited_pair(gen, prefix, kind):
         if new is None:
             return None
         edited[index] = new
+    elif kind == 'nuisance_determiner':
+        earlier_slots = [i for i in DETERMINER_SLOTS[frame]
+                         if i < verb_i]
+        if not earlier_slots:
+            return None
+        index = start+earlier_slots[0]
+        new = replacement(gen, prefix, index,
+                          ('the', 'this', 'that'))
+        if new is None:
+            return None
+        edited[index] = new
     else:
         raise ValueError(kind)
     assert edited != prefix
     q0, q1 = gen.next_distribution(prefix), gen.next_distribution(edited)
-    assert (q0 == q1) == (kind == 'nuisance_adjective')
+    assert (q0 == q1) == (kind in ('nuisance_adjective',
+                                  'nuisance_determiner'))
     return edited, q0, q1
 
 
@@ -106,8 +120,11 @@ def build_pairs(gen, n, length):
                 continue
             prefix = tokens[:t]
             frame = _frame(_split(prefix)[1])
-            for kind in ('cue', 'lexical', 'induction', 'place_skip',
-                         'nuisance_adjective'):
+            kinds = ('cue', 'lexical', 'induction', 'place_skip',
+                     'nuisance_adjective')
+            if isinstance(gen, SurfaceMixtureV2Varied):
+                kinds += ('nuisance_determiner',)
+            for kind in kinds:
                 result = edited_pair(gen, prefix, kind)
                 if result is None:
                     continue
@@ -141,6 +158,8 @@ def main():
                    help='Override the checkpoint DGP repeat mass')
     p.add_argument('--subject-return-mass', type=float, default=None,
                    help='Override the checkpoint DGP non-immediate return mass')
+    p.add_argument('--determiner-variation', type=float, default=None)
+    p.add_argument('--parenthetical-mass', type=float, default=None)
     p.add_argument('--truncate-layer', type=int, default=None)
     p.add_argument('--basis', choices=('physical', 'random', 'activation_pca',
                                        'weight_svd'), default='weight_svd')
@@ -149,15 +168,17 @@ def main():
     a = p.parse_args()
     torch.set_num_threads(4)
     saved = json.loads((Path(a.model_dir)/'results.json').read_text())
-    repeat_mass = (a.subject_repeat_mass if a.subject_repeat_mass is not None
-                   else saved.get('generator_kwargs', {}).get(
-                       'subject_repeat_mass', .4))
-    return_mass = (a.subject_return_mass if a.subject_return_mass is not None
-                   else saved.get('generator_kwargs', {}).get(
-                       'subject_return_mass', 0.))
-    gen = SurfaceMixtureV2(seed=a.seed,
-                           subject_repeat_mass=repeat_mass,
-                           subject_return_mass=return_mass)
+    generator_name = saved.get('config', {}).get('generator', 'v2')
+    generator_class = {'v2': SurfaceMixtureV2,
+                       'v2_varied': SurfaceMixtureV2Varied}[generator_name]
+    generator_kwargs = dict(saved.get('generator_kwargs', {}))
+    for key, value in (('subject_repeat_mass', a.subject_repeat_mass),
+                       ('subject_return_mass', a.subject_return_mass),
+                       ('determiner_variation', a.determiner_variation),
+                       ('parenthetical_mass', a.parenthetical_mass)):
+        if value is not None:
+            generator_kwargs[key] = value
+    gen = generator_class(seed=a.seed, **generator_kwargs)
     pairs = build_pairs(gen, a.n, a.length)
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
@@ -180,9 +201,8 @@ def main():
             def collect(_, inputs):
                 captured.append(inputs[0].detach())
             hook = bond.register_forward_pre_hook(collect)
-            xfit, _ = make_batch(SurfaceMixtureV2(
-                seed=8501, subject_repeat_mass=repeat_mass,
-                subject_return_mass=return_mass), 256,
+            xfit, _ = make_batch(generator_class(seed=8501,
+                                                  **generator_kwargs), 256,
                                  a.length, 'cpu')
             with torch.no_grad():
                 for batch in xfit.split(32):
@@ -221,8 +241,8 @@ def main():
     by_frame = defaultdict(lambda: defaultdict(int))
     for pair in pairs:
         by_frame[pair['frame']][pair['kind']] += 1
-    output = dict(config={**vars(a), 'effective_subject_repeat_mass': repeat_mass,
-                          'effective_subject_return_mass': return_mass},
+    output = dict(config={**vars(a), 'effective_generator': generator_name,
+                          'effective_generator_kwargs': generator_kwargs},
                   n_pairs=len(pairs),
                   pairs_by_frame={k: dict(v) for k, v in by_frame.items()},
                   results=results, results_by_frame=results_by_frame,

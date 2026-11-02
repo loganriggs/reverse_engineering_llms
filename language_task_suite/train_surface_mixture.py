@@ -16,6 +16,7 @@ import torch.nn.functional as F
 
 from surface_mixture_language import SurfaceMixtureLanguage
 from surface_mixture_v2 import SurfaceMixtureV2
+from surface_mixture_v2_varied import SurfaceMixtureV2Varied
 from surface_mixture_v3 import SurfaceMixtureV3
 from surface_mixture_v4 import SurfaceMixtureV4
 from surface_mixture_v5 import SurfaceMixtureV5
@@ -236,7 +237,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
     p.add_argument('--parenthetical-rate', type=float, default=.55)
     p.add_argument('--alias-fraction', type=float, default=.65)
     p.add_argument('--alias-use', type=float, default=.65)
@@ -263,6 +264,10 @@ def main():
                    help='For v2, probability mass on repeating the previous subject (default .4)')
     p.add_argument('--subject-return-mass', type=float, default=None,
                    help='For v2, probability mass on a non-immediate earlier subject (default 0)')
+    p.add_argument('--determiner-variation', type=float, default=None,
+                   help='For v2_varied, non-the determiner probability (default .5)')
+    p.add_argument('--parenthetical-mass', type=float, default=None,
+                   help='For v2_varied, probability of a post-base parenthetical (default .2)')
     p.add_argument('--hard-query-rate', type=float, default=None,
                    help='For v4, probability of querying a nonlatest object when available')
     p.add_argument('--counterbalanced-queries', action='store_true',
@@ -325,10 +330,10 @@ def main():
         p.error('Cannot mask verb CE while adding a verb objective')
     if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
-    if a.subject_repeat_mass is not None and a.generator != 'v2':
-        p.error('Subject repeat mass currently applies to v2 only')
-    if a.subject_return_mass is not None and a.generator != 'v2':
-        p.error('Subject return mass currently applies to v2 only')
+    if (a.subject_repeat_mass is not None or a.subject_return_mass is not None) and a.generator not in ('v2', 'v2_varied'):
+        p.error('Subject repeat/return masses apply to v2 variants only')
+    if (a.determiner_variation is not None or a.parenthetical_mass is not None) and a.generator != 'v2_varied':
+        p.error('Determiner and parenthetical variation require v2_varied')
     if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Question-answer supervision requires v4/v5 generator')
     if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
@@ -352,6 +357,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     generator_class = {'v1': SurfaceMixtureLanguage,
                        'v2': SurfaceMixtureV2,
+                       'v2_varied': SurfaceMixtureV2Varied,
                        'v3': SurfaceMixtureV3,
                        'v4': SurfaceMixtureV4,
                        'v5': SurfaceMixtureV5,
@@ -361,10 +367,15 @@ def main():
                        'alias': AliasMixtureLanguage}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
                         if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
-    if a.generator == 'v2' and a.subject_repeat_mass is not None:
+    if a.generator in ('v2', 'v2_varied') and a.subject_repeat_mass is not None:
         generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
-    if a.generator == 'v2' and a.subject_return_mass is not None:
+    if a.generator in ('v2', 'v2_varied') and a.subject_return_mass is not None:
         generator_kwargs['subject_return_mass'] = a.subject_return_mass
+    if a.generator == 'v2_varied':
+        if a.determiner_variation is not None:
+            generator_kwargs['determiner_variation'] = a.determiner_variation
+        if a.parenthetical_mass is not None:
+            generator_kwargs['parenthetical_mass'] = a.parenthetical_mass
     if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries

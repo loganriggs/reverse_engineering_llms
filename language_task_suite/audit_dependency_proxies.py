@@ -22,6 +22,8 @@ from audit_fineweb_surfaces import DEFAULT_TOKENIZER
 from surface_alias_mixture import AliasMixtureLanguage, render as render_alias
 from surface_mixture_v2 import (SurfaceMixtureV2, _frame, _indices,
                                 _metadata, _split, render as render_v2)
+from surface_mixture_v2_varied import (SurfaceMixtureV2Varied,
+                                       render as render_v2_varied)
 from surface_mixture_v7 import render as render_v8
 from surface_mixture_v8 import SurfaceMixtureV8
 
@@ -142,14 +144,14 @@ def summaries(texts):
                                             for t in cropped)))
 
 
-def sample_v2(gen, n, length):
+def sample_v2(gen, n, length, render_fn=render_v2):
     texts = []
     verbs = induction_active = conflicting = 0
     induction_distances = []
     nonadjacent_sources = 0
     for _ in range(n):
         ids, labels, _ = gen.sample_sequence(length)
-        texts.append(render_v2(ids))
+        texts.append(render_fn(ids))
         for position, label in enumerate(labels):
             if label != 'mixed_verb':
                 continue
@@ -197,6 +199,9 @@ def main():
     known = json.loads((HERE/'fineweb_dependency_panel_skip7000.json').read_text())
     if a.panel == DEFAULT_PANEL:
         assert digest == known['source_sha256']
+    elif a.panel.name == 'fineweb_n192_skip11000.pt':
+        holdout = json.loads((HERE/'alias_surface_holdout.json').read_text())
+        assert digest == holdout['holdout_sha256']
     tokenizer = Tokenizer.from_file(str(a.tokenizer))
     natural = [tokenizer.decode(row[:a.first_tokens].tolist(),
                                 skip_special_tokens=False) for row in rows]
@@ -231,6 +236,12 @@ def main():
     return_texts, return_density = sample_v2(
         SurfaceMixtureV2(seed=a.seed, subject_repeat_mass=.1,
                          subject_return_mass=.3), n, a.first_tokens)
+    varied_texts, varied_density = sample_v2(
+        SurfaceMixtureV2Varied(seed=a.seed), n, a.first_tokens,
+        render_fn=render_v2_varied)
+    varied_low_texts, varied_low_density = sample_v2(
+        SurfaceMixtureV2Varied(seed=a.seed, parenthetical_mass=.1),
+        n, a.first_tokens, render_fn=render_v2_varied)
     v8 = SurfaceMixtureV8(seed=a.seed, section_rate=.06, detail_rate=.8,
                           scope_question_rate=.08, quote_rate=.08,
                           source_rate=.15)
@@ -241,12 +252,16 @@ def main():
                                  alias_reuse_rate=.10)
     alias_texts = [render_alias(alias.sample_sequence(a.first_tokens)[0])
                    for _ in range(n)]
-    candidates = [('fineweb_dev', natural), ('v3_priority', v3_texts),
+    natural_name = ('fineweb_dev' if a.panel == DEFAULT_PANEL
+                    else 'fineweb_holdout')
+    candidates = [(natural_name, natural), ('v3_priority', v3_texts),
                   ('v3_sparse_brackets', v3_sparse_texts),
                   ('v2_joint', v2_texts)]
     candidates += [(f'v2_subject_repeat_{mass}', texts)
                    for mass, texts in v2_repeat.items()]
     candidates += [('v2_repeat_0.1_return_0.3', return_texts)]
+    candidates += [('v2_varied', varied_texts)]
+    candidates += [('v2_varied_low_bracket', varied_low_texts)]
     candidates += [('v8_low_rate', v8_texts),
                    ('alias_low_rate', alias_texts)]
     results = {name: summaries(texts) for name, texts in candidates}
@@ -256,12 +271,19 @@ def main():
     rule_density.update({f'v2_subject_repeat_{mass}': density
                          for mass, density in v2_repeat_density.items()})
     rule_density['v2_repeat_0.1_return_0.3'] = return_density
+    rule_density['v2_varied'] = varied_density
+    rule_density['v2_varied_low_bracket'] = varied_low_density
+    panel_note = ('The skip11000 panel is untouched by this audit.'
+                  if a.panel == DEFAULT_PANEL else
+                  'The skip11000 panel is an independent form check for the '
+                  'varied generator, but it was used by earlier alias '
+                  'experiments; do not tune on it.')
     output = dict(config={**vars(a), 'panel': str(a.panel),
                           'tokenizer': str(a.tokenizer),
                           'output': str(a.output)},
                   source_sha256=digest, results=results,
                   synthetic_rule_density=rule_density,
-                  caveat='Development-panel word-pattern proxies, not natural '
+                  caveat='Word-pattern proxies, not natural '
                          'task labels. FineWeb and synthetic tokenizers differ. '
                          'The 100-word crop matches surface length only; '
                          'The stopword list is heuristic and raw successor '
@@ -269,7 +291,7 @@ def main():
                          'inspect lexical-successor-conditioned copying too. '
                          'v3 square brackets encode quotes, while real square '
                          'brackets can be citations or markup. No source prose '
-                         'is exported. The skip11000 final panel is untouched.')
+                         'is exported. '+panel_note)
     a.output.write_text(json.dumps(output, indent=2)+'\n')
     for name, row in results.items():
         print(name, 'repeat/100 content', round(

@@ -58,6 +58,8 @@ The [sparse-gauge whole-genre holdout](MULTI_GENRE_SPARSE_GAUGE_HOLDOUT.md) fits
 
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
+For the current joint-rule language with varied determiners and parenthetical asides, see [the exact-rule, realism, training, and causal-edit results](SURFACE_MIXTURE_V2_VARIED_RESULTS.md). The trained two-layer checkpoint is in `surface_mixture_v2_varied_soft_models/`.
+
 ## What existed, and what this adds
 
 The older repository already has natural-text training (`lm_train.py`), bilinear model code (`model.py`, `deep_model.py`), and analyzed first-layer/late-layer circuits for bracket closure, numbered-list increment, and successor sequences (`basis_aligned/qk_mdl/algo_tasks/SYNTHESIS.md`). The recent canonicalization toys in this repository tested count, XOR, AND, and shared pair routing. These are valuable circuit probes but cover a narrow slice of language. This suite adds 12 explicit task families, balanced sampling, structural variants, oracle checks, FineWeb form audit, and a 1–4-block trainer.
