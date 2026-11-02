@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import random
 import time
@@ -11,7 +12,6 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from document_world import sample_world
 from train import DeepModel, SPECS, encode, encode_full_lm, evaluate, vocabulary
 
 
@@ -27,10 +27,13 @@ def main():
     p.add_argument('--lr', type=float, default=0.001)
     p.add_argument('--seed', type=int, default=42)
     p.add_argument('--objective', choices=('target', 'full_lm'), default='target')
+    p.add_argument('--world-version', choices=('v1', 'v2'), default='v1')
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', default='language_task_suite/world_pilot.json')
     p.add_argument('--save-models', action='store_true')
     a = p.parse_args()
+    sample_world = importlib.import_module('document_world' if a.world_version == 'v1'
+                                          else 'document_world_v2').sample_world
     torch.set_num_threads(4)
     device = torch.device(a.device)
     train = sample_world(a.train_n, a.seed, genres=(0, 1))

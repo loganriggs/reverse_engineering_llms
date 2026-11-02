@@ -1,12 +1,18 @@
 """Oracle, split, and paired-edit checks for document-level tasks."""
 
+import argparse
+import importlib
 from collections import Counter
 
-from document_world import (GENRES, causal_pair, composition_fold,
-                            nuisance_pair, sample_world, world_oracle)
-
-
 def main():
+    p = argparse.ArgumentParser()
+    p.add_argument('--world-version', choices=('v1', 'v2'), default='v1')
+    args = p.parse_args()
+    world = importlib.import_module('document_world' if args.world_version == 'v1'
+                                    else 'document_world_v2')
+    GENRES, causal_pair, composition_fold, nuisance_pair, sample_world, world_oracle = (
+        getattr(world, name) for name in ('GENRES', 'causal_pair', 'composition_fold',
+                                          'nuisance_pair', 'sample_world', 'world_oracle'))
     train = sample_world(20_000, 42, genres=(0, 1))
     iid = sample_world(4_000, 43, genres=(0, 1))
     held_compositions = sample_world(4_000, 44, split='composition', genres=(0, 1))
@@ -30,6 +36,13 @@ def main():
                for name, split in [('iid', iid), ('composition', held_compositions),
                                    ('genre', held_genre)]}
     assert overlap == {'iid': 0, 'composition': 0, 'genre': 0}, overlap
+    if args.world_version == 'v2':
+        train_vocab = {token for ex in train for token in ex.prefix + (ex.target,)}
+        unseen = {token for ex in held_genre for token in ex.prefix + (ex.target,)
+                  if token not in train_vocab}
+        assert not unseen, ('unseen held-genre tokens', unseen)
+        assert all('a orange' not in ex.text() for split in
+                   (train, iid, held_compositions, held_genre) for ex in split)
     print('PASS', sum(map(len, (train, iid, held_compositions, held_genre))),
           'examples, oracle and pairs; no train/test exact-prefix overlap')
     print('lengths', {name: (min(map(lambda x: len(x.prefix), split)),

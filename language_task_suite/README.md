@@ -2,6 +2,10 @@
 
 **Current follow-up:** [`WORLD_RESULTS.md`](WORLD_RESULTS.md) documents the newer latent document-world generator, its 32,000-example oracle audit, 1–4-block and larger-model results, causal-edit tests, final attention-bond gauge experiments, and the measured gap to FineWeb surface statistics. The earlier 12-family suite described below remains a simpler baseline. The document-world v1 has a known indefinite-article error (`a orange`); retain its source with its checkpoints and correct it in a versioned successor.
 
+[`V2_RESULTS.md`](V2_RESULTS.md) follows that versioned successor. It lengthens and repairs the document realizations while preserving the latent-world task, checks oracle/edit/split invariants, and retrains the 1–4-block depth sweep. Select the generator explicitly with `--world-version v1` or `--world-version v2` in `train_world.py`, `validate_world.py`, `eval_world_counterfactual.py`, and `world_bond_gauges.py`.
+
+**Research-direction correction:** [`EXISTING_GENERATOR_BRIDGE.md`](EXISTING_GENERATOR_BRIDGE.md) locates the earlier autoregressive mixed-rule generator and trained tensor-transformers in `toy_models_of_tensor_networks/attn_circuits`. Its competing n-gram, induction, and bracket distributions are the primary sandbox for the intended mechanism-discovery loop. The document-world benchmark is a complementary state-tracking stress test.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds

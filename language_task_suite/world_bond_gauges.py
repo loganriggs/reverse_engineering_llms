@@ -7,6 +7,7 @@ The trained model saw all three tasks; *featurizer fitting* withholds place.
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -15,7 +16,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from document_world import causal_pair, nuisance_pair, sample_world
 from train import DeepModel, SPECS, encode
 
 
@@ -71,12 +71,12 @@ def orthogonal_random(rng, d):
     return q*np.sign(np.diag(r))[None,:]
 
 
-def fit_bases(model, attention, vocab, device, n_fit, seed):
-    examples = [ex for ex in sample_world(n_fit*3, seed, genres=(0,1))
+def fit_bases(model, attention, vocab, device, n_fit, seed, world):
+    examples = [ex for ex in world.sample_world(n_fit*3, seed, genres=(0,1))
                 if ex.family in ('world_owner', 'world_color')][:n_fit]
     assert len(examples) == n_fit
     z = collect_bond(model, attention, examples, vocab, device)
-    edits = [causal_pair(ex)[1] for ex in examples[:min(1000,len(examples))]]
+    edits = [world.causal_pair(ex)[1] for ex in examples[:min(1000,len(examples))]]
     delta = collect_bond(model, attention, edits, vocab, device)-z[:len(edits)]
     weight = attention.o.weight.detach().cpu().numpy().astype(np.float64)
     _,_,vh = np.linalg.svd(z, full_matrices=False)
@@ -99,18 +99,18 @@ def fit_bases(model, attention, vocab, device, n_fit, seed):
                        heldout_family='world_place')
 
 
-def axis_signatures(model, attention, vocab, device, bases, seed, n=200):
+def axis_signatures(model, attention, vocab, device, bases, seed, world, n=200):
     """Post-fit semantic readout; these task labels never select a basis."""
-    examples = sample_world(n*5, seed, split='composition', genres=(0,1))
+    examples = world.sample_world(n*5, seed, split='composition', genres=(0,1))
     groups = {family: [ex for ex in examples if ex.family == family][:n]
               for family in ('world_owner','world_color','world_place')}
     deltas = {}
     nuisance = {}
     for family, group in groups.items():
         base = collect_bond(model, attention, group, vocab, device)
-        causal = collect_bond(model, attention, [causal_pair(ex)[1] for ex in group],
+        causal = collect_bond(model, attention, [world.causal_pair(ex)[1] for ex in group],
                               vocab, device)
-        other = collect_bond(model, attention, [nuisance_pair(ex)[1] for ex in group],
+        other = collect_bond(model, attention, [world.nuisance_pair(ex)[1] for ex in group],
                              vocab, device)
         deltas[family] = causal-base
         nuisance[family] = other-base
@@ -194,18 +194,22 @@ def main():
     p.add_argument('--n-test', type=int, default=500)
     p.add_argument('--keeps', default='4,8,12,24,48')
     p.add_argument('--seed', type=int, default=700)
+    p.add_argument('--world-version', choices=('v1', 'v2'), default='v1')
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', default='language_task_suite/world_bond_gauges.json')
     a = p.parse_args()
+    world = importlib.import_module('document_world' if a.world_version == 'v1'
+                                    else 'document_world_v2')
     torch.set_num_threads(4)
     device = torch.device(a.device)
     model, attention, ck = model_from_checkpoint(a.checkpoint, device)
-    bases, fit = fit_bases(model, attention, ck['vocabulary'], device, a.n_fit, a.seed)
+    bases, fit = fit_bases(model, attention, ck['vocabulary'], device,
+                           a.n_fit, a.seed, world)
     signatures = axis_signatures(model, attention, ck['vocabulary'], device,
-                                 bases, a.seed+10, n=min(200,a.n_test))
-    splits = dict(iid=sample_world(a.n_test, a.seed+1, genres=(0,1)),
-                  composition=sample_world(a.n_test, a.seed+2, split='composition', genres=(0,1)),
-                  held_genre=sample_world(a.n_test, a.seed+3, genres=(2,)))
+                                 bases, a.seed+10, world, n=min(200,a.n_test))
+    splits = dict(iid=world.sample_world(a.n_test, a.seed+1, genres=(0,1)),
+                  composition=world.sample_world(a.n_test, a.seed+2, split='composition', genres=(0,1)),
+                  held_genre=world.sample_world(a.n_test, a.seed+3, genres=(2,)))
     rows = {}
     for split, examples in splits.items():
         rows[split] = {}

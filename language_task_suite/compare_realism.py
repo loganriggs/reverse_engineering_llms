@@ -5,6 +5,8 @@ documents and sentence splitting is intentionally simple.
 """
 
 import json
+import argparse
+import importlib
 import re
 import statistics as st
 from collections import Counter
@@ -14,7 +16,6 @@ import torch
 from tokenizers import Tokenizer
 
 from audit_fineweb_surfaces import DEFAULT_ROWS, DEFAULT_TOKENIZER
-from document_world import GENRES, sample_world
 
 
 def words(text):
@@ -41,6 +42,13 @@ def summary(texts):
 
 
 def main():
+    p = argparse.ArgumentParser()
+    p.add_argument('--world-version', choices=('v1', 'v2'), default='v1')
+    p.add_argument('--output', default=None)
+    a = p.parse_args()
+    world = importlib.import_module('document_world' if a.world_version == 'v1'
+                                    else 'document_world_v2')
+    GENRES, sample_world = world.GENRES, world.sample_world
     rows = torch.load(DEFAULT_ROWS, map_location='cpu', weights_only=True)
     tok = Tokenizer.from_file(str(DEFAULT_TOKENIZER))
     fineweb = [tok.decode(row.tolist(), skip_special_tokens=False) for row in rows]
@@ -50,7 +58,9 @@ def main():
                   caveat='FineWeb units are fixed token windows, not full documents; '
                          'naive regex sentence segmentation and word counts are only rough form diagnostics. '
                          'Synthetic examples end at a task answer and intentionally have small vocabularies.')
-    path = Path(__file__).with_name('world_surface_comparison.json')
+    path = Path(a.output) if a.output else Path(__file__).with_name(
+        'world_surface_comparison.json' if a.world_version == 'v1'
+        else 'world_v2_surface_comparison.json')
     path.write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps(result, indent=2))
 

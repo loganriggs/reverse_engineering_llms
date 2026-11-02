@@ -1,13 +1,13 @@
 """Paired semantic edits for document-world bilinear checkpoints."""
 
 import argparse
+import importlib
 import json
 from collections import defaultdict
 from pathlib import Path
 
 import torch
 
-from document_world import causal_pair, nuisance_pair, sample_world
 from train import DeepModel, SPECS, encode
 
 
@@ -34,9 +34,14 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('checkpoint')
     p.add_argument('--n', type=int, default=300)
+    p.add_argument('--world-version', choices=('v1', 'v2'), default='v1')
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', default=None)
     a = p.parse_args()
+    world = importlib.import_module('document_world' if a.world_version == 'v1'
+                                    else 'document_world_v2')
+    causal_pair, nuisance_pair, sample_world = (
+        world.causal_pair, world.nuisance_pair, world.sample_world)
     torch.set_num_threads(4)
     ck = torch.load(a.checkpoint, map_location='cpu', weights_only=True)
     k = ck['model_kwargs']
@@ -63,7 +68,8 @@ def main():
                 pairs = [transform(ex) for ex in group]
                 flat = [ex for pair in pairs for ex in pair]
                 result[split][family][kind] = score(model, flat, ck['vocabulary'], device)
-    output = dict(checkpoint=a.checkpoint, n_target_pairs=a.n, results=result)
+    output = dict(checkpoint=a.checkpoint, world_version=a.world_version,
+                  n_target_pairs=a.n, results=result)
     print(json.dumps(output, indent=2))
     if a.output:
         Path(a.output).write_text(json.dumps(output, indent=2)+'\n')

@@ -1,13 +1,13 @@
 """Can a different linear readout recover held-out answers from residuals?"""
 
 import argparse
+import importlib
 import json
 from pathlib import Path
 
 import torch
 import torch.nn.functional as F
 
-from document_world import sample_world
 from train import DeepModel, SPECS, encode
 
 
@@ -46,9 +46,12 @@ def main():
     p.add_argument('checkpoint')
     p.add_argument('--train-n',type=int,default=12000)
     p.add_argument('--test-n',type=int,default=2000)
+    p.add_argument('--world-version',choices=('v1','v2'),default='v1')
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output',default='language_task_suite/world_residual_probe.json')
     a=p.parse_args()
+    sample_world=importlib.import_module('document_world' if a.world_version=='v1'
+                                         else 'document_world_v2').sample_world
     torch.set_num_threads(4)
     ck=torch.load(a.checkpoint,map_location='cpu',weights_only=True)
     k=ck['model_kwargs'];device=torch.device(a.device)
