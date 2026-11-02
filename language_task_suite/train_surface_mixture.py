@@ -245,6 +245,10 @@ def main():
     p.add_argument('--initial-alias-definitions', type=int, default=0)
     p.add_argument('--alias-verb-rule-weights', type=json.loads,
                    help='JSON mapping lexical/induction/lead/place_skip weights for alias diagnostic')
+    p.add_argument('--verb-only-soft', action='store_true',
+                   help='Train only exact-oracle verb CE as a binding curriculum')
+    p.add_argument('--init-checkpoint',
+                   help='Initialize all model weights from a matching saved checkpoint')
     p.add_argument('--alias-causal-weight', type=float, default=0.0,
                    help='Exact-oracle CE on supported alias counterfactuals')
     p.add_argument('--alias-causal-nstreams', type=int, default=1024)
@@ -307,6 +311,10 @@ def main():
         p.error('Select only one extra verb objective')
     if a.alias_causal_weight and a.generator != 'alias':
         p.error('Alias causal supervision requires the alias generator')
+    if a.verb_only_soft and (a.verb_soft_weight or a.verb_sampled_weight):
+        p.error('Verb-only soft objective already supervises verb slots')
+    if a.verb_only_soft and a.generator != 'alias':
+        p.error('Verb-only curriculum currently requires the alias generator')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
     if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
@@ -383,6 +391,10 @@ def main():
                         block_has_mlp=(False,)*depth,
                         use_rmsnorm=a.rmsnorm)
         model = configure_attention(BilinearGPT(config), a.attention).to(device)
+        if a.init_checkpoint is not None:
+            model.load_state_dict(torch.load(a.init_checkpoint,
+                                             map_location=device,
+                                             weights_only=True))
         gen = generator_class(seed=8300+a.seed, **generator_kwargs)
         optimizer = torch.optim.AdamW(model.parameters(), lr=a.lr)
         t0 = time.time()
@@ -394,7 +406,7 @@ def main():
                     or a.query_counterfactual_weight > 0 or a.count_soft_weight > 0
                     or a.source_soft_weight > 0 or a.source_counterfactual_weight > 0
                     or a.scope_soft_weight > 0 or a.scope_counterfactual_weight > 0
-                    or a.mask_verb_ce):
+                    or a.mask_verb_ce or a.verb_only_soft):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
             else:
@@ -403,7 +415,11 @@ def main():
             logits = model(x)[0]
             per_token_ce = F.cross_entropy(logits.reshape(-1, len(vocab)),
                                            y.reshape(-1), reduction='none')
-            if a.mask_verb_ce:
+            if a.verb_only_soft:
+                logp = F.log_softmax(logits.float(), dim=-1)
+                expected_ce = -(train['q'] * logp).sum(-1)
+                loss = expected_ce[train['verb']].mean()
+            elif a.mask_verb_ce:
                 loss = per_token_ce.masked_fill(
                     train['verb'].reshape(-1), 0).mean()
             else:
