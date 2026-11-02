@@ -1,0 +1,133 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "model_dir": "language_task_suite/surface_alias_models_two_def_softmax_v1",
+    "depth": 2,
+    "n": 1024,
+    "length": 63,
+    "seed": 20261106,
+    "edit_selection": "balanced",
+    "generator_kwargs": {
+      "parenthetical_rate": 0.0,
+      "alias_fraction": 0.65,
+      "alias_use": 0.9,
+      "definition_start_rate": 0.0,
+      "alias_reuse_rate": 0.8,
+      "initial_alias_definitions": 2
+    },
+    "output": "language_task_suite/surface_alias_models_two_def_softmax_v1/shortcut_seed20261106.json"
+  },
+  "counts": {
+    "same_referent": 2460,
+    "different_referent": 2199,
+    "definition_referent": 1933,
+    "irrelevant_definition": 2460
+  },
+  "scores": {
+    "same_referent": {
+      "n": 2460,
+      "oracle_tv": 0.0,
+      "model_tv": 0.2879182696342468,
+      "effect_l1_error": 0.5758365392684937,
+      "no_change_l1_error": 0.0,
+      "direction_cosine": 0.0
+    },
+    "different_referent": {
+      "n": 2199,
+      "oracle_tv": 0.5557495951652527,
+      "model_tv": 0.022941797971725464,
+      "effect_l1_error": 1.1182022094726562,
+      "no_change_l1_error": 1.1114991903305054,
+      "direction_cosine": 0.04039705544710159,
+      "absolute_tv": {
+        "correct": 0.34950894117355347,
+        "opposite": 0.35020799934864044,
+        "equal_mix": 0.1733318269252777
+      }
+    },
+    "definition_referent": {
+      "n": 1933,
+      "oracle_tv": 0.5647715330123901,
+      "model_tv": 0.31235331296920776,
+      "effect_l1_error": 0.7237035632133484,
+      "no_change_l1_error": 1.1295430660247803,
+      "direction_cosine": 0.9039874076843262
+    },
+    "irrelevant_definition": {
+      "n": 2460,
+      "oracle_tv": 0.0,
+      "model_tv": 0.21041274070739746,
+      "effect_l1_error": 0.4208254814147949,
+      "no_change_l1_error": 0.0,
+      "direction_cosine": 0.0
+    },
+    "same_referent_first_use": {
+      "n": 1302,
+      "oracle_tv": 0.0,
+      "model_tv": 0.29712435603141785,
+      "effect_l1_error": 0.5942487120628357,
+      "no_change_l1_error": 0.0,
+      "direction_cosine": 0.0
+    },
+    "different_referent_first_use": {
+      "n": 1072,
+      "oracle_tv": 0.6036598682403564,
+      "model_tv": 0.02396528236567974,
+      "effect_l1_error": 1.2153104543685913,
+      "no_change_l1_error": 1.207319736480713,
+      "direction_cosine": 0.030285945162177086,
+      "absolute_tv": {
+        "correct": 0.35945965349674225,
+        "opposite": 0.360060378909111,
+        "equal_mix": 0.15400489419698715
+      }
+    },
+    "definition_referent_first_use": {
+      "n": 1302,
+      "oracle_tv": 0.6185125708580017,
+      "model_tv": 0.33325496315956116,
+      "effect_l1_error": 0.7834216952323914,
+      "no_change_l1_error": 1.2370251417160034,
+      "direction_cosine": 0.913797914981842
+    },
+    "irrelevant_definition_first_use": {
+      "n": 1302,
+      "oracle_tv": 0.0,
+      "model_tv": 0.24282586574554443,
+      "effect_l1_error": 0.48565173149108887,
+      "no_change_l1_error": 0.0,
+      "direction_cosine": 0.0
+    }
+  },
+  "examples": [
+    {
+      "kind": "same_referent",
+      "original": "Hannah (also called Faye). Alice (also called Cleo). During the repair Faye",
+      "edited": "Hannah (also called Faye). Alice (also called Cleo). During the repair Hannah",
+      "old_referent": "Hannah",
+      "new_referent": "Hannah"
+    },
+    {
+      "kind": "different_referent",
+      "original": "Hannah (also called Faye). Alice (also called Cleo). During the repair Faye",
+      "edited": "Hannah (also called Faye). Alice (also called Cleo). During the repair Cleo",
+      "old_referent": "Hannah",
+      "new_referent": "Alice"
+    },
+    {
+      "kind": "definition_referent",
+      "original": "Hannah (also called Faye). Alice (also called Cleo). During the repair Faye",
+      "edited": "Amira (also called Faye). Alice (also called Cleo). During the repair Faye",
+      "old_referent": "Hannah",
+      "new_referent": "Amira"
+    },
+    {
+      "kind": "irrelevant_definition",
+      "original": "Hannah (also called Faye). Alice (also called Cleo). During the repair Faye",
+      "edited": "Hannah (also called Faye). Amira (also called Cleo). During the repair Faye",
+      "old_referent": "Alice",
+      "new_referent": "Amira"
+    }
+  ],
+  "caveat": "The model was trained on all alias-person pairings. These are fresh stream/edit seeds, not whole-pair training holdouts. Same-referent edits have exactly zero oracle effect; different-referent edits have supported full prefixes and a changed verb oracle."
+}

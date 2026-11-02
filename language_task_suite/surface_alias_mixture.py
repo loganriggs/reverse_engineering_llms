@@ -56,17 +56,21 @@ def alias_state(history):
 class AliasMixtureLanguage(SurfaceMixtureV2):
     def __init__(self, seed=0, weights=None, parenthetical_rate=.55,
                  alias_fraction=.65, alias_use=.65,
-                 definition_start_rate=.20, alias_reuse_rate=.25):
+                 definition_start_rate=.20, alias_reuse_rate=.25,
+                 initial_alias_definitions=0):
         super().__init__(seed=seed, weights=weights)
         assert 0 <= parenthetical_rate < 1
         assert 0 <= alias_fraction <= 1 and 0 <= alias_use <= 1
         assert 0 <= definition_start_rate < 1
         assert 0 <= alias_reuse_rate < 1
+        assert (isinstance(initial_alias_definitions, int)
+                and 0 <= initial_alias_definitions <= min(len(PEOPLE), len(ALIASES)))
         self.parenthetical_rate = parenthetical_rate
         self.alias_fraction = alias_fraction
         self.alias_use = alias_use
         self.definition_start_rate = definition_start_rate
         self.alias_reuse_rate = alias_reuse_rate
+        self.initial_alias_definitions = initial_alias_definitions
         self.vocab, self.token2id, self.id2token = VOCAB, TOKEN2ID, ID2TOKEN
 
     def _tokens(self, prefix):
@@ -83,6 +87,8 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
     def _alias_start_distribution(self, history, clause):
         """Distribution after the first person token of a potential aside."""
         mapping = alias_state(history)
+        if len(mapping) < self.initial_alias_definitions:
+            return {'(': 1.0}
         person = clause[0]
         eligible = (person not in mapping.values()
                     and len(mapping) < len(ALIASES))
@@ -97,6 +103,8 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
         pos = len(clause)
         mapping = alias_state(history)
         if pos == 2:
+            if len(mapping) < self.initial_alias_definitions:
+                return {'also': .5, 'known': .5}
             return {'also': self.alias_fraction/2,
                     'known': self.alias_fraction/2,
                     'a': 1-self.alias_fraction}
@@ -131,6 +139,10 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
 
     def next_distribution(self, prefix):
         history, clause = _split(self._tokens(prefix))
+        if not clause and len(alias_state(history)) < self.initial_alias_definitions:
+            available = [person for person in PEOPLE
+                         if person not in alias_state(history).values()]
+            return {person: 1/len(available) for person in available}
         if _is_parenthetical(clause):
             return self._parenthetical_distribution(history, clause)
         if len(clause) == 1 and clause[0] in PEOPLE:

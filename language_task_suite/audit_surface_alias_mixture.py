@@ -114,14 +114,23 @@ if __name__ == '__main__':
     p.add_argument('--length', type=int, default=128)
     p.add_argument('--seed', type=int, default=20261105)
     p.add_argument('--parenthetical-rate', type=float, default=.55)
+    p.add_argument('--alias-fraction', type=float, default=.65)
+    p.add_argument('--alias-use', type=float, default=.65)
     p.add_argument('--definition-start-rate', type=float, default=.20)
     p.add_argument('--alias-reuse-rate', type=float, default=.25)
+    p.add_argument('--initial-alias-definitions', type=int, default=0)
+    p.add_argument('--verb-rule-weights', type=json.loads)
     p.add_argument('--output', type=Path,
                    default=Path(__file__).with_name('surface_alias_audit.json'))
     a = p.parse_args()
     result = audit(a.n, a.length, a.seed,
                    dict(parenthetical_rate=a.parenthetical_rate,
+                        alias_fraction=a.alias_fraction,
+                        alias_use=a.alias_use,
                         definition_start_rate=a.definition_start_rate,
-                        alias_reuse_rate=a.alias_reuse_rate))
+                        alias_reuse_rate=a.alias_reuse_rate,
+                        initial_alias_definitions=a.initial_alias_definitions,
+                        **({'weights': a.verb_rule_weights}
+                           if a.verb_rule_weights is not None else {})))
     a.output.write_text(json.dumps(result, indent=2)+'\n')
     print(result['counts'])

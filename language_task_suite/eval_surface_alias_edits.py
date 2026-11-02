@@ -148,6 +148,46 @@ def build_pairs(gen, n, length, edit_selection='first'):
                                       oracle_after=q_after))
                     break
                 break
+            if (gen.initial_alias_definitions >= 2 and len(history) >= 2
+                    and _alias_definition(history[0]) is not None
+                    and _alias_definition(history[1]) is not None
+                    and len(history[0]) == len(history[1]) == 7):
+                first_alias = _alias_definition(history[0])[0]
+                second_alias = _alias_definition(history[1])[0]
+                if subject in (first_alias, second_alias):
+                    swapped_order = history[1]+history[0]+[
+                        token for old in history[2:] for token in old]+clause
+                    assert supported_prefix(gen, swapped_order, 0)
+                    assert gen.next_distribution(swapped_order) == q_before
+                    pairs.append(dict(kind='definition_order',
+                                      original=[gen.token2id[x] for x in before],
+                                      edited=[gen.token2id[x] for x in swapped_order],
+                                      old_alias=subject, replacement=subject,
+                                      first_post_definition_use=first_use,
+                                      old_referent=mapping[subject],
+                                      new_referent=mapping[subject],
+                                      oracle_before=q_before,
+                                      oracle_after=q_before))
+                    swapped_labels = before.copy()
+                    swapped_labels[4], swapped_labels[11] = (
+                        swapped_labels[11], swapped_labels[4])
+                    if supported_prefix(gen, swapped_labels, 4):
+                        q_swapped = gen.next_distribution(swapped_labels)
+                    else:
+                        q_swapped = q_before
+                    if q_swapped != q_before:
+                        other = (second_alias if subject == first_alias
+                                 else first_alias)
+                        pairs.append(dict(kind='alias_label_swap',
+                                          original=[gen.token2id[x] for x in before],
+                                          edited=[gen.token2id[x]
+                                                  for x in swapped_labels],
+                                          old_alias=subject, replacement=other,
+                                          first_post_definition_use=first_use,
+                                          old_referent=mapping[subject],
+                                          new_referent=mapping[other],
+                                          oracle_before=q_before,
+                                          oracle_after=q_swapped))
     return pairs
 
 
@@ -155,9 +195,11 @@ def score(pairs, before, after, gen):
     result = {}
     for kind in ('same_referent', 'different_referent', 'definition_referent',
                  'irrelevant_definition',
+                 'definition_order', 'alias_label_swap',
                  'same_referent_first_use', 'different_referent_first_use',
                  'definition_referent_first_use',
-                 'irrelevant_definition_first_use'):
+                 'irrelevant_definition_first_use',
+                 'definition_order_first_use', 'alias_label_swap_first_use'):
         first = kind.endswith('_first_use')
         base_kind = kind.removesuffix('_first_use')
         indices = [i for i, pair in enumerate(pairs)
@@ -182,6 +224,21 @@ def score(pairs, before, after, gen):
                                 np.dot(a, b)/(np.linalg.norm(a)*np.linalg.norm(b))
                                 if np.linalg.norm(a)>1e-8 and np.linalg.norm(b)>1e-8
                                 else 0.0 for a, b in zip(oracle, model)])))
+        if base_kind == 'different_referent':
+            q0 = np.zeros_like(oracle)
+            q1 = np.zeros_like(oracle)
+            for j, i in enumerate(indices):
+                for token, p in pairs[i]['oracle_before'].items():
+                    q0[j, gen.token2id[token]] = p
+                for token, p in pairs[i]['oracle_after'].items():
+                    q1[j, gen.token2id[token]] = p
+            p0, p1 = before[indices], after[indices]
+            avg = (q0+q1)/2
+            tv = lambda x, y: float(np.abs(x-y).sum(-1).mean()/2)
+            result[kind]['absolute_tv'] = dict(
+                correct=(tv(p0, q0)+tv(p1, q1))/2,
+                opposite=(tv(p0, q1)+tv(p1, q0))/2,
+                equal_mix=(tv(p0, avg)+tv(p1, avg))/2)
     return result
 
 
@@ -195,17 +252,21 @@ def main():
     p.add_argument('--seed', type=int, default=20261106)
     p.add_argument('--edit-selection', choices=('first', 'balanced'),
                    default='first')
+    p.add_argument('--generator-kwargs', type=json.loads,
+                   help='Optional JSON object overriding the checkpoint DGP rates')
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
     torch.set_num_threads(4)
-    gen = AliasMixtureLanguage(seed=a.seed)
+    saved = json.loads((a.model_dir/'results.json').read_text())
+    generator_kwargs = (a.generator_kwargs if a.generator_kwargs is not None
+                        else saved.get('generator_kwargs', {}))
+    gen = AliasMixtureLanguage(seed=a.seed, **generator_kwargs)
     pairs = build_pairs(gen, a.n, a.length, a.edit_selection)
     assert sum(pair['kind'] == 'same_referent' for pair in pairs) > 50
     assert sum(pair['kind'] == 'different_referent' for pair in pairs) > 20
-    saved = json.loads((a.model_dir/'results.json').read_text())
     record = next(row for row in saved['records'] if row['depth'] == a.depth)
     model = configure_attention(BilinearGPT(Config(**record['model_config'])),
                                 saved['config'].get('attention', 'bilinear'))
@@ -214,7 +275,8 @@ def main():
     model.eval()
     p0 = predict(model, [pair['original'] for pair in pairs], len(gen.vocab))
     p1 = predict(model, [pair['edited'] for pair in pairs], len(gen.vocab))
-    result = dict(config={**vars(a), 'model_dir': str(a.model_dir),
+    result = dict(config={**vars(a), 'generator_kwargs': generator_kwargs,
+                          'model_dir': str(a.model_dir),
                           'output': str(a.output)},
                   counts=dict(Counter(pair['kind'] for pair in pairs)),
                   scores=score(pairs, p0, p1, gen),

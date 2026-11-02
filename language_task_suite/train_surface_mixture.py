@@ -242,6 +242,9 @@ def main():
     p.add_argument('--alias-use', type=float, default=.65)
     p.add_argument('--definition-start-rate', type=float, default=.20)
     p.add_argument('--alias-reuse-rate', type=float, default=.25)
+    p.add_argument('--initial-alias-definitions', type=int, default=0)
+    p.add_argument('--alias-verb-rule-weights', type=json.loads,
+                   help='JSON mapping lexical/induction/lead/place_skip weights for alias diagnostic')
     p.add_argument('--alias-causal-weight', type=float, default=0.0,
                    help='Exact-oracle CE on supported alias counterfactuals')
     p.add_argument('--alias-causal-nstreams', type=int, default=1024)
@@ -359,7 +362,10 @@ def main():
                                 alias_fraction=a.alias_fraction,
                                 alias_use=a.alias_use,
                                 definition_start_rate=a.definition_start_rate,
-                                alias_reuse_rate=a.alias_reuse_rate)
+                                alias_reuse_rate=a.alias_reuse_rate,
+                                initial_alias_definitions=a.initial_alias_definitions)
+        if a.alias_verb_rule_weights is not None:
+            generator_kwargs['weights'] = a.alias_verb_rule_weights
     vocab = generator_class(**generator_kwargs).vocab
     alias_cache = (alias_causal_cache(generator_kwargs,
                                      a.alias_causal_nstreams, a.length,
