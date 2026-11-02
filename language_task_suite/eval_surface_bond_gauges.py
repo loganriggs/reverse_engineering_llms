@@ -10,6 +10,7 @@ import torch
 import torch.nn.functional as F
 
 from surface_mixture_language import SurfaceMixtureLanguage
+from surface_mixture_v2 import SurfaceMixtureV2
 from train_surface_mixture import make_batch, make_eval
 
 
@@ -44,6 +45,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--model-dir', default='language_task_suite/surface_mixture_models_v1')
+    p.add_argument('--generator', choices=['v1', 'v2'], default='v1')
     p.add_argument('--depth', type=int, default=2)
     p.add_argument('--layer', type=int, default=0)
     p.add_argument('--nfit', type=int, default=256)
@@ -55,6 +57,7 @@ def main():
     from model import BilinearGPT, Config
 
     torch.set_num_threads(4)
+    generator_class = SurfaceMixtureLanguage if a.generator == 'v1' else SurfaceMixtureV2
     saved = json.loads((Path(a.model_dir)/'results.json').read_text())
     record = next(row for row in saved['records'] if row['depth'] == a.depth)
     model = BilinearGPT(Config(**record['model_config']))
@@ -62,9 +65,9 @@ def main():
                                      weights_only=True, map_location='cpu'))
     model.eval()
     bond = model.blocks[a.layer].attn.out
-    xfit, _ = make_batch(SurfaceMixtureLanguage(seed=8501), a.nfit,
+    xfit, _ = make_batch(generator_class(seed=8501), a.nfit,
                          a.length, 'cpu')
-    test = make_eval(SurfaceMixtureLanguage(seed=8502), a.ntest,
+    test = make_eval(generator_class(seed=8502), a.ntest,
                      a.length, 'cpu')
     captured = []
     def collect(_, inputs):

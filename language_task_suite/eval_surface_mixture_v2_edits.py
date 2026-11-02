@@ -8,10 +8,12 @@ from pathlib import Path
 
 import torch
 
+from eval_surface_bond_gauges import bases_for
 from eval_surface_mixture_edits import predict, replacement, score
 from surface_mixture_v2 import (ADJECTIVES, LEADS, PEOPLE, PLACES,
                                 VERBS, SurfaceMixtureV2, _frame, _indices,
                                 _metadata, _split)
+from train_surface_mixture import make_batch
 
 
 ADJECTIVE_INDEX = {'lead': 5, 'subject': 8, 'at': 7,
@@ -124,6 +126,10 @@ def main():
     p.add_argument('--n', type=int, default=256)
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=8701)
+    p.add_argument('--truncate-layer', type=int, default=None)
+    p.add_argument('--basis', choices=('physical', 'random', 'activation_pca',
+                                       'weight_svd'), default='weight_svd')
+    p.add_argument('--width', type=int, default=32)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     torch.set_num_threads(4)
@@ -142,8 +148,30 @@ def main():
         model.load_state_dict(torch.load(Path(a.model_dir)/f'model_depth{depth}.pt',
                                          weights_only=True, map_location='cpu'))
         model.eval()
+        hook = None
+        if a.truncate_layer is not None:
+            assert 0 <= a.truncate_layer < depth
+            bond = model.blocks[a.truncate_layer].attn.out
+            captured = []
+            def collect(_, inputs):
+                captured.append(inputs[0].detach())
+            hook = bond.register_forward_pre_hook(collect)
+            xfit, _ = make_batch(SurfaceMixtureV2(seed=8501), 256,
+                                 a.length, 'cpu')
+            with torch.no_grad():
+                for batch in xfit.split(32):
+                    model(batch)
+            hook.remove()
+            basis = bases_for(torch.cat(captured), bond.weight.detach())[a.basis]
+            uk = basis[:, :a.width]
+            def truncate(_, inputs):
+                x = inputs[0]
+                return ((x@uk)@uk.T,)
+            hook = bond.register_forward_pre_hook(truncate)
         before = predict(model, originals, len(gen.vocab))
         after = predict(model, edits, len(gen.vocab))
+        if hook is not None:
+            hook.remove()
         results[str(depth)] = score(pairs, before, after, gen)
         results_by_frame[str(depth)] = {}
         for frame in ('lead', 'subject', 'at', 'when', 'in_place', 'during'):

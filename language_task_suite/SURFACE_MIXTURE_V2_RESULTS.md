@@ -28,4 +28,21 @@ The matched `--verb-sampled-weight 2` control adds the same amount of sampled-to
 
 Reproduction uses the local PyTorch environment and the original `BilinearGPT` source path set by the trainer. The main runs used `--generator v2 --depths 2,3 --steps 3000 --batch 64 --length 72 --neval 256 --rmsnorm` for ordinary CE, and `--depths 2 --verb-soft-weight 2` or `--depths 2 --verb-sampled-weight 2` for the diagnostics. All runs used default seed 0 and a distinct output directory. The edit panel uses `--n 256 --length 72 --seed 8701`. Checkpoints and JSON live in `surface_mixture_v2_models/`, `surface_mixture_v2_soft_models/`, and `surface_mixture_v2_sampled_models/`.
 
-The next interpretation test should compare an input-independent weight decomposition with a distribution-weighted one at matched retained dimension and measure (1) function KL, (2) each rule's causal-edit error, and (3) whether a recovered component generalizes to held-out frame and rule collisions. A visually sparse weight slice is suggestive, but only held-out causal and rule-composition tests would support the proposed mechanism-discovery loop.
+The first interpretation test compares an input-independent weight basis with a distribution-weighted activation basis at matched retained dimension, scoring function KL and each rule's causal-edit error. A visually sparse weight slice is suggestive, but only held-out rule-axis and composition tests would support the proposed mechanism-discovery loop.
+
+## First bond comparison on the better-trained model
+
+`eval_surface_bond_gauges.py --generator v2` now compares full-width attention-output bond gauges and orthogonal truncations. On the two-layer oracle-supervised model, the first attention output has width 64. At 16 retained directions, weight-only SVD of its output matrix gives held-out verb KL **.074** and model-to-truncated verb KL **.009**. Activation PCA fitted on 256 independent streams gives **.092/.029**. Raw physical axes give **4.016/3.969**. At 32 directions, weight SVD and activation PCA both nearly preserve the model (model-to-truncated verb KL **.001/.003**). At the second attention output, 16-direction weight SVD gives verb KL **.118** versus **.311** for activation PCA, again favoring the weight-derived subspace at this rank.
+
+The 3,004 causal pairs give the same broad result. The table shows effect L1 errors after truncating one attention-output bond to 16 directions; the untruncated model's errors are cue **.241**, lexical **.290**, prior-place **.231**, induction **.278**.
+
+| Bond | Basis | Cue | Lexical | Prior place | Induction |
+|---|---|---:|---:|---:|---:|
+| First | Weight SVD | .253 | .295 | .237 | .283 |
+| First | Activation PCA | .294 | .342 | .281 | .306 |
+| First | Random | .627 | 1.493 | .556 | .500 |
+| Second | Weight SVD | .394 | .426 | .299 | .311 |
+| Second | Activation PCA | .410 | .509 | .442 | .401 |
+| Second | Random | .619 | .669 | .566 | .460 |
+
+This is a **local compression** result. The weight basis is independent of sampled text, while the PCA basis uses a fit panel separate from the test and edit panels. Neither basis labels a planted rule, and the local cut does not establish that a 16-node circuit computes the same function globally. The next decisive test is supervised rule-axis discovery on training edits, evaluated on held-out frames/collisions and compared against this weight-SVD starting point.
