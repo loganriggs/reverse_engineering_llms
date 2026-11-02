@@ -66,6 +66,8 @@ The [iterated L1/prune transfer test](VARIED_ITERATED_SPARSITY_PATH_RESULTS.md) 
 
 The [first-layer functional sparsity test](VARIED_FUNCTIONAL_SPARSITY_RESULTS.md) compares a uniform-vocabulary and a generated-data-weighted penalty on the exact QK1×QK2 token-pair function against an ordinary finetuning control. Uniform weighting markedly concentrates scores but sends most of the largest lag-one scores to pairs unseen in held-out generated streams; distribution weighting reduces that failure without revealing a cleaner causal rule circuit.
 
+The [bidirectional head-path patching assay](VARIED_HEAD_PATH_PATCHING_RESULTS.md) locates much of the original model's lexical effect in the first attention block, induction in the second, and previous-place in second-block head 1 across two independent edit panels. Neither score-sparsity arm sharpens these causal assignments.
+
 The [output-aware shared-group test](VARIED_CAUSAL_GROUP_FEATURIZER_RESULTS.md) keeps previous-place interventions out of featurizer fitting. Shared groups still lose to scalar Top-8 under matched active-support budgets, motivating a direct comparison with the original iterative L1-and-prune path analysis.
 
 ## What existed, and what this adds
