@@ -65,6 +65,7 @@ def main():
     p.add_argument('--ntest', type=int, default=128)
     p.add_argument('--length', type=int, default=64)
     p.add_argument('--layer', type=int, default=0)
+    p.add_argument('--fit-contexts', choices=['all', 'no_conflict'], default='all')
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', required=True)
     a = p.parse_args()
@@ -86,7 +87,7 @@ def main():
                                 mode='mixed', seed=4701)
     test_gen = LanguageGenerator(ALL_RULES, mixing_weights=DEFAULT_MIXING,
                                  mode='mixed', seed=4702)
-    _, xfit = make_data(fit_gen, a.nfit, a.length, device)
+    fit_ids, xfit = make_data(fit_gen, a.nfit, a.length, device)
     test_ids, xtest = make_data(test_gen, a.ntest, a.length, device)
     saved = []
 
@@ -99,6 +100,13 @@ def main():
             model(batch)
     handle.remove()
     fit_activation = torch.cat(saved)
+    if a.fit_contexts == 'no_conflict':
+        fit_conflicts = np.zeros((a.nfit, a.length-1), dtype=bool)
+        for b, ids in enumerate(fit_ids):
+            tokens = [fit_gen.id2token[i] for i in ids]
+            for t in range(1, a.length):
+                fit_conflicts[b, t-1] = candidate_info(fit_gen, tokens[:t])[1]
+        fit_activation = fit_activation[torch.from_numpy(~fit_conflicts)]
     bases = bases_for(fit_activation, bond.weight.detach().cpu(), 4703)
     q_np, conflicts_np = oracle_and_groups(test_gen, test_ids)
     q = torch.from_numpy(q_np).to(device)
