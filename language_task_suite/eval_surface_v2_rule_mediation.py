@@ -54,6 +54,17 @@ def mean_tv(a, b):
     return mean_l1(a, b)/2
 
 
+def balanced_response_basis(by_kind, kinds, width, seed=431):
+    """Fit equal numbers of unit-normalized edit responses per rule family."""
+    n = min(len(by_kind[kind]) for kind in kinds)
+    if n < width:
+        raise ValueError(f'Only {n} examples per kind for width {width}')
+    rng = torch.Generator().manual_seed(seed)
+    rows = torch.cat([by_kind[kind][torch.randperm(
+        len(by_kind[kind]), generator=rng)[:n]] for kind in kinds])
+    return normalized_svd_basis(rows, width)
+
+
 def output_weight_bases(model, bond):
     """Data-free input-bond bases ranked by composed output-logit sensitivity.
 
@@ -109,6 +120,15 @@ def main():
                                    if pair['kind'] == kind]] for kind in KINDS}
     learned = {kind: normalized_svd_basis(fit_by_kind[kind], a.width)
                for kind in KINDS}
+    relevant_kinds = tuple(kind for kind in KINDS
+                           if kind != 'nuisance_adjective')
+    pooled_relevant = balanced_response_basis(
+        fit_by_kind, relevant_kinds, a.width)
+    pooled_all = balanced_response_basis(fit_by_kind, KINDS, a.width)
+    leave_one_out = {kind: balanced_response_basis(
+        fit_by_kind, tuple(other for other in relevant_kinds
+                           if other != kind), a.width)
+        for kind in relevant_kinds}
     xfit, _ = make_batch(SurfaceMixtureV2(seed=8501), 256, a.length, 'cpu')
     captured = []
     def collect(_, inputs):
@@ -163,6 +183,10 @@ def main():
         indices = [i for i, pair in enumerate(test) if pair['kind'] == kind]
         d = test_delta[indices]
         bases = {f'edit_{name}': basis for name, basis in learned.items()}
+        bases['pooled_relevant'] = pooled_relevant
+        bases['pooled_all'] = pooled_all
+        if kind in leave_one_out:
+            bases['leave_rule_out'] = leave_one_out[kind]
         for prior_width, by_kind in constrained.items():
             bases[f'weight{prior_width}_then_edit_{kind}'] = by_kind[kind]
         for name, by_kind in sparse_axis_bases.items():
@@ -196,6 +220,8 @@ def main():
         results[kind] = row
     output = dict(config=vars(a), fit_frames=fit_frames,
                   test_frames=test_frames, results=results,
+                  pooled_fit_counts={kind: len(fit_by_kind[kind])
+                                     for kind in KINDS},
                   caveat='Only the final-position pre-output-projection vector at '
                          'one bond is patched. Full local patch may not reproduce '
                          'the entire edited-model effect because residual paths, '
