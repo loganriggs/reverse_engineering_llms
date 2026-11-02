@@ -1,0 +1,103 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "model_dir": "language_task_suite/results/v8_scope_balanced_continue_seed101",
+    "streams": 300,
+    "length": 256,
+    "key_cap": 50,
+    "seed": 74001,
+    "paths": "answer_to_key,answer_to_target_header,answer_to_other_headers,answer_to_target_color,answer_to_other_colors,answer_to_all_headers,answer_to_all_colors,answer_to_recent16,key_to_target_header,key_to_other_headers,key_to_all_headers,key_to_recent16,target_color_to_target_header",
+    "layers": "0,1,2",
+    "operation": "keep",
+    "circuit": "0:key_to_all_headers+key_to_recent16,1:answer_to_all_colors+answer_to_recent16,2:answer_to_recent16",
+    "batch_size": 16,
+    "torch_threads": 1,
+    "device": "cpu",
+    "output": "language_task_suite/results/v8_section_attention_keep_compact_seed1_panel74001.json"
+  },
+  "n_unique_prefixes": 125,
+  "pair_counts": {
+    "section_key": 50,
+    "relevant_color": 15,
+    "irrelevant_color": 10
+  },
+  "attempted": {
+    "section_key": 50,
+    "relevant_color": 50,
+    "irrelevant_color": 50
+  },
+  "identity_max_probability_error": 0.0,
+  "baseline": {
+    "irrelevant_color": {
+      "n": 10,
+      "answer_accuracy": 0.8999999761581421,
+      "answer_ce": 0.37402594089508057,
+      "native_effect_l1": 0.47520408034324646,
+      "oracle_effect_l1": 0.0,
+      "effect_to_teacher_l1": 0.0,
+      "effect_to_oracle_l1": 0.47520408034324646,
+      "mean_endpoint_teacher_kl": 0.0,
+      "mean_endpoint_prediction_l1": 0.0
+    },
+    "relevant_color": {
+      "n": 15,
+      "answer_accuracy": 0.8999999761581421,
+      "answer_ce": 0.4717552959918976,
+      "native_effect_l1": 1.7597073316574097,
+      "oracle_effect_l1": 2.0,
+      "effect_to_teacher_l1": 0.0,
+      "effect_to_oracle_l1": 0.39767611026763916,
+      "mean_endpoint_teacher_kl": 0.0,
+      "mean_endpoint_prediction_l1": 0.0
+    },
+    "section_key": {
+      "n": 50,
+      "answer_accuracy": 0.9200000166893005,
+      "answer_ce": 0.2263013869524002,
+      "native_effect_l1": 1.6830260753631592,
+      "oracle_effect_l1": 2.0,
+      "effect_to_teacher_l1": 0.0,
+      "effect_to_oracle_l1": 0.4342350661754608,
+      "mean_endpoint_teacher_kl": 0.0,
+      "mean_endpoint_prediction_l1": 0.0
+    }
+  },
+  "results": {
+    "circuit": {
+      "irrelevant_color": {
+        "n": 10,
+        "answer_accuracy": 0.6499999761581421,
+        "answer_ce": 1.10182523727417,
+        "native_effect_l1": 0.47520408034324646,
+        "oracle_effect_l1": 0.0,
+        "effect_to_teacher_l1": 0.8667694330215454,
+        "effect_to_oracle_l1": 0.7438692450523376,
+        "mean_endpoint_teacher_kl": 0.7965186238288879,
+        "mean_endpoint_prediction_l1": 0.6222859621047974
+      },
+      "relevant_color": {
+        "n": 15,
+        "answer_accuracy": 0.6666666865348816,
+        "answer_ce": 1.3708311319351196,
+        "native_effect_l1": 1.7597073316574097,
+        "oracle_effect_l1": 2.0,
+        "effect_to_teacher_l1": 0.761703372001648,
+        "effect_to_oracle_l1": 0.9661009311676025,
+        "mean_endpoint_teacher_kl": 0.8736734986305237,
+        "mean_endpoint_prediction_l1": 0.5478832721710205
+      },
+      "section_key": {
+        "n": 50,
+        "answer_accuracy": 0.6800000071525574,
+        "answer_ce": 1.1054284572601318,
+        "native_effect_l1": 1.6830260753631592,
+        "oracle_effect_l1": 2.0,
+        "effect_to_teacher_l1": 1.0281507968902588,
+        "effect_to_oracle_l1": 1.3103328943252563,
+        "mean_endpoint_teacher_kl": 1.0154305696487427,
+        "mean_endpoint_prediction_l1": 0.6478500366210938
+      }
+    }
+  },
+  "caveat": "The operation removes or keeps one semantic edge family at its query positions in one attention layer. A keep test alone does not prove a sufficient multi-layer circuit or a unique algorithm. The pairs pass exact full-prefix generator support."
+}

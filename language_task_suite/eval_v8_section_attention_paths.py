@@ -28,9 +28,11 @@ PATHS=(
     'answer_to_other_colors',
     'answer_to_all_headers',
     'answer_to_all_colors',
+    'answer_to_recent16',
     'key_to_target_header',
     'key_to_other_headers',
     'key_to_all_headers',
+    'key_to_recent16',
     'target_color_to_target_header',
 )
 
@@ -70,9 +72,12 @@ def semantic_edges(words, path):
         'answer_to_other_colors':[(answer,p) for p in other_colors],
         'answer_to_all_headers':[(answer,p) for p in headers.values()],
         'answer_to_all_colors':[(answer,p) for p in colors.values()],
+        'answer_to_recent16':[(answer,p) for p in
+                              range(max(0,answer-15),answer+1)],
         'key_to_target_header':[(key,headers[target])],
         'key_to_other_headers':[(key,p) for p in other_headers],
         'key_to_all_headers':[(key,p) for p in headers.values()],
+        'key_to_recent16':[(key,p) for p in range(max(0,key-15),key+1)],
         'target_color_to_target_header':[(colors[target],headers[target])],
     }
     assert all(q>=k for edges in routes.values() for q,k in edges)
@@ -143,7 +148,9 @@ def edge_delta(attn,x,edge_lists,apply_rotary_emb):
 
 @torch.no_grad()
 def predict(model,prefixes,edge_lists,layer,apply_rotary_emb,pad_id,
-            device,batch_size):
+            device,batch_size,operation='remove'):
+    """Predict with one layer or a dict of layer→edge-list interventions."""
+    assert operation in ('remove','keep')
     outputs=[]
     for start in range(0,len(prefixes),batch_size):
         group=prefixes[start:start+batch_size]
@@ -151,21 +158,33 @@ def predict(model,prefixes,edge_lists,layer,apply_rotary_emb,pad_id,
         if layer is None:
             logits=model(ids)[0]
         else:
-            attn=model.blocks[layer].attn
-            selected=edge_lists[start:start+batch_size]
-            state={}
-            def capture(_module,inputs):
-                state['delta']=edge_delta(attn,inputs[0],selected,
-                                          apply_rotary_emb)
-            def subtract(_module,_inputs,output):
-                return output+state.pop('delta')
-            pre=attn.register_forward_pre_hook(capture)
-            post=attn.out.register_forward_hook(subtract)
+            interventions=({layer:edge_lists} if isinstance(layer,int)
+                           else layer)
+            hooks=[]
+            def install(attn,selected):
+                state={}
+                def capture(_module,inputs):
+                    state['delta']=edge_delta(attn,inputs[0],selected,
+                                              apply_rotary_emb)
+                def subtract(_module,_inputs,output):
+                    delta=state.pop('delta')
+                    if operation=='remove':
+                        return output+delta
+                    replaced=output.clone()
+                    for b,edges in enumerate(selected):
+                        for q in {q for q,_ in edges}:
+                            replaced[b,q]=-delta[b,q]
+                    return replaced
+                hooks.append(attn.register_forward_pre_hook(capture))
+                hooks.append(attn.out.register_forward_hook(subtract))
+            for intervention_layer,all_edges in interventions.items():
+                install(model.blocks[intervention_layer].attn,
+                        all_edges[start:start+batch_size])
             try:
                 logits=model(ids)[0]
             finally:
-                post.remove()
-                pre.remove()
+                for hook in reversed(hooks):
+                    hook.remove()
         outputs.append(logits[torch.arange(len(group),device=device),last]
                        .softmax(-1).cpu())
     return torch.cat(outputs)
@@ -181,6 +200,19 @@ def scores(pairs,baseline,patched,before,after,gen):
         for token,mass in pair['q_before'].items():
             oracle[i,gen.token2id[token]]-=mass
     groups={}
+    answer_correct=[]
+    answer_ce=[]
+    for i,pair in enumerate(pairs):
+        endpoints=[]
+        for field,index in (('q_before',before[i]),('q_after',after[i])):
+            distribution=pair[field]
+            assert len(distribution)==1 and next(iter(distribution.values()))==1.
+            token=gen.token2id[next(iter(distribution))]
+            prob=patched[index]
+            endpoints.append((int(prob.argmax()==token),
+                              -float(prob[token].clamp_min(1e-30).log())))
+        answer_correct.append(sum(x[0] for x in endpoints)/2)
+        answer_ce.append(sum(x[1] for x in endpoints)/2)
     for kind in sorted({p['kind'] for p in pairs}):
         mask=torch.tensor([p['kind']==kind for p in pairs])
         l1=lambda x:float(x[mask].abs().sum(-1).mean())
@@ -188,6 +220,8 @@ def scores(pairs,baseline,patched,before,after,gen):
                        patched.clamp_min(1e-30).log())).sum(-1).clamp_min(0)
         endpoint=torch.unique(torch.cat((before[mask],after[mask])))
         groups[kind]=dict(n=int(mask.sum()),
+                          answer_accuracy=float(torch.tensor(answer_correct)[mask].mean()),
+                          answer_ce=float(torch.tensor(answer_ce)[mask].mean()),
                           native_effect_l1=l1(native),
                           oracle_effect_l1=l1(oracle),
                           effect_to_teacher_l1=l1(changed-native),
@@ -197,6 +231,22 @@ def scores(pairs,baseline,patched,before,after,gen):
                               (patched[endpoint]-baseline[endpoint])
                               .abs().sum(-1).mean()))
     return groups
+
+
+def parse_circuit(spec,edge_map,n_layers):
+    """Parse `0:path+path,1:path,2:path` into batched edge lists."""
+    circuit={}
+    for stage in spec.split(','):
+        layer_text,path_text=stage.split(':',1)
+        layer=int(layer_text)
+        assert 0<=layer<n_layers and layer not in circuit
+        names=path_text.split('+')
+        assert names and all(name in edge_map for name in names)
+        circuit[layer]=[sorted(set(edge for name in names
+                                   for edge in edge_map[name][i]))
+                        for i in range(len(next(iter(edge_map.values()))))]
+    assert circuit
+    return circuit
 
 
 def main():
@@ -209,6 +259,9 @@ def main():
     p.add_argument('--seed',type=int,default=74001)
     p.add_argument('--paths',default=','.join(PATHS))
     p.add_argument('--layers',default='0,1,2')
+    p.add_argument('--operation',choices=('remove','keep'),default='remove')
+    p.add_argument('--circuit',default=None,
+                   help='e.g. 0:key_to_all_headers,1:answer_to_all_colors,2:answer_to_key')
     p.add_argument('--batch-size',type=int,default=16)
     p.add_argument('--torch-threads',type=int,default=1)
     p.add_argument('--device',default='cpu')
@@ -243,23 +296,34 @@ def main():
     identity_error=float((identity-baseline).abs().max())
     assert identity_error<1e-7
     result={}
-    for layer in layers:
-        for path in paths:
-            patched=predict(model,prefixes,edge_map[path],layer,
-                            apply_rotary_emb,pad_id,a.device,a.batch_size)
-            row=scores(pairs,baseline,patched,before,after,gen)
-            result[f'layer{layer}_{path}']=row
-            print(layer,path,'key effect',round(
-                row['section_key']['effect_to_teacher_l1'],5),'color effect',
-                round(row['relevant_color']['effect_to_teacher_l1'],5),
-                flush=True)
+    if a.circuit:
+        circuit=parse_circuit(a.circuit,edge_map,len(model.blocks))
+        patched=predict(model,prefixes,None,circuit,apply_rotary_emb,pad_id,
+                        a.device,a.batch_size,a.operation)
+        result['circuit']=scores(pairs,baseline,patched,before,after,gen)
+        print('circuit',a.circuit,'key accuracy',
+              result['circuit']['section_key']['answer_accuracy'],'key effect',
+              result['circuit']['section_key']['effect_to_teacher_l1'],flush=True)
+    else:
+        for layer in layers:
+            for path in paths:
+                patched=predict(model,prefixes,edge_map[path],layer,
+                                apply_rotary_emb,pad_id,a.device,a.batch_size,
+                                a.operation)
+                row=scores(pairs,baseline,patched,before,after,gen)
+                result[f'layer{layer}_{path}']=row
+                print(layer,path,'key effect',round(
+                    row['section_key']['effect_to_teacher_l1'],5),'color effect',
+                    round(row['relevant_color']['effect_to_teacher_l1'],5),
+                    flush=True)
     output=dict(config=vars(a),n_unique_prefixes=len(prefixes),
                 pair_counts=dict(Counter(p['kind'] for p in pairs)),
                 attempted=dict(attempted),identity_max_probability_error=identity_error,
                 baseline=baseline_scores,results=result,
-                caveat='Each intervention removes one semantic edge family '
-                       'from one attention layer. It is a necessity test only; '
-                       'it does not prove a sufficient path or a unique circuit. '
+                caveat='The operation removes or keeps one semantic edge family '
+                       'at its query positions in one attention layer. A keep '
+                       'test alone does not prove a sufficient multi-layer '
+                       'circuit or a unique algorithm. '
                        'The pairs pass exact full-prefix generator support.')
     path=Path(a.output)
     path.parent.mkdir(parents=True,exist_ok=True)
