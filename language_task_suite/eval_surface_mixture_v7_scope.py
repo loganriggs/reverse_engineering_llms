@@ -116,9 +116,12 @@ def main():
     p.add_argument('--length', type=int, default=256)
     p.add_argument('--max-questions', type=int, default=250)
     p.add_argument('--seed', type=int, default=9101)
+    p.add_argument('--torch-threads', type=int, default=4)
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
-    torch.set_num_threads(4)
+    if a.torch_threads < 1:
+        p.error('--torch-threads must be positive')
+    torch.set_num_threads(a.torch_threads)
     saved = json.loads((a.model_dir/'results.json').read_text())
     generator_class = {'v7': SurfaceMixtureV7,
                        'v8': SurfaceMixtureV8}[saved['config']['generator']]
