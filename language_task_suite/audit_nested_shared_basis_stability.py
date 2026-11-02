@@ -22,6 +22,10 @@ def leverage(basis,indices,rank):
     return basis[:,indices,:rank].square().sum(-1).mean(1)
 
 
+def axis_alignment(left,right,rank):
+    return (left[:,:,:rank]*right[:,:,:rank]).sum(dim=1).abs()
+
+
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--source',default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
@@ -82,7 +86,11 @@ def main():
             query=[float(v) for v in overlap(bases[left][0],
                                              bases[right][0],rank)],
             key=[float(v) for v in overlap(bases[left][1],
-                                           bases[right][1],rank)])
+                                           bases[right][1],rank)],
+            query_axis_abs_corr=axis_alignment(bases[left][0],
+                                               bases[right][0],rank).tolist(),
+            key_axis_abs_corr=axis_alignment(bases[left][1],
+                                             bases[right][1],rank).tolist())
             for rank in ranks}
     result=dict(config={**vars(a),'model_dir':str(a.model_dir),
                         'output':str(a.output)},fit=fit,
