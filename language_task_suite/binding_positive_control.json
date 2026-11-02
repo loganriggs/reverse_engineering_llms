@@ -1,0 +1,68 @@
+{
+  "config": {
+    "depths": "3",
+    "device": "cuda",
+    "steps": 2500,
+    "batch_size": 48,
+    "train_n": 8000,
+    "test_n": 1200,
+    "d_model": 48,
+    "heads": 4,
+    "lr": 0.001,
+    "seed": 42,
+    "families": "attribute_binding,conditional_rule",
+    "train_variants": "0,1",
+    "save_models": true,
+    "objective": "target",
+    "output": "language_task_suite/binding_positive_control.json"
+  },
+  "n_vocab": 30,
+  "n_ctx": 31,
+  "objective": "last-prefix-token full-vocabulary cross entropy",
+  "split": "iid generated independently; variant1 included in training",
+  "prefix_overlap": {
+    "iid": 0.9625,
+    "variant1": 0.9775
+  },
+  "results": {
+    "3": {
+      "parameters": 127296,
+      "train_loss_last50": 0.009394616598729044,
+      "iid": {
+        "loss": 0.0019876093169053396,
+        "full_accuracy": 0.9991666666666666,
+        "choice_accuracy": 0.9991666666666666,
+        "by_family": {
+          "attribute_binding": {
+            "full": 0.9983333333333333,
+            "choice": 0.9983333333333333,
+            "n": 600
+          },
+          "conditional_rule": {
+            "full": 1.0,
+            "choice": 1.0,
+            "n": 600
+          }
+        }
+      },
+      "structural_shift": {
+        "loss": 0.017853920881946882,
+        "full_accuracy": 0.9958333333333333,
+        "choice_accuracy": 0.9958333333333333,
+        "by_family": {
+          "attribute_binding": {
+            "full": 0.9916666666666667,
+            "choice": 0.9916666666666667,
+            "n": 600
+          },
+          "conditional_rule": {
+            "full": 1.0,
+            "choice": 1.0,
+            "n": 600
+          }
+        }
+      },
+      "seconds": 15.9
+    }
+  }
+}
