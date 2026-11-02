@@ -69,7 +69,8 @@ def initialize(model, directions):
 
 
 def fit(model, train, val, steps, seed, fixed_membership=None,
-        coverage_weight=0.):
+        coverage_weight=0., change_weight=0., train_pairs=None,
+        val_pairs=None):
     optimizer = torch.optim.AdamW((p for p in model.parameters() if p.requires_grad),
                                   lr=.002, weight_decay=.0001)
     generator = torch.Generator().manual_seed(seed)
@@ -77,12 +78,21 @@ def fit(model, train, val, steps, seed, fixed_membership=None,
     chosen_state = None
     records = []
     for step in range(1, steps+1):
-        ix = torch.randint(len(train), (256,), generator=generator)
-        x = train[ix]
+        if change_weight:
+            ix = torch.randint(len(train_pairs[0]), (128,), generator=generator)
+            x = torch.cat((train_pairs[0][ix], train_pairs[1][ix]))
+        else:
+            ix = torch.randint(len(train), (256,), generator=generator)
+            x = train[ix]
         model.train()
         result = (model(x, membership=fixed_membership)
                   if fixed_membership is not None else model(x))
-        loss = F.mse_loss(result['reconstruction'], x)
+        reconstruction_loss = F.mse_loss(result['reconstruction'], x)
+        loss = reconstruction_loss
+        if change_weight:
+            r0, r1 = result['reconstruction'].chunk(2)
+            target_delta = train_pairs[1][ix]-train_pairs[0][ix]
+            loss = loss + change_weight*F.mse_loss(r1-r0, target_delta)
         if coverage_weight:
             covered = 1 - (1 - result['membership']).prod(0)
             # Sixty-four links may still overlap; require 48 distinct atoms.
@@ -101,10 +111,27 @@ def fit(model, train, val, steps, seed, fixed_membership=None,
                           if fixed_membership is not None else model(val))
                 score = float(F.mse_loss(result['reconstruction'], val))
                 active = float(result['support'].sum(-1).float().mean())
-            records.append(dict(step=step, train_mse=float(loss.detach()),
-                                val_mse=score, active_atoms=active))
-            if score < best:
-                best = score
+                val_change = None
+                if change_weight:
+                    v0, v1 = val_pairs
+                    pair_result = (model(torch.cat((v0, v1)),
+                                         membership=fixed_membership)
+                                   if fixed_membership is not None
+                                   else model(torch.cat((v0, v1))))
+                    pr0, pr1 = pair_result['reconstruction'].chunk(2)
+                    val_change = float(F.mse_loss(pr1-pr0, v1-v0))
+                val_coverage = 0.
+                if coverage_weight:
+                    covered = 1 - (1 - result['membership']).prod(0)
+                    val_coverage = float(F.relu(.75-covered.mean()).square())
+                objective = (score + change_weight*(val_change or 0.)
+                             + coverage_weight*val_coverage)
+            records.append(dict(step=step, train_objective=float(loss.detach()),
+                                val_mse=score, val_change_mse=val_change,
+                                val_coverage_penalty=val_coverage,
+                                val_objective=objective, active_atoms=active))
+            if objective < best:
+                best = objective
                 chosen_state = {key: value.detach().clone()
                                 for key, value in model.state_dict().items()}
     model.load_state_dict(chosen_state)
@@ -136,6 +163,7 @@ def main():
     p.add_argument('--test-seed', type=int, default=20261113)
     p.add_argument('--steps', type=int, default=1200)
     p.add_argument('--coverage-weight', type=float, default=0.)
+    p.add_argument('--change-weight', type=float, default=0.)
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--reverse-frames', action='store_true')
     p.add_argument('--output-dir', type=Path, required=True)
@@ -173,6 +201,8 @@ def main():
     scale = (native_train-center).square().mean().sqrt().clamp_min(1e-6)
     train = (native_train-center)/scale
     val = (native_val-center)/scale
+    train_pair_activations = ((zfit0-center)/scale, (zfit1-center)/scale)
+    val_pair_activations = ((zval0-center)/scale, (zval1-center)/scale)
     x0 = (ztest0-center)/scale
     x1 = (ztest1-center)/scale
     _, _, vh = torch.linalg.svd(train.double(), full_matrices=False)
@@ -196,8 +226,10 @@ def main():
     for name, model in models.items():
         fixed = membership if name == 'disjoint_groups' else None
         histories[name] = fit(model, train, val, a.steps, 7300+a.seed, fixed,
-                              a.coverage_weight if name == 'shared_groups' else 0.)
-        print(name, 'best val', min(row['val_mse'] for row in histories[name]),
+                              a.coverage_weight if name == 'shared_groups' else 0.,
+                              a.change_weight, train_pair_activations,
+                              val_pair_activations)
+        print(name, 'best objective', min(row['val_objective'] for row in histories[name]),
               'active', histories[name][-1]['active_atoms'], flush=True)
 
     original = [pair['original'] for pair in test_pairs]
@@ -226,6 +258,7 @@ def main():
                                   reconstructed_delta)
         result = dict(test_reconstruction_mse=float((
                           torch.cat((r0-x0, r1-x1)).square().mean())),
+                      test_change_mse=float(F.mse_loss(r1-r0, x1-x0)),
                       active_atoms=(8. if s0 is None else float(torch.cat((
                           s0, s1)).sum(-1).float().mean())),
                       parameters=(0 if model is None else sum(
@@ -280,6 +313,8 @@ def main():
                   fit_frames=fit_frames, test_frames=test_frames,
                   fit_kinds=fit_kinds,
                   fit_pairs=len(fit_pairs), val_pairs=len(val_pairs),
+                  train_change_mse=float(F.mse_loss(
+                      train_pair_activations[1], train_pair_activations[0])),
                   test_counts={kind: sum(pair['kind'] == kind
                                          for pair in test_pairs)
                                for kind in KINDS},

@@ -26,3 +26,24 @@ The unconstrained learned memberships use only **20/18 of 64** distinct atoms on
 This is a **negative result for this site, objective, budget, and two featurizer fits**. Group selection is much more constrained than arbitrary scalar Top-8 support, even though the learned group model has more parameters. The training pairs were curated by known labels, so this is not task-blind discovery; the test panel is fresh but both results use one fixed language-model seed. It does not refute overlapping groups, hierarchical gates or DAG computation models generally. A better next experiment would constrain membership and gate learning with causal objectives or use a component site whose native computation is demonstrably low-dimensional, while keeping scalar Top-K and the full local patch as controls. Further plain reconstruction-only tuning of this site has a stopping point unless it beats the scalar baseline or reveals a stable, selective new group.
 
 Artifacts: [forward baseline](surface_mixture_v2_shared_groups_forward_v1/results.json), [reverse baseline](surface_mixture_v2_shared_groups_reverse_v1/results.json), [forward coverage](surface_mixture_v2_shared_groups_coverage1_forward/results.json), and [reverse coverage](surface_mixture_v2_shared_groups_coverage1_reverse/results.json). Each directory also contains the frozen featurizer weights. The imported `SharedGroups` exact union, gradient, and shared-atom behavior pass the companion workspace's `tests/test_feature_structures.py` (10 tests).
+
+## Paired activation-change objective
+
+A follow-up trains every learned method with the **same paired objective** on the same lexical/induction fit panel:
+
+\[
+L = \operatorname{MSE}(\hat z,z)
+  + \lambda\operatorname{MSE}(\hat z_1-\hat z_0,z_1-z_0).
+\]
+
+Here `z0` and `z1` are native bond activations before/after one supported edit. Both endpoints are reconstructed through the nonlinear featurizer before subtraction. The shared-group method also receives the same coverage cost as in the prior correction. The zero-change control was rerun under the new validation-objective selection rule; all methods share paired minibatch indices within each nonzero-`λ` run. The previous-place family remains excluded from fitting and validation. This supervises *local activation changes*, not downstream probabilities or exact-oracle effects.
+
+| Change weight `λ` | Shared groups: previous-place patch-to-full L1, forward/reverse | Disjoint groups | Scalar Top-6 | Scalar Top-8 |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 | .435/.439 | .367/.432 | .197/.181 | **.171/.169** |
+| 1 | .403/.413 | .394/.400 | .196/.171 | **.165/.145** |
+| 5 | .434/.481 | .436/.441 | .170/.183 | **.153/.152** |
+
+The scalar result also wins **test activation-change MSE**. At `λ=1`, scalar Top-8 gets **.077/.133** versus shared groups **.240/.343** in train-scaled coordinates. The learned groups' distinct-atom coverage remains **42/41** under `λ=1` and **40/42** under `λ=5`, with about 7.3–7.6 active atoms per example. The shared model's nuisance-adjective patch TV falls at `λ=1` to **.0065/.0098** versus scalar Top-8 **.0109/.0156**, but its previous-place effect is also attenuated and much less faithful to the full local patch. This is not a selective new-rule group.
+
+The bounded result is that local change supervision helps this scalar dictionary more than the current grouped dictionaries. It does **not** test a downstream KL/CE objective, intervention-aware group routing, a different site, or a larger naturalistic DGP. Further sweeps of this same reconstruction/change loss on this same panel have a clear stopping point. Saved [zero-change forward](surface_mixture_v2_shared_groups_change0_forward/results.json), [zero-change reverse](surface_mixture_v2_shared_groups_change0_reverse/results.json), [weight-1 forward](surface_mixture_v2_shared_groups_change1_forward/results.json), [weight-1 reverse](surface_mixture_v2_shared_groups_change1_reverse/results.json), [weight-5 forward](surface_mixture_v2_shared_groups_change5_forward/results.json), and [weight-5 reverse](surface_mixture_v2_shared_groups_change5_reverse/results.json) files include model weights, reconstruction, change, causal-patch and nuisance metrics.
