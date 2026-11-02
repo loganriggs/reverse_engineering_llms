@@ -30,22 +30,31 @@ def source_facts(history):
     for raw in history:
         content = _content(raw)
         if content and content[0] == 'As':
-            assert len(content) == 11 and content[2:6] == ['said', ',', '"', 'the']
-            assert content[7:] == ['was', 'missing', '"', '.']
-            assert content[6] not in facts
-            facts[content[6]] = content[1]
+            if content[4] == '"':
+                assert len(content) == 11 and content[2:6] == ['said', ',', '"', 'the']
+                assert content[7:] == ['was', 'missing', '"', '.']
+                obj = content[6]
+            else:
+                assert len(content) == 9 and content[2:5] == ['said', ',', 'the']
+                assert content[6:] == ['was', 'missing', '.']
+                obj = content[5]
+            assert obj not in facts
+            facts[obj] = content[1]
     return facts
 
 
 class SurfaceMixtureV6(SurfaceMixtureV5):
     def __init__(self, seed=0, quote_rate=.25, source_rate=.20,
-                 count_rate=0., exclude_source_pairs=False, **kwargs):
+                 count_rate=0., exclude_source_pairs=False,
+                 unquoted_source_rate=0., **kwargs):
         super().__init__(seed=seed, count_rate=count_rate, **kwargs)
         assert 0 <= quote_rate < 1 and 0 <= source_rate < 1
         assert quote_rate+source_rate < 1
+        assert 0 <= unquoted_source_rate <= 1
         self.quote_rate = quote_rate
         self.source_rate = source_rate
         self.exclude_source_pairs = exclude_source_pairs
+        self.unquoted_source_rate = unquoted_source_rate
         self.vocab = VOCAB_V6
         self.token2id = TOKEN2ID_V6
         self.id2token = ID2TOKEN_V6
@@ -79,17 +88,28 @@ class SurfaceMixtureV6(SurfaceMixtureV5):
 
     def _statement_distribution(self, history, content):
         pos = len(content)
-        fixed = {2: 'said', 3: ',', 4: '"', 5: 'the',
-                 7: 'was', 8: 'missing', 9: '"', 10: '.'}
         if pos == 1:
             used = source_facts(history)
             available = [speaker for speaker in SPEAKERS
                          if self._available_claim_objects(history, speaker,
                                                           used)]
             return {speaker: 1/len(available) for speaker in available}
-        if pos == 6:
+        if pos == 2:
+            return {'said': 1.}
+        if pos == 3:
+            return {',': 1.}
+        if pos == 4:
+            return ({'the': 1.} if self.unquoted_source_rate == 1 else
+                    {'"': 1.} if self.unquoted_source_rate == 0 else
+                    {'"': 1.-self.unquoted_source_rate,
+                     'the': self.unquoted_source_rate})
+        quoted = content[4] == '"'
+        obj_pos = 6 if quoted else 5
+        if pos == obj_pos:
             available = self._available_claim_objects(history, content[1])
             return {obj: 1/len(available) for obj in available}
+        fixed = ({5: 'the', 7: 'was', 8: 'missing', 9: '"', 10: '.'}
+                 if quoted else {6: 'was', 7: 'missing', 8: '.'})
         if pos in fixed:
             return {fixed[pos]: 1.}
         raise ValueError(f'Bad source-statement position {pos}')

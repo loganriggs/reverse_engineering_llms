@@ -19,6 +19,7 @@ def main():
     p.add_argument('--nstreams', type=int, default=1024)
     p.add_argument('--length', type=int, default=128)
     p.add_argument('--seed', type=int, default=23201)
+    p.add_argument('--unquoted-source-rate', type=float, default=0.)
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
     sys.path.insert(0, a.source)
@@ -31,7 +32,8 @@ def main():
                    if item['depth'] == 2))
     assert config['seq_len'] >= a.length
     gen = SurfaceMixtureV6(seed=a.seed, quote_rate=.30, source_rate=.30,
-                           question_rate=.05, counterbalanced_queries=True)
+                           question_rate=.05, counterbalanced_queries=True,
+                           unquoted_source_rate=a.unquoted_source_rate)
     panel = make_eval(gen, a.nstreams, a.length, torch.device('cpu'))
     results = {}
     for checkpoint in a.checkpoints:

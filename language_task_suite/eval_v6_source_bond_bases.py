@@ -92,6 +92,7 @@ def main():
     p.add_argument('--length', type=int, default=128)
     p.add_argument('--fit-seed', type=int, default=24101)
     p.add_argument('--test-seed', type=int, default=24102)
+    p.add_argument('--test-unquoted-rate', type=float, default=0.)
     p.add_argument('--random-seed', type=int, default=24103)
     p.add_argument('--stream-pca-seed', type=int, default=24107)
     p.add_argument('--stream-pca-streams', type=int, default=512)
@@ -118,10 +119,13 @@ def main():
                   counterbalanced_queries=True)
     fit_gen = SurfaceMixtureV6(seed=a.fit_seed,
                                exclude_source_pairs=True, **common)
-    test_gen = SurfaceMixtureV6(seed=a.test_seed, **common)
+    test_gen = SurfaceMixtureV6(seed=a.test_seed,
+                                unquoted_source_rate=a.test_unquoted_rate,
+                                **common)
     _, fit_pairs, _ = build(fit_gen, a.fit_streams, a.length)
     _, all_test_pairs, _ = build(test_gen, a.test_streams, a.length)
-    test_pairs = [pair for pair in all_test_pairs if pair['pair_holdout']]
+    test_pairs = [pair for pair in all_test_pairs
+                  if pair['pair_holdout'] and pair['kind'] in KINDS]
     assert fit_pairs and test_pairs
     assert all(not pair['pair_holdout'] for pair in fit_pairs)
     assert {pair['kind'] for pair in test_pairs} == set(KINDS)

@@ -24,8 +24,11 @@ def statements(history):
         clause = _content(raw)
         if clause and clause[0] == 'As':
             start = offset+len(raw)-len(clause)
-            out.append(dict(object=clause[6], speaker=clause[1],
-                            speaker_index=start+1))
+            quoted = clause[4] == '"'
+            obj = clause[6] if quoted else clause[5]
+            out.append(dict(object=obj, speaker=clause[1],
+                            speaker_index=start+1, start=start,
+                            quoted=quoted))
         offset += len(raw)
     return out
 
@@ -47,6 +50,8 @@ def build(gen, n, length):
                       for item in prior_statements}
             key = clause[3]
             target = source[key]
+            queried_quoted = next(item['quoted'] for item in prior_statements
+                                  if item['object'] == key)
             pair_holdout = source_pair_heldout(target, key)
             assert gen.next_distribution(prefix) == {target: 1.}
             masses = Counter(source.values())
@@ -55,6 +60,7 @@ def build(gen, n, length):
                      if count == max(masses.values())}
             questions.append(dict(prefix=row[:t], target=gen.token2id[target],
                                   pair_holdout=pair_holdout,
+                                  queried_quoted=queried_quoted,
                                   key_blind_bayes=max(prior),
                                   key_blind_entropy=-sum(p*math.log(p) for p in prior),
                                   latest_speaker_correct=(
@@ -79,6 +85,7 @@ def build(gen, n, length):
                     assert q1 == {speaker: 1.}
                     pairs.append(dict(kind='query_object',
                                       pair_holdout=pair_holdout,
+                                      queried_quoted=queried_quoted,
                                       original=[gen.token2id[w] for w in prefix],
                                       edited=[gen.token2id[w] for w in edited],
                                       q_before={target: 1.}, q_after=q1))
@@ -100,12 +107,34 @@ def build(gen, n, length):
                 if q1 == {candidate: 1.}:
                     pairs.append(dict(kind='statement_speaker',
                                       pair_holdout=pair_holdout,
+                                      queried_quoted=queried_quoted,
                                       quote_rank=relevant_rank,
                                       n_statements=len(prior_statements),
                                       original=[gen.token2id[w] for w in prefix],
                                       edited=[gen.token2id[w] for w in edited],
                                       q_before={target: 1.}, q_after=q1))
                     break
+            if 0 < gen.unquoted_source_rate < 1:
+                attempted['statement_form'] += 1
+                edited = prefix.copy()
+                start = relevant['start']
+                if relevant['quoted']:
+                    del edited[start+9]
+                    del edited[start+4]
+                else:
+                    edited.insert(start+8, '"')
+                    edited.insert(start+4, '"')
+                if full_support(gen, edited):
+                    q1 = gen.next_distribution(edited)
+                    assert q1 == {target: 1.}
+                    pairs.append(dict(kind='statement_form',
+                                      pair_holdout=pair_holdout,
+                                      queried_quoted=queried_quoted,
+                                      quote_rank=relevant_rank,
+                                      n_statements=len(prior_statements),
+                                      original=[gen.token2id[w] for w in prefix],
+                                      edited=[gen.token2id[w] for w in edited],
+                                      q_before={target: 1.}, q_after=q1))
             # Another quotation's speaker must leave this query unchanged.
             attempted['other_speaker'] += 1
             for other_rank, item in enumerate(prior_statements):
@@ -121,6 +150,7 @@ def build(gen, n, length):
                         assert q1 == {target: 1.}
                         pairs.append(dict(kind='other_speaker',
                                           pair_holdout=pair_holdout,
+                                          queried_quoted=queried_quoted,
                                           quote_rank=other_rank,
                                           n_statements=len(prior_statements),
                                           original=[gen.token2id[w] for w in prefix],
@@ -169,6 +199,7 @@ def main():
     parser.add_argument('--quote-rate', type=float, default=.30)
     parser.add_argument('--source-rate', type=float, default=.30)
     parser.add_argument('--question-rate', type=float, default=.05)
+    parser.add_argument('--unquoted-source-rate', type=float, default=0.)
     parser.add_argument('--checkpoint-steps', default='',
                         help='Comma-separated saved development steps; empty evaluates final models')
     parser.add_argument('--output', type=Path, required=True)
@@ -177,6 +208,7 @@ def main():
     gen = SurfaceMixtureV6(seed=args.seed, quote_rate=args.quote_rate,
                            source_rate=args.source_rate,
                            question_rate=args.question_rate,
+                           unquoted_source_rate=args.unquoted_source_rate,
                            counterbalanced_queries=True)
     questions, pairs, attempted = build(gen, args.n, args.length)
     assert questions and pairs
@@ -238,6 +270,25 @@ def main():
                                     before[held_pair_ix], after[held_pair_ix], gen),
                         n_questions=len(held_question_ix),
                         n_pairs=len(held_pair_ix))
+                for form_name, quoted in (('quoted', True),
+                                          ('unquoted', False)):
+                    question_ix = [i for i, item in enumerate(questions)
+                                   if item['queried_quoted'] == quoted]
+                    pair_ix = [i for i, item in enumerate(pairs)
+                               if item['queried_quoted'] == quoted]
+                    if question_ix and pair_ix:
+                        results[name].setdefault('by_source_form', {})[form_name] = dict(
+                            prediction=prediction([questions[i] for i in question_ix],
+                                                  probs[question_ix]),
+                            edits=score([pairs[i] for i in pair_ix],
+                                        before[pair_ix], after[pair_ix], gen))
+                        held_question_form = [i for i in question_ix
+                                              if questions[i]['pair_holdout']]
+                        if held_question_form:
+                            results[name]['by_source_form'][form_name][
+                                'pair_holdout_prediction'] = prediction(
+                                    [questions[i] for i in held_question_form],
+                                    probs[held_question_form])
                 print(name, results[name], flush=True)
     output = dict(config={**vars(args), 'output': str(args.output)},
                   n_questions=len(questions),
