@@ -57,7 +57,8 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
     def __init__(self, seed=0, weights=None, parenthetical_rate=.55,
                  alias_fraction=.65, alias_use=.65,
                  definition_start_rate=.20, alias_reuse_rate=.25,
-                 initial_alias_definitions=0):
+                 initial_alias_definitions=0,
+                 exclude_alias_person_pairs=False):
         super().__init__(seed=seed, weights=weights)
         assert 0 <= parenthetical_rate < 1
         assert 0 <= alias_fraction <= 1 and 0 <= alias_use <= 1
@@ -71,6 +72,7 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
         self.definition_start_rate = definition_start_rate
         self.alias_reuse_rate = alias_reuse_rate
         self.initial_alias_definitions = initial_alias_definitions
+        self.exclude_alias_person_pairs = exclude_alias_person_pairs
         self.vocab, self.token2id, self.id2token = VOCAB, TOKEN2ID, ID2TOKEN
 
     def _tokens(self, prefix):
@@ -84,14 +86,20 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
         flattened.extend(mapping.get(tok, tok) for tok in clause)
         return flattened
 
+    def _available_aliases(self, mapping, person):
+        return [name for name in ALIASES if name not in mapping
+                and (not self.exclude_alias_person_pairs
+                     or (ALIASES.index(name)+PEOPLE.index(person)) % 4 != 0)]
+
     def _alias_start_distribution(self, history, clause):
         """Distribution after the first person token of a potential aside."""
         mapping = alias_state(history)
         if len(mapping) < self.initial_alias_definitions:
+            assert self._available_aliases(mapping, clause[0])
             return {'(': 1.0}
         person = clause[0]
         eligible = (person not in mapping.values()
-                    and len(mapping) < len(ALIASES))
+                    and bool(self._available_aliases(mapping, person)))
         if not eligible:
             return {',': 1.0}
         return {',': 1-self.parenthetical_rate,
@@ -114,7 +122,7 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
             fixed = {4: 'colleague', 5: ')', 6: '.'}
             return {fixed[pos]: 1.}
         if pos == 4:
-            available = [name for name in ALIASES if name not in mapping]
+            available = self._available_aliases(mapping, person)
             return {name: 1/len(available) for name in available}
         fixed = {5: ')', 6: '.'}
         return {fixed[pos]: 1.}
@@ -140,8 +148,10 @@ class AliasMixtureLanguage(SurfaceMixtureV2):
     def next_distribution(self, prefix):
         history, clause = _split(self._tokens(prefix))
         if not clause and len(alias_state(history)) < self.initial_alias_definitions:
+            mapping = alias_state(history)
             available = [person for person in PEOPLE
-                         if person not in alias_state(history).values()]
+                         if person not in mapping.values()
+                         and self._available_aliases(mapping, person)]
             return {person: 1/len(available) for person in available}
         if _is_parenthetical(clause):
             return self._parenthetical_distribution(history, clause)

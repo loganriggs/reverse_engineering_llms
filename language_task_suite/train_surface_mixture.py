@@ -243,6 +243,8 @@ def main():
     p.add_argument('--definition-start-rate', type=float, default=.20)
     p.add_argument('--alias-reuse-rate', type=float, default=.25)
     p.add_argument('--initial-alias-definitions', type=int, default=0)
+    p.add_argument('--exclude-alias-person-pairs', action='store_true',
+                   help='Withhold (alias_index+person_index) %% 4 == 0 definitions')
     p.add_argument('--alias-verb-rule-weights', type=json.loads,
                    help='JSON mapping lexical/induction/lead/place_skip weights for alias diagnostic')
     p.add_argument('--verb-only-soft', action='store_true',
@@ -371,7 +373,8 @@ def main():
                                 alias_use=a.alias_use,
                                 definition_start_rate=a.definition_start_rate,
                                 alias_reuse_rate=a.alias_reuse_rate,
-                                initial_alias_definitions=a.initial_alias_definitions)
+                                initial_alias_definitions=a.initial_alias_definitions,
+                                exclude_alias_person_pairs=a.exclude_alias_person_pairs)
         if a.alias_verb_rule_weights is not None:
             generator_kwargs['weights'] = a.alias_verb_rule_weights
     vocab = generator_class(**generator_kwargs).vocab

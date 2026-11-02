@@ -37,6 +37,7 @@ def build_pairs(gen, n, length, edit_selection='first'):
             subject = clause[subject_pos]
             if subject not in ALIASES:
                 continue
+            pair_start = len(pairs)
             first_use = not any(subject in old for old in history
                                 if not _is_parenthetical(old))
             index = sum(len(old) for old in history)+subject_pos
@@ -188,6 +189,10 @@ def build_pairs(gen, n, length, edit_selection='first'):
                                           new_referent=mapping[other],
                                           oracle_before=q_before,
                                           oracle_after=q_swapped))
+            pair_holdout = ((ALIASES.index(subject)
+                             + PEOPLE.index(mapping[subject])) % 4 == 0)
+            for pair in pairs[pair_start:]:
+                pair['current_pair_holdout'] = pair_holdout
     return pairs
 
 
@@ -267,7 +272,8 @@ def main():
     pairs = build_pairs(gen, a.n, a.length, a.edit_selection)
     assert sum(pair['kind'] == 'same_referent' for pair in pairs) > 50
     assert sum(pair['kind'] == 'different_referent' for pair in pairs) > 20
-    record = next(row for row in saved['records'] if row['depth'] == a.depth)
+    record = (next(row for row in saved['records'] if row['depth'] == a.depth)
+              if 'records' in saved else {'model_config': saved['model_config']})
     model = configure_attention(BilinearGPT(Config(**record['model_config'])),
                                 saved['config'].get('attention', 'bilinear'))
     model.load_state_dict(torch.load(a.model_dir/f'model_depth{a.depth}.pt',
@@ -286,11 +292,24 @@ def main():
                                  old_referent=pair['old_referent'],
                                  new_referent=pair['new_referent'])
                             for pair in pairs[:4]],
-                  caveat='The model was trained on all alias-person pairings. '
-                         'These are fresh stream/edit seeds, not whole-pair '
-                         'training holdouts. Same-referent edits have exactly '
+                  caveat=('The model excludes the designated alias-person '
+                          'pairs from joint-stream training. '
+                          if saved.get('generator_kwargs', {}).get(
+                              'exclude_alias_person_pairs') else
+                          'The model was trained on all alias-person pairings; '
+                          'the pair_holdout_scores subset is diagnostic, not '
+                          'a training holdout. ') +
+                         'These are fresh stream/edit seeds. '
+                         'Same-referent edits have exactly '
                          'zero oracle effect; different-referent edits have '
                          'supported full prefixes and a changed verb oracle.')
+    holdout_indices = [i for i, pair in enumerate(pairs)
+                       if pair['current_pair_holdout']]
+    result['pair_holdout_scores'] = score([pairs[i] for i in holdout_indices],
+                                          p0[holdout_indices],
+                                          p1[holdout_indices], gen)
+    result['pair_holdout_counts'] = dict(Counter(
+        pairs[i]['kind'] for i in holdout_indices))
     a.output.write_text(json.dumps(result, indent=2)+'\n')
     print(result['counts'], result['scores'])
 

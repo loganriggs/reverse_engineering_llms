@@ -6,7 +6,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from surface_alias_mixture import ALIASES, AliasMixtureLanguage, alias_state, render
-from surface_mixture_v2 import _frame, _indices, _split
+from surface_mixture_v2 import PEOPLE, _frame, _indices, _split
 
 
 def weighted_candidates(gen, candidates):
@@ -44,6 +44,9 @@ def audit(n, length, seed, generator_kwargs=None):
             if label == 'alias_name':
                 _, definition = _split(prefix)
                 mapping_pairs[(token, definition[0])] += 1
+                if gen.exclude_alias_person_pairs:
+                    assert ((ALIASES.index(token)
+                             + PEOPLE.index(definition[0])) % 4 != 0)
             if label != 'mixed_verb':
                 continue
             candidates = gen.candidates(prefix)
@@ -119,6 +122,7 @@ if __name__ == '__main__':
     p.add_argument('--definition-start-rate', type=float, default=.20)
     p.add_argument('--alias-reuse-rate', type=float, default=.25)
     p.add_argument('--initial-alias-definitions', type=int, default=0)
+    p.add_argument('--exclude-alias-person-pairs', action='store_true')
     p.add_argument('--verb-rule-weights', type=json.loads)
     p.add_argument('--output', type=Path,
                    default=Path(__file__).with_name('surface_alias_audit.json'))
@@ -130,6 +134,7 @@ if __name__ == '__main__':
                         definition_start_rate=a.definition_start_rate,
                         alias_reuse_rate=a.alias_reuse_rate,
                         initial_alias_definitions=a.initial_alias_definitions,
+                        exclude_alias_person_pairs=a.exclude_alias_person_pairs,
                         **({'weights': a.verb_rule_weights}
                            if a.verb_rule_weights is not None else {})))
     a.output.write_text(json.dumps(result, indent=2)+'\n')
