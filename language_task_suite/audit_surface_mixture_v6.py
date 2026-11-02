@@ -47,7 +47,8 @@ def reference_place(history, obj):
     raise AssertionError(obj)
 
 
-def audit(n, length, seed, quote_rate, source_rate, question_rate):
+def audit(n, length, seed, quote_rate, source_rate, question_rate,
+          rows_path=DEFAULT_ROWS):
     gen = SurfaceMixtureV6(seed=seed, quote_rate=quote_rate,
                            source_rate=source_rate, question_rate=question_rate,
                            counterbalanced_queries=True)
@@ -107,7 +108,7 @@ def audit(n, length, seed, quote_rate, source_rate, question_rate):
                 earlier, raw = _split(words[:t])
                 clause = _content(raw)
                 assert q == {reference_place(earlier, clause[3]): 1.}
-    natural_rows = torch.load(DEFAULT_ROWS, map_location='cpu', weights_only=True)
+    natural_rows = torch.load(rows_path, map_location='cpu', weights_only=True)
     tokenizer = Tokenizer.from_file(str(DEFAULT_TOKENIZER))
     m = min(n, len(natural_rows))
     synthetic = [render(row) for row in ids[:m]]
@@ -119,7 +120,8 @@ def audit(n, length, seed, quote_rate, source_rate, question_rate):
                 and len(WORD.findall(natural[i])) >= 40]
     return dict(config=dict(n=n, length=length, seed=seed,
                             quote_rate=quote_rate, source_rate=source_rate,
-                            question_rate=question_rate),
+                            question_rate=question_rate,
+                            natural_rows=str(rows_path)),
                 n_vocab=len(gen.vocab), slots=dict(counts),
                 form_cues=dict(synthetic=form_cues(synthetic),
                                fineweb=form_cues(natural)),
@@ -143,11 +145,12 @@ if __name__ == '__main__':
     parser.add_argument('--quote-rate', type=float, default=.30)
     parser.add_argument('--source-rate', type=float, default=.30)
     parser.add_argument('--question-rate', type=float, default=.05)
+    parser.add_argument('--rows', type=Path, default=DEFAULT_ROWS)
     parser.add_argument('--output', type=Path,
                         default=Path(__file__).with_name('surface_mixture_v6_audit.json'))
     args = parser.parse_args()
     result = audit(args.n, args.length, args.seed, args.quote_rate,
-                   args.source_rate, args.question_rate)
+                   args.source_rate, args.question_rate, args.rows)
     args.output.write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps({k: result[k] for k in ('slots', 'form_cues', 'word_matched')},
                      indent=2))
