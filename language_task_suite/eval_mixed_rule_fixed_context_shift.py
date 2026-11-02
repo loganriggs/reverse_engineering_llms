@@ -30,6 +30,8 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--sweep-dir', default='language_task_suite/mixed_rule_weight_sweep_v1')
+    p.add_argument('--conditional-dir', default=None,
+                   help='Evaluate one model under each mixture tag instead of separately trained models')
     p.add_argument('--n', type=int, default=256)
     p.add_argument('--length', type=int, default=64)
     p.add_argument('--output', required=True)
@@ -77,27 +79,48 @@ def main():
     supported = np.logical_and.reduce([np.isfinite(v) for v in oracle.values()])
     positions = [pos for pos, keep in zip(positions, supported) if keep]
     oracle = {name: values[supported] for name, values in oracle.items()}
-    sweep = json.loads((Path(a.sweep_dir)/'results.json').read_text())
-    config = Config(**sweep['model_config'])
     preds = {}
-    for record in sweep['records']:
-        name, seed = record['train_mixture'], record['seed']
+    if a.conditional_dir:
+        conditional_dir = Path(a.conditional_dir)
+        saved = json.loads((conditional_dir/'results.json').read_text())
+        assert saved['config']['length'] == a.length
+        config = Config(**saved['model_config'])
         model = BilinearGPT(config)
-        path = Path(a.sweep_dir)/f'model_{name}_seed{seed}.pt'
-        model.load_state_dict(torch.load(path, weights_only=True, map_location='cpu'))
+        model.load_state_dict(torch.load(conditional_dir/'model.pt', weights_only=True,
+                                         map_location='cpu'))
         model.eval()
-        with torch.no_grad():
-            logp = torch.cat([F.log_softmax(model(batch)[0], -1)
-                              for batch in x.split(32)])
-        preds[(name, seed)] = np.asarray([
-            float(logp[b, t, bigram_id]-logp[b, t, induction_id])
-            for b, t, bigram_id, induction_id in positions])
+        for i, name in enumerate(names):
+            tag = torch.full((len(x), 1), 26+i, dtype=torch.long)
+            tagged_x = torch.cat([tag, x], 1)
+            with torch.no_grad():
+                logp = torch.cat([F.log_softmax(model(batch)[0], -1)
+                                  for batch in tagged_x.split(32)])
+            preds[(name, 0)] = np.asarray([
+                float(logp[b, t+1, bigram_id]-logp[b, t+1, induction_id])
+                for b, t, bigram_id, induction_id in positions])
+        seeds = 1
+    else:
+        sweep = json.loads((Path(a.sweep_dir)/'results.json').read_text())
+        config = Config(**sweep['model_config'])
+        for record in sweep['records']:
+            name, seed = record['train_mixture'], record['seed']
+            model = BilinearGPT(config)
+            path = Path(a.sweep_dir)/f'model_{name}_seed{seed}.pt'
+            model.load_state_dict(torch.load(path, weights_only=True, map_location='cpu'))
+            model.eval()
+            with torch.no_grad():
+                logp = torch.cat([F.log_softmax(model(batch)[0], -1)
+                                  for batch in x.split(32)])
+            preds[(name, seed)] = np.asarray([
+                float(logp[b, t, bigram_id]-logp[b, t, induction_id])
+                for b, t, bigram_id, induction_id in positions])
+        seeds = sweep['config']['seeds']
     comparisons = {}
     for start, end in [('baseline', 'bigram_heavy'),
                        ('baseline', 'induction_heavy'),
                        ('bigram_heavy', 'induction_heavy')]:
         target = oracle[end]-oracle[start]
-        for seed in range(sweep['config']['seeds']):
+        for seed in range(seeds):
             predicted = preds[(end, seed)]-preds[(start, seed)]
             comparisons[f'{start}->{end}:seed{seed}'] = metrics(target, predicted)
     output = dict(config=vars(a), n_fixed_bigram_induction_conflicts=len(positions),
@@ -107,9 +130,10 @@ def main():
                                   dict(mean=float(v.mean()), std=float(v.std()))
                                   for (name, seed), v in preds.items()},
                   comparisons=comparisons,
-                  caveat='Same baseline-generated visible prefixes for every mixture. '
-                         'These separately trained models are not parameter-aligned; '
-                         'this tests behavioral adaptation, not shared circuit identity.')
+                  caveat=('Same baseline-generated visible prefixes for every mixture. '
+                          'The conditional run changes only the mixture tag in one model; '
+                          'separately trained models are not parameter-aligned. '
+                          'This tests behavioral adaptation, not circuit identity.'))
     Path(a.output).write_text(json.dumps(output, indent=2)+'\n')
     print(json.dumps(comparisons, indent=2))
 

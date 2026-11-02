@@ -1,0 +1,75 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "sweep_dir": "language_task_suite/mixed_rule_weight_sweep_v1",
+    "conditional_dir": "language_task_suite/conditional_mixed_rules_v1",
+    "n": 256,
+    "length": 64,
+    "output": "language_task_suite/conditional_mixed_rules_v1/fixed_context_shift.json"
+  },
+  "n_fixed_bigram_induction_conflicts": 520,
+  "target_log_odds": {
+    "baseline": {
+      "mean": 0.29418204643007645,
+      "std": 0.6137281919761125
+    },
+    "bigram_heavy": {
+      "mean": 1.2953866153630689,
+      "std": 0.4976189841962036
+    },
+    "induction_heavy": {
+      "mean": -1.1467395366127056,
+      "std": 0.8097189203874283
+    }
+  },
+  "model_log_odds": {
+    "baseline:seed0": {
+      "mean": 0.10791824351136502,
+      "std": 1.1997917845026693
+    },
+    "bigram_heavy:seed0": {
+      "mean": 1.0433634602106534,
+      "std": 1.099563199709547
+    },
+    "induction_heavy:seed0": {
+      "mean": -1.4292853636810412,
+      "std": 1.4712048289412936
+    }
+  },
+  "comparisons": {
+    "baseline->bigram_heavy:seed0": {
+      "n": 520,
+      "target_mean": 1.0012045689329923,
+      "target_std": 0.15926334771688122,
+      "predicted_mean": 0.9354452166992885,
+      "predicted_std": 0.3008434235752507,
+      "mae": 0.22612869015502995,
+      "rmse": 0.2920903814334205,
+      "constant_mean_rmse": 0.15926334771688122,
+      "correlation": 0.36398096676820035
+    },
+    "baseline->induction_heavy:seed0": {
+      "n": 520,
+      "target_mean": -1.4409215830427817,
+      "target_std": 0.21408521820976523,
+      "predicted_mean": -1.5372036071924062,
+      "predicted_std": 0.4500535732685734,
+      "mae": 0.3376242191368779,
+      "rmse": 0.431834491437636,
+      "constant_mean_rmse": 0.21408521820976523,
+      "correlation": 0.36933074466761434
+    },
+    "bigram_heavy->induction_heavy:seed0": {
+      "n": 520,
+      "target_mean": -2.4421261519757747,
+      "target_std": 0.3708530462700153,
+      "predicted_mean": -2.472648823891695,
+      "predicted_std": 0.700368572978014,
+      "mae": 0.5043237381869117,
+      "rmse": 0.6517246603387677,
+      "constant_mean_rmse": 0.3708530462700153,
+      "correlation": 0.39316158652975447
+    }
+  },
+  "caveat": "Same baseline-generated visible prefixes for every mixture. The conditional run changes only the mixture tag in one model; separately trained models are not parameter-aligned. This tests behavioral adaptation, not circuit identity."
+}

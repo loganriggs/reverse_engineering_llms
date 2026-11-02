@@ -8,6 +8,8 @@
 
 The [mixed-rule weight sweep](MIXED_RULE_WEIGHT_SWEEP.md) now changes bigram versus induction weights, retrains matched bilinear models, scores exact-oracle KL across mixtures, and tests fixed-prefix rule-competition shifts and attention-bond compression.
 
+The [conditional mixture experiment](CONDITIONAL_MIXTURE.md) trains one model with an explicit rule-mixture token. It tests a causal tag intervention on fixed prefixes and finds a compact first-layer broadcast contrast that transfers from no-conflict fitting contexts to held-out bigram–induction conflicts, with an exact rank bound and positional controls.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds
