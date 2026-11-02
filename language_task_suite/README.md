@@ -70,6 +70,8 @@ The [bidirectional head-path patching assay](VARIED_HEAD_PATH_PATCHING_RESULTS.m
 
 The [second-layer source and factor assay](VARIED_SECOND_LAYER_SOURCE_CIRCUITS.md) resolves the mixed head further: second-block head 1 reads the edited previous-place token directly, while head 0 (and partly head 1) reads the earlier verb for induction. Counterfactual QK/V swaps distinguish value content from routing and expose a strong multiplicative interaction for the previous-place rule.
 
+The [matched return-distribution finetune](VARIED_RETURN_FINETUNE_RESULTS.md) tests why long-range induction fails despite source localization. Return-focused training strengthens the long-distance causal effect and its source specificity while weakening short-distance effects; a mixed subject distribution gives an intermediate tradeoff. This produces distance-stratified causal targets for later path-level featurizer comparisons.
+
 The [output-aware shared-group test](VARIED_CAUSAL_GROUP_FEATURIZER_RESULTS.md) keeps previous-place interventions out of featurizer fitting. Shared groups still lose to scalar Top-8 under matched active-support budgets, motivating a direct comparison with the original iterative L1-and-prune path analysis.
 
 ## What existed, and what this adds

@@ -90,6 +90,7 @@ def main():
     p.add_argument('--n', type=int, default=64)
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=20261205)
+    p.add_argument('--subject-repeat-mass', type=float)
     p.add_argument('--subject-return-mass', type=float)
     p.add_argument('--only-kind', choices=('lexical', 'induction', 'place_skip',
                                            'cue', 'nuisance_adjective',
@@ -105,6 +106,8 @@ def main():
     metadata = json.loads((a.model_dir/'results.json').read_text())
     assert metadata['config']['generator'] == 'v2_varied'
     generator_kwargs = dict(metadata['generator_kwargs'])
+    if a.subject_repeat_mass is not None:
+        generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
     if a.subject_return_mass is not None:
         generator_kwargs['subject_return_mass'] = a.subject_return_mass
     gen = SurfaceMixtureV2Varied(seed=a.seed, **generator_kwargs)

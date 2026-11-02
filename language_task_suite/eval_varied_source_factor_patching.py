@@ -23,6 +23,13 @@ def main():
     p.add_argument('--n', type=int, default=128)
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=20261205)
+    p.add_argument('--subject-repeat-mass', type=float)
+    p.add_argument('--subject-return-mass', type=float)
+    p.add_argument('--only-kind', choices=('lexical', 'induction', 'place_skip',
+                                           'cue', 'nuisance_adjective',
+                                           'nuisance_determiner'))
+    p.add_argument('--min-source-distance', type=int)
+    p.add_argument('--max-source-distance', type=int)
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
     torch.set_num_threads(4)
@@ -31,8 +38,23 @@ def main():
 
     metadata = json.loads((a.model_dir/'results.json').read_text())
     assert metadata['config']['generator'] == 'v2_varied'
-    gen = SurfaceMixtureV2Varied(seed=a.seed, **metadata['generator_kwargs'])
+    generator_kwargs = dict(metadata['generator_kwargs'])
+    if a.subject_repeat_mass is not None:
+        generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
+    if a.subject_return_mass is not None:
+        generator_kwargs['subject_return_mass'] = a.subject_return_mass
+    gen = SurfaceMixtureV2Varied(seed=a.seed, **generator_kwargs)
     pairs = build_pairs(gen, a.n, a.length)
+    if a.only_kind:
+        pairs = [pair for pair in pairs if pair['kind'] == a.only_kind]
+    if a.min_source_distance is not None:
+        pairs = [pair for pair in pairs if pair['source_distance'] is not None
+                 and pair['source_distance'] >= a.min_source_distance]
+    if a.max_source_distance is not None:
+        pairs = [pair for pair in pairs if pair['source_distance'] is not None
+                 and pair['source_distance'] <= a.max_source_distance]
+    if not pairs:
+        raise ValueError('No pairs meet the requested filter')
     record = next(row for row in metadata['records'] if row['depth'] == 2)
     model = BilinearGPT(Config(**record['model_config']))
     model.load_state_dict(torch.load(a.model_dir/'model_depth2.pt',
@@ -80,6 +102,7 @@ def main():
                 qk2_only=(scores0['score1']*scores1['score2'])[..., None]*v0)
             p0 = F.softmax(logits0, -1)
             full_effect = F.softmax(logits1, -1)-p0
+            full_effect_l1 = full_effect.abs().sum(-1).numpy()
             denominator = full_effect.square().sum(-1).clamp_min(1e-20)
             per_variant = {}
             for name, candidate in variants.items():
@@ -92,12 +115,15 @@ def main():
                 per_variant[name] = dict(
                     aligned=((effect*full_effect[:, None, :]).sum(-1)/
                              denominator[:, None]).numpy(),
+                    effect_l1=effect.abs().sum(-1).numpy(),
                     residual_l1=(full_effect[:, None, :]-effect).abs()
                     .sum(-1).numpy())
             for j, index in enumerate(batch):
                 records[index] = dict(kind=pairs[index]['kind'],
                     source_lag=len(pairs[index]['original'])-1-int(edit[j]),
+                    full_effect_l1=float(full_effect_l1[j]),
                     variants={name: dict(aligned=row['aligned'][j].tolist(),
+                                         effect_l1=row['effect_l1'][j].tolist(),
                                          residual_l1=row['residual_l1'][j].tolist())
                               for name, row in per_variant.items()})
     if max_factor_replay_error > 1e-5:
@@ -115,18 +141,24 @@ def main():
                 variant_rows[name] = dict(
                     mean_aligned_full_fraction=float(np.mean([
                         row['variants'][name]['aligned'][head] for row in rows])),
+                    mean_effect_l1=float(np.mean([
+                        row['variants'][name]['effect_l1'][head]
+                        for row in rows])),
                     mean_residual_to_full_l1=float(np.mean([
                         row['variants'][name]['residual_l1'][head]
                         for row in rows])))
             head_rows[str(head)] = variant_rows
         source_lags = [row['source_lag'] for row in rows]
         summary[kind] = dict(n=len(rows),
+                             mean_full_model_effect_l1=float(np.mean([
+                                 row['full_effect_l1'] for row in rows])),
                              source_lag_median=float(np.median(source_lags)),
                              source_lag_gt24=sum(lag > 24 for lag in source_lags),
                              source_lag_gt48=sum(lag > 48 for lag in source_lags),
                              heads=head_rows)
     result = dict(config={**vars(a), 'model_dir': str(a.model_dir),
                           'output': str(a.output)},
+                  generator_kwargs=generator_kwargs,
                   n_pairs=len(pairs),
                   max_factor_replay_error=max_factor_replay_error,
                   summary=summary,
