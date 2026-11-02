@@ -167,6 +167,8 @@ The [sparse-depth participation test](SPARSE_DEPTH_PARTICIPATION_RESULTS.md) che
 
 The [task-balanced sparse causal-transfer test](V3_SPARSE_CAUSAL_TRANSFER_RESULTS.md) resumes flat and factored fixed-mask students with a loss on teacher probability changes under valid verb/object edits, withholding the entire previous-event object edit family from paired supervision. At coefficients 0.1 and 0.01, supervised-family validation and omitted-family teacher-effect errors are worse than KL-only recovery; exact-oracle effects and aggregate KL show different tradeoffs. The gradient path passes a fixed-batch check, so the next objective needs better conditioning or explicit path-level constraints. This is an edit-supervision holdout, not an unseen model-training task.
 
+The [versioned Catalog retrieval experiment](MULTI_GENRE_V2_CATALOG_RESULTS.md) adds object-keyed two-field records and several question forms to the multi-genre stream. Its exact oracle and four causal edit families pass an independent audit, but 1–4-layer bilinear models, a softmax attention control, and first-answer-weighted training all fail a query-key-blind Bayes baseline and the key-edit test. The task is therefore a useful capability gate, not yet a recovered circuit. Its FineWeb form audit also shows that the enriched synthetic genre remains much less diverse than web text.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:

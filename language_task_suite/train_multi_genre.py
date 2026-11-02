@@ -29,12 +29,12 @@ def make_batch(gen, n, length, device):
     return z[:, :-1], z[:, 1:]
 
 
-def make_eval(gen, n, length, device):
+def make_eval(gen, n, length, device, task_labels=TASK_LABELS, genres=GENRES):
     ids, labels, qs = gen.sample_batch(n, length+1)
     z = torch.tensor(ids, dtype=torch.long, device=device)
-    q = np.zeros((n, length, len(VOCAB)), dtype=np.float32)
+    q = np.zeros((n, length, len(gen.vocab)), dtype=np.float32)
     masks = {name: np.zeros((n, length), dtype=bool)
-             for name in ('all',) + GENRES + TASK_LABELS}
+             for name in ('all',) + tuple(genres) + tuple(task_labels)}
     masks['all'][:] = True
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         genre = gen.id2token[row[0]]
@@ -42,8 +42,15 @@ def make_eval(gen, n, length, device):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
                 q[b, t-1, gen.token2id[token]] = p
-            if labs[t] in TASK_LABELS:
+            if labs[t] in task_labels:
                 masks[labs[t]][b, t-1] = True
+            if (labs[t] in ('catalog_owner_answer', 'catalog_status_answer')
+                    and 'catalog_first_owner_answer' in task_labels):
+                from multi_genre_v2_language import catalog_state
+                words = [gen.id2token[i] for i in row[:t]]
+                if not catalog_state(words[2:])[1]:
+                    first_label = labs[t].replace('catalog_', 'catalog_first_')
+                    masks[first_label][b, t-1] = True
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 masks={name: torch.from_numpy(mask).to(device)
@@ -72,6 +79,15 @@ def evaluate(model, data):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
+    p.add_argument('--language', choices=('v1', 'v2'), default='v1')
+    p.add_argument('--genre-weights', default='',
+                   help='Optional comma-separated weights in genre order')
+    p.add_argument('--catalog-record-rate', type=float, default=.60,
+                   help='V2 probability of adding another record after two exist')
+    p.add_argument('--attention', choices=('bilinear', 'softmax'),
+                   default='bilinear')
+    p.add_argument('--first-answer-weight', type=float, default=0.,
+                   help='Extra CE on the first Catalog answer in each stream')
     p.add_argument('--depths', default='1,2,3,4')
     p.add_argument('--steps', type=int, default=3000)
     p.add_argument('--batch', type=int, default=64)
@@ -85,32 +101,80 @@ def main():
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
     a = p.parse_args()
+    if a.first_answer_weight < 0:
+        raise ValueError('First-answer weight must be nonnegative')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
+    from softmax_attention_control import configure_attention
 
     torch.set_num_threads(4)
     device = torch.device(a.device)
+    if a.language == 'v2':
+        from multi_genre_v2_language import (GENRES_V2, VOCAB_V2,
+                                             MultiGenreV2Language)
+        generator_class = MultiGenreV2Language
+        genres = GENRES_V2
+        vocab = VOCAB_V2
+        task_labels = TASK_LABELS + (
+            'catalog_record_object', 'catalog_owner_value',
+            'catalog_status_value', 'catalog_query_object',
+            'catalog_owner_answer', 'catalog_status_answer',
+            'catalog_first_owner_answer', 'catalog_first_status_answer')
+    else:
+        generator_class = MultiGenreLanguage
+        genres = GENRES
+        vocab = VOCAB
+        task_labels = TASK_LABELS
+    if a.genre_weights:
+        genre_weights = tuple(float(value) for value in a.genre_weights.split(','))
+        if len(genre_weights) != len(genres):
+            raise ValueError('Genre weight count must match language genres')
+    else:
+        genre_weights = None
+    def generator(seed):
+        kwargs = {'genre_weights': genre_weights} if genre_weights is not None else {}
+        if a.language == 'v2':
+            kwargs['record_rate'] = a.catalog_record_rate
+        return generator_class(seed=seed, **kwargs)
     output_dir = Path(a.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    test = make_eval(MultiGenreLanguage(seed=9101), a.neval, a.length, device)
+    test = make_eval(generator(9101), a.neval, a.length, device,
+                     task_labels, genres)
     records = []
     for depth in [int(d) for d in a.depths.split(',')]:
         torch.manual_seed(9200+a.seed)
-        config = Config(vocab_size=len(VOCAB), n_layer=depth,
+        config = Config(vocab_size=len(vocab), n_layer=depth,
                         n_head=a.heads, n_embd=a.width, seq_len=a.length,
                         block_has_mlp=(False,)*depth,
                         use_rmsnorm=a.rmsnorm)
-        model = BilinearGPT(config).to(device)
-        gen = MultiGenreLanguage(seed=9300+a.seed)
+        model = configure_attention(BilinearGPT(config), a.attention).to(device)
+        gen = generator(9300+a.seed)
         optimizer = torch.optim.AdamW(model.parameters(), lr=a.lr)
         t0 = time.time()
         snapshots = []
         model.train()
         for step in range(a.steps):
-            x, y = make_batch(gen, a.batch, a.length, device)
+            if a.first_answer_weight:
+                ids, labels, _ = gen.sample_batch(a.batch, a.length+1)
+                z = torch.tensor(ids, dtype=torch.long, device=device)
+                x, y = z[:, :-1], z[:, 1:]
+                first_mask = torch.zeros_like(y, dtype=torch.bool)
+                for b, labs in enumerate(labels):
+                    first = next((at for at, label in enumerate(labs)
+                                  if label in ('catalog_owner_answer',
+                                               'catalog_status_answer')), None)
+                    if first is not None and first > 0:
+                        first_mask[b, first-1] = True
+                if not first_mask.any():
+                    raise RuntimeError('No first Catalog answers in batch')
+            else:
+                x, y = make_batch(gen, a.batch, a.length, device)
             optimizer.zero_grad(set_to_none=True)
             logits = model(x)[0]
-            loss = F.cross_entropy(logits.reshape(-1, len(VOCAB)), y.reshape(-1))
+            loss = F.cross_entropy(logits.reshape(-1, len(vocab)), y.reshape(-1))
+            if a.first_answer_weight:
+                answer_ce = F.cross_entropy(logits[first_mask], y[first_mask])
+                loss = loss + a.first_answer_weight*answer_ce
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -123,17 +187,17 @@ def main():
                                       scores=scores, elapsed=time.time()-t0))
                 print('depth', depth, 'step', step+1,
                       {name: round(scores[name]['kl'], 4) if scores[name]['kl'] is not None else None
-                       for name in TASK_LABELS},
+                       for name in task_labels},
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
                 (output_dir/'results.json').write_text(json.dumps(dict(
-                    config=vars(a), vocabulary=list(VOCAB), records=records,
+                    config=vars(a), vocabulary=list(vocab), records=records,
                     current=dict(depth=depth, snapshots=snapshots)), indent=2)+'\n')
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')
         records.append(dict(depth=depth, model_config=asdict(config),
                             parameters=model.count_params(), snapshots=snapshots))
         (output_dir/'results.json').write_text(json.dumps(dict(
-            config=vars(a), vocabulary=list(VOCAB), records=records), indent=2)+'\n')
+            config=vars(a), vocabulary=list(vocab), records=records), indent=2)+'\n')
 
 
 if __name__ == '__main__':
