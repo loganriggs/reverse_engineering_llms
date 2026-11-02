@@ -13,7 +13,7 @@ The [original project proposal](https://www.lesswrong.com/posts/GncmyuKmp526RJpm
 
 The new multi-genre audit replayed every prefix of 4,000 72-token streams and checked oracle normalization, sampled-token support, list numbering, FAQ object copying and place recall, and policy syntax. The tests passed. It found 6,835 report mixed-verb slots, 4,100 policy mixed-action slots, 3,316 FAQ answer-copy slots, 1,091 FAQ place-recall slots and 4,704 list-number slots. These counts establish coverage, not model mastery.
 
-The realism test is negative. The multi-genre sample has 157 distinct alphabetic words, mean sentence length 10.4 words and p90 16; the frozen 480-window FineWeb panel has 17,932 distinct words, mean 17.8 and p90 32. Window length and tokenization differ, so lexical type/token ratios should not be compared directly. The large diversity and sentence-structure gaps still rule out a FineWeb-like claim. The added genres are worth retaining as controlled transfer tasks, but broadening the headers does not solve the original DGP problem by itself.
+The realism test is negative. On **480 windows of 72 tokens each**, synthetic text has 157 distinct alphabetic words, mean sentence length 10.5 words and p90 16; the first 72 GPT-2 tokens of each frozen FineWeb window have 6,305 distinct words, mean 16.3 and p90 29. The synthetic and GPT-2 tokenizers differ, so this is still an approximate form comparison, but the mean words per window are close (58.5 versus 54.3). The diversity and sentence-structure gaps rule out a FineWeb-like claim. The added genres are worth retaining as controlled transfer tasks, but broadening the headers does not solve the original DGP problem by itself.
 
 ## Next experiment that bears on the thesis
 

@@ -5,6 +5,10 @@ import json
 from collections import Counter
 from pathlib import Path
 
+import torch
+from tokenizers import Tokenizer
+
+from audit_fineweb_surfaces import DEFAULT_ROWS, DEFAULT_TOKENIZER
 from compare_realism import summary
 from multi_genre_language import (GENRES, GUIDE_ACTIONS, MultiGenreLanguage,
                                   _split_sentences, render)
@@ -79,16 +83,27 @@ def main():
             assert label == replay_label and q == replay
     fineweb = json.loads(Path(__file__).with_name(
         'world_v2_surface_comparison.json').read_text())['fineweb_513_token_windows']
+    fineweb_rows = torch.load(DEFAULT_ROWS, map_location='cpu', weights_only=True)
+    tokenizer = Tokenizer.from_file(str(DEFAULT_TOKENIZER))
+    matched_n = min(a.n, len(fineweb_rows))
+    fineweb_72 = [tokenizer.decode(row[:a.length].tolist(),
+                                   skip_special_tokens=False)
+                  for row in fineweb_rows[:matched_n]]
+    synthetic_matched = [render(row) for row in ids[:matched_n]]
     result = dict(config=vars(a), n_vocab=len(gen.vocab),
                   genres=dict(genre_counts), labels=dict(label_counts),
                   overall_surface=summary([render(row) for row in ids]),
                   genre_surfaces={genre: summary(texts)
                                   for genre, texts in texts_by_genre.items()},
                   fineweb_surface=fineweb,
+                  matched_surface=dict(n=matched_n, tokens_per_window=a.length,
+                                       fineweb_first_window=summary(fineweb_72),
+                                       synthetic_window=summary(synthetic_matched)),
                   examples={genre: texts[:2] for genre, texts in texts_by_genre.items()},
                   caveat='Exact oracle and task invariants are verified on generated '
                          'streams. This does not establish naturalness or corpus '
-                         'matching; the FineWeb panel consists of fixed token windows.')
+                         'matching; the FineWeb panel consists of fixed token windows. '
+                         'The 72-token comparison uses different tokenizers.')
     Path(a.output).write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps({key: result[key] for key in
                       ('n_vocab', 'genres', 'labels', 'overall_surface',
