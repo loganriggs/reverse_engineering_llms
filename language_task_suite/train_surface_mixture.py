@@ -411,6 +411,8 @@ def main():
     p.add_argument('--save-snapshots', action='store_true',
                    help='Save model weights at each 1000-step development evaluation')
     p.add_argument('--seed', type=int, default=0)
+    p.add_argument('--torch-threads', type=int, default=4,
+                   help='PyTorch CPU threads; use 1 to diagnose runtime crashes')
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
     a = p.parse_args()
@@ -464,7 +466,9 @@ def main():
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
-    torch.set_num_threads(4)
+    if a.torch_threads < 1:
+        p.error('--torch-threads must be positive')
+    torch.set_num_threads(a.torch_threads)
     device = torch.device(a.device)
     output_dir = Path(a.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
