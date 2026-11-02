@@ -25,12 +25,8 @@ from surface_mixture_v2_varied import SurfaceMixtureV2Varied
 from train_surface_mixture import make_batch
 
 
-def path_signatures(model, ids, verb_ids):
-    """Differentiable, exact second-layer source contributions in logit space.
-
-    The output is a centered 12-verb linear contrast before final RMSNorm;
-    this deliberately does not claim to reproduce probability effects.
-    """
+def source_components(model, ids):
+    """Differentiable second-layer source vectors and pre-attention residual."""
     from model import apply_rotary_emb
 
     residual = model.blocks[0](model.embed(ids))
@@ -48,6 +44,14 @@ def path_signatures(model, ids, verb_ids):
         scores.append(torch.einsum('bihd,bjhd->bhij', q, k)[:, :, -1]/d)
     contributions = (scores[0]*scores[1]).unsqueeze(-1)*(
         projected['v'].permute(0, 2, 1, 3))
+    return contributions, residual[:, -1]
+
+
+def path_signatures(model, ids, verb_ids):
+    """Centered verb-output contrasts before the final RMSNorm."""
+    contributions, _ = source_components(model, ids)
+    attn = model.blocks[1].attn
+    h, d = attn.n_head, attn.head_dim
     out = attn.out.weight.reshape(model.config.n_embd, h, d)
     rows = model.lm_head.weight[verb_ids]
     contrast = rows-rows.mean(0, keepdim=True)
@@ -55,13 +59,39 @@ def path_signatures(model, ids, verb_ids):
     return path
 
 
+def teacher_indices(teacher, ids, verb_ids, keep):
+    with torch.no_grad():
+        target = path_signatures(teacher, ids, verb_ids)
+        importance = target.square().sum(-1).amax(0)
+        return importance.topk(min(keep, ids.shape[1]), dim=-1).indices
+
+
+def sparse_logits(model, ids, indices):
+    contributions, residual = source_components(model, ids)
+    h, d = model.blocks[1].attn.n_head, model.blocks[1].attn.head_dim
+    chosen = contributions.gather(2, indices[None, :, :, None].expand(
+        len(ids), -1, -1, d)).sum(2).reshape(len(ids), h*d)
+    updated = residual+model.blocks[1].attn.out(chosen)
+    return model.lm_head(model.final_norm(updated))
+
+
+def paired_sufficiency_loss(student, teacher, pair, verb_ids, keep):
+    ids = torch.tensor([pair['original'], pair['edited']],
+                       device=verb_ids.device)
+    indices = teacher_indices(teacher, ids, verb_ids, keep)
+    with torch.no_grad():
+        teacher_log = F.log_softmax(teacher(ids)[0][:, -1].float(), -1)
+        target = teacher_log.exp()
+    student_log = F.log_softmax(sparse_logits(student, ids, indices).float(), -1)
+    return (target*(teacher_log-student_log)).sum(-1).mean()
+
+
 def paired_path_loss(student, teacher, pair, verb_ids, keep):
     ids = torch.tensor([pair['original'], pair['edited']],
                        device=verb_ids.device)
     with torch.no_grad():
         target = path_signatures(teacher, ids, verb_ids)
-        importance = target.square().sum(-1).amax(0)
-        indices = importance.topk(min(keep, ids.shape[1]), dim=-1).indices
+        indices = teacher_indices(teacher, ids, verb_ids, keep)
         expanded = indices.unsqueeze(0).unsqueeze(-1).expand(
             2, -1, -1, target.shape[-1])
         target_edit = (target[1]-target[0]).gather(1, expanded[0])
@@ -111,6 +141,8 @@ def main():
     p.add_argument('--output-dir', type=Path, required=True)
     p.add_argument('--arms', default='flat,factor')
     p.add_argument('--path-weights', default='0,.001,.01')
+    p.add_argument('--path-objective', choices=('match', 'sufficiency'),
+                   default='match')
     p.add_argument('--holdout-kind', default='cue')
     p.add_argument('--steps', type=int, default=150)
     p.add_argument('--batch', type=int, default=16)
@@ -182,7 +214,9 @@ def main():
                 kl = teacher_kl(model, teacher, x.to(a.device))
                 path = torch.zeros((), device=a.device)
                 if weight:
-                    path = torch.stack([paired_path_loss(
+                    path_fn = (paired_path_loss if a.path_objective == 'match'
+                               else paired_sufficiency_loss)
+                    path = torch.stack([path_fn(
                         model, teacher, pair, verb_ids, a.keep)
                         for pair in picked]).mean()
                 loss = kl+weight*path
@@ -203,21 +237,45 @@ def main():
             in_distribution_kl = panel_kl(model, teacher, eval_gen,
                                           a.test_streams, a.length)
             path_by_kind = defaultdict(list)
+            sparse_by_kind = defaultdict(list)
             for pair in test:
                 if len(path_by_kind[pair['kind']]) < 24:
                     with torch.no_grad():
                         value = paired_path_loss(model, teacher, pair,
                                                  verb_ids, a.keep)
+                        ids = torch.tensor([pair['original'], pair['edited']],
+                                           device=a.device)
+                        indices = teacher_indices(teacher, ids, verb_ids, a.keep)
+                        target_log = F.log_softmax(
+                            teacher(ids)[0][:, -1].float(), -1)
+                        sparse_log = F.log_softmax(
+                            sparse_logits(model, ids, indices).float(), -1)
+                        teacher_sparse_log = F.log_softmax(
+                            sparse_logits(teacher, ids, indices).float(), -1)
+                        target = target_log.exp()
+                        sparse_prob = sparse_log.exp()
+                        sparse_by_kind[pair['kind']].append(dict(
+                            teacher_kl=float((target*(target_log-sparse_log)
+                                              ).sum(-1).mean()),
+                            effect_l1=float(((sparse_prob[1]-sparse_prob[0])-
+                                             (target[1]-target[0])).abs().sum()),
+                            teacher_gate_kl=float((target*(target_log-
+                                                  teacher_sparse_log)
+                                                   ).sum(-1).mean())))
                     path_by_kind[pair['kind']].append(float(value))
             path_test = {kind: dict(n=len(values), mean_relative_error=float(
                 np.mean(values))) for kind, values in path_by_kind.items()}
+            sparse_test = {kind: {metric: float(np.mean([
+                row[metric] for row in values])) for metric in
+                ('teacher_kl', 'effect_l1', 'teacher_gate_kl')}
+                for kind, values in sparse_by_kind.items()}
             model.cpu()
             teacher.cpu()
             edits = pair_scores(model, teacher, test, test_gen)
             label=f'{arm}_path{weight:g}'
             results['arms'][label] = dict(history=history,
                 teacher_kl=in_distribution_kl, edits=edits,
-                path_test=path_test,
+                path_test=path_test, sparse_test=sparse_test,
                 active_attention_edges=sum(int(mask.sum()) for mask in masks.values()))
             torch.save(dict(model=model.state_dict(),
                             masks={k:v.cpu() for k,v in masks.items()}),
