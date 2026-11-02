@@ -15,7 +15,8 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from eval_v3_two_path_holdout import prepare, readout
+from eval_v3_rule_holdout_bond import capture as capture_final_bond
+from eval_v3_two_path_holdout import prepare as prepare_final_residual, readout
 from surface_mixture_v8 import SurfaceMixtureV8
 from train_surface_v2_shared_groups import ScalarTopK, initialize
 
@@ -32,7 +33,36 @@ def reconstruct(feature,x,center,scale,membership=None):
     return result['reconstruction']*scale+center,result['support']
 
 
-def loss_on(model,feature,data,center,scale,indices,causal_weight,
+def output_prob(model,data,feature_state,endpoint,site,indices=slice(None)):
+    if site=='final_residual':
+        return readout(model,feature_state)
+    assert site=='final_bond'
+    context=data[f'h{endpoint}'][indices]
+    output=model.blocks[-1].attn.out
+    return readout(model,context+F.linear(feature_state,output.weight))
+
+
+@torch.no_grad()
+def prepare_bond(model,pairs,vocab):
+    h0,z0,p0=capture_final_bond(model,[p['original'] for p in pairs])
+    h1,z1,p1=capture_final_bond(model,[p['edited'] for p in pairs])
+    data=dict(r0=z0,dr=z1-z0,h0=h0,h1=h1,p0=p0,
+              native=p1-p0,kinds=[p['kind'] for p in pairs])
+    data['oracle']=torch.zeros_like(p0)
+    for i,pair in enumerate(pairs):
+        for token,mass in pair['q_after'].items():
+            data['oracle'][i,vocab[token]]+=mass
+        for token,mass in pair['q_before'].items():
+            data['oracle'][i,vocab[token]]-=mass
+    replay=max((output_prob(model,data,z0,0,'final_bond')-p0).abs().max(),
+               (output_prob(model,data,z1,1,'final_bond')-p1).abs().max())
+    data['replay_error']=float(replay)
+    if data['replay_error']>1e-5:
+        raise AssertionError(f'Final-bond endpoint replay {replay}')
+    return data
+
+
+def loss_on(model,feature,data,center,scale,indices,causal_weight,site,
             membership=None):
     x0,x1=normalized_data(data,center,scale)
     x0,x1=x0[indices],x1[indices]
@@ -41,14 +71,15 @@ def loss_on(model,feature,data,center,scale,indices,causal_weight,
     target0=data['r0'][indices]
     target1=target0+data['dr'][indices]
     mse=(F.mse_loss(r0,target0)+F.mse_loss(r1,target1))/(scale**2)
-    predicted=readout(model,r1)-readout(model,r0)
+    predicted=(output_prob(model,data,r1,1,site,indices)-
+               output_prob(model,data,r0,0,site,indices))
     effect=(predicted-data['native'][indices]).square().sum(-1).mean()
     return mse+causal_weight*effect,dict(mse=mse,effect_mse=effect,
                                          active=(s0.sum(-1).mean()+
                                                  s1.sum(-1).mean())/2)
 
 
-def fit(model,feature,train,dev,center,scale,steps,causal_weight,
+def fit(model,feature,train,dev,center,scale,steps,causal_weight,site,
         seed,membership=None):
     rng=torch.Generator().manual_seed(seed)
     optimizer=torch.optim.AdamW((p for p in feature.parameters()
@@ -60,7 +91,7 @@ def fit(model,feature,train,dev,center,scale,steps,causal_weight,
             feature.eval()
             with torch.no_grad():
                 objective,parts=loss_on(model,feature,dev,center,scale,
-                                        slice(None),causal_weight,membership)
+                                        slice(None),causal_weight,site,membership)
                 score=float(objective)
                 if score<best[0]:
                     best=(score,step,copy.deepcopy(feature.state_dict()))
@@ -72,7 +103,7 @@ def fit(model,feature,train,dev,center,scale,steps,causal_weight,
         feature.train()
         indices=torch.randint(len(train['r0']),(64,),generator=rng)
         objective,_=loss_on(model,feature,train,center,scale,indices,
-                            causal_weight,membership)
+                            causal_weight,site,membership)
         if not torch.isfinite(objective):
             raise RuntimeError(f'Nonfinite loss at step {step}')
         optimizer.zero_grad(set_to_none=True)
@@ -93,7 +124,7 @@ def topk_basis(x,basis,k):
 
 @torch.no_grad()
 def evaluate(model,data,center,scale,feature=None,membership=None,
-             basis=None,k=None):
+             basis=None,k=None,site='final_residual'):
     x0,x1=normalized_data(data,center,scale)
     if feature is not None:
         r0,s0=reconstruct(feature,x0,center,scale,membership)
@@ -105,8 +136,8 @@ def evaluate(model,data,center,scale,feature=None,membership=None,
     else:
         r0,r1=data['r0'],data['r0']+data['dr']
         s0=s1=torch.ones_like(x0)
-    p0=readout(model,r0)
-    p1=readout(model,r1)
+    p0=output_prob(model,data,r0,0,site)
+    p1=output_prob(model,data,r1,1,site)
     native0=data['p0']
     native1=native0+data['native']
     native_log0=native0.clamp_min(1e-30).log()
@@ -163,6 +194,10 @@ def main():
     p.add_argument('--feature-source',default='/home/loganriggs/Coding/neuron_circuits/scripts')
     p.add_argument('--model-dir',required=True)
     p.add_argument('--panels',required=True)
+    p.add_argument('--site',choices=('final_residual','final_bond'),
+                   default='final_residual')
+    p.add_argument('--baselines-only',action='store_true',
+                   help='Evaluate native and weight-only baselines without fitting models')
     p.add_argument('--steps',type=int,default=400)
     p.add_argument('--causal-weight',type=float,default=1.)
     p.add_argument('--seed',type=int,default=0)
@@ -182,13 +217,17 @@ def main():
                                      map_location='cpu',weights_only=True))
     model.eval().requires_grad_(False)
     assert model.config.n_embd==64
+    if a.site=='final_bond':
+        assert model.blocks[-1].mlp is None
     panel_file=json.loads(Path(a.panels).read_text())
     assert len(panel_file['heldout_universe'])==8
     vocab=SurfaceMixtureV8(seed=0,**saved['generator_kwargs']).token2id
     data={}
     for name,rows in panel_file['panels'].items():
         pairs=[row['pair'] for row in rows]
-        data[name]=add_targets(prepare(model,pairs,vocab),pairs,vocab)
+        raw=(prepare_final_residual(model,pairs,vocab)
+             if a.site=='final_residual' else prepare_bond(model,pairs,vocab))
+        data[name]=add_targets(raw,pairs,vocab)
         print(name,len(pairs),'replay',data[name]['replay_error'],flush=True)
     center=torch.cat((data['fit']['r0'],
                       data['fit']['r0']+data['fit']['dr'])).mean(0)
@@ -217,39 +256,52 @@ def main():
     }
     memberships={'disjoint16_causal':fixed}
     histories={}
-    for name,feature in models.items():
-        initialize(feature,directions)
-        if name in memberships:
-            feature.membership_logits.requires_grad_(False)
-        weight=a.causal_weight if name.endswith('_causal') else 0.
-        histories[name]=fit(model,feature,data['fit'],data['dev'],
-                            center,scale,a.steps,weight,a.seed+101,
-                            memberships.get(name))
-        print(name,histories[name]['best_step'],
-              histories[name]['best_dev_objective'],flush=True)
-    _,_,weight_vh=torch.linalg.svd(model.lm_head.weight.double(),
+    if a.baselines_only:
+        models={}
+    else:
+        for name,feature in models.items():
+            initialize(feature,directions)
+            if name in memberships:
+                feature.membership_logits.requires_grad_(False)
+            weight=a.causal_weight if name.endswith('_causal') else 0.
+            histories[name]=fit(model,feature,data['fit'],data['dev'],
+                                center,scale,a.steps,weight,a.site,a.seed+101,
+                                memberships.get(name))
+            print(name,histories[name]['best_step'],
+                  histories[name]['best_dev_objective'],flush=True)
+    weight=(model.lm_head.weight if a.site=='final_residual'
+            else model.blocks[-1].attn.out.weight)
+    _,_,weight_vh=torch.linalg.svd(weight.double(),
                                    full_matrices=False)
-    baselines={'physical16':torch.eye(64),
-               'weight_svd16':weight_vh.T.float()}
+    baselines={'physical16':(torch.eye(64),16),
+               'weight_svd16':(weight_vh.T.float(),16)}
+    if a.site=='final_bond':
+        composed=model.lm_head.weight.detach() @ model.blocks[-1].attn.out.weight.detach()
+        _,_,composed_vh=torch.linalg.svd(composed.double(),full_matrices=False)
+        for rank in (8,10,16):
+            baselines[f'composed_logit_svd{rank}']=(composed_vh.T.float(),rank)
     panels={}
     for panel in ('test_seen','test_heldout'):
-        rows={'native':evaluate(model,data[panel],center,scale)}
-        for name,basis in baselines.items():
-            rows[name]=evaluate(model,data[panel],center,scale,basis=basis,k=16)
+        rows={'native':evaluate(model,data[panel],center,scale,site=a.site)}
+        for name,(basis,budget) in baselines.items():
+            rows[name]=evaluate(model,data[panel],center,scale,basis=basis,k=budget,
+                                site=a.site)
         for name,feature in models.items():
             rows[name]=evaluate(model,data[panel],center,scale,feature,
-                                memberships.get(name))
+                                memberships.get(name),site=a.site)
         panels[panel]=rows
         print(panel,{name:round(values['section_key']['effect_to_teacher_l1'],3)
                      for name,values in rows.items()},flush=True)
     path=Path(a.output)
     path.parent.mkdir(parents=True,exist_ok=True)
-    checkpoint=path.with_suffix('.pt')
-    torch.save(dict(center=center,scale=scale,
-                    states={name:feature.state_dict()
-                            for name,feature in models.items()},
-                    fixed_membership=fixed),checkpoint)
-    result=dict(config=vars(a),checkpoint=str(checkpoint),
+    checkpoint=None
+    if models:
+        checkpoint=path.with_suffix('.pt')
+        torch.save(dict(center=center,scale=scale,
+                        states={name:feature.state_dict()
+                                for name,feature in models.items()},
+                        fixed_membership=fixed),checkpoint)
+    result=dict(config=vars(a),checkpoint=str(checkpoint) if checkpoint else None,
                 panel_summary=panel_file['summary'],
                 max_endpoint_replay_error=max(row['replay_error']
                                               for row in data.values()),
@@ -257,7 +309,7 @@ def main():
                 caveat='Whole association holdout applies to featurizer fit/dev '
                        'only. The frozen teacher learned all combinations. '
                        'Fit/dev use key edits; test additionally uses color edits. '
-                       'This is final-readout local fidelity, not full-model '
+                       'This is local fidelity at the configured site, not full-model '
                        'compression or new-task discovery.')
     path.write_text(json.dumps(result,indent=2)+'\n')
 
