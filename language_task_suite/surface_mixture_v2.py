@@ -115,9 +115,9 @@ def _metadata(clause):
                 verb=clause[verb_i], place=clause[place_i], cue=cue)
 
 
-def _choice_with_repeat(items, previous):
-    out = {item: .6/len(items) for item in items}
-    out[previous] += .4
+def _choice_with_repeat(items, previous, repeat_mass=.4):
+    out = {item: (1-repeat_mass)/len(items) for item in items}
+    out[previous] += repeat_mass
     return out
 
 
@@ -171,18 +171,22 @@ def _tail(suffix):
 
 
 class SurfaceMixtureV2:
-    def __init__(self, seed=0, weights=None):
+    def __init__(self, seed=0, weights=None, subject_repeat_mass=.4):
         self.rng = random.Random(seed)
         self.weights = dict(DEFAULT_WEIGHTS if weights is None else weights)
         assert set(self.weights) == set(DEFAULT_WEIGHTS)
         assert min(self.weights.values()) > 0
+        if not 0 <= subject_repeat_mass <= 1:
+            raise ValueError('subject_repeat_mass must lie in [0, 1]')
+        self.subject_repeat_mass = subject_repeat_mass
         self.vocab, self.token2id, self.id2token = VOCAB, TOKEN2ID, ID2TOKEN
 
     def _tokens(self, prefix):
         return [ID2TOKEN[i] if isinstance(i, int) else i for i in prefix]
 
     def _subject_distribution(self, history):
-        return (_choice_with_repeat(PEOPLE, _metadata(history[-1])['subject'])
+        return (_choice_with_repeat(PEOPLE, _metadata(history[-1])['subject'],
+                                    self.subject_repeat_mass)
                 if history else uniform(PEOPLE))
 
     def candidates(self, prefix):

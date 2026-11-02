@@ -259,6 +259,8 @@ def main():
                    choices=('first', 'balanced'), default='first')
     p.add_argument('--object-vocab-size', type=int, default=None,
                    help='For v3/v4, restrict object-site outputs while keeping model vocabulary fixed')
+    p.add_argument('--subject-repeat-mass', type=float, default=None,
+                   help='For v2, probability mass on repeating the previous subject (default .4)')
     p.add_argument('--hard-query-rate', type=float, default=None,
                    help='For v4, probability of querying a nonlatest object when available')
     p.add_argument('--counterbalanced-queries', action='store_true',
@@ -321,6 +323,8 @@ def main():
         p.error('Cannot mask verb CE while adding a verb objective')
     if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
+    if a.subject_repeat_mass is not None and a.generator != 'v2':
+        p.error('Subject repeat mass currently applies to v2 only')
     if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Question-answer supervision requires v4/v5 generator')
     if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
@@ -353,6 +357,8 @@ def main():
                        'alias': AliasMixtureLanguage}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
                         if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
+    if a.generator == 'v2' and a.subject_repeat_mass is not None:
+        generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
     if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries

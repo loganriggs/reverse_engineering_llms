@@ -126,6 +126,8 @@ def main():
     p.add_argument('--n', type=int, default=256)
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=8701)
+    p.add_argument('--subject-repeat-mass', type=float, default=None,
+                   help='Override the checkpoint DGP repeat mass')
     p.add_argument('--truncate-layer', type=int, default=None)
     p.add_argument('--basis', choices=('physical', 'random', 'activation_pca',
                                        'weight_svd'), default='weight_svd')
@@ -133,9 +135,13 @@ def main():
     p.add_argument('--output', required=True)
     a = p.parse_args()
     torch.set_num_threads(4)
-    gen = SurfaceMixtureV2(seed=a.seed)
-    pairs = build_pairs(gen, a.n, a.length)
     saved = json.loads((Path(a.model_dir)/'results.json').read_text())
+    repeat_mass = (a.subject_repeat_mass if a.subject_repeat_mass is not None
+                   else saved.get('generator_kwargs', {}).get(
+                       'subject_repeat_mass', .4))
+    gen = SurfaceMixtureV2(seed=a.seed,
+                           subject_repeat_mass=repeat_mass)
+    pairs = build_pairs(gen, a.n, a.length)
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
     results = {}
@@ -156,7 +162,8 @@ def main():
             def collect(_, inputs):
                 captured.append(inputs[0].detach())
             hook = bond.register_forward_pre_hook(collect)
-            xfit, _ = make_batch(SurfaceMixtureV2(seed=8501), 256,
+            xfit, _ = make_batch(SurfaceMixtureV2(
+                seed=8501, subject_repeat_mass=repeat_mass), 256,
                                  a.length, 'cpu')
             with torch.no_grad():
                 for batch in xfit.split(32):
@@ -183,7 +190,8 @@ def main():
     by_frame = defaultdict(lambda: defaultdict(int))
     for pair in pairs:
         by_frame[pair['frame']][pair['kind']] += 1
-    output = dict(config=vars(a), n_pairs=len(pairs),
+    output = dict(config={**vars(a), 'effective_subject_repeat_mass': repeat_mass},
+                  n_pairs=len(pairs),
                   pairs_by_frame={k: dict(v) for k, v in by_frame.items()},
                   results=results, results_by_frame=results_by_frame,
                   caveat='One-token edits are valid under the visible-prefix grammar. '
