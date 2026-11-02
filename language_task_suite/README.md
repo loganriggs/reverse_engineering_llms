@@ -165,6 +165,8 @@ The [two-site verb-and-object transfer test](V3_SPARSE_FACTOR_TRANSFER_RESULTS.m
 
 The [sparse-depth participation test](SPARSE_DEPTH_PARTICIPATION_RESULTS.md) checks whether inserted bilinear attention blocks actually compute at matched attention-edge budgets. Global magnitude pruning deletes them; equal per-projection quotas preserve their physical edges but their causal ablations still have effectively zero output effect. After no-L1 recovery, the four-layer arm loses to the flat control on teacher KL and valid verb/object edits. This closes the current depth-pruning schedule as an interpretability route and motivates explicit task-balanced causal/path objectives.
 
+The [task-balanced sparse causal-transfer test](V3_SPARSE_CAUSAL_TRANSFER_RESULTS.md) resumes flat and factored fixed-mask students with a loss on teacher probability changes under valid verb/object edits, withholding the entire previous-event object edit family from paired supervision. At coefficients 0.1 and 0.01, supervised-family validation and omitted-family teacher-effect errors are worse than KL-only recovery; exact-oracle effects and aggregate KL show different tradeoffs. The gradient path passes a fixed-batch check, so the next objective needs better conditioning or explicit path-level constraints. This is an edit-supervision holdout, not an unseen model-training task.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:

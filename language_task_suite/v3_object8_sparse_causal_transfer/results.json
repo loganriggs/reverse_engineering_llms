@@ -1,0 +1,801 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "teacher_dir": "language_task_suite/surface_mixture_v3_object8",
+    "flat_dir": "language_task_suite/v3_object8_sparse_recovery",
+    "factor_dir": "language_task_suite/v3_object8_sparse_recovery",
+    "holdout_kind": "object_event_skip",
+    "effect_weight": 0.1,
+    "steps": 300,
+    "batch": 16,
+    "length": 72,
+    "fit_streams": 128,
+    "val_streams": 64,
+    "test_streams": 256,
+    "seed": 0,
+    "lr": 0.0005,
+    "output_dir": "language_task_suite/v3_object8_sparse_causal_transfer"
+  },
+  "fit_pair_counts": {
+    "cue": 137,
+    "lexical": 355,
+    "induction": 169,
+    "place_skip": 396,
+    "nuisance_adjective": 396,
+    "object_adjective": 503,
+    "object_cue": 132,
+    "object_induction": 160,
+    "object_nuisance_place": 375
+  },
+  "val_pair_counts": {
+    "cue": 86,
+    "lexical": 176,
+    "induction": 83,
+    "place_skip": 196,
+    "nuisance_adjective": 196,
+    "object_adjective": 253,
+    "object_cue": 85,
+    "object_induction": 82,
+    "object_nuisance_place": 189
+  },
+  "test_pair_counts": {
+    "cue": 323,
+    "lexical": 714,
+    "place_skip": 773,
+    "nuisance_adjective": 773,
+    "induction": 308,
+    "object_adjective": 1000,
+    "object_cue": 318,
+    "object_event_skip": 744,
+    "object_nuisance_place": 744,
+    "object_induction": 297
+  },
+  "duplicate_pair_exclusions": {
+    "fit": 0,
+    "val": 2,
+    "test": 13
+  },
+  "holdout_scope": "paired-effect supervision only; base language training and teacher already include the family",
+  "arms": {
+    "flat_kl": {
+      "history": [
+        {
+          "step": 1,
+          "ordinary_kl": 0.001166780013591051,
+          "paired_effect_l1": 0.0,
+          "objective": 0.001166780013591051
+        },
+        {
+          "step": 100,
+          "ordinary_kl": 0.0011317189782857895,
+          "paired_effect_l1": 0.0,
+          "objective": 0.0011317189782857895
+        },
+        {
+          "step": 200,
+          "ordinary_kl": 0.0010079139610752463,
+          "paired_effect_l1": 0.0,
+          "objective": 0.0010079139610752463
+        },
+        {
+          "step": 300,
+          "ordinary_kl": 0.0011457670480012894,
+          "paired_effect_l1": 0.0,
+          "objective": 0.0011457670480012894
+        }
+      ],
+      "validation": {
+        "cue": {
+          "n": 86,
+          "oracle_tv": 0.2627906976744186,
+          "model_tv": 0.2978701889514923,
+          "effect_l1_error": 0.2493743227458438,
+          "effect_cosine": 0.9439897099338047,
+          "teacher_effect_l1_error": 0.06478454917669296
+        },
+        "lexical": {
+          "n": 176,
+          "oracle_tv": 0.5810606060606059,
+          "model_tv": 0.6048014163970947,
+          "effect_l1_error": 0.27831337500729,
+          "effect_cosine": 0.970952456859182,
+          "teacher_effect_l1_error": 0.08479706197977066
+        },
+        "induction": {
+          "n": 83,
+          "oracle_tv": 0.25,
+          "model_tv": 0.1601361185312271,
+          "effect_l1_error": 0.3147417325993319,
+          "effect_cosine": 0.8923431691824801,
+          "teacher_effect_l1_error": 0.0352669395506382
+        },
+        "place_skip": {
+          "n": 196,
+          "oracle_tv": 0.17882653061224482,
+          "model_tv": 0.23179517686367035,
+          "effect_l1_error": 0.2687701613507931,
+          "effect_cosine": 0.9133777391657554,
+          "teacher_effect_l1_error": 0.0665191113948822
+        },
+        "nuisance_adjective": {
+          "n": 196,
+          "oracle_tv": 0.0,
+          "model_tv": 0.011506214737892151,
+          "effect_l1_error": 0.023012427030842893,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.01003101747483015
+        },
+        "object_adjective": {
+          "n": 253,
+          "oracle_tv": 0.47198945981554674,
+          "model_tv": 0.47398626804351807,
+          "effect_l1_error": 0.24898250701132899,
+          "effect_cosine": 0.9749628262466197,
+          "teacher_effect_l1_error": 0.0776379257440567
+        },
+        "object_cue": {
+          "n": 85,
+          "oracle_tv": 0.26352941176470585,
+          "model_tv": 0.3233785629272461,
+          "effect_l1_error": 0.2701936637722155,
+          "effect_cosine": 0.9491253011214755,
+          "teacher_effect_l1_error": 0.06291152536869049
+        },
+        "object_induction": {
+          "n": 82,
+          "oracle_tv": 0.25,
+          "model_tv": 0.13335834443569183,
+          "effect_l1_error": 0.372339891199799,
+          "effect_cosine": 0.8867634890721425,
+          "teacher_effect_l1_error": 0.0371612012386322
+        },
+        "object_nuisance_place": {
+          "n": 189,
+          "oracle_tv": 0.0,
+          "model_tv": 0.022045740857720375,
+          "effect_l1_error": 0.04409148319311302,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.016628088429570198
+        }
+      },
+      "test": {
+        "cue": {
+          "n": 323,
+          "oracle_tv": 0.2637770897832817,
+          "model_tv": 0.29404059052467346,
+          "effect_l1_error": 0.247728817453963,
+          "effect_cosine": 0.9568788992313036,
+          "teacher_effect_l1_error": 0.06873957812786102
+        },
+        "lexical": {
+          "n": 714,
+          "oracle_tv": 0.5798319327731091,
+          "model_tv": 0.597043514251709,
+          "effect_l1_error": 0.28570589624558107,
+          "effect_cosine": 0.9725426003381331,
+          "teacher_effect_l1_error": 0.08870265632867813
+        },
+        "place_skip": {
+          "n": 773,
+          "oracle_tv": 0.1800776196636481,
+          "model_tv": 0.2237638384103775,
+          "effect_l1_error": 0.26412518774356425,
+          "effect_cosine": 0.9197066580881966,
+          "teacher_effect_l1_error": 0.06471757590770721
+        },
+        "nuisance_adjective": {
+          "n": 773,
+          "oracle_tv": 0.0,
+          "model_tv": 0.010872327722609043,
+          "effect_l1_error": 0.021744657332548115,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.009787052869796753
+        },
+        "induction": {
+          "n": 308,
+          "oracle_tv": 0.25,
+          "model_tv": 0.16504213213920593,
+          "effect_l1_error": 0.30022839817739705,
+          "effect_cosine": 0.9035790868773683,
+          "teacher_effect_l1_error": 0.033342648297548294
+        },
+        "object_adjective": {
+          "n": 1000,
+          "oracle_tv": 0.47509333333333326,
+          "model_tv": 0.4753709137439728,
+          "effect_l1_error": 0.24269302227764633,
+          "effect_cosine": 0.9765129977356172,
+          "teacher_effect_l1_error": 0.07254049181938171
+        },
+        "object_cue": {
+          "n": 318,
+          "oracle_tv": 0.2660377358490566,
+          "model_tv": 0.30471912026405334,
+          "effect_l1_error": 0.2376551157438667,
+          "effect_cosine": 0.9597554896334247,
+          "teacher_effect_l1_error": 0.06187301501631737
+        },
+        "object_event_skip": {
+          "n": 744,
+          "oracle_tv": 0.18004032258064512,
+          "model_tv": 0.22406582534313202,
+          "effect_l1_error": 0.2147317127902918,
+          "effect_cosine": 0.9471377430767223,
+          "teacher_effect_l1_error": 0.055048972368240356
+        },
+        "object_nuisance_place": {
+          "n": 744,
+          "oracle_tv": 0.0,
+          "model_tv": 0.022785119712352753,
+          "effect_l1_error": 0.045570237681320444,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.015402514487504959
+        },
+        "object_induction": {
+          "n": 297,
+          "oracle_tv": 0.25,
+          "model_tv": 0.13593505322933197,
+          "effect_l1_error": 0.37491234804418516,
+          "effect_cosine": 0.8867370817406868,
+          "teacher_effect_l1_error": 0.03672552481293678
+        }
+      },
+      "active_attention_edges": 29491
+    },
+    "flat_causal": {
+      "history": [
+        {
+          "step": 1,
+          "ordinary_kl": 0.001166780013591051,
+          "paired_effect_l1": 0.03516773506999016,
+          "objective": 0.0046835532411932945
+        },
+        {
+          "step": 100,
+          "ordinary_kl": 0.0015344256535172462,
+          "paired_effect_l1": 0.06380907446146011,
+          "objective": 0.007915332913398743
+        },
+        {
+          "step": 200,
+          "ordinary_kl": 0.0015043332241475582,
+          "paired_effect_l1": 0.05961555242538452,
+          "objective": 0.007465888746082783
+        },
+        {
+          "step": 300,
+          "ordinary_kl": 0.0018676593899726868,
+          "paired_effect_l1": 0.0624125599861145,
+          "objective": 0.008108915761113167
+        }
+      ],
+      "validation": {
+        "cue": {
+          "n": 86,
+          "oracle_tv": 0.2627906976744186,
+          "model_tv": 0.3006775975227356,
+          "effect_l1_error": 0.2600306928426055,
+          "effect_cosine": 0.9450165625035271,
+          "teacher_effect_l1_error": 0.0993000864982605
+        },
+        "lexical": {
+          "n": 176,
+          "oracle_tv": 0.5810606060606059,
+          "model_tv": 0.6095479726791382,
+          "effect_l1_error": 0.2910992244456219,
+          "effect_cosine": 0.9720206680555804,
+          "teacher_effect_l1_error": 0.1507061868906021
+        },
+        "induction": {
+          "n": 83,
+          "oracle_tv": 0.25,
+          "model_tv": 0.15922044217586517,
+          "effect_l1_error": 0.3209810754895326,
+          "effect_cosine": 0.8917876061663009,
+          "teacher_effect_l1_error": 0.04682847112417221
+        },
+        "place_skip": {
+          "n": 196,
+          "oracle_tv": 0.17882653061224482,
+          "model_tv": 0.21791446208953857,
+          "effect_l1_error": 0.26929450489380646,
+          "effect_cosine": 0.9100724577104126,
+          "teacher_effect_l1_error": 0.08965536952018738
+        },
+        "nuisance_adjective": {
+          "n": 196,
+          "oracle_tv": 0.0,
+          "model_tv": 0.010347342118620872,
+          "effect_l1_error": 0.020694686098805093,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.009296046569943428
+        },
+        "object_adjective": {
+          "n": 253,
+          "oracle_tv": 0.47198945981554674,
+          "model_tv": 0.47875380516052246,
+          "effect_l1_error": 0.24868888270468428,
+          "effect_cosine": 0.9766525105874624,
+          "teacher_effect_l1_error": 0.10647792369127274
+        },
+        "object_cue": {
+          "n": 85,
+          "oracle_tv": 0.26352941176470585,
+          "model_tv": 0.3182474374771118,
+          "effect_l1_error": 0.25613668990240396,
+          "effect_cosine": 0.955514947120451,
+          "teacher_effect_l1_error": 0.09629043936729431
+        },
+        "object_induction": {
+          "n": 82,
+          "oracle_tv": 0.25,
+          "model_tv": 0.13590295612812042,
+          "effect_l1_error": 0.3707294042099602,
+          "effect_cosine": 0.8851310697632044,
+          "teacher_effect_l1_error": 0.05040614679455757
+        },
+        "object_nuisance_place": {
+          "n": 189,
+          "oracle_tv": 0.0,
+          "model_tv": 0.022258417680859566,
+          "effect_l1_error": 0.04451683900047736,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.01762615144252777
+        }
+      },
+      "test": {
+        "cue": {
+          "n": 323,
+          "oracle_tv": 0.2637770897832817,
+          "model_tv": 0.30371665954589844,
+          "effect_l1_error": 0.25718066249780624,
+          "effect_cosine": 0.9562353609915205,
+          "teacher_effect_l1_error": 0.10053868591785431
+        },
+        "lexical": {
+          "n": 714,
+          "oracle_tv": 0.5798319327731091,
+          "model_tv": 0.6037864089012146,
+          "effect_l1_error": 0.2975101882372969,
+          "effect_cosine": 0.9726401363881542,
+          "teacher_effect_l1_error": 0.156835675239563
+        },
+        "place_skip": {
+          "n": 773,
+          "oracle_tv": 0.1800776196636481,
+          "model_tv": 0.21081262826919556,
+          "effect_l1_error": 0.2665815571406521,
+          "effect_cosine": 0.9120195696113762,
+          "teacher_effect_l1_error": 0.08793347328901291
+        },
+        "nuisance_adjective": {
+          "n": 773,
+          "oracle_tv": 0.0,
+          "model_tv": 0.010090313851833344,
+          "effect_l1_error": 0.020180626357186215,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.00892026349902153
+        },
+        "induction": {
+          "n": 308,
+          "oracle_tv": 0.25,
+          "model_tv": 0.16606412827968597,
+          "effect_l1_error": 0.30467782017244377,
+          "effect_cosine": 0.9022647799328657,
+          "teacher_effect_l1_error": 0.048147816210985184
+        },
+        "object_adjective": {
+          "n": 1000,
+          "oracle_tv": 0.47509333333333326,
+          "model_tv": 0.4791412353515625,
+          "effect_l1_error": 0.24347907099990027,
+          "effect_cosine": 0.9778049252377782,
+          "teacher_effect_l1_error": 0.10291644185781479
+        },
+        "object_cue": {
+          "n": 318,
+          "oracle_tv": 0.2660377358490566,
+          "model_tv": 0.29827722907066345,
+          "effect_l1_error": 0.23331306064257937,
+          "effect_cosine": 0.960546975373122,
+          "teacher_effect_l1_error": 0.09161388874053955
+        },
+        "object_event_skip": {
+          "n": 744,
+          "oracle_tv": 0.18004032258064512,
+          "model_tv": 0.22047515213489532,
+          "effect_l1_error": 0.20700146051344215,
+          "effect_cosine": 0.9514144828080641,
+          "teacher_effect_l1_error": 0.0768507644534111
+        },
+        "object_nuisance_place": {
+          "n": 744,
+          "oracle_tv": 0.0,
+          "model_tv": 0.022667033597826958,
+          "effect_l1_error": 0.045334064339156196,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.016684547066688538
+        },
+        "object_induction": {
+          "n": 297,
+          "oracle_tv": 0.25,
+          "model_tv": 0.1336486041545868,
+          "effect_l1_error": 0.3738554089320522,
+          "effect_cosine": 0.8901834578027279,
+          "teacher_effect_l1_error": 0.05054304748773575
+        }
+      },
+      "active_attention_edges": 29491
+    },
+    "factor_kl": {
+      "history": [
+        {
+          "step": 1,
+          "ordinary_kl": 0.0011726110242307186,
+          "paired_effect_l1": 0.0,
+          "objective": 0.0011726110242307186
+        },
+        {
+          "step": 100,
+          "ordinary_kl": 0.001114784274250269,
+          "paired_effect_l1": 0.0,
+          "objective": 0.001114784274250269
+        },
+        {
+          "step": 200,
+          "ordinary_kl": 0.001489969901740551,
+          "paired_effect_l1": 0.0,
+          "objective": 0.001489969901740551
+        },
+        {
+          "step": 300,
+          "ordinary_kl": 0.001982639543712139,
+          "paired_effect_l1": 0.0,
+          "objective": 0.001982639543712139
+        }
+      ],
+      "validation": {
+        "cue": {
+          "n": 86,
+          "oracle_tv": 0.2627906976744186,
+          "model_tv": 0.30795958638191223,
+          "effect_l1_error": 0.2630405687984904,
+          "effect_cosine": 0.9402912282061083,
+          "teacher_effect_l1_error": 0.07953739166259766
+        },
+        "lexical": {
+          "n": 176,
+          "oracle_tv": 0.5810606060606059,
+          "model_tv": 0.6005151271820068,
+          "effect_l1_error": 0.2900161621981019,
+          "effect_cosine": 0.9683958247485216,
+          "teacher_effect_l1_error": 0.09462840110063553
+        },
+        "induction": {
+          "n": 83,
+          "oracle_tv": 0.25,
+          "model_tv": 0.1550881713628769,
+          "effect_l1_error": 0.32662348824455734,
+          "effect_cosine": 0.8868609834540369,
+          "teacher_effect_l1_error": 0.039529699832201004
+        },
+        "place_skip": {
+          "n": 196,
+          "oracle_tv": 0.17882653061224482,
+          "model_tv": 0.22666138410568237,
+          "effect_l1_error": 0.2717662576467683,
+          "effect_cosine": 0.9086004250089029,
+          "teacher_effect_l1_error": 0.07662750780582428
+        },
+        "nuisance_adjective": {
+          "n": 196,
+          "oracle_tv": 0.0,
+          "model_tv": 0.011823236010968685,
+          "effect_l1_error": 0.023646474619321647,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.010250857099890709
+        },
+        "object_adjective": {
+          "n": 253,
+          "oracle_tv": 0.47198945981554674,
+          "model_tv": 0.479170560836792,
+          "effect_l1_error": 0.2459129317843257,
+          "effect_cosine": 0.9765914855506296,
+          "teacher_effect_l1_error": 0.0893547534942627
+        },
+        "object_cue": {
+          "n": 85,
+          "oracle_tv": 0.26352941176470585,
+          "model_tv": 0.3302088677883148,
+          "effect_l1_error": 0.26795288865421785,
+          "effect_cosine": 0.95268755206799,
+          "teacher_effect_l1_error": 0.08440004289150238
+        },
+        "object_induction": {
+          "n": 82,
+          "oracle_tv": 0.25,
+          "model_tv": 0.13199958205223083,
+          "effect_l1_error": 0.37503777129620325,
+          "effect_cosine": 0.8882640870974229,
+          "teacher_effect_l1_error": 0.04120542109012604
+        },
+        "object_nuisance_place": {
+          "n": 189,
+          "oracle_tv": 0.0,
+          "model_tv": 0.02580687776207924,
+          "effect_l1_error": 0.05161375451811732,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.020604519173502922
+        }
+      },
+      "test": {
+        "cue": {
+          "n": 323,
+          "oracle_tv": 0.2637770897832817,
+          "model_tv": 0.30680540204048157,
+          "effect_l1_error": 0.25132569851228914,
+          "effect_cosine": 0.9557760819573636,
+          "teacher_effect_l1_error": 0.08382834494113922
+        },
+        "lexical": {
+          "n": 714,
+          "oracle_tv": 0.5798319327731091,
+          "model_tv": 0.5972142815589905,
+          "effect_l1_error": 0.2940155062415355,
+          "effect_cosine": 0.9711436180161686,
+          "teacher_effect_l1_error": 0.10484127700328827
+        },
+        "place_skip": {
+          "n": 773,
+          "oracle_tv": 0.1800776196636481,
+          "model_tv": 0.2176545262336731,
+          "effect_l1_error": 0.26861528673321805,
+          "effect_cosine": 0.9131764612398854,
+          "teacher_effect_l1_error": 0.07499448210000992
+        },
+        "nuisance_adjective": {
+          "n": 773,
+          "oracle_tv": 0.0,
+          "model_tv": 0.01155365165323019,
+          "effect_l1_error": 0.023107304130422612,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.010432491078972816
+        },
+        "induction": {
+          "n": 308,
+          "oracle_tv": 0.25,
+          "model_tv": 0.1643363982439041,
+          "effect_l1_error": 0.30453421553296284,
+          "effect_cosine": 0.9019030038300277,
+          "teacher_effect_l1_error": 0.03887735679745674
+        },
+        "object_adjective": {
+          "n": 1000,
+          "oracle_tv": 0.47509333333333326,
+          "model_tv": 0.48141589760780334,
+          "effect_l1_error": 0.24330839331469895,
+          "effect_cosine": 0.9769185730222021,
+          "teacher_effect_l1_error": 0.08818118274211884
+        },
+        "object_cue": {
+          "n": 318,
+          "oracle_tv": 0.2660377358490566,
+          "model_tv": 0.31174322962760925,
+          "effect_l1_error": 0.2375554353004909,
+          "effect_cosine": 0.9615197744190985,
+          "teacher_effect_l1_error": 0.0757661834359169
+        },
+        "object_event_skip": {
+          "n": 744,
+          "oracle_tv": 0.18004032258064512,
+          "model_tv": 0.22249439358711243,
+          "effect_l1_error": 0.21457525216597423,
+          "effect_cosine": 0.9452205840949716,
+          "teacher_effect_l1_error": 0.06767580658197403
+        },
+        "object_nuisance_place": {
+          "n": 744,
+          "oracle_tv": 0.0,
+          "model_tv": 0.0263918898999691,
+          "effect_l1_error": 0.05278378353579326,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.02066074311733246
+        },
+        "object_induction": {
+          "n": 297,
+          "oracle_tv": 0.25,
+          "model_tv": 0.1349501758813858,
+          "effect_l1_error": 0.3779709070285966,
+          "effect_cosine": 0.8818847132498759,
+          "teacher_effect_l1_error": 0.041898056864738464
+        }
+      },
+      "active_attention_edges": 29491
+    },
+    "factor_causal": {
+      "history": [
+        {
+          "step": 1,
+          "ordinary_kl": 0.0011726110242307186,
+          "paired_effect_l1": 0.05480493977665901,
+          "objective": 0.006653104908764362
+        },
+        {
+          "step": 100,
+          "ordinary_kl": 0.0017197434790432453,
+          "paired_effect_l1": 0.07787159830331802,
+          "objective": 0.00950690358877182
+        },
+        {
+          "step": 200,
+          "ordinary_kl": 0.0025129865389317274,
+          "paired_effect_l1": 0.07305588573217392,
+          "objective": 0.009818575344979763
+        },
+        {
+          "step": 300,
+          "ordinary_kl": 0.0026838742196559906,
+          "paired_effect_l1": 0.060205068439245224,
+          "objective": 0.008704381063580513
+        }
+      ],
+      "validation": {
+        "cue": {
+          "n": 86,
+          "oracle_tv": 0.2627906976744186,
+          "model_tv": 0.30588075518608093,
+          "effect_l1_error": 0.2696264396560427,
+          "effect_cosine": 0.933711031332733,
+          "teacher_effect_l1_error": 0.13140778243541718
+        },
+        "lexical": {
+          "n": 176,
+          "oracle_tv": 0.5810606060606059,
+          "model_tv": 0.596983790397644,
+          "effect_l1_error": 0.28729656137906,
+          "effect_cosine": 0.969159089402273,
+          "teacher_effect_l1_error": 0.15349526703357697
+        },
+        "induction": {
+          "n": 83,
+          "oracle_tv": 0.25,
+          "model_tv": 0.15919411182403564,
+          "effect_l1_error": 0.3163257012085456,
+          "effect_cosine": 0.8950398377987668,
+          "teacher_effect_l1_error": 0.046369973570108414
+        },
+        "place_skip": {
+          "n": 196,
+          "oracle_tv": 0.17882653061224482,
+          "model_tv": 0.24166283011436462,
+          "effect_l1_error": 0.27343053839091624,
+          "effect_cosine": 0.9135884867111316,
+          "teacher_effect_l1_error": 0.10605662316083908
+        },
+        "nuisance_adjective": {
+          "n": 196,
+          "oracle_tv": 0.0,
+          "model_tv": 0.010584400966763496,
+          "effect_l1_error": 0.02116880057867226,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.00972786545753479
+        },
+        "object_adjective": {
+          "n": 253,
+          "oracle_tv": 0.47198945981554674,
+          "model_tv": 0.46833711862564087,
+          "effect_l1_error": 0.26104349971417984,
+          "effect_cosine": 0.9714459704893678,
+          "teacher_effect_l1_error": 0.12184444814920425
+        },
+        "object_cue": {
+          "n": 85,
+          "oracle_tv": 0.26352941176470585,
+          "model_tv": 0.31463438272476196,
+          "effect_l1_error": 0.2631767214680554,
+          "effect_cosine": 0.9504683026034393,
+          "teacher_effect_l1_error": 0.10414792597293854
+        },
+        "object_induction": {
+          "n": 82,
+          "oracle_tv": 0.25,
+          "model_tv": 0.13540980219841003,
+          "effect_l1_error": 0.3710908153880028,
+          "effect_cosine": 0.8906284815289884,
+          "teacher_effect_l1_error": 0.058416470885276794
+        },
+        "object_nuisance_place": {
+          "n": 189,
+          "oracle_tv": 0.0,
+          "model_tv": 0.022275708615779877,
+          "effect_l1_error": 0.044551416381296026,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.0198532622307539
+        }
+      },
+      "test": {
+        "cue": {
+          "n": 323,
+          "oracle_tv": 0.2637770897832817,
+          "model_tv": 0.31165456771850586,
+          "effect_l1_error": 0.2798720312039614,
+          "effect_cosine": 0.9414682055321779,
+          "teacher_effect_l1_error": 0.13925549387931824
+        },
+        "lexical": {
+          "n": 714,
+          "oracle_tv": 0.5798319327731091,
+          "model_tv": 0.600763738155365,
+          "effect_l1_error": 0.3010558913411099,
+          "effect_cosine": 0.9684437908183983,
+          "teacher_effect_l1_error": 0.15192562341690063
+        },
+        "place_skip": {
+          "n": 773,
+          "oracle_tv": 0.1800776196636481,
+          "model_tv": 0.22894474864006042,
+          "effect_l1_error": 0.2620399241146501,
+          "effect_cosine": 0.9208151505377277,
+          "teacher_effect_l1_error": 0.1023469939827919
+        },
+        "nuisance_adjective": {
+          "n": 773,
+          "oracle_tv": 0.0,
+          "model_tv": 0.010058189742267132,
+          "effect_l1_error": 0.020116379741103436,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.009777260012924671
+        },
+        "induction": {
+          "n": 308,
+          "oracle_tv": 0.25,
+          "model_tv": 0.16447849571704865,
+          "effect_l1_error": 0.29919566289815636,
+          "effect_cosine": 0.9119463602163094,
+          "teacher_effect_l1_error": 0.05176515877246857
+        },
+        "object_adjective": {
+          "n": 1000,
+          "oracle_tv": 0.47509333333333326,
+          "model_tv": 0.46785968542099,
+          "effect_l1_error": 0.2544601543751612,
+          "effect_cosine": 0.972887236866944,
+          "teacher_effect_l1_error": 0.11927418410778046
+        },
+        "object_cue": {
+          "n": 318,
+          "oracle_tv": 0.2660377358490566,
+          "model_tv": 0.29948851466178894,
+          "effect_l1_error": 0.248598482396793,
+          "effect_cosine": 0.9578072418824846,
+          "teacher_effect_l1_error": 0.10684862732887268
+        },
+        "object_event_skip": {
+          "n": 744,
+          "oracle_tv": 0.18004032258064512,
+          "model_tv": 0.21779993176460266,
+          "effect_l1_error": 0.21621974941507763,
+          "effect_cosine": 0.9447711390667125,
+          "teacher_effect_l1_error": 0.0972609743475914
+        },
+        "object_nuisance_place": {
+          "n": 744,
+          "oracle_tv": 0.0,
+          "model_tv": 0.023149169981479645,
+          "effect_l1_error": 0.04629834152067488,
+          "effect_cosine": 0.0,
+          "teacher_effect_l1_error": 0.018968908116221428
+        },
+        "object_induction": {
+          "n": 297,
+          "oracle_tv": 0.25,
+          "model_tv": 0.13596348464488983,
+          "effect_l1_error": 0.3731789033743993,
+          "effect_cosine": 0.8888342764969894,
+          "teacher_effect_l1_error": 0.053698934614658356
+        }
+      },
+      "active_attention_edges": 29491
+    }
+  }
+}
