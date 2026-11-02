@@ -17,6 +17,7 @@ import torch.nn.functional as F
 from surface_mixture_language import SurfaceMixtureLanguage
 from surface_mixture_v2 import SurfaceMixtureV2
 from surface_mixture_v3 import SurfaceMixtureV3
+from surface_mixture_v4 import SurfaceMixtureV4
 
 
 def make_batch(gen, n, length, device):
@@ -33,6 +34,7 @@ def make_eval(gen, n, length, device):
     induction = np.zeros((n, length), dtype=bool)
     obj = np.zeros((n, length), dtype=bool)
     object_induction = np.zeros((n, length), dtype=bool)
+    answer = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
@@ -44,12 +46,53 @@ def make_eval(gen, n, length, device):
                 obj[b, t-1] = True
                 object_induction[b, t-1] = ('object_induction' in
                                             gen.object_candidates(row[:t]))
+            elif labs[t] == 'question_answer':
+                answer[b, t-1] = True
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 verb=torch.from_numpy(verb).to(device),
                 induction=torch.from_numpy(induction).to(device),
                 obj=torch.from_numpy(obj).to(device),
-                object_induction=torch.from_numpy(object_induction).to(device))
+                object_induction=torch.from_numpy(object_induction).to(device),
+                answer=torch.from_numpy(answer).to(device))
+
+
+def query_counterfactuals(gen, x, answer_mask):
+    """One supported alternative query key with a different answer per slot.
+
+    Question text after the object key is fixed, and questions do not alter
+    narrative history. Each selected row therefore admits a matched answer
+    target without changing the rest of its sampled narrative.
+    """
+    rows = torch.where(answer_mask.any(-1))[0].tolist()
+    if not rows:
+        return None
+    edited = x[rows].clone()
+    targets = torch.zeros_like(edited)
+    mask = torch.zeros_like(edited, dtype=torch.bool)
+    for local, batch_row in enumerate(rows):
+        ids = x[batch_row].tolist()
+        for j in torch.where(answer_mask[batch_row])[0].tolist():
+            key_pos = j-4
+            prefix = [gen.id2token[i] for i in ids[:j+1]]
+            original_answer = gen.question_answer(prefix)
+            key_q = gen.next_distribution(prefix[:key_pos])
+            alternative = None
+            for key in key_q:
+                if key == prefix[key_pos]:
+                    continue
+                changed = prefix.copy()
+                changed[key_pos] = key
+                answer_q = gen.next_distribution(changed)
+                if len(answer_q) == 1 and original_answer not in answer_q:
+                    alternative = (key, next(iter(answer_q)))
+                    break
+            if alternative is None:
+                continue
+            edited[local, key_pos] = gen.token2id[alternative[0]]
+            targets[local, j] = gen.token2id[alternative[1]]
+            mask[local, j] = True
+    return (edited, targets, mask) if mask.any() else None
 
 
 @torch.no_grad()
@@ -69,6 +112,8 @@ def evaluate(model, data):
         masks.update(object=data['obj'],
                      object_with_induction=data['obj'] & data['object_induction'],
                      object_without_induction=data['obj'] & ~data['object_induction'])
+    if data['answer'].any():
+        masks['question_answer'] = data['answer']
     return {name: dict(n=int(mask.sum()), kl=float(kl[mask].mean()),
                        oracle_entropy=float(entropy[mask].mean()),
                        sampled_ce=float(sample_ce[mask].mean()))
@@ -79,9 +124,15 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v3'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4'], default='v1')
     p.add_argument('--object-vocab-size', type=int, default=None,
-                   help='For v3, restrict object-site outputs while keeping model vocabulary fixed')
+                   help='For v3/v4, restrict object-site outputs while keeping model vocabulary fixed')
+    p.add_argument('--hard-query-rate', type=float, default=None,
+                   help='For v4, probability of querying a nonlatest object when available')
+    p.add_argument('--counterbalanced-queries', action='store_true',
+                   help='For v4, ask only when at least two object keys have distinct answers')
+    p.add_argument('--question-rate', type=float, default=.05,
+                   help='For v4, probability of asking at an eligible sentence boundary')
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -96,6 +147,10 @@ def main():
                    help='Additional sampled-token CE on verb slots')
     p.add_argument('--object-soft-weight', type=float, default=0.0,
                    help='Additional exact-oracle expected CE on object slots')
+    p.add_argument('--answer-soft-weight', type=float, default=0.0,
+                   help='Additional exact-oracle expected CE on question answers')
+    p.add_argument('--query-counterfactual-weight', type=float, default=0.0,
+                   help='For v4, CE on alternative supported query keys with different answers')
     p.add_argument('--mask-verb-ce', action='store_true',
                    help='Exclude verb slots from ordinary CE for object-only ablation')
     p.add_argument('--neval', type=int, default=256)
@@ -107,8 +162,16 @@ def main():
         p.error('Select only one extra verb objective')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
-    if a.object_vocab_size is not None and a.generator != 'v3':
-        p.error('Object vocabulary restriction requires v3 generator')
+    if a.object_vocab_size is not None and a.generator not in ('v3', 'v4'):
+        p.error('Object vocabulary restriction requires v3/v4 generator')
+    if a.answer_soft_weight and a.generator != 'v4':
+        p.error('Question-answer supervision requires v4 generator')
+    if a.hard_query_rate is not None and a.generator != 'v4':
+        p.error('Hard-query rate requires v4 generator')
+    if a.counterbalanced_queries and a.generator != 'v4':
+        p.error('Counterbalanced queries require v4 generator')
+    if a.query_counterfactual_weight and a.generator != 'v4':
+        p.error('Query counterfactuals require v4 generator')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -118,9 +181,14 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     generator_class = {'v1': SurfaceMixtureLanguage,
                        'v2': SurfaceMixtureV2,
-                       'v3': SurfaceMixtureV3}[a.generator]
+                       'v3': SurfaceMixtureV3,
+                       'v4': SurfaceMixtureV4}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
-                        if a.generator == 'v3' else {})
+                        if a.generator in ('v3', 'v4') else {})
+    if a.generator == 'v4':
+        generator_kwargs['hard_query_rate'] = a.hard_query_rate
+        generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries
+        generator_kwargs['question_rate'] = a.question_rate
     vocab = generator_class(**generator_kwargs).vocab
     test = make_eval(generator_class(seed=8101, **generator_kwargs), a.neval,
                      a.length, device)
@@ -139,7 +207,9 @@ def main():
         model.train()
         for step in range(a.steps):
             if (a.verb_soft_weight > 0 or a.verb_sampled_weight > 0
-                    or a.object_soft_weight > 0 or a.mask_verb_ce):
+                    or a.object_soft_weight > 0 or a.answer_soft_weight > 0
+                    or a.query_counterfactual_weight > 0
+                    or a.mask_verb_ce):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
             else:
@@ -167,6 +237,20 @@ def main():
                 logp = F.log_softmax(logits.float(), dim=-1)
                 expected_ce = -(train['q'] * logp).sum(-1)
                 loss = loss + a.object_soft_weight * expected_ce[train['obj']].mean()
+            if a.answer_soft_weight > 0:
+                if train['answer'].any():
+                    logp = F.log_softmax(logits.float(), dim=-1)
+                    expected_ce = -(train['q'] * logp).sum(-1)
+                    loss = (loss + a.answer_soft_weight *
+                            expected_ce[train['answer']].mean())
+            if a.query_counterfactual_weight > 0:
+                counterfactual = query_counterfactuals(gen, x, train['answer'])
+                if counterfactual is not None:
+                    cf_x, cf_y, cf_mask = counterfactual
+                    cf_logits = model(cf_x)[0]
+                    cf_loss = F.cross_entropy(cf_logits[cf_mask].float(),
+                                              cf_y[cf_mask])
+                    loss = loss + a.query_counterfactual_weight*cf_loss
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -182,6 +266,8 @@ def main():
                       'induction KL', round(scores['verb_with_induction']['kl'], 4),
                       'object KL', round(scores['object']['kl'], 4)
                       if 'object' in scores else 'n/a',
+                      'answer KL', round(scores['question_answer']['kl'], 4)
+                      if 'question_answer' in scores else 'n/a',
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')
