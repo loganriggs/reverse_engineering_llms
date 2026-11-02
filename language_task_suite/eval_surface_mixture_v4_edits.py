@@ -12,6 +12,7 @@ from eval_surface_mixture_edits import predict, replacement, score
 from surface_mixture_v2 import PLACES, _frame, _indices, _split
 from surface_mixture_v3 import OBJECT_INDEX
 from surface_mixture_v4 import SurfaceMixtureV4, _content
+from surface_mixture_v5 import SurfaceMixtureV5
 
 
 def full_support(gen, tokens):
@@ -35,7 +36,7 @@ def build_pairs(gen, n, length):
             offset = 0
             for clause in history:
                 content = _content(clause)
-                if content and content[0] != 'Where':
+                if content and content[0] not in ('Where', 'How'):
                     frame = _frame(content)
                     object_name = content[OBJECT_INDEX[frame]]
                     place_index = offset+len(clause)-len(content)+_indices(frame)[2]
@@ -94,14 +95,20 @@ def main():
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=8701)
     p.add_argument('--hard-query-rate', type=float, default=None)
+    p.add_argument('--generator', choices=('v4', 'v5'), default='v4')
     p.add_argument('--counterbalanced-queries', action='store_true')
     p.add_argument('--question-rate', type=float, default=.05)
+    p.add_argument('--count-rate', type=float, default=.20)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     torch.set_num_threads(4)
-    gen = SurfaceMixtureV4(seed=a.seed, hard_query_rate=a.hard_query_rate,
-                           counterbalanced_queries=a.counterbalanced_queries,
-                           question_rate=a.question_rate)
+    generator_class = SurfaceMixtureV5 if a.generator == 'v5' else SurfaceMixtureV4
+    kwargs = dict(seed=a.seed, hard_query_rate=a.hard_query_rate,
+                  counterbalanced_queries=a.counterbalanced_queries,
+                  question_rate=a.question_rate)
+    if a.generator == 'v5':
+        kwargs['count_rate'] = a.count_rate
+    gen = generator_class(**kwargs)
     pairs, attempted = build_pairs(gen, a.n, a.length)
     if not pairs:
         raise RuntimeError('No supported question edit pairs')

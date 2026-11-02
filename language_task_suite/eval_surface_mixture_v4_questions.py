@@ -14,14 +14,18 @@ from eval_surface_mixture_edits import predict
 from surface_mixture_v2 import _frame, _indices, _split
 from surface_mixture_v3 import OBJECT_INDEX
 from surface_mixture_v4 import SurfaceMixtureV4, _content
+from surface_mixture_v5 import SurfaceMixtureV5
 
 
 def items(gen, n, length, seed, hard_query_rate=None,
-          counterbalanced_queries=False, question_rate=.05):
-    rows, labels, _ = SurfaceMixtureV4(
-        seed=seed, hard_query_rate=hard_query_rate,
-        counterbalanced_queries=counterbalanced_queries,
-        question_rate=question_rate).sample_batch(n, length+1)
+          counterbalanced_queries=False, question_rate=.05,
+          count_rate=.20):
+    kwargs = dict(seed=seed, hard_query_rate=hard_query_rate,
+                  counterbalanced_queries=counterbalanced_queries,
+                  question_rate=question_rate)
+    if isinstance(gen, SurfaceMixtureV5):
+        kwargs['count_rate'] = count_rate
+    rows, labels, _ = type(gen)(**kwargs).sample_batch(n, length+1)
     out = []
     for row, labs in zip(rows, labels):
         tokens = [gen.id2token[i] for i in row]
@@ -32,7 +36,8 @@ def items(gen, n, length, seed, hard_query_rate=None,
             history, raw = _split(prefix)
             obj = _content(raw)[3]
             narratives = [_content(clause) for clause in history
-                          if _content(clause) and _content(clause)[0] != 'Where']
+                          if _content(clause)
+                          and _content(clause)[0] not in ('Where', 'How')]
             last_match = max(i for i, clause in enumerate(narratives)
                              if clause[OBJECT_INDEX[_frame(clause)]] == obj)
             clause = narratives[last_match]
@@ -85,16 +90,22 @@ def main():
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=8101)
     p.add_argument('--hard-query-rate', type=float, default=None)
+    p.add_argument('--generator', choices=('v4', 'v5'), default='v4')
     p.add_argument('--counterbalanced-queries', action='store_true')
     p.add_argument('--question-rate', type=float, default=.05)
+    p.add_argument('--count-rate', type=float, default=.20)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     torch.set_num_threads(4)
-    gen = SurfaceMixtureV4(hard_query_rate=a.hard_query_rate,
-                           counterbalanced_queries=a.counterbalanced_queries,
-                           question_rate=a.question_rate)
+    generator_class = SurfaceMixtureV5 if a.generator == 'v5' else SurfaceMixtureV4
+    kwargs = dict(hard_query_rate=a.hard_query_rate,
+                  counterbalanced_queries=a.counterbalanced_queries,
+                  question_rate=a.question_rate)
+    if a.generator == 'v5':
+        kwargs['count_rate'] = a.count_rate
+    gen = generator_class(**kwargs)
     records = items(gen, a.n, a.length, a.seed, a.hard_query_rate,
-                    a.counterbalanced_queries, a.question_rate)
+                    a.counterbalanced_queries, a.question_rate, a.count_rate)
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
     results = {}

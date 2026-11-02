@@ -21,7 +21,7 @@ from surface_mixture_v4 import SurfaceMixtureV4, _content, render
 def reference_answer(history, obj):
     for raw in reversed(history):
         clause = _content(raw)
-        if not clause or clause[0] == 'Where':
+        if not clause or clause[0] in ('Where', 'How'):
             continue
         frame = _frame(clause)
         if clause[OBJECT_INDEX[frame]] == obj:

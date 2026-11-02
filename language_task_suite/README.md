@@ -22,6 +22,10 @@ The [two-site joint-rule follow-up](SURFACE_MIXTURE_V3_RESULTS.md) adds a second
 
 The [joint narrative and question follow-up](SURFACE_MIXTURE_V4_RESULTS.md) keeps those two contested prediction sites and adds object-keyed retrieval questions in the same stream. It audits exact answers, harder questions with intervening sentences, surface forms, and supported causal edits. The latest-place shortcut and residual form gap are explicit baselines.
 
+The [joint subject-count follow-up](SURFACE_MIXTURE_V5_RESULTS.md) adds a second question type to that same narrative stream: count how often a named person is the main actor. It preserves the verb/object mixtures and object-place questions, audits the exact count oracle and alternative-key answers, and evaluates count-specific causal edits separately from place retrieval.
+
+The [FineWeb form/task notes](FINEWEB_FORM_TASK_NOTES.md) record a small, form-stratified spot check of the frozen panel and map observed quotes, questions, headings, numbers, aliases, and corrections to proposed exact-oracle task families. This is hypothesis generation, not a prevalence estimate or a claim of realistic synthetic text.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds

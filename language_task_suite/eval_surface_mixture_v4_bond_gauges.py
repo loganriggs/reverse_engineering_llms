@@ -14,6 +14,7 @@ import torch.nn.functional as F
 
 from eval_surface_bond_gauges import bases_for
 from surface_mixture_v4 import SurfaceMixtureV4
+from surface_mixture_v5 import SurfaceMixtureV5
 from train_surface_mixture import make_batch, make_eval
 
 
@@ -26,6 +27,8 @@ def group_scores(logits, data, reference_logp):
     masks = {'all': torch.ones_like(data['verb']),
              'verb': data['verb'], 'object': data['obj'],
              'question_answer': data['answer']}
+    if data['count_answer'].any():
+        masks['count_answer'] = data['count_answer']
     return {name: dict(n=int(mask.sum()),
                        oracle_kl=float(oracle_kl[mask].mean()) if mask.any() else None,
                        model_to_truncated_kl=float(model_kl[mask].mean())
@@ -47,6 +50,8 @@ def main():
     torch.set_num_threads(4)
     folder = Path(a.model_dir)
     saved = json.loads((folder/'results.json').read_text())
+    generator_class = (SurfaceMixtureV5 if saved['config']['generator'] == 'v5'
+                       else SurfaceMixtureV4)
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
     results = {}
@@ -61,11 +66,16 @@ def main():
                             counterbalanced_queries=saved['config'].get(
                                 'counterbalanced_queries', False))
         question_rate = saved['config'].get('question_rate', .05)
-        fit = SurfaceMixtureV4(seed=9501,
-                               question_rate=0 if a.fit_without_questions
-                               else question_rate, **query_kwargs)
-        test = SurfaceMixtureV4(seed=9502, question_rate=question_rate,
-                                **query_kwargs)
+        if generator_class is SurfaceMixtureV5:
+            query_kwargs['count_rate'] = saved['config'].get('count_rate', .20)
+        fit_kwargs = dict(query_kwargs)
+        if a.fit_without_questions and generator_class is SurfaceMixtureV5:
+            fit_kwargs['count_rate'] = 0
+        fit = generator_class(seed=9501,
+                              question_rate=0 if a.fit_without_questions
+                              else question_rate, **fit_kwargs)
+        test = generator_class(seed=9502, question_rate=question_rate,
+                               **query_kwargs)
         xfit, _ = make_batch(fit, a.nfit, a.length, 'cpu')
         data = make_eval(test, a.ntest, a.length, 'cpu')
         bond = model.blocks[a.layer].attn.out
