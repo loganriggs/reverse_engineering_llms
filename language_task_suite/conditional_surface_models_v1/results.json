@@ -1,0 +1,2369 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "depths": "2,3",
+    "steps": 4000,
+    "batch": 64,
+    "length": 71,
+    "width": 64,
+    "heads": 4,
+    "lr": 0.003,
+    "neval_per_mode": 256,
+    "seed": 0,
+    "device": "cpu",
+    "output_dir": "language_task_suite/conditional_surface_models_v1"
+  },
+  "vocabulary": [
+    "Today",
+    "Meanwhile",
+    "Later",
+    "Afterward",
+    "Lately",
+    "Often",
+    "Sometimes",
+    "Usually",
+    "Alice",
+    "Bob",
+    "Carol",
+    "Dave",
+    "Eve",
+    "Frank",
+    "Grace",
+    "Henry",
+    "Iris",
+    "Jack",
+    "Kate",
+    "Leo",
+    "Mia",
+    "Nick",
+    "Olive",
+    "Paul",
+    "finds",
+    "keeps",
+    "takes",
+    "moves",
+    "checks",
+    "holds",
+    "saves",
+    "uses",
+    "brings",
+    "picks",
+    "stores",
+    "carries",
+    "small",
+    "old",
+    "new",
+    "red",
+    "blue",
+    "green",
+    "dark",
+    "bright",
+    "warm",
+    "cool",
+    "soft",
+    "heavy",
+    "light",
+    "clean",
+    "dusty",
+    "rare",
+    "large",
+    "round",
+    "wooden",
+    "silver",
+    "broken",
+    "useful",
+    "empty",
+    "valuable",
+    "book",
+    "key",
+    "photo",
+    "cup",
+    "ticket",
+    "map",
+    "note",
+    "badge",
+    "box",
+    "bag",
+    "letter",
+    "phone",
+    "camera",
+    "bottle",
+    "folder",
+    "coat",
+    "watch",
+    "card",
+    "tool",
+    "toy",
+    "painting",
+    "chair",
+    "basket",
+    "lamp",
+    "park",
+    "home",
+    "store",
+    "school",
+    "beach",
+    "office",
+    "garden",
+    "lake",
+    "tower",
+    "farm",
+    "hill",
+    "bridge",
+    "plaza",
+    "court",
+    "field",
+    "grove",
+    "harbor",
+    "island",
+    "lodge",
+    "market",
+    "pier",
+    "ranch",
+    "station",
+    "library",
+    "festival",
+    "meeting",
+    "storm",
+    "morning",
+    "cleanup",
+    "game",
+    "visit",
+    "sale",
+    "journey",
+    "parade",
+    "exhibit",
+    "lesson",
+    "project",
+    "season",
+    "holiday",
+    "workshop",
+    "near",
+    "beside",
+    "outside",
+    "inside",
+    "during",
+    "after",
+    "before",
+    ",",
+    "the",
+    ".",
+    "while",
+    "watches",
+    "according",
+    "to",
+    "as",
+    "looks",
+    "on",
+    "Balanced",
+    "Lexical",
+    "Recall",
+    "Setting",
+    ":"
+  ],
+  "records": [
+    {
+      "depth": 2,
+      "model_config": {
+        "vocab_size": 146,
+        "n_layer": 2,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false,
+          false
+        ],
+        "use_rmsnorm": true,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "parameters": 68032,
+      "snapshots": [
+        {
+          "step": 500,
+          "train_ce": 1.3543426990509033,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.04038944095373154,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.34040841460227966,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.4332064986228943,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.28570500016212463,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.34992486238479614,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.020991502329707146,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.03404054418206215,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.22460822761058807,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.2551690936088562,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.20736438035964966,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.22810916602611542,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.021829357370734215,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.05237923562526703,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.5436161160469055,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.9329798817634583,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.32657575607299805,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.5570675730705261,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.020653536543250084,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.061923932284116745,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.697496235370636,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.845984160900116,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.6144684553146362,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.7085794806480408,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.020988615229725838,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 22.20609998703003
+        },
+        {
+          "step": 1000,
+          "train_ce": 1.3256736993789673,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.019789543002843857,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.20943878591060638,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.25832778215408325,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.18061929941177368,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.2153892070055008,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.007446251343935728,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.015390735119581223,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.13697314262390137,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.14735692739486694,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.1311141550540924,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.13848994672298431,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.007493439130485058,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.02994956448674202,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.3753127455711365,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.6816981434822083,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.20452648401260376,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.38504207134246826,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.0075448304414749146,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.020896168425679207,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.22217780351638794,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.2735573351383209,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.19344870746135712,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.2254665344953537,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.007949486374855042,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 43.04350543022156
+        },
+        {
+          "step": 1500,
+          "train_ce": 1.3428906202316284,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.016873972490429878,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.18632474541664124,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.21513423323631287,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.16934190690517426,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.19188819825649261,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.005836261436343193,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.012840522453188896,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.11821107566356659,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.13692928850650787,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.10764939337968826,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.12015336751937866,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.005999694112688303,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.024787288159132004,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.3161875903606415,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.5069534778594971,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.2098502814769745,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.32408562302589417,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.0058778575621545315,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.016483500599861145,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.1830204278230667,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.2208406627178192,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.16187305748462677,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.18578535318374634,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005761757958680391,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 63.87944436073303
+        },
+        {
+          "step": 2000,
+          "train_ce": 1.329896092414856,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.015641728416085243,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1728406846523285,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.21080057322978973,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.1504637748003006,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.17727579176425934,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.005403732880949974,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.011644603684544563,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.10673873871564865,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.11523915082216263,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.10194242745637894,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.10808806866407394,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.00547452038154006,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.023312926292419434,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.2960641086101532,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.4725082516670227,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.19771011173725128,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.3030354082584381,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005616300273686647,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.017933692783117294,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.20944122970104218,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.24644730985164642,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.18874908983707428,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.21189193427562714,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005591377150267363,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 82.97167086601257
+        },
+        {
+          "step": 2500,
+          "train_ce": 1.3269633054733276,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014663673005998135,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.15697473287582397,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.19836607575416565,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.13257500529289246,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.16187934577465057,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.005403685383498669,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.011116543784737587,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.09959308803081512,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.11087947338819504,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.09322478622198105,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.10166965425014496,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.005380293354392052,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.02295188046991825,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.293153315782547,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.48541489243507385,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.18598225712776184,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.3004778027534485,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005420108791440725,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.016438795253634453,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.18838226795196533,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.23511604964733124,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.1622508466243744,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.19138166308403015,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.0053624119609594345,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 104.03687810897827
+        },
+        {
+          "step": 3000,
+          "train_ce": 1.3251949548721313,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014491855166852474,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1560959666967392,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.20122621953487396,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.12949222326278687,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.16083216667175293,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.00527742225676775,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.010188110172748566,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.08491039276123047,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.10033055394887924,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.0762096419930458,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.08647670596837997,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.005354765802621841,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.0226289015263319,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.287655234336853,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.4821550250053406,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.17923657596111298,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.29510706663131714,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005435972008854151,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.019294526427984238,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.23578129708766937,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.286936491727829,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.20717760920524597,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.23974329233169556,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005329388193786144,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 124.69290828704834
+        },
+        {
+          "step": 3500,
+          "train_ce": 1.3320661783218384,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014484267681837082,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1612464040517807,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.20799563825130463,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.13368824124336243,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.1662324070930481,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.004927197005599737,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.010171771980822086,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.0906575620174408,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.10444693267345428,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.08287696540355682,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.09243343770503998,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.004954788833856583,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.02093816176056862,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.2655197083950043,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.3782947361469269,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.20265629887580872,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.2723625898361206,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005072296597063541,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014232877641916275,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.1532704085111618,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.21429170668125153,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.1191500574350357,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.15569190680980682,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005290905479341745,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 145.05038976669312
+        },
+        {
+          "step": 4000,
+          "train_ce": 1.3232464790344238,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.01290268637239933,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.13510699570178986,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.16417445242404938,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.11797202378511429,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.13912199437618256,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.004957875702530146,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.00989795196801424,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.08390780538320541,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.10028804838657379,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.07466533780097961,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.08540627360343933,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.0051116617396473885,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.0192917101085186,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.2390904277563095,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.31833118200302124,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.19491979479789734,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.2450728714466095,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005040841642767191,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.013417930342257023,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.14206326007843018,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.19606444239616394,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.1118682324886322,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.14418479800224304,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005148251075297594,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 164.35397481918335
+        }
+      ]
+    },
+    {
+      "depth": 3,
+      "model_config": {
+        "vocab_size": 146,
+        "n_layer": 3,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false,
+          false,
+          false
+        ],
+        "use_rmsnorm": true,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "parameters": 92672,
+      "snapshots": [
+        {
+          "step": 500,
+          "train_ce": 1.3652307987213135,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.051944438368082047,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.3051811754703522,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.39882931113243103,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.2499767243862152,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.3134516179561615,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.035861849784851074,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.0467759370803833,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.21931838989257812,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.24708141386508942,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.2036532461643219,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.22292405366897583,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.03596249222755432,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.06432081013917923,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.5046728253364563,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.9160560965538025,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.27535828948020935,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.5170237421989441,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.03614150732755661,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.05660570040345192,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.36304208636283875,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.43951281905174255,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.3202831745147705,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.3681550920009613,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.0372571125626564,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 22.306318521499634
+        },
+        {
+          "step": 1000,
+          "train_ce": 1.3253053426742554,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.020250795409083366,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1964576095342636,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.23723939061164856,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.17241722345352173,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.20283254981040955,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.008817647583782673,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.015240776352584362,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.1153225377202034,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.12590202689170837,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.10935310274362564,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.1173362284898758,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.00878159236162901,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.02888324297964573,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.3396933674812317,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.5798681974411011,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.20581437647342682,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.34854599833488464,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.008748487569391727,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.02016347460448742,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.19324523210525513,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.23799486458301544,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.16822324693202972,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.1962483674287796,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.009062021970748901,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 45.710673809051514
+        },
+        {
+          "step": 1500,
+          "train_ce": 1.3409343957901,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.015933897346258163,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1666710376739502,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.18145893514156342,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.15795372426509857,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.17170146107673645,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.0061319381929934025,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.012397539801895618,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.10280531644821167,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.11950910836458206,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.09338027983903885,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.10473588109016418,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.006550296675413847,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.023466065526008606,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.2822760343551636,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.3579149842262268,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.24011319875717163,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.28909939527511597,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.006692483555525541,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.015608442015945911,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.1595199555158615,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.18190869688987732,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.14700117707252502,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.16193833947181702,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.006362392101436853,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 68.1020278930664
+        },
+        {
+          "step": 2000,
+          "train_ce": 1.3278549909591675,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014444984495639801,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1516248732805252,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.1997620314359665,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.12324855476617813,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.15589554607868195,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.005521584302186966,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.01091816183179617,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.09330485016107559,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.11171449720859528,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.08291728794574738,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.09474123269319534,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.005584991071373224,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.021187417209148407,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.2602369487285614,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.3977915048599243,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.18356087803840637,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.2663978338241577,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005686761345714331,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014813389629125595,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.15980660915374756,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.20661023259162903,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.13363613188266754,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.16212542355060577,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005486876238137484,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 90.53217053413391
+        },
+        {
+          "step": 2500,
+          "train_ce": 1.3237581253051758,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.013665547594428062,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.14220474660396576,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.1882016509771347,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.11509008705615997,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.1468295156955719,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.005307711660861969,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.010829874314367771,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.09589354693889618,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.11851470172405243,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.0831296518445015,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.09784925729036331,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.005318030249327421,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.018599195405840874,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.22389891743659973,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.3285306692123413,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.1655748039484024,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.22971674799919128,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005294607952237129,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.013628067448735237,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.1415361613035202,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.18876084685325623,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.1151302307844162,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.143787682056427,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005409814417362213,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 112.88585019111633
+        },
+        {
+          "step": 3000,
+          "train_ce": 1.3234933614730835,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.012869522906839848,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.1305123269557953,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.17473730444908142,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.10444220900535583,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.1344098448753357,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.00522705027833581,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.00951405055820942,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.07440724968910217,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.09078504890203476,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.06516615301370621,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.07576534152030945,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.0053277709521353245,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.017301900312304497,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.2031821459531784,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.31841161847114563,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.13895060122013092,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.20848926901817322,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.00526308361440897,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.0173246581107378,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.20405912399291992,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.2531237006187439,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.17662443220615387,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.20742745697498322,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005289500579237938,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 135.38277649879456
+        },
+        {
+          "step": 3500,
+          "train_ce": 1.3283429145812988,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.01201681885868311,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.12041927874088287,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.16485777497291565,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.09422330558300018,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.12419410049915314,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.00497647188603878,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.009527189657092094,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.07791626453399658,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.09642444550991058,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.06747309118509293,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.07950162887573242,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.00510815717279911,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.015452364459633827,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.17631405591964722,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.2574230432510376,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.13110202550888062,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.18086624145507812,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.005040961317718029,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.01187902595847845,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.11342546343803406,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.16057728230953217,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.08706030249595642,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.11519216001033783,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005370816215872765,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 157.710102558136
+        },
+        {
+          "step": 4000,
+          "train_ce": 1.3217482566833496,
+          "scores": {
+            "Balanced": {
+              "all": {
+                "n": 18176,
+                "kl": 0.011618099175393581,
+                "oracle_entropy": 1.3237779140472412
+              },
+              "verb": {
+                "n": 1119,
+                "kl": 0.11409351974725723,
+                "oracle_entropy": 1.2318676710128784
+              },
+              "verb_induction": {
+                "n": 415,
+                "kl": 0.14429432153701782,
+                "oracle_entropy": 1.27425217628479
+              },
+              "verb_no_induction": {
+                "n": 704,
+                "kl": 0.09629049152135849,
+                "oracle_entropy": 1.2068825960159302
+              },
+              "conflict": {
+                "n": 1079,
+                "kl": 0.11742192506790161,
+                "oracle_entropy": 1.255005955696106
+              },
+              "frame": {
+                "n": 16801,
+                "kl": 0.004966252017766237,
+                "oracle_entropy": 1.3500699996948242
+              }
+            },
+            "Lexical": {
+              "all": {
+                "n": 18176,
+                "kl": 0.009543822146952152,
+                "oracle_entropy": 1.3169158697128296
+              },
+              "verb": {
+                "n": 1120,
+                "kl": 0.08055459707975388,
+                "oracle_entropy": 1.1581666469573975
+              },
+              "verb_induction": {
+                "n": 404,
+                "kl": 0.09791211783885956,
+                "oracle_entropy": 1.204270601272583
+              },
+              "verb_no_induction": {
+                "n": 716,
+                "kl": 0.07076068967580795,
+                "oracle_entropy": 1.1321526765823364
+              },
+              "conflict": {
+                "n": 1091,
+                "kl": 0.08208344876766205,
+                "oracle_entropy": 1.1697942018508911
+              },
+              "frame": {
+                "n": 16800,
+                "kl": 0.00495293689891696,
+                "oracle_entropy": 1.3475666046142578
+              }
+            },
+            "Recall": {
+              "all": {
+                "n": 18176,
+                "kl": 0.014969857409596443,
+                "oracle_entropy": 1.316932201385498
+              },
+              "verb": {
+                "n": 1112,
+                "kl": 0.1693509817123413,
+                "oracle_entropy": 1.1413153409957886
+              },
+              "verb_induction": {
+                "n": 398,
+                "kl": 0.23351292312145233,
+                "oracle_entropy": 1.0481147766113281
+              },
+              "verb_no_induction": {
+                "n": 714,
+                "kl": 0.13358566164970398,
+                "oracle_entropy": 1.193267583847046
+              },
+              "conflict": {
+                "n": 1081,
+                "kl": 0.17363882064819336,
+                "oracle_entropy": 1.1583061218261719
+              },
+              "frame": {
+                "n": 16808,
+                "kl": 0.004980174358934164,
+                "oracle_entropy": 1.3486088514328003
+              }
+            },
+            "Setting": {
+              "all": {
+                "n": 18176,
+                "kl": 0.012181678786873817,
+                "oracle_entropy": 1.3108916282653809
+              },
+              "verb": {
+                "n": 1107,
+                "kl": 0.12032069265842438,
+                "oracle_entropy": 1.090226411819458
+              },
+              "verb_induction": {
+                "n": 397,
+                "kl": 0.162257581949234,
+                "oracle_entropy": 1.1821856498718262
+              },
+              "verb_no_induction": {
+                "n": 710,
+                "kl": 0.09687145054340363,
+                "oracle_entropy": 1.0388069152832031
+              },
+              "conflict": {
+                "n": 1087,
+                "kl": 0.1221930980682373,
+                "oracle_entropy": 1.1003401279449463
+              },
+              "frame": {
+                "n": 16813,
+                "kl": 0.005244568455964327,
+                "oracle_entropy": 1.3453807830810547
+              }
+            }
+          },
+          "elapsed": 180.00417947769165
+        }
+      ]
+    }
+  ]
+}
