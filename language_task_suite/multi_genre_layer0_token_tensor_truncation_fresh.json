@@ -1,0 +1,1425 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "model_dirs": [
+      "language_task_suite/multi_genre_models_v1",
+      "language_task_suite/multi_genre_models_seed1"
+    ],
+    "depth": 3,
+    "length": 71,
+    "nfit": 512,
+    "ntest": 1024,
+    "nedit_streams": 512,
+    "ranks": "8,16,32",
+    "fit_genres": "Reports,Policy",
+    "fit_seed": 9551,
+    "test_seed": 9772,
+    "edit_seed": 9773,
+    "output": "language_task_suite/multi_genre_layer0_token_tensor_truncation_fresh.json"
+  },
+  "fit": {
+    "genres": [
+      "Policy",
+      "Reports"
+    ],
+    "seed": 9551,
+    "nfit": 512,
+    "smoothing": 1.0,
+    "type": "product of lag-conditional token marginals"
+  },
+  "test": {
+    "seed": 9772,
+    "ntest": 1024,
+    "heldout_from_tensor_fit": [
+      "FAQ",
+      "Guide"
+    ]
+  },
+  "edits": {
+    "seed": 9773,
+    "n_streams": 512,
+    "counts": {
+      "policy_condition": 460,
+      "policy_nuisance_person": 460,
+      "faq_answer_copy": 336,
+      "faq_place_recall": 80
+    }
+  },
+  "results": {
+    "multi_genre_models_v1": {
+      "model_config": {
+        "vocab_size": 173,
+        "n_layer": 3,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false,
+          false,
+          false
+        ],
+        "use_rmsnorm": true,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "native_edits": {
+        "policy_condition": {
+          "n": 460,
+          "oracle_tv": 0.5468478260869564,
+          "model_tv": 0.6087011694908142,
+          "effect_l1_error": 0.48596631312746913,
+          "effect_cosine": 0.9509212887095788
+        },
+        "policy_nuisance_person": {
+          "n": 460,
+          "oracle_tv": 0.0,
+          "model_tv": 0.03179707005620003,
+          "effect_l1_error": 0.06359414121253368,
+          "effect_cosine": 0.0
+        },
+        "faq_answer_copy": {
+          "n": 336,
+          "oracle_tv": 1.0,
+          "model_tv": 0.9961133599281311,
+          "effect_l1_error": 0.02955333058472581,
+          "effect_cosine": 0.9999938574915456
+        },
+        "faq_place_recall": {
+          "n": 80,
+          "oracle_tv": 1.0,
+          "model_tv": 0.9735428094863892,
+          "effect_l1_error": 0.13545258137677,
+          "effect_cosine": 0.9871157876626159
+        }
+      },
+      "rows": [
+        {
+          "method": "full_table",
+          "rank": 173,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014477360062301159,
+              "model_to_truncated_kl": 4.20385113386601e-08
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018572214990854263,
+              "model_to_truncated_kl": 1.787020487142854e-08
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.00547261955216527,
+              "model_to_truncated_kl": 4.1795833460867016e-09
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007027389947324991,
+              "model_to_truncated_kl": 1.43091639870363e-07
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.022440366446971893,
+              "model_to_truncated_kl": 3.706763962441073e-08
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.19150245189666748,
+              "model_to_truncated_kl": 7.5845257185847e-08
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.23614001274108887,
+              "model_to_truncated_kl": 2.4047648139458033e-07
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008384176529943943,
+              "model_to_truncated_kl": 7.82051543524176e-08
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.0779900997877121,
+              "model_to_truncated_kl": 6.68324582875357e-06
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.027852823957800865,
+              "model_to_truncated_kl": 6.829185394963133e-08
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0007021207129582763,
+              "model_to_truncated_kl": 2.1332327904133308e-08
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6087687015533447,
+              "effect_l1_error": 0.486009475790979,
+              "effect_cosine": 0.9508982111137284
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.031801607459783554,
+              "effect_l1_error": 0.06360321371613169,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9961158037185669,
+              "effect_l1_error": 0.02953986876907791,
+              "effect_cosine": 0.99999388440338
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9734428524971008,
+              "effect_l1_error": 0.13590094539499986,
+              "effect_cosine": 0.9870997907339483
+            }
+          }
+        },
+        {
+          "method": "weight_svd",
+          "rank": 8,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014735194854438305,
+              "model_to_truncated_kl": 0.0001838960888562724
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.01862526871263981,
+              "model_to_truncated_kl": 9.915489499690011e-05
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.0055715045891702175,
+              "model_to_truncated_kl": 5.357895133784041e-05
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.0077709779143333435,
+              "model_to_truncated_kl": 0.0005038384697400033
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.02283560298383236,
+              "model_to_truncated_kl": 0.00019640466780401766
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.19143269956111908,
+              "model_to_truncated_kl": 0.0008693003328517079
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.2409837692975998,
+              "model_to_truncated_kl": 0.0020695829298347235
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.00956481508910656,
+              "model_to_truncated_kl": 0.00047174308565445244
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.11245575547218323,
+              "model_to_truncated_kl": 0.02059401385486126
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.02835862711071968,
+              "model_to_truncated_kl": 0.0001696573744993657
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.001324707642197609,
+              "model_to_truncated_kl": 0.00041915738256648183
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6021048426628113,
+              "effect_l1_error": 0.49406206356204685,
+              "effect_cosine": 0.9496107701772403
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03255889564752579,
+              "effect_l1_error": 0.06511778753169258,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9953276515007019,
+              "effect_l1_error": 0.03431314027854781,
+              "effect_cosine": 0.9999885419989085
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9662420153617859,
+              "effect_l1_error": 0.1729735231227382,
+              "effect_cosine": 0.9875236837825785
+            }
+          }
+        },
+        {
+          "method": "weight_svd",
+          "rank": 16,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014553704299032688,
+              "model_to_truncated_kl": 4.1218914702767506e-05
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.01854405552148819,
+              "model_to_truncated_kl": 2.937131648650393e-05
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.005491739604622126,
+              "model_to_truncated_kl": 1.1121824172732886e-05
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.0072891791351139545,
+              "model_to_truncated_kl": 0.00011546445603016764
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.0226206686347723,
+              "model_to_truncated_kl": 2.7595839128480293e-05
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.19092459976673126,
+              "model_to_truncated_kl": 0.00026614571106620133
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.23849043250083923,
+              "model_to_truncated_kl": 0.0002760020433925092
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008444737643003464,
+              "model_to_truncated_kl": 5.9673755458788946e-05
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09194593876600266,
+              "model_to_truncated_kl": 0.005652153864502907
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.028362426906824112,
+              "model_to_truncated_kl": 5.4007865401217714e-05
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0008143452578224242,
+              "model_to_truncated_kl": 7.332995301112533e-05
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6089828014373779,
+              "effect_l1_error": 0.4865453880614733,
+              "effect_cosine": 0.9505794268663265
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03184828162193298,
+              "effect_l1_error": 0.06369656345688136,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9959786534309387,
+              "effect_l1_error": 0.029990486027946094,
+              "effect_cosine": 0.9999936671940568
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9702345132827759,
+              "effect_l1_error": 0.15590094838320512,
+              "effect_cosine": 0.9867930506051398
+            }
+          }
+        },
+        {
+          "method": "weight_svd",
+          "rank": 32,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014483131468296051,
+              "model_to_truncated_kl": 6.824010597483721e-06
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018544552847743034,
+              "model_to_truncated_kl": 6.882206889713416e-06
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.005468796007335186,
+              "model_to_truncated_kl": 2.646028178787674e-06
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007057799492031336,
+              "model_to_truncated_kl": 1.1255185199843254e-05
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.022502994164824486,
+              "model_to_truncated_kl": 6.920072337379679e-06
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.19141404330730438,
+              "model_to_truncated_kl": 6.277281499933451e-05
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.23706455528736115,
+              "model_to_truncated_kl": 7.853502756915987e-05
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.00841987319290638,
+              "model_to_truncated_kl": 1.0135976481251419e-05
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.07937493920326233,
+              "model_to_truncated_kl": 0.0005207828944548965
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.027879413217306137,
+              "model_to_truncated_kl": 5.4064125833974686e-06
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0006806983728893101,
+              "model_to_truncated_kl": 1.696748768154066e-05
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6097760796546936,
+              "effect_l1_error": 0.4871887190761771,
+              "effect_cosine": 0.9505137500391403
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03178243711590767,
+              "effect_l1_error": 0.06356487373222308,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.996107280254364,
+              "effect_l1_error": 0.02966063951797188,
+              "effect_cosine": 0.9999939247687154
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.97425776720047,
+              "effect_l1_error": 0.1319905932850368,
+              "effect_cosine": 0.9871553355679593
+            }
+          }
+        },
+        {
+          "method": "fit_marginal_svd",
+          "rank": 8,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.015027780085802078,
+              "model_to_truncated_kl": 0.0003294938651379198
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.01861554943025112,
+              "model_to_truncated_kl": 2.2848911612527445e-05
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.005890553817152977,
+              "model_to_truncated_kl": 0.0003467049391474575
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.009080453775823116,
+              "model_to_truncated_kl": 0.0012917084386572242
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.022772224619984627,
+              "model_to_truncated_kl": 4.406109292176552e-05
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.19199322164058685,
+              "model_to_truncated_kl": 0.00023831098224036396
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.2406313270330429,
+              "model_to_truncated_kl": 0.0005244624917395413
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.009795030578970909,
+              "model_to_truncated_kl": 0.0008279691683128476
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.08264134079217911,
+              "model_to_truncated_kl": 0.010152164846658707
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.0279682744294405,
+              "model_to_truncated_kl": 0.00025297942920587957
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0037726196460425854,
+              "model_to_truncated_kl": 0.002487446879968047
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6094061732292175,
+              "effect_l1_error": 0.4877846286843612,
+              "effect_cosine": 0.950840642719998
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03229740634560585,
+              "effect_l1_error": 0.06459481930146146,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9952027201652527,
+              "effect_l1_error": 0.03463060050667696,
+              "effect_cosine": 0.9999904069572422
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9737302660942078,
+              "effect_l1_error": 0.13922934095829598,
+              "effect_cosine": 0.9898715747850991
+            }
+          }
+        },
+        {
+          "method": "fit_marginal_svd",
+          "rank": 16,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.01458447240293026,
+              "model_to_truncated_kl": 3.92747315345332e-05
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.01859438419342041,
+              "model_to_truncated_kl": 6.386504992406117e-06
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.00550560699775815,
+              "model_to_truncated_kl": 2.3379188860417344e-05
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007438358850777149,
+              "model_to_truncated_kl": 0.00016702894936315715
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.02251635678112507,
+              "model_to_truncated_kl": 4.162765890214359e-06
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.1917371153831482,
+              "model_to_truncated_kl": 7.097752677509561e-05
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.2371470034122467,
+              "model_to_truncated_kl": 5.013414556742646e-05
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.00868186354637146,
+              "model_to_truncated_kl": 0.0001903505763038993
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.08329153805971146,
+              "model_to_truncated_kl": 0.004939597565680742
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.027919858694076538,
+              "model_to_truncated_kl": 8.254920248873532e-05
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0008324719383381307,
+              "model_to_truncated_kl": 6.0709626268362626e-05
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6098459362983704,
+              "effect_l1_error": 0.4867917129385817,
+              "effect_cosine": 0.9509023531441649
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03174605965614319,
+              "effect_l1_error": 0.06349211953083246,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.995805561542511,
+              "effect_l1_error": 0.03086529102907826,
+              "effect_cosine": 0.9999932870165233
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9689677357673645,
+              "effect_l1_error": 0.15403241810989274,
+              "effect_cosine": 0.9880254745320716
+            }
+          }
+        },
+        {
+          "method": "fit_marginal_svd",
+          "rank": 32,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014506245963275433,
+              "model_to_truncated_kl": 1.486107794335112e-05
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018583199009299278,
+              "model_to_truncated_kl": 1.7452222209612955e-06
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.005485286470502615,
+              "model_to_truncated_kl": 5.28831287738285e-06
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.0071505834348499775,
+              "model_to_truncated_kl": 6.939523882465437e-05
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.022434713318943977,
+              "model_to_truncated_kl": 8.795370263214863e-07
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.19165244698524475,
+              "model_to_truncated_kl": 1.8915057808044367e-05
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.23605221509933472,
+              "model_to_truncated_kl": 1.0170481800741982e-05
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008711992762982845,
+              "model_to_truncated_kl": 0.00017811538418754935
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.0771661326289177,
+              "model_to_truncated_kl": 0.0018093810649588704
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.027843497693538666,
+              "model_to_truncated_kl": 3.369971091160551e-05
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.00069740618346259,
+              "model_to_truncated_kl": 3.549077064235462e-06
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.6089027523994446,
+              "effect_l1_error": 0.4859863293739895,
+              "effect_cosine": 0.9510326037073688
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03176489844918251,
+              "effect_l1_error": 0.06352979595567908,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9960607886314392,
+              "effect_l1_error": 0.030540257860904724,
+              "effect_cosine": 0.999993080567094
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9745885729789734,
+              "effect_l1_error": 0.13106331435322352,
+              "effect_cosine": 0.9872982620051497
+            }
+          }
+        }
+      ]
+    },
+    "multi_genre_models_seed1": {
+      "model_config": {
+        "vocab_size": 173,
+        "n_layer": 3,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false,
+          false,
+          false
+        ],
+        "use_rmsnorm": true,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "native_edits": {
+        "policy_condition": {
+          "n": 460,
+          "oracle_tv": 0.5468478260869564,
+          "model_tv": 0.5597230195999146,
+          "effect_l1_error": 0.50965987402735,
+          "effect_cosine": 0.9463745744915952
+        },
+        "policy_nuisance_person": {
+          "n": 460,
+          "oracle_tv": 0.0,
+          "model_tv": 0.03336186334490776,
+          "effect_l1_error": 0.06672372176387335,
+          "effect_cosine": 0.0
+        },
+        "faq_answer_copy": {
+          "n": 336,
+          "oracle_tv": 1.0,
+          "model_tv": 0.9970881342887878,
+          "effect_l1_error": 0.0230616730616326,
+          "effect_cosine": 0.9999932197317501
+        },
+        "faq_place_recall": {
+          "n": 80,
+          "oracle_tv": 1.0,
+          "model_tv": 0.9728940725326538,
+          "effect_l1_error": 0.1468934920488197,
+          "effect_cosine": 0.9939218936077859
+        }
+      },
+      "rows": [
+        {
+          "method": "full_table",
+          "rank": 173,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014264832250773907,
+              "model_to_truncated_kl": 5.363943600400489e-08
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018792757764458656,
+              "model_to_truncated_kl": 3.679036097992139e-08
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.006599865388125181,
+              "model_to_truncated_kl": 1.783534564481215e-08
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007415420841425657,
+              "model_to_truncated_kl": 1.4235891399039247e-07
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.01933997869491577,
+              "model_to_truncated_kl": 4.282959764623229e-08
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.18998263776302338,
+              "model_to_truncated_kl": 1.4833982220352482e-07
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.1982315331697464,
+              "model_to_truncated_kl": 1.7476946823080652e-07
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008199252188205719,
+              "model_to_truncated_kl": 1.2234253610188262e-08
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09156235307455063,
+              "model_to_truncated_kl": 5.009087999496842e-06
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.04208995774388313,
+              "model_to_truncated_kl": 7.809023259142123e-07
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.000531538447830826,
+              "model_to_truncated_kl": 1.424148887707588e-08
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.559735894203186,
+              "effect_l1_error": 0.5097677234345498,
+              "effect_cosine": 0.9463416901786484
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03337295353412628,
+              "effect_l1_error": 0.06674590967162228,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9970895051956177,
+              "effect_l1_error": 0.023053924152985534,
+              "effect_cosine": 0.9999932334597316
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9729152917861938,
+              "effect_l1_error": 0.14724305760169426,
+              "effect_cosine": 0.9939335536388608
+            }
+          }
+        },
+        {
+          "method": "weight_svd",
+          "rank": 8,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014302811585366726,
+              "model_to_truncated_kl": 0.00010809245577547699
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018795596435666084,
+              "model_to_truncated_kl": 0.00012397255341056734
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.006748574320226908,
+              "model_to_truncated_kl": 8.375165634788573e-05
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007516973651945591,
+              "model_to_truncated_kl": 0.00011223083856748417
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.019274674355983734,
+              "model_to_truncated_kl": 9.659214993007481e-05
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.18987660109996796,
+              "model_to_truncated_kl": 0.0008929396281018853
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.19778326153755188,
+              "model_to_truncated_kl": 0.0008082860731519759
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.00860079936683178,
+              "model_to_truncated_kl": 0.00022173520119395107
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09586401283740997,
+              "model_to_truncated_kl": 0.002364817773923278
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.04483626037836075,
+              "model_to_truncated_kl": 0.0005416765343397856
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0015375756192952394,
+              "model_to_truncated_kl": 0.0007690032362006605
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.5594615936279297,
+              "effect_l1_error": 0.5002903743350086,
+              "effect_cosine": 0.9501382794663716
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03410284221172333,
+              "effect_l1_error": 0.06820568805321105,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9968498945236206,
+              "effect_l1_error": 0.023770865573317444,
+              "effect_cosine": 0.999992697267456
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9722577333450317,
+              "effect_l1_error": 0.15626616179240477,
+              "effect_cosine": 0.9933987319748173
+            }
+          }
+        },
+        {
+          "method": "weight_svd",
+          "rank": 16,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014275114051997662,
+              "model_to_truncated_kl": 2.5686291337478906e-05
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018796619027853012,
+              "model_to_truncated_kl": 3.30058355757501e-05
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.006618666462600231,
+              "model_to_truncated_kl": 4.295035978429951e-06
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007424826268106699,
+              "model_to_truncated_kl": 3.35197510139551e-05
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.019355548545718193,
+              "model_to_truncated_kl": 2.5512454158160836e-05
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.18934044241905212,
+              "model_to_truncated_kl": 0.00024113900144584477
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.19872687757015228,
+              "model_to_truncated_kl": 0.0002314303710591048
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008286412805318832,
+              "model_to_truncated_kl": 5.874524867977016e-05
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.0944361463189125,
+              "model_to_truncated_kl": 0.0009704773547127843
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.042014919221401215,
+              "model_to_truncated_kl": 8.188100764527917e-05
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0005526291788555682,
+              "model_to_truncated_kl": 1.4995390301919542e-05
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.5607381463050842,
+              "effect_l1_error": 0.5051783742462352,
+              "effect_cosine": 0.9477380624961558
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.03352874517440796,
+              "effect_l1_error": 0.0670574951730308,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.996963381767273,
+              "effect_l1_error": 0.023104593672171093,
+              "effect_cosine": 0.9999931551276056
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9737266302108765,
+              "effect_l1_error": 0.15074017429267944,
+              "effect_cosine": 0.9934961136879259
+            }
+          }
+        },
+        {
+          "method": "weight_svd",
+          "rank": 32,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014263958670198917,
+              "model_to_truncated_kl": 4.265371444489574e-06
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.01878088340163231,
+              "model_to_truncated_kl": 4.8529936975683086e-06
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.0066115413792431355,
+              "model_to_truncated_kl": 9.99925532596535e-07
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.0073992060497403145,
+              "model_to_truncated_kl": 6.948607733647805e-06
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.019363408908247948,
+              "model_to_truncated_kl": 3.942339844797971e-06
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.18963633477687836,
+              "model_to_truncated_kl": 4.622570122592151e-05
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.1986190527677536,
+              "model_to_truncated_kl": 3.797042882069945e-05
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008144291117787361,
+              "model_to_truncated_kl": 9.000224963529035e-06
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09216205030679703,
+              "model_to_truncated_kl": 0.00022430116950999945
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.04178838059306145,
+              "model_to_truncated_kl": 2.0780365957762115e-05
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0005102436989545822,
+              "model_to_truncated_kl": 3.090705149588757e-06
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.5599866509437561,
+              "effect_l1_error": 0.5101290482771663,
+              "effect_cosine": 0.9462284581694688
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.0335567444562912,
+              "effect_l1_error": 0.06711348894951714,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9970980882644653,
+              "effect_l1_error": 0.022913846617413098,
+              "effect_cosine": 0.9999933219895303
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9732667803764343,
+              "effect_l1_error": 0.14657831540973054,
+              "effect_cosine": 0.9938276807254992
+            }
+          }
+        },
+        {
+          "method": "fit_marginal_svd",
+          "rank": 8,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.01428017858415842,
+              "model_to_truncated_kl": 6.82526733726263e-05
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018789008259773254,
+              "model_to_truncated_kl": 2.558049891376868e-05
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.006602748297154903,
+              "model_to_truncated_kl": 1.1254071068833582e-05
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007521351799368858,
+              "model_to_truncated_kl": 0.00028159565408714116
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.019322840496897697,
+              "model_to_truncated_kl": 1.6081154171843082e-05
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.1898737996816635,
+              "model_to_truncated_kl": 0.0002412695757811889
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.1981332004070282,
+              "model_to_truncated_kl": 0.00014903386181686074
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.007943445816636086,
+              "model_to_truncated_kl": 0.0003039822622667998
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09708969295024872,
+              "model_to_truncated_kl": 0.005130132660269737
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.04511692374944687,
+              "model_to_truncated_kl": 0.0009095088462345302
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0005379481008276343,
+              "model_to_truncated_kl": 2.3130876797949895e-05
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.5596567988395691,
+              "effect_l1_error": 0.5094597689523125,
+              "effect_cosine": 0.9464931156375105
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.033303700387477875,
+              "effect_l1_error": 0.06660740173346605,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9970276355743408,
+              "effect_l1_error": 0.022545770236912677,
+              "effect_cosine": 0.9999950918400771
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9699212908744812,
+              "effect_l1_error": 0.16446349597120857,
+              "effect_cosine": 0.993773091912843
+            }
+          }
+        },
+        {
+          "method": "fit_marginal_svd",
+          "rank": 16,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.014259438961744308,
+              "model_to_truncated_kl": 2.003852932830341e-05
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018800698220729828,
+              "model_to_truncated_kl": 4.298725343687693e-06
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.00659012608230114,
+              "model_to_truncated_kl": 3.838080374407582e-06
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.007387255784124136,
+              "model_to_truncated_kl": 9.159370529232547e-05
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.019332757219672203,
+              "model_to_truncated_kl": 2.453803062962834e-06
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.18999813497066498,
+              "model_to_truncated_kl": 4.6462417230941355e-05
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.19816122949123383,
+              "model_to_truncated_kl": 2.5677971279947087e-05
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.007937462069094181,
+              "model_to_truncated_kl": 0.00015585875371471047
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09292357414960861,
+              "model_to_truncated_kl": 0.0014130733907222748
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.043942444026470184,
+              "model_to_truncated_kl": 0.0002963784500025213
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0005314474692568183,
+              "model_to_truncated_kl": 2.8250651666894555e-06
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.5595548152923584,
+              "effect_l1_error": 0.509658746828773,
+              "effect_cosine": 0.9463703054702018
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.033335499465465546,
+              "effect_l1_error": 0.0666709998556607,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9970744252204895,
+              "effect_l1_error": 0.022612611344872902,
+              "effect_cosine": 0.9999945757618527
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9721719622612,
+              "effect_l1_error": 0.15443827308143154,
+              "effect_cosine": 0.9936100873796277
+            }
+          }
+        },
+        {
+          "method": "fit_marginal_svd",
+          "rank": 32,
+          "groups": {
+            "all": {
+              "n": 72704,
+              "oracle_kl": 0.01425468735396862,
+              "model_to_truncated_kl": 6.65124025545083e-06
+            },
+            "Reports": {
+              "n": 29891,
+              "oracle_kl": 0.018793854862451553,
+              "model_to_truncated_kl": 1.0885257779591484e-06
+            },
+            "Guide": {
+              "n": 15052,
+              "oracle_kl": 0.006600215565413237,
+              "model_to_truncated_kl": 2.4906139515223913e-06
+            },
+            "FAQ": {
+              "n": 13490,
+              "oracle_kl": 0.0073477900587022305,
+              "model_to_truncated_kl": 3.0010391128598712e-05
+            },
+            "Policy": {
+              "n": 14271,
+              "oracle_kl": 0.019349556416273117,
+              "model_to_truncated_kl": 6.100311225054611e-07
+            },
+            "report_mixed_verb": {
+              "n": 1840,
+              "oracle_kl": 0.18996092677116394,
+              "model_to_truncated_kl": 1.1006919521605596e-05
+            },
+            "policy_mixed_action": {
+              "n": 1005,
+              "oracle_kl": 0.1983821541070938,
+              "model_to_truncated_kl": 6.431994279409992e-06
+            },
+            "faq_answer_copy": {
+              "n": 760,
+              "oracle_kl": 0.008049971424043179,
+              "model_to_truncated_kl": 4.9133941502077505e-05
+            },
+            "faq_place_recall": {
+              "n": 242,
+              "oracle_kl": 0.09196469187736511,
+              "model_to_truncated_kl": 0.0004122599202673882
+            },
+            "faq_new_place": {
+              "n": 518,
+              "oracle_kl": 0.04278475418686867,
+              "model_to_truncated_kl": 8.417708886554465e-05
+            },
+            "list_number": {
+              "n": 1272,
+              "oracle_kl": 0.0005266350926831365,
+              "model_to_truncated_kl": 1.2601544767676387e-06
+            }
+          },
+          "edits": {
+            "policy_condition": {
+              "n": 460,
+              "oracle_tv": 0.5468478260869564,
+              "model_tv": 0.5600069761276245,
+              "effect_l1_error": 0.5101086953725664,
+              "effect_cosine": 0.9462422477062222
+            },
+            "policy_nuisance_person": {
+              "n": 460,
+              "oracle_tv": 0.0,
+              "model_tv": 0.033335041254758835,
+              "effect_l1_error": 0.06667008093622213,
+              "effect_cosine": 0.0
+            },
+            "faq_answer_copy": {
+              "n": 336,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9971029162406921,
+              "effect_l1_error": 0.022868827392554386,
+              "effect_cosine": 0.9999937217245742
+            },
+            "faq_place_recall": {
+              "n": 80,
+              "oracle_tv": 1.0,
+              "model_tv": 0.9727414846420288,
+              "effect_l1_error": 0.1500339729955548,
+              "effect_cosine": 0.9938864191658009
+            }
+          }
+        }
+      ]
+    }
+  },
+  "caveat": "Relative-lag table approximates bfloat16 RoPE; full-table baseline quantifies its error. Rank is per head and lag, not a global circuit count. Data-aware fit uses only listed fit genres; the native model was trained on all genres."
+}

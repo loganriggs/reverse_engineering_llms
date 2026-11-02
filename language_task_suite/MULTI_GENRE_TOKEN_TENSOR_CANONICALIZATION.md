@@ -1,0 +1,30 @@
+# A weight-only first-layer tensor on a competent toy-language model
+
+The v7/v8 section models never learned their section-key edit, so decomposing them would describe a shortcut. This experiment instead uses two three-layer, width-64 bilinear multi-genre models with established FAQ place-recall competence. On a fresh 1,024-stream panel, their native FAQ-recall oracle KL is approximately **.078/.092 nats**, and on 80 supported FAQ-recall edits their native effect L1 error is **.136/.147** (model seeds 0/1). The toy language remains rigid and far less diverse than FineWeb; this is a controlled mechanism benchmark, not natural-language validation.
+
+For layer zero, per-token RMSNorm of the embedding is a fixed lookup. For each head (h), query token (q), key token (k), and relative lag Δ, the **weight-only** attention score is the product of the two RoPE-adjusted QK scores, (S_{h,Δ}(q,k)=A_{h,Δ}(q,k)B_{h,Δ}(q,k)). Folding V and the head's output slice into (P_h(k,o)) gives a first-layer functional tensor (T_{h,Δ}(q,k,o)=S_{h,Δ}(q,k)P_h(k,o)). This object is defined for every vocabulary pair without sampling text. It does not uniquely factor the end-to-end model, and heads can still redistribute similar functions.
+
+The implementation builds one score matrix for each head and relative lag and uses it to replay the native model suffix. RoPE's trigonometric tables are rounded to bfloat16 at **absolute** positions in the model, so a relative-lag table is an approximation to its exact arithmetic. On 16 independently generated 71-token streams, first-layer relative L2 replay errors were **.00172/.00200**; output KL was only **2.7e-8/3.4e-8**. On the larger fresh test, the untruncated lag-table's FAQ model-to-replay KL remained **6.7e-6/5.0e-6**. These full-table controls bound the lag approximation before interpreting truncation.
+
+A numerical decomposition check at full rank 173 reconstructed the score tables with relative error **1.1e-18** for ordinary SVD and **3.7e-17** for the weighted/unweighted SVD. The stored dense evaluation tables do not themselves save memory; rank 8 factors would describe the 8.50-million-entry score tables with about 0.79 million scalar factors plus token-value vectors. This is compression of an expanded functional table, not compression below the original neural-network parameter count.
+
+We truncated each (173\times173) score matrix separately at rank 8, 16, or 32 by ordinary SVD. The data-aware comparator fits *only* lag-conditional query and key **token marginals** on 512 Reports/Policy streams, adds one pseudocount per token, SVDs (\sqrt{p_q}S\sqrt{p_k}), and unweights the result. This is optimal for a product-of-marginals score error, **not** for the true joint token-pair distribution or downstream behavior. FAQ and Guide are whole-genre holdouts from this fit, though the language model itself saw all genres. The fresh 1,024-stream test has zero exact 71-token-sequence overlap with the 512 fit streams; that does not prove document-level independence or unseen lexical patterns. A separate all-genre fit control is reported as such.
+
+The table uses fresh test seed 9772 (1,024 streams) and edit seed 9773 (80 FAQ recall edits), distinct from the first development evaluation. Lower is better. Model KL measures faithfulness to the untruncated native model; edit L1 measures the error of the *causal probability change* against the exact toy oracle. These need not rank methods alike.
+
+| Model seed; rank 8 per head/lag | FAQ model KL | FAQ edit L1 | Policy model KL |
+|---|---:|---:|---:|
+| 0; full lag table | .000007 | .136 | ~0 |
+| 0; weight-only SVD | .02059 | .173 | .00207 |
+| 0; Reports/Policy marginal SVD | .01015 | .139 | .00052 |
+| 0; all-genre marginal SVD | .00362 | .128 | — |
+| 1; full lag table | .000005 | .147 | ~0 |
+| 1; weight-only SVD | .00236 | .156 | .00081 |
+| 1; Reports/Policy marginal SVD | .00513 | .164 | .00015 |
+| 1; all-genre marginal SVD | .00084 | .153 | — |
+
+The Reports/Policy weighting improves *in-fit Policy model fidelity* in both seeds. On held-out FAQ it helps seed 0 but hurts seed 1 at rank 8. Rank 16 repeats the lack of a universal winner: held-out-fit FAQ model KL is **.00494 versus .00565** weight-only in seed 0, but **.00141 versus .00097** in seed 1. At rank 32, all variants have small model KL, but this says little about whether any singular vector is a human-readable rule. The all-genre fit improves FAQ model KL in both seeds, as expected from access to FAQ during fitting; it is **not** a whole-task transfer result. It also changes genre allocation within the fixed 512-stream fit sample.
+
+The weight-only SVD is therefore a useful, data-free functional compression baseline on a model that really performs FAQ recall. Data weighting is a prior about which token pairs matter; its value depends on task coverage and seed. Neither method has yet shown that an individual singular component corresponds to a reusable FAQ computation, that it selectively mediates FAQ edits, or that its axes are stable across model seeds. Rank here is per head and lag, not a minimal arithmetic-circuit size. The SVD factors are a canonical matrix form only up to signs and rotations in degenerate singular spaces, not a canonical attention function across architectures.
+
+Reproduction: [exact replay code](eval_multi_genre_token_tensor.py) and [results](multi_genre_layer0_token_tensor_replay.json); [truncation code](eval_multi_genre_token_tensor_truncation.py), [initial development results](multi_genre_layer0_token_tensor_truncation.json), [fresh whole-genre-holdout results](multi_genre_layer0_token_tensor_truncation_fresh.json), and [all-genre fit control](multi_genre_layer0_token_tensor_truncation_allfit_fresh.json). Fits use seed 9551. Exact oracle and intervention labels come from the audited multi-genre DGP. The next test is selective component ablation or a sparse/function-aware factorization, scored on held-out FAQ and Policy edits at matched model fidelity; broadening the DGP's natural language forms remains a separate prerequisite for claims about real text.
