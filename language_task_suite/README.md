@@ -169,6 +169,8 @@ The [task-balanced sparse causal-transfer test](V3_SPARSE_CAUSAL_TRANSFER_RESULT
 
 The [versioned Catalog retrieval experiment](MULTI_GENRE_V2_CATALOG_RESULTS.md) adds object-keyed two-field records and several question forms to the multi-genre stream. Its exact oracle and four causal edit families pass an independent audit, but 1–4-layer bilinear models, a softmax attention control, and first-answer-weighted training all fail a query-key-blind Bayes baseline and the key-edit test. The task is therefore a useful capability gate, not yet a recovered circuit. Its FineWeb form audit also shows that the enriched synthetic genre remains much less diverse than web text.
 
+The [joint token-pair factorization test](MULTI_GENRE_JOINT_PAIR_FACTOR_RESULTS.md) extends the first-layer attention tensor comparison with a rank-8 weighted fit to actual query–key co-occurrences. It nearly eliminates in-fit Policy model KL, yet does not consistently preserve held-out FAQ recall or its causal edits across two trained seeds. When FAQ is included during fitting, its model KL becomes very small. This separates distribution-specific compression from transferable or human-readable computation.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:
