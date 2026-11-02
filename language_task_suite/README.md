@@ -155,6 +155,8 @@ The trainer imports the original bilinear architecture from the local `tensor_la
 
 For the intended interpretability loop, compare models only once they reach substantial task competence. Then examine whether an attention canonicalization or sparse gauge recovers the known causal variables and rule reuse. Evaluate reconstruction, task accuracy, and counterfactual effects separately. Keep entire **families** out of featurizer training to test new-task discovery; the current variant-1 split holds out formulation, not an entire family. Avoid calling a low-loss sparse representation a recovered computation unless it predicts held-out causal interventions.
 
+A first teacher-distillation comparison of a flat two-layer model, sparse projection factors, and four-layer residual students is documented in [SPARSE_DEPTH_DISTILLATION_PILOT.md](SPARSE_DEPTH_DISTILLATION_PILOT.md). It matches absolute attention-edge budgets and tests both held-out teacher KL and rule-edit fidelity. The deeper identity-initialized student's added blocks remain functionally unused, while an actively split four-layer student loses fidelity under the current pruning schedule. This is a pilot of optimization and representation choices, not yet evidence for or against deeper sparse circuits.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:
