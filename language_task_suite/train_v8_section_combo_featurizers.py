@@ -36,10 +36,25 @@ def reconstruct(feature,x,center,scale,membership=None):
 def output_prob(model,data,feature_state,endpoint,site,indices=slice(None)):
     if site=='final_residual':
         return readout(model,feature_state)
-    assert site=='final_bond'
-    context=data[f'h{endpoint}'][indices]
-    output=model.blocks[-1].attn.out
-    return readout(model,context+F.linear(feature_state,output.weight))
+    if site=='final_bond':
+        context=data[f'h{endpoint}'][indices]
+        output=model.blocks[-1].attn.out
+        return readout(model,context+F.linear(feature_state,output.weight))
+    assert site in ('layer0_bond','layer1_bond')
+    layer=int(site[5])
+    state=data[f'ctx{endpoint}'][indices].clone()
+    last=data[f'last{endpoint}'][indices]
+    n=len(state)
+    native=(data['r0'] if endpoint==0 else data['r0']+data['dr'])[indices]
+    change=F.linear(feature_state-native,
+                    model.blocks[layer].attn.out.weight)
+    state[torch.arange(n,device=state.device),last]+=change
+    for block in model.blocks[layer+1:]:
+        state=block(state)
+    if model.use_rmsnorm or model.use_final_norm:
+        state=model.final_norm(state)
+    logits=model.lm_head(state)
+    return logits[torch.arange(n,device=state.device),last].softmax(-1)
 
 
 @torch.no_grad()
@@ -62,6 +77,73 @@ def prepare_bond(model,pairs,vocab):
     return data
 
 
+@torch.no_grad()
+def capture_early(model,prefixes,layer,pad_id,batch_size=32):
+    device=model.embed.weight.device
+    width=model.config.n_embd
+    length=model.config.seq_len
+    contexts=torch.empty((len(prefixes),length,width),device=device)
+    bond=torch.empty((len(prefixes),width),device=device)
+    probs=torch.empty((len(prefixes),model.config.vocab_size),device=device)
+    last=torch.empty(len(prefixes),dtype=torch.long,device=device)
+    block=model.blocks[layer]
+    for start in range(0,len(prefixes),batch_size):
+        group=prefixes[start:start+batch_size]
+        maxlen=max(map(len,group))
+        ids=torch.full((len(group),maxlen),pad_id,dtype=torch.long,device=device)
+        positions=torch.tensor([len(p)-1 for p in group],device=device)
+        for i,prefix in enumerate(group):
+            ids[i,:len(prefix)]=torch.tensor(prefix,device=device)
+        captured={}
+        def z_hook(_module,inputs):
+            captured['z']=inputs[0].detach()
+        def block_hook(_module,_inputs,output):
+            captured['ctx']=output.detach()
+        hz=block.attn.out.register_forward_pre_hook(z_hook)
+        hb=block.register_forward_hook(block_hook)
+        try:
+            logits=model(ids)[0]
+        finally:
+            hb.remove();hz.remove()
+        j=torch.arange(len(group),device=device)
+        contexts[start:start+len(group)].zero_()
+        contexts[start:start+len(group),:maxlen]=captured['ctx']
+        bond[start:start+len(group)]=captured['z'][j,positions]
+        probs[start:start+len(group)]=logits[j,positions].softmax(-1)
+        last[start:start+len(group)]=positions
+    # Causal padding must not alter valid-position probabilities.
+    for i in range(min(3,len(prefixes))):
+        raw=model(torch.tensor(prefixes[i],device=device)[None])[0][0,-1]
+        error=(raw.softmax(-1)-probs[i]).abs().max()
+        if error>1e-5:
+            raise AssertionError(f'Right-padding changed answer {i}: {error}')
+    return contexts,bond,probs,last
+
+
+@torch.no_grad()
+def prepare_early(model,pairs,vocab,layer,pad_id):
+    prefixes0=[pair['original'] for pair in pairs]
+    prefixes1=[pair['edited'] for pair in pairs]
+    ctx0,z0,p0,last0=capture_early(model,prefixes0,layer,pad_id)
+    ctx1,z1,p1,last1=capture_early(model,prefixes1,layer,pad_id)
+    data=dict(r0=z0,dr=z1-z0,ctx0=ctx0,ctx1=ctx1,
+              last0=last0,last1=last1,p0=p0,native=p1-p0,
+              kinds=[pair['kind'] for pair in pairs])
+    data['oracle']=torch.zeros_like(p0)
+    for i,pair in enumerate(pairs):
+        for token,mass in pair['q_after'].items():
+            data['oracle'][i,vocab[token]]+=mass
+        for token,mass in pair['q_before'].items():
+            data['oracle'][i,vocab[token]]-=mass
+    site=f'layer{layer}_bond'
+    replay=max((output_prob(model,data,z0,0,site)-p0).abs().max(),
+               (output_prob(model,data,z1,1,site)-p1).abs().max())
+    data['replay_error']=float(replay)
+    if replay>1e-5:
+        raise AssertionError(f'Early-bond endpoint replay {replay}')
+    return data
+
+
 def loss_on(model,feature,data,center,scale,indices,causal_weight,site,
             membership=None):
     x0,x1=normalized_data(data,center,scale)
@@ -71,9 +153,12 @@ def loss_on(model,feature,data,center,scale,indices,causal_weight,site,
     target0=data['r0'][indices]
     target1=target0+data['dr'][indices]
     mse=(F.mse_loss(r0,target0)+F.mse_loss(r1,target1))/(scale**2)
-    predicted=(output_prob(model,data,r1,1,site,indices)-
-               output_prob(model,data,r0,0,site,indices))
-    effect=(predicted-data['native'][indices]).square().sum(-1).mean()
+    if causal_weight or isinstance(indices,slice):
+        predicted=(output_prob(model,data,r1,1,site,indices)-
+                   output_prob(model,data,r0,0,site,indices))
+        effect=(predicted-data['native'][indices]).square().sum(-1).mean()
+    else:
+        effect=r0.new_zeros(())
     return mse+causal_weight*effect,dict(mse=mse,effect_mse=effect,
                                          active=(s0.sum(-1).mean()+
                                                  s1.sum(-1).mean())/2)
@@ -101,7 +186,8 @@ def fit(model,feature,train,dev,center,scale,steps,causal_weight,site,
                                     active_atoms=float(parts['active'])))
         if step==steps:break
         feature.train()
-        indices=torch.randint(len(train['r0']),(64,),generator=rng)
+        indices=torch.randint(len(train['r0']),(64,),generator=rng).to(
+            train['r0'].device)
         objective,_=loss_on(model,feature,train,center,scale,indices,
                             causal_weight,site,membership)
         if not torch.isfinite(objective):
@@ -150,11 +236,13 @@ def evaluate(model,data,center,scale,feature=None,membership=None,
     target1=data['oracle_after']
     correct=((p0.argmax(-1)==target0).float()+
              (p1.argmax(-1)==target1).float())/2
-    ce=(-p0[torch.arange(len(p0)),target0].clamp_min(1e-30).log()
-        -p1[torch.arange(len(p1)),target1].clamp_min(1e-30).log())/2
+    ix=torch.arange(len(p0),device=p0.device)
+    ce=(-p0[ix,target0].clamp_min(1e-30).log()
+        -p1[ix,target1].clamp_min(1e-30).log())/2
     rows={}
     for kind in sorted(set(data['kinds'])):
-        mask=torch.tensor([label==kind for label in data['kinds']])
+        mask=torch.tensor([label==kind for label in data['kinds']],
+                          device=p0.device)
         l1=lambda x:float(x[mask].abs().sum(-1).mean())
         rows[kind]=dict(n=int(mask.sum()),
                         relative_residual_mse=float(
@@ -183,8 +271,8 @@ def add_targets(data,pairs,vocab):
             q=pair[field]
             assert len(q)==1 and next(iter(q.values()))==1.
             storage.append(vocab[next(iter(q))])
-    data['oracle_before']=torch.tensor(before)
-    data['oracle_after']=torch.tensor(after)
+    data['oracle_before']=torch.tensor(before,device=data['r0'].device)
+    data['oracle_after']=torch.tensor(after,device=data['r0'].device)
     return data
 
 
@@ -194,10 +282,14 @@ def main():
     p.add_argument('--feature-source',default='/home/loganriggs/Coding/neuron_circuits/scripts')
     p.add_argument('--model-dir',required=True)
     p.add_argument('--panels',required=True)
-    p.add_argument('--site',choices=('final_residual','final_bond'),
+    p.add_argument('--site',choices=('final_residual','final_bond',
+                                    'layer0_bond','layer1_bond'),
                    default='final_residual')
+    p.add_argument('--device',default='cpu')
     p.add_argument('--baselines-only',action='store_true',
                    help='Evaluate native and weight-only baselines without fitting models')
+    p.add_argument('--models',default=None,
+                   help='Comma-separated subset of learned candidate names')
     p.add_argument('--steps',type=int,default=400)
     p.add_argument('--causal-weight',type=float,default=1.)
     p.add_argument('--seed',type=int,default=0)
@@ -212,21 +304,30 @@ def main():
     folder=Path(a.model_dir)
     saved=json.loads((folder/'results.json').read_text())
     record=saved['records'][0]
-    model=BilinearGPT(Config(**record['model_config']))
+    device=torch.device(a.device)
+    if device.type!='cpu' and a.site in ('final_residual','final_bond'):
+        p.error('GPU mode currently supports layer0_bond/layer1_bond only')
+    model=BilinearGPT(Config(**record['model_config'])).to(device)
     model.load_state_dict(torch.load(folder/f"model_depth{record['depth']}.pt",
-                                     map_location='cpu',weights_only=True))
+                                     map_location=device,weights_only=True))
     model.eval().requires_grad_(False)
     assert model.config.n_embd==64
     if a.site=='final_bond':
         assert model.blocks[-1].mlp is None
+    if a.site in ('layer0_bond','layer1_bond'):
+        assert model.blocks[int(a.site[5])].mlp is None
     panel_file=json.loads(Path(a.panels).read_text())
     assert len(panel_file['heldout_universe'])==8
     vocab=SurfaceMixtureV8(seed=0,**saved['generator_kwargs']).token2id
     data={}
     for name,rows in panel_file['panels'].items():
         pairs=[row['pair'] for row in rows]
-        raw=(prepare_final_residual(model,pairs,vocab)
-             if a.site=='final_residual' else prepare_bond(model,pairs,vocab))
+        if a.site=='final_residual':
+            raw=prepare_final_residual(model,pairs,vocab)
+        elif a.site=='final_bond':
+            raw=prepare_bond(model,pairs,vocab)
+        else:
+            raw=prepare_early(model,pairs,vocab,int(a.site[5]),vocab['.'])
         data[name]=add_targets(raw,pairs,vocab)
         print(name,len(pairs),'replay',data[name]['replay_error'],flush=True)
     center=torch.cat((data['fit']['r0'],
@@ -238,9 +339,9 @@ def main():
     _,_,vh=torch.linalg.svd(torch.cat((x0,x1)).double(),full_matrices=False)
     directions=vh.T.float()
     if directions.shape[1]<64:
-        directions=torch.linalg.qr(torch.cat((directions,torch.eye(64)),
+        directions=torch.linalg.qr(torch.cat((directions,torch.eye(64,device=device)),
                                              dim=1)).Q
-    fixed=torch.zeros(16,64)
+    fixed=torch.zeros(16,64,device=device)
     for atom in range(64):fixed[atom%16,atom]=1.
     torch.manual_seed(a.seed)
     models={
@@ -254,6 +355,12 @@ def main():
         'scalar10_reconstruction':ScalarTopK(64,64,10),
         'scalar10_causal':ScalarTopK(64,64,10),
     }
+    if a.models:
+        chosen=a.models.split(',')
+        if any(name not in models for name in chosen):
+            p.error(f'Unknown candidate in --models: {chosen}')
+        models={name:models[name] for name in chosen}
+    models={name:feature.to(device) for name,feature in models.items()}
     memberships={'disjoint16_causal':fixed}
     histories={}
     if a.baselines_only:
@@ -270,11 +377,15 @@ def main():
             print(name,histories[name]['best_step'],
                   histories[name]['best_dev_objective'],flush=True)
     weight=(model.lm_head.weight if a.site=='final_residual'
-            else model.blocks[-1].attn.out.weight)
+            else model.blocks[-1 if a.site=='final_bond'
+                              else int(a.site[5])].attn.out.weight)
     _,_,weight_vh=torch.linalg.svd(weight.double(),
                                    full_matrices=False)
-    baselines={'physical16':(torch.eye(64),16),
+    baselines={'physical16':(torch.eye(64,device=device),16),
                'weight_svd16':(weight_vh.T.float(),16)}
+    if a.site in ('layer0_bond','layer1_bond'):
+        for rank in (8,10):
+            baselines[f'weight_svd{rank}']=(weight_vh.T.float(),rank)
     if a.site=='final_bond':
         composed=model.lm_head.weight.detach() @ model.blocks[-1].attn.out.weight.detach()
         _,_,composed_vh=torch.linalg.svd(composed.double(),full_matrices=False)
