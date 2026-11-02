@@ -51,7 +51,7 @@ def object_edit(gen, prefix, kind):
             return None
         i, old = prior[-1]
         index = sum(map(len, history[:i]))+OBJECT_INDEX[_frame(old)]
-        new = replacement(gen, prefix, index, OBJECTS)
+        new = replacement(gen, prefix, index, gen.object_lexicon)
         if new is None:
             return None
         edited[index] = new
@@ -60,7 +60,8 @@ def object_edit(gen, prefix, kind):
             return None
         old = history[-1]
         index = start-len(old)+EVENT_INDEX[_frame(old)]
-        target = lambda event: OBJECTS[(EVENTS.index(event)*13+5)%len(OBJECTS)]
+        objects = gen.object_lexicon
+        target = lambda event: objects[(EVENTS.index(event)*13+5)%len(objects)]
         new = replacement(gen, prefix, index, EVENTS, distinct=target)
         if new is None:
             return None
@@ -112,12 +113,15 @@ def main():
     p.add_argument('--n', type=int, default=256)
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--seed', type=int, default=8701)
+    p.add_argument('--object-vocab-size', type=int, default=None)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     torch.set_num_threads(4)
-    gen = SurfaceMixtureV3(seed=a.seed)
+    gen = SurfaceMixtureV3(seed=a.seed,
+                           object_vocab_size=a.object_vocab_size)
     objects = build_object_pairs(gen, a.n, a.length)
-    verbs = build_verb_pairs(SurfaceMixtureV3(seed=a.seed), a.n, a.length)
+    verbs = build_verb_pairs(SurfaceMixtureV3(
+        seed=a.seed, object_vocab_size=a.object_vocab_size), a.n, a.length)
     pairs = verbs+objects
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config

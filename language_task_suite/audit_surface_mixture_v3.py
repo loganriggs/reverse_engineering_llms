@@ -19,9 +19,11 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--n', type=int, default=3000)
     p.add_argument('--length', type=int, default=72)
+    p.add_argument('--object-vocab-size', type=int, default=None)
     p.add_argument('--output', default='language_task_suite/surface_mixture_v3_audit.json')
     a = p.parse_args()
-    gen = SurfaceMixtureV3(seed=12001)
+    gen = SurfaceMixtureV3(seed=12001,
+                           object_vocab_size=a.object_vocab_size)
     v2 = SurfaceMixtureV2()
     ids, labels, qs = gen.sample_batch(a.n, a.length)
     frames, slots, active, conflicts = Counter(), Counter(), Counter(), Counter()

@@ -22,8 +22,12 @@ OBJECT_WEIGHTS = dict(adjective_bigram=.40, object_induction=.25,
 
 
 class SurfaceMixtureV3(SurfaceMixtureV2):
-    def __init__(self, seed=0, weights=None, object_weights=None):
+    def __init__(self, seed=0, weights=None, object_weights=None,
+                 object_vocab_size=None):
         super().__init__(seed=seed, weights=weights)
+        assert object_vocab_size is None or 3 <= object_vocab_size <= len(OBJECTS)
+        self.object_lexicon = (OBJECTS if object_vocab_size is None else
+                               OBJECTS[:object_vocab_size])
         self.object_weights = dict(OBJECT_WEIGHTS if object_weights is None
                                    else object_weights)
         assert set(self.object_weights) == set(OBJECT_WEIGHTS)
@@ -39,13 +43,14 @@ class SurfaceMixtureV3(SurfaceMixtureV2):
         subject = clause[subject_i]
         adjective = clause[object_i-1]
         cue = clause[2] if frame == 'subject' else clause[0]
-        adjective_base = (ADJECTIVES.index(adjective)*3+1) % len(OBJECTS)
+        objects = self.object_lexicon
+        adjective_base = (ADJECTIVES.index(adjective)*3+1) % len(objects)
         out = {
             'adjective_bigram': {
-                OBJECTS[(adjective_base+j) % len(OBJECTS)]: p
+                objects[(adjective_base+j) % len(objects)]: p
                 for j, p in enumerate((.7, .2, .1))},
             'frame_cue': {
-                OBJECTS[(CUES.index(cue)*11+3) % len(OBJECTS)]: 1.0},
+                objects[(CUES.index(cue)*11+3) % len(objects)]: 1.0},
         }
         matches = [old for old in history
                    if old[_indices(_frame(old))[0]] == subject]
@@ -56,7 +61,7 @@ class SurfaceMixtureV3(SurfaceMixtureV2):
             old = history[-1]
             event = old[EVENT_INDEX[_frame(old)]]
             out['event_skip'] = {
-                OBJECTS[(EVENTS.index(event)*13+5) % len(OBJECTS)]: 1.0}
+                objects[(EVENTS.index(event)*13+5) % len(objects)]: 1.0}
         return out
 
     def next_distribution(self, prefix):

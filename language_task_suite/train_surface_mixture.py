@@ -80,6 +80,8 @@ def main():
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
     p.add_argument('--generator', choices=['v1', 'v2', 'v3'], default='v1')
+    p.add_argument('--object-vocab-size', type=int, default=None,
+                   help='For v3, restrict object-site outputs while keeping model vocabulary fixed')
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -105,6 +107,8 @@ def main():
         p.error('Select only one extra verb objective')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
+    if a.object_vocab_size is not None and a.generator != 'v3':
+        p.error('Object vocabulary restriction requires v3 generator')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -115,8 +119,10 @@ def main():
     generator_class = {'v1': SurfaceMixtureLanguage,
                        'v2': SurfaceMixtureV2,
                        'v3': SurfaceMixtureV3}[a.generator]
-    vocab = generator_class().vocab
-    test = make_eval(generator_class(seed=8101), a.neval,
+    generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
+                        if a.generator == 'v3' else {})
+    vocab = generator_class(**generator_kwargs).vocab
+    test = make_eval(generator_class(seed=8101, **generator_kwargs), a.neval,
                      a.length, device)
     records = []
     for depth in [int(d) for d in a.depths.split(',')]:
@@ -126,7 +132,7 @@ def main():
                         block_has_mlp=(False,)*depth,
                         use_rmsnorm=a.rmsnorm)
         model = BilinearGPT(config).to(device)
-        gen = generator_class(seed=8300+a.seed)
+        gen = generator_class(seed=8300+a.seed, **generator_kwargs)
         optimizer = torch.optim.AdamW(model.parameters(), lr=a.lr)
         t0 = time.time()
         snapshots = []
