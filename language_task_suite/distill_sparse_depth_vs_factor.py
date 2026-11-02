@@ -117,6 +117,38 @@ def prune_to(model, masks, target):
     return remove
 
 
+def prune_to_balanced_matrices(model, masks, target):
+    """Keep an equal edge quota in each attention matrix, including new blocks.
+
+    This is a depth-participation control, not a claim that equal allocation is
+    an optimal sparse circuit. It prevents global magnitude pruning from
+    deleting a small newly initialized output map before it can be trained.
+    """
+    params = selected(model)
+    before = active_count(masks)
+    names = list(params)
+    if target < len(names):
+        raise ValueError('Budget cannot keep one edge per attention matrix')
+    quotas = {name: target//len(names)+(i < target % len(names))
+              for i, name in enumerate(names)}
+    with torch.no_grad():
+        for name, p in params.items():
+            quota = quotas[name]
+            available = masks[name].bool().flatten().nonzero().flatten()
+            if quota > len(available):
+                raise ValueError(f'Cannot restore pruned entries in {name}')
+            if quota == len(available):
+                continue
+            values = p.detach().flatten()[available].abs()
+            keep = available[torch.argsort(values, stable=True)[-quota:]]
+            new_mask = torch.zeros_like(p).flatten()
+            new_mask[keep] = 1
+            masks[name].copy_(new_mask.reshape_as(p))
+            p.mul_(masks[name])
+    assert active_count(masks) == target
+    return before-target
+
+
 def teacher_kl(student, teacher, x):
     with torch.no_grad():
         target = teacher(x)[0].float()
@@ -225,6 +257,8 @@ def main():
     p.add_argument('--l1', type=float, default=1e-5)
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--extra-init-scale', type=float, default=.01)
+    p.add_argument('--balanced-matrix-prune', action='store_true',
+                   help='Reserve an equal edge quota for every attention matrix')
     p.add_argument('--recover-from-dir', type=Path,
                    help='Continue fixed-mask checkpoints with no L1')
     p.add_argument('--recover-budget', type=int, default=29491)
@@ -314,7 +348,10 @@ def main():
             if target != raw:
                 train_phase(model, teacher, masks, gen, a.steps, a.batch,
                             a.length, a.lr, a.l1)
-                prune_to(model, masks, target)
+                if a.balanced_matrix_prune:
+                    prune_to_balanced_matrices(model, masks, target)
+                else:
+                    prune_to(model, masks, target)
                 train_phase(model, teacher, masks, gen, a.steps, a.batch,
                             a.length, a.lr, 0.)
             row = dict(density=density, active_attention_edges=active_count(masks),

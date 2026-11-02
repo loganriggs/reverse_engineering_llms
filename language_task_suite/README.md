@@ -163,6 +163,8 @@ A [weight-only sparse-factor follow-up](SPARSE_FACTOR_WEIGHT_FIT_RESULTS.md) fir
 
 The [two-site verb-and-object transfer test](V3_SPARSE_FACTOR_TRANSFER_RESULTS.md) found that weight-fit sparse factors again approach a flat sparse student on teacher KL and valid edits at the same attention-edge budget. One factor coordinate is causally verb-selective on held-out edits, but flat sparse channels can be similarly selective. No evidence yet shows that factorization yields a uniquely simpler or more human-readable circuit.
 
+The [sparse-depth participation test](SPARSE_DEPTH_PARTICIPATION_RESULTS.md) checks whether inserted bilinear attention blocks actually compute at matched attention-edge budgets. Global magnitude pruning deletes them; equal per-projection quotas preserve their physical edges but their causal ablations still have effectively zero output effect. After no-L1 recovery, the four-layer arm loses to the flat control on teacher KL and valid verb/object edits. This closes the current depth-pruning schedule as an interpretability route and motivates explicit task-balanced causal/path objectives.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:
