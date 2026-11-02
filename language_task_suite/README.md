@@ -28,6 +28,8 @@ The [FineWeb form/task notes](FINEWEB_FORM_TASK_NOTES.md) record a small, form-s
 
 The [inspected FineWeb dependency panel](FINEWEB_DEPENDENCY_PANEL.md) pins 25 cue-selected windows and manually distinguishes actual local source binding, corrections, aliases, numeric updates, and numbered-item scope from regex false positives. It informs the versioned [v6 source-binding stream](SURFACE_MIXTURE_V6_RESULTS.md), which interleaves quoted claims and source questions with the joint verb/object rules; the task-rich sampling rates are deliberately audited against FineWeb rather than presented as realistic prevalence.
 
+The [sparse-gauge whole-genre holdout](MULTI_GENRE_SPARSE_GAUGE_HOLDOUT.md) fits task-blind activation PCA/varimax, weight bases, and native-coordinate gates on competent three-layer multi-genre models. FAQ and Guide are withheld from featurizer fitting. Activation varimax improves bond sparsity and post-fit axis purity, but native coordinates better preserve held-out FAQ-recall behavior and causal effects in both trained-model seeds.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds
