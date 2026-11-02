@@ -12,6 +12,7 @@ import os
 import random
 import sys
 import time
+from collections import defaultdict
 from pathlib import Path
 
 import torch
@@ -67,7 +68,7 @@ def encode_full_lm(examples, vocab, device, n_ctx):
 @torch.no_grad()
 def evaluate(model, encoded, batch_size=256):
     x, last, y, candidates, families = encoded
-    hits = {family: [0, 0, 0] for family in GENERATORS}
+    hits = defaultdict(lambda: [0, 0, 0])
     total_loss = 0.0
     for start in range(0, len(y), batch_size):
         end = min(start + batch_size, len(y))
