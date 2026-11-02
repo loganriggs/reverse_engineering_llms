@@ -157,6 +157,10 @@ For the intended interpretability loop, compare models only once they reach subs
 
 A first teacher-distillation comparison of a flat two-layer model, sparse projection factors, and four-layer residual students is documented in [SPARSE_DEPTH_DISTILLATION_PILOT.md](SPARSE_DEPTH_DISTILLATION_PILOT.md). It matches absolute attention-edge budgets and tests both held-out teacher KL and rule-edit fidelity. The deeper identity-initialized student's added blocks remain functionally unused, while an actively split four-layer student loses fidelity under the current pruning schedule. This is a pilot of optimization and representation choices, not yet evidence for or against deeper sparse circuits.
 
+A [weight-only sparse-factor follow-up](SPARSE_FACTOR_WEIGHT_FIT_RESULTS.md) first fits sparse projection products without language data, then distills at a fixed mask. It nearly matches the flat sparse model's responses to known verb-rule interventions at the same edge budget, but its largest intermediate units still affect several rules at once. This motivates causal/path-level objectives and a transfer test on the broader verb-and-object language.
+
+The [two-site verb-and-object transfer test](V3_SPARSE_FACTOR_TRANSFER_RESULTS.md) found that weight-fit sparse factors again approach a flat sparse student on teacher KL and valid edits at the same attention-edge budget. One factor coordinate is causally verb-selective on held-out edits, but flat sparse channels can be similarly selective. No evidence yet shows that factorization yields a uniquely simpler or more human-readable circuit.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:

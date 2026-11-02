@@ -120,6 +120,12 @@ the extra blocks remain functionally zero or if it loses causal fidelity at
 matched edge count after comparable optimization. Training on diverse task
 families and whole-task holdouts remains the broader research loop.
 
+A first data-free matrix-fit alternative to the factor route, its longer
+distillation recovery, and a causal audit of the new intermediate units are
+reported in [SPARSE_FACTOR_WEIGHT_FIT_RESULTS.md](SPARSE_FACTOR_WEIGHT_FIT_RESULTS.md).
+It improves factor fidelity substantially but has not yet produced clearly
+rule-specific units.
+
 Raw matched outputs are in
 [`sparse_architecture_matched_pilot`](sparse_architecture_matched_pilot/).
 

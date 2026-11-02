@@ -17,6 +17,7 @@ from torch import nn
 import torch.nn.functional as F
 
 from surface_mixture_v2_varied import SurfaceMixtureV2Varied
+from surface_mixture_v3 import SurfaceMixtureV3
 from train_surface_mixture import evaluate, make_batch, make_eval
 
 
@@ -156,7 +157,41 @@ def panel_scores(student, teacher, panel):
     result = evaluate(student, panel)
     return dict(teacher_kl=sum(divergence) / len(panel['x']),
                 oracle_kl={key: row['kl'] for key, row in result.items()
-                           if key in ('all', 'verb', 'verb_with_induction')})
+                           if row['n'] > 0})
+
+
+def generator_for_teacher(record_file):
+    config = record_file['config']
+    name = config['generator']
+    if name == 'v2_varied':
+        return SurfaceMixtureV2Varied, dict(record_file.get('generator_kwargs') or {})
+    if name == 'v3':
+        kwargs = dict(record_file.get('generator_kwargs') or {})
+        if 'object_vocab_size' not in kwargs:
+            kwargs['object_vocab_size'] = config.get('object_vocab_size')
+        return SurfaceMixtureV3, kwargs
+    raise ValueError(f'Unsupported teacher generator: {name}')
+
+
+def evaluation_panels(generator_class, kwargs, streams, length):
+    panels = {'in_distribution': make_eval(
+        generator_class(seed=67231, **kwargs), streams, length, 'cpu')}
+    if generator_class is SurfaceMixtureV2Varied:
+        panels['return_shift'] = make_eval(SurfaceMixtureV2Varied(
+            seed=67232, subject_repeat_mass=.1, subject_return_mass=.3,
+            **kwargs), streams, length, 'cpu')
+        panels['surface_shift'] = make_eval(SurfaceMixtureV2Varied(
+            seed=67233, parenthetical_mass=.05, determiner_variation=.9,
+            **kwargs), streams, length, 'cpu')
+    else:
+        size = kwargs.get('object_vocab_size')
+        if size is not None:
+            shift_kwargs = {**kwargs, 'object_vocab_size': min(32, 2 * size)}
+            if shift_kwargs != kwargs:
+                panels['object_lexicon_shift'] = make_eval(
+                    generator_class(seed=67232, **shift_kwargs),
+                    streams, length, 'cpu')
+    return panels
 
 
 def structure_stats(model, masks):
@@ -208,16 +243,8 @@ def main():
     students = build_students(teacher, BilinearGPT, a.extra_init_scale)
     for student in students.values():
         student.requires_grad_(True)
-    kwargs = record_file['generator_kwargs']
-    panels = {
-        'in_distribution': make_eval(SurfaceMixtureV2Varied(seed=67231, **kwargs),
-                                     a.eval_streams, a.length, 'cpu'),
-        'return_shift': make_eval(SurfaceMixtureV2Varied(
-            seed=67232, subject_repeat_mass=.1, subject_return_mass=.3,
-            **kwargs), a.eval_streams, a.length, 'cpu'),
-        'surface_shift': make_eval(SurfaceMixtureV2Varied(
-            seed=67233, parenthetical_mass=.05, determiner_variation=.9,
-            **kwargs), a.eval_streams, a.length, 'cpu')}
+    generator_class, kwargs = generator_for_teacher(record_file)
+    panels = evaluation_panels(generator_class, kwargs, a.eval_streams, a.length)
     torch.manual_seed(67234)
     probe = torch.randint(0, teacher.config.vocab_size, (4, 32))
     for arm, student in students.items():
@@ -249,7 +276,7 @@ def main():
             enforce_masks(model, masks)
             if active_count(masks) != a.recover_budget:
                 raise ValueError('Loaded checkpoint has wrong active-edge budget')
-            recovery_gen = SurfaceMixtureV2Varied(seed=93200+a.seed, **kwargs)
+            recovery_gen = generator_class(seed=93200+a.seed, **kwargs)
             train_phase(model, teacher, masks, recovery_gen, a.recover_steps,
                         a.batch, a.length, a.lr, 0.)
             row = dict(density=a.recover_budget/raw,
@@ -268,10 +295,10 @@ def main():
                 dict(config=config_out, teacher_baseline=baseline,
                      rows=[row]), indent=2)+'\n')
             continue
-        gen = SurfaceMixtureV2Varied(seed=84200+a.seed, **kwargs)
+        gen = generator_class(seed=84200+a.seed, **kwargs)
         rows = []
         if a.warmup_steps and arm in ('depth_split', 'depth_perturbed'):
-            warmup_gen = SurfaceMixtureV2Varied(seed=83200+a.seed, **kwargs)
+            warmup_gen = generator_class(seed=83200+a.seed, **kwargs)
             train_phase(model, teacher, masks, warmup_gen, a.warmup_steps, a.batch,
                         a.length, a.lr, 0.)
         targets = ([int(s) for s in a.edge_budgets.split(',')]

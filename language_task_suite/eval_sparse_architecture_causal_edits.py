@@ -7,10 +7,11 @@ from pathlib import Path
 
 import torch
 
-from distill_sparse_depth_vs_factor import build_students
+from distill_sparse_depth_vs_factor import build_students, generator_for_teacher
 from eval_surface_mixture_edits import predict, score
-from eval_surface_mixture_v2_edits import build_pairs
-from surface_mixture_v2_varied import SurfaceMixtureV2Varied
+from eval_surface_mixture_v2_edits import build_pairs as build_verb_pairs
+from eval_surface_mixture_v3_edits import build_object_pairs
+from surface_mixture_v3 import SurfaceMixtureV3
 
 
 def main():
@@ -35,9 +36,12 @@ def main():
     teacher.load_state_dict(torch.load(a.teacher_dir / 'model_depth2.pt',
                                        map_location='cpu', weights_only=True))
     teacher.eval()
-    gen = SurfaceMixtureV2Varied(seed=a.seed,
-                                 **record_file['generator_kwargs'])
-    pairs = build_pairs(gen, a.nstreams, a.length)
+    generator_class, kwargs = generator_for_teacher(record_file)
+    gen = generator_class(seed=a.seed, **kwargs)
+    pairs = build_verb_pairs(gen, a.nstreams, a.length)
+    if generator_class is SurfaceMixtureV3:
+        pairs += build_object_pairs(generator_class(seed=a.seed, **kwargs),
+                                    a.nstreams, a.length)
     original = [pair['original'] for pair in pairs]
     edited = [pair['edited'] for pair in pairs]
     models = {'teacher': teacher, **build_students(teacher, BilinearGPT, .01)}
