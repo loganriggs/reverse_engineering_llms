@@ -115,12 +115,6 @@ def _metadata(clause):
                 verb=clause[verb_i], place=clause[place_i], cue=cue)
 
 
-def _choice_with_repeat(items, previous, repeat_mass=.4):
-    out = {item: (1-repeat_mass)/len(items) for item in items}
-    out[previous] += repeat_mass
-    return out
-
-
 def _tail(suffix):
     """Next-token distribution after a frame's fixed base phrase."""
     if not suffix:
@@ -171,23 +165,43 @@ def _tail(suffix):
 
 
 class SurfaceMixtureV2:
-    def __init__(self, seed=0, weights=None, subject_repeat_mass=.4):
+    def __init__(self, seed=0, weights=None, subject_repeat_mass=.4,
+                 subject_return_mass=0.):
         self.rng = random.Random(seed)
         self.weights = dict(DEFAULT_WEIGHTS if weights is None else weights)
         assert set(self.weights) == set(DEFAULT_WEIGHTS)
         assert min(self.weights.values()) > 0
-        if not 0 <= subject_repeat_mass <= 1:
-            raise ValueError('subject_repeat_mass must lie in [0, 1]')
+        if (subject_repeat_mass < 0 or subject_return_mass < 0 or
+                subject_repeat_mass + subject_return_mass > 1):
+            raise ValueError('Subject repeat and return masses must be '
+                             'nonnegative and sum to at most 1')
         self.subject_repeat_mass = subject_repeat_mass
+        self.subject_return_mass = subject_return_mass
         self.vocab, self.token2id, self.id2token = VOCAB, TOKEN2ID, ID2TOKEN
 
     def _tokens(self, prefix):
         return [ID2TOKEN[i] if isinstance(i, int) else i for i in prefix]
 
     def _subject_distribution(self, history):
-        return (_choice_with_repeat(PEOPLE, _metadata(history[-1])['subject'],
-                                    self.subject_repeat_mass)
-                if history else uniform(PEOPLE))
+        if not history:
+            return uniform(PEOPLE)
+        previous = _metadata(history[-1])['subject']
+        earlier = tuple(dict.fromkeys(_metadata(clause)['subject']
+                                      for clause in history[:-1]
+                                      if _metadata(clause)['subject'] != previous))
+        out = {subject: (1-self.subject_repeat_mass-
+                         self.subject_return_mass)/len(PEOPLE)
+               for subject in PEOPLE}
+        out[previous] += self.subject_repeat_mass
+        if earlier:
+            for subject in earlier:
+                out[subject] += self.subject_return_mass/len(earlier)
+        else:
+            # No non-immediate return target exists yet. Preserve full support
+            # and normalized mass without silently raising local repetition.
+            for subject in PEOPLE:
+                out[subject] += self.subject_return_mass/len(PEOPLE)
+        return out
 
     def candidates(self, prefix):
         history, clause = _split(self._tokens(prefix))

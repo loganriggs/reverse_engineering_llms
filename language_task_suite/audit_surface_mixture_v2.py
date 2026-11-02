@@ -58,10 +58,12 @@ def main():
     p.add_argument('--n', type=int, default=3000)
     p.add_argument('--length', type=int, default=72)
     p.add_argument('--subject-repeat-mass', type=float, default=.4)
+    p.add_argument('--subject-return-mass', type=float, default=0.)
     p.add_argument('--output', default='language_task_suite/surface_mixture_v2_audit.json')
     a = p.parse_args()
     gen = SurfaceMixtureV2(seed=11001,
-                           subject_repeat_mass=a.subject_repeat_mass)
+                           subject_repeat_mass=a.subject_repeat_mass,
+                           subject_return_mass=a.subject_return_mass)
     ids, labels, qs = gen.sample_batch(a.n, a.length)
     frames, tails, labs = Counter(), Counter(), Counter()
     conflicts = 0

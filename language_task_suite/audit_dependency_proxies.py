@@ -1,7 +1,9 @@
 """Compare repeat/closure opportunity proxies with a frozen FineWeb panel.
 
-These word-pattern statistics are not labels for latent computations. Outputs
-contain aggregates and source hashes, never decoded FineWeb passages.
+These word-pattern statistics are not labels for latent computations. The
+stopword filter is heuristic: repeated function words and fixed phrase tails
+can dominate the unconditioned successor-copy rate. Outputs contain
+aggregates and source hashes, never decoded FineWeb passages.
 """
 
 import argparse
@@ -18,7 +20,8 @@ from tokenizers import Tokenizer
 
 from audit_fineweb_surfaces import DEFAULT_TOKENIZER
 from surface_alias_mixture import AliasMixtureLanguage, render as render_alias
-from surface_mixture_v2 import SurfaceMixtureV2, render as render_v2
+from surface_mixture_v2 import (SurfaceMixtureV2, _frame, _indices,
+                                _metadata, _split, render as render_v2)
 from surface_mixture_v7 import render as render_v8
 from surface_mixture_v8 import SurfaceMixtureV8
 
@@ -47,6 +50,7 @@ def content(word):
 
 def repeat_stats(texts):
     total_content = repeat = same_next = random_next = 0
+    lexical_successor_opportunities = lexical_successor_copies = 0
     repeat_windows = 0
     distance_counts = Counter()
     for text in texts:
@@ -67,6 +71,9 @@ def repeat_stats(texts):
             distance_counts[('2-4' if distance <= 4 else
                              '5-16' if distance <= 16 else '17-64')] += 1
             same_next += words[i+1] == words[j+1]
+            if content(words[i+1]):
+                lexical_successor_opportunities += 1
+                lexical_successor_copies += words[i+1] == words[j+1]
             # Deterministic within-window random-prior control. Its word differs
             # from the repeated word and it has a successor before position i.
             choices = [k for k in range(max(0, i-64), i-1)
@@ -80,6 +87,9 @@ def repeat_stats(texts):
                 repeat_per_100_content=100*repeat/max(1,total_content),
                 windows_with_repeat=repeat_windows,
                 same_next_after_repeat_rate=same_next/max(1,repeat),
+                lexical_successor_opportunities=lexical_successor_opportunities,
+                lexical_successor_copy_rate=(lexical_successor_copies /
+                                             max(1, lexical_successor_opportunities)),
                 same_next_after_random_prior_rate=random_next/max(1,repeat),
                 repeat_distance_counts=dict(distance_counts))
 
@@ -135,6 +145,8 @@ def summaries(texts):
 def sample_v2(gen, n, length):
     texts = []
     verbs = induction_active = conflicting = 0
+    induction_distances = []
+    nonadjacent_sources = 0
     for _ in range(n):
         ids, labels, _ = gen.sample_sequence(length)
         texts.append(render_v2(ids))
@@ -144,11 +156,28 @@ def sample_v2(gen, n, length):
             verbs += 1
             candidates = gen.candidates(ids[:position])
             induction_active += 'induction' in candidates
+            if 'induction' in candidates:
+                history, clause = _split([gen.id2token[i]
+                                          for i in ids[:position]])
+                subject = clause[_indices(_frame(clause))[0]]
+                sources = [i for i, old in enumerate(history)
+                           if _metadata(old)['subject'] == subject]
+                source_i = sources[-1]
+                source_position = (sum(map(len, history[:source_i])) +
+                                   _indices(_frame(history[source_i]))[1])
+                induction_distances.append(position-source_position)
+                nonadjacent_sources += source_i < len(history)-1
             modal = [max(dist, key=dist.get) for dist in candidates.values()]
             conflicting += len(set(modal)) > 1
     return texts, dict(verb_sites=verbs,
                        induction_active=induction_active,
                        induction_fraction=induction_active/max(1, verbs),
+                       induction_distance_median=(float(np.median(induction_distances))
+                                                  if induction_distances else None),
+                       induction_distance_p90=(float(np.percentile(induction_distances, 90))
+                                               if induction_distances else None),
+                       nonadjacent_induction_fraction=(nonadjacent_sources /
+                                                       max(1, induction_active)),
                        modal_conflict_sites=conflicting,
                        modal_conflict_fraction=conflicting/max(1, verbs))
 
@@ -199,6 +228,9 @@ def main():
                                      subject_repeat_mass=mass)
         v2_repeat[mass], v2_repeat_density[mass] = sample_v2(
             generator, n, a.first_tokens)
+    return_texts, return_density = sample_v2(
+        SurfaceMixtureV2(seed=a.seed, subject_repeat_mass=.1,
+                         subject_return_mass=.3), n, a.first_tokens)
     v8 = SurfaceMixtureV8(seed=a.seed, section_rate=.06, detail_rate=.8,
                           scope_question_rate=.08, quote_rate=.08,
                           source_rate=.15)
@@ -214,6 +246,7 @@ def main():
                   ('v2_joint', v2_texts)]
     candidates += [(f'v2_subject_repeat_{mass}', texts)
                    for mass, texts in v2_repeat.items()]
+    candidates += [('v2_repeat_0.1_return_0.3', return_texts)]
     candidates += [('v8_low_rate', v8_texts),
                    ('alias_low_rate', alias_texts)]
     results = {name: summaries(texts) for name, texts in candidates}
@@ -222,6 +255,7 @@ def main():
                     'v2_joint': v2_density}
     rule_density.update({f'v2_subject_repeat_{mass}': density
                          for mass, density in v2_repeat_density.items()})
+    rule_density['v2_repeat_0.1_return_0.3'] = return_density
     output = dict(config={**vars(a), 'panel': str(a.panel),
                           'tokenizer': str(a.tokenizer),
                           'output': str(a.output)},
@@ -230,6 +264,9 @@ def main():
                   caveat='Development-panel word-pattern proxies, not natural '
                          'task labels. FineWeb and synthetic tokenizers differ. '
                          'The 100-word crop matches surface length only; '
+                         'The stopword list is heuristic and raw successor '
+                         'copying includes fixed grammatical scaffolds; '
+                         'inspect lexical-successor-conditioned copying too. '
                          'v3 square brackets encode quotes, while real square '
                          'brackets can be citations or markup. No source prose '
                          'is exported. The skip11000 final panel is untouched.')

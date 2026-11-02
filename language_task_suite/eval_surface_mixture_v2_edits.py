@@ -112,7 +112,18 @@ def build_pairs(gen, n, length):
                 if result is None:
                     continue
                 edited, q0, q1 = result
+                source_distance = None
+                if kind == 'induction':
+                    history, clause = _split(prefix)
+                    subject = clause[_indices(_frame(clause))[0]]
+                    matches = [i for i, old in enumerate(history)
+                               if _metadata(old)['subject'] == subject]
+                    source_i = matches[-1]
+                    source_position = (sum(map(len, history[:source_i])) +
+                                       _indices(_frame(history[source_i]))[1])
+                    source_distance = t-source_position
                 pairs.append(dict(kind=kind, frame=frame,
+                                  source_distance=source_distance,
                                   original=[gen.token2id[x] for x in prefix],
                                   edited=[gen.token2id[x] for x in edited],
                                   q_before=q0, q_after=q1))
@@ -128,6 +139,8 @@ def main():
     p.add_argument('--seed', type=int, default=8701)
     p.add_argument('--subject-repeat-mass', type=float, default=None,
                    help='Override the checkpoint DGP repeat mass')
+    p.add_argument('--subject-return-mass', type=float, default=None,
+                   help='Override the checkpoint DGP non-immediate return mass')
     p.add_argument('--truncate-layer', type=int, default=None)
     p.add_argument('--basis', choices=('physical', 'random', 'activation_pca',
                                        'weight_svd'), default='weight_svd')
@@ -139,13 +152,18 @@ def main():
     repeat_mass = (a.subject_repeat_mass if a.subject_repeat_mass is not None
                    else saved.get('generator_kwargs', {}).get(
                        'subject_repeat_mass', .4))
+    return_mass = (a.subject_return_mass if a.subject_return_mass is not None
+                   else saved.get('generator_kwargs', {}).get(
+                       'subject_return_mass', 0.))
     gen = SurfaceMixtureV2(seed=a.seed,
-                           subject_repeat_mass=repeat_mass)
+                           subject_repeat_mass=repeat_mass,
+                           subject_return_mass=return_mass)
     pairs = build_pairs(gen, a.n, a.length)
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
     results = {}
     results_by_frame = {}
+    results_by_distance = {}
     originals = [pair['original'] for pair in pairs]
     edits = [pair['edited'] for pair in pairs]
     for record in saved['records']:
@@ -163,7 +181,8 @@ def main():
                 captured.append(inputs[0].detach())
             hook = bond.register_forward_pre_hook(collect)
             xfit, _ = make_batch(SurfaceMixtureV2(
-                seed=8501, subject_repeat_mass=repeat_mass), 256,
+                seed=8501, subject_repeat_mass=repeat_mass,
+                subject_return_mass=return_mass), 256,
                                  a.length, 'cpu')
             with torch.no_grad():
                 for batch in xfit.split(32):
@@ -185,15 +204,29 @@ def main():
             indices = [i for i, pair in enumerate(pairs) if pair['frame'] == frame]
             results_by_frame[str(depth)][frame] = score(
                 [pairs[i] for i in indices], before[indices], after[indices], gen)
+        results_by_distance[str(depth)] = {}
+        for name, predicate in (
+                ('up_to_24', lambda d: d <= 24),
+                ('25_to_48', lambda d: 25 <= d <= 48),
+                ('over_48', lambda d: d > 48)):
+            indices = [i for i, pair in enumerate(pairs)
+                       if pair['source_distance'] is not None and
+                       predicate(pair['source_distance'])]
+            if indices:
+                results_by_distance[str(depth)][name] = score(
+                    [pairs[i] for i in indices], before[indices],
+                    after[indices], gen)['induction']
         print('depth', depth, {k: round(v['effect_l1_error'], 3)
                                for k, v in results[str(depth)].items()}, flush=True)
     by_frame = defaultdict(lambda: defaultdict(int))
     for pair in pairs:
         by_frame[pair['frame']][pair['kind']] += 1
-    output = dict(config={**vars(a), 'effective_subject_repeat_mass': repeat_mass},
+    output = dict(config={**vars(a), 'effective_subject_repeat_mass': repeat_mass,
+                          'effective_subject_return_mass': return_mass},
                   n_pairs=len(pairs),
                   pairs_by_frame={k: dict(v) for k, v in by_frame.items()},
                   results=results, results_by_frame=results_by_frame,
+                  results_by_distance=results_by_distance,
                   caveat='One-token edits are valid under the visible-prefix grammar. '
                          'Some edits alter the probability of their edited prefix; '
                          'effects compare next-verb predictions on matched prefixes.')

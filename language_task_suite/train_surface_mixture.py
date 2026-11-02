@@ -261,6 +261,8 @@ def main():
                    help='For v3/v4, restrict object-site outputs while keeping model vocabulary fixed')
     p.add_argument('--subject-repeat-mass', type=float, default=None,
                    help='For v2, probability mass on repeating the previous subject (default .4)')
+    p.add_argument('--subject-return-mass', type=float, default=None,
+                   help='For v2, probability mass on a non-immediate earlier subject (default 0)')
     p.add_argument('--hard-query-rate', type=float, default=None,
                    help='For v4, probability of querying a nonlatest object when available')
     p.add_argument('--counterbalanced-queries', action='store_true',
@@ -325,6 +327,8 @@ def main():
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
     if a.subject_repeat_mass is not None and a.generator != 'v2':
         p.error('Subject repeat mass currently applies to v2 only')
+    if a.subject_return_mass is not None and a.generator != 'v2':
+        p.error('Subject return mass currently applies to v2 only')
     if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Question-answer supervision requires v4/v5 generator')
     if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
@@ -359,6 +363,8 @@ def main():
                         if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
     if a.generator == 'v2' and a.subject_repeat_mass is not None:
         generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
+    if a.generator == 'v2' and a.subject_return_mass is not None:
+        generator_kwargs['subject_return_mass'] = a.subject_return_mass
     if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries
