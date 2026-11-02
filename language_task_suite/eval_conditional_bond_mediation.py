@@ -100,6 +100,54 @@ def make_bases(acts_recipient, acts_donor, fit_mask, weight, n_head):
     return bases
 
 
+@torch.no_grad()
+def weight_only_tag_contrast(model, length, ordinary_vocab=26,
+                             recipient_tag=26, donor_tag=28):
+    """First-bond tag contrast for every token/position, computed from weights.
+
+    At positions after the tag, all non-tag keys and values are identical in
+    the two runs. Only the score-weighted value of the tag can differ. A
+    uniform token-by-position SVD therefore needs no sampled language text.
+    """
+    from model import apply_rotary_emb
+
+    block = model.blocks[0]
+    attn = block.attn
+    h, d = attn.n_head, attn.head_dim
+    tokens = model.embed.weight[:ordinary_vocab]
+    tags = model.embed.weight[[recipient_tag, donor_tag]]
+    if block.use_rmsnorm:
+        tokens = block.norm_attn(tokens)
+        tags = block.norm_attn(tags)
+    cos, sin = attn.rotary(torch.empty(1, length, h, d))
+
+    def score_for(tag):
+        query_input = tokens[:, None, :].expand(-1, length, -1)
+        q1 = attn.q1(query_input).reshape(ordinary_vocab, length, h, d)
+        q2 = attn.q2(query_input).reshape(ordinary_vocab, length, h, d)
+        k1 = attn.k1(tag).reshape(1, 1, h, d)
+        k2 = attn.k2(tag).reshape(1, 1, h, d)
+        q1 = apply_rotary_emb(q1, cos, sin)
+        q2 = apply_rotary_emb(q2, cos, sin)
+        k1 = apply_rotary_emb(k1, cos[:, :1], sin[:, :1])
+        k2 = apply_rotary_emb(k2, cos[:, :1], sin[:, :1])
+        if attn.qk_norm:
+            q1, q2 = F.normalize(q1, dim=-1), F.normalize(q2, dim=-1)
+            k1, k2 = F.normalize(k1, dim=-1), F.normalize(k2, dim=-1)
+        return ((q1*k1).sum(-1)/d)*((q2*k2).sum(-1)/d)
+
+    values = attn.v(tags).reshape(2, h, d)
+    scores_recipient = score_for(tags[0])
+    scores_donor = score_for(tags[1])
+    delta = (scores_donor[..., None]*values[1]
+             - scores_recipient[..., None]*values[0])[:, 1:]
+    delta = delta.reshape(-1, model.config.n_embd).double()
+    _, singular, vh = torch.linalg.svd(delta, full_matrices=True)
+    basis = vh.T.float()
+    assert float(singular[2*h:].square().sum()/singular.square().sum()) < 1e-8
+    return basis, delta
+
+
 def odds(logits, positions):
     logp = F.log_softmax(logits, -1)
     return torch.stack([logp[b, t, bigram]-logp[b, t, induction]
@@ -120,6 +168,8 @@ def main():
     p.add_argument('--length', type=int, default=64)
     p.add_argument('--fit-seed', type=int, default=7801)
     p.add_argument('--test-seed', type=int, default=7802)
+    p.add_argument('--donor-mixture', choices=['bigram_heavy', 'induction_heavy'],
+                   default='induction_heavy')
     p.add_argument('--output', required=True)
     a = p.parse_args()
     sys.path.insert(0, a.source)
@@ -140,14 +190,15 @@ def main():
     test_gen = LanguageGenerator(ALL_RULES, mixing_weights=MIXTURES['baseline'],
                                  mode='mixed', seed=a.test_seed)
     donor_gen = LanguageGenerator(ALL_RULES,
-                                  mixing_weights=MIXTURES['induction_heavy'],
+                                  mixing_weights=MIXTURES[a.donor_mixture],
                                   mode='mixed', seed=7803)
+    donor_tag = 27 if a.donor_mixture == 'bigram_heavy' else 28
     fit_ids, _ = fit_gen.sample_batch(a.nfit, a.length)
     test_ids, _ = test_gen.sample_batch(a.ntest, a.length)
     fit_positions, fit_conflict = positions_for(fit_gen, fit_ids)
     test_positions, test_conflict = positions_for(test_gen, test_ids)
     x_fit_recipient = tagged_x(fit_ids, 26)
-    x_fit_donor = tagged_x(fit_ids, 28)
+    x_fit_donor = tagged_x(fit_ids, donor_tag)
     _, fit_acts_recipient = forward_collect(model, bond, x_fit_recipient)
     _, fit_acts_donor = forward_collect(model, bond, x_fit_donor)
     fit_mask = torch.ones((a.nfit, a.length), dtype=torch.bool)
@@ -172,18 +223,37 @@ def main():
         for h in range(config.n_head)}
     bases = make_bases(fit_acts_recipient, fit_acts_donor, fit_mask,
                        bond.weight.detach(), config.n_head)
+    weight_only_formula_error = None
+    if a.layer == 0:
+        basis, predicted_delta = weight_only_tag_contrast(
+            model, a.length, donor_tag=donor_tag)
+        bases['weight_only_tag_contrast'] = basis
+        token_grid = torch.arange(26)[:, None].expand(-1, a.length-1)
+        probe_recipient = torch.cat((torch.full((26, 1), 26), token_grid), 1)
+        probe_donor = torch.cat((torch.full((26, 1), donor_tag), token_grid), 1)
+        _, probe_recipient_acts = forward_collect(model, bond, probe_recipient)
+        _, probe_donor_acts = forward_collect(model, bond, probe_donor)
+        observed_delta = (probe_donor_acts-probe_recipient_acts)[:, 1:].reshape(
+            -1, config.n_embd).double()
+        weight_only_formula_error = float((predicted_delta-observed_delta)
+                                          .square().mean().sqrt())
+        assert weight_only_formula_error < 1e-5, weight_only_formula_error
     x_recipient = tagged_x(test_ids, 26)
-    x_donor = tagged_x(test_ids, 28)
+    x_donor = tagged_x(test_ids, donor_tag)
     recipient_logits, _ = forward_collect(model, bond, x_recipient)
     donor_logits, donor_acts = forward_collect(model, bond, x_donor)
     recipient_logp = F.log_softmax(recipient_logits, -1)
     donor_logp = F.log_softmax(donor_logits, -1)
     recipient_p = recipient_logp.exp()
     null_mask = torch.zeros((a.ntest, a.length), dtype=torch.bool)
+    oracle_recipient = []
+    oracle_donor = []
     for b, ids in enumerate(test_ids):
         tokens = [test_gen.id2token[i] for i in ids]
         q_rec = observable_distributions_for_sequence(test_gen, tokens)
         q_don = observable_distributions_for_sequence(donor_gen, tokens)
+        oracle_recipient.append(q_rec)
+        oracle_donor.append(q_don)
         for t in range(1, a.length):
             if test_conflict[b, t]:
                 continue
@@ -194,6 +264,20 @@ def main():
                               .sum(-1)[null_mask].mean())
     reference = odds(donor_logits, test_positions)-odds(recipient_logits, test_positions)
     assert len(reference) > 100
+    oracle_indices, oracle_values = [], []
+    for index, (b, t, bigram, induction) in enumerate(test_positions):
+        big, ind = test_gen.id2token[bigram], test_gen.id2token[induction]
+        rec, don = oracle_recipient[b][t], oracle_donor[b][t]
+        if min(rec.get(big, 0), rec.get(ind, 0),
+               don.get(big, 0), don.get(ind, 0)) <= 0:
+            continue
+        oracle_indices.append(index)
+        oracle_values.append((np.log(don[big])-np.log(don[ind]))
+                             -(np.log(rec[big])-np.log(rec[ind])))
+    assert len(oracle_indices) > 100
+    oracle_shift = torch.tensor(oracle_values, dtype=torch.float32)
+    model_shift_rmse_to_oracle = float(
+        (reference[oracle_indices]-oracle_shift).square().mean().sqrt())
     reference_power = float(reference.square().mean())
     rows = []
     for name, u in bases.items():
@@ -210,6 +294,9 @@ def main():
                              n_conflict_positions=len(reference),
                              target_shift_mean=float(reference.mean()),
                              patched_shift_mean=float(patched.mean()),
+                             patched_shift_rmse_to_oracle=float(
+                                 (patched[oracle_indices]-oracle_shift)
+                                 .square().mean().sqrt()),
                              target_shift_rmse=float(torch.sqrt(residual.square().mean())),
                              residual_power_fraction=float(residual.square().mean()/reference_power),
                              patch_power_fraction=float(patched.square().mean()/reference_power),
@@ -218,13 +305,21 @@ def main():
                                  reference, patched]))[0, 1])))
     output = dict(config=vars(a), n_fit_conflicts=len(fit_positions),
                   n_test_conflicts=len(test_positions),
+                  weight_only_formula_rmse=weight_only_formula_error,
                   contrast_variance_captured=contrast_variance_captured,
                   head_contrast_energy=head_contrast_energy,
                   baseline_no_patch_rmse=float(reference.square().mean().sqrt()),
+                  oracle_shift_mean=float(oracle_shift.mean()),
+                  n_oracle_positive_conflict_positions=len(oracle_indices),
+                  model_shift_rmse_to_oracle=model_shift_rmse_to_oracle,
                   n_oracle_stable_no_conflict_positions=int(null_mask.sum()),
                   null_context_full_tag_kl=null_model_tag_kl,
                   rows=rows,
-                  caveat='Only one attention-output bond is patched. Residual and other '
+                  caveat='The weight-only tag contrast enumerates ordinary '
+                         'tokens and positions uniformly, without language '
+                         'samples; this is a chosen functional metric, not a '
+                         'unique canonical gauge. Only one attention-output '
+                         'bond is patched. Residual and other '
                          'layers retain recipient tag information; full-width patch need '
                          'not recover donor behavior. No oracle KL is claimed here.')
     Path(a.output).write_text(json.dumps(output, indent=2)+'\n')
