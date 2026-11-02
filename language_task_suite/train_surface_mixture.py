@@ -19,6 +19,7 @@ from surface_mixture_v2 import SurfaceMixtureV2
 from surface_mixture_v3 import SurfaceMixtureV3
 from surface_mixture_v4 import SurfaceMixtureV4
 from surface_mixture_v5 import SurfaceMixtureV5
+from surface_mixture_v6 import SurfaceMixtureV6
 
 
 def make_batch(gen, n, length, device):
@@ -37,6 +38,7 @@ def make_eval(gen, n, length, device):
     object_induction = np.zeros((n, length), dtype=bool)
     answer = np.zeros((n, length), dtype=bool)
     count_answer = np.zeros((n, length), dtype=bool)
+    source_answer = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
@@ -52,6 +54,8 @@ def make_eval(gen, n, length, device):
                 answer[b, t-1] = True
             elif labs[t] == 'count_answer':
                 count_answer[b, t-1] = True
+            elif labs[t] == 'source_answer':
+                source_answer[b, t-1] = True
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 verb=torch.from_numpy(verb).to(device),
@@ -59,7 +63,8 @@ def make_eval(gen, n, length, device):
                 obj=torch.from_numpy(obj).to(device),
                 object_induction=torch.from_numpy(object_induction).to(device),
                 answer=torch.from_numpy(answer).to(device),
-                count_answer=torch.from_numpy(count_answer).to(device))
+                count_answer=torch.from_numpy(count_answer).to(device),
+                source_answer=torch.from_numpy(source_answer).to(device))
 
 
 def query_counterfactuals(gen, x, answer_mask):
@@ -100,6 +105,37 @@ def query_counterfactuals(gen, x, answer_mask):
     return (edited, targets, mask) if mask.any() else None
 
 
+def source_counterfactuals(gen, x, source_mask):
+    """Change only a supported query object to one with another speaker."""
+    edited_rows, target_rows, mask_rows = [], [], []
+    for batch_row in torch.where(source_mask.any(-1))[0].tolist():
+        ids = x[batch_row].tolist()
+        for j in torch.where(source_mask[batch_row])[0].tolist():
+            key_pos = j-5
+            prefix = [gen.id2token[i] for i in ids[:j+1]]
+            original = gen.source_answer(prefix)
+            key_q = gen.next_distribution(prefix[:key_pos])
+            for key in key_q:
+                if key == prefix[key_pos]:
+                    continue
+                changed = prefix.copy()
+                changed[key_pos] = key
+                answer_q = gen.next_distribution(changed)
+                if len(answer_q) == 1 and original not in answer_q:
+                    edited = x[batch_row].clone()
+                    target = torch.zeros_like(edited)
+                    mask = torch.zeros_like(edited, dtype=torch.bool)
+                    edited[key_pos] = gen.token2id[key]
+                    target[j] = gen.token2id[next(iter(answer_q))]
+                    mask[j] = True
+                    edited_rows.append(edited)
+                    target_rows.append(target)
+                    mask_rows.append(mask)
+                    break
+    return (torch.stack(edited_rows), torch.stack(target_rows),
+            torch.stack(mask_rows)) if edited_rows else None
+
+
 @torch.no_grad()
 def evaluate(model, data):
     logits = torch.cat([model(batch)[0].float()
@@ -121,6 +157,8 @@ def evaluate(model, data):
         masks['question_answer'] = data['answer']
     if data['count_answer'].any():
         masks['count_answer'] = data['count_answer']
+    if data['source_answer'].any():
+        masks['source_answer'] = data['source_answer']
     return {name: dict(n=int(mask.sum()), kl=float(kl[mask].mean()),
                        oracle_entropy=float(entropy[mask].mean()),
                        sampled_ce=float(sample_ce[mask].mean()))
@@ -131,7 +169,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5', 'v6'], default='v1')
     p.add_argument('--object-vocab-size', type=int, default=None,
                    help='For v3/v4, restrict object-site outputs while keeping model vocabulary fixed')
     p.add_argument('--hard-query-rate', type=float, default=None,
@@ -140,8 +178,12 @@ def main():
                    help='For v4, ask only when at least two object keys have distinct answers')
     p.add_argument('--question-rate', type=float, default=.05,
                    help='For v4/v5, probability of a place question at an eligible boundary')
-    p.add_argument('--count-rate', type=float, default=.20,
-                   help='For v5, probability of a count question at an eligible boundary')
+    p.add_argument('--count-rate', type=float, default=None,
+                   help='For v5/v6, count-question probability (default .20/.0)')
+    p.add_argument('--quote-rate', type=float, default=.30,
+                   help='For v6, probability of a source statement at an eligible boundary')
+    p.add_argument('--source-rate', type=float, default=.30,
+                   help='For v6, probability of a source question at an eligible boundary')
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -162,6 +204,10 @@ def main():
                    help='For v4, CE on alternative supported query keys with different answers')
     p.add_argument('--count-soft-weight', type=float, default=0.0,
                    help='For v5, exact-oracle expected CE on person-count answers')
+    p.add_argument('--source-soft-weight', type=float, default=0.0,
+                   help='For v6, exact-oracle CE on source answers')
+    p.add_argument('--source-counterfactual-weight', type=float, default=0.0,
+                   help='For v6, CE on supported alternate query objects')
     p.add_argument('--mask-verb-ce', action='store_true',
                    help='Exclude verb slots from ordinary CE for object-only ablation')
     p.add_argument('--neval', type=int, default=256)
@@ -173,18 +219,20 @@ def main():
         p.error('Select only one extra verb objective')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
-    if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5'):
+    if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
-    if a.answer_soft_weight and a.generator not in ('v4', 'v5'):
+    if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6'):
         p.error('Question-answer supervision requires v4/v5 generator')
-    if a.hard_query_rate is not None and a.generator not in ('v4', 'v5'):
+    if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6'):
         p.error('Hard-query rate requires v4/v5 generator')
-    if a.counterbalanced_queries and a.generator not in ('v4', 'v5'):
+    if a.counterbalanced_queries and a.generator not in ('v4', 'v5', 'v6'):
         p.error('Counterbalanced queries require v4/v5 generator')
-    if a.query_counterfactual_weight and a.generator not in ('v4', 'v5'):
+    if a.query_counterfactual_weight and a.generator not in ('v4', 'v5', 'v6'):
         p.error('Query counterfactuals require v4/v5 generator')
-    if a.count_soft_weight and a.generator != 'v5':
-        p.error('Count supervision requires v5 generator')
+    if a.count_soft_weight and a.generator not in ('v5', 'v6'):
+        p.error('Count supervision requires v5/v6 generator')
+    if (a.source_soft_weight or a.source_counterfactual_weight) and a.generator != 'v6':
+        p.error('Source supervision requires v6 generator')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -196,15 +244,20 @@ def main():
                        'v2': SurfaceMixtureV2,
                        'v3': SurfaceMixtureV3,
                        'v4': SurfaceMixtureV4,
-                       'v5': SurfaceMixtureV5}[a.generator]
+                       'v5': SurfaceMixtureV5,
+                       'v6': SurfaceMixtureV6}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
-                        if a.generator in ('v3', 'v4', 'v5') else {})
-    if a.generator in ('v4', 'v5'):
+                        if a.generator in ('v3', 'v4', 'v5', 'v6') else {})
+    if a.generator in ('v4', 'v5', 'v6'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries
         generator_kwargs['question_rate'] = a.question_rate
-    if a.generator == 'v5':
-        generator_kwargs['count_rate'] = a.count_rate
+    if a.generator in ('v5', 'v6'):
+        generator_kwargs['count_rate'] = (a.count_rate if a.count_rate is not None
+                                          else (.20 if a.generator == 'v5' else 0.))
+    if a.generator == 'v6':
+        generator_kwargs['quote_rate'] = a.quote_rate
+        generator_kwargs['source_rate'] = a.source_rate
     vocab = generator_class(**generator_kwargs).vocab
     test = make_eval(generator_class(seed=8101, **generator_kwargs), a.neval,
                      a.length, device)
@@ -225,6 +278,7 @@ def main():
             if (a.verb_soft_weight > 0 or a.verb_sampled_weight > 0
                     or a.object_soft_weight > 0 or a.answer_soft_weight > 0
                     or a.query_counterfactual_weight > 0 or a.count_soft_weight > 0
+                    or a.source_soft_weight > 0 or a.source_counterfactual_weight > 0
                     or a.mask_verb_ce):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
@@ -272,6 +326,18 @@ def main():
                 expected_ce = -(train['q'] * logp).sum(-1)
                 loss = (loss + a.count_soft_weight *
                         expected_ce[train['count_answer']].mean())
+            if a.source_soft_weight > 0 and train['source_answer'].any():
+                logp = F.log_softmax(logits.float(), dim=-1)
+                expected_ce = -(train['q'] * logp).sum(-1)
+                loss = (loss + a.source_soft_weight *
+                        expected_ce[train['source_answer']].mean())
+            if a.source_counterfactual_weight > 0:
+                counterfactual = source_counterfactuals(gen, x, train['source_answer'])
+                if counterfactual is not None:
+                    cf_x, cf_y, cf_mask = counterfactual
+                    cf_logits = model(cf_x)[0]
+                    loss = loss + a.source_counterfactual_weight*F.cross_entropy(
+                        cf_logits[cf_mask].float(), cf_y[cf_mask])
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -291,13 +357,16 @@ def main():
                       if 'question_answer' in scores else 'n/a',
                       'count KL', round(scores['count_answer']['kl'], 4)
                       if 'count_answer' in scores else 'n/a',
+                      'source KL', round(scores['source_answer']['kl'], 4)
+                      if 'source_answer' in scores else 'n/a',
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')
         records.append(dict(depth=depth, model_config=asdict(config),
                             parameters=model.count_params(), snapshots=snapshots))
         (output_dir/'results.json').write_text(json.dumps(dict(
-            config=vars(a), vocabulary=list(vocab), records=records), indent=2)+'\n')
+            config=vars(a), generator_kwargs=generator_kwargs,
+            vocabulary=list(vocab), records=records), indent=2)+'\n')
 
 
 if __name__ == '__main__':

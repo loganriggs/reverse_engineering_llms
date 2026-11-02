@@ -26,6 +26,8 @@ The [joint subject-count follow-up](SURFACE_MIXTURE_V5_RESULTS.md) adds a second
 
 The [FineWeb form/task notes](FINEWEB_FORM_TASK_NOTES.md) record a small, form-stratified spot check of the frozen panel and map observed quotes, questions, headings, numbers, aliases, and corrections to proposed exact-oracle task families. This is hypothesis generation, not a prevalence estimate or a claim of realistic synthetic text.
 
+The [inspected FineWeb dependency panel](FINEWEB_DEPENDENCY_PANEL.md) pins 25 cue-selected windows and manually distinguishes actual local source binding, corrections, aliases, numeric updates, and numbered-item scope from regex false positives. It informs the versioned [v6 source-binding stream](SURFACE_MIXTURE_V6_RESULTS.md), which interleaves quoted claims and source questions with the joint verb/object rules; the task-rich sampling rates are deliberately audited against FineWeb rather than presented as realistic prevalence.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds
