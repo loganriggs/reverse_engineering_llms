@@ -1,9 +1,10 @@
-"""Compare sparse readout featurizers on v8 whole association holdouts.
+"""Compare sparse local featurizers on v8 whole association holdouts.
 
 Fit/dev use only section-key edits whose full fact histories exclude eight
 held-out (section ID,color) associations. Test both seen and heldout
-associations, including key/relevant/irrelevant-color edit effects. The
-language model is frozen and was trained on every association.
+associations, including key/relevant/irrelevant-color edit effects. Early
+bond sites can supervise all answer-to-fact-color edges. The language
+model is frozen and was trained on every association.
 """
 
 import argparse
@@ -17,6 +18,7 @@ import torch.nn.functional as F
 
 from eval_v3_rule_holdout_bond import capture as capture_final_bond
 from eval_v3_two_path_holdout import prepare as prepare_final_residual, readout
+from eval_v8_section_attention_paths import edge_bond, semantic_edges
 from surface_mixture_v8 import SurfaceMixtureV8
 from train_surface_v2_shared_groups import ScalarTopK, initialize
 
@@ -78,12 +80,14 @@ def prepare_bond(model,pairs,vocab):
 
 
 @torch.no_grad()
-def capture_early(model,prefixes,layer,pad_id,batch_size=32):
+def capture_early(model,prefixes,layer,pad_id,id2token,
+                  apply_rotary_emb,batch_size=32):
     device=model.embed.weight.device
     width=model.config.n_embd
     length=model.config.seq_len
     contexts=torch.empty((len(prefixes),length,width),device=device)
     bond=torch.empty((len(prefixes),width),device=device)
+    color_bond=torch.empty_like(bond) if id2token is not None else None
     probs=torch.empty((len(prefixes),model.config.vocab_size),device=device)
     last=torch.empty(len(prefixes),dtype=torch.long,device=device)
     block=model.blocks[layer]
@@ -97,18 +101,29 @@ def capture_early(model,prefixes,layer,pad_id,batch_size=32):
         captured={}
         def z_hook(_module,inputs):
             captured['z']=inputs[0].detach()
+        def attention_hook(_module,inputs):
+            captured['attention_input']=inputs[0].detach()
         def block_hook(_module,_inputs,output):
             captured['ctx']=output.detach()
         hz=block.attn.out.register_forward_pre_hook(z_hook)
+        ha=(block.attn.register_forward_pre_hook(attention_hook)
+            if id2token is not None else None)
         hb=block.register_forward_hook(block_hook)
         try:
             logits=model(ids)[0]
         finally:
             hb.remove();hz.remove()
+            if ha is not None:ha.remove()
         j=torch.arange(len(group),device=device)
         contexts[start:start+len(group)].zero_()
         contexts[start:start+len(group),:maxlen]=captured['ctx']
         bond[start:start+len(group)]=captured['z'][j,positions]
+        if color_bond is not None:
+            color_edges=[semantic_edges([id2token[i] for i in prefix],
+                                        'answer_to_all_colors') for prefix in group]
+            color_bond[start:start+len(group)]=edge_bond(
+                block.attn,captured['attention_input'],color_edges,
+                apply_rotary_emb)[j,positions]
         probs[start:start+len(group)]=logits[j,positions].softmax(-1)
         last[start:start+len(group)]=positions
     # Causal padding must not alter valid-position probabilities.
@@ -117,18 +132,23 @@ def capture_early(model,prefixes,layer,pad_id,batch_size=32):
         error=(raw.softmax(-1)-probs[i]).abs().max()
         if error>1e-5:
             raise AssertionError(f'Right-padding changed answer {i}: {error}')
-    return contexts,bond,probs,last
+    return contexts,bond,color_bond,probs,last
 
 
 @torch.no_grad()
-def prepare_early(model,pairs,vocab,layer,pad_id):
+def prepare_early(model,pairs,vocab,layer,pad_id,id2token,
+                  apply_rotary_emb):
     prefixes0=[pair['original'] for pair in pairs]
     prefixes1=[pair['edited'] for pair in pairs]
-    ctx0,z0,p0,last0=capture_early(model,prefixes0,layer,pad_id)
-    ctx1,z1,p1,last1=capture_early(model,prefixes1,layer,pad_id)
+    ctx0,z0,c0,p0,last0=capture_early(model,prefixes0,layer,pad_id,
+                                      id2token,apply_rotary_emb)
+    ctx1,z1,c1,p1,last1=capture_early(model,prefixes1,layer,pad_id,
+                                      id2token,apply_rotary_emb)
     data=dict(r0=z0,dr=z1-z0,ctx0=ctx0,ctx1=ctx1,
               last0=last0,last1=last1,p0=p0,native=p1-p0,
               kinds=[pair['kind'] for pair in pairs])
+    if c0 is not None:
+        data['color0'],data['color1']=c0,c1
     data['oracle']=torch.zeros_like(p0)
     for i,pair in enumerate(pairs):
         for token,mass in pair['q_after'].items():
@@ -141,11 +161,14 @@ def prepare_early(model,pairs,vocab,layer,pad_id):
     data['replay_error']=float(replay)
     if replay>1e-5:
         raise AssertionError(f'Early-bond endpoint replay {replay}')
+    if c0 is not None:
+        data['without_color0']=output_prob(model,data,z0-c0,0,site)
+        data['without_color1']=output_prob(model,data,z1-c1,1,site)
     return data
 
 
-def loss_on(model,feature,data,center,scale,indices,causal_weight,site,
-            membership=None):
+def loss_on(model,feature,data,center,scale,indices,causal_weight,edge_weight,
+            site,membership=None):
     x0,x1=normalized_data(data,center,scale)
     x0,x1=x0[indices],x1[indices]
     r0,s0=reconstruct(feature,x0,center,scale,membership)
@@ -153,18 +176,40 @@ def loss_on(model,feature,data,center,scale,indices,causal_weight,site,
     target0=data['r0'][indices]
     target1=target0+data['dr'][indices]
     mse=(F.mse_loss(r0,target0)+F.mse_loss(r1,target1))/(scale**2)
-    if causal_weight or isinstance(indices,slice):
-        predicted=(output_prob(model,data,r1,1,site,indices)-
-                   output_prob(model,data,r0,0,site,indices))
+    if causal_weight or edge_weight or isinstance(indices,slice):
+        p0=output_prob(model,data,r0,0,site,indices)
+        p1=output_prob(model,data,r1,1,site,indices)
+        predicted=p1-p0
         effect=(predicted-data['native'][indices]).square().sum(-1).mean()
     else:
         effect=r0.new_zeros(())
-    return mse+causal_weight*effect,dict(mse=mse,effect_mse=effect,
-                                         active=(s0.sum(-1).mean()+
-                                                 s1.sum(-1).mean())/2)
+    if edge_weight:
+        if 'color0' not in data:
+            raise ValueError('Edge supervision requires parsed color edges')
+        target_no0=target0-data['color0'][indices]
+        target_no1=target1-data['color1'][indices]
+        no_color_r0,_=reconstruct(feature,(target_no0-center)/scale,
+                                  center,scale,membership)
+        no_color_r1,_=reconstruct(feature,(target_no1-center)/scale,
+                                  center,scale,membership)
+        no_color0=output_prob(model,data,no_color_r0,0,site,indices)
+        no_color1=output_prob(model,data,no_color_r1,1,site,indices)
+        target_edge0=data['p0'][indices]-data['without_color0'][indices]
+        target_edge1=(data['p0']+data['native']-data['without_color1'])[indices]
+        edge=((p0-no_color0-target_edge0).square().sum(-1).mean()+
+              (p1-no_color1-target_edge1).square().sum(-1).mean())/2
+        edge_state_mse=(F.mse_loss(no_color_r0,target_no0)+
+                        F.mse_loss(no_color_r1,target_no1))/(scale**2)
+    else:
+        edge=r0.new_zeros(())
+        edge_state_mse=r0.new_zeros(())
+    return mse+causal_weight*effect+edge_weight*edge,dict(
+        mse=mse,effect_mse=effect,edge_effect_mse=edge,
+        edge_state_mse=edge_state_mse,
+        active=(s0.sum(-1).mean()+s1.sum(-1).mean())/2)
 
 
-def fit(model,feature,train,dev,center,scale,steps,causal_weight,site,
+def fit(model,feature,train,dev,center,scale,steps,causal_weight,edge_weight,site,
         seed,membership=None):
     rng=torch.Generator().manual_seed(seed)
     optimizer=torch.optim.AdamW((p for p in feature.parameters()
@@ -176,20 +221,23 @@ def fit(model,feature,train,dev,center,scale,steps,causal_weight,site,
             feature.eval()
             with torch.no_grad():
                 objective,parts=loss_on(model,feature,dev,center,scale,
-                                        slice(None),causal_weight,site,membership)
+                                        slice(None),causal_weight,edge_weight,
+                                        site,membership)
                 score=float(objective)
                 if score<best[0]:
                     best=(score,step,copy.deepcopy(feature.state_dict()))
                 records.append(dict(step=step,objective=score,
                                     reconstruction_mse=float(parts['mse']),
                                     teacher_effect_mse=float(parts['effect_mse']),
+                                    color_edge_effect_mse=float(parts['edge_effect_mse']),
+                                    color_removed_state_mse=float(parts['edge_state_mse']),
                                     active_atoms=float(parts['active'])))
         if step==steps:break
         feature.train()
         indices=torch.randint(len(train['r0']),(64,),generator=rng).to(
             train['r0'].device)
         objective,_=loss_on(model,feature,train,center,scale,indices,
-                            causal_weight,site,membership)
+                            causal_weight,edge_weight,site,membership)
         if not torch.isfinite(objective):
             raise RuntimeError(f'Nonfinite loss at step {step}')
         optimizer.zero_grad(set_to_none=True)
@@ -224,6 +272,29 @@ def evaluate(model,data,center,scale,feature=None,membership=None,
         s0=s1=torch.ones_like(x0)
     p0=output_prob(model,data,r0,0,site)
     p1=output_prob(model,data,r1,1,site)
+    early=site in ('layer0_bond','layer1_bond') and 'color0' in data
+    if early:
+        target_no0=data['r0']-data['color0']
+        target_no1=data['r0']+data['dr']-data['color1']
+        if feature is not None:
+            no_r0,no_s0=reconstruct(feature,(target_no0-center)/scale,
+                                    center,scale,membership)
+            no_r1,no_s1=reconstruct(feature,(target_no1-center)/scale,
+                                    center,scale,membership)
+        elif basis is not None:
+            no_a0,no_s0=topk_basis((target_no0-center)/scale,basis,k)
+            no_a1,no_s1=topk_basis((target_no1-center)/scale,basis,k)
+            no_r0,no_r1=no_a0*scale+center,no_a1*scale+center
+        else:
+            no_r0,no_r1=target_no0,target_no1
+            no_s0=no_s1=torch.ones_like(x0)
+        no_color0=output_prob(model,data,no_r0,0,site)
+        no_color1=output_prob(model,data,no_r1,1,site)
+        color_edge0=p0-no_color0
+        color_edge1=p1-no_color1
+        native_color_edge0=data['p0']-data['without_color0']
+        native_color_edge1=(data['p0']+data['native']-
+                            data['without_color1'])
     native0=data['p0']
     native1=native0+data['native']
     native_log0=native0.clamp_min(1e-30).log()
@@ -260,6 +331,20 @@ def evaluate(model,data,center,scale,feature=None,membership=None,
                         effect_to_oracle_l1=l1(effect-data['oracle']),
                         active_atoms=float(((s0[mask].sum(-1)+
                                              s1[mask].sum(-1))/2).mean()))
+        if early:
+            rows[kind]['color_edge_native_l1']=float((
+                native_color_edge0[mask].abs().sum(-1).mean()+
+                native_color_edge1[mask].abs().sum(-1).mean())/2)
+            rows[kind]['color_edge_to_teacher_l1']=float((
+                (color_edge0-native_color_edge0)[mask].abs().sum(-1).mean()+
+                (color_edge1-native_color_edge1)[mask].abs().sum(-1).mean())/2)
+            rows[kind]['color_removed_state_mse']=float((
+                (no_r0[mask]-target_no0[mask]).square().sum(-1)+
+                (no_r1[mask]-target_no1[mask]).square().sum(-1)).sum()/
+                ((target_no0[mask]-center).square().sum()+
+                 (target_no1[mask]-center).square().sum()).clamp_min(1e-30))
+            rows[kind]['color_removed_active_atoms']=float(((
+                no_s0[mask].sum(-1)+no_s1[mask].sum(-1))/2).mean())
     return rows
 
 
@@ -290,17 +375,27 @@ def main():
                    help='Evaluate native and weight-only baselines without fitting models')
     p.add_argument('--models',default=None,
                    help='Comma-separated subset of learned candidate names')
+    p.add_argument('--load-checkpoint',default=None,
+                   help='Evaluate existing featurizer states under the current metrics')
+    p.add_argument('--paired-group-init',action='store_true',
+                   help='Start shared reconstruction and edge models identically')
     p.add_argument('--steps',type=int,default=400)
     p.add_argument('--causal-weight',type=float,default=1.)
+    p.add_argument('--edge-weight',type=float,default=1.,
+                   help='Weight on answer-to-all-colors edge-response supervision')
     p.add_argument('--seed',type=int,default=0)
     p.add_argument('--threads',type=int,default=1)
     p.add_argument('--output',required=True)
     a=p.parse_args()
+    if a.load_checkpoint and (a.baselines_only or not a.models):
+        p.error('--load-checkpoint requires --models and excludes --baselines-only')
+    if a.paired_group_init and (a.load_checkpoint or a.baselines_only):
+        p.error('--paired-group-init requires a fresh learned-candidate fit')
     torch.set_num_threads(a.threads)
     sys.path.insert(0,a.source)
     sys.path.insert(0,a.feature_source)
     from feature_structures.models import SharedGroups
-    from model import BilinearGPT,Config
+    from model import BilinearGPT,Config,apply_rotary_emb
     folder=Path(a.model_dir)
     saved=json.loads((folder/'results.json').read_text())
     record=saved['records'][0]
@@ -314,11 +409,12 @@ def main():
     assert model.config.n_embd==64
     if a.site=='final_bond':
         assert model.blocks[-1].mlp is None
-    if a.site in ('layer0_bond','layer1_bond'):
+    if a.site in ('layer0_bond','layer1_bond') and a.models is not None:
         assert model.blocks[int(a.site[5])].mlp is None
     panel_file=json.loads(Path(a.panels).read_text())
     assert len(panel_file['heldout_universe'])==8
     vocab=SurfaceMixtureV8(seed=0,**saved['generator_kwargs']).token2id
+    id2token={index:token for token,index in vocab.items()}
     data={}
     for name,rows in panel_file['panels'].items():
         pairs=[row['pair'] for row in rows]
@@ -327,7 +423,8 @@ def main():
         elif a.site=='final_bond':
             raw=prepare_bond(model,pairs,vocab)
         else:
-            raw=prepare_early(model,pairs,vocab,int(a.site[5]),vocab['.'])
+            raw=prepare_early(model,pairs,vocab,int(a.site[5]),vocab['.'],
+                              id2token,apply_rotary_emb)
         data[name]=add_targets(raw,pairs,vocab)
         print(name,len(pairs),'replay',data[name]['replay_error'],flush=True)
     center=torch.cat((data['fit']['r0'],
@@ -355,24 +452,51 @@ def main():
         'scalar10_reconstruction':ScalarTopK(64,64,10),
         'scalar10_causal':ScalarTopK(64,64,10),
     }
+    if a.site in ('layer0_bond','layer1_bond'):
+        models.update({
+            'scalar8_edge':ScalarTopK(64,64,8),
+            'scalar10_edge':ScalarTopK(64,64,10),
+            'shared16_edge':SharedGroups(64,64,16,4,4),
+            'disjoint16_edge':SharedGroups(64,64,16,4,4),
+        })
     if a.models:
         chosen=a.models.split(',')
         if any(name not in models for name in chosen):
             p.error(f'Unknown candidate in --models: {chosen}')
         models={name:models[name] for name in chosen}
     models={name:feature.to(device) for name,feature in models.items()}
-    memberships={'disjoint16_causal':fixed}
+    memberships={'disjoint16_causal':fixed,'disjoint16_edge':fixed}
     histories={}
     if a.baselines_only:
         models={}
-    else:
+    elif a.load_checkpoint:
+        loaded=torch.load(a.load_checkpoint,map_location=device,weights_only=True)
+        if not torch.allclose(center,loaded['center'],atol=1e-5,rtol=1e-5):
+            raise AssertionError('Checkpoint center does not match fit panel')
+        if not torch.allclose(scale,loaded['scale'],atol=1e-5,rtol=1e-5):
+            raise AssertionError('Checkpoint scale does not match fit panel')
         for name,feature in models.items():
+            feature.load_state_dict(loaded['states'][name])
+            feature.eval()
+            histories[name]=dict(loaded_checkpoint=a.load_checkpoint)
+    else:
+        for feature in models.values():
             initialize(feature,directions)
+        if a.paired_group_init:
+            if not {'shared16_reconstruction','shared16_edge'}<=models.keys():
+                p.error('--paired-group-init requires both shared group candidates')
+            models['shared16_edge'].load_state_dict(copy.deepcopy(
+                models['shared16_reconstruction'].state_dict()))
+        for name,feature in models.items():
             if name in memberships:
                 feature.membership_logits.requires_grad_(False)
             weight=a.causal_weight if name.endswith('_causal') else 0.
+            edge_weight=a.edge_weight if name.endswith('_edge') else 0.
+            if edge_weight and a.site not in ('layer0_bond','layer1_bond'):
+                p.error('Edge supervision requires layer0_bond/layer1_bond')
             histories[name]=fit(model,feature,data['fit'],data['dev'],
-                                center,scale,a.steps,weight,a.site,a.seed+101,
+                                center,scale,a.steps,weight,edge_weight,
+                                a.site,a.seed+101,
                                 memberships.get(name))
             print(name,histories[name]['best_step'],
                   histories[name]['best_dev_objective'],flush=True)
@@ -406,7 +530,9 @@ def main():
     path=Path(a.output)
     path.parent.mkdir(parents=True,exist_ok=True)
     checkpoint=None
-    if models:
+    if a.load_checkpoint:
+        checkpoint=Path(a.load_checkpoint)
+    elif models:
         checkpoint=path.with_suffix('.pt')
         torch.save(dict(center=center,scale=scale,
                         states={name:feature.state_dict()
@@ -420,6 +546,8 @@ def main():
                 caveat='Whole association holdout applies to featurizer fit/dev '
                        'only. The frozen teacher learned all combinations. '
                        'Fit/dev use key edits; test additionally uses color edits. '
+                       'Edge candidates use structurally parsed all-color edges '
+                       'and featurize both full and edge-removed bond states. '
                        'This is local fidelity at the configured site, not full-model '
                        'compression or new-task discovery.')
     path.write_text(json.dumps(result,indent=2)+'\n')

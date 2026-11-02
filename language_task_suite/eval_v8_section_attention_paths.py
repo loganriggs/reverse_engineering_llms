@@ -111,14 +111,14 @@ def pad_prefixes(prefixes, pad_id, device):
 
 
 @torch.no_grad()
-def edge_delta(attn,x,edge_lists,apply_rotary_emb):
-    """Negative W_O output for a ragged batch of (query,key) edges."""
+def edge_bond(attn,x,edge_lists,apply_rotary_emb):
+    """Pre-output bond contribution for a ragged batch of (query,key) edges."""
     batch,length,width=x.shape
     heads,head_dim=attn.n_head,attn.head_dim
     max_edges=max(map(len,edge_lists),default=0)
-    delta=x.new_zeros((batch,length,width))
+    bond=x.new_zeros((batch,length,width))
     if not max_edges:
-        return delta
+        return bond
     qpos=torch.zeros((batch,max_edges),dtype=torch.long,device=x.device)
     kpos=torch.zeros_like(qpos)
     keep=torch.zeros_like(qpos,dtype=torch.bool)
@@ -138,12 +138,17 @@ def edge_delta(attn,x,edge_lists,apply_rotary_emb):
     bi=torch.arange(batch,device=x.device)[:,None]
     first=(q1[bi,qpos]*k1[bi,kpos]).sum(-1)/head_dim
     second=(q2[bi,qpos]*k2[bi,kpos]).sum(-1)/head_dim
-    contribution=(first*second)[...,None]*v[bi,kpos]
-    output=F.linear(contribution.reshape(batch,max_edges,width),attn.out.weight)
-    output=output*keep[...,None]
+    contribution=(first*second)[...,None]*v[bi,kpos]*keep[...,None,None]
     for e in range(max_edges):
-        delta[bi[:,0],qpos[:,e]]-=output[:,e]
-    return delta
+        bond[bi[:,0],qpos[:,e]]+=contribution[:,e].reshape(batch,width)
+    return bond
+
+
+@torch.no_grad()
+def edge_delta(attn,x,edge_lists,apply_rotary_emb):
+    """Negative W_O output for a ragged batch of (query,key) edges."""
+    return -F.linear(edge_bond(attn,x,edge_lists,apply_rotary_emb),
+                     attn.out.weight)
 
 
 @torch.no_grad()
