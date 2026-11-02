@@ -49,10 +49,49 @@ of training-seed reliability. It establishes a competent joint source task
 at the first saved checkpoint, including compositional pair transfer and
 substantially better causal specificity than the original v6 model.
 
+At **2,000 joint updates**, the same model improves further. On the two
+unrestricted panels, source accuracy is .996/.998; query-edit effect L1 error
+is .019/.019, and irrelevant-speaker TV is .0039/.0056. The withheld-pair
+subgroups have .986/1.000 accuracy, query-effect L1 .050/.041, and
+irrelevant-speaker TV .011/.012. In contrast, the matched restricted scratch
+model's first 1,000-update checkpoint has .417 source accuracy and query
+effect L1 **2.253** on the common panel; its withheld-pair accuracy is only
+.043. At 2,000 scratch updates, its common-panel source accuracy remains
+.413, with query effect L1 **2.210** and withheld-pair accuracy .036. This is
+an early-learning advantage for the curriculum, not a final comparison:
+scratch has better restricted-development verb and object KL at 2,000 steps
+(.232/.442 versus curriculum .263/.727), and its 6,000-step trajectory is
+still running. A [local bond-basis comparison](V6_SOURCE_BOND_BASIS_RESULTS.md)
+finds that task-conditioned eight-dimensional directions preserve the
+2,000-step source effect, while task-blind stream PCA does not.
+
+The 3,000-step curriculum model remains good but is weaker on source edits
+than its 2,000-step checkpoint: full-panel source accuracy is .989/.989 and
+query-effect L1 .066/.052. Its restricted development source KL also rises
+from .0012 to .0663, so selecting step 2,000 by that development metric does
+not require peeking at the unrestricted test panels.
+
+A separate **unrestricted** 1,024-stream oracle-KL panel shows the multi-rule
+tradeoff. Lower is better:
+
+| Model | Verb KL | Object KL | Place-answer KL | Source-answer KL |
+|---|---:|---:|---:|---:|
+| Original v6 scratch baseline, 3,000 updates | .199 | .391 | 2.010 | .979 |
+| Curriculum joint, 2,000 updates | .260 | .696 | 3.939 | **.013** |
+| Curriculum joint, 3,000 updates | .258 | .635 | 2.133 | .028 |
+| Restricted scratch, 1,000 updates | .292 | .558 | 2.865 | 1.468 |
+
+The curriculum solves a previously failed source rule, but the other rules
+are worse than in the old checkpoint. No current v6 checkpoint is a strong
+teacher for *all* four families. A lower-learning-rate, rebalanced second
+stage starts from the selected 2,000-step checkpoint and tests whether source
+binding can be retained while verb, object and place prediction improve.
+
 ## Next decision gates
 
-The 3,000-update curriculum run and a restricted 6,000-update scratch control
-are running on CPU. Compare their saved learning curves on the *same*
+The 3,000-update curriculum run is complete; a restricted 6,000-update
+scratch control and the rebalanced second stage are running on CPU. Compare
+their full saved learning curves on the *same*
 unrestricted causal panels before attributing the gain to pretraining. Then
 check whether the improved source rule coexists with competent verb and
 object rules; high source accuracy alone is not a competent joint teacher.
@@ -68,4 +107,5 @@ Reproduce with `pretrain_joint_source_lookup.py`, the
 Current records are in `results/v6_source_lookup_pretrain_pairholdout_seed0/`,
 `results/v6_source_pair_holdout_audit.json`,
 `results/v6_source_curriculum_common_panel_n1000.json`, and
-`results/v6_source_joint_step1000_*_n1000.json`.
+`results/v6_source_joint_step{1000,2000,3000}_*_n1000.json`. The shared
+multi-rule oracle panel is `results/v6_source_joint_rule_kl_n1024_seed23201.json`.
