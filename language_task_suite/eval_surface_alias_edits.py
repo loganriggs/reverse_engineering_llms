@@ -107,14 +107,57 @@ def build_pairs(gen, n, length, edit_selection='first'):
                                   new_referent=referent,
                                   oracle_before=q_before, oracle_after=q_after))
                 break
+            # Change a different alias's earlier definition. This oracle-null
+            # control distinguishes keyed lookup from reading any definition.
+            for other_alias, other_person in mapping.items():
+                if other_alias == subject:
+                    continue
+                offset = 0
+                for old in history:
+                    definition = _alias_definition(old)
+                    if definition is not None and definition[0] == other_alias:
+                        break
+                    offset += len(old)
+                else:
+                    raise AssertionError('Defined alias missing its clause')
+                other_support = gen.next_distribution(before[:offset])
+                candidates = list(PEOPLE)
+                if edit_selection == 'balanced':
+                    shift = (stream_index*29+t) % len(candidates)
+                    candidates = candidates[shift:]+candidates[:shift]
+                for referent in candidates:
+                    if (referent == other_person
+                            or referent in mapping.values()
+                            or other_support.get(referent, 0) <= 0):
+                        continue
+                    after = before.copy()
+                    after[offset] = referent
+                    if not supported_prefix(gen, after, offset):
+                        continue
+                    q_after = gen.next_distribution(after)
+                    if q_after != q_before:
+                        continue
+                    pairs.append(dict(kind='irrelevant_definition',
+                                      original=[gen.token2id[x] for x in before],
+                                      edited=[gen.token2id[x] for x in after],
+                                      old_alias=subject, replacement=other_alias,
+                                      first_post_definition_use=first_use,
+                                      old_referent=other_person,
+                                      new_referent=referent,
+                                      oracle_before=q_before,
+                                      oracle_after=q_after))
+                    break
+                break
     return pairs
 
 
 def score(pairs, before, after, gen):
     result = {}
     for kind in ('same_referent', 'different_referent', 'definition_referent',
+                 'irrelevant_definition',
                  'same_referent_first_use', 'different_referent_first_use',
-                 'definition_referent_first_use'):
+                 'definition_referent_first_use',
+                 'irrelevant_definition_first_use'):
         first = kind.endswith('_first_use')
         base_kind = kind.removesuffix('_first_use')
         indices = [i for i, pair in enumerate(pairs)
