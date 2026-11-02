@@ -12,6 +12,8 @@ The [conditional mixture experiment](CONDITIONAL_MIXTURE.md) trains one model wi
 
 The [readable surface-mixture experiment](SURFACE_MIXTURE_RESULTS.md) introduces a 141-token grammatical stream with four competing verb rules and an exact prefix oracle. It includes a quantitative and manually reviewed FineWeb calibration, 1–4-layer bilinear training, paired causal edits, and attention-bond gauge/truncation tests. Its realism audit still identifies a large gap to web text.
 
+The [proposal alignment](PROPOSAL_ALIGNMENT_2026-11-02.md) distinguishes the original joint-rule interference objective from task-family transfer. The [multi-genre experiment](MULTI_GENRE_RESULTS.md) adds reports, numbered guides, FAQ copying/recall, and conditional policies; it audits an exact prefix oracle, trains 1–4-layer attention-only bilinear models, and tests causal edits and local bond bases with held-out object words. It is still much less diverse than length-matched FineWeb, and its separate genre headers do not replace joint-rule competition.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds
