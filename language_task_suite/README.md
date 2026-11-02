@@ -62,6 +62,8 @@ For the current joint-rule language with varied determiners and parenthetical as
 
 The [matched-width basis transfer test](VARIED_JOINT_RULE_BASIS_TRANSFER.md) compares weight-derived, activation, intervention-trained and sparse-rotated directions on that checkpoint with held-out sentence frames and a parenthetical-rate shift. It separates local response compression from recovery of a rule computation.
 
+The [output-aware shared-group test](VARIED_CAUSAL_GROUP_FEATURIZER_RESULTS.md) keeps previous-place interventions out of featurizer fitting. Shared groups still lose to scalar Top-8 under matched active-support budgets, motivating a direct comparison with the original iterative L1-and-prune path analysis.
+
 ## What existed, and what this adds
 
 The older repository already has natural-text training (`lm_train.py`), bilinear model code (`model.py`, `deep_model.py`), and analyzed first-layer/late-layer circuits for bracket closure, numbered-list increment, and successor sequences (`basis_aligned/qk_mdl/algo_tasks/SYNTHESIS.md`). The recent canonicalization toys in this repository tested count, XOR, AND, and shared pair routing. These are valuable circuit probes but cover a narrow slice of language. This suite adds 12 explicit task families, balanced sampling, structural variants, oracle checks, FineWeb form audit, and a 1–4-block trainer.

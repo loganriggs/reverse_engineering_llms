@@ -1,5 +1,7 @@
 # Activation-only shared groups on a joint-rule toy language
 
+The later [varied-language output-aware experiment](VARIED_CAUSAL_GROUP_FEATURIZER_RESULTS.md) tests a known verb-output contrast loss and a less rigid 32-group layout. Both improve some grouped scores, but scalar Top-8 still preserves the omitted previous-place effect better on both frame splits. The next baseline is the original iterated L1/prune method with explicit folded paths, not another sweep of this local reconstruction proxy.
+
 The [joint-rule basis transfer test](JOINT_RULE_BASIS_TRANSFER.md) showed that a small response basis fitted on lexical and induction edits does not transfer well to previous-place edits. This experiment tests the user's proposed **shared dictionary plus overlapping group gates** directly on native model activations. The featurizer receives no rule labels or edit deltas during optimization. It does receive a *curated panel*: we use known edit labels to include lexical and induction contexts in fit/validation, then reserve the entire previous-place edit family for evaluation. The language model itself was trained on every rule. This is a featurizer-family holdout, not new-rule discovery from an uncurated corpus.
 
 ## Setup and controls
