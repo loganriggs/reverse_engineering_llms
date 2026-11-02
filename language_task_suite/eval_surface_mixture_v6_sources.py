@@ -14,7 +14,8 @@ from eval_surface_mixture_edits import predict, score
 from eval_surface_mixture_v4_edits import full_support
 from surface_mixture_v2 import _split
 from surface_mixture_v4 import _content
-from surface_mixture_v6 import SPEAKERS, SurfaceMixtureV6
+from surface_mixture_v6 import (SPEAKERS, SurfaceMixtureV6,
+                                source_pair_heldout)
 
 
 def statements(history):
@@ -46,12 +47,14 @@ def build(gen, n, length):
                       for item in prior_statements}
             key = clause[3]
             target = source[key]
+            pair_holdout = source_pair_heldout(target, key)
             assert gen.next_distribution(prefix) == {target: 1.}
             masses = Counter(source.values())
             prior = [count/len(source) for count in masses.values()]
             modal = {speaker for speaker, count in masses.items()
                      if count == max(masses.values())}
             questions.append(dict(prefix=row[:t], target=gen.token2id[target],
+                                  pair_holdout=pair_holdout,
                                   key_blind_bayes=max(prior),
                                   key_blind_entropy=-sum(p*math.log(p) for p in prior),
                                   latest_speaker_correct=(
@@ -75,6 +78,7 @@ def build(gen, n, length):
                     q1 = gen.next_distribution(edited)
                     assert q1 == {speaker: 1.}
                     pairs.append(dict(kind='query_object',
+                                      pair_holdout=pair_holdout,
                                       original=[gen.token2id[w] for w in prefix],
                                       edited=[gen.token2id[w] for w in edited],
                                       q_before={target: 1.}, q_after=q1))
@@ -95,6 +99,7 @@ def build(gen, n, length):
                 q1 = gen.next_distribution(edited)
                 if q1 == {candidate: 1.}:
                     pairs.append(dict(kind='statement_speaker',
+                                      pair_holdout=pair_holdout,
                                       quote_rank=relevant_rank,
                                       n_statements=len(prior_statements),
                                       original=[gen.token2id[w] for w in prefix],
@@ -115,6 +120,7 @@ def build(gen, n, length):
                         q1 = gen.next_distribution(edited)
                         assert q1 == {target: 1.}
                         pairs.append(dict(kind='other_speaker',
+                                          pair_holdout=pair_holdout,
                                           quote_rank=other_rank,
                                           n_statements=len(prior_statements),
                                           original=[gen.token2id[w] for w in prefix],
@@ -163,6 +169,8 @@ def main():
     parser.add_argument('--quote-rate', type=float, default=.30)
     parser.add_argument('--source-rate', type=float, default=.30)
     parser.add_argument('--question-rate', type=float, default=.05)
+    parser.add_argument('--checkpoint-steps', default='',
+                        help='Comma-separated saved development steps; empty evaluates final models')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     torch.set_num_threads(4)
@@ -178,37 +186,59 @@ def main():
     for directory in args.model_dirs:
         folder = Path(directory)
         saved = json.loads((folder/'results.json').read_text())
-        for record in saved['records']:
+        records = (saved['records'] if 'records' in saved else
+                   [dict(depth=2, model_config=saved['model_config'])])
+        for record in records:
             depth = record['depth']
-            model = BilinearGPT(Config(**record['model_config']))
-            model.load_state_dict(torch.load(folder/f'model_depth{depth}.pt',
-                                            map_location='cpu', weights_only=True))
-            model.eval()
-            probs = predict(model, [item['prefix'] for item in questions],
-                            len(gen.vocab))
-            before = predict(model, [pair['original'] for pair in pairs],
-                             len(gen.vocab))
-            after = predict(model, [pair['edited'] for pair in pairs],
-                            len(gen.vocab))
-            name = f'{folder.name}_depth{depth}'
-            rank_groups = {}
-            for kind in ('statement_speaker', 'other_speaker'):
-                for rank_name, predicate in (
-                    ('first', lambda pair: pair['quote_rank'] == 0),
-                    ('last', lambda pair: pair['quote_rank'] ==
-                     pair['n_statements']-1),
-                    ('middle', lambda pair: 0 < pair['quote_rank'] <
-                     pair['n_statements']-1)):
-                    indices = [i for i, pair in enumerate(pairs)
-                               if pair['kind'] == kind and predicate(pair)]
-                    if indices:
-                        rank_groups[f'{kind}_{rank_name}'] = score(
-                            [pairs[i] for i in indices], before[indices],
-                            after[indices], gen)[kind]
-            results[name] = dict(prediction=prediction(questions, probs),
-                                 edits=score(pairs, before, after, gen),
-                                 edit_by_quote_rank=rank_groups)
-            print(name, results[name], flush=True)
+            steps = ([int(step) for step in args.checkpoint_steps.split(',')]
+                     if args.checkpoint_steps else [None])
+            for step in steps:
+                checkpoint = (folder/f'model_depth{depth}_step{step}.pt'
+                              if step is not None else
+                              folder/f'model_depth{depth}.pt')
+                model = BilinearGPT(Config(**record['model_config']))
+                model.load_state_dict(torch.load(checkpoint, map_location='cpu',
+                                                weights_only=True))
+                model.eval()
+                probs = predict(model, [item['prefix'] for item in questions],
+                                len(gen.vocab))
+                before = predict(model, [pair['original'] for pair in pairs],
+                                 len(gen.vocab))
+                after = predict(model, [pair['edited'] for pair in pairs],
+                                len(gen.vocab))
+                name = (f'{folder.name}_depth{depth}' +
+                        (f'_step{step}' if step is not None else ''))
+                rank_groups = {}
+                for kind in ('statement_speaker', 'other_speaker'):
+                    for rank_name, predicate in (
+                        ('first', lambda pair: pair['quote_rank'] == 0),
+                        ('last', lambda pair: pair['quote_rank'] ==
+                         pair['n_statements']-1),
+                        ('middle', lambda pair: 0 < pair['quote_rank'] <
+                         pair['n_statements']-1)):
+                        indices = [i for i, pair in enumerate(pairs)
+                                   if pair['kind'] == kind and predicate(pair)]
+                        if indices:
+                            rank_groups[f'{kind}_{rank_name}'] = score(
+                                [pairs[i] for i in indices], before[indices],
+                                after[indices], gen)[kind]
+                results[name] = dict(prediction=prediction(questions, probs),
+                                     edits=score(pairs, before, after, gen),
+                                     edit_by_quote_rank=rank_groups)
+                held_question_ix = [i for i, item in enumerate(questions)
+                                    if item['pair_holdout']]
+                held_pair_ix = [i for i, item in enumerate(pairs)
+                                if item['pair_holdout']]
+                if held_question_ix and held_pair_ix:
+                    results[name]['pair_holdout'] = dict(
+                        prediction=prediction(
+                            [questions[i] for i in held_question_ix],
+                            probs[held_question_ix]),
+                        edits=score([pairs[i] for i in held_pair_ix],
+                                    before[held_pair_ix], after[held_pair_ix], gen),
+                        n_questions=len(held_question_ix),
+                        n_pairs=len(held_pair_ix))
+                print(name, results[name], flush=True)
     output = dict(config={**vars(args), 'output': str(args.output)},
                   n_questions=len(questions),
                   attempted=dict(attempted),

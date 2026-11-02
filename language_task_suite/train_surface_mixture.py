@@ -363,6 +363,8 @@ def main():
                    help='For v6, probability of a source statement at an eligible boundary')
     p.add_argument('--source-rate', type=float, default=.30,
                    help='For v6, probability of a source question at an eligible boundary')
+    p.add_argument('--exclude-source-pairs', action='store_true',
+                   help='For v6, withhold checkerboard speaker–claim-object pair definitions')
     p.add_argument('--section-rate', type=float, default=.18)
     p.add_argument('--detail-rate', type=float, default=.80)
     p.add_argument('--scope-question-rate', type=float, default=.40)
@@ -402,6 +404,8 @@ def main():
     p.add_argument('--mask-verb-ce', action='store_true',
                    help='Exclude verb slots from ordinary CE for object-only ablation')
     p.add_argument('--neval', type=int, default=256)
+    p.add_argument('--save-snapshots', action='store_true',
+                   help='Save model weights at each 1000-step development evaluation')
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
@@ -445,6 +449,8 @@ def main():
         p.error('Count supervision requires v5/v6 generator')
     if (a.source_soft_weight or a.source_counterfactual_weight) and a.generator not in ('v6', 'v7', 'v8'):
         p.error('Source supervision requires v6 generator')
+    if a.exclude_source_pairs and a.generator != 'v6':
+        p.error('Source-pair holdout currently requires the v6 generator')
     if (a.scope_soft_weight or a.scope_counterfactual_weight) and a.generator not in ('v7', 'v8'):
         p.error('Scope supervision requires v7 generator')
     sys.path.insert(0, a.source)
@@ -497,6 +503,8 @@ def main():
     if a.generator in ('v6', 'v7', 'v8'):
         generator_kwargs['quote_rate'] = a.quote_rate
         generator_kwargs['source_rate'] = a.source_rate
+    if a.generator == 'v6':
+        generator_kwargs['exclude_source_pairs'] = a.exclude_source_pairs
     if a.generator in ('v7', 'v8'):
         generator_kwargs['section_rate'] = a.section_rate
         generator_kwargs['detail_rate'] = a.detail_rate
@@ -664,6 +672,9 @@ def main():
                 scores = evaluate(model, test)
                 snapshots.append(dict(step=step+1, train_ce=float(loss.detach()),
                                       scores=scores, elapsed=time.time()-t0))
+                if a.save_snapshots:
+                    torch.save(model.state_dict(),
+                               output_dir/f'model_depth{depth}_step{step+1}.pt')
                 print('depth', depth, 'step', step+1,
                       'verb KL', round(scores['verb']['kl'], 4),
                       'induction KL', round(scores['verb_with_induction']['kl'], 4),

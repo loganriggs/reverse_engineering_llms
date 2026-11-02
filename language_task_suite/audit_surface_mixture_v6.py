@@ -15,7 +15,8 @@ from compare_realism import summary
 from surface_mixture_v2 import _frame, _indices, _split
 from surface_mixture_v3 import SurfaceMixtureV3
 from surface_mixture_v4 import _content
-from surface_mixture_v6 import SurfaceMixtureV6, render
+from surface_mixture_v6 import (SurfaceMixtureV6, render,
+                                source_pair_heldout)
 
 
 def reference_facts(history):
@@ -48,10 +49,11 @@ def reference_place(history, obj):
 
 
 def audit(n, length, seed, quote_rate, source_rate, question_rate,
-          rows_path=DEFAULT_ROWS):
+          rows_path=DEFAULT_ROWS, exclude_source_pairs=False):
     gen = SurfaceMixtureV6(seed=seed, quote_rate=quote_rate,
                            source_rate=source_rate, question_rate=question_rate,
-                           counterbalanced_queries=True)
+                           counterbalanced_queries=True,
+                           exclude_source_pairs=exclude_source_pairs)
     v3 = SurfaceMixtureV3()
     ids, labels, qs = gen.sample_batch(n, length)
     counts = Counter()
@@ -67,6 +69,8 @@ def audit(n, length, seed, quote_rate, source_rate, question_rate,
                 assert len(clause) == 11
                 assert clause[2:6] == ['said', ',', '"', 'the']
                 assert clause[7:] == ['was', 'missing', '"', '.']
+                if exclude_source_pairs:
+                    assert not source_pair_heldout(clause[1], clause[6])
             elif clause[0] == 'Who':
                 assert len(clause) == 11
                 assert clause[:3] == ['Who', 'said', 'the']
@@ -121,6 +125,7 @@ def audit(n, length, seed, quote_rate, source_rate, question_rate,
     return dict(config=dict(n=n, length=length, seed=seed,
                             quote_rate=quote_rate, source_rate=source_rate,
                             question_rate=question_rate,
+                            exclude_source_pairs=exclude_source_pairs,
                             natural_rows=str(rows_path)),
                 n_vocab=len(gen.vocab), slots=dict(counts),
                 form_cues=dict(synthetic=form_cues(synthetic),
@@ -145,12 +150,14 @@ if __name__ == '__main__':
     parser.add_argument('--quote-rate', type=float, default=.30)
     parser.add_argument('--source-rate', type=float, default=.30)
     parser.add_argument('--question-rate', type=float, default=.05)
+    parser.add_argument('--exclude-source-pairs', action='store_true')
     parser.add_argument('--rows', type=Path, default=DEFAULT_ROWS)
     parser.add_argument('--output', type=Path,
                         default=Path(__file__).with_name('surface_mixture_v6_audit.json'))
     args = parser.parse_args()
     result = audit(args.n, args.length, args.seed, args.quote_rate,
-                   args.source_rate, args.question_rate, args.rows)
+                   args.source_rate, args.question_rate, args.rows,
+                   args.exclude_source_pairs)
     args.output.write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps({k: result[k] for k in ('slots', 'form_cues', 'word_matched')},
                      indent=2))

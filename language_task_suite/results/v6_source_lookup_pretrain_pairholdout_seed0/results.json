@@ -1,0 +1,783 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "steps": 3000,
+    "batch": 256,
+    "lr": 0.003,
+    "seed": 0,
+    "device": "cuda",
+    "output_dir": "language_task_suite/results/v6_source_lookup_pretrain_pairholdout_seed0"
+  },
+  "model_config": {
+    "vocab_size": 360,
+    "n_layer": 2,
+    "n_head": 4,
+    "n_embd": 64,
+    "seq_len": 128,
+    "mlp_hidden": 512,
+    "block_has_mlp": [
+      false,
+      false
+    ],
+    "use_rmsnorm": true,
+    "use_qk_norm": false,
+    "use_final_norm": false
+  },
+  "vocabulary": [
+    "Today",
+    "Meanwhile",
+    "Later",
+    "Afterward",
+    "Lately",
+    "Often",
+    "Sometimes",
+    "Usually",
+    "Alice",
+    "Bob",
+    "Carol",
+    "Dave",
+    "Eve",
+    "Frank",
+    "Grace",
+    "Henry",
+    "Iris",
+    "Jack",
+    "Kate",
+    "Leo",
+    "Mia",
+    "Nick",
+    "Olive",
+    "Paul",
+    "Abigail",
+    "Aaron",
+    "Amira",
+    "Ben",
+    "Clara",
+    "Daniel",
+    "Elena",
+    "Felix",
+    "Georgia",
+    "Hannah",
+    "Isaac",
+    "Jules",
+    "Lena",
+    "Marco",
+    "Nadia",
+    "Oscar",
+    "Priya",
+    "Quinn",
+    "Rosa",
+    "Sam",
+    "Tara",
+    "Uma",
+    "Victor",
+    "Wendy",
+    "finds",
+    "keeps",
+    "takes",
+    "moves",
+    "checks",
+    "holds",
+    "saves",
+    "uses",
+    "brings",
+    "picks",
+    "stores",
+    "carries",
+    "small",
+    "old",
+    "new",
+    "red",
+    "blue",
+    "green",
+    "dark",
+    "bright",
+    "warm",
+    "cool",
+    "soft",
+    "heavy",
+    "light",
+    "clean",
+    "dusty",
+    "rare",
+    "large",
+    "round",
+    "wooden",
+    "silver",
+    "broken",
+    "useful",
+    "empty",
+    "valuable",
+    "ancient",
+    "modern",
+    "ordinary",
+    "fragile",
+    "damaged",
+    "folded",
+    "sealed",
+    "printed",
+    "paper",
+    "digital",
+    "plastic",
+    "metal",
+    "glass",
+    "ceramic",
+    "leather",
+    "cotton",
+    "quiet",
+    "noisy",
+    "narrow",
+    "wide",
+    "portable",
+    "local",
+    "official",
+    "private",
+    "public",
+    "personal",
+    "original",
+    "temporary",
+    "recent",
+    "familiar",
+    "unusual",
+    "simple",
+    "complex",
+    "fresh",
+    "faded",
+    "missing",
+    "book",
+    "key",
+    "photo",
+    "cup",
+    "ticket",
+    "map",
+    "note",
+    "badge",
+    "box",
+    "bag",
+    "letter",
+    "phone",
+    "camera",
+    "bottle",
+    "folder",
+    "coat",
+    "watch",
+    "card",
+    "tool",
+    "toy",
+    "painting",
+    "chair",
+    "basket",
+    "lamp",
+    "document",
+    "package",
+    "parcel",
+    "wallet",
+    "notebook",
+    "tablet",
+    "laptop",
+    "umbrella",
+    "bicycle",
+    "suitcase",
+    "photograph",
+    "sculpture",
+    "report",
+    "invoice",
+    "receipt",
+    "passport",
+    "journal",
+    "newspaper",
+    "calendar",
+    "blanket",
+    "radio",
+    "lantern",
+    "compass",
+    "medal",
+    "poster",
+    "microphone",
+    "headphones",
+    "drawing",
+    "statue",
+    "trophy",
+    "certificate",
+    "envelope",
+    "manuscript",
+    "sample",
+    "specimen",
+    "container",
+    "device",
+    "instrument",
+    "record",
+    "park",
+    "home",
+    "store",
+    "school",
+    "beach",
+    "office",
+    "garden",
+    "lake",
+    "tower",
+    "farm",
+    "hill",
+    "bridge",
+    "plaza",
+    "court",
+    "field",
+    "grove",
+    "harbor",
+    "island",
+    "lodge",
+    "market",
+    "pier",
+    "ranch",
+    "station",
+    "library",
+    "museum",
+    "gallery",
+    "clinic",
+    "hospital",
+    "village",
+    "town",
+    "city",
+    "studio",
+    "warehouse",
+    "platform",
+    "airport",
+    "campus",
+    "kitchen",
+    "hallway",
+    "classroom",
+    "theater",
+    "cafe",
+    "restaurant",
+    "courthouse",
+    "balcony",
+    "basement",
+    "apartment",
+    "lobby",
+    "garage",
+    "temple",
+    "mountain",
+    "valley",
+    "river",
+    "forest",
+    "desert",
+    "coast",
+    "festival",
+    "meeting",
+    "storm",
+    "morning",
+    "cleanup",
+    "game",
+    "visit",
+    "sale",
+    "journey",
+    "parade",
+    "exhibit",
+    "lesson",
+    "project",
+    "season",
+    "holiday",
+    "workshop",
+    "conference",
+    "lecture",
+    "concert",
+    "dinner",
+    "ceremony",
+    "campaign",
+    "election",
+    "opening",
+    "inspection",
+    "interview",
+    "launch",
+    "delivery",
+    "rehearsal",
+    "repair",
+    "protest",
+    "contest",
+    "auction",
+    "celebration",
+    "exhibition",
+    "presentation",
+    "discussion",
+    "appointment",
+    "trip",
+    "tour",
+    "training",
+    "competition",
+    "near",
+    "beside",
+    "outside",
+    "inside",
+    "during",
+    "after",
+    "before",
+    "At",
+    "When",
+    "In",
+    "During",
+    "ended",
+    "the",
+    ",",
+    ".",
+    "because",
+    "had",
+    "asked",
+    "about",
+    "it",
+    "earlier",
+    "in",
+    "and",
+    "wanted",
+    "a",
+    "written",
+    "while",
+    "watches",
+    "according",
+    "to",
+    "although",
+    "said",
+    "was",
+    "\n",
+    ":",
+    "?",
+    "Where",
+    "Answer",
+    "did",
+    "appear",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "How",
+    "many",
+    "times",
+    "main",
+    "actor",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31",
+    "32",
+    "As",
+    "Who",
+    "\""
+  ],
+  "split": "(speaker_index+claim_object_index) % 4 == 0; both training statements allowed",
+  "snapshots": [
+    {
+      "step": 1,
+      "train_ce": 5.886104106903076,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 0.13720703125,
+          "answer_ce": 5.586127758026123,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.0,
+            "effect_l1": 2.0
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0,
+            "effect_l1": 0.0
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.0,
+            "effect_l1": 2.0
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0,
+            "effect_l1": 0.0
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.11962890625,
+          "answer_ce": 5.586127758026123,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.0,
+            "effect_l1": 2.0
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0,
+            "effect_l1": 0.0
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.0,
+            "effect_l1": 2.0
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0,
+            "effect_l1": 0.0
+          }
+        }
+      }
+    },
+    {
+      "step": 500,
+      "train_ce": 0.36043524742126465,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 0.8173828125,
+          "answer_ce": 0.36014509201049805,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.5964016318321228,
+            "effect_l1": 0.9235461354255676
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.13440710306167603,
+            "effect_l1": 0.26881420612335205
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.2061317265033722,
+            "effect_l1": 1.7241418361663818
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.43944358825683594,
+            "effect_l1": 0.8788871765136719
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.185546875,
+          "answer_ce": 2.9136762619018555,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.5614370107650757,
+            "effect_l1": 2.775059700012207
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.17198282480239868,
+            "effect_l1": 0.34396564960479736
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.14476677775382996,
+            "effect_l1": 1.8726038932800293
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.8983484506607056,
+            "effect_l1": 1.7966969013214111
+          }
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "train_ce": 0.07895474880933762,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 0.9521484375,
+          "answer_ce": 0.09167169034481049,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9012332558631897,
+            "effect_l1": 0.2297901064157486
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.027014434337615967,
+            "effect_l1": 0.054028868675231934
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.7997724413871765,
+            "effect_l1": 0.47881144285202026
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.10300153493881226,
+            "effect_l1": 0.2060030698776245
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.74853515625,
+          "answer_ce": 1.0350191593170166,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.8335715532302856,
+            "effect_l1": 0.8520597219467163
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.23445767164230347,
+            "effect_l1": 0.46891534328460693
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.7799655795097351,
+            "effect_l1": 0.6214532852172852
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.3157837390899658,
+            "effect_l1": 0.6315674781799316
+          }
+        }
+      }
+    },
+    {
+      "step": 1500,
+      "train_ce": 0.0006014535902068019,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 1.0,
+          "answer_ce": 0.0004713626694865525,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9994641542434692,
+            "effect_l1": 0.0018625364173203707
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0004938438069075346,
+            "effect_l1": 0.0009876876138150692
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.992605447769165,
+            "effect_l1": 0.02597496286034584
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0011215659324079752,
+            "effect_l1": 0.0022431318648159504
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.98095703125,
+          "answer_ce": 0.05165356025099754,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9880384206771851,
+            "effect_l1": 0.054037898778915405
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.036935314536094666,
+            "effect_l1": 0.07387062907218933
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9906145930290222,
+            "effect_l1": 0.050021737813949585
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.01931758224964142,
+            "effect_l1": 0.03863516449928284
+          }
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "train_ce": 0.0001903687370941043,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 1.0,
+          "answer_ce": 0.00022854539565742016,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.999792754650116,
+            "effect_l1": 0.0008414117619395256
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0002132497902493924,
+            "effect_l1": 0.0004264995804987848
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9957633018493652,
+            "effect_l1": 0.01751808449625969
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0003054360277019441,
+            "effect_l1": 0.0006108720554038882
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.9873046875,
+          "answer_ce": 0.03636740893125534,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9940280914306641,
+            "effect_l1": 0.0339878648519516
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.026999715715646744,
+            "effect_l1": 0.05399943143129349
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9950984716415405,
+            "effect_l1": 0.034910909831523895
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.012746964581310749,
+            "effect_l1": 0.025493929162621498
+          }
+        }
+      }
+    },
+    {
+      "step": 2500,
+      "train_ce": 0.00019106043328065425,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 1.0,
+          "answer_ce": 0.00015435979003086686,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9998525381088257,
+            "effect_l1": 0.0005687219090759754
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.0001325405901297927,
+            "effect_l1": 0.0002650811802595854
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9966110587120056,
+            "effect_l1": 0.013649895787239075
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.00017587201728019863,
+            "effect_l1": 0.00035174403456039727
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.99267578125,
+          "answer_ce": 0.028005152940750122,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9955943822860718,
+            "effect_l1": 0.025909429416060448
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.02135581709444523,
+            "effect_l1": 0.04271163418889046
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9961981773376465,
+            "effect_l1": 0.026904290542006493
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.009647700935602188,
+            "effect_l1": 0.019295401871204376
+          }
+        }
+      }
+    },
+    {
+      "step": 3000,
+      "train_ce": 0.00013555042096413672,
+      "scores": {
+        "allowed": {
+          "n": 2048,
+          "accuracy": 1.0,
+          "answer_ce": 0.0001161674881586805,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9998914003372192,
+            "effect_l1": 0.0004199862596578896
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 9.509811934549361e-05,
+            "effect_l1": 0.00019019623869098723
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9973148107528687,
+            "effect_l1": 0.011264223605394363
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.00011800241190940142,
+            "effect_l1": 0.00023600482381880283
+          }
+        },
+        "heldout": {
+          "n": 2048,
+          "accuracy": 0.994140625,
+          "answer_ce": 0.022538907825946808,
+          "query": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9966949224472046,
+            "effect_l1": 0.020584210753440857
+          },
+          "order": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.017392288893461227,
+            "effect_l1": 0.034784577786922455
+          },
+          "speaker_swap": {
+            "oracle_tv": 1.0,
+            "model_tv": 0.9970702528953552,
+            "effect_l1": 0.021258171647787094
+          },
+          "irrelevant_speaker": {
+            "oracle_tv": 0.0,
+            "model_tv": 0.007674532011151314,
+            "effect_l1": 0.015349064022302628
+          }
+        }
+      }
+    }
+  ]
+}

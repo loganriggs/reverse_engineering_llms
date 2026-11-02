@@ -19,6 +19,11 @@ TOKEN2ID_V6 = {word: i for i, word in enumerate(VOCAB_V6)}
 ID2TOKEN_V6 = {i: word for word, i in TOKEN2ID_V6.items()}
 
 
+def source_pair_heldout(speaker, obj):
+    """Checkerboard pair split for compositional source-binding tests."""
+    return (SPEAKERS.index(speaker)+CLAIM_OBJECTS.index(obj)) % 4 == 0
+
+
 def source_facts(history):
     """Object -> speaker for completed source statements in visible history."""
     facts = {}
@@ -34,12 +39,13 @@ def source_facts(history):
 
 class SurfaceMixtureV6(SurfaceMixtureV5):
     def __init__(self, seed=0, quote_rate=.25, source_rate=.20,
-                 count_rate=0., **kwargs):
+                 count_rate=0., exclude_source_pairs=False, **kwargs):
         super().__init__(seed=seed, count_rate=count_rate, **kwargs)
         assert 0 <= quote_rate < 1 and 0 <= source_rate < 1
         assert quote_rate+source_rate < 1
         self.quote_rate = quote_rate
         self.source_rate = source_rate
+        self.exclude_source_pairs = exclude_source_pairs
         self.vocab = VOCAB_V6
         self.token2id = TOKEN2ID_V6
         self.id2token = ID2TOKEN_V6
@@ -47,10 +53,18 @@ class SurfaceMixtureV6(SurfaceMixtureV5):
     def _tokens(self, prefix):
         return [ID2TOKEN_V6[i] if isinstance(i, int) else i for i in prefix]
 
+    def _available_claim_objects(self, history, speaker, used=None):
+        used = source_facts(history) if used is None else used
+        return [obj for obj in CLAIM_OBJECTS if obj not in used
+                and (not self.exclude_source_pairs or
+                     not source_pair_heldout(speaker, obj))]
+
     def _start_distribution(self, history, after_newline):
         out = super()._start_distribution(history, after_newline)
         facts = source_facts(history)
-        quote_mass = self.quote_rate if len(facts) < len(CLAIM_OBJECTS) else 0.
+        quote_mass = (self.quote_rate if any(
+            self._available_claim_objects(history, speaker, facts)
+            for speaker in SPEAKERS) else 0.)
         source_mass = (self.source_rate if len(set(facts.values())) >= 2
                        else 0.)
         content_mass = 1. if after_newline else 1.-self.newline_rate
@@ -68,10 +82,13 @@ class SurfaceMixtureV6(SurfaceMixtureV5):
         fixed = {2: 'said', 3: ',', 4: '"', 5: 'the',
                  7: 'was', 8: 'missing', 9: '"', 10: '.'}
         if pos == 1:
-            return {person: 1/len(SPEAKERS) for person in SPEAKERS}
+            used = source_facts(history)
+            available = [speaker for speaker in SPEAKERS
+                         if self._available_claim_objects(history, speaker,
+                                                          used)]
+            return {speaker: 1/len(available) for speaker in available}
         if pos == 6:
-            available = [obj for obj in CLAIM_OBJECTS
-                         if obj not in source_facts(history)]
+            available = self._available_claim_objects(history, content[1])
             return {obj: 1/len(available) for obj in available}
         if pos in fixed:
             return {fixed[pos]: 1.}
