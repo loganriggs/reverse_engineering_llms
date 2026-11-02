@@ -1,0 +1,527 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "model_dir": [
+      "language_task_suite/results/v8_joint_continuation_sourceheavy_seed301_600",
+      "language_task_suite/results/v8_joint_source_curriculum_sourceheavy_seed301_600",
+      "language_task_suite/results/v8_joint_sourceheavy_direct_seed302_1200",
+      "language_task_suite/results/v8_joint_source_curriculum_seed302_1200"
+    ],
+    "extra_checkpoint": [],
+    "reference_model_dir": "language_task_suite/results/v8_scope_balanced_continue_seed101",
+    "source_seed": 88031,
+    "section_seed": 88032,
+    "joint_seed": 88033,
+    "streams": 600,
+    "source_cap": 80,
+    "section_cap": 120,
+    "joint_streams": 1024,
+    "device": "cuda",
+    "threads": 2,
+    "batch_size": 16,
+    "output": "language_task_suite/results/v8_multirule_competence_joint1200_seed88031.json"
+  },
+  "reference_generator_kwargs": {
+    "object_vocab_size": null,
+    "hard_query_rate": null,
+    "counterbalanced_queries": true,
+    "question_rate": 0.05,
+    "count_rate": 0.0,
+    "quote_rate": 0.08,
+    "source_rate": 0.15,
+    "section_rate": 0.4,
+    "detail_rate": 0.8,
+    "scope_question_rate": 0.5
+  },
+  "source_counts": {
+    "other_speaker": 80,
+    "query_object": 80,
+    "statement_speaker": 80
+  },
+  "section_counts": {
+    "section_key": 120,
+    "relevant_color": 44,
+    "irrelevant_color": 33
+  },
+  "source_attempted": {
+    "query_object": 100,
+    "statement_speaker": 100,
+    "other_speaker": 100
+  },
+  "section_attempted": {
+    "section_key": 120,
+    "relevant_color": 120,
+    "irrelevant_color": 120
+  },
+  "models": {
+    "language_task_suite/results/v8_joint_continuation_sourceheavy_seed301_600": {
+      "joint": {
+        "all": {
+          "n": 262144,
+          "kl": 0.3348841071128845,
+          "oracle_entropy": 1.2273825407028198,
+          "sampled_ce": 1.5623787641525269
+        },
+        "verb": {
+          "n": 11099,
+          "kl": 0.5381597280502319,
+          "oracle_entropy": 1.2695642709732056,
+          "sampled_ce": 1.7963329553604126
+        },
+        "verb_with_induction": {
+          "n": 4587,
+          "kl": 0.5899609327316284,
+          "oracle_entropy": 1.2956490516662598,
+          "sampled_ce": 1.880518913269043
+        },
+        "verb_without_induction": {
+          "n": 6512,
+          "kl": 0.501671314239502,
+          "oracle_entropy": 1.251190423965454,
+          "sampled_ce": 1.7370328903198242
+        },
+        "object": {
+          "n": 10990,
+          "kl": 1.0829871892929077,
+          "oracle_entropy": 1.4589858055114746,
+          "sampled_ce": 2.530775547027588
+        },
+        "object_with_induction": {
+          "n": 4535,
+          "kl": 1.4034651517868042,
+          "oracle_entropy": 1.5870767831802368,
+          "sampled_ce": 2.948342800140381
+        },
+        "object_without_induction": {
+          "n": 6455,
+          "kl": 0.8578335642814636,
+          "oracle_entropy": 1.3689950704574585,
+          "sampled_ce": 2.2374114990234375
+        },
+        "question_answer": {
+          "n": 447,
+          "kl": 4.009675025939941,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 4.009675025939941
+        },
+        "source_answer": {
+          "n": 158,
+          "kl": 1.9399205446243286,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 1.9399205446243286
+        },
+        "scope_answer": {
+          "n": 1285,
+          "kl": 0.19524432718753815,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 0.19524432718753815
+        }
+      },
+      "source": {
+        "other_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.19375,
+          "answer_ce": 1.8884600497782231,
+          "effect_to_oracle_l1": 0.10400155503884889,
+          "native_effect_l1": 0.10400155503884889,
+          "oracle_effect_l1": 0.0
+        },
+        "query_object": {
+          "n": 80,
+          "answer_accuracy": 0.225,
+          "answer_ce": 1.9149998873472214,
+          "effect_to_oracle_l1": 2.0355240046977996,
+          "native_effect_l1": 0.04477244039881043,
+          "oracle_effect_l1": 2.0
+        },
+        "statement_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.26875,
+          "answer_ce": 1.9099427089095116,
+          "effect_to_oracle_l1": 1.9995494440197945,
+          "native_effect_l1": 0.11779781243967591,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "section": {
+        "irrelevant_color": {
+          "n": 33,
+          "answer_accuracy": 0.9696969696969697,
+          "answer_ce": 0.07753855942538587,
+          "effect_to_oracle_l1": 0.07068606083030869,
+          "native_effect_l1": 0.07068606083030869,
+          "oracle_effect_l1": 0.0
+        },
+        "relevant_color": {
+          "n": 44,
+          "answer_accuracy": 0.9090909090909091,
+          "answer_ce": 0.19819013114531778,
+          "effect_to_oracle_l1": 0.30259815917286853,
+          "native_effect_l1": 1.8646494109522214,
+          "oracle_effect_l1": 2.0
+        },
+        "section_key": {
+          "n": 120,
+          "answer_accuracy": 0.975,
+          "answer_ce": 0.07590917913281979,
+          "effect_to_oracle_l1": 0.18004763619076888,
+          "native_effect_l1": 1.885205303505063,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "parameters": 121088
+    },
+    "language_task_suite/results/v8_joint_source_curriculum_sourceheavy_seed301_600": {
+      "joint": {
+        "all": {
+          "n": 262144,
+          "kl": 0.5432888865470886,
+          "oracle_entropy": 1.2273825407028198,
+          "sampled_ce": 1.7702758312225342
+        },
+        "verb": {
+          "n": 11099,
+          "kl": 0.5762699842453003,
+          "oracle_entropy": 1.2695642709732056,
+          "sampled_ce": 1.830844759941101
+        },
+        "verb_with_induction": {
+          "n": 4587,
+          "kl": 0.6229619979858398,
+          "oracle_entropy": 1.2956490516662598,
+          "sampled_ce": 1.9084240198135376
+        },
+        "verb_without_induction": {
+          "n": 6512,
+          "kl": 0.5433804988861084,
+          "oracle_entropy": 1.251190423965454,
+          "sampled_ce": 1.7761987447738647
+        },
+        "object": {
+          "n": 10990,
+          "kl": 1.1449075937271118,
+          "oracle_entropy": 1.4589858055114746,
+          "sampled_ce": 2.583895444869995
+        },
+        "object_with_induction": {
+          "n": 4535,
+          "kl": 1.4546537399291992,
+          "oracle_entropy": 1.5870767831802368,
+          "sampled_ce": 2.9918742179870605
+        },
+        "object_without_induction": {
+          "n": 6455,
+          "kl": 0.9272935390472412,
+          "oracle_entropy": 1.3689950704574585,
+          "sampled_ce": 2.2972676753997803
+        },
+        "question_answer": {
+          "n": 447,
+          "kl": 4.0273661613464355,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 4.0273661613464355
+        },
+        "source_answer": {
+          "n": 158,
+          "kl": 1.1551330089569092,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 1.1551330089569092
+        },
+        "scope_answer": {
+          "n": 1285,
+          "kl": 0.22532574832439423,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 0.22532574832439423
+        }
+      },
+      "source": {
+        "other_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.45625,
+          "answer_ce": 1.2638038588687777,
+          "effect_to_oracle_l1": 0.7167090319097043,
+          "native_effect_l1": 0.7167090319097043,
+          "oracle_effect_l1": 0.0
+        },
+        "query_object": {
+          "n": 80,
+          "answer_accuracy": 0.45625,
+          "answer_ce": 1.206284061819315,
+          "effect_to_oracle_l1": 2.0314528435468673,
+          "native_effect_l1": 0.12135494984686375,
+          "oracle_effect_l1": 2.0
+        },
+        "statement_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.4375,
+          "answer_ce": 1.2644887153059243,
+          "effect_to_oracle_l1": 1.6328627571463585,
+          "native_effect_l1": 0.72288534976542,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "section": {
+        "irrelevant_color": {
+          "n": 33,
+          "answer_accuracy": 0.9393939393939394,
+          "answer_ce": 0.12219325650949031,
+          "effect_to_oracle_l1": 0.11249911005143076,
+          "native_effect_l1": 0.11249911005143076,
+          "oracle_effect_l1": 0.0
+        },
+        "relevant_color": {
+          "n": 44,
+          "answer_accuracy": 0.9090909090909091,
+          "answer_ce": 0.20449871152231935,
+          "effect_to_oracle_l1": 0.36257192003540695,
+          "native_effect_l1": 1.846647171811624,
+          "oracle_effect_l1": 2.0
+        },
+        "section_key": {
+          "n": 120,
+          "answer_accuracy": 0.9625,
+          "answer_ce": 0.07951231570211045,
+          "effect_to_oracle_l1": 0.20368614779630054,
+          "native_effect_l1": 1.8707406207919122,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "parameters": 121088
+    },
+    "language_task_suite/results/v8_joint_sourceheavy_direct_seed302_1200": {
+      "joint": {
+        "all": {
+          "n": 262144,
+          "kl": 0.30899325013160706,
+          "oracle_entropy": 1.2273825407028198,
+          "sampled_ce": 1.5363807678222656
+        },
+        "verb": {
+          "n": 11099,
+          "kl": 0.5357722640037537,
+          "oracle_entropy": 1.2695642709732056,
+          "sampled_ce": 1.7920634746551514
+        },
+        "verb_with_induction": {
+          "n": 4587,
+          "kl": 0.5903955698013306,
+          "oracle_entropy": 1.2956490516662598,
+          "sampled_ce": 1.8813451528549194
+        },
+        "verb_without_induction": {
+          "n": 6512,
+          "kl": 0.4972960650920868,
+          "oracle_entropy": 1.251190423965454,
+          "sampled_ce": 1.7291743755340576
+        },
+        "object": {
+          "n": 10990,
+          "kl": 1.0543617010116577,
+          "oracle_entropy": 1.4589858055114746,
+          "sampled_ce": 2.5037288665771484
+        },
+        "object_with_induction": {
+          "n": 4535,
+          "kl": 1.3797333240509033,
+          "oracle_entropy": 1.5870767831802368,
+          "sampled_ce": 2.9296317100524902
+        },
+        "object_without_induction": {
+          "n": 6455,
+          "kl": 0.8257700204849243,
+          "oracle_entropy": 1.3689950704574585,
+          "sampled_ce": 2.204508066177368
+        },
+        "question_answer": {
+          "n": 447,
+          "kl": 3.9945857524871826,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 3.9945857524871826
+        },
+        "source_answer": {
+          "n": 158,
+          "kl": 1.500093698501587,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 1.500093698501587
+        },
+        "scope_answer": {
+          "n": 1285,
+          "kl": 0.11925565451383591,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 0.11925565451383591
+        }
+      },
+      "source": {
+        "other_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.43125,
+          "answer_ce": 1.4963610541075467,
+          "effect_to_oracle_l1": 0.29054708012845365,
+          "native_effect_l1": 0.29054708012845365,
+          "oracle_effect_l1": 0.0
+        },
+        "query_object": {
+          "n": 80,
+          "answer_accuracy": 0.33125,
+          "answer_ce": 1.615291565656662,
+          "effect_to_oracle_l1": 2.0383805692195893,
+          "native_effect_l1": 0.05805729802232236,
+          "oracle_effect_l1": 2.0
+        },
+        "statement_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.1875,
+          "answer_ce": 1.8603794313967228,
+          "effect_to_oracle_l1": 1.9633937552571297,
+          "native_effect_l1": 0.3141699695028365,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "section": {
+        "irrelevant_color": {
+          "n": 33,
+          "answer_accuracy": 0.9545454545454546,
+          "answer_ce": 0.06910835421876982,
+          "effect_to_oracle_l1": 0.10481748085338481,
+          "native_effect_l1": 0.10481748085338481,
+          "oracle_effect_l1": 0.0
+        },
+        "relevant_color": {
+          "n": 44,
+          "answer_accuracy": 0.8977272727272727,
+          "answer_ce": 0.1758027412410725,
+          "effect_to_oracle_l1": 0.2884848748455459,
+          "native_effect_l1": 1.8494204662062905,
+          "oracle_effect_l1": 2.0
+        },
+        "section_key": {
+          "n": 120,
+          "answer_accuracy": 0.9708333333333333,
+          "answer_ce": 0.0581882255580543,
+          "effect_to_oracle_l1": 0.14607940831192537,
+          "native_effect_l1": 1.9027819020596022,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "parameters": 121088
+    },
+    "language_task_suite/results/v8_joint_source_curriculum_seed302_1200": {
+      "joint": {
+        "all": {
+          "n": 262144,
+          "kl": 0.3900233805179596,
+          "oracle_entropy": 1.2273825407028198,
+          "sampled_ce": 1.617363691329956
+        },
+        "verb": {
+          "n": 11099,
+          "kl": 0.5469980239868164,
+          "oracle_entropy": 1.2695642709732056,
+          "sampled_ce": 1.8023160696029663
+        },
+        "verb_with_induction": {
+          "n": 4587,
+          "kl": 0.6003863215446472,
+          "oracle_entropy": 1.2956490516662598,
+          "sampled_ce": 1.894189715385437
+        },
+        "verb_without_induction": {
+          "n": 6512,
+          "kl": 0.5093918442726135,
+          "oracle_entropy": 1.251190423965454,
+          "sampled_ce": 1.7376010417938232
+        },
+        "object": {
+          "n": 10990,
+          "kl": 1.0764180421829224,
+          "oracle_entropy": 1.4589858055114746,
+          "sampled_ce": 2.519334554672241
+        },
+        "object_with_induction": {
+          "n": 4535,
+          "kl": 1.3921136856079102,
+          "oracle_entropy": 1.5870767831802368,
+          "sampled_ce": 2.9399983882904053
+        },
+        "object_without_induction": {
+          "n": 6455,
+          "kl": 0.8546241521835327,
+          "oracle_entropy": 1.3689950704574585,
+          "sampled_ce": 2.223794937133789
+        },
+        "question_answer": {
+          "n": 447,
+          "kl": 4.006402492523193,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 4.006402492523193
+        },
+        "source_answer": {
+          "n": 158,
+          "kl": 0.9325121641159058,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 0.9325121641159058
+        },
+        "scope_answer": {
+          "n": 1285,
+          "kl": 0.16023384034633636,
+          "oracle_entropy": 0.0,
+          "sampled_ce": 0.16023384034633636
+        }
+      },
+      "source": {
+        "other_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.65625,
+          "answer_ce": 0.8019567869603634,
+          "effect_to_oracle_l1": 0.7030340895988048,
+          "native_effect_l1": 0.7030340895988048,
+          "oracle_effect_l1": 0.0
+        },
+        "query_object": {
+          "n": 80,
+          "answer_accuracy": 0.5625,
+          "answer_ce": 0.9098270811140537,
+          "effect_to_oracle_l1": 1.8306145023554563,
+          "native_effect_l1": 0.36035626139491794,
+          "oracle_effect_l1": 2.0
+        },
+        "statement_speaker": {
+          "n": 80,
+          "answer_accuracy": 0.525,
+          "answer_ce": 1.0257112398743629,
+          "effect_to_oracle_l1": 1.4049882039427757,
+          "native_effect_l1": 1.0047426983714103,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "section": {
+        "irrelevant_color": {
+          "n": 33,
+          "answer_accuracy": 0.9545454545454546,
+          "answer_ce": 0.07499466216121976,
+          "effect_to_oracle_l1": 0.10916662760273814,
+          "native_effect_l1": 0.10916662760273814,
+          "oracle_effect_l1": 0.0
+        },
+        "relevant_color": {
+          "n": 44,
+          "answer_accuracy": 0.8636363636363636,
+          "answer_ce": 0.26500684780132194,
+          "effect_to_oracle_l1": 0.3770840142123317,
+          "native_effect_l1": 1.810883070257577,
+          "oracle_effect_l1": 2.0
+        },
+        "section_key": {
+          "n": 120,
+          "answer_accuracy": 0.9625,
+          "answer_ce": 0.09731118399758998,
+          "effect_to_oracle_l1": 0.19542344299989053,
+          "native_effect_l1": 1.8792897511273623,
+          "oracle_effect_l1": 2.0
+        }
+      },
+      "parameters": 121088
+    }
+  },
+  "caveat": "Fresh exact-oracle and supported-edit evaluation. All models trained on these task families; this is a competence audit, not a training-task holdout."
+}
