@@ -28,7 +28,7 @@ def _content(clause):
 def _narrative_history(history):
     return [_content(clause) for clause in history
             if _content(clause) and _content(clause)[0]
-            not in ('Where', 'How', 'As', 'Who')]
+            not in ('Where', 'How', 'As', 'Who', 'Section', 'Detail', 'What')]
 
 
 def _object_place(history):

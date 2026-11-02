@@ -20,6 +20,9 @@ from surface_mixture_v3 import SurfaceMixtureV3
 from surface_mixture_v4 import SurfaceMixtureV4
 from surface_mixture_v5 import SurfaceMixtureV5
 from surface_mixture_v6 import SurfaceMixtureV6
+from surface_mixture_v7 import SurfaceMixtureV7
+from surface_mixture_v8 import SurfaceMixtureV8
+from softmax_attention_control import configure_attention
 
 
 def make_batch(gen, n, length, device):
@@ -39,6 +42,7 @@ def make_eval(gen, n, length, device):
     answer = np.zeros((n, length), dtype=bool)
     count_answer = np.zeros((n, length), dtype=bool)
     source_answer = np.zeros((n, length), dtype=bool)
+    scope_answer = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
@@ -56,6 +60,8 @@ def make_eval(gen, n, length, device):
                 count_answer[b, t-1] = True
             elif labs[t] == 'source_answer':
                 source_answer[b, t-1] = True
+            elif labs[t] == 'scope_answer':
+                scope_answer[b, t-1] = True
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 verb=torch.from_numpy(verb).to(device),
@@ -64,7 +70,8 @@ def make_eval(gen, n, length, device):
                 object_induction=torch.from_numpy(object_induction).to(device),
                 answer=torch.from_numpy(answer).to(device),
                 count_answer=torch.from_numpy(count_answer).to(device),
-                source_answer=torch.from_numpy(source_answer).to(device))
+                source_answer=torch.from_numpy(source_answer).to(device),
+                scope_answer=torch.from_numpy(scope_answer).to(device))
 
 
 def query_counterfactuals(gen, x, answer_mask):
@@ -136,6 +143,37 @@ def source_counterfactuals(gen, x, source_mask):
             torch.stack(mask_rows)) if edited_rows else None
 
 
+def scope_counterfactuals(gen, x, scope_mask):
+    """Change the section key at a scope question; preserve prefix support."""
+    edited_rows, target_rows, mask_rows = [], [], []
+    for batch_row in torch.where(scope_mask.any(-1))[0].tolist():
+        ids = x[batch_row].tolist()
+        for j in torch.where(scope_mask[batch_row])[0].tolist():
+            key_pos = j-3
+            prefix = [gen.id2token[i] for i in ids[:j+1]]
+            original = gen.scope_answer(prefix)
+            key_q = gen.next_distribution(prefix[:key_pos])
+            for key in key_q:
+                if key == prefix[key_pos]:
+                    continue
+                changed = prefix.copy()
+                changed[key_pos] = key
+                answer_q = gen.next_distribution(changed)
+                if len(answer_q) == 1 and original not in answer_q:
+                    edited = x[batch_row].clone()
+                    target = torch.zeros_like(edited)
+                    mask = torch.zeros_like(edited, dtype=torch.bool)
+                    edited[key_pos] = gen.token2id[key]
+                    target[j] = gen.token2id[next(iter(answer_q))]
+                    mask[j] = True
+                    edited_rows.append(edited)
+                    target_rows.append(target)
+                    mask_rows.append(mask)
+                    break
+    return (torch.stack(edited_rows), torch.stack(target_rows),
+            torch.stack(mask_rows)) if edited_rows else None
+
+
 @torch.no_grad()
 def evaluate(model, data):
     logits = torch.cat([model(batch)[0].float()
@@ -159,6 +197,8 @@ def evaluate(model, data):
         masks['count_answer'] = data['count_answer']
     if data['source_answer'].any():
         masks['source_answer'] = data['source_answer']
+    if data['scope_answer'].any():
+        masks['scope_answer'] = data['scope_answer']
     return {name: dict(n=int(mask.sum()), kl=float(kl[mask].mean()),
                        oracle_entropy=float(entropy[mask].mean()),
                        sampled_ce=float(sample_ce[mask].mean()))
@@ -169,7 +209,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5', 'v6'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8'], default='v1')
     p.add_argument('--object-vocab-size', type=int, default=None,
                    help='For v3/v4, restrict object-site outputs while keeping model vocabulary fixed')
     p.add_argument('--hard-query-rate', type=float, default=None,
@@ -184,6 +224,9 @@ def main():
                    help='For v6, probability of a source statement at an eligible boundary')
     p.add_argument('--source-rate', type=float, default=.30,
                    help='For v6, probability of a source question at an eligible boundary')
+    p.add_argument('--section-rate', type=float, default=.18)
+    p.add_argument('--detail-rate', type=float, default=.80)
+    p.add_argument('--scope-question-rate', type=float, default=.40)
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -191,6 +234,8 @@ def main():
     p.add_argument('--heads', type=int, default=4)
     p.add_argument('--rmsnorm', action='store_true',
                    help='Use per-block and final RMSNorm for deep stability')
+    p.add_argument('--attention', choices=('bilinear', 'softmax'), default='bilinear',
+                   help='Softmax is a capability control, not parameter matched')
     p.add_argument('--lr', type=float, default=.003)
     p.add_argument('--verb-soft-weight', type=float, default=0.0,
                    help='Additional exact-oracle expected CE on verb slots')
@@ -208,6 +253,8 @@ def main():
                    help='For v6, exact-oracle CE on source answers')
     p.add_argument('--source-counterfactual-weight', type=float, default=0.0,
                    help='For v6, CE on supported alternate query objects')
+    p.add_argument('--scope-soft-weight', type=float, default=0.0)
+    p.add_argument('--scope-counterfactual-weight', type=float, default=0.0)
     p.add_argument('--mask-verb-ce', action='store_true',
                    help='Exclude verb slots from ordinary CE for object-only ablation')
     p.add_argument('--neval', type=int, default=256)
@@ -219,20 +266,22 @@ def main():
         p.error('Select only one extra verb objective')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
-    if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6'):
+    if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
-    if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6'):
+    if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Question-answer supervision requires v4/v5 generator')
-    if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6'):
+    if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Hard-query rate requires v4/v5 generator')
-    if a.counterbalanced_queries and a.generator not in ('v4', 'v5', 'v6'):
+    if a.counterbalanced_queries and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Counterbalanced queries require v4/v5 generator')
-    if a.query_counterfactual_weight and a.generator not in ('v4', 'v5', 'v6'):
+    if a.query_counterfactual_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Query counterfactuals require v4/v5 generator')
-    if a.count_soft_weight and a.generator not in ('v5', 'v6'):
+    if a.count_soft_weight and a.generator not in ('v5', 'v6', 'v7', 'v8'):
         p.error('Count supervision requires v5/v6 generator')
-    if (a.source_soft_weight or a.source_counterfactual_weight) and a.generator != 'v6':
+    if (a.source_soft_weight or a.source_counterfactual_weight) and a.generator not in ('v6', 'v7', 'v8'):
         p.error('Source supervision requires v6 generator')
+    if (a.scope_soft_weight or a.scope_counterfactual_weight) and a.generator not in ('v7', 'v8'):
+        p.error('Scope supervision requires v7 generator')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -245,19 +294,25 @@ def main():
                        'v3': SurfaceMixtureV3,
                        'v4': SurfaceMixtureV4,
                        'v5': SurfaceMixtureV5,
-                       'v6': SurfaceMixtureV6}[a.generator]
+                       'v6': SurfaceMixtureV6,
+                       'v7': SurfaceMixtureV7,
+                       'v8': SurfaceMixtureV8}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
-                        if a.generator in ('v3', 'v4', 'v5', 'v6') else {})
-    if a.generator in ('v4', 'v5', 'v6'):
+                        if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
+    if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries
         generator_kwargs['question_rate'] = a.question_rate
-    if a.generator in ('v5', 'v6'):
+    if a.generator in ('v5', 'v6', 'v7', 'v8'):
         generator_kwargs['count_rate'] = (a.count_rate if a.count_rate is not None
                                           else (.20 if a.generator == 'v5' else 0.))
-    if a.generator == 'v6':
+    if a.generator in ('v6', 'v7', 'v8'):
         generator_kwargs['quote_rate'] = a.quote_rate
         generator_kwargs['source_rate'] = a.source_rate
+    if a.generator in ('v7', 'v8'):
+        generator_kwargs['section_rate'] = a.section_rate
+        generator_kwargs['detail_rate'] = a.detail_rate
+        generator_kwargs['scope_question_rate'] = a.scope_question_rate
     vocab = generator_class(**generator_kwargs).vocab
     test = make_eval(generator_class(seed=8101, **generator_kwargs), a.neval,
                      a.length, device)
@@ -268,7 +323,7 @@ def main():
                         n_head=a.heads, n_embd=a.width, seq_len=a.length,
                         block_has_mlp=(False,)*depth,
                         use_rmsnorm=a.rmsnorm)
-        model = BilinearGPT(config).to(device)
+        model = configure_attention(BilinearGPT(config), a.attention).to(device)
         gen = generator_class(seed=8300+a.seed, **generator_kwargs)
         optimizer = torch.optim.AdamW(model.parameters(), lr=a.lr)
         t0 = time.time()
@@ -279,6 +334,7 @@ def main():
                     or a.object_soft_weight > 0 or a.answer_soft_weight > 0
                     or a.query_counterfactual_weight > 0 or a.count_soft_weight > 0
                     or a.source_soft_weight > 0 or a.source_counterfactual_weight > 0
+                    or a.scope_soft_weight > 0 or a.scope_counterfactual_weight > 0
                     or a.mask_verb_ce):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
@@ -338,6 +394,18 @@ def main():
                     cf_logits = model(cf_x)[0]
                     loss = loss + a.source_counterfactual_weight*F.cross_entropy(
                         cf_logits[cf_mask].float(), cf_y[cf_mask])
+            if a.scope_soft_weight > 0 and train['scope_answer'].any():
+                logp = F.log_softmax(logits.float(), dim=-1)
+                expected_ce = -(train['q'] * logp).sum(-1)
+                loss = (loss + a.scope_soft_weight *
+                        expected_ce[train['scope_answer']].mean())
+            if a.scope_counterfactual_weight > 0:
+                counterfactual = scope_counterfactuals(gen, x, train['scope_answer'])
+                if counterfactual is not None:
+                    cf_x, cf_y, cf_mask = counterfactual
+                    cf_logits = model(cf_x)[0]
+                    loss = loss + a.scope_counterfactual_weight*F.cross_entropy(
+                        cf_logits[cf_mask].float(), cf_y[cf_mask])
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -359,6 +427,8 @@ def main():
                       if 'count_answer' in scores else 'n/a',
                       'source KL', round(scores['source_answer']['kl'], 4)
                       if 'source_answer' in scores else 'n/a',
+                      'scope KL', round(scores['scope_answer']['kl'], 4)
+                      if 'scope_answer' in scores else 'n/a',
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')
