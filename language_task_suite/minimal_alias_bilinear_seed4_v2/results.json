@@ -1,0 +1,547 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "attention": "bilinear",
+    "depth": 2,
+    "width": 64,
+    "heads": 4,
+    "steps": 3000,
+    "batch": 256,
+    "lr": 0.003,
+    "seed": 4,
+    "device": "cuda",
+    "output_dir": "language_task_suite/minimal_alias_bilinear_seed4_v2"
+  },
+  "model_config": {
+    "vocab_size": 20,
+    "n_layer": 2,
+    "n_head": 4,
+    "n_embd": 64,
+    "seq_len": 11,
+    "mlp_hidden": 512,
+    "block_has_mlp": [
+      false,
+      false
+    ],
+    "use_rmsnorm": true,
+    "use_qk_norm": false,
+    "use_final_norm": false
+  },
+  "vocab": [
+    "person_0",
+    "person_1",
+    "person_2",
+    "person_3",
+    "person_4",
+    "person_5",
+    "person_6",
+    "person_7",
+    "alias_0",
+    "alias_1",
+    "alias_2",
+    "alias_3",
+    "alias_4",
+    "alias_5",
+    "alias_6",
+    "alias_7",
+    "means",
+    ".",
+    "ask",
+    ":"
+  ],
+  "heldout_rule": "(alias_index+person_index) % 4 == 0",
+  "sequence_holdout_rule": "(13*a0+17*p0+19*a1+23*p1+29*query) % 5 == 0",
+  "train_cases": 2844,
+  "snapshots": [
+    {
+      "step": 1,
+      "train_loss": 2.995732307434082,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 0.12711864709854126,
+          "answer_probability": 0.05960123986005783,
+          "answer_nll": 2.8200793266296387,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 2.0,
+              "edited_accuracy": 0.12570621073246002
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 0.0,
+              "edited_accuracy": 0.12711864709854126
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 2.0,
+              "edited_accuracy": 0.12570621073246002
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 2.0,
+              "edited_accuracy": 0.12570621073246002
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.125,
+          "answer_probability": 0.05960124731063843,
+          "answer_nll": 2.8200793266296387,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 2.0,
+              "edited_accuracy": 0.125
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 0.0,
+              "edited_accuracy": 0.125
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 2.0,
+              "edited_accuracy": 0.125
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.0,
+              "effect_l1_error": 2.0,
+              "edited_accuracy": 0.125
+            }
+          }
+        }
+      }
+    },
+    {
+      "step": 500,
+      "train_loss": 0.0008147616172209382,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 0.9971751570701599,
+          "answer_probability": 0.9966098666191101,
+          "answer_nll": 0.005759833380579948,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9970166683197021,
+              "effect_l1_error": 0.007866986095905304,
+              "edited_accuracy": 1.0
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.0033357436768710613,
+              "effect_l1_error": 0.006671487353742123,
+              "edited_accuracy": 1.0
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9724725484848022,
+              "effect_l1_error": 0.09509990364313126,
+              "edited_accuracy": 0.959039568901062
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9775345921516418,
+              "effect_l1_error": 0.08044034987688065,
+              "edited_accuracy": 0.9675140976905823
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.9201388955116272,
+          "answer_probability": 0.9162295460700989,
+          "answer_nll": 0.3926321864128113,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9608990550041199,
+              "effect_l1_error": 0.21651047468185425,
+              "edited_accuracy": 0.9791666865348816
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.1663508266210556,
+              "effect_l1_error": 0.3327016532421112,
+              "edited_accuracy": 0.9201388955116272
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.978870689868927,
+              "effect_l1_error": 0.20723244547843933,
+              "edited_accuracy": 0.9809027910232544
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9720193147659302,
+              "effect_l1_error": 0.19190703332424164,
+              "edited_accuracy": 0.9809027910232544
+            }
+          }
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "train_loss": 0.00025442620972171426,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 1.0,
+          "answer_probability": 0.9989519119262695,
+          "answer_nll": 0.0013078766642138362,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9990568161010742,
+              "effect_l1_error": 0.002415955299511552,
+              "edited_accuracy": 1.0
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.000961815589107573,
+              "effect_l1_error": 0.001923631178215146,
+              "edited_accuracy": 1.0
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9763273000717163,
+              "effect_l1_error": 0.0765952542424202,
+              "edited_accuracy": 0.9632768630981445
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9826629161834717,
+              "effect_l1_error": 0.0631287693977356,
+              "edited_accuracy": 0.9717513918876648
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.9348958134651184,
+          "answer_probability": 0.9325277805328369,
+          "answer_nll": 0.3238478899002075,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9691664576530457,
+              "effect_l1_error": 0.17285273969173431,
+              "edited_accuracy": 0.9826388955116272
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.1345244199037552,
+              "effect_l1_error": 0.2690488398075104,
+              "edited_accuracy": 0.9348958134651184
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9828921556472778,
+              "effect_l1_error": 0.1663021594285965,
+              "edited_accuracy": 0.984375
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9768043160438538,
+              "effect_l1_error": 0.15274830162525177,
+              "edited_accuracy": 0.984375
+            }
+          }
+        }
+      }
+    },
+    {
+      "step": 1500,
+      "train_loss": 0.00014651016681455076,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 1.0,
+          "answer_probability": 0.9996950626373291,
+          "answer_nll": 0.0003127044765278697,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9997419118881226,
+              "effect_l1_error": 0.0007697049295529723,
+              "edited_accuracy": 1.0
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.00024023250443860888,
+              "effect_l1_error": 0.00048046500887721777,
+              "edited_accuracy": 1.0
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9775637984275818,
+              "effect_l1_error": 0.06898315250873566,
+              "edited_accuracy": 0.9661017060279846
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9842175245285034,
+              "effect_l1_error": 0.05670294910669327,
+              "edited_accuracy": 0.9717513918876648
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.9401041865348816,
+          "answer_probability": 0.939986526966095,
+          "answer_nll": 0.29424628615379333,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9729325771331787,
+              "effect_l1_error": 0.15427404642105103,
+              "edited_accuracy": 0.984375
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.11978913843631744,
+              "effect_l1_error": 0.2395782768726349,
+              "edited_accuracy": 0.9401041865348816
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9855282306671143,
+              "effect_l1_error": 0.14788749814033508,
+              "edited_accuracy": 0.9852430820465088
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9800886511802673,
+              "effect_l1_error": 0.13551530241966248,
+              "edited_accuracy": 0.9852430820465088
+            }
+          }
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "train_loss": 9.187007526634261e-05,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 1.0,
+          "answer_probability": 0.9998854398727417,
+          "answer_nll": 0.00011468983575468883,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.999912440776825,
+              "effect_l1_error": 0.0003270581364631653,
+              "edited_accuracy": 1.0
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 6.665484397672117e-05,
+              "effect_l1_error": 0.00013330968795344234,
+              "edited_accuracy": 1.0
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9792803525924683,
+              "effect_l1_error": 0.06156706437468529,
+              "edited_accuracy": 0.9703390002250671
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9862208962440491,
+              "effect_l1_error": 0.04897849261760712,
+              "edited_accuracy": 0.9774011373519897
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.9496527910232544,
+          "answer_probability": 0.9472086429595947,
+          "answer_nll": 0.26199623942375183,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9771794080734253,
+              "effect_l1_error": 0.13593097031116486,
+              "edited_accuracy": 0.9861111044883728
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.10542580485343933,
+              "effect_l1_error": 0.21085160970687866,
+              "edited_accuracy": 0.9496527910232544
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9887701869010925,
+              "effect_l1_error": 0.12994712591171265,
+              "edited_accuracy": 0.9887152910232544
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9836745858192444,
+              "effect_l1_error": 0.1183786392211914,
+              "edited_accuracy": 0.9887152910232544
+            }
+          }
+        }
+      }
+    },
+    {
+      "step": 2500,
+      "train_loss": 6.401151767931879e-05,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 1.0,
+          "answer_probability": 0.9999254941940308,
+          "answer_nll": 7.449911208823323e-05,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9999427795410156,
+              "effect_l1_error": 0.0002132092631654814,
+              "edited_accuracy": 1.0
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 3.765977089642547e-05,
+              "effect_l1_error": 7.531954179285094e-05,
+              "edited_accuracy": 1.0
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9803053140640259,
+              "effect_l1_error": 0.057747334241867065,
+              "edited_accuracy": 0.9731638431549072
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9876371026039124,
+              "effect_l1_error": 0.04374530166387558,
+              "edited_accuracy": 0.9788135886192322
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.9548611044883728,
+          "answer_probability": 0.9519670009613037,
+          "answer_nll": 0.2445487231016159,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9787114262580872,
+              "effect_l1_error": 0.12493693828582764,
+              "edited_accuracy": 0.9878472089767456
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.09595506638288498,
+              "effect_l1_error": 0.19191013276576996,
+              "edited_accuracy": 0.9548611044883728
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.989797055721283,
+              "effect_l1_error": 0.11872797459363937,
+              "edited_accuracy": 0.9895833134651184
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9853154420852661,
+              "effect_l1_error": 0.10807692259550095,
+              "edited_accuracy": 0.9895833134651184
+            }
+          }
+        }
+      }
+    },
+    {
+      "step": 3000,
+      "train_loss": 4.569281009025872e-05,
+      "scores": {
+        "id_test": {
+          "n": 708,
+          "accuracy": 1.0,
+          "answer_probability": 0.9999486207962036,
+          "answer_nll": 5.141302608535625e-05,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9999600648880005,
+              "effect_l1_error": 0.00014758671750314534,
+              "edited_accuracy": 1.0
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 2.276580380566884e-05,
+              "effect_l1_error": 4.553160761133768e-05,
+              "edited_accuracy": 1.0
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9818428158760071,
+              "effect_l1_error": 0.05251283198595047,
+              "edited_accuracy": 0.9759886860847473
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9898104667663574,
+              "effect_l1_error": 0.036742594093084335,
+              "edited_accuracy": 0.9830508232116699
+            }
+          }
+        },
+        "pair_holdout": {
+          "n": 1152,
+          "accuracy": 0.9592013955116272,
+          "answer_probability": 0.9571352005004883,
+          "answer_nll": 0.23279275000095367,
+          "edits": {
+            "query": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9805710315704346,
+              "effect_l1_error": 0.11323732882738113,
+              "edited_accuracy": 0.9878472089767456
+            },
+            "order": {
+              "oracle_tv": 0.0,
+              "model_tv": 0.08564811944961548,
+              "effect_l1_error": 0.17129623889923096,
+              "edited_accuracy": 0.9592013955116272
+            },
+            "alias_labels": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9912926554679871,
+              "effect_l1_error": 0.10620483756065369,
+              "edited_accuracy": 0.9904513955116272
+            },
+            "people": {
+              "oracle_tv": 1.0,
+              "model_tv": 0.9868990778923035,
+              "effect_l1_error": 0.09595894068479538,
+              "edited_accuracy": 0.9904513955116272
+            }
+          }
+        }
+      }
+    }
+  ]
+}
