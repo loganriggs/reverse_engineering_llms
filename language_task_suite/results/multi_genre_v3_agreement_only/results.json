@@ -1,0 +1,1668 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "language": "v3",
+    "genre_weights": "0,0,0,0,0,1",
+    "catalog_record_rate": 0.6,
+    "attention": "bilinear",
+    "first_answer_weight": 0.0,
+    "score_answer_weight": 0.0,
+    "agreement_weight": 2.0,
+    "depths": "1,2,3",
+    "steps": 1500,
+    "batch": 64,
+    "length": 71,
+    "width": 64,
+    "heads": 4,
+    "with_mlp": false,
+    "mlp_hidden": 512,
+    "rmsnorm": false,
+    "lr": 0.003,
+    "neval": 128,
+    "seed": 0,
+    "device": "cuda",
+    "output_dir": "language_task_suite/results/multi_genre_v3_agreement_only"
+  },
+  "vocabulary": [
+    "Today",
+    "Meanwhile",
+    "Later",
+    "Afterward",
+    "Lately",
+    "Often",
+    "Sometimes",
+    "Usually",
+    "Alice",
+    "Bob",
+    "Carol",
+    "Dave",
+    "Eve",
+    "Frank",
+    "Grace",
+    "Henry",
+    "Iris",
+    "Jack",
+    "Kate",
+    "Leo",
+    "Mia",
+    "Nick",
+    "Olive",
+    "Paul",
+    "finds",
+    "keeps",
+    "takes",
+    "moves",
+    "checks",
+    "holds",
+    "saves",
+    "uses",
+    "brings",
+    "picks",
+    "stores",
+    "carries",
+    "small",
+    "old",
+    "new",
+    "red",
+    "blue",
+    "green",
+    "dark",
+    "bright",
+    "warm",
+    "cool",
+    "soft",
+    "heavy",
+    "light",
+    "clean",
+    "dusty",
+    "rare",
+    "large",
+    "round",
+    "wooden",
+    "silver",
+    "broken",
+    "useful",
+    "empty",
+    "valuable",
+    "book",
+    "key",
+    "photo",
+    "cup",
+    "ticket",
+    "map",
+    "note",
+    "badge",
+    "box",
+    "bag",
+    "letter",
+    "phone",
+    "camera",
+    "bottle",
+    "folder",
+    "coat",
+    "watch",
+    "card",
+    "tool",
+    "toy",
+    "painting",
+    "chair",
+    "basket",
+    "lamp",
+    "park",
+    "home",
+    "store",
+    "school",
+    "beach",
+    "office",
+    "garden",
+    "lake",
+    "tower",
+    "farm",
+    "hill",
+    "bridge",
+    "plaza",
+    "court",
+    "field",
+    "grove",
+    "harbor",
+    "island",
+    "lodge",
+    "market",
+    "pier",
+    "ranch",
+    "station",
+    "library",
+    "festival",
+    "meeting",
+    "storm",
+    "morning",
+    "cleanup",
+    "game",
+    "visit",
+    "sale",
+    "journey",
+    "parade",
+    "exhibit",
+    "lesson",
+    "project",
+    "season",
+    "holiday",
+    "workshop",
+    "near",
+    "beside",
+    "outside",
+    "inside",
+    "during",
+    "after",
+    "before",
+    ",",
+    "the",
+    ".",
+    "while",
+    "watches",
+    "according",
+    "to",
+    "as",
+    "looks",
+    "on",
+    "Reports",
+    "Guide",
+    "FAQ",
+    "Policy",
+    "Check",
+    "Move",
+    "Keep",
+    "Find",
+    "Take",
+    "Use",
+    "Store",
+    "Carry",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    ":",
+    ")",
+    "Question",
+    "Where",
+    "is",
+    "?",
+    "Answer",
+    "The",
+    "If",
+    "then",
+    "it",
+    "Catalog",
+    "owner",
+    "status",
+    "of",
+    "Who",
+    "owns",
+    "What",
+    "For",
+    "who",
+    "what",
+    "belongs",
+    "and",
+    "answer",
+    "\n",
+    "Agreement",
+    "pilot",
+    "pilots",
+    "artist",
+    "artists",
+    "driver",
+    "drivers",
+    "teacher",
+    "teachers",
+    "writer",
+    "writers",
+    "doctor",
+    "doctors",
+    "gardener",
+    "gardeners",
+    "visitor",
+    "visitors",
+    "ready",
+    "quiet",
+    "late",
+    "careful",
+    "tired",
+    "calm",
+    "alert",
+    "busy",
+    "that",
+    "are",
+    "helps",
+    "help"
+  ],
+  "records": [
+    {
+      "depth": 1,
+      "model_config": {
+        "vocab_size": 216,
+        "n_layer": 1,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false
+        ],
+        "use_rmsnorm": false,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "parameters": 52224,
+      "snapshots": [
+        {
+          "step": 500,
+          "train_ce": 1.027895212173462,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0037986491806805134,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0300102233886719
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0037986491806805134,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0300102233886719
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 8.800382784102112e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 8.800382784102112e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 0.00010226326412521303,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 0.00010226326412521303
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 6.933261374797439e-06,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 6.933261374797439e-06
+            }
+          },
+          "elapsed": 6.149275779724121
+        },
+        {
+          "step": 1000,
+          "train_ce": 1.0370677709579468,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0032162354327738285,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0314730405807495
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0032162354327738285,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0314730405807495
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 5.489520845003426e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 5.489520845003426e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 6.604208465432748e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 6.604208465432748e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 1.2348761629255023e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.2348761629255023e-05
+            }
+          },
+          "elapsed": 11.85740065574646
+        },
+        {
+          "step": 1500,
+          "train_ce": 1.0325063467025757,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0031060916371643543,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0297056436538696
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0031060916371643543,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0297056436538696
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 3.150120755890384e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 3.150120755890384e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 5.0870818085968494e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 5.0870818085968494e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 1.4886473763908725e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.4886473763908725e-05
+            }
+          },
+          "elapsed": 18.13982129096985
+        }
+      ]
+    },
+    {
+      "depth": 2,
+      "model_config": {
+        "vocab_size": 216,
+        "n_layer": 2,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false,
+          false
+        ],
+        "use_rmsnorm": false,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "parameters": 76800,
+      "snapshots": [
+        {
+          "step": 500,
+          "train_ce": 1.0288195610046387,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0025818990543484688,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.029875636100769
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0025818990543484688,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.029875636100769
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 3.296003342256881e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 3.296003342256881e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 3.979969915235415e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 3.979969915235415e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 1.631905251997523e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.631905251997523e-05
+            }
+          },
+          "elapsed": 6.665292263031006
+        },
+        {
+          "step": 1000,
+          "train_ce": 1.0358723402023315,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0029290916863828897,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0312432050704956
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0029290916863828897,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0312432050704956
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 1.1651683962554671e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.1651683962554671e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 1.216214423038764e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.216214423038764e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 1.4032909348316025e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.4032909348316025e-05
+            }
+          },
+          "elapsed": 13.311726808547974
+        },
+        {
+          "step": 1500,
+          "train_ce": 1.0334264039993286,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.002734292298555374,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0297449827194214
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.002734292298555374,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0297449827194214
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 4.375432035885751e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 4.375432035885751e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 5.7325527450302616e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 5.7325527450302616e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 5.854761184309609e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 5.854761184309609e-05
+            }
+          },
+          "elapsed": 19.699486017227173
+        }
+      ]
+    },
+    {
+      "depth": 3,
+      "model_config": {
+        "vocab_size": 216,
+        "n_layer": 3,
+        "n_head": 4,
+        "n_embd": 64,
+        "seq_len": 71,
+        "mlp_hidden": 512,
+        "block_has_mlp": [
+          false,
+          false,
+          false
+        ],
+        "use_rmsnorm": false,
+        "use_qk_norm": false,
+        "use_final_norm": false
+      },
+      "parameters": 101376,
+      "snapshots": [
+        {
+          "step": 500,
+          "train_ce": 1.028818964958191,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.003251476213335991,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0311578512191772
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.003251476213335991,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.0311578512191772
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 2.7237414542469196e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 2.7237414542469196e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 6.1397637182381e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 6.1397637182381e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 6.883505193400197e-06,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 6.883505193400197e-06
+            }
+          },
+          "elapsed": 6.688524007797241
+        },
+        {
+          "step": 1000,
+          "train_ce": 1.0356978178024292,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0028520759660750628,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.030908226966858
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0028520759660750628,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.030908226966858
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 1.720538602967281e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.720538602967281e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 4.376578363007866e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 4.376578363007866e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 5.802105079055764e-06,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 5.802105079055764e-06
+            }
+          },
+          "elapsed": 13.40597653388977
+        },
+        {
+          "step": 1500,
+          "train_ce": 1.0312716960906982,
+          "scores": {
+            "all": {
+              "n": 9088,
+              "kl": 0.0022611517924815416,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.029115915298462
+            },
+            "Reports": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Guide": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "FAQ": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Policy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Catalog": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "Agreement": {
+              "n": 9088,
+              "kl": 0.0022611517924815416,
+              "oracle_entropy": 1.0280331373214722,
+              "sampled_ce": 1.029115915298462
+            },
+            "report_mixed_verb": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "policy_mixed_action": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_answer_copy": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_place_recall": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "faq_new_place": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "list_number": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_record_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_value": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_query_object": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_owner_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "catalog_first_status_answer": {
+              "n": 0,
+              "kl": null,
+              "oracle_entropy": null,
+              "sampled_ce": null
+            },
+            "agreement_main_match": {
+              "n": 499,
+              "kl": 1.227256052516168e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 1.227256052516168e-05
+            },
+            "agreement_main_conflict": {
+              "n": 527,
+              "kl": 2.9388962502707727e-05,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 2.9388962502707727e-05
+            },
+            "agreement_embedded": {
+              "n": 417,
+              "kl": 5.219892500463175e-06,
+              "oracle_entropy": 0.0,
+              "sampled_ce": 5.219892500463175e-06
+            }
+          },
+          "elapsed": 20.072619676589966
+        }
+      ]
+    }
+  ]
+}

@@ -79,7 +79,7 @@ def evaluate(model, data):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
-    p.add_argument('--language', choices=('v1', 'v2', 'scores'), default='v1')
+    p.add_argument('--language', choices=('v1', 'v2', 'v3', 'scores'), default='v1')
     p.add_argument('--genre-weights', default='',
                    help='Optional comma-separated weights in genre order')
     p.add_argument('--catalog-record-rate', type=float, default=.60,
@@ -90,6 +90,8 @@ def main():
                    help='Extra CE on the first Catalog answer in each stream')
     p.add_argument('--score-answer-weight', type=float, default=0.,
                    help='Extra CE on every numeric-report comparison answer')
+    p.add_argument('--agreement-weight', type=float, default=0.,
+                   help='Extra CE on main and embedded agreement decisions')
     p.add_argument('--depths', default='1,2,3,4')
     p.add_argument('--steps', type=int, default=3000)
     p.add_argument('--batch', type=int, default=64)
@@ -106,7 +108,8 @@ def main():
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
     a = p.parse_args()
-    if a.first_answer_weight < 0 or a.score_answer_weight < 0:
+    if min(a.first_answer_weight, a.score_answer_weight,
+           a.agreement_weight) < 0:
         raise ValueError('Answer weights must be nonnegative')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
@@ -125,7 +128,7 @@ def main():
         task_labels = SCORE_TASK_LABELS
         if a.first_answer_weight or a.genre_weights:
             raise ValueError('Scores language does not use genre or Catalog-answer weights')
-    elif a.language == 'v2':
+    elif a.language in ('v2', 'v3'):
         from multi_genre_v2_language import (GENRES_V2, VOCAB_V2,
                                              MultiGenreV2Language)
         generator_class = MultiGenreV2Language
@@ -136,6 +139,14 @@ def main():
             'catalog_status_value', 'catalog_query_object',
             'catalog_owner_answer', 'catalog_status_answer',
             'catalog_first_owner_answer', 'catalog_first_status_answer')
+        if a.language == 'v3':
+            from multi_genre_v3_agreement import (GENRES_V3, VOCAB_V3,
+                                                 MultiGenreV3Agreement)
+            generator_class = MultiGenreV3Agreement
+            genres = GENRES_V3
+            vocab = VOCAB_V3
+            task_labels += ('agreement_main_match',
+                            'agreement_main_conflict', 'agreement_embedded')
     else:
         generator_class = MultiGenreLanguage
         genres = GENRES
@@ -143,6 +154,8 @@ def main():
         task_labels = TASK_LABELS
     if a.score_answer_weight and a.language != 'scores':
         raise ValueError('Score-answer weighting requires the Scores language')
+    if a.agreement_weight and a.language != 'v3':
+        raise ValueError('Agreement weighting requires the v3 language')
     if a.genre_weights:
         genre_weights = tuple(float(value) for value in a.genre_weights.split(','))
         if len(genre_weights) != len(genres):
@@ -151,7 +164,7 @@ def main():
         genre_weights = None
     def generator(seed):
         kwargs = {'genre_weights': genre_weights} if genre_weights is not None else {}
-        if a.language == 'v2':
+        if a.language in ('v2', 'v3'):
             kwargs['record_rate'] = a.catalog_record_rate
         return generator_class(seed=seed, **kwargs)
     output_dir = Path(a.output_dir)
@@ -173,7 +186,8 @@ def main():
         snapshots = []
         model.train()
         for step in range(a.steps):
-            if a.first_answer_weight or a.score_answer_weight:
+            if (a.first_answer_weight or a.score_answer_weight or
+                    a.agreement_weight):
                 ids, labels, _ = gen.sample_batch(a.batch, a.length+1)
                 z = torch.tensor(ids, dtype=torch.long, device=device)
                 x, y = z[:, :-1], z[:, 1:]
@@ -193,6 +207,14 @@ def main():
                         for labs in labels], dtype=torch.bool, device=device)
                     if not score_mask.any():
                         raise RuntimeError('No numeric comparison answers in batch')
+                if a.agreement_weight:
+                    agreement_mask = torch.tensor([
+                        [label in ('agreement_main_match',
+                                   'agreement_main_conflict',
+                                   'agreement_embedded') for label in labs[1:]]
+                        for labs in labels], dtype=torch.bool, device=device)
+                    if not agreement_mask.any():
+                        raise RuntimeError('No agreement decisions in batch')
             else:
                 x, y = make_batch(gen, a.batch, a.length, device)
             optimizer.zero_grad(set_to_none=True)
@@ -204,6 +226,10 @@ def main():
             if a.score_answer_weight:
                 score_ce = F.cross_entropy(logits[score_mask], y[score_mask])
                 loss = loss + a.score_answer_weight*score_ce
+            if a.agreement_weight:
+                agreement_ce = F.cross_entropy(logits[agreement_mask],
+                                               y[agreement_mask])
+                loss = loss + a.agreement_weight*agreement_ce
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
