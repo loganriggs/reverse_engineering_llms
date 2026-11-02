@@ -64,6 +64,8 @@ The [matched-width basis transfer test](VARIED_JOINT_RULE_BASIS_TRANSFER.md) com
 
 The [iterated L1/prune transfer test](VARIED_ITERATED_SPARSITY_PATH_RESULTS.md) applies the earlier revert-and-no-L1-finetune protocol to this varied language model. It reaches 14.23% attention-weight density or 37.72% all-linear density at bounded KL, then tests causal edits, head paths, and an exact first-layer token-space QK/OV fold. Weight sparsity does not yet produce comparably legible rule paths.
 
+The [first-layer functional sparsity test](VARIED_FUNCTIONAL_SPARSITY_RESULTS.md) compares a uniform-vocabulary and a generated-data-weighted penalty on the exact QK1×QK2 token-pair function against an ordinary finetuning control. Uniform weighting markedly concentrates scores but sends most of the largest lag-one scores to pairs unseen in held-out generated streams; distribution weighting reduces that failure without revealing a cleaner causal rule circuit.
+
 The [output-aware shared-group test](VARIED_CAUSAL_GROUP_FEATURIZER_RESULTS.md) keeps previous-place interventions out of featurizer fitting. Shared groups still lose to scalar Top-8 under matched active-support budgets, motivating a direct comparison with the original iterative L1-and-prune path analysis.
 
 ## What existed, and what this adds
