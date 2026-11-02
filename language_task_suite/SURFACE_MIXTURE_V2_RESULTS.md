@@ -46,3 +46,26 @@ The 3,004 causal pairs give the same broad result. The table shows effect L1 err
 | Second | Random | .619 | .669 | .566 | .460 |
 
 This is a **local compression** result. The weight basis is independent of sampled text, while the PCA basis uses a fit panel separate from the test and edit panels. Neither basis labels a planted rule, and the local cut does not establish that a 16-node circuit computes the same function globally. The next decisive test is supervised rule-axis discovery on training edits, evaluated on held-out frames/collisions and compared against this weight-SVD starting point.
+
+## Rule-labeled response subspaces and causal mediation
+
+`eval_surface_v2_rule_subspaces.py` fits each rule's orthogonal response basis from **single-token causal edits** on three sentence frames (`lead`, `subject`, `at`) and evaluates on disjoint frames (`when`, `in_place`, `during`) from another random stream. It measures changes at the final prefix position immediately before an attention output projection. The reverse split swaps the frame sets. The edit types are lexical, prior same-subject verb (induction), previous place, and a previous adjective with no oracle effect. There are 170/171 induction fit/test pairs and 378/431 place fit/test pairs in the forward split; 168/149 and 410/377 in reverse. The fit/test prefixes themselves use separate seeds.
+
+The **basis fit** holds out entire sentence frames; the underlying language model was trained on all six frames. This tests transfer of a featurizer, not generalization of the model to a new task.
+
+At the **second** attention output, eight directions fitted from induction edits capture mean **62.5%** of held-out induction activation-change energy (reverse split **68.0%**), versus **23.9%/24.8%** for eight weight-SVD directions. Eight directions fitted from place edits capture **87.2%/87.3%** of held-out place-change energy, versus **42.5%/42.1%** for weight SVD. The rule bases are not perfectly separate: in the forward split, the induction basis also captures **46.7%** of place-change energy. At the first bond there is similarly strong response geometry, but geometry alone does not establish causal relevance.
+
+`eval_surface_v2_rule_mediation.py` tests output causality by running the original prefix while patching the final-position bond vector with either the **full** activation change induced by an edit or its projection into a learned eight-direction basis. On held-out frames, the complete model's mean effect TV is **.181** for induction and **.206** for prior place; the full local patch at the second bond gives **.156/.201**, but at the first bond only **.023/.012**. Thus a visually clean first-bond difference is mostly insufficient to produce the observed verb effect from that location alone.
+
+At the second bond, the L1 discrepancy between an eight-direction patch and the **full local patch** is:
+
+| Effect / held-out frame split | Matching edit basis | Weight SVD | Activation PCA | Other edit basis |
+|---|---:|---:|---:|---:|
+| Induction, forward | .124 | .230 | .295 | place .193 |
+| Prior place, forward | .139 | .406 | .388 | induction .418 |
+| Induction, reverse | .118 | .256 | .284 | place .217 |
+| Prior place, reverse | .151 | .399 | .436 | induction .436 |
+
+The matching rule basis is best in both frame directions. These are **supervised local response directions**, not a recovered end-to-end circuit or unsupervised task discovery. The full edited model itself differs from the exact oracle: on forward held-out induction/place edits, model-versus-oracle effect L1 is **.272/.209**; the full local patch gives **.319/.208**, and the eight-direction rule patch **.357/.270**. The local rule patch is more faithful to the model's local effect than a weight-only eight-direction patch, but does not improve oracle fidelity over the complete model. For lexical edits, the full second-bond patch is a poor substitute for the complete edit, consistent with direct residual and other-position paths. These distinctions are essential before assigning a semantic name to any direction.
+
+The next test should use the weight-SVD subspace as an unsupervised starting prior and ask whether a sparse, rule-labeled rotation learned from one set of interventions predicts **new combinations of rules and sentence forms**. Stop treating a single bond as a complete circuit if its full patch fails to mediate the effect; move to multi-position or multi-layer paths for that rule. Whole-task holdouts and new-task discovery remain unverified.
