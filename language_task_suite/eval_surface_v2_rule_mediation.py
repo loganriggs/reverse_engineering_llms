@@ -15,7 +15,7 @@ from eval_surface_mixture_v2_edits import build_pairs
 from eval_surface_v2_rule_subspaces import (FIT_FRAMES, KINDS, TEST_FRAMES,
                                             normalized_svd_basis, response_deltas)
 from eval_surface_v2_sparse_rotation import quartimax, unit_rows
-from surface_mixture_v2 import SurfaceMixtureV2
+from surface_mixture_v2 import SurfaceMixtureV2, VERBS
 from train_surface_mixture import make_batch
 
 
@@ -52,6 +52,25 @@ def mean_l1(a, b):
 
 def mean_tv(a, b):
     return mean_l1(a, b)/2
+
+
+def output_weight_bases(model, bond):
+    """Data-free input-bond bases ranked by composed output-logit sensitivity.
+
+    The final RMSNorm makes this a linearized ranking, not an exact global
+    Jacobian. Centering output rows removes softmax-invariant common shifts.
+    """
+    output = model.lm_head.weight.detach().double()
+    if hasattr(model, 'final_norm'):
+        output = output*model.final_norm.weight.detach().double()[None]
+    out_weight = bond.weight.detach().double()
+    vocab = SurfaceMixtureV2().token2id
+    def basis(rows):
+        centered = rows-rows.mean(0, keepdim=True)
+        _, _, vh = torch.linalg.svd(centered@out_weight, full_matrices=True)
+        return vh.T.float()
+    return {'weight_output_all': basis(output),
+            'weight_output_verbs': basis(output[[vocab[token] for token in VERBS]])}
 
 
 def main():
@@ -100,6 +119,8 @@ def main():
             model(x)
     handle.remove()
     generic = bases_for(torch.cat(captured), bond.weight.detach())
+    if a.layer == a.depth-1:
+        generic.update(output_weight_bases(model, bond))
     prior32 = generic['weight_svd'][:, :32]
     valid_fit = [i for i, pair in enumerate(fit) if pair['kind'] in KINDS]
     unlabeled = fit_delta[valid_fit]@prior32
@@ -149,6 +170,10 @@ def main():
         bases.update({'weight_svd': generic['weight_svd'][:, :a.width],
                  'activation_pca': generic['activation_pca'][:, :a.width],
                  'random': generic['random'][:, :a.width]})
+        if a.layer == a.depth-1:
+            bases.update({name: generic[name][:, :a.width]
+                          for name in ('weight_output_all',
+                                       'weight_output_verbs')})
         target_effect = p1[indices]-p0[indices]
         full_effect = full[indices]-p0[indices]
         oracle_effect = oracle_effects[indices]
