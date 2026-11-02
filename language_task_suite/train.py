@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sys
 import time
@@ -18,7 +19,11 @@ import torch.nn.functional as F
 
 from grammar import GENERATORS, sample
 
-OLD_REPO = Path('/home/loganriggs/Coding/reverse_engineer/tensor_language')
+OLD_REPO = Path(os.environ.get('TENSOR_LANGUAGE_REPO',
+    '/home/loganriggs/Coding/reverse_engineer/tensor_language'))
+if not (OLD_REPO / 'deep_model.py').is_file():
+    raise FileNotFoundError(
+        f'{OLD_REPO}/deep_model.py not found; set TENSOR_LANGUAGE_REPO to your clone')
 sys.path.insert(0, str(OLD_REPO))
 from deep_model import DeepModel, SPECS  # noqa: E402
 
