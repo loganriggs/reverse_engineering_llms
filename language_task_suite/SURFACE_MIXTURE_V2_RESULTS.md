@@ -68,4 +68,17 @@ At the second bond, the L1 discrepancy between an eight-direction patch and the 
 
 The matching rule basis is best in both frame directions. These are **supervised local response directions**, not a recovered end-to-end circuit or unsupervised task discovery. The full edited model itself differs from the exact oracle: on forward held-out induction/place edits, model-versus-oracle effect L1 is **.272/.209**; the full local patch gives **.319/.208**, and the eight-direction rule patch **.357/.270**. The local rule patch is more faithful to the model's local effect than a weight-only eight-direction patch, but does not improve oracle fidelity over the complete model. For lexical edits, the full second-bond patch is a poor substitute for the complete edit, consistent with direct residual and other-position paths. These distinctions are essential before assigning a semantic name to any direction.
 
-The next test should use the weight-SVD subspace as an unsupervised starting prior and ask whether a sparse, rule-labeled rotation learned from one set of interventions predicts **new combinations of rules and sentence forms**. Stop treating a single bond as a complete circuit if its full patch fails to mediate the effect; move to multi-position or multi-layer paths for that rule. Whole-task holdouts and new-task discovery remain unverified.
+The full-patch gate is a stopping criterion for single-bond circuit claims: when a full local patch fails to mediate an effect, analysis must move to multi-position or multi-layer paths for that rule. Whole-task holdouts and new-task discovery remain unverified.
+
+As a first test of that prior, we constrained each eight-direction supervised rule basis to lie inside the top **16** or **32** weight-SVD directions at the second bond, then refit it on the same training edits. The held-out patch-to-full L1 error is:
+
+| Rule / frame split | Unconstrained edit basis | Weight-16 prior + edit fit | Weight-32 prior + edit fit | Raw top-8 weight SVD |
+|---|---:|---:|---:|---:|
+| Induction, forward | .124 | .127 | .113 | .230 |
+| Induction, reverse | .118 | .165 | .124 | .256 |
+| Prior place, forward | .139 | .206 | .160 | .406 |
+| Prior place, reverse | .151 | .206 | .160 | .399 |
+
+Thus a **32-direction weight-only prior retains enough room** to fit compact, rule-specific causal responses on these two frame splits; restricting to 16 loses more of the place effect. The raw top-eight weight directions are much worse than the supervised rotation. This supports the proposed two-stage strategy—weight-derived reduction, then causal organization—at one local bond. It does not yet validate sparsity, identify atomic mechanisms, or prove transfer to an unseen task.
+
+The next test should ask whether a sparse rotation of that weight-derived subspace, fitted on some interventions, predicts **new combinations of rules and sentence forms**. A separate whole-task holdout is required before claiming new-task discovery.

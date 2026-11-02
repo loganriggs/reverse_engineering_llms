@@ -99,6 +99,13 @@ def main():
             model(x)
     handle.remove()
     generic = bases_for(torch.cat(captured), bond.weight.detach())
+    constrained = {}
+    for prior_width in (16, 32):
+        prior = generic['weight_svd'][:, :prior_width]
+        constrained[prior_width] = {
+            kind: prior@normalized_svd_basis(
+                fit_by_kind[kind]@prior, a.width)
+            for kind in KINDS}
     original = [pair['original'] for pair in test]
     edited = [pair['edited'] for pair in test]
     p0 = torch.from_numpy(predict(model, original, model.config.vocab_size))
@@ -116,6 +123,8 @@ def main():
         indices = [i for i, pair in enumerate(test) if pair['kind'] == kind]
         d = test_delta[indices]
         bases = {f'edit_{name}': basis for name, basis in learned.items()}
+        for prior_width, by_kind in constrained.items():
+            bases[f'weight{prior_width}_then_edit_{kind}'] = by_kind[kind]
         bases.update({'weight_svd': generic['weight_svd'][:, :a.width],
                  'activation_pca': generic['activation_pca'][:, :a.width],
                  'random': generic['random'][:, :a.width]})
