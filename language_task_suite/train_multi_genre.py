@@ -104,6 +104,8 @@ def main():
     p.add_argument('--rmsnorm', action='store_true')
     p.add_argument('--lr', type=float, default=.003)
     p.add_argument('--neval', type=int, default=256)
+    p.add_argument('--save-snapshots', action='store_true',
+                   help='Save each 500-step development-evaluation checkpoint')
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
@@ -240,6 +242,9 @@ def main():
                 scores = evaluate(model, test)
                 snapshots.append(dict(step=step+1, train_ce=float(loss.detach()),
                                       scores=scores, elapsed=time.time()-t0))
+                if a.save_snapshots:
+                    torch.save(model.state_dict(),
+                               output_dir/f'model_depth{depth}_step{step+1}.pt')
                 print('depth', depth, 'step', step+1,
                       {name: round(scores[name]['kl'], 4) if scores[name]['kl'] is not None else None
                        for name in task_labels},
