@@ -81,4 +81,28 @@ As a first test of that prior, we constrained each eight-direction supervised ru
 
 Thus a **32-direction weight-only prior retains enough room** to fit compact, rule-specific causal responses on these two frame splits; restricting to 16 loses more of the place effect. The raw top-eight weight directions are much worse than the supervised rotation. This supports the proposed two-stage strategy—weight-derived reduction, then causal organization—at one local bond. It does not yet validate sparsity, identify atomic mechanisms, or prove transfer to an unseen task.
 
-The next test should ask whether a sparse rotation of that weight-derived subspace, fitted on some interventions, predicts **new combinations of rules and sentence forms**. A separate whole-task holdout is required before claiming new-task discovery.
+A sparse rotation of that weight-derived subspace is the next local test. A separate whole-task holdout remains required before claiming new-task discovery.
+
+## Unlabeled sparse rotations within the weight-derived subspace
+
+`eval_surface_v2_sparse_rotation.py` starts from the same top-32 weight-SVD subspace. It compares the raw weight axes, a random orthogonal rotation, a **usage quartimax** rotation fitted on ordinary activation vectors, and a **response quartimax** rotation fitted on pooled intervention differences *without edit-kind labels*. Quartimax chooses an orthogonal basis to concentrate each normalized fit vector in few coordinates. The fit stream and three fit frames are separate from the test stream and three held-out frames; we also reverse the frame assignment. Only after fitting the rotations do we use fit labels to name each axis by its largest mean squared response, then evaluate a largest-axis rule classifier on test edits.
+
+| Axis system | Forward macro rule accuracy | Reverse macro rule accuracy | Forward test quartic concentration |
+|---|---:|---:|---:|
+| Raw weight-SVD axes | .623 | .564 | .114 |
+| Random rotation | .398 | .466 | .082 |
+| Usage quartimax | .672 | .633 | .219 |
+| Unlabeled response quartimax | **.780** | **.721** | **.366** |
+
+Induction classification specifically rises from **.345/.342** on raw weight axes to **.713/.644** after response quartimax (forward/reverse). This is evidence that an intervention-sparsity prior organizes the weight subspace more legibly than raw SVD or ordinary activation sparsity for these known edits. It is **not** unsupervised discovery of a new task: the fit examples are generated from known interventions, and their labels name axes during evaluation. Also, edit type may be partly decodable from the token class being changed.
+
+The causal gate uses the same second-bond local patch as above. For each rule, we select the eight rotated axes with the largest **training** response energy, without changing the unlabeled rotation. Held-out patch-to-full-effect L1 is:
+
+| Effect / frame split | Raw weight axes, selected 8 | Usage quartimax, selected 8 | Response quartimax, selected 8 | Supervised SVD fit within weight-32 |
+|---|---:|---:|---:|---:|
+| Induction, forward | .192 | .181 | **.146** | .113 |
+| Induction, reverse | .211 | .201 | **.134** | .124 |
+| Prior place, forward | .351 | .336 | **.178** | .160 |
+| Prior place, reverse | .352 | .322 | **.158** | .160 |
+
+Response sparsity improves **causal local-effect retention** in both splits, approaching an explicitly supervised rule subspace while using only labels to choose and name axes. It still does not improve the underlying model's imperfect agreement with the DGP oracle, and it does not establish a complete circuit. This is a meaningful first test of the proposed weight reduction followed by an intervention-based legibility objective; the next information-gaining step is to remove the known edit labels from axis selection and test whether inferred groups predict a truly held-out rule or task family.

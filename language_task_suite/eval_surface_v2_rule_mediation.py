@@ -14,6 +14,7 @@ from eval_surface_mixture_edits import predict
 from eval_surface_mixture_v2_edits import build_pairs
 from eval_surface_v2_rule_subspaces import (FIT_FRAMES, KINDS, TEST_FRAMES,
                                             normalized_svd_basis, response_deltas)
+from eval_surface_v2_sparse_rotation import quartimax, unit_rows
 from surface_mixture_v2 import SurfaceMixtureV2
 from train_surface_mixture import make_batch
 
@@ -99,6 +100,24 @@ def main():
             model(x)
     handle.remove()
     generic = bases_for(torch.cat(captured), bond.weight.detach())
+    prior32 = generic['weight_svd'][:, :32]
+    valid_fit = [i for i, pair in enumerate(fit) if pair['kind'] in KINDS]
+    unlabeled = fit_delta[valid_fit]@prior32
+    response_rotation, _ = quartimax(unlabeled)
+    activation_rows = torch.cat(captured).reshape(-1, model.config.n_embd)@prior32
+    activation_rows = activation_rows.double()-activation_rows.double().mean(0)
+    usage_rotation, _ = quartimax(activation_rows[:4096])
+    sparse_axis_bases = {}
+    for name, rotation in [('raw_weight32', torch.eye(32)),
+                           ('response_quartimax', response_rotation),
+                           ('usage_quartimax', usage_rotation)]:
+        full_basis = prior32@rotation
+        by_kind = {}
+        for kind in KINDS:
+            z = unit_rows(fit_by_kind[kind]@full_basis)
+            axes = z.square().mean(0).topk(a.width).indices
+            by_kind[kind] = full_basis[:, axes]
+        sparse_axis_bases[name] = by_kind
     constrained = {}
     for prior_width in (16, 32):
         prior = generic['weight_svd'][:, :prior_width]
@@ -125,6 +144,8 @@ def main():
         bases = {f'edit_{name}': basis for name, basis in learned.items()}
         for prior_width, by_kind in constrained.items():
             bases[f'weight{prior_width}_then_edit_{kind}'] = by_kind[kind]
+        for name, by_kind in sparse_axis_bases.items():
+            bases[f'{name}_select_{kind}'] = by_kind[kind]
         bases.update({'weight_svd': generic['weight_svd'][:, :a.width],
                  'activation_pca': generic['activation_pca'][:, :a.width],
                  'random': generic['random'][:, :a.width]})
