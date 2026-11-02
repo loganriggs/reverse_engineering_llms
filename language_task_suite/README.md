@@ -16,6 +16,8 @@ The [proposal alignment](PROPOSAL_ALIGNMENT_2026-11-02.md) distinguishes the ori
 
 The [conditional readable-rule experiment](CONDITIONAL_SURFACE_RESULTS.md) keeps competing lexical, induction, lead and place rules in one stream and changes their weights through a visible mode cue. It tests exact fixed-prefix probability shifts, sampled versus oracle-soft supervision, a nearly two-rule control, and local attention-bond mediation. Its principal negative result is that compact cue transmission and low next-token KL do not yet imply the correct context-dependent induction effect.
 
+The [six-frame surface-mixture follow-up](SURFACE_MIXTURE_V2_RESULTS.md) broadens the same joint-rule data-generating process across sentence forms, audits every prefix against its exact oracle, and adds grammar-valid rule-specific causal edits. Its sentence-length distribution is closer to a fixed FineWeb sample, while lexical diversity and naturalness remain far behind.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds

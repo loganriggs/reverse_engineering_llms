@@ -14,7 +14,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from surface_mixture_language import SurfaceMixtureLanguage, VOCAB
+from surface_mixture_language import SurfaceMixtureLanguage
+from surface_mixture_v2 import SurfaceMixtureV2
 
 
 def make_batch(gen, n, length, device):
@@ -26,7 +27,7 @@ def make_batch(gen, n, length, device):
 def make_eval(gen, n, length, device):
     ids, labels, qs = gen.sample_batch(n, length+1)
     z = torch.tensor(ids, dtype=torch.long, device=device)
-    q = np.zeros((n, length, len(VOCAB)), dtype=np.float32)
+    q = np.zeros((n, length, len(gen.vocab)), dtype=np.float32)
     verb = np.zeros((n, length), dtype=bool)
     induction = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
@@ -65,6 +66,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
+    p.add_argument('--generator', choices=['v1', 'v2'], default='v1')
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -73,11 +75,17 @@ def main():
     p.add_argument('--rmsnorm', action='store_true',
                    help='Use per-block and final RMSNorm for deep stability')
     p.add_argument('--lr', type=float, default=.003)
+    p.add_argument('--verb-soft-weight', type=float, default=0.0,
+                   help='Additional exact-oracle expected CE on verb slots')
+    p.add_argument('--verb-sampled-weight', type=float, default=0.0,
+                   help='Additional sampled-token CE on verb slots')
     p.add_argument('--neval', type=int, default=256)
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
     a = p.parse_args()
+    if a.verb_soft_weight and a.verb_sampled_weight:
+        p.error('Select only one extra verb objective')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -85,26 +93,40 @@ def main():
     device = torch.device(a.device)
     output_dir = Path(a.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    test = make_eval(SurfaceMixtureLanguage(seed=8101), a.neval,
+    generator_class = SurfaceMixtureLanguage if a.generator == 'v1' else SurfaceMixtureV2
+    vocab = generator_class().vocab
+    test = make_eval(generator_class(seed=8101), a.neval,
                      a.length, device)
     records = []
     for depth in [int(d) for d in a.depths.split(',')]:
         torch.manual_seed(8200+a.seed)
-        config = Config(vocab_size=len(VOCAB), n_layer=depth,
+        config = Config(vocab_size=len(vocab), n_layer=depth,
                         n_head=a.heads, n_embd=a.width, seq_len=a.length,
                         block_has_mlp=(False,)*depth,
                         use_rmsnorm=a.rmsnorm)
         model = BilinearGPT(config).to(device)
-        gen = SurfaceMixtureLanguage(seed=8300+a.seed)
+        gen = generator_class(seed=8300+a.seed)
         optimizer = torch.optim.AdamW(model.parameters(), lr=a.lr)
         t0 = time.time()
         snapshots = []
         model.train()
         for step in range(a.steps):
-            x, y = make_batch(gen, a.batch, a.length, device)
+            if a.verb_soft_weight > 0 or a.verb_sampled_weight > 0:
+                train = make_eval(gen, a.batch, a.length, device)
+                x, y = train['x'], train['y']
+            else:
+                x, y = make_batch(gen, a.batch, a.length, device)
             optimizer.zero_grad(set_to_none=True)
             logits = model(x)[0]
-            loss = F.cross_entropy(logits.reshape(-1, len(VOCAB)), y.reshape(-1))
+            loss = F.cross_entropy(logits.reshape(-1, len(vocab)), y.reshape(-1))
+            if a.verb_soft_weight > 0:
+                logp = F.log_softmax(logits.float(), dim=-1)
+                expected_ce = -(train['q'] * logp).sum(-1)
+                loss = loss + a.verb_soft_weight * expected_ce[train['verb']].mean()
+            if a.verb_sampled_weight > 0:
+                sampled_ce = F.cross_entropy(logits[train['verb']],
+                                             y[train['verb']])
+                loss = loss + a.verb_sampled_weight * sampled_ce
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -124,7 +146,7 @@ def main():
         records.append(dict(depth=depth, model_config=asdict(config),
                             parameters=model.count_params(), snapshots=snapshots))
         (output_dir/'results.json').write_text(json.dumps(dict(
-            config=vars(a), vocabulary=list(VOCAB), records=records), indent=2)+'\n')
+            config=vars(a), vocabulary=list(vocab), records=records), indent=2)+'\n')
 
 
 if __name__ == '__main__':
