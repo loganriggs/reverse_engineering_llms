@@ -17,6 +17,7 @@ import torch.nn.functional as F
 
 from eval_existing_mixed_oracle import candidate_info
 from mixed_rule_oracle import observable_distributions_for_sequence
+from train_mixed_rule_weight_sweep import MIXTURES
 
 
 SOURCE = '/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits'
@@ -66,26 +67,28 @@ def main():
     p.add_argument('--length', type=int, default=64)
     p.add_argument('--layer', type=int, default=0)
     p.add_argument('--fit-contexts', choices=['all', 'no_conflict'], default='all')
+    p.add_argument('--fit-mixture', choices=list(MIXTURES), default='baseline')
+    p.add_argument('--test-mixture', choices=list(MIXTURES), default='baseline')
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', required=True)
     a = p.parse_args()
     sys.path.insert(0, a.source)
-    from generator import LanguageGenerator, ALL_RULES, DEFAULT_MIXING
+    from generator import LanguageGenerator, ALL_RULES
     from model import BilinearGPT, Config
 
     config_json = json.loads(Path(a.config).read_text())
     config_keys = {f.name for f in fields(Config)}
     config = Config(**{k: v for k, v in config_json.items() if k in config_keys})
-    assert a.length <= config.seq_len and 0 <= a.layer < config.n_layer
+    assert a.length-1 <= config.seq_len and 0 <= a.layer < config.n_layer
     torch.set_num_threads(4)
     device = torch.device(a.device)
     model = BilinearGPT(config).to(device)
     model.load_state_dict(torch.load(a.checkpoint, weights_only=True, map_location='cpu'))
     model.eval()
     bond = model.blocks[a.layer].attn.out
-    fit_gen = LanguageGenerator(ALL_RULES, mixing_weights=DEFAULT_MIXING,
+    fit_gen = LanguageGenerator(ALL_RULES, mixing_weights=MIXTURES[a.fit_mixture],
                                 mode='mixed', seed=4701)
-    test_gen = LanguageGenerator(ALL_RULES, mixing_weights=DEFAULT_MIXING,
+    test_gen = LanguageGenerator(ALL_RULES, mixing_weights=MIXTURES[a.test_mixture],
                                  mode='mixed', seed=4702)
     fit_ids, xfit = make_data(fit_gen, a.nfit, a.length, device)
     test_ids, xtest = make_data(test_gen, a.ntest, a.length, device)

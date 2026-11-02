@@ -1,0 +1,403 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "mixtures": "baseline,bigram_heavy,induction_heavy",
+    "seeds": 1,
+    "steps": 5000,
+    "batch": 64,
+    "length": 64,
+    "n_layer": 2,
+    "width": 64,
+    "heads": 4,
+    "lr": 0.003,
+    "neval": 256,
+    "device": "cpu",
+    "eval_only": false,
+    "output_dir": "language_task_suite/mixed_rule_weight_sweep_v2"
+  },
+  "model_config": {
+    "vocab_size": 26,
+    "n_layer": 2,
+    "n_head": 4,
+    "n_embd": 64,
+    "seq_len": 63,
+    "mlp_hidden": 512,
+    "block_has_mlp": [
+      false,
+      false
+    ],
+    "use_rmsnorm": false,
+    "use_qk_norm": false,
+    "use_final_norm": false
+  },
+  "mixtures": {
+    "baseline": {
+      "bigram": 0.25,
+      "trigram": 0.22,
+      "skip_bigram": 0.22,
+      "induction": 0.2,
+      "bracket": 0.01,
+      "noise": 0.1
+    },
+    "bigram_heavy": {
+      "bigram": 0.35,
+      "trigram": 0.22,
+      "skip_bigram": 0.22,
+      "induction": 0.1,
+      "bracket": 0.01,
+      "noise": 0.1
+    },
+    "induction_heavy": {
+      "bigram": 0.1,
+      "trigram": 0.22,
+      "skip_bigram": 0.22,
+      "induction": 0.35,
+      "bracket": 0.01,
+      "noise": 0.1
+    }
+  },
+  "records": [
+    {
+      "train_mixture": "baseline",
+      "seed": 0,
+      "steps": 5000,
+      "final_train_ce": 1.3636353015899658,
+      "seconds": 91.78031349182129,
+      "evaluations": {
+        "baseline": {
+          "all": {
+            "n": 16128,
+            "kl": 0.017461586743593216,
+            "oracle_entropy": 1.3444132804870605,
+            "observed_ce": 1.3552502393722534
+          },
+          "conflict": {
+            "n": 2764,
+            "kl": 0.04849671572446823,
+            "oracle_entropy": 0.7513402104377747,
+            "observed_ce": 0.799628734588623
+          },
+          "no_conflict": {
+            "n": 13364,
+            "kl": 0.011042769066989422,
+            "oracle_entropy": 1.467075228691101,
+            "observed_ce": 1.4701664447784424
+          },
+          "bigram+induction": {
+            "n": 622,
+            "kl": 0.13643191754817963,
+            "oracle_entropy": 0.8674033880233765
+          },
+          "bigram+induction+trigram": {
+            "n": 1276,
+            "kl": 0.02909553237259388,
+            "oracle_entropy": 0.7033256888389587
+          },
+          "bigram+trigram": {
+            "n": 866,
+            "kl": 0.013924210332334042,
+            "oracle_entropy": 0.7387252449989319
+          }
+        },
+        "bigram_heavy": {
+          "all": {
+            "n": 16128,
+            "kl": 0.017511405050754547,
+            "oracle_entropy": 1.3430391550064087,
+            "observed_ce": 1.35836660861969
+          },
+          "conflict": {
+            "n": 2506,
+            "kl": 0.04992278665304184,
+            "oracle_entropy": 0.7204766273498535,
+            "observed_ce": 0.7635261416435242
+          },
+          "no_conflict": {
+            "n": 13622,
+            "kl": 0.011548779904842377,
+            "oracle_entropy": 1.457570195198059,
+            "observed_ce": 1.4677976369857788
+          },
+          "bigram+induction": {
+            "n": 520,
+            "kl": 0.14679372310638428,
+            "oracle_entropy": 0.7578689455986023
+          },
+          "bigram+induction+trigram": {
+            "n": 1133,
+            "kl": 0.027828725054860115,
+            "oracle_entropy": 0.7073308825492859
+          },
+          "bigram+trigram": {
+            "n": 853,
+            "kl": 0.02021550014615059,
+            "oracle_entropy": 0.715142548084259
+          }
+        },
+        "induction_heavy": {
+          "all": {
+            "n": 16128,
+            "kl": 0.05227335914969444,
+            "oracle_entropy": 1.3240087032318115,
+            "observed_ce": 1.3746917247772217
+          },
+          "conflict": {
+            "n": 3161,
+            "kl": 0.2062489092350006,
+            "oracle_entropy": 0.6670209765434265,
+            "observed_ce": 0.8661664724349976
+          },
+          "no_conflict": {
+            "n": 12967,
+            "kl": 0.01473832968622446,
+            "oracle_entropy": 1.4841642379760742,
+            "observed_ce": 1.4986562728881836
+          },
+          "bigram+induction": {
+            "n": 895,
+            "kl": 0.43432754278182983,
+            "oracle_entropy": 0.7210509181022644
+          },
+          "bigram+induction+trigram": {
+            "n": 1351,
+            "kl": 0.10638663917779922,
+            "oracle_entropy": 0.629426896572113
+          },
+          "bigram+trigram": {
+            "n": 915,
+            "kl": 0.13060252368450165,
+            "oracle_entropy": 0.6696799397468567
+          }
+        }
+      }
+    },
+    {
+      "train_mixture": "bigram_heavy",
+      "seed": 0,
+      "steps": 5000,
+      "final_train_ce": 1.3600261211395264,
+      "seconds": 90.16248512268066,
+      "evaluations": {
+        "baseline": {
+          "all": {
+            "n": 16128,
+            "kl": 0.028547579422593117,
+            "oracle_entropy": 1.3444132804870605,
+            "observed_ce": 1.3661335706710815
+          },
+          "conflict": {
+            "n": 2764,
+            "kl": 0.10742868483066559,
+            "oracle_entropy": 0.7513402104377747,
+            "observed_ce": 0.8571326732635498
+          },
+          "no_conflict": {
+            "n": 13364,
+            "kl": 0.012233046814799309,
+            "oracle_entropy": 1.467075228691101,
+            "observed_ce": 1.4714072942733765
+          },
+          "bigram+induction": {
+            "n": 622,
+            "kl": 0.35369932651519775,
+            "oracle_entropy": 0.8674033880233765
+          },
+          "bigram+induction+trigram": {
+            "n": 1276,
+            "kl": 0.047683075070381165,
+            "oracle_entropy": 0.7033256888389587
+          },
+          "bigram+trigram": {
+            "n": 866,
+            "kl": 0.018577752634882927,
+            "oracle_entropy": 0.7387252449989319
+          }
+        },
+        "bigram_heavy": {
+          "all": {
+            "n": 16128,
+            "kl": 0.015133892185986042,
+            "oracle_entropy": 1.3430391550064087,
+            "observed_ce": 1.3578507900238037
+          },
+          "conflict": {
+            "n": 2506,
+            "kl": 0.04171064496040344,
+            "oracle_entropy": 0.7204766273498535,
+            "observed_ce": 0.7658154964447021
+          },
+          "no_conflict": {
+            "n": 13622,
+            "kl": 0.0102446423843503,
+            "oracle_entropy": 1.457570195198059,
+            "observed_ce": 1.4667657613754272
+          },
+          "bigram+induction": {
+            "n": 520,
+            "kl": 0.14263935387134552,
+            "oracle_entropy": 0.7578689455986023
+          },
+          "bigram+induction+trigram": {
+            "n": 1133,
+            "kl": 0.021156398579478264,
+            "oracle_entropy": 0.7073308825492859
+          },
+          "bigram+trigram": {
+            "n": 853,
+            "kl": 0.00748442392796278,
+            "oracle_entropy": 0.715142548084259
+          }
+        },
+        "induction_heavy": {
+          "all": {
+            "n": 16128,
+            "kl": 0.10176283866167068,
+            "oracle_entropy": 1.3240087032318115,
+            "observed_ce": 1.4257932901382446
+          },
+          "conflict": {
+            "n": 3161,
+            "kl": 0.4402577579021454,
+            "oracle_entropy": 0.6670209765434265,
+            "observed_ce": 1.100661039352417
+          },
+          "no_conflict": {
+            "n": 12967,
+            "kl": 0.019247040152549744,
+            "oracle_entropy": 1.4841642379760742,
+            "observed_ce": 1.505051612854004
+          },
+          "bigram+induction": {
+            "n": 895,
+            "kl": 1.0058013200759888,
+            "oracle_entropy": 0.7210509181022644
+          },
+          "bigram+induction+trigram": {
+            "n": 1351,
+            "kl": 0.24037930369377136,
+            "oracle_entropy": 0.629426896572113
+          },
+          "bigram+trigram": {
+            "n": 915,
+            "kl": 0.18219684064388275,
+            "oracle_entropy": 0.6696799397468567
+          }
+        }
+      }
+    },
+    {
+      "train_mixture": "induction_heavy",
+      "seed": 0,
+      "steps": 5000,
+      "final_train_ce": 1.3490936756134033,
+      "seconds": 89.03379559516907,
+      "evaluations": {
+        "baseline": {
+          "all": {
+            "n": 16128,
+            "kl": 0.03418608754873276,
+            "oracle_entropy": 1.3444132804870605,
+            "observed_ce": 1.3712257146835327
+          },
+          "conflict": {
+            "n": 2764,
+            "kl": 0.12197646498680115,
+            "oracle_entropy": 0.7513402104377747,
+            "observed_ce": 0.8807765245437622
+          },
+          "no_conflict": {
+            "n": 13364,
+            "kl": 0.01602890156209469,
+            "oracle_entropy": 1.467075228691101,
+            "observed_ce": 1.472662329673767
+          },
+          "bigram+induction": {
+            "n": 622,
+            "kl": 0.28407400846481323,
+            "oracle_entropy": 0.8674033880233765
+          },
+          "bigram+induction+trigram": {
+            "n": 1276,
+            "kl": 0.05346295237541199,
+            "oracle_entropy": 0.7033256888389587
+          },
+          "bigram+trigram": {
+            "n": 866,
+            "kl": 0.10650137066841125,
+            "oracle_entropy": 0.7387252449989319
+          }
+        },
+        "bigram_heavy": {
+          "all": {
+            "n": 16128,
+            "kl": 0.051614414900541306,
+            "oracle_entropy": 1.3430391550064087,
+            "observed_ce": 1.3918921947479248
+          },
+          "conflict": {
+            "n": 2506,
+            "kl": 0.22115911543369293,
+            "oracle_entropy": 0.7204766273498535,
+            "observed_ce": 0.9262406826019287
+          },
+          "no_conflict": {
+            "n": 13622,
+            "kl": 0.0204237662255764,
+            "oracle_entropy": 1.457570195198059,
+            "observed_ce": 1.4775567054748535
+          },
+          "bigram+induction": {
+            "n": 520,
+            "kl": 0.5656793117523193,
+            "oracle_entropy": 0.7578689455986023
+          },
+          "bigram+induction+trigram": {
+            "n": 1133,
+            "kl": 0.08845905214548111,
+            "oracle_entropy": 0.7073308825492859
+          },
+          "bigram+trigram": {
+            "n": 853,
+            "kl": 0.18739427626132965,
+            "oracle_entropy": 0.715142548084259
+          }
+        },
+        "induction_heavy": {
+          "all": {
+            "n": 16128,
+            "kl": 0.024584714323282242,
+            "oracle_entropy": 1.3240087032318115,
+            "observed_ce": 1.3477944135665894
+          },
+          "conflict": {
+            "n": 3161,
+            "kl": 0.06804173439741135,
+            "oracle_entropy": 0.6670209765434265,
+            "observed_ce": 0.7353137135505676
+          },
+          "no_conflict": {
+            "n": 12967,
+            "kl": 0.013991080224514008,
+            "oracle_entropy": 1.4841642379760742,
+            "observed_ce": 1.4971004724502563
+          },
+          "bigram+induction": {
+            "n": 895,
+            "kl": 0.14762790501117706,
+            "oracle_entropy": 0.7210509181022644
+          },
+          "bigram+induction+trigram": {
+            "n": 1351,
+            "kl": 0.04921187460422516,
+            "oracle_entropy": 0.629426896572113
+          },
+          "bigram+trigram": {
+            "n": 915,
+            "kl": 0.01799750328063965,
+            "oracle_entropy": 0.6696799397468567
+          }
+        }
+      }
+    }
+  ]
+}

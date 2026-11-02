@@ -10,6 +10,7 @@ from pathlib import Path
 from mixed_rule_oracle import (core_distribution, observable_distribution,
                                observable_distributions_for_sequence,
                                outside_span_distribution)
+from train_mixed_rule_weight_sweep import MIXTURES
 
 DEFAULT_SOURCE = '/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits'
 
@@ -23,11 +24,12 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default=os.environ.get('ATTN_CIRCUITS_DIR', DEFAULT_SOURCE))
     p.add_argument('--draws', type=int, default=20000)
+    p.add_argument('--mixture', choices=list(MIXTURES), default='baseline')
     p.add_argument('--output', default='language_task_suite/mixed_rule_oracle_checks.json')
     a = p.parse_args()
     sys.path.insert(0, str(Path(a.source).resolve()))
-    from generator import LanguageGenerator, ALL_RULES, DEFAULT_MIXING
-    gen = LanguageGenerator(ALL_RULES, mixing_weights=DEFAULT_MIXING,
+    from generator import LanguageGenerator, ALL_RULES
+    gen = LanguageGenerator(ALL_RULES, mixing_weights=MIXTURES[a.mixture],
                             mode='mixed', seed=800)
     contexts = [[], ['$'], ['a', 'B0', 'a'], ['g', 'd'],
                 ['g', '#'], ['b', 'S0', 'b', '!'],
@@ -48,7 +50,7 @@ def main():
     exact = outside_span_distribution(gen, context)
     observed = Counter()
     for _ in range(a.draws):
-        if gen.rng.random() < DEFAULT_MIXING['bracket']:
+        if gen.rng.random() < gen.mixing_weights['bracket']:
             token = gen._emit_bracket_sequence()[0][0]
         else:
             token = gen._sample_next_token(context)[0]
@@ -77,12 +79,12 @@ def main():
     ambiguous_counts = Counter()
     n_ambiguous = 0
     for _ in range(max(a.draws*25, 500_000)):
-        if gen.rng.random() < DEFAULT_MIXING['bracket']:
+        if gen.rng.random() < gen.mixing_weights['bracket']:
             span, _ = gen._emit_bracket_sequence()
             second, third = span[0], span[1]
         else:
             second = gen._sample_next_token(['B1'])[0]
-            if second == '(' and gen.rng.random() < DEFAULT_MIXING['bracket']:
+            if second == '(' and gen.rng.random() < gen.mixing_weights['bracket']:
                 third = gen._emit_bracket_sequence()[0][0]
             elif second == '(':
                 third = gen._sample_next_token(['B1', '('])[0]
