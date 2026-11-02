@@ -18,6 +18,8 @@ The [conditional readable-rule experiment](CONDITIONAL_SURFACE_RESULTS.md) keeps
 
 The [six-frame surface-mixture follow-up](SURFACE_MIXTURE_V2_RESULTS.md) broadens the same joint-rule data-generating process across sentence forms, audits every prefix against its exact oracle, and adds grammar-valid rule-specific causal edits. Its sentence-length distribution is closer to a fixed FineWeb sample, while lexical diversity and naturalness remain far behind.
 
+The [two-site joint-rule follow-up](SURFACE_MIXTURE_V3_RESULTS.md) adds a second contested prediction at object nouns within the same six-frame stream, with adjective bigram, prior-object induction, frame cue, and previous-event proposals. It audits both exact mixtures, trains bilinear models on both, and tests whether verb-trained response directions transfer to the object task. The generated prose remains much less diverse than FineWeb.
+
 This folder develops explicit, auditable language tasks for training and analyzing 1–4-block bilinear transformers. The immediate goal is **correct data-generation rules** and diverse causal targets. It is not yet a natural-language corpus or evidence that a model learned a human linguistic abstraction. Training uses the original `DeepModel` implementation in [`tensor_language/deep_model.py`](https://github.com/loganriggs/tensor_language/blob/main/deep_model.py): each block has bilinear attention plus a bilinear MLP. We use RMSNorm for numerical stability, so the trained network is not globally polynomial despite its bilinear modules.
 
 ## What existed, and what this adds

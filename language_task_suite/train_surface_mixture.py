@@ -16,6 +16,7 @@ import torch.nn.functional as F
 
 from surface_mixture_language import SurfaceMixtureLanguage
 from surface_mixture_v2 import SurfaceMixtureV2
+from surface_mixture_v3 import SurfaceMixtureV3
 
 
 def make_batch(gen, n, length, device):
@@ -30,6 +31,8 @@ def make_eval(gen, n, length, device):
     q = np.zeros((n, length, len(gen.vocab)), dtype=np.float32)
     verb = np.zeros((n, length), dtype=bool)
     induction = np.zeros((n, length), dtype=bool)
+    obj = np.zeros((n, length), dtype=bool)
+    object_induction = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
@@ -37,10 +40,16 @@ def make_eval(gen, n, length, device):
             if labs[t] == 'mixed_verb':
                 verb[b, t-1] = True
                 induction[b, t-1] = 'induction' in gen.candidates(row[:t])
+            elif labs[t] == 'mixed_object':
+                obj[b, t-1] = True
+                object_induction[b, t-1] = ('object_induction' in
+                                            gen.object_candidates(row[:t]))
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 verb=torch.from_numpy(verb).to(device),
-                induction=torch.from_numpy(induction).to(device))
+                induction=torch.from_numpy(induction).to(device),
+                obj=torch.from_numpy(obj).to(device),
+                object_induction=torch.from_numpy(object_induction).to(device))
 
 
 @torch.no_grad()
@@ -56,6 +65,10 @@ def evaluate(model, data):
              'verb': data['verb'],
              'verb_with_induction': data['verb'] & data['induction'],
              'verb_without_induction': data['verb'] & ~data['induction']}
+    if data['obj'].any():
+        masks.update(object=data['obj'],
+                     object_with_induction=data['obj'] & data['object_induction'],
+                     object_without_induction=data['obj'] & ~data['object_induction'])
     return {name: dict(n=int(mask.sum()), kl=float(kl[mask].mean()),
                        oracle_entropy=float(entropy[mask].mean()),
                        sampled_ce=float(sample_ce[mask].mean()))
@@ -66,7 +79,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v3'], default='v1')
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -79,6 +92,10 @@ def main():
                    help='Additional exact-oracle expected CE on verb slots')
     p.add_argument('--verb-sampled-weight', type=float, default=0.0,
                    help='Additional sampled-token CE on verb slots')
+    p.add_argument('--object-soft-weight', type=float, default=0.0,
+                   help='Additional exact-oracle expected CE on object slots')
+    p.add_argument('--mask-verb-ce', action='store_true',
+                   help='Exclude verb slots from ordinary CE for object-only ablation')
     p.add_argument('--neval', type=int, default=256)
     p.add_argument('--seed', type=int, default=0)
     p.add_argument('--device', default='cpu')
@@ -86,6 +103,8 @@ def main():
     a = p.parse_args()
     if a.verb_soft_weight and a.verb_sampled_weight:
         p.error('Select only one extra verb objective')
+    if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
+        p.error('Cannot mask verb CE while adding a verb objective')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -93,7 +112,9 @@ def main():
     device = torch.device(a.device)
     output_dir = Path(a.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    generator_class = SurfaceMixtureLanguage if a.generator == 'v1' else SurfaceMixtureV2
+    generator_class = {'v1': SurfaceMixtureLanguage,
+                       'v2': SurfaceMixtureV2,
+                       'v3': SurfaceMixtureV3}[a.generator]
     vocab = generator_class().vocab
     test = make_eval(generator_class(seed=8101), a.neval,
                      a.length, device)
@@ -111,14 +132,21 @@ def main():
         snapshots = []
         model.train()
         for step in range(a.steps):
-            if a.verb_soft_weight > 0 or a.verb_sampled_weight > 0:
+            if (a.verb_soft_weight > 0 or a.verb_sampled_weight > 0
+                    or a.object_soft_weight > 0 or a.mask_verb_ce):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
             else:
                 x, y = make_batch(gen, a.batch, a.length, device)
             optimizer.zero_grad(set_to_none=True)
             logits = model(x)[0]
-            loss = F.cross_entropy(logits.reshape(-1, len(vocab)), y.reshape(-1))
+            per_token_ce = F.cross_entropy(logits.reshape(-1, len(vocab)),
+                                           y.reshape(-1), reduction='none')
+            if a.mask_verb_ce:
+                loss = per_token_ce.masked_fill(
+                    train['verb'].reshape(-1), 0).mean()
+            else:
+                loss = per_token_ce.mean()
             if a.verb_soft_weight > 0:
                 logp = F.log_softmax(logits.float(), dim=-1)
                 expected_ce = -(train['q'] * logp).sum(-1)
@@ -127,6 +155,12 @@ def main():
                 sampled_ce = F.cross_entropy(logits[train['verb']],
                                              y[train['verb']])
                 loss = loss + a.verb_sampled_weight * sampled_ce
+            if a.object_soft_weight > 0:
+                if not train['obj'].any():
+                    raise ValueError('Object supervision requires v3 generator')
+                logp = F.log_softmax(logits.float(), dim=-1)
+                expected_ce = -(train['q'] * logp).sum(-1)
+                loss = loss + a.object_soft_weight * expected_ce[train['obj']].mean()
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -140,6 +174,8 @@ def main():
                 print('depth', depth, 'step', step+1,
                       'verb KL', round(scores['verb']['kl'], 4),
                       'induction KL', round(scores['verb_with_induction']['kl'], 4),
+                      'object KL', round(scores['object']['kl'], 4)
+                      if 'object' in scores else 'n/a',
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')
