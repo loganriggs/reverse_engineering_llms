@@ -22,7 +22,34 @@ from surface_mixture_v5 import SurfaceMixtureV5
 from surface_mixture_v6 import SurfaceMixtureV6
 from surface_mixture_v7 import SurfaceMixtureV7
 from surface_mixture_v8 import SurfaceMixtureV8
+from surface_alias_mixture import AliasMixtureLanguage
 from softmax_attention_control import configure_attention
+
+
+def alias_causal_cache(generator_kwargs, nstreams, length, seed, vocab,
+                       edit_selection='first'):
+    """Supported edited prefixes with exact-oracle targets, padded causally."""
+    from eval_surface_alias_edits import build_pairs
+    gen = AliasMixtureLanguage(seed=seed, **generator_kwargs)
+    pairs = build_pairs(gen, nstreams, length, edit_selection)
+    by_kind = {}
+    for kind in ('same_referent', 'different_referent', 'definition_referent'):
+        selected = [pair for pair in pairs if pair['kind'] == kind]
+        if not selected:
+            raise ValueError(f'No alias causal training pairs for {kind}')
+        x = torch.full((len(selected), length), gen.token2id['.'],
+                       dtype=torch.long)
+        positions = torch.empty(len(selected), dtype=torch.long)
+        q = torch.zeros((len(selected), len(vocab)), dtype=torch.float32)
+        for i, pair in enumerate(selected):
+            edited = pair['edited']
+            x[i, :len(edited)] = torch.tensor(edited, dtype=torch.long)
+            positions[i] = len(edited)-1
+            for token, p in pair['oracle_after'].items():
+                q[i, gen.token2id[token]] = p
+        assert torch.allclose(q.sum(-1), torch.ones(len(selected)))
+        by_kind[kind] = dict(x=x, positions=positions, q=q)
+    return by_kind
 
 
 def make_batch(gen, n, length, device):
@@ -209,7 +236,18 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
+    p.add_argument('--parenthetical-rate', type=float, default=.55)
+    p.add_argument('--alias-fraction', type=float, default=.65)
+    p.add_argument('--alias-use', type=float, default=.65)
+    p.add_argument('--definition-start-rate', type=float, default=.20)
+    p.add_argument('--alias-reuse-rate', type=float, default=.25)
+    p.add_argument('--alias-causal-weight', type=float, default=0.0,
+                   help='Exact-oracle CE on supported alias counterfactuals')
+    p.add_argument('--alias-causal-nstreams', type=int, default=1024)
+    p.add_argument('--alias-causal-per-kind', type=int, default=8)
+    p.add_argument('--alias-causal-edit-selection',
+                   choices=('first', 'balanced'), default='first')
     p.add_argument('--object-vocab-size', type=int, default=None,
                    help='For v3/v4, restrict object-site outputs while keeping model vocabulary fixed')
     p.add_argument('--hard-query-rate', type=float, default=None,
@@ -264,6 +302,8 @@ def main():
     a = p.parse_args()
     if a.verb_soft_weight and a.verb_sampled_weight:
         p.error('Select only one extra verb objective')
+    if a.alias_causal_weight and a.generator != 'alias':
+        p.error('Alias causal supervision requires the alias generator')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
     if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
@@ -296,7 +336,8 @@ def main():
                        'v5': SurfaceMixtureV5,
                        'v6': SurfaceMixtureV6,
                        'v7': SurfaceMixtureV7,
-                       'v8': SurfaceMixtureV8}[a.generator]
+                       'v8': SurfaceMixtureV8,
+                       'alias': AliasMixtureLanguage}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
                         if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
     if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
@@ -313,7 +354,19 @@ def main():
         generator_kwargs['section_rate'] = a.section_rate
         generator_kwargs['detail_rate'] = a.detail_rate
         generator_kwargs['scope_question_rate'] = a.scope_question_rate
+    if a.generator == 'alias':
+        generator_kwargs.update(parenthetical_rate=a.parenthetical_rate,
+                                alias_fraction=a.alias_fraction,
+                                alias_use=a.alias_use,
+                                definition_start_rate=a.definition_start_rate,
+                                alias_reuse_rate=a.alias_reuse_rate)
     vocab = generator_class(**generator_kwargs).vocab
+    alias_cache = (alias_causal_cache(generator_kwargs,
+                                     a.alias_causal_nstreams, a.length,
+                                     8400+a.seed, vocab,
+                                     a.alias_causal_edit_selection)
+                   if a.alias_causal_weight > 0 else None)
+    causal_rng = torch.Generator().manual_seed(8401+a.seed)
     test = make_eval(generator_class(seed=8101, **generator_kwargs), a.neval,
                      a.length, device)
     records = []
@@ -406,6 +459,22 @@ def main():
                     cf_logits = model(cf_x)[0]
                     loss = loss + a.scope_counterfactual_weight*F.cross_entropy(
                         cf_logits[cf_mask].float(), cf_y[cf_mask])
+            if alias_cache is not None:
+                chosen = []
+                for group in alias_cache.values():
+                    index = torch.randint(len(group['x']),
+                                          (a.alias_causal_per_kind,),
+                                          generator=causal_rng)
+                    chosen.append((group, index))
+                cf_x = torch.cat([group['x'][index] for group, index in chosen]).to(device)
+                cf_pos = torch.cat([group['positions'][index]
+                                    for group, index in chosen]).to(device)
+                cf_q = torch.cat([group['q'][index]
+                                  for group, index in chosen]).to(device)
+                cf_logits = model(cf_x)[0]
+                selected_logits = cf_logits[torch.arange(len(cf_pos), device=device), cf_pos]
+                cf_ce = -(cf_q*F.log_softmax(selected_logits.float(), -1)).sum(-1).mean()
+                loss = loss + a.alias_causal_weight*cf_ce
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()
@@ -436,6 +505,9 @@ def main():
                             parameters=model.count_params(), snapshots=snapshots))
         (output_dir/'results.json').write_text(json.dumps(dict(
             config=vars(a), generator_kwargs=generator_kwargs,
+            alias_causal_pair_counts={kind: len(group['x'])
+                                      for kind, group in alias_cache.items()}
+            if alias_cache is not None else None,
             vocabulary=list(vocab), records=records), indent=2)+'\n')
 
 
