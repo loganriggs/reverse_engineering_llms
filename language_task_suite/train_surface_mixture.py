@@ -17,6 +17,8 @@ import torch.nn.functional as F
 from surface_mixture_language import SurfaceMixtureLanguage
 from surface_mixture_v2 import SurfaceMixtureV2
 from surface_mixture_v2_varied import SurfaceMixtureV2Varied
+from surface_mixture_v2_nested import SurfaceMixtureV2Nested
+from surface_mixture_v2_nested_varlen import SurfaceMixtureV2NestedVarlen
 from surface_mixture_v3 import SurfaceMixtureV3
 from surface_mixture_v4 import SurfaceMixtureV4
 from surface_mixture_v5 import SurfaceMixtureV5
@@ -71,6 +73,8 @@ def make_eval(gen, n, length, device):
     count_answer = np.zeros((n, length), dtype=bool)
     source_answer = np.zeros((n, length), dtype=bool)
     scope_answer = np.zeros((n, length), dtype=bool)
+    nested_inner = np.zeros((n, length), dtype=bool)
+    nested_outer = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
@@ -90,6 +94,10 @@ def make_eval(gen, n, length, device):
                 source_answer[b, t-1] = True
             elif labs[t] == 'scope_answer':
                 scope_answer[b, t-1] = True
+            elif labs[t] == 'nested_close_inner':
+                nested_inner[b, t-1] = True
+            elif labs[t] == 'nested_close_outer':
+                nested_outer[b, t-1] = True
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 verb=torch.from_numpy(verb).to(device),
@@ -99,7 +107,9 @@ def make_eval(gen, n, length, device):
                 answer=torch.from_numpy(answer).to(device),
                 count_answer=torch.from_numpy(count_answer).to(device),
                 source_answer=torch.from_numpy(source_answer).to(device),
-                scope_answer=torch.from_numpy(scope_answer).to(device))
+                scope_answer=torch.from_numpy(scope_answer).to(device),
+                nested_inner=torch.from_numpy(nested_inner).to(device),
+                nested_outer=torch.from_numpy(nested_outer).to(device))
 
 
 def query_counterfactuals(gen, x, answer_mask):
@@ -227,6 +237,10 @@ def evaluate(model, data):
         masks['source_answer'] = data['source_answer']
     if data['scope_answer'].any():
         masks['scope_answer'] = data['scope_answer']
+    if data['nested_inner'].any():
+        masks['nested_close_inner'] = data['nested_inner']
+    if data['nested_outer'].any():
+        masks['nested_close_outer'] = data['nested_outer']
     return {name: dict(n=int(mask.sum()), kl=float(kl[mask].mean()),
                        oracle_entropy=float(entropy[mask].mean()),
                        sampled_ce=float(sample_ce[mask].mean()))
@@ -237,7 +251,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'alias'], default='v1')
     p.add_argument('--parenthetical-rate', type=float, default=.55)
     p.add_argument('--alias-fraction', type=float, default=.65)
     p.add_argument('--alias-use', type=float, default=.65)
@@ -268,6 +282,12 @@ def main():
                    help='For v2_varied, non-the determiner probability (default .5)')
     p.add_argument('--parenthetical-mass', type=float, default=None,
                    help='For v2_varied, probability of a post-base parenthetical (default .2)')
+    p.add_argument('--nested-mass', type=float, default=None,
+                   help='For v2_nested, probability of a bracketed sentence tail (default .3)')
+    p.add_argument('--inner-mass', type=float, default=None,
+                   help='For v2_nested, probability of a second nested span (default .6)')
+    p.add_argument('--extra-mass', type=float, default=None,
+                   help='For v2_nested_varlen, probability of an extra filler clause (default .5)')
     p.add_argument('--hard-query-rate', type=float, default=None,
                    help='For v4, probability of querying a nonlatest object when available')
     p.add_argument('--counterbalanced-queries', action='store_true',
@@ -311,6 +331,8 @@ def main():
                    help='For v6, CE on supported alternate query objects')
     p.add_argument('--scope-soft-weight', type=float, default=0.0)
     p.add_argument('--scope-counterfactual-weight', type=float, default=0.0)
+    p.add_argument('--nested-soft-weight', type=float, default=0.0,
+                   help='Exact-oracle CE on deterministic inner and outer closes')
     p.add_argument('--mask-verb-ce', action='store_true',
                    help='Exclude verb slots from ordinary CE for object-only ablation')
     p.add_argument('--neval', type=int, default=256)
@@ -330,10 +352,17 @@ def main():
         p.error('Cannot mask verb CE while adding a verb objective')
     if a.object_vocab_size is not None and a.generator not in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
-    if (a.subject_repeat_mass is not None or a.subject_return_mass is not None) and a.generator not in ('v2', 'v2_varied'):
+    if (a.subject_repeat_mass is not None or a.subject_return_mass is not None) and a.generator not in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen'):
         p.error('Subject repeat/return masses apply to v2 variants only')
-    if (a.determiner_variation is not None or a.parenthetical_mass is not None) and a.generator != 'v2_varied':
-        p.error('Determiner and parenthetical variation require v2_varied')
+    if a.determiner_variation is not None and a.generator not in ('v2_varied','v2_nested','v2_nested_varlen'):
+        p.error('Determiner variation requires a v2 varied/nested generator')
+    if a.parenthetical_mass is not None and a.generator != 'v2_varied':
+        p.error('Parenthetical mass requires v2_varied')
+    if (a.nested_mass is not None or a.inner_mass is not None or
+            a.nested_soft_weight) and a.generator not in ('v2_nested','v2_nested_varlen'):
+        p.error('Nested options require a v2_nested generator')
+    if a.extra_mass is not None and a.generator != 'v2_nested_varlen':
+        p.error('Extra filler mass requires v2_nested_varlen')
     if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
         p.error('Question-answer supervision requires v4/v5 generator')
     if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8'):
@@ -358,6 +387,8 @@ def main():
     generator_class = {'v1': SurfaceMixtureLanguage,
                        'v2': SurfaceMixtureV2,
                        'v2_varied': SurfaceMixtureV2Varied,
+                       'v2_nested': SurfaceMixtureV2Nested,
+                       'v2_nested_varlen': SurfaceMixtureV2NestedVarlen,
                        'v3': SurfaceMixtureV3,
                        'v4': SurfaceMixtureV4,
                        'v5': SurfaceMixtureV5,
@@ -367,15 +398,24 @@ def main():
                        'alias': AliasMixtureLanguage}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
                         if a.generator in ('v3', 'v4', 'v5', 'v6', 'v7', 'v8') else {})
-    if a.generator in ('v2', 'v2_varied') and a.subject_repeat_mass is not None:
+    if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen') and a.subject_repeat_mass is not None:
         generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
-    if a.generator in ('v2', 'v2_varied') and a.subject_return_mass is not None:
+    if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen') and a.subject_return_mass is not None:
         generator_kwargs['subject_return_mass'] = a.subject_return_mass
     if a.generator == 'v2_varied':
         if a.determiner_variation is not None:
             generator_kwargs['determiner_variation'] = a.determiner_variation
         if a.parenthetical_mass is not None:
             generator_kwargs['parenthetical_mass'] = a.parenthetical_mass
+    if a.generator in ('v2_nested', 'v2_nested_varlen'):
+        if a.determiner_variation is not None:
+            generator_kwargs['determiner_variation'] = a.determiner_variation
+        if a.nested_mass is not None:
+            generator_kwargs['nested_mass'] = a.nested_mass
+        if a.inner_mass is not None:
+            generator_kwargs['inner_mass'] = a.inner_mass
+    if a.generator == 'v2_nested_varlen' and a.extra_mass is not None:
+        generator_kwargs['extra_mass'] = a.extra_mass
     if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries
@@ -432,6 +472,7 @@ def main():
                     or a.query_counterfactual_weight > 0 or a.count_soft_weight > 0
                     or a.source_soft_weight > 0 or a.source_counterfactual_weight > 0
                     or a.scope_soft_weight > 0 or a.scope_counterfactual_weight > 0
+                    or a.nested_soft_weight > 0
                     or a.mask_verb_ce or a.verb_only_soft):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
@@ -507,6 +548,12 @@ def main():
                     cf_logits = model(cf_x)[0]
                     loss = loss + a.scope_counterfactual_weight*F.cross_entropy(
                         cf_logits[cf_mask].float(), cf_y[cf_mask])
+            if a.nested_soft_weight > 0:
+                mask = train['nested_inner'] | train['nested_outer']
+                if mask.any():
+                    logp = F.log_softmax(logits.float(), dim=-1)
+                    expected_ce = -(train['q']*logp).sum(-1)
+                    loss = loss + a.nested_soft_weight*expected_ce[mask].mean()
             if alias_cache is not None:
                 chosen = []
                 for group in alias_cache.values():
@@ -546,6 +593,10 @@ def main():
                       if 'source_answer' in scores else 'n/a',
                       'scope KL', round(scores['scope_answer']['kl'], 4)
                       if 'scope_answer' in scores else 'n/a',
+                      'nested inner KL', round(scores['nested_close_inner']['kl'], 4)
+                      if 'nested_close_inner' in scores else 'n/a',
+                      'nested outer KL', round(scores['nested_close_outer']['kl'], 4)
+                      if 'nested_close_outer' in scores else 'n/a',
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')

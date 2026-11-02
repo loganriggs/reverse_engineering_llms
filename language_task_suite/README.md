@@ -1,5 +1,7 @@
 # Grounded toy-language task suite (first pass)
 
+The [nested-bracket joint-rule follow-up](SURFACE_MIXTURE_V2_NESTED_RESULTS.md) adds an exact-oracle bracket dependency without removing the competing verb rules. A one-block bilinear model learns variable-length outer closing and follows grammar-valid opener edits at three distances. Its FineWeb form comparison is strongly negative, and the result establishes a bounded controlled dependency rather than a general stack circuit or realistic prose.
+
 **Current follow-up:** [`WORLD_RESULTS.md`](WORLD_RESULTS.md) documents the newer latent document-world generator, its 32,000-example oracle audit, 1–4-block and larger-model results, causal-edit tests, final attention-bond gauge experiments, and the measured gap to FineWeb surface statistics. The earlier 12-family suite described below remains a simpler baseline. The document-world v1 has a known indefinite-article error (`a orange`); retain its source with its checkpoints and correct it in a versioned successor.
 
 [`V2_RESULTS.md`](V2_RESULTS.md) follows that versioned successor. It lengthens and repairs the document realizations while preserving the latent-world task, checks oracle/edit/split invariants, and retrains the 1–4-block depth sweep. Select the generator explicitly with `--world-version v1` or `--world-version v2` in `train_world.py`, `validate_world.py`, `eval_world_counterfactual.py`, and `world_bond_gauges.py`.
