@@ -149,6 +149,9 @@ def build(gen, n, length):
                 edited = prefix.copy()
                 edited[start:start+11] = (padded_form if relevant['quoted']
                                           else quote_form)
+                assert len(edited) == len(prefix)
+                assert edited[:start] == prefix[:start]
+                assert edited[start+11:] == prefix[start+11:]
                 if full_support(gen, edited):
                     q1 = gen.next_distribution(edited)
                     assert q1 == {target: 1.}
@@ -226,6 +229,8 @@ def main():
     parser.add_argument('--question-rate', type=float, default=.05)
     parser.add_argument('--unquoted-source-rate', type=float, default=0.)
     parser.add_argument('--padded-unquoted-share', type=float, default=0.)
+    parser.add_argument('--exclude-source-pairs', action='store_true',
+                        help='Use the restricted training DGP for development scoring')
     parser.add_argument('--checkpoint-steps', default='',
                         help='Comma-separated saved development steps; empty evaluates final models')
     parser.add_argument('--output', type=Path, required=True)
@@ -236,6 +241,7 @@ def main():
                            question_rate=args.question_rate,
                            unquoted_source_rate=args.unquoted_source_rate,
                            padded_unquoted_share=args.padded_unquoted_share,
+                           exclude_source_pairs=args.exclude_source_pairs,
                            counterbalanced_queries=True)
     questions, pairs, attempted = build(gen, args.n, args.length)
     assert questions and pairs

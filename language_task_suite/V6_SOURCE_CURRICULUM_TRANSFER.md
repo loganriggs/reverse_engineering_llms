@@ -80,26 +80,56 @@ tradeoff. Lower is better:
 | Curriculum joint, 2,000 updates | .260 | .696 | 3.939 | **.013** |
 | Curriculum joint, 3,000 updates | .258 | .635 | 2.133 | .028 |
 | Restricted scratch, 1,000 updates | .292 | .558 | 2.865 | 1.468 |
+| Restricted scratch, 6,000 updates | **.163** | **.300** | 1.831 | 1.605 |
 
 The curriculum solves a previously failed source rule, but the other rules
-are worse than in the old checkpoint. No current v6 checkpoint is a strong
-teacher for *all* four families. A lower-learning-rate, rebalanced second
-stage starts from the selected 2,000-step checkpoint and tests whether source
-binding can be retained while verb, object and place prediction improve.
+are worse than in the old checkpoint. A lower-learning-rate, rebalanced
+second stage starts from the selected 2,000-step checkpoint and tests whether
+source binding can be retained while verb, object and place prediction
+improve. It adds 3,000 joint updates at LR .001, doubles verb/object and
+place-answer supervision, adds supported place-query counterfactuals, and
+halves source-specific weights. On the same unrestricted oracle-KL panel its
+final verb/object/place/source KL is **.230/.596/1.691/.0085**. Source
+accuracy is .996/.998 on two 1,000-stream panels, with .993/.991 accuracy
+on withheld speaker–claim pairings. The source gain survives and place
+prediction now beats the old baseline's 2.010 KL, but verb and object KL
+still lag the old source-blind model's .199/.391. This is a partial multi-rule
+gain, not a strong teacher for all four families.
+
+The matched-restriction scratch control finished at **6,000 joint updates**.
+On the two unrestricted source panels it reaches only **.426/.464** answer
+accuracy, below the query-blind Bayes references **.465/.478**. Its
+withheld-pair accuracy is **.071/.054**, query-object effect L1 error is
+**2.221/2.084**, and changing an irrelevant speaker moves its answer by TV
+**.584/.583**. Thus it still does not use the source key correctly, despite
+learning verb/object rules substantially better than the curriculum model.
+On the common panel its source accuracy stays between .413 and .448 from
+steps 1,000 through 6,000, while withheld-pair accuracy stays .036–.071.
+
+This is evidence that the **training schedule** changes which rule this
+width-64 model learns under the tested optimizer and losses. It does not
+isolate a universal pretraining advantage: the short pretrainer saw 3,000
+batches of 256×56 tokens before joint training, whereas scratch saw 6,000
+batches of 64×128 tokens. The runs match model shape, vocabulary, source-pair
+restriction and total optimizer updates for the 3,000+3,000 versus 6,000
+comparison, but **not token exposure, sequence distribution, or exact
+compute**. One training seed per condition also leaves seed stability open.
 
 ## Next decision gates
 
-The 3,000-update curriculum run is complete; a restricted 6,000-update
-scratch control and the rebalanced second stage are running on CPU. Compare
-their full saved learning curves on the *same*
-unrestricted causal panels before attributing the gain to pretraining. Then
-check whether the improved source rule coexists with competent verb and
-object rules; high source accuracy alone is not a competent joint teacher.
-Only after those gates should a canonical basis or sparse circuit be judged
-on source, verb and object effects, including irrelevant-edit controls and
-whole-rule-family featurizer holdouts. Keep prediction, teacher fidelity,
-activation reconstruction and causal fidelity separate. This source surface
-is a controlled exact-oracle benchmark, not a validated model of FineWeb.
+The 3,000-update curriculum, rebalanced second stage and restricted
+6,000-update scratch control are complete. Their identical-panel learning
+curves show a large source-key advantage for the curriculum under this
+schedule. Further controls could match token exposure or test other seeds.
+The rebalanced model has not cleared the all-rule competence gate, so it is
+a positive control for source-key causal fidelity and local basis transfer,
+not a strong teacher for source, verb, object and place together. Stop this
+source-only loss sweep after the mixed-form adaptation and quote-only basis
+transfer test. The next broader featurizer comparison should use multiple
+competent rule families, irrelevant-edit controls and whole-rule-family fit
+holdouts. Keep prediction, teacher fidelity, activation reconstruction and
+causal fidelity separate. This source surface is a controlled exact-oracle
+benchmark, not a validated model of FineWeb.
 
 Reproduce with `pretrain_joint_source_lookup.py`, the
 `--exclude-source-pairs` and `--save-snapshots` flags in

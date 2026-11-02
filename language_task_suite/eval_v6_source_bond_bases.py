@@ -19,7 +19,9 @@ from eval_surface_mixture_v6_sources import build
 from surface_mixture_v6 import SPEAKERS, SurfaceMixtureV6
 
 
-KINDS = ('query_object', 'statement_speaker', 'other_speaker')
+KINDS = ('query_object', 'statement_speaker', 'other_speaker',
+         'statement_form', 'statement_form_equal_length')
+REQUIRED_KINDS = ('query_object', 'statement_speaker', 'other_speaker')
 
 
 def basis_set(model, bond, fit_pairs, stream_prefixes, device, seed):
@@ -94,6 +96,8 @@ def main():
     p.add_argument('--test-seed', type=int, default=24102)
     p.add_argument('--test-unquoted-rate', type=float, default=0.)
     p.add_argument('--test-padded-unquoted-share', type=float, default=0.)
+    p.add_argument('--test-unquoted-only', action='store_true',
+                   help='Score only edited questions whose queried statement is unquoted')
     p.add_argument('--random-seed', type=int, default=24103)
     p.add_argument('--stream-pca-seed', type=int, default=24107)
     p.add_argument('--stream-pca-streams', type=int, default=512)
@@ -101,6 +105,8 @@ def main():
     p.add_argument('--device', default='cpu')
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
+    if a.test_unquoted_only and a.test_unquoted_rate == 0:
+        p.error('--test-unquoted-only requires --test-unquoted-rate > 0')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
 
@@ -127,10 +133,12 @@ def main():
     _, fit_pairs, _ = build(fit_gen, a.fit_streams, a.length)
     _, all_test_pairs, _ = build(test_gen, a.test_streams, a.length)
     test_pairs = [pair for pair in all_test_pairs
-                  if pair['pair_holdout'] and pair['kind'] in KINDS]
+                  if pair['pair_holdout'] and pair['kind'] in KINDS
+                  and (not a.test_unquoted_only or
+                       not pair['queried_quoted'])]
     assert fit_pairs and test_pairs
     assert all(not pair['pair_holdout'] for pair in fit_pairs)
-    assert {pair['kind'] for pair in test_pairs} == set(KINDS)
+    assert set(REQUIRED_KINDS) <= {pair['kind'] for pair in test_pairs}
 
     stream_gen = SurfaceMixtureV6(seed=a.stream_pca_seed,
                                   exclude_source_pairs=True, **common)
@@ -176,7 +184,8 @@ def main():
                                     for kind in KINDS},
                   baseline=baseline, rows=rows,
                   caveat='Model task seen in training. Data bases fit only on '
-                         'allowed speaker-object pairings; test queries '
+                         'quoted statements with allowed speaker-object '
+                         'pairings; test queries '
                          'withheld pairings. Speaker-output and edit-response '
                          'bases use task knowledge; activation PCA is '
                          'source-edit-selected, stream PCA samples unlabeled '

@@ -85,14 +85,52 @@ wording still differ, so these remain competing explanations.
 
 The model has learned useful binding for the training format, but that
 mechanism does not directly transfer to this closely related reported-speech
-rendering. A 3,000-update mixed-form adaptation from the quoted model's
-selected checkpoint is live. Its decision gate is simultaneous source
-accuracy on both forms, held-out speaker–claim pairs, low form-edit TV,
-correct query and relevant-speaker effects, and low irrelevant-speaker TV.
-Verb, object and place losses must be reported separately. A success would
-show acquired form invariance after training, not zero-shot semantic
-generalization or a natural-text circuit. A mixed-form scratch control and
-additional, less rigid forms would still be needed before stronger claims.
+rendering. A 3,000-update mixed-form adaptation started from the quoted
+model's selected 2,000-update checkpoint. We selected its saved checkpoint
+by the **larger** of quoted and unquoted answer CE on a restricted mixed-form
+development panel, before opening fresh unrestricted panels. This criterion
+is .0396/.0232/.0371 at adaptation steps 1,000/2,000/3,000, so the selected
+checkpoint is **step 2,000**. At that point the restricted development panel
+has quoted/unquoted accuracy **100%/99.6%** (`n=239/263`) and quote-toggle
+TV **.012**. On the identical panel *before* adaptation, quoted/unquoted
+accuracy was **100%/41.8%** and quote-toggle TV **.607**.
+
+The selected model passes fresh unrestricted panels with speaker–claim pairs
+withheld from both training stages. The table separates the form of the
+**queried statement**; the query itself has the same wording in every row.
+
+| Model and fresh panel | Quoted accuracy | Unquoted accuracy | Unquoted withheld-pair accuracy | Quote-toggle TV (oracle 0) |
+|---|---:|---:|---:|---:|
+| Quoted-only, seed 25313 | 100% | 29.8% | 3.4% | .693 |
+| Mixed-form adapted, seed 25313 | 100% | **98.3%** | **97.2%** | **.025** |
+| Quoted-only, seed 25314 | 100% | 34.1% | 2.5% | .690 |
+| Mixed-form adapted, seed 25314 | 99.8% | **98.4%** | **98.1%** | **.016** |
+
+The adapted model's overall source accuracy is .991/.990 on these panels;
+query-object effect L1 error is .057/.065, and an irrelevant-speaker edit
+moves answers by TV .012/.011. On a separate **all-unquoted** 2,000-stream
+panel, answer accuracy is 97.8% (95.5% on withheld pairings). This is a
+substantial acquired invariance for the two trained forms.
+
+It does not generalize perfectly to a **third, untrained same-length form**.
+On a fresh panel with the `near home` rendering, its unquoted-question
+accuracy is 84.7%, withheld-pair accuracy 69.1%, and equal-length form-edit
+TV .194. These improve on the quoted-only model's 34.4%, 4.1%, and .705,
+but leave a material gap from the oracle. The original query-position
+confound is removed by this comparison, yet within-statement position and
+wording still differ.
+
+On a separate unrestricted 1,024-stream mixed-form oracle-KL panel,
+adaptation improves verb/object/place/source KL from
+**.258/.708/4.005/1.440** to **.248/.654/1.998/.031**. It has not caught
+up to the earlier source-blind model on verb and object rules, so it is not
+a strong all-rule teacher. This is one adapted training trajectory. A
+mixed-form scratch control and less rigid naturalistic surfaces would be
+needed to assess how much of the result depends on the curriculum and how
+far it extends toward real text. The [quoted-fit, unquoted-test bond-basis
+comparison](V6_SOURCE_BOND_BASIS_RESULTS.md) tests local featurizer transfer
+on this competent adapted model. Stop this source-specific sweep here and
+return to multi-rule causal path objectives and broader task coverage.
 
 Code: `surface_mixture_v6.py`, `audit_surface_mixture_v6.py`,
 `eval_surface_mixture_v6_sources.py`, and `train_surface_mixture.py`.
@@ -101,4 +139,9 @@ Records: `results/v6_source_{quoted_control,mixed_quoted_unquoted}_audit.json`,
 `results/v6_source_step2000_mixed_forms_n2000.json`, and
 `results/v6_source_step2000_unquoted_n2000.json`. The same-length control is
 `results/v6_source_equal_length_forms_audit.json` and
-`results/v6_source_step2000_equal_length_forms_n2000.json`.
+`results/v6_source_step2000_equal_length_forms_n2000.json`. The restricted
+development comparison is in
+`results/v6_source_{quoted_step2000_restricted_mixed_dev,mixed_adapt_step1000_restricted_dev}_n1000.json`.
+Selected-model results are
+`results/v6_source_mixed_adapt_step2000_{mixed_seed25313,mixed_seed25314,unquoted_seed25313,padded_seed25315}_n2000.json`
+and `results/v6_source_mixed_adapt_step2000_mixed_rule_kl_n1024.json`.
