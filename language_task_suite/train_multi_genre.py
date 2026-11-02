@@ -79,7 +79,7 @@ def evaluate(model, data):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
-    p.add_argument('--language', choices=('v1', 'v2'), default='v1')
+    p.add_argument('--language', choices=('v1', 'v2', 'scores'), default='v1')
     p.add_argument('--genre-weights', default='',
                    help='Optional comma-separated weights in genre order')
     p.add_argument('--catalog-record-rate', type=float, default=.60,
@@ -88,12 +88,17 @@ def main():
                    default='bilinear')
     p.add_argument('--first-answer-weight', type=float, default=0.,
                    help='Extra CE on the first Catalog answer in each stream')
+    p.add_argument('--score-answer-weight', type=float, default=0.,
+                   help='Extra CE on every numeric-report comparison answer')
     p.add_argument('--depths', default='1,2,3,4')
     p.add_argument('--steps', type=int, default=3000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=71)
     p.add_argument('--width', type=int, default=64)
     p.add_argument('--heads', type=int, default=4)
+    p.add_argument('--with-mlp', action='store_true',
+                   help='Enable the native bilinear MLP in every block')
+    p.add_argument('--mlp-hidden', type=int, default=512)
     p.add_argument('--rmsnorm', action='store_true')
     p.add_argument('--lr', type=float, default=.003)
     p.add_argument('--neval', type=int, default=256)
@@ -101,15 +106,26 @@ def main():
     p.add_argument('--device', default='cpu')
     p.add_argument('--output-dir', required=True)
     a = p.parse_args()
-    if a.first_answer_weight < 0:
-        raise ValueError('First-answer weight must be nonnegative')
+    if a.first_answer_weight < 0 or a.score_answer_weight < 0:
+        raise ValueError('Answer weights must be nonnegative')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
     from softmax_attention_control import configure_attention
 
     torch.set_num_threads(4)
     device = torch.device(a.device)
-    if a.language == 'v2':
+    if a.language == 'scores':
+        from numeric_report_language import (GENRES as SCORE_GENRES,
+                                             TASK_LABELS as SCORE_TASK_LABELS,
+                                             VOCAB as SCORE_VOCAB,
+                                             NumericReportLanguage)
+        generator_class = NumericReportLanguage
+        genres = SCORE_GENRES
+        vocab = SCORE_VOCAB
+        task_labels = SCORE_TASK_LABELS
+        if a.first_answer_weight or a.genre_weights:
+            raise ValueError('Scores language does not use genre or Catalog-answer weights')
+    elif a.language == 'v2':
         from multi_genre_v2_language import (GENRES_V2, VOCAB_V2,
                                              MultiGenreV2Language)
         generator_class = MultiGenreV2Language
@@ -125,6 +141,8 @@ def main():
         genres = GENRES
         vocab = VOCAB
         task_labels = TASK_LABELS
+    if a.score_answer_weight and a.language != 'scores':
+        raise ValueError('Score-answer weighting requires the Scores language')
     if a.genre_weights:
         genre_weights = tuple(float(value) for value in a.genre_weights.split(','))
         if len(genre_weights) != len(genres):
@@ -145,7 +163,8 @@ def main():
         torch.manual_seed(9200+a.seed)
         config = Config(vocab_size=len(vocab), n_layer=depth,
                         n_head=a.heads, n_embd=a.width, seq_len=a.length,
-                        block_has_mlp=(False,)*depth,
+                        mlp_hidden=a.mlp_hidden,
+                        block_has_mlp=(a.with_mlp,)*depth,
                         use_rmsnorm=a.rmsnorm)
         model = configure_attention(BilinearGPT(config), a.attention).to(device)
         gen = generator(9300+a.seed)
@@ -154,19 +173,26 @@ def main():
         snapshots = []
         model.train()
         for step in range(a.steps):
-            if a.first_answer_weight:
+            if a.first_answer_weight or a.score_answer_weight:
                 ids, labels, _ = gen.sample_batch(a.batch, a.length+1)
                 z = torch.tensor(ids, dtype=torch.long, device=device)
                 x, y = z[:, :-1], z[:, 1:]
-                first_mask = torch.zeros_like(y, dtype=torch.bool)
-                for b, labs in enumerate(labels):
-                    first = next((at for at, label in enumerate(labs)
-                                  if label in ('catalog_owner_answer',
-                                               'catalog_status_answer')), None)
-                    if first is not None and first > 0:
-                        first_mask[b, first-1] = True
-                if not first_mask.any():
-                    raise RuntimeError('No first Catalog answers in batch')
+                if a.first_answer_weight:
+                    first_mask = torch.zeros_like(y, dtype=torch.bool)
+                    for b, labs in enumerate(labels):
+                        first = next((at for at, label in enumerate(labs)
+                                      if label in ('catalog_owner_answer',
+                                                   'catalog_status_answer')), None)
+                        if first is not None and first > 0:
+                            first_mask[b, first-1] = True
+                    if not first_mask.any():
+                        raise RuntimeError('No first Catalog answers in batch')
+                if a.score_answer_weight:
+                    score_mask = torch.tensor([
+                        [label == 'score_comparison_answer' for label in labs[1:]]
+                        for labs in labels], dtype=torch.bool, device=device)
+                    if not score_mask.any():
+                        raise RuntimeError('No numeric comparison answers in batch')
             else:
                 x, y = make_batch(gen, a.batch, a.length, device)
             optimizer.zero_grad(set_to_none=True)
@@ -175,6 +201,9 @@ def main():
             if a.first_answer_weight:
                 answer_ce = F.cross_entropy(logits[first_mask], y[first_mask])
                 loss = loss + a.first_answer_weight*answer_ce
+            if a.score_answer_weight:
+                score_ce = F.cross_entropy(logits[score_mask], y[score_mask])
+                loss = loss + a.score_answer_weight*score_ce
             if not torch.isfinite(loss):
                 raise RuntimeError(f'Nonfinite loss at depth {depth}, step {step}')
             loss.backward()

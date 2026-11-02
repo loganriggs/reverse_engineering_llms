@@ -171,6 +171,8 @@ The [versioned Catalog retrieval experiment](MULTI_GENRE_V2_CATALOG_RESULTS.md) 
 
 The [joint token-pair factorization test](MULTI_GENRE_JOINT_PAIR_FACTOR_RESULTS.md) extends the first-layer attention tensor comparison with a rank-8 weighted fit to actual query–key co-occurrences. It nearly eliminates in-fit Policy model KL, yet does not consistently preserve held-out FAQ recall or its causal edits across two trained seeds. When FAQ is included during fitting, its model KL becomes very small. This separates distribution-specific compression from transferable or human-readable computation.
 
+The [numeric score-report task](NUMERIC_REPORT_RESULTS.md) follows a second random FineWeb dependency review and adds an exact-oracle person–score binding plus magnitude comparison with four causal edit families. Its surface is still far from web text. Attention-only bilinear models at depths 1–4, an answer-weighted control, and a bilinear-MLP control all stay above a binding-blind Bayes baseline and barely respond to score swaps. It is an audited task family, not yet a competent model to decompose.
+
 ## Data-generating process to aim for
 
 A more faithful toy language should sample a **latent document**, not merely a final answer token:
