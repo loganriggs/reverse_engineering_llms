@@ -60,6 +60,8 @@ This folder develops explicit, auditable language tasks for training and analyzi
 
 For the current joint-rule language with varied determiners and parenthetical asides, see [the exact-rule, realism, training, and causal-edit results](SURFACE_MIXTURE_V2_VARIED_RESULTS.md). The trained two-layer checkpoint is in `surface_mixture_v2_varied_soft_models/`.
 
+The [matched-width basis transfer test](VARIED_JOINT_RULE_BASIS_TRANSFER.md) compares weight-derived, activation, intervention-trained and sparse-rotated directions on that checkpoint with held-out sentence frames and a parenthetical-rate shift. It separates local response compression from recovery of a rule computation.
+
 ## What existed, and what this adds
 
 The older repository already has natural-text training (`lm_train.py`), bilinear model code (`model.py`, `deep_model.py`), and analyzed first-layer/late-layer circuits for bracket closure, numbered-list increment, and successor sequences (`basis_aligned/qk_mdl/algo_tasks/SYNTHESIS.md`). The recent canonicalization toys in this repository tested count, XOR, AND, and shared pair routing. These are valuable circuit probes but cover a narrow slice of language. This suite adds 12 explicit task families, balanced sampling, structural variants, oracle checks, FineWeb form audit, and a 1–4-block trainer.
