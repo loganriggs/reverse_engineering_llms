@@ -93,6 +93,7 @@ def main():
     p.add_argument('--fit-seed', type=int, default=24101)
     p.add_argument('--test-seed', type=int, default=24102)
     p.add_argument('--test-unquoted-rate', type=float, default=0.)
+    p.add_argument('--test-padded-unquoted-share', type=float, default=0.)
     p.add_argument('--random-seed', type=int, default=24103)
     p.add_argument('--stream-pca-seed', type=int, default=24107)
     p.add_argument('--stream-pca-streams', type=int, default=512)
@@ -121,6 +122,7 @@ def main():
                                exclude_source_pairs=True, **common)
     test_gen = SurfaceMixtureV6(seed=a.test_seed,
                                 unquoted_source_rate=a.test_unquoted_rate,
+                                padded_unquoted_share=a.test_padded_unquoted_share,
                                 **common)
     _, fit_pairs, _ = build(fit_gen, a.fit_streams, a.length)
     _, all_test_pairs, _ = build(test_gen, a.test_streams, a.length)

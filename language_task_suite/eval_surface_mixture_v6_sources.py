@@ -25,10 +25,12 @@ def statements(history):
         if clause and clause[0] == 'As':
             start = offset+len(raw)-len(clause)
             quoted = clause[4] == '"'
+            form = ('quoted' if quoted else
+                    'unquoted_padded' if len(clause) == 11 else 'unquoted')
             obj = clause[6] if quoted else clause[5]
             out.append(dict(object=obj, speaker=clause[1],
                             speaker_index=start+1, start=start,
-                            quoted=quoted))
+                            quoted=quoted, form=form))
         offset += len(raw)
     return out
 
@@ -114,7 +116,7 @@ def build(gen, n, length):
                                       edited=[gen.token2id[w] for w in edited],
                                       q_before={target: 1.}, q_after=q1))
                     break
-            if 0 < gen.unquoted_source_rate < 1:
+            if 0 < gen.unquoted_source_rate < 1 and relevant['form'] != 'unquoted_padded':
                 attempted['statement_form'] += 1
                 edited = prefix.copy()
                 start = relevant['start']
@@ -128,6 +130,29 @@ def build(gen, n, length):
                     q1 = gen.next_distribution(edited)
                     assert q1 == {target: 1.}
                     pairs.append(dict(kind='statement_form',
+                                      pair_holdout=pair_holdout,
+                                      queried_quoted=queried_quoted,
+                                      quote_rank=relevant_rank,
+                                      n_statements=len(prior_statements),
+                                      original=[gen.token2id[w] for w in prefix],
+                                      edited=[gen.token2id[w] for w in edited],
+                                      q_before={target: 1.}, q_after=q1))
+            if (0 < gen.unquoted_source_rate < 1 and
+                    gen.padded_unquoted_share > 0 and
+                    relevant['form'] in ('quoted', 'unquoted_padded')):
+                attempted['statement_form_equal_length'] += 1
+                start = relevant['start']
+                quote_form = ['As', target, 'said', ',', '"', 'the', key,
+                              'was', 'missing', '"', '.']
+                padded_form = ['As', target, 'said', ',', 'the', key,
+                               'was', 'missing', 'near', 'home', '.']
+                edited = prefix.copy()
+                edited[start:start+11] = (padded_form if relevant['quoted']
+                                          else quote_form)
+                if full_support(gen, edited):
+                    q1 = gen.next_distribution(edited)
+                    assert q1 == {target: 1.}
+                    pairs.append(dict(kind='statement_form_equal_length',
                                       pair_holdout=pair_holdout,
                                       queried_quoted=queried_quoted,
                                       quote_rank=relevant_rank,
@@ -200,6 +225,7 @@ def main():
     parser.add_argument('--source-rate', type=float, default=.30)
     parser.add_argument('--question-rate', type=float, default=.05)
     parser.add_argument('--unquoted-source-rate', type=float, default=0.)
+    parser.add_argument('--padded-unquoted-share', type=float, default=0.)
     parser.add_argument('--checkpoint-steps', default='',
                         help='Comma-separated saved development steps; empty evaluates final models')
     parser.add_argument('--output', type=Path, required=True)
@@ -209,6 +235,7 @@ def main():
                            source_rate=args.source_rate,
                            question_rate=args.question_rate,
                            unquoted_source_rate=args.unquoted_source_rate,
+                           padded_unquoted_share=args.padded_unquoted_share,
                            counterbalanced_queries=True)
     questions, pairs, attempted = build(gen, args.n, args.length)
     assert questions and pairs

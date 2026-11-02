@@ -30,6 +30,22 @@ remain obvious gaps. The different statement lengths also change how many
 claims and questions fit into a 128-token stream; the window percentages are
 form cues, not a distribution-matching score.
 
+A same-seed rate grid quantifies the supervision-density tradeoff. Each row
+uses 1,000 streams; FineWeb supplies the same 480 frozen comparison windows.
+
+| Quote/source start rates; unquoted share | Quote windows | Question windows | Source answers | Repeated-word fraction (40 words) |
+|---|---:|---:|---:|---:|
+| .30/.30; 0 (quoted control) | 87.3% | 41.0% | 488 | 27.6% |
+| .30/.30; .5 | 66.2% | 41.9% | 514 | 27.6% |
+| .15/.25; .5 | 37.9% | 30.2% | 127 | 27.2% |
+| .10/.25; .5 | 26.5% | 20.6% | 76 | 27.1% |
+| Frozen FineWeb panel | 34.4% | 21.9% | — | 16.7% |
+
+The lower-rate settings bring two punctuation cues near the FineWeb panel,
+but yield far fewer source-answer targets and do not reduce lexical
+repetition. Matching a few surface frequencies is not evidence that the
+underlying dependency distribution matches web text.
+
 ## Zero-shot form transfer fails
 
 The selected 2,000-joint-update **quoted-only** source model was evaluated on
@@ -51,6 +67,22 @@ Ordinary query-object edits in the mixed stream have effect L1 **1.372**;
 quoted-query accuracy alone hides that many alternative claims are unquoted.
 Changing an unrelated speaker has model TV .119 rather than the oracle's 0.
 
+To test whether the **absolute shift of the later question** explains the
+failure, a third diagnostic rendering keeps the statement at 11 tokens:
+`As Bob said, the coat was missing near home.` This is a controlled
+same-length form, not a claim that such wording matches FineWeb. The
+independent 1,000-stream audit passed with 967 quoted and 938 padded
+unquoted statements. On a fresh
+2,000-stream panel, the quoted-only model answers 100% of 490 questions
+whose queried statement is quoted but only 34.2% of 480 whose queried
+statement uses this same-length unquoted form; the latter's held-out-pair
+accuracy is 4.2%. Replacing the complete queried statement with its
+equal-length alternate changes the model answer by TV **.706** even though
+the oracle answer and all later absolute positions are unchanged. Thus
+shifting the question's absolute position is **not sufficient** to explain
+the surface failure. The object position *within* the statement and its
+wording still differ, so these remain competing explanations.
+
 The model has learned useful binding for the training format, but that
 mechanism does not directly transfer to this closely related reported-speech
 rendering. A 3,000-update mixed-form adaptation from the quoted model's
@@ -65,5 +97,8 @@ additional, less rigid forms would still be needed before stronger claims.
 Code: `surface_mixture_v6.py`, `audit_surface_mixture_v6.py`,
 `eval_surface_mixture_v6_sources.py`, and `train_surface_mixture.py`.
 Records: `results/v6_source_{quoted_control,mixed_quoted_unquoted}_audit.json`,
+`results/v6_source_mixed_forms_{lowrate,lowquote}_audit.json`,
 `results/v6_source_step2000_mixed_forms_n2000.json`, and
-`results/v6_source_step2000_unquoted_n2000.json`.
+`results/v6_source_step2000_unquoted_n2000.json`. The same-length control is
+`results/v6_source_equal_length_forms_audit.json` and
+`results/v6_source_step2000_equal_length_forms_n2000.json`.

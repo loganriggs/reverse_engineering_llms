@@ -31,9 +31,9 @@ def reference_facts(history):
             assert clause[7:] == ['was', 'missing', '"', '.']
             obj = clause[6]
         else:
-            assert len(clause) == 9
             assert clause[2:5] == ['said', ',', 'the']
-            assert clause[6:] == ['was', 'missing', '.']
+            assert (clause[6:] == ['was', 'missing', '.'] or
+                    clause[6:] == ['was', 'missing', 'near', 'home', '.'])
             obj = clause[5]
         assert obj not in result
         result[obj] = clause[1]
@@ -57,12 +57,13 @@ def reference_place(history, obj):
 
 def audit(n, length, seed, quote_rate, source_rate, question_rate,
           rows_path=DEFAULT_ROWS, exclude_source_pairs=False,
-          unquoted_source_rate=0.):
+          unquoted_source_rate=0., padded_unquoted_share=0.):
     gen = SurfaceMixtureV6(seed=seed, quote_rate=quote_rate,
                            source_rate=source_rate, question_rate=question_rate,
                            counterbalanced_queries=True,
                            exclude_source_pairs=exclude_source_pairs,
-                           unquoted_source_rate=unquoted_source_rate)
+                           unquoted_source_rate=unquoted_source_rate,
+                           padded_unquoted_share=padded_unquoted_share)
     v3 = SurfaceMixtureV3()
     ids, labels, qs = gen.sample_batch(n, length)
     counts = Counter()
@@ -83,10 +84,12 @@ def audit(n, length, seed, quote_rate, source_rate, question_rate,
                     assert clause[7:] == ['was', 'missing', '"', '.']
                     obj = clause[6]
                 else:
-                    statement_forms['unquoted'] += 1
-                    assert len(clause) == 9
                     assert clause[2:5] == ['said', ',', 'the']
-                    assert clause[6:] == ['was', 'missing', '.']
+                    if clause[6:] == ['was', 'missing', '.']:
+                        statement_forms['unquoted'] += 1
+                    else:
+                        assert clause[6:] == ['was', 'missing', 'near', 'home', '.']
+                        statement_forms['unquoted_padded'] += 1
                     obj = clause[5]
                 if exclude_source_pairs:
                     assert not source_pair_heldout(clause[1], obj)
@@ -146,6 +149,7 @@ def audit(n, length, seed, quote_rate, source_rate, question_rate,
                             question_rate=question_rate,
                             exclude_source_pairs=exclude_source_pairs,
                             unquoted_source_rate=unquoted_source_rate,
+                            padded_unquoted_share=padded_unquoted_share,
                             natural_rows=str(rows_path)),
                 n_vocab=len(gen.vocab), slots=dict(counts),
                 statement_forms=dict(statement_forms),
@@ -173,13 +177,15 @@ if __name__ == '__main__':
     parser.add_argument('--question-rate', type=float, default=.05)
     parser.add_argument('--exclude-source-pairs', action='store_true')
     parser.add_argument('--unquoted-source-rate', type=float, default=0.)
+    parser.add_argument('--padded-unquoted-share', type=float, default=0.)
     parser.add_argument('--rows', type=Path, default=DEFAULT_ROWS)
     parser.add_argument('--output', type=Path,
                         default=Path(__file__).with_name('surface_mixture_v6_audit.json'))
     args = parser.parse_args()
     result = audit(args.n, args.length, args.seed, args.quote_rate,
                    args.source_rate, args.question_rate, args.rows,
-                   args.exclude_source_pairs, args.unquoted_source_rate)
+                   args.exclude_source_pairs, args.unquoted_source_rate,
+                   args.padded_unquoted_share)
     args.output.write_text(json.dumps(result, indent=2)+'\n')
     print(json.dumps({k: result[k] for k in ('slots', 'form_cues', 'word_matched')},
                      indent=2))

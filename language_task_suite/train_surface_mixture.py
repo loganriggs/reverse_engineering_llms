@@ -365,6 +365,8 @@ def main():
                    help='For v6, probability of a source question at an eligible boundary')
     p.add_argument('--unquoted-source-rate', type=float, default=0.,
                    help='For v6, fraction of source statements rendered without quote marks')
+    p.add_argument('--padded-unquoted-share', type=float, default=0.,
+                   help='For v6, share of unquoted statements with a two-token near-home suffix')
     p.add_argument('--exclude-source-pairs', action='store_true',
                    help='For v6, withhold checkerboard speaker–claim-object pair definitions')
     p.add_argument('--section-rate', type=float, default=.18)
@@ -455,6 +457,8 @@ def main():
         p.error('Source-pair holdout currently requires the v6 generator')
     if a.unquoted_source_rate and a.generator != 'v6':
         p.error('Unquoted source statements currently require the v6 generator')
+    if a.padded_unquoted_share and a.generator != 'v6':
+        p.error('Padded unquoted source statements currently require the v6 generator')
     if (a.scope_soft_weight or a.scope_counterfactual_weight) and a.generator not in ('v7', 'v8'):
         p.error('Scope supervision requires v7 generator')
     sys.path.insert(0, a.source)
@@ -510,6 +514,7 @@ def main():
     if a.generator == 'v6':
         generator_kwargs['exclude_source_pairs'] = a.exclude_source_pairs
         generator_kwargs['unquoted_source_rate'] = a.unquoted_source_rate
+        generator_kwargs['padded_unquoted_share'] = a.padded_unquoted_share
     if a.generator in ('v7', 'v8'):
         generator_kwargs['section_rate'] = a.section_rate
         generator_kwargs['detail_rate'] = a.detail_rate

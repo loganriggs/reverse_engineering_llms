@@ -35,8 +35,9 @@ def source_facts(history):
                 assert content[7:] == ['was', 'missing', '"', '.']
                 obj = content[6]
             else:
-                assert len(content) == 9 and content[2:5] == ['said', ',', 'the']
-                assert content[6:] == ['was', 'missing', '.']
+                assert content[2:5] == ['said', ',', 'the']
+                assert (content[6:] == ['was', 'missing', '.'] or
+                        content[6:] == ['was', 'missing', 'near', 'home', '.'])
                 obj = content[5]
             assert obj not in facts
             facts[obj] = content[1]
@@ -46,15 +47,17 @@ def source_facts(history):
 class SurfaceMixtureV6(SurfaceMixtureV5):
     def __init__(self, seed=0, quote_rate=.25, source_rate=.20,
                  count_rate=0., exclude_source_pairs=False,
-                 unquoted_source_rate=0., **kwargs):
+                 unquoted_source_rate=0., padded_unquoted_share=0., **kwargs):
         super().__init__(seed=seed, count_rate=count_rate, **kwargs)
         assert 0 <= quote_rate < 1 and 0 <= source_rate < 1
         assert quote_rate+source_rate < 1
         assert 0 <= unquoted_source_rate <= 1
+        assert 0 <= padded_unquoted_share <= 1
         self.quote_rate = quote_rate
         self.source_rate = source_rate
         self.exclude_source_pairs = exclude_source_pairs
         self.unquoted_source_rate = unquoted_source_rate
+        self.padded_unquoted_share = padded_unquoted_share
         self.vocab = VOCAB_V6
         self.token2id = TOKEN2ID_V6
         self.id2token = ID2TOKEN_V6
@@ -108,8 +111,13 @@ class SurfaceMixtureV6(SurfaceMixtureV5):
         if pos == obj_pos:
             available = self._available_claim_objects(history, content[1])
             return {obj: 1/len(available) for obj in available}
+        if not quoted and pos == 8:
+            return ({'.': 1.} if self.padded_unquoted_share == 0 else
+                    {'near': 1.} if self.padded_unquoted_share == 1 else
+                    {'.': 1.-self.padded_unquoted_share,
+                     'near': self.padded_unquoted_share})
         fixed = ({5: 'the', 7: 'was', 8: 'missing', 9: '"', 10: '.'}
-                 if quoted else {6: 'was', 7: 'missing', 8: '.'})
+                 if quoted else {6: 'was', 7: 'missing', 9: 'home', 10: '.'})
         if pos in fixed:
             return {fixed[pos]: 1.}
         raise ValueError(f'Bad source-statement position {pos}')
