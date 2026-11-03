@@ -1,0 +1,20 @@
+# V16 determiner variation: exact-rule control, partial form gain, not adopted
+
+The [V15 tail-only experiment](V15_TAIL_VARIATION_PILOT.md) left the main repeated-word gap untouched. V16 instead varies articles across the fixed determiner slots in **all six** V14 ordinary narrative frames. It samples `the`, `this`, `that`, `a`, or `an` where grammatical. The `a/an` choice is coupled to the following word's initial letter; marginalizing over article choices recovers the original next-content-word law. At an adjective site with an active earlier item fact, it keeps `a/an` out of support so the V14 earlier-fact edit remains valid. V16 leaves the local conditional-action, earlier-fact, source, price, bracket, and mixed-rule mechanisms in the same sampled stream. It is a surface intervention, not a new semantic task.
+
+One actual sample begins: “Today, Clara finds a heavy cup beside a town during a festival because Aaron had asked about it earlier. During a trip Clara finds this small key near an island, according to Amira.” The articles are grammatical under the generator's letter rule, but the larger sentence patterns remain conspicuously formulaic.
+
+The [two-seed audit](results/v16_determiners_audit_n64_seed100211.json) checks 64×256-token streams per seed. Inherited sampled-prefix replay, fact-start mixtures, item-attribute edits, local action edits, and joint task labels pass. It also checks 120 article/noun marginal identities per seed to tolerance 1e-10. The two panels contain 19/34 local-action sites, 100/92 attribute-object sites, and 35/26 streams with bracket closers. In a separately sampled 64-stream article panel per seed, `a/an/this/that` all occur. These are generator-correctness checks; no V16 model was trained.
+
+## Independent form comparison
+
+The [development](results/v16_revised_determiners_dev_skip26000_n64.json) and [held-out](results/v16_revised_determiners_holdout_skip27000_n64.json) screens use disjoint contiguous FineWeb `sample-10BT` offsets, fixed before the second run. Each compares the first 100 words of documents eligible in all arms and scores repeated words in the first 40. Only aggregate counts and SHA-256 hashes are stored; no FineWeb prose is committed.
+
+| Panel, matched documents | V14 repeated-word fraction | V16 | FineWeb | V14 / V16 / FineWeb `the` counts | V16 / FineWeb `a` counts |
+| --- | ---: | ---: | ---: | --- | --- |
+| Development, 55 | .276 | .234 | .178 | 460 / 147 / 108 | 258 / 54 |
+| Held-out, 54 | .275 | .226 | .178 | 457 / 139 / 116 | 248 / 46 |
+
+The gain is real on both small panels, but it is a redistribution of fixed noun-phrase openings: `a` becomes about five times as common as in these FineWeb crops. Repeated **non-stopword** occurrences are already similar across synthetic and natural panels (development 173/178/163 for V14/V16/FineWeb; holdout 169/168/169), while repeated stopwords remain high (434/337/228 and 424/320/216). The sentence-frame and layout laws are unchanged by construction. On the development panel, colon presence remains .564 in V14 and V16 versus .309 in FineWeb; the separate natural holdout happens to have .463 versus toy .481, illustrating panel variability rather than a layout fix. These screens are diagnostic samples with different tokenizers, not a population estimate or proof of semantic realism.
+
+**Decision:** do not adopt V16 as the main training generator or train another bilinear model on it yet. Determiner replacement alone cannot supply the missing mix of clause structures, connectors, discourse functions, and referential choices. The next generator should sample a typed document/event plan, then probabilistically realize the same facts through several sentence and paragraph families, with incidental material and distractors. Keep per-site rule provenance and support-preserving edits; measure form and task coverage independently. An exact full-document next-token oracle remains optional for this research question. Stop tuning the V16 article probabilities unless a later whole-frame generator needs a calibrated article submodule.
