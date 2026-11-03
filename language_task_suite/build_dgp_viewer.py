@@ -508,8 +508,7 @@ def build(cache_path, refresh):
                             'contains no source text.')}
 
 
-def write_data(path, cache_path, refresh):
-    data = build(cache_path, refresh)
+def write_data(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix('.tmp')
     temporary.write_text('window.DGP_VIEWER_DATA = '+
@@ -518,6 +517,36 @@ def write_data(path, cache_path, refresh):
     os.replace(temporary, path)
     print('Updated', path, 'with', len(data['examples']),
           'sampled examples at', data['generated_at'], flush=True)
+
+
+def write_public_html(path, data):
+    """Publish only generated examples and aggregate audits, never source prose."""
+    public = dict(data)
+    public['examples'] = [example for example in data['examples']
+                          if example['group'] == 'symbolic']
+    public['public_snapshot'] = True
+    public['data_policy'] = ('Public snapshot: generated examples and aggregate '
+                             'audits only. Natural-source excerpts stay local.')
+    html = (HERE/'dgp_viewer.html').read_text()
+    marker = '<script src="dgp_viewer_data.js"></script>'
+    assert html.count(marker) == 1
+    payload = json.dumps(public, ensure_ascii=False).replace('</', '<\\/')
+    html = html.replace(marker, '<script>window.DGP_VIEWER_DATA = '+payload+';</script>')
+    for example in data['examples']:
+        if example['group'] == 'natural':
+            for arm in example['arms']:
+                assert arm['text'] not in html, 'Natural source text in public HTML'
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(html)
+    os.replace(temporary, path)
+    print('Updated public snapshot', path, 'with', len(public['examples']),
+          'generated examples', flush=True)
+
+
+def _write_both(local_path, public_path, data):
+    write_data(local_path, data)
+    write_public_html(public_path, data)
 
 
 def _fingerprint():
@@ -562,19 +591,23 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--output', type=Path,
                    default=HERE/'dgp_viewer_data.js')
+    p.add_argument('--public-html', type=Path,
+                   default=HERE/'dgp_viewer_iphone.html')
     p.add_argument('--cache-path', type=Path, default=DEFAULT_CACHE)
     p.add_argument('--refresh-corpus', action='store_true')
     p.add_argument('--watch', action='store_true',
                    help='Rebuild when the DGP code or result files change')
     args = p.parse_args()
-    write_data(args.output, args.cache_path, args.refresh_corpus)
+    _write_both(args.output, args.public_html,
+                build(args.cache_path, args.refresh_corpus))
     if args.watch:
         fingerprint = _fingerprint()
         while True:
             time.sleep(15)
             current = _fingerprint()
             if current != fingerprint:
-                write_data(args.output, args.cache_path, False)
+                _write_both(args.output, args.public_html,
+                            build(args.cache_path, False))
                 fingerprint = current
     sys.stdout.flush()
     os._exit(0)  # streaming datasets may crash during interpreter shutdown
