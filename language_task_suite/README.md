@@ -3,6 +3,9 @@
 The [corpus-derived agreement holdout result](TREEBANK_AGREEMENT_HOLDOUT_RESULT.md)
 shows why whole-subject and causal-edit gates matter before interpreting a
 syntactic rule in weights: earlier high accuracy largely used repeated phrases.
+The [natural task-opportunity screen](TREEBANK_TASK_OPPORTUNITY_SCREEN.md)
+shows which syntax-task combinations are too rare in this sentence corpus to
+serve as an unmodified joint training distribution.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
