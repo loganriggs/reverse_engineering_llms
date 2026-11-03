@@ -170,5 +170,11 @@ broader field/numeric binding is visible in a 16-document manual review, but
 none of those short crops contains V12's exact fact→prose→FAQ triplet. Form
 statistics also show excess colons and repeated words. V12 is a causal
 synthetic pilot, **not yet a realistic reference language**. The small
-bilinear training gate is item-price prediction and both supported edit
-responses on untouched reference panels; circuit analysis waits for it.
+bilinear training gate was item-price prediction and both supported edit
+responses on untouched reference panels. Matched ordinary-CE and 100×
+answer-weighted two-layer runs both failed: answer CE stayed near the
+unconditional six-price baseline, worse than a visible-price-set guess,
+and both exact edit responses were essentially zero on two fresh panels.
+Stop this price-only circuit/loss-weight detour. Next diversify the sampled
+document relations and surfaces; use already competent tasks for
+featurizer/canonicalization comparisons while this DGP improves.

@@ -130,8 +130,14 @@ def evaluate(model,gen,streams,examples,device,batch_size):
             latest_fact_accuracy=float(np.mean([
                 v['latest_fact_correct'] for v in scored])) if scored else None,
             product_only_accuracy=1/len(PRICES),
-            caveat='Product-only baseline is the balanced prior implied by '
-                   'uniform without-replacement price assignment; latest-fact '
+            uniform_observed_price_set_ce=float(np.mean([
+                np.log(v['fact_count']) for v in scored])) if scored else None,
+            uniform_observed_price_set_accuracy=float(np.mean([
+                1/v['fact_count'] for v in scored])) if scored else None,
+            caveat='Product-only baseline is the balanced unconditional prior '
+                   'from uniform without-replacement assignment. The observed '
+                   'price-set baseline uses the number of visible facts but '
+                   'does not bind one to the queried product. Latest-fact '
                    'accuracy is measured on this panel.'),
         answer_examples=len(scored),
         answer_with_narrative_mention=sum(v['mentioned'] for v in scored))

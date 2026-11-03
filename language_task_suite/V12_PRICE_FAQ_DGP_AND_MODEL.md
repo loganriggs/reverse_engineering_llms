@@ -90,8 +90,9 @@ query-key edits on each of two untouched reference-rate panels, with at
 least 30 edited answers per panel. No circuit or sparsification
 interpretation should be attempted until the trained model passes this gate;
 if a 512-stream panel is too sparse, increase the panel size rather than
-relaxing the threshold. A six-price product-only guess has CE `log(6)=1.79`
-nats.
+relaxing the threshold. An **unconditional** six-price product-only guess
+has CE `log(6)=1.79` nats; a guess restricted to the set of prices already
+visible in the document is a stronger non-binding control.
 
 The ordinary-CE seed-2 run finished 1,000 updates. Its fixed diagnostic
 price-answer CE went from 5.94 at initialization to 1.80 nats, essentially
@@ -107,9 +108,57 @@ that heuristic either. See [training record](results/v12_price_faq_depth2_seed2_
 [fresh panel A](results/v12_price_faq_depth2_seed2_1000/fresh_panel_99701.json),
 and [fresh panel B](results/v12_price_faq_depth2_seed2_1000/fresh_panel_99711.json).
 
-A matched answer-weighted arm (100× loss on `price_answer` positions, same
-seed, architecture, generated minibatches, and number of updates) is the
-next test. It distinguishes a weak supervision signal from an inability of
-this small architecture or optimizer to learn the long-range binding. It
-may trade away other task competence, which the same per-rule evaluation
-will expose. No V12 price circuit analysis follows from the ordinary-CE run.
+![Ordinary-CE price-answer learning curve and fresh causal gate](results/v12_price_faq_learning_baseline.png)
+Replaying those two generator panels gives a stronger non-binding control:
+guess uniformly among the **visible price values**. Its CE is 0.844/0.860
+nats across the same 68/65 answers, still without identifying the queried
+item. The model's 1.884/1.801 CE is worse than that control. The evaluator
+now records this baseline explicitly; the published first-pass JSON above
+predates that extra field, so it should not be mistaken for a new model run.
+
+A matched answer-weighted arm used 100× loss on `price_answer` positions
+with the same seed, architecture, generated minibatches, and number of
+updates. It tests whether this simple supervision increase is sufficient
+without changing the task distribution or model capacity. No V12 price
+circuit analysis follows from the ordinary-CE run.
+
+That arm is now complete. The first GPU process faulted after its saved
+step-0 checkpoint; a CPU step-0 interrupted/resumed check matches an
+uninterrupted run with **zero weight difference**. The resumed GPU training
+record contains two identical step-0 diagnostics and then the planned
+200–1,000 updates. On the same untouched panels:
+
+| Objective, panel | Price-answer CE | Earlier-price edit response | Queried-item edit response |
+|---|---:|---:|---:|
+| Ordinary CE, A | 1.884 | -0.00002 | +0.00014 |
+| 100× answer CE, A | 1.899 | +0.00001 | +0.000004 |
+| Ordinary CE, B | 1.801 | +0.00004 | -0.00028 |
+| 100× answer CE, B | 1.834 | -0.000002 | +0.000001 |
+| Visible-price-set non-binding guess | 0.844 / 0.860 | — | — |
+| Exact oracle | 0 | 1 | 1 |
+
+![Ordinary and answer-weighted learning curves and causal edit results](results/v12_price_faq_weighted_comparison.png)
+
+The [plotter](plot_v12_price_faq_learning.py), [weighted training record](results/v12_price_faq_depth2_weight100_seed2_1000/results.json),
+and [weighted fresh panels A](results/v12_price_faq_depth2_weight100_seed2_1000/fresh_panel_99701.json)
+and [B](results/v12_price_faq_depth2_weight100_seed2_1000/fresh_panel_99711.json)
+preserve the comparison. At the last fixed diagnostic, weighted versus
+ordinary CE was 1.793 versus 1.796 on price answers; weighted mixed-verb CE
+was 1.745 versus 1.770 and mixed-object CE 2.618 versus 2.656. So this
+weight did not simply destroy the other measured tasks, but it also did not
+produce binding. One coefficient, one model seed, and 1,000 steps do not
+prove supervision cannot work; they rule out this simple fix at the tested
+budget.
+
+**Stop the V12 price-only circuit and loss-weight sweep here.** Neither
+checkpoint meets the preregistered competence or edit gate, so their
+attention paths would be descriptions of a failed behavior. The next DGP
+experiment should broaden the sampled document task mix toward the
+field-value, numeric, entity-tracking, attribution, and conditional
+relations observed in the new FineWeb review, with less templated FAQ
+frequency and stronger lexical/sentence variation. For interpretation
+methods in the meantime, use the already competent joint crossed-skip and
+multi-genre FAQ/place-recall models, with task-family featurizer holdouts
+and separate reconstruction, prediction, causal fidelity, and new-task
+discovery measures. This is a course correction toward the original goal,
+not a claim that V12 is a realistic language model.

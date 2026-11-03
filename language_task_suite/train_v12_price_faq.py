@@ -138,7 +138,7 @@ def main():
             reference_kwargs=dict(COMMON,**REFERENCE),
             records=records),indent=2)+'\n')
 
-    if start == 0:
+    if start == 0 and args.resume_checkpoint is None:
         snapshot(0)
     model.train()
     for step in range(start+1,args.steps+1):
