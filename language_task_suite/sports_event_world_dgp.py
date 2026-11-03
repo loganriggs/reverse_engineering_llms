@@ -61,6 +61,8 @@ def candidate_intervals(rows):
         previous = score
     out = []
     for period, steps in by_period.items():
+        if period > 4:
+            continue
         for i, (start_action, start) in enumerate(steps):
             for end_action, end in steps[i+1:min(i+21, len(steps))]:
                 delta = (end[0]-start[0], end[1]-start[1])

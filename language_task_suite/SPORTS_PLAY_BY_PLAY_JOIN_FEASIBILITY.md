@@ -106,6 +106,10 @@ SBNation. The [aggregate](results/sports_event_world_dgp_audit_n200.json)
 includes a few fact-only examples. **No language renderer, visible-prefix
 oracle, form screen, or model training is claimed for this sampler yet.**
 
+The subsequent [first renderer pilot](SPORTS_EVENT_WORLD_RENDERER_PILOT_RESULT.md)
+passes visible run arithmetic but fails the held-out human form screen by a
+large margin. It remains a causal fixture, not an accepted training DGP.
+
 This is a **source alignment result**, not a realism or entailment pass.
 Matching the game does not prove that a sentence about momentum, a foul,
 or a late comeback is supported by these events. The separate
