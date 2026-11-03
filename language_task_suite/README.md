@@ -14,6 +14,10 @@ has separate Guide/FAQ/Policy grammars and is also far from natural web text.
 The [lexical ceiling audit](GENRE_V3_LEXICAL_CEILING.md) shows that V3's
 repeated frame words alone already exceed the FineWeb top-ten frequency share,
 so expanding nouns and names cannot repair this fixed grammar.
+The [V4 surface-form intervention](GENRE_V4_SURFACE_FORM_TEST.md) adds
+paraphrases for profiles, claims, questions, and events while preserving an
+exact canonical-prefix oracle. It modestly reduces repeated word pairs but
+still fails a separate FineWeb form screen.
 
 For concrete generated sentences, what each task label scores, and the
 measured word-frequency gap to FineWeb, see [sampled examples and Zipf

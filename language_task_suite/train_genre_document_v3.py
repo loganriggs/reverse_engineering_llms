@@ -1,4 +1,4 @@
-"""Train bilinear next-token models on the hidden-genre joint DGP."""
+"""Train bilinear next-token models on hidden-genre V3/V4 joint DGPs."""
 
 import argparse
 import collections
@@ -11,7 +11,10 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from genre_document_v3 import TOKEN2ID, sample_sequence
+from genre_document_v3 import (TOKEN2ID as V3_TOKEN2ID,
+                               sample_sequence as sample_v3)
+from genre_document_v4 import (TOKEN2ID as V4_TOKEN2ID,
+                               sample_sequence as sample_v4)
 from train_joint_document_v1 import DeepModel, SPECS
 
 
@@ -20,12 +23,12 @@ TASKS = ('genre_sentence_start', 'mixed_verb', 'claim_linked_item',
          'step_number', 'arithmetic_answer')
 
 
-def make_data(n, seed, length, regime, keep_oracle):
+def make_data(n, seed, length, regime, keep_oracle, token2id, sampler):
     samples, rows = [], []
     for i in range(n):
-        words, labels, distributions, genre = sample_sequence(seed+i, length,
-                                                               regime)
-        rows.append([TOKEN2ID[word] for word in words])
+        words, labels, distributions, genre = sampler(seed+i, length,
+                                                      regime)
+        rows.append([token2id[word] for word in words])
         if keep_oracle:
             samples.append((words, labels, distributions, genre))
     ids = torch.tensor(rows, dtype=torch.long)
@@ -33,7 +36,7 @@ def make_data(n, seed, length, regime, keep_oracle):
 
 
 @torch.no_grad()
-def evaluate(model, samples, data, device, batch_size=64):
+def evaluate(model, samples, data, device, token2id, batch_size=64):
     model.eval()
     aggregates = collections.defaultdict(lambda: collections.Counter())
     total_nll, total_tokens = 0., 0
@@ -51,17 +54,17 @@ def evaluate(model, samples, data, device, batch_size=64):
                     continue
                 q = distributions[i]
                 entropy = -sum(p*math.log(p) for p in q.values())
-                cross = -sum(p*logp[j, i-1, TOKEN2ID[word]].item()
+                cross = -sum(p*logp[j, i-1, token2id[word]].item()
                              for word, p in q.items())
                 for key in (family, f'{genre}:{family}'):
                     item = aggregates[key]
                     item['n'] += 1
                     item['kl'] += cross-entropy
-                    item['target_nll'] -= logp[j, i-1, TOKEN2ID[words[i]]].item()
+                    item['target_nll'] -= logp[j, i-1, token2id[words[i]]].item()
                     if len(q) == 1:
                         item['deterministic'] += 1
                         item['hits'] += int(logits[j, i-1].argmax().item() ==
-                                            TOKEN2ID[words[i]])
+                                            token2id[words[i]])
     return dict(token_nll=total_nll/total_tokens,
                 by_site={key: dict(n=int(row['n']),
                                    exact_oracle_kl=row['kl']/row['n'],
@@ -75,6 +78,7 @@ def evaluate(model, samples, data, device, batch_size=64):
 
 def main():
     p = argparse.ArgumentParser()
+    p.add_argument('--generator', choices=('v3', 'v4'), default='v3')
     p.add_argument('--depths', default='1,2,3,4')
     p.add_argument('--steps', type=int, default=1000)
     p.add_argument('--train-n', type=int, default=8000)
@@ -90,16 +94,18 @@ def main():
     p.add_argument('--save-models', action='store_true')
     args = p.parse_args()
     torch.set_num_threads(4)
+    token2id, sampler = ((V3_TOKEN2ID, sample_v3) if args.generator == 'v3'
+                         else (V4_TOKEN2ID, sample_v4))
     _, train_data, train_text = make_data(args.train_n, args.seed, args.length,
-                                          'task_rich', False)
+                                          'task_rich', False, token2id, sampler)
     task_eval, task_data, task_text = make_data(args.eval_n,
                                                 args.seed+100000, args.length,
-                                                'task_rich', True)
+                                                'task_rich', True, token2id, sampler)
     ref_eval, ref_data, ref_text = make_data(args.eval_n,
                                              args.seed+200000, args.length,
-                                             'reference', True)
+                                             'reference', True, token2id, sampler)
     output = dict(config=vars(args) | {'output': str(args.output)},
-                  n_vocab=len(TOKEN2ID), n_ctx=args.length-1,
+                  n_vocab=len(token2id), n_ctx=args.length-1,
                   exact_document_overlap=dict(task_rich=len(train_text & task_text),
                                               reference=len(train_text & ref_text)),
                   objective='full next-token CE; no task/genre labels in training',
@@ -110,7 +116,7 @@ def main():
     for depth in [int(word) for word in args.depths.split(',')]:
         assert 1 <= depth <= 4
         torch.manual_seed(args.seed+depth)
-        model = DeepModel(len(TOKEN2ID), args.d_model, args.heads,
+        model = DeepModel(len(token2id), args.d_model, args.heads,
                           SPECS[f'block{depth}'], args.length-1,
                           norm='rms', residual='lerp', attention='bilinear').to(args.device)
         opt = torch.optim.AdamW(model.parameters(), lr=args.lr)
@@ -131,8 +137,10 @@ def main():
             losses.append(loss.item())
             if (step+1) % 100 == 0:
                 print(depth, step+1, round(loss.item(), 4), flush=True)
-        scores = dict(task_rich=evaluate(model, task_eval, task_data, args.device),
-                      reference=evaluate(model, ref_eval, ref_data, args.device))
+        scores = dict(task_rich=evaluate(model, task_eval, task_data,
+                                        args.device, token2id),
+                      reference=evaluate(model, ref_eval, ref_data,
+                                         args.device, token2id))
         output['results'][str(depth)] = dict(parameters=model.n_params,
                                              train_loss_last50=sum(losses[-50:])/len(losses[-50:]),
                                              evaluations=scores,
@@ -141,7 +149,7 @@ def main():
         if args.save_models:
             torch.save(dict(state_dict={k: v.detach().cpu() for k, v in
                                         model.state_dict().items()},
-                            vocabulary=TOKEN2ID, depth=depth,
+                            vocabulary=token2id, depth=depth,
                             n_ctx=args.length-1,
                             model_kwargs=dict(d_model=args.d_model,
                                               n_head=args.heads, norm='rms',
