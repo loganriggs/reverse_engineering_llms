@@ -12,6 +12,9 @@ only bracket closure currently passes a strong held-out behavioral gate.
 The [sports OV gauge and truncation test](SPORTS_OV_CANONICAL_TRUNCATION.md)
 then asks which value-output reductions preserve that learned bracket rule,
 separately tracking teacher KL, alias copying, and background prediction.
+The [halftime-to-final opportunity screen](SPORTS_HALFTIME_RULE_OPPORTUNITIES.md)
+locates a more diverse grounded document rule and records the semantic
+validation needed before it can enter a sampled generator.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
