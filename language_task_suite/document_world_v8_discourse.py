@@ -127,9 +127,19 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
     return VariedDocument(tuple(tokens), tuple(sites), genre, world)
 
 
-def draw_varied(rng, genre=None, source_delay_rate=1., **render_kwargs):
+def draw_varied(rng, genre=None, source_delay_rate=1.,
+                extra_source_recap_rate=0., **render_kwargs):
     world = draw_interleaved(rng, genre)
     assert 0 <= source_delay_rate <= 1
+    assert 0 <= extra_source_recap_rate <= 1
+    if extra_source_recap_rate:
+        plans = list(world['recap_plan'])
+        for j, event in enumerate(world['events']):
+            key = (j, 'source_attribution', event['object'],
+                   event['attribute'])
+            if key not in plans and rng.random() < extra_source_recap_rate:
+                plans.append(key)
+        world['recap_plan'] = sorted(plans, key=lambda row: row[0])
     delayed = []
     for after, family, obj, attr in world['recap_plan']:
         if (family == 'source_attribution' and source_delay_rate and

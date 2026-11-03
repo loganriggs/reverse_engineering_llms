@@ -19,12 +19,13 @@ def check_sites(document):
             document.tokens[:site.index]) == site.answer
 
 
-def audit(n, seed):
+def audit(n, seed, extra_source_recap_rate=0.):
     rng = random.Random(seed)
     families, edits = Counter(), Counter()
     syntax_changes = context_changes = 0
     for _ in range(n):
-        document = draw_varied(rng)
+        document = draw_varied(rng,
+                               extra_source_recap_rate=extra_source_recap_rate)
         check_sites(document)
         families.update(site.family for site in document.sites)
         for index, plan in enumerate(document.latent['recap_plan']):
@@ -45,7 +46,9 @@ def audit(n, seed):
             realize(document.latent, context_rate=0.).tokens !=
             realize(document.latent, context_rate=1.).tokens)
     assert syntax_changes and context_changes
-    return dict(n=n, seed=seed, sites_by_family=dict(families),
+    return dict(n=n, seed=seed,
+                extra_source_recap_rate=extra_source_recap_rate,
+                sites_by_family=dict(families),
                 successful_upstream_edits=dict(edits),
                 documents_changed_by_syntax=syntax_changes,
                 documents_changed_by_context=context_changes)
@@ -55,9 +58,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--n', type=int, default=300)
     parser.add_argument('--seed', type=int, default=9317)
+    parser.add_argument('--extra-source-recap-rate', type=float, default=0.)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    panels = [audit(args.n, args.seed + offset) for offset in (0, 1)]
+    panels = [audit(args.n, args.seed + offset,
+                    args.extra_source_recap_rate) for offset in (0, 1)]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(dict(panels=panels), indent=2) + '\n')
     for panel in panels:
