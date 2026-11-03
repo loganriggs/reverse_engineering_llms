@@ -1,5 +1,13 @@
 # Grounded toy-language task suite (first pass)
 
+The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
+samples a known paired-punctuation rule inside FineWeb prose. Whole-document
+splits, tokenizer-clean paired interventions, and nuisance edits gate a
+1–4-block bilinear comparison. Two unnormalized depth-2 models learn a
+strong relative closer preference; a data-free QK opener score alone fails
+to rank the causally important second-layer heads consistently. This is a
+natural-form control, not an oracle for all of the source text.
+
 The [DGP rule-prevalence and weight-recovery pilot](DGP_CONDITIONAL_RATE_WEIGHT_PILOT.md)
 tests a controlled 0.10-versus-0.60 conditional-action rate at matched model
 training budget. Fresh behavioral edits gate interpretation: only the
