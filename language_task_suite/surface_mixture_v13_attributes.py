@@ -29,7 +29,10 @@ def attribute_state(history):
         if not content:
             continue
         if content[0] == 'The' and content[2:3] == ['is']:
-            assert len(content) == 5 and content[-1] == '.'
+            assert (content[-1] == '.' and
+                    (len(content) == 5 or
+                     (len(content) == 10 and content[4:6] == [',', 'so']
+                      and content[8] == 'it')))
             facts[content[1]] = content[3]
         elif content[0] not in SPECIAL:
             frame = _frame(content)
@@ -206,7 +209,7 @@ class SurfaceMixtureV13Attributes(SurfaceMixtureV12PriceFAQ):
             tokens.append(token)
             labels.append(label)
             distributions.append(q)
-        return [TOKEN2ID_V13[w] for w in tokens], labels, distributions
+        return [self.token2id[w] for w in tokens], labels, distributions
 
     def _base_label(self, words, content):
         # Keep labels used by the existing V12 training/evaluation pipeline.

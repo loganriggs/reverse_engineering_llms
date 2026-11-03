@@ -12,6 +12,7 @@ import torch.nn.functional as F
 sys.path.insert(0, '/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
 from model import BilinearGPT, Config
 from surface_mixture_v13_attributes import SurfaceMixtureV13Attributes
+from surface_mixture_v14_conditional import SurfaceMixtureV14Conditional
 from train_v12_price_faq import batch, evaluate
 
 
@@ -42,6 +43,7 @@ def main():
     p.add_argument('--seed',type=int,default=3)
     p.add_argument('--regime',choices=('reference','diagnostic'),
                    default='reference')
+    p.add_argument('--generator',choices=('v13','v14'),default='v13')
     p.add_argument('--eval-every',type=int,default=200)
     p.add_argument('--eval-streams',type=int,default=128)
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
@@ -53,7 +55,11 @@ def main():
     device=torch.device(args.device)
     task_kwargs=dict(COMMON,**(REFERENCE if args.regime=='reference'
                                else DIAGNOSTIC))
-    train_gen=SurfaceMixtureV13Attributes(seed=args.seed+1000,**task_kwargs)
+    generator_cls=(SurfaceMixtureV13Attributes if args.generator=='v13'
+                   else SurfaceMixtureV14Conditional)
+    if args.generator=='v14':
+        task_kwargs['conditional_continuation_rate']=.35
+    train_gen=generator_cls(seed=args.seed+1000,**task_kwargs)
     config=Config(vocab_size=len(train_gen.vocab),n_layer=args.depth,
                   n_head=args.heads,n_embd=args.width,
                   seq_len=args.length-1,
@@ -66,7 +72,7 @@ def main():
     if args.resume_checkpoint:
         saved=torch.load(args.resume_checkpoint,map_location=device,
                          weights_only=False)
-        assert saved['generator']=='SurfaceMixtureV13Attributes'
+        assert saved['generator']==generator_cls.__name__
         assert saved['config']==vars(config)
         assert saved['regime']==args.regime
         assert saved['batch_size']==args.batch_size
@@ -82,17 +88,18 @@ def main():
     clock=time.time()-elapsed
 
     def snapshot(step):
-        fresh=SurfaceMixtureV13Attributes(seed=args.seed+2000,**task_kwargs)
+        fresh=generator_cls(seed=args.seed+2000,**task_kwargs)
         scores=evaluate(model,fresh,args.eval_streams,args.length,device)
         records.append(dict(step=step,elapsed_seconds=time.time()-clock,
                             scores=scores))
         print('step',step,'attribute adjective',
               scores.get('attribute_adjective'),'attribute object',
-              scores.get('attribute_object'),'mixed verb',
+              scores.get('attribute_object'),'conditional action',
+              scores.get('conditional_action'),'mixed verb',
               scores.get('mixed_verb'),flush=True)
         payload=dict(step=step,model=model.state_dict(),
             optimizer=optimizer.state_dict(),config=vars(config),
-            generator='SurfaceMixtureV13Attributes',regime=args.regime,
+            generator=generator_cls.__name__,regime=args.regime,
             batch_size=args.batch_size,length=args.length,
             generator_rng=train_gen.rng.getstate(),
             torch_rng=torch.get_rng_state(),
@@ -124,7 +131,7 @@ def main():
         if step%args.eval_every==0 or step==args.steps:
             snapshot(step)
     torch.save(dict(model=model.state_dict(),config=vars(config),
-                    generator='SurfaceMixtureV13Attributes',step=args.steps),
+                    generator=generator_cls.__name__,step=args.steps),
                args.output_dir/'model.pt')
 
 

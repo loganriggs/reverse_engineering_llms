@@ -18,11 +18,14 @@ from surface_mixture_v4 import _content
 from surface_mixture_v13_attributes import (
     ATTRIBUTES, SurfaceMixtureV13Attributes, attribute_state,
 )
+from surface_mixture_v14_conditional import ACTION, SurfaceMixtureV14Conditional
+from audit_v14_conditional import repair_completed_conditional
 from train_v13_attributes import COMMON, REFERENCE, DIAGNOSTIC
 
 
-def collect(seed, nstreams, length, kwargs, max_edits):
-    gen=SurfaceMixtureV13Attributes(seed=seed,**COMMON,**kwargs)
+def collect(seed, nstreams, length, kwargs, max_edits,
+            generator_cls=SurfaceMixtureV13Attributes):
+    gen=generator_cls(seed=seed,**COMMON,**kwargs)
     streams=[]; edits=[]
     for _ in range(nstreams):
         ids,labels,qs=gen.sample_sequence(length)
@@ -30,6 +33,27 @@ def collect(seed, nstreams, length, kwargs, max_edits):
         streams.append((ids,labels,qs))
         positions=attribute_positions(words)
         for t,label in enumerate(labels):
+            if label=='conditional_action':
+                history,raw=_split(words[:t])
+                content=_content(raw)
+                prior=attribute_state(history)['facts']
+                old=content[3]
+                replacement=next((v for v in ATTRIBUTES
+                                  if v not in prior.values() and v!=old),None)
+                if replacement is None:
+                    continue
+                pos=t-len(raw)+raw.index('The')+3
+                changed=words[:t].copy();changed[pos]=replacement
+                for u in range(pos+1,t):
+                    assert gen.next_distribution(changed[:u]).get(changed[u],0)>0
+                target=ACTION[replacement]
+                assert gen.next_distribution(changed)=={target:1.}
+                edits.append(dict(kind=label,x=ids[:-1],query=t-1,
+                                  position=pos,target=target,new=replacement,
+                                  old=old,item=content[1],pending=1,
+                                  latest_pending_item=content[1],
+                                  extra_edits=[],oracle_response=1.))
+                continue
             if label not in ('attribute_adjective','attribute_object'):
                 continue
             history,raw=_split(words[:t])
@@ -53,6 +77,10 @@ def collect(seed, nstreams, length, kwargs, max_edits):
             pos,check=positions[item]
             assert check==old and pos<t
             altered=words[:t].copy();altered[pos]=replacement
+            if generator_cls is SurfaceMixtureV14Conditional:
+                repair_completed_conditional(words,altered,pos,replacement,t)
+            extra_edits=[(j,w) for j,w in enumerate(altered)
+                         if j!=pos and w!=words[j]]
             for u in range(pos+1,t):
                 assert gen.next_distribution(altered[:u]).get(altered[u],0)>0
             edited_q=gen.next_distribution(altered)
@@ -64,6 +92,7 @@ def collect(seed, nstreams, length, kwargs, max_edits):
                               new=replacement,old=old,item=item,
                               pending=len(pending),
                               latest_pending_item=pending[-1][0],
+                              extra_edits=extra_edits,
                               oracle_response=oracle_response))
     rng=random.Random(seed+991)
     selected=[]
@@ -76,6 +105,9 @@ def collect(seed, nstreams, length, kwargs, max_edits):
         remaining=[e for e in multi[max_edits//2:]+single[max_edits//2:]]
         rng.shuffle(remaining)
         selected.extend((chosen+remaining)[:max_edits])
+    conditional=[e for e in edits if e['kind']=='conditional_action']
+    rng.shuffle(conditional)
+    selected.extend(conditional[:max_edits])
     return gen,streams,selected
 
 
@@ -101,6 +133,8 @@ def score(model,gen,streams,edits,device,batch_size):
         changed=base.clone()
         for i,v in enumerate(part):
             changed[i,v['position']]=gen.token2id[v['new']]
+            for position,word in v.get('extra_edits',[]):
+                changed[i,position]=gen.token2id[word]
         query=torch.tensor([v['query'] for v in part],device=device)
         rows=torch.arange(len(part),device=device)
         before=model(base)[0].float().softmax(-1)[rows,query]
@@ -139,28 +173,36 @@ def main():
     p.add_argument('--max-edits',type=int,default=128)
     p.add_argument('--batch-size',type=int,default=16)
     p.add_argument('--device',default='cpu')
+    p.add_argument('--generator',choices=('v13','v14'),default='v13')
     p.add_argument('--output',type=Path,required=True)
     args=p.parse_args()
     torch.set_num_threads(1)
     saved=torch.load(args.checkpoint,map_location=args.device,weights_only=True)
-    assert saved['generator']=='SurfaceMixtureV13Attributes'
+    generator_cls=(SurfaceMixtureV13Attributes if args.generator=='v13'
+                   else SurfaceMixtureV14Conditional)
+    assert saved['generator']==generator_cls.__name__
     model=BilinearGPT(Config(**saved['config'])).to(args.device)
     model.load_state_dict(saved['model'])
     panels={}
     for name,kwargs in (('reference',REFERENCE),('diagnostic',DIAGNOSTIC)):
+        kwargs=dict(kwargs)
+        if args.generator=='v14':
+            kwargs['conditional_continuation_rate']=.35
         gen,streams,edits=collect(args.seed,args.streams,args.length,
-                                  kwargs,args.max_edits)
+                                  kwargs,args.max_edits,generator_cls)
         panels[name]=score(model,gen,streams,edits,
                            torch.device(args.device),args.batch_size)
         print(name,'adjective',panels[name]['per_rule'].get('attribute_adjective'),
               'object',panels[name]['per_rule'].get('attribute_object'),
+              'conditional',panels[name]['per_rule'].get('conditional_action'),
               'edits',panels[name]['edits'],flush=True)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(dict(
         config={**vars(args),'checkpoint':str(args.checkpoint),
                 'output':str(args.output)},panels=panels,
         caveat='Response is change in model probability of the selected '
-               'target after one supported earlier fact edit. The oracle '
+               'target after a supported edit. V14 earlier completed '
+               'conditional facts also repair their local action. The oracle '
                'response is computed from the two exact prefix distributions. '
                'This measures task prediction and causal sensitivity, not '
                'circuit recovery or natural-language realism.'),indent=2)+'\n')

@@ -28,8 +28,9 @@ def attribute_positions(words):
     return out
 
 
-def panel(seed, n, length, kwargs):
-    gen = SurfaceMixtureV13Attributes(seed=seed, **kwargs)
+def panel(seed, n, length, kwargs, generator_cls=SurfaceMixtureV13Attributes,
+          edit_repair=None):
+    gen = generator_cls(seed=seed, **kwargs)
     metrics, labels = Counter(), Counter()
     pairs = Counter()
     examples = []
@@ -117,6 +118,8 @@ def panel(seed, n, length, kwargs):
                 continue
             changed = words[:t].copy()
             changed[pos] = replacement
+            if edit_repair and edit_repair(words,changed,pos,replacement,t):
+                metrics['paired_conditional_repair_edits'] += 1
             for u in range(pos+1,t):
                 assert gen.next_distribution(changed[:u]).get(changed[u],0)>0, (
                     seed,stream,t,pos,u,changed[u])

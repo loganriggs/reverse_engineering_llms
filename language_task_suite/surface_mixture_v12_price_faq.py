@@ -35,8 +35,10 @@ def price_state(history):
                         content[4:] == ['dollars', '.'])
                 facts[content[1]] = content[3]
             else:
-                assert (content[2] == 'is' and len(content) == 5
-                        and content[-1] == '.')
+                assert (content[2] == 'is' and content[-1] == '.'
+                        and (len(content) == 5 or
+                             (len(content) == 10 and content[4:6] ==
+                              [',', 'so'] and content[8] == 'it')))
         elif content[0] == 'How' and content[1:2] == ['much']:
             assert len(content) == 12 and content[5:9] == [
                 'cost', '?', 'Answer', ':']
