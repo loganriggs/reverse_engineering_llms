@@ -17,6 +17,40 @@ from original_v3_shared_bracket import bracket_close_distribution
 from plot_original_v3_sparse_rule_graphs import events, exact_edge_contrasts
 
 
+@torch.no_grad()
+def selected_edge_logits(model, x, records, layer_index, head_index, output_ids):
+    """Exact local output-logit path for each selected anchor/query edge.
+
+    This is a signed contribution to the residual readout at this layer, not
+    the final-model effect of removing the edge.
+    """
+    from model import apply_rotary_emb
+    residual = model.embed(x)
+    for block in model.blocks[:layer_index]:
+        residual = block(residual)
+    attn = model.blocks[layer_index].attn
+    assert not attn.qk_norm
+    batch, length, width = residual.shape
+    heads, dim = attn.n_head, attn.head_dim
+    def shaped(linear):
+        return linear(residual).reshape(batch, length, heads, dim)
+    q1, k1, q2, k2, v = [shaped(w) for w in
+                          (attn.q1, attn.k1, attn.q2, attn.k2, attn.v)]
+    cos, sin = attn.rotary(q1)
+    q1, k1 = apply_rotary_emb(q1, cos, sin), apply_rotary_emb(k1, cos, sin)
+    q2, k2 = apply_rotary_emb(q2, cos, sin), apply_rotary_emb(k2, cos, sin)
+    out = attn.out.weight.reshape(width, heads, dim)[:, head_index]
+    readout = model.lm_head.weight[output_ids]
+    rows = []
+    for b, q, k, *_ in records:
+        score1 = (q1[b,q,head_index]*k1[b,k,head_index]).sum()/dim
+        score2 = (q2[b,q,head_index]*k2[b,k,head_index]).sum()/dim
+        vector = out @ (v[b,k,head_index]*score1*score2)
+        logits = readout @ vector
+        rows.append((logits-logits.mean()).cpu().numpy())
+    return np.asarray(rows)
+
+
 def load(model, path, device):
     payload = torch.load(path, map_location=device, weights_only=True)
     model.load_state_dict(payload['model'])
@@ -138,6 +172,35 @@ def main():
     fig.savefig(a.output_dir/'skip_rules_truth_predictions.png',dpi=180)
     plt.close(fig)
 
+    # In this generator every skip rule has a unique adjacent trigger.  Show
+    # whether the dense direct path can already predict the output without
+    # consulting the earlier anchor; this is a DGP confound, not a failure of
+    # the sparse path calculation.
+    load(model,paths['60% zero + no L1'],device)
+    skip_specs=specs[:len(gen.skip_bigrams)]
+    skip_targets=list(dict.fromkeys(target for _,target,_ in skip_specs))
+    trigger_ids=[gen.token2id[label.split(' … ')[1]] for label,_,_ in skip_specs]
+    target_ids=[gen.token2id[t] for t in skip_targets]
+    direct_logits=(model.embed.weight[trigger_ids] @
+                   model.lm_head.weight[target_ids].T).cpu().numpy()
+    direct_logits-=direct_logits.mean(axis=1,keepdims=True)
+    fig,axes=plt.subplots(1,2,figsize=(8.8,4.1),layout='constrained')
+    axes[0].imshow(truth[:len(skip_specs),:len(skip_targets)],
+                   vmin=0,vmax=1,cmap='viridis',aspect='auto')
+    scale=max(float(np.abs(direct_logits).max()),1e-6)
+    im=axes[1].imshow(direct_logits,vmin=-scale,vmax=scale,
+                      cmap='coolwarm',aspect='auto')
+    for ax in axes:
+        ax.set_xticks(range(len(skip_targets)),skip_targets)
+        ax.set_yticks(range(len(skip_specs)),
+                      [label for label,_,_ in skip_specs],fontsize=8)
+    axes[0].set_title('Planted anchor + trigger target')
+    axes[1].set_title('Trigger-only direct weight path')
+    fig.colorbar(im,ax=axes[1],label='Centered logit')
+    fig.suptitle('A unique trigger may permit an adjacent-token shortcut')
+    fig.savefig(a.output_dir/'skip_trigger_direct_weight_path.png',dpi=180)
+    plt.close(fig)
+
     fig,axes = plt.subplots(2,3,figsize=(13,6),layout='constrained')
     for r,rule in enumerate(('skip_bigram','skip_trigram')):
         vmax = max(np.abs(edge_means[name][rule]).max() for name in paths)
@@ -154,6 +217,62 @@ def main():
     fig.suptitle('Exact QK₁×QK₂×OV→unembedding path through selected earlier token')
     fig.savefig(a.output_dir/'sparse_attention_edge_paths.png',dpi=180)
     plt.close(fig)
+
+    # Show the *identity* of each learned mapping, not only its average head
+    # strength.  These are exact signed paths through the pruned weights at
+    # the causally important layer/head identified by the separate ablation.
+    load(model,paths['60% zero + no L1'],device)
+    mapping = {}
+    for rule, rule_specs in (
+        ('skip_bigram',specs[:len(gen.skip_bigrams)]),
+        ('skip_trigram',specs[len(gen.skip_bigrams):])):
+        chosen_outputs = list(dict.fromkeys(target for _,target,_ in rule_specs))
+        chosen_ids = [gen.token2id[t] for t in chosen_outputs]
+        planted = np.zeros((len(rule_specs),len(chosen_outputs)))
+        learned = np.full_like(planted,np.nan)
+        by_head = np.full((len(rule_specs),4),np.nan)
+        counts = []
+        for i,(_,target,records) in enumerate(rule_specs):
+            planted[i,chosen_outputs.index(target)] = 1
+            counts.append(len(records))
+            if records:
+                for head in range(4):
+                    values=selected_edge_logits(model,x,records,1,head,chosen_ids).mean(0)
+                    if head==0:learned[i]=0
+                    learned[i]+=values
+                    by_head[i,head]=values[chosen_outputs.index(target)]-np.mean(
+                        np.delete(values,chosen_outputs.index(target)))
+        # A shared zero-centered scale keeps signed contributions comparable.
+        vmax = max(float(np.nanmax(np.abs(learned))),1e-6)
+        fig,axes = plt.subplots(1,3,figsize=(13,4.2),layout='constrained')
+        axes[0].imshow(planted,vmin=0,vmax=1,cmap='viridis',aspect='auto')
+        image = axes[1].imshow(learned,vmin=-vmax,vmax=vmax,
+                               cmap='coolwarm',aspect='auto')
+        hmax=max(float(np.nanmax(np.abs(by_head))),1e-6)
+        head_image=axes[2].imshow(by_head,vmin=-hmax,vmax=hmax,
+                                  cmap='coolwarm',aspect='auto')
+        for ax in axes[:2]:
+            ax.set_xticks(range(len(chosen_outputs)),chosen_outputs)
+            ax.set_yticks(range(len(rule_specs)),
+                          [f'{label} (n={n})' for (label,_,_),n in zip(rule_specs,counts)],
+                          fontsize=8)
+        axes[2].set_xticks(range(4),[f'H{i}' for i in range(4)])
+        axes[2].set_yticks(range(len(rule_specs)),
+                          [f'{label} (n={n})' for (label,_,_),n in zip(rule_specs,counts)],
+                          fontsize=8)
+        axes[0].set_title('Planted target')
+        axes[1].set_title('Sparse-weight path: all L1 heads')
+        axes[2].set_title('Correct-output margin by L1 head')
+        fig.colorbar(image,ax=axes[1],label='Centered output logit contribution')
+        fig.colorbar(head_image,ax=axes[2],label='Target minus other outputs')
+        fig.suptitle('Selected anchor→query edge; local signed path, not full-model ablation')
+        filename = f'{rule}_sparse_weight_mapping.png'
+        fig.savefig(a.output_dir/filename,dpi=180)
+        plt.close(fig)
+        mapping[rule] = dict(layer=1,outputs=chosen_outputs,
+                             planted=planted.tolist(),learned=learned.tolist(),
+                             by_head_target_margin=by_head.tolist(),
+                             event_counts=counts,figure=filename)
 
     training = json.loads((a.sparse_run/'results.json').read_text())
     stage_names = ['dense','pruned_40','pruned_60','final_no_l1']
@@ -183,6 +302,8 @@ def main():
         skip_outputs=skip_outputs,
         edge_means={name:{rule:matrix.tolist() for rule,matrix in by_rule.items()}
                     for name,by_rule in edge_means.items()},
+        sparse_weight_mapping=mapping,
+        skip_trigger_direct_logits=direct_logits.tolist(),
         caveat='Sparse masks cover attention projection matrices only. Noun '
                'direct path uses dense embedding/unembedding matrices. '
                'Selected-edge contributions are exact local paths, not '
