@@ -6,6 +6,9 @@ syntactic rule in weights: earlier high accuracy largely used repeated phrases.
 The [natural task-opportunity screen](TREEBANK_TASK_OPPORTUNITY_SCREEN.md)
 shows which syntax-task combinations are too rare in this sentence corpus to
 serve as an unmodified joint training distribution.
+The [joint natural-rule mixture pilot](JOINT_NATURAL_RULE_MIXTURE_PILOT.md)
+tests alias reuse, bracket closure, and spelling style in one bilinear model;
+only bracket closure currently passes a strong held-out behavioral gate.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
