@@ -26,12 +26,17 @@ SOURCE = Path('/home/loganriggs/Coding/neuron_circuits/artifacts/'
               'rotowire/sbnation.tar.bz2')
 
 
-def draw(n, seed, tokenizer, n_ctx, source=SOURCE):
+def draw(n, seed, tokenizer, n_ctx, source=SOURCE, group='heldout',
+         splits=('train',), excluded=()):
     rng = random.Random(seed)
     dataset = source.stem.removesuffix('.tar')
     assert dataset in ('rotowire', 'sbnation')
-    rows = [row for row in load(source, dataset)['train']
-            if game_partition(game_key(row)) == 'heldout']
+    assert group in ('train', 'heldout')
+    archive = load(source, dataset)
+    excluded = set(excluded)
+    rows = [row for split in splits for row in archive[split]
+            if game_partition(game_key(row)) == group
+            and game_key(row) not in excluded]
     # One report per game. All choices below depend on source text and seed,
     # never on the model's outputs.
     by_game = {}
@@ -41,7 +46,7 @@ def draw(n, seed, tokenizer, n_ctx, source=SOURCE):
     rng.shuffle(keys)
     pool = single_bpe_surname_pool()
     records = []
-    counts = {'heldout_unique_games': len(keys), 'alias_and_bracket': 0,
+    counts = {'group': group, 'unique_games': len(keys), 'alias_and_bracket': 0,
               'aligned': 0}
     for key in keys:
         row = by_game[key]

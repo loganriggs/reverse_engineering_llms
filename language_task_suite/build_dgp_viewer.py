@@ -335,6 +335,23 @@ def _zipf_comparison():
 
 def build(cache_path, refresh):
     transfer = _json(Path('results/sports_alias_bracket_position_control_seed98351.json'))
+    fresh600 = _json(Path('results/sports_alias_bracket_multistyle_fresh_seed98451.json'))
+    fresh1200 = _json(Path('results/sports_alias_bracket_multistyle_1200_fresh_seed98451.json'))
+    training_rows = []
+    for index, seed in enumerate((98401, 98402)):
+        mixed600 = _json(Path(f'results/sports_alias_bracket_multistyle_mixed_seed{seed}_600.json'))
+        control = _json(Path(f'results/sports_alias_bracket_multistyle_rwcontrol_seed{seed}_600.json'))
+        mixed1200 = _json(Path(f'results/sports_alias_bracket_multistyle_mixed_seed{seed}_1200.json'))
+        for label, source, fresh in (
+                ('Original', mixed600['trajectory'][0], fresh600['results']['original'][index]),
+                ('RotoWire +600', control['trajectory'][-1], fresh600['results']['rotowire_control'][index]),
+                ('Mixed +600', mixed600['trajectory'][-1], fresh600['results']['mixed'][index]),
+                ('Mixed +1200', mixed1200['trajectory'][-1], fresh1200['results']['mixed'][index])):
+            training_rows.append({
+                'seed': seed, 'arm': label,
+                'rw_bracket': source['matched']['rotowire']['bracket']['paired_top1'],
+                'sb_bracket': source['matched']['sbnation']['bracket']['paired_top1'],
+                'fresh_sb_bracket': fresh['metrics']['sbnation']['bracket']['paired_top1']})
     return {'generated_at': datetime.now(timezone.utc).isoformat(
                 timespec='seconds'),
             'focus': ('Realistic, variable sampled language with known '
@@ -368,6 +385,14 @@ def build(cache_path, refresh):
                           for result in transfer['results']],
                 'caveat': transfer['caveat'],
                 'report': 'SPORTS_ALIAS_BRACKET_STYLE_TRANSFER.md'},
+            'style_training': {
+                'rows': training_rows,
+                'matched_n': 46, 'fresh_sbnation_n': 15,
+                'status': ('Mixed-style exposure helps, but 1,200-step '
+                           'models remain below the .8 paired-exact '
+                           'cross-style behavior gate. No portable '
+                           'bracket circuit claim.'),
+                'report': 'SPORTS_ALIAS_BRACKET_MULTISTYLE_CONTINUATION.md'},
             'examples': (_synthetic_examples()+[_renderer_variant_example(),
                          _sports_example()]+
                          _fineweb_examples(cache_path, refresh)),
@@ -398,6 +423,14 @@ def _fingerprint():
         'corpus_joint_style_delimiter_dgp.py',
         'results/sports_alias_bracket_fresh_seed98301_n100.json',
         'results/sports_alias_bracket_position_control_seed98351.json',
+        'results/sports_alias_bracket_multistyle_fresh_seed98451.json',
+        'results/sports_alias_bracket_multistyle_1200_fresh_seed98451.json',
+        'results/sports_alias_bracket_multistyle_mixed_seed98401_600.json',
+        'results/sports_alias_bracket_multistyle_mixed_seed98402_600.json',
+        'results/sports_alias_bracket_multistyle_rwcontrol_seed98401_600.json',
+        'results/sports_alias_bracket_multistyle_rwcontrol_seed98402_600.json',
+        'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
+        'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
         'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]

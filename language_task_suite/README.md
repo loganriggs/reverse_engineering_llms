@@ -22,6 +22,10 @@ The [cross-style alias/bracket test](SPORTS_ALIAS_BRACKET_STYLE_TRANSFER.md)
 finds that RotoWire-trained models do not retain full bracket competence on
 SBNation reports, even after coarse bracket-position matching. The viewer
 shows this behavioral gate alongside the sampled examples.
+The [mixed-style continuation](SPORTS_ALIAS_BRACKET_MULTISTYLE_CONTINUATION.md)
+shows substantial but incomplete recovery after adding SBNation training
+reports, with equal-update RotoWire-only controls and a separate game-disjoint
+panel. It does not yet qualify as a cross-style circuit teacher.
 
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The
