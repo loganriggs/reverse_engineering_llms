@@ -64,6 +64,8 @@ def main():
     p.add_argument('--steps', type=int, default=300)
     p.add_argument('--batch-size', type=int, default=4)
     p.add_argument('--lr', type=float, default=.001)
+    p.add_argument('--background-weight', type=float, default=0.,
+                   help='Weight on KL at sampled non-rule positions')
     p.add_argument('--seed', type=int, default=55501)
     p.add_argument('--device', default='cuda')
     p.add_argument('--output', type=Path, required=True)
@@ -84,20 +86,35 @@ def main():
     initial = evaluate(candidate, test, a.device)
     initial_kl = teacher_kl(teacher, candidate, test, a.device)
     x = torch.cat([arm['x'] for arm in fit])
-    sites = torch.cat([arm['site'][:, 1] for arm in fit])
+    y = torch.cat([arm['y'] for arm in fit])
+    sites = torch.cat([arm['site'] for arm in fit])
     trainable = trainable_ov(candidate, a.rank)
     optimizer = torch.optim.Adam(trainable, lr=a.lr)
     torch.manual_seed(a.seed)
     losses = []
     for step in range(a.steps):
         ix = torch.randint(len(x), (a.batch_size,))
-        xb, sb = x[ix].to(a.device), sites[ix].to(a.device)
+        xb, yb, sb = (tensor[ix].to(a.device)
+                      for tensor in (x, y, sites))
         positions = torch.arange(len(xb), device=a.device)
         with torch.no_grad():
-            target = teacher(xb)[positions, sb].float().softmax(-1)
-        predicted = candidate(xb)[positions, sb].float()
-        loss = F.kl_div(predicted.log_softmax(-1), target,
+            teacher_logits = teacher(xb).float()
+        candidate_logits = candidate(xb).float()
+        target = teacher_logits[positions, sb[:, 1]].softmax(-1)
+        predicted = candidate_logits[positions, sb[:, 1]]
+        bracket_kl = F.kl_div(predicted.log_softmax(-1), target,
                         reduction='batchmean')
+        loss = bracket_kl
+        if a.background_weight:
+            bg = torch.arange(0, xb.shape[1], 32, device=a.device)
+            valid = yb[:, bg] != -100
+            for kind in range(3):
+                valid &= bg[None, :] != sb[:, kind:kind+1]
+            bg_target = teacher_logits[:, bg].softmax(-1)
+            bg_predicted = candidate_logits[:, bg].log_softmax(-1)
+            bg_kl = F.kl_div(bg_predicted, bg_target,
+                             reduction='none').sum(-1)[valid].mean()
+            loss = bracket_kl+a.background_weight*bg_kl
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
@@ -119,8 +136,9 @@ def main():
         'unused_ov_channel_max_abs': unused_max,
         'scope': 'Only first rank OV coordinates per head in both attention '
                  'layers trained. All other parameters frozen. Distillation '
-                 'loss uses teacher bracket-site KL across eight arms; '
-                 'heldout games and background KL are evaluation only.'}
+                 'loss uses teacher bracket-site KL across eight arms and '
+                 'optionally sampled non-rule background KL. Heldout games '
+                 'are evaluation only.'}
     a.output.parent.mkdir(parents=True, exist_ok=True)
     a.output.write_text(json.dumps(report, indent=2)+'\n')
     print('saved', a.output)
