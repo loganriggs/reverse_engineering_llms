@@ -18,6 +18,9 @@ validation needed before it can enter a sampled generator.
 The [complete-sentence validator result](HALFTIME_CLAUSE_VALIDATOR_RESULT.md)
 shows that only a tiny, safe halftime clause bank survives conservative
 semantic checks; the larger surface-match pool is not training-ready.
+The [three-source rule-combination holdout](THREE_SOURCE_RULE_COMBINATION_HOLDOUT.md)
+trains natural-text delimiter and spelling rules on separate documents and
+tests their unseen joint occurrence, alongside the sports alias/bracket arm.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained

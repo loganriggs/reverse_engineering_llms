@@ -1,0 +1,22 @@
+# Training separate natural rules, testing an unseen combination
+
+This experiment moves from a single natural-text rule to a **whole-combination holdout**. A depth-2, width-64 bilinear model begins from an existing sports-report alias×bracket checkpoint. It then receives separate FineWeb spelling-only windows and, in one arm, separate FineWeb delimiter-only windows. Evaluation includes a third FineWeb source-document range where **spelling style and delimiter closure occur together** in a controlled 2×2 factorial. No joint document is used for training.
+
+The [panel builder](build_joint_style_delimiter_panel.py) streams FineWeb `sample-10BT` documents at offsets 83,500–84,499 and selects 18 complete, token-aligned US/UK × round/square factorials. The spelling training source is offsets 53,500–83,499; delimiter training uses 44,000–51,999. The ranges are disjoint. The source-document token panel remains local because it can reconstruct text. An additional exact 64-token chunk screen found **0 matches** among 1,108 checked joint chunks against 45,946 chunks in the two training caches; this is not a full near-duplicate guarantee. The generator's four-arm validator checks target changes and edit locality before tokenization. Empirical carrier text still has no full symbolic next-token oracle.
+
+The [matched trainer](train_three_source_rule_mixture.py) compares 1,000 updates of batch size 8, learning rate 1e-4, from each of two sports starting checkpoints. The control samples 4 sports + 4 spelling examples per update. The three-source arm samples 3 sports + 3 spelling + 2 delimiter examples. Each source's weighted token loss is normalized before averaging; sports alias/bracket site weights are 500/100, spelling and delimiter sites 100. Sports test games are disjoint from training. Both arms use the same architecture, starting weights, update count, and optimizer, though they see different source proportions. Two seeds use their respective 6,000-step sports checkpoints and independent minibatch streams.
+
+| Starting sports seed / continuation | Sports bracket paired exact | Isolated FineWeb delimiter paired two-way | Joint-document delimiter paired two-way | Isolated spelling paired two-way | Joint-document spelling paired two-way | Both rules correct in all four arms |
+|---|---:|---:|---:|---:|---:|---:|
+| 98201 / no continuation | .900 | .030 | .028 | .014 | .000 | .000 |
+| 98201 / sports + spelling | .950 | .000 | .000 | .009 | .000 | .000 |
+| 98201 / three sources | .950 | .596 | .389 | .005 | .028 | .000 |
+| 98202 / no continuation | .975 | .024 | .028 | .005 | .000 | .000 |
+| 98202 / sports + spelling | .975 | .006 | .000 | .009 | .028 | .000 |
+| 98202 / three sources | .950 | .802 | .722 | .009 | .000 | .000 |
+
+The isolated FineWeb delimiter panel has 334 heldout document pairs. The joint panel has only **18 documents**, yielding 36 paired delimiter comparisons across the two spelling styles; its percentages are coarse. Both three-source models move the delimiter score in the correct direction on about .72 of those joint comparisons. Sports bracket paired exact remains .95, so the newly learned delimiter behavior does not obviously erase the older sports bracket behavior on these 40-game panels. Alias remains partial. The spelling task fails its paired gate in every arm, consistent with the previous standalone and two-source pilots. Consequently, this is evidence of **partial transfer of delimiter closure into an unseen rule combination**, not evidence that the model has composed two learned rules or discovered a shared human-readable circuit.
+
+The result separates four questions that aggregate loss would conflate: source-language token prediction, each rule's paired accuracy, edit-direction response, and transfer to a heldout rule combination. The new models are eligible for bracket/delimiter method probes, but spelling is a negative control and cannot support a recovered spelling-circuit claim. The 18-document joint panel is too small for a stable method ranking; increase the game/document-disjoint panel before comparing sparse or canonical components on cross-task reuse. The broader objective remains a variable, rule-known sampled language process with calibrated task-window form, not merely a mixture of natural-text carriers.
+
+Aggregates: [seed 41701](results/three_source_rule_mixture_seed41701_1000.json) and [seed 41702](results/three_source_rule_mixture_seed41702_1000.json). Model checkpoints and source token caches are local only.
