@@ -121,6 +121,12 @@ The [repeated-phrase opportunity screen](CORPUS_REPEATED_PHRASE_OPPORTUNITY_SCRE
 finds a denser potential document-local copying rule in natural prose,
 while showing that broad exact recurrence is too ambiguous to serve as an
 entity-identity oracle without further checks.
+The [heterogeneous joint-rule feasibility audit](CORPUS_JOINT_RULE_FEASIBILITY.md)
+combines controlled spelling and delimiter edits in the same FineWeb document.
+Only 18/1,000 sampled documents pass a complete 320-token four-arm screen;
+a literal uppercase-repeat plus delimiter candidate yields 58/1,000 with
+span-level targets but needs typed-substitution and identity red-teaming
+before it becomes a training DGP.
 
 The [DGP rule-prevalence and weight-recovery pilot](DGP_CONDITIONAL_RATE_WEIGHT_PILOT.md)
 tests a controlled 0.10-versus-0.60 conditional-action rate at matched model
