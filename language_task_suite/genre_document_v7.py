@@ -63,14 +63,16 @@ def site_label(prefix):
 
 
 class PosteriorTrace:
-    def __init__(self, regime='task_rich'):
+    def __init__(self, regime='task_rich', conditional=None, vocabulary=None):
         assert regime in BACKGROUND_RATE
         self.regime = regime
+        self.conditional = conditional or conditional_distribution
+        self.vocabulary = vocabulary or TOKEN2ID
         self.words = []
         self.posterior = dict(PRIORS)
 
     def predict(self):
-        qs = {genre: conditional_distribution(self.words, genre, self.regime)
+        qs = {genre: self.conditional(self.words, genre, self.regime)
               for genre in GENRES}
         mixed = {}
         for genre, q in qs.items():
@@ -79,7 +81,7 @@ class PosteriorTrace:
         return _normalize(mixed), qs
 
     def observe(self, word, qs):
-        assert word in TOKEN2ID
+        assert word in self.vocabulary
         self.posterior = _normalize({genre: self.posterior.get(genre, 0.)*
                                      q.get(word, 0.) for genre, q in qs.items()})
         self.words.append(word)

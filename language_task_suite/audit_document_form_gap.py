@@ -15,6 +15,7 @@ from pathlib import Path
 from genre_document_v3 import sample_sequence as sample_v3
 from genre_document_v4 import sample_sequence as sample_v4
 from genre_document_v7 import sample_sequence as sample_v7
+from genre_document_v8 import sample_sequence as sample_v8
 
 
 WORDS = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
@@ -93,7 +94,8 @@ def audit(preview_path, manifest_path, seed=58001, versions=None):
                       'not a semantic task prevalence or a population estimate. '
                       'Generators use 256-token streams, FineWeb 1200-character '
                       'previews. Whitespace-adjacent pair denominators differ.')
-    samplers = dict(v3=sample_v3, v4=sample_v4, v7=sample_v7)
+    samplers = dict(v3=sample_v3, v4=sample_v4, v7=sample_v7,
+                    v8=sample_v8)
     if versions is None or any(v in versions for v in ('v5', 'v6')):
         from corpus_backed_document_v5 import sample_sequence as sample_v5
         from corpus_markov_document_v6 import sample_sequence as sample_v6
@@ -117,7 +119,7 @@ if __name__ == '__main__':
                    default=Path(__file__).parent/'results'/
                    'fineweb_long_panel_25000_n48_manifest.json')
     p.add_argument('--seed', type=int, default=58001)
-    p.add_argument('--versions', default='v3,v4,v5,v6,v7',
+    p.add_argument('--versions', default='v3,v4,v5,v6,v7,v8',
                    help='Comma-separated generator versions to audit')
     p.add_argument('--output', type=Path, required=True)
     args = p.parse_args()

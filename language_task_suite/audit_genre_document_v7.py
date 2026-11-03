@@ -7,11 +7,13 @@ import math
 from pathlib import Path
 
 import genre_document_v7 as document
+import genre_document_v8 as stateful_document
 from genre_document_v3 import _base_prefix
 from genre_document_v4 import to_v3
 from joint_document_v1 import _split, visible_state
 from small_genre_grammar_v7 import GRAMMARS
 from weighted_cfg_oracle import EOS, WeightedCFG
+from stateful_genre_grammar_v8 import grammar as stateful_grammar
 
 
 def exhaustive(rules, sym):
@@ -68,14 +70,60 @@ def check_exhaustive():
                 checked_prefixes=len(prefixes))
 
 
-def audit(regime='task_rich', n=30, length=256, seed=81001):
+def check_context_edit():
+    profiles_a = (('Alice', 'pilot'),)
+    profiles_b = (('Bob', 'pilot'),)
+    prefix = ('The', 'pilot', 'in', 'the', 'report', 'was')
+    q_a = stateful_grammar('court', profiles_a).next_distribution(prefix)
+    q_b = stateful_grammar('court', profiles_b).next_distribution(prefix)
+    assert q_a == {'Alice': 1.} and q_b == {'Bob': 1.}
+    claims_a = (('badge', 'rare', 'Alice'),)
+    claims_b = (('badge', 'rare', 'Bob'),)
+    claim_prefix = ('The', 'badge', 'was', 'described', 'as', 'rare', 'by')
+    c_a = stateful_grammar('court', (), claims_a).next_distribution(
+        claim_prefix)
+    c_b = stateful_grammar('court', (), claims_b).next_distribution(
+        claim_prefix)
+    assert c_a == {'Alice': 1.} and c_b == {'Bob': 1.}
+    profile_a = ('Document : grove . Alice is a pilot . '
+                 'The pilot in the report was').split()
+    profile_b = ('Document : grove . Bob is a pilot . '
+                 'The pilot in the report was').split()
+    joint_profile_a = stateful_document.next_distribution(profile_a)
+    joint_profile_b = stateful_document.next_distribution(profile_b)
+    assert abs(joint_profile_a['Alice']-q_a['Alice']) < 1e-12
+    assert joint_profile_b == q_b
+    claim_a = ('Document : grove . Alice is a pilot . '
+               'Bob is a pilot . According to Alice , the badge is rare . '
+               'The badge was described as rare by').split()
+    claim_b = ('Document : grove . Alice is a pilot . '
+               'Bob is a pilot . According to Bob , the badge is rare . '
+               'The badge was described as rare by').split()
+    joint_claim_a = stateful_document.next_distribution(claim_a)
+    joint_claim_b = stateful_document.next_distribution(claim_b)
+    assert abs(joint_claim_a['Alice']-c_a['Alice']) < 1e-12
+    assert joint_claim_b == c_b
+    return dict(profile_name_probability_before=q_a['Alice'],
+                profile_name_probability_after=q_b.get('Alice', 0.),
+                claim_speaker_probability_before=c_a['Alice'],
+                claim_speaker_probability_after=c_b.get('Alice', 0.),
+                exact_joint_document_counterfactuals_passed=4)
+
+
+def audit(regime='task_rich', n=30, length=256, seed=81001,
+          version='v7'):
+    assert version in ('v7', 'v8')
+    source = document if version == 'v7' else stateful_document
     labels = collections.Counter()
     checks = collections.Counter()
     bg_prefix = collections.defaultdict(lambda: collections.Counter())
     for row in range(n):
-        words, sites, saved, genre = document.sample_sequence(
+        words, sites, saved, genre = source.sample_sequence(
             seed+row, length, regime)
-        trace = document.PosteriorTrace(regime)
+        trace = (document.PosteriorTrace(regime) if version == 'v7' else
+                 document.PosteriorTrace(
+                     regime, stateful_document.conditional_distribution,
+                     stateful_document.TOKEN2ID))
         for i, (word, label, recorded) in enumerate(zip(
                 words, sites, saved, strict=True)):
             q, qs = trace.predict()
@@ -93,9 +141,13 @@ def audit(regime='task_rich', n=30, length=256, seed=81001):
                 bg_prefix[bucket]['deterministic'] += int(len(q) == 1)
                 bg_prefix[bucket]['entropy'] -= sum(p*math.log(p)
                                                     for p in q.values())
-                assert GRAMMARS[genre].prefix_probability(raw) > 0
+                bg_grammar = (GRAMMARS[genre] if version == 'v7' else
+                              stateful_grammar(
+                                  genre, *stateful_document._visible_facts(
+                                      words[:i])))
+                assert bg_grammar.prefix_probability(raw) > 0
             if row < 5 and i in (0, 1, 2, 3, 4, 32, 64, 128, 255):
-                replay = document.next_distribution(words[:i], regime)
+                replay = source.next_distribution(words[:i], regime)
                 assert set(replay) == set(q)
                 assert all(abs(replay[t]-q[t]) < 1e-10 for t in q)
                 checks['independent_prefix_replay'] += 1
@@ -124,10 +176,13 @@ def audit(regime='task_rich', n=30, length=256, seed=81001):
         visible_state(task_history)
         checks['semantic_document_replay'] += 1
     assert labels['background_word'] and checks['bracket_close']
-    return dict(version='small_genre_pcfg_v7', regime=regime, n=n,
-                length=length, seed=seed, vocab_size=len(document.VOCAB),
+    return dict(version=('small_genre_pcfg_v7' if version == 'v7'
+                         else 'stateful_small_genre_pcfg_v8'), regime=regime,
+                n=n, length=length, seed=seed, vocab_size=len(source.VOCAB),
                 enumeration=check_exhaustive(), labels=dict(labels),
                 checks=dict(checks),
+                context_edit=(check_context_edit() if version == 'v8'
+                              else None),
                 background_prefix={k: dict(n=int(v['n']),
                      deterministic_fraction=v['deterministic']/v['n'],
                      mean_next_token_entropy_nats=v['entropy']/v['n'])
@@ -142,9 +197,10 @@ if __name__ == '__main__':
     parser.add_argument('--regime', choices=('task_rich', 'reference'),
                         default='task_rich')
     parser.add_argument('--n', type=int, default=30)
+    parser.add_argument('--version', choices=('v7', 'v8'), default='v7')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
-    result = audit(args.regime, args.n)
+    result = audit(args.regime, args.n, version=args.version)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2)+'\n')
     print(result['checks'], flush=True)
