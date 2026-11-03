@@ -1,5 +1,13 @@
 # Grounded toy-language task suite (first pass)
 
+Open the [local DGP field guide](dgp_viewer.html) to inspect sampled documents,
+highlighted rule sites, and four-way causal variants. Generate its local data
+file with
+`/home/loganriggs/Coding/neuron_circuits/.venv/bin/python language_task_suite/build_dgp_viewer.py`
+from the repository root. Add `--watch` to rebuild on DGP or result changes;
+the open page checks for updates every 30 seconds. The generated data file
+contains short natural-corpus excerpts and is intentionally Git-ignored.
+
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The
 [structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
