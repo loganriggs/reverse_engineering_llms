@@ -26,6 +26,9 @@ from audit_fineweb_surfaces import DEFAULT_TOKENIZER
 from corpus_joint_style_delimiter_dgp import plans as web_plans
 from corpus_joint_style_delimiter_dgp import validate_factorial
 from document_mixture_v7_cross import KINDS, sample_document, site_oracle
+from document_world_v5_clause_realizations import (
+    answer_from_visible_prefix, draw_varied, realize,
+)
 from sports_alias_bracket_dgp import realize as sports_realize
 from sports_alias_bracket_dgp import sample_plan as sports_sample_plan
 from audit_surface_repetition import WORD
@@ -99,6 +102,40 @@ def _synthetic_examples():
                       'text': text, 'sites': sites}],
         })
     return examples
+
+
+def _renderer_variant_example():
+    world = draw_varied(random.Random(98640), source_delay_rate=1.).latent
+    arms = []
+    expected = None
+    for rate, label in ((0., 'Current event frames'),
+                        (1., 'Alternate intro / recap frames')):
+        doc = realize(world, source_delay_rate=1., variant_rate=rate)
+        observed = [(site.family, site.answer) for site in doc.sites]
+        if expected is None:
+            expected = observed
+        assert observed == expected
+        rendered, spans = _render_tokens(doc.tokens)
+        sites = []
+        for site in doc.sites:
+            assert answer_from_visible_prefix(doc.tokens[:site.index]) == site.answer
+            start, end = spans[site.index]
+            sites.append({'kind': site.family, 'start': start, 'end': end,
+                          'answer': site.answer, 'source_start': None,
+                          'source_end': None})
+        arms.append({'id': 'rate_'+str(rate), 'label': label,
+                     'text': rendered, 'sites': sites})
+    assert arms[0]['text'] != arms[1]['text']
+    return {'id': 'v7_renderer_variant', 'group': 'symbolic',
+            'title': 'Same world, two event-report renderers',
+            'kind': 'event_renderer_variant',
+            'source': 'Paired V7 world; optional within-kind form variation',
+            'status': ('Both arms preserve all visible-prefix answers. '
+                       'The new fixed frames reduce “the” but increase '
+                       'top-ten concentration at high use; this is a '
+                       'negative lexical-realism result, not a trained '
+                       'model result.'),
+            'report': 'V7_RENDERER_VARIATION_PILOT.md', 'arms': arms}
 
 
 def _sports_example():
@@ -307,7 +344,13 @@ def build(cache_path, refresh):
             'catalog': _catalog(),
             'zipf': _zipf_comparison(),
             'zipf_by_kind': _json(Path('results/v7_zipf_by_kind_n500.json')),
-            'examples': (_synthetic_examples()+[_sports_example()]+
+            'zipf_variant': [
+                _json(Path('results/'+name)) for name in (
+                    'v7_renderer_variant_rate025_n480.json',
+                    'v7_renderer_variant_rate05_n480.json',
+                    'v7_renderer_variant_n480.json')],
+            'examples': (_synthetic_examples()+[_renderer_variant_example(),
+                         _sports_example()]+
                          _fineweb_examples(cache_path, refresh)),
             'candidate': _json(Path('results/'
                                     'corpus_uppercase_repeat_joint_skip84500_n1000.json'))['counts'],
@@ -331,6 +374,7 @@ def write_data(path, cache_path, refresh):
 def _fingerprint():
     paths = [HERE/name for name in (
         'build_dgp_viewer.py', 'document_mixture_v7_cross.py',
+        'document_world_v5_clause_realizations.py',
         'sports_alias_bracket_dgp.py',
         'corpus_joint_style_delimiter_dgp.py',
         'results/sports_alias_bracket_fresh_seed98301_n100.json',
@@ -338,6 +382,10 @@ def _fingerprint():
         'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
     paths.append(HERE/'results/v7_zipf_by_kind_n500.json')
+    paths.extend(HERE/'results'/name for name in (
+        'v7_renderer_variant_rate025_n480.json',
+        'v7_renderer_variant_rate05_n480.json',
+        'v7_renderer_variant_n480.json'))
     return tuple((str(path), path.stat().st_mtime_ns, path.stat().st_size)
                  for path in paths)
 

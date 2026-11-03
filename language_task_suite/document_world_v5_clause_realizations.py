@@ -57,6 +57,9 @@ def _intro(obj, state, alias, form):
     if form == 1:
         return ['The',color,obj,prep,'the',place,'belonged','to',owner,
                 'and','carried','the','label',alias,'.']
+    if form == 3:
+        return [owner,'owned',article(color),color,obj,'in',article(place),
+                place,',','labeled',alias,'.']
     assert form == 2
     return ['Entry',':',obj,';','color',':',color,';','owner',':',owner,
             ';','location',':',place,';','label',':',alias,'.']
@@ -110,12 +113,16 @@ def _aside(rng, obj, place, topic, genre):
 def _recap_prefix(family, obj, attr, state, aliases, form):
     if family == 'alias_identity':
         alias = aliases[obj]
+        if form == 4:
+            return ['Label',alias,'identifies'],obj,tuple(state)
         prefixes = (["The",'label',alias,'identified','the'],
                     [alias,'was','the','code','for','the'],
                     ['For','the','label',alias,',','the','item','was','the'],
                     ['Which','item','had','the','label',alias,'?','Answer',':'])
         return prefixes[form],obj,tuple(state)
     if family == 'source_attribution':
+        if form == 4:
+            return ['Last','source','for',attr,'on',obj,':'],None,NAMES
         prefixes = (['The','latest','report','about','the',attr,'of','the',obj,
                      'came','from'],
                     ['For',obj,',','the','latest',attr,'report','was','filed','by'],
@@ -126,17 +133,23 @@ def _recap_prefix(family, obj, attr, state, aliases, form):
         return prefixes[form],None,NAMES
     value = state[obj][family.removeprefix('world_')]
     if family == 'world_owner':
+        if form == 4:
+            return ['Owner','of',obj,'now',':'],value,VALUES['owner']
         prefixes = (['By','then',',','the',obj,'belonged','to'],
                     ['At','this','point',',',obj,'belonged','to'],
                     ['Current','owner','of',obj,':'],
                     ['Who','owned',obj,'then','?','Answer',':'])
     elif family == 'world_color':
+        if form == 4:
+            return ['Color','of',obj,'now',':'],value,VALUES['color']
         prefixes = (['By','then',',','the',obj,'was'],
                     ['At','this','point',',',obj,'was'],
                     ['Current','color','of',obj,':'],
                     ['What','color','was',obj,'then','?','Answer',':'])
     else:
         assert family == 'world_place'
+        if form == 4:
+            return ['Location','of',obj,'now',':'],value,VALUES['place']
         prefixes = (['By','then',',','the',obj,'was',_preposition(value),'the'],
                     ['At','this','point',',',obj,'was','located','at'],
                     ['Current','location','of',obj,':'],
@@ -145,9 +158,10 @@ def _recap_prefix(family, obj, attr, state, aliases, form):
 
 
 def realize(world, style_entropy=.7, aside_rate=.3, paragraph_rate=.22,
-            header_rate=.5, source_delay_rate=0.):
+            header_rate=.5, source_delay_rate=0., variant_rate=0.):
     assert (world['genre'] in GENRES and 0 <= aside_rate <= 1
-            and 0 <= paragraph_rate <= 1 and 0 <= header_rate <= 1)
+            and 0 <= paragraph_rate <= 1 and 0 <= header_rate <= 1
+            and 0 <= variant_rate <= 1)
     rng=random.Random(world['realization_seed'])
     genre=world['genre']
     tokens,sites=[],[]
@@ -165,13 +179,15 @@ def realize(world, style_entropy=.7, aside_rate=.3, paragraph_rate=.22,
         emit([kind]+digits+[':',world['topic'],'notes','.'])
 
     for obj,state in world['initial'].items():
-        form=_choose_form(rng,genre,INTRO_FORMS,style_entropy)
+        form=(3 if variant_rate and rng.random()<variant_rate else
+              _choose_form(rng,genre,INTRO_FORMS,style_entropy))
         emit(_intro(obj,state,world['aliases'][obj],form))
         if rng.random()<aside_rate:
             emit(_aside(rng,obj,state['place'],world['topic'],genre))
 
     def append_recap(family,obj,attr):
-        form=_choose_form(rng,genre,RECAP_FORMS,style_entropy)
+        form=(4 if variant_rate and rng.random()<variant_rate else
+              _choose_form(rng,genre,RECAP_FORMS,style_entropy))
         prefix,answer,candidates=_recap_prefix(
             family,obj,attr,current,world['aliases'],form)
         if family == 'source_attribution':
@@ -204,7 +220,8 @@ def realize(world, style_entropy=.7, aside_rate=.3, paragraph_rate=.22,
 
 
 def draw_varied(rng, genre=None, style_entropy=.7, aside_rate=.3,
-                paragraph_rate=.22, header_rate=.5, source_delay_rate=0.):
+                paragraph_rate=.22, header_rate=.5, source_delay_rate=0.,
+                variant_rate=0.):
     world=draw_interleaved(rng,genre)
     assert 0 <= source_delay_rate <= 1
     delayed=[]
@@ -222,7 +239,7 @@ def draw_varied(rng, genre=None, style_entropy=.7, aside_rate=.3,
     world['recap_plan']=sorted(delayed,key=lambda item:item[0])
     world['realization_seed']=rng.randrange(2**63)
     return realize(world,style_entropy,aside_rate,paragraph_rate,header_rate,
-                   source_delay_rate)
+                   source_delay_rate,variant_rate)
 
 
 def sample_documents(n,seed,style_entropy=.7,aside_rate=.3,
@@ -249,6 +266,10 @@ def _canonical_intro(sentence):
         owner,_,det,color,obj,prep,the,place,comma,_,alias=sentence
         assert det==article(color) and prep==_preposition(place)
         assert (the,comma)==('the',',')
+    elif sentence[0] in NAMES and sentence[1]=='owned':
+        owner,_,det,color,obj,prep,place_det,place,comma,labeled,alias=sentence
+        assert (det,prep,place_det,comma,labeled)==(
+            article(color),'in',article(place),',','labeled')
     elif sentence[0]=='The' and sentence[6:8]==['belonged','to']:
         _,color,obj,prep,the,place,_,_,owner,conj,carried,the2,label,alias=sentence
         assert (prep,the,conj,carried,the2,label)==(
@@ -305,6 +326,23 @@ def _canonical_event(sentence):
 
 
 def _canonical_query(raw, canonical_history):
+    if raw[:1]==['Label']:
+        assert len(raw)==3 and raw[2]=='identifies'
+        return ['The','item','labeled',raw[1],'was','the']
+    if raw[:3]==['Last','source','for']:
+        assert len(raw)==7 and raw[4]=='on' and raw[6]==':'
+        return ['The','latest','report','about','the',raw[3],'of','the',
+                raw[5],'came','from']
+    if raw[:1] in (['Owner'],['Color'],['Location']):
+        assert len(raw)==5 and raw[1]=='of' and raw[3:]==['now',':']
+        obj=raw[2]
+        if raw[0]=='Owner':
+            return ['By','then',',','the',obj,'belonged','to']
+        if raw[0]=='Color':
+            return ['By','then',',','the',obj,'was']
+        state,_,_,_=parse_visible(canonical_history)
+        return ['By','then',',','the',obj,'was',
+                _preposition(state[obj]['place']),'the']
     if raw[:2]==['Which','item']:
         assert raw[:5]==['Which','item','had','the','label']
         assert raw[6:]==['?','Answer',':']
@@ -385,7 +423,7 @@ def canonical_visible_prefix(prefix):
                 'Several','A','During','Story','Report','File'):
             continue  # Incidental sentences assert no state change.
         if sentence[0]=='Entry' or (sentence[0] in NAMES and
-                                    sentence[1]=='kept') or (
+                                    sentence[1] in ('kept','owned')) or (
                                         sentence[0]=='The' and len(sentence)>7
                                         and sentence[6:8]==['belonged','to']):
             for canonical in _canonical_intro(sentence):
@@ -398,7 +436,8 @@ def canonical_visible_prefix(prefix):
         else:
             # Completed recaps are observations, never state updates.
             assert sentence[0] in ('The','For','By','At','Current','Which',
-                                   'Who','What','Where') or (
+                                   'Who','What','Where','Label','Last',
+                                   'Owner','Color','Location') or (
                 sentence[0] in ALIASES),sentence
     out.extend(_canonical_query(raw,out))
     return out

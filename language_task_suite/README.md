@@ -11,6 +11,10 @@ contains short natural-corpus excerpts and is intentionally Git-ignored.
 The [V7 per-kind frequency audit](V7_ZIPF_BY_KIND_FEASIBILITY.md) explains
 why changing only the document-kind mixture cannot fix its oversized
 common-word head.
+The [within-kind renderer pilot](V7_RENDERER_VARIATION_PILOT.md) compares
+paired worlds at three rates of alternate introduction and recap frames.
+It preserves visible answers but increases top-ten word concentration at
+high use, so the optional frames are not the adopted training distribution.
 
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The
