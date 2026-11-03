@@ -8,6 +8,7 @@ from pathlib import Path
 from surface_mixture_v2 import _frame, _split
 from surface_mixture_v3 import OBJECT_INDEX
 from surface_mixture_v4 import _content
+from surface_mixture_v12_price_faq import PRODUCTS, price_state
 from surface_mixture_v13_attributes import (
     ATTRIBUTES, SurfaceMixtureV13Attributes, attribute_state,
 )
@@ -50,10 +51,31 @@ def panel(seed, n, length, kwargs):
             assert abs(sum(q.values())-1) < 1e-9
             assert word in q and q[word] > 0
             assert q == gen.next_distribution(words[:t])
-            if label not in ('attribute_adjective', 'attribute_object'):
-                continue
             history, raw = _split(words[:t])
             content = _content(raw)
+            if not raw and history:
+                n_price=len(price_state(history)['facts'])
+                n_attribute=len(attribute_state(history)['facts'])
+                p=(gen.price_fact_rate if n_price<len(PRODUCTS) else 0.)
+                a=(gen.attribute_fact_rate
+                   if n_attribute<len(PRODUCTS) else 0.)
+                expected=(1-gen.newline_rate)*(p*(1-a)+a)
+                assert abs(q.get('The',0.)-expected)<1e-10
+                metrics['checked_fact_start_mixtures'] += 1
+            if label == 'fact_kind':
+                item=content[1]
+                prices=price_state(history)['facts']
+                attributes=attribute_state(history)['facts']
+                p=(gen.price_fact_rate if len(prices)<len(PRODUCTS) else 0.)
+                a=(gen.attribute_fact_rate if len(attributes)<len(PRODUCTS)
+                   else 0.)
+                pp=(1-a)*p/(len(PRODUCTS)-len(prices)) if item not in prices else 0.
+                aa=a/(len(PRODUCTS)-len(attributes)) if item not in attributes else 0.
+                assert abs(q.get('costs',0.)-pp/(pp+aa))<1e-10
+                assert abs(q.get('is',0.)-aa/(pp+aa))<1e-10
+                metrics['checked_fact_kind_posteriors'] += 1
+            if label not in ('attribute_adjective', 'attribute_object'):
+                continue
             state = attribute_state(history)
             pending = [(item, adjective)
                        for item, adjective in state['facts'].items()
