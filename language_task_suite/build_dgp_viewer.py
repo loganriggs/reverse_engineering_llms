@@ -25,7 +25,8 @@ from audit_corpus_joint_style_delimiter import aligned
 from audit_fineweb_surfaces import DEFAULT_TOKENIZER
 from corpus_joint_style_delimiter_dgp import plans as web_plans
 from corpus_joint_style_delimiter_dgp import validate_factorial
-from document_mixture_v7_cross import KINDS, sample_document, site_oracle
+from document_mixture_v7_cross import (KINDS, TASK_RICH_WEIGHTS,
+                                       sample_document, site_oracle)
 from document_world_v5_clause_realizations import (
     answer_from_visible_prefix, draw_varied, realize,
 )
@@ -276,7 +277,7 @@ def _catalog():
 
 
 def _zipf_comparison():
-    """Equal-length lexical windows; the V7 arm conditions on long documents."""
+    """Equal-word-count panels, including the actual V7 document sampler."""
     frozen = _json(Path('results/v14_zipf_seed99851_n480/'
                         'v14_vs_fineweb_word_rank.json'))
     sports = _json(Path('results/natural_sports_zipf_n480.json'))
@@ -306,10 +307,37 @@ def _zipf_comparison():
           'tail_slope_rank10_to100': slope,
           'hapax_types': sum(value == 1 for value in counts.values()),
           'top25': counts.most_common(25)}
-    return {'method': ('480 first-100-word windows per arm; lowercase '
-                       'alphabetic-word regex. V7 samples only eligible '
-                       'long narrative/event/cross documents, so this is '
-                       'not the full V7 mixture. FineWeb and V14 use the '
+    # Training draws whole documents with TASK_RICH_WEIGHTS. Count a continuous
+    # stream of those documents so short kinds are present in their actual
+    # proportions and longer kinds contribute more word tokens, as in CE.
+    stream_rng = random.Random(99853)
+    stream_words = []
+    kind_counts = Counter()
+    while len(stream_words) < 48000:
+        doc = sample_document(stream_rng, weights=TASK_RICH_WEIGHTS)
+        kind_counts[doc.kind] += 1
+        stream_words.extend(w.lower() for w in WORD.findall(' '.join(doc.tokens)))
+    stream_words = stream_words[:48000]
+    mix_counts = Counter(stream_words)
+    mix_rank = sorted(mix_counts.values(), reverse=True)
+    mix_slope = float(np.polyfit(np.log(np.arange(10, 101)),
+                                 np.log(np.asarray(mix_rank[9:100])/48000),
+                                 1)[0])
+    mixture = {'n_windows': 480, 'words_per_window': 100,
+               'total_words': 48000,
+               'observed_vocabulary': len(mix_counts),
+               'top1_mass': mix_rank[0]/48000,
+               'top10_mass': sum(mix_rank[:10])/48000,
+               'tail_slope_rank10_to100': mix_slope,
+               'hapax_types': sum(v == 1 for v in mix_counts.values()),
+               'top25': mix_counts.most_common(25)}
+    return {'method': ('48,000 lowercase alphabetic words per arm, displayed '
+                       'as 480 blocks of 100. The V7 training-mixture arm '
+                       'uses 48,000 consecutive words from whole documents '
+                       'sampled at the actual training kind weights; it '
+                       'includes short kinds. The V7 long-document arm '
+                       'conditions on eligible narrative/event/cross docs. '
+                       'FineWeb and V14 use the '
                        'previously frozen reference audit. Human sports '
                        'reports use unique training games. Panels are '
                        'equal-sized, independent, and from different genres.'),
@@ -320,6 +348,8 @@ def _zipf_comparison():
             'series': [
                 {'name': 'FineWeb reference', 'summary': frozen['summary']['FineWeb'],
                  'ranks': frozen['ranks']['FineWeb']},
+                {'name': 'V7 training mixture', 'summary': mixture,
+                 'ranks': mix_rank},
                 {'name': 'V14 sampled grammar', 'summary': frozen['summary']['V14'],
                  'ranks': frozen['ranks']['V14']},
                 {'name': 'V7 long-document sample', 'summary': v7,
@@ -328,6 +358,8 @@ def _zipf_comparison():
                    'summary': sports['panels'][name]['summary'],
                    'ranks': sports['panels'][name]['ranks']}
                   for name in ('rotowire', 'sbnation')]],
+            'v7_training_weights': dict(zip(KINDS, TASK_RICH_WEIGHTS)),
+            'v7_documents_sampled': dict(kind_counts),
             'reference': 'V14_SAMPLED_EXAMPLES_AND_ZIPF.md; '
                          'DOCUMENT_MIXTURE_V7_CROSS_AND_TRANSFER.md; '
                          'NATURAL_SPORTS_ZIPF_REFERENCE.md'}
