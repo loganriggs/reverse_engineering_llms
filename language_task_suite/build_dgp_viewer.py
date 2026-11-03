@@ -779,6 +779,8 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    pareto = _json(Path('results/fit_three_rule_bracket_ov_seed55302_rank2_bg0p3.json'))
+    pareto_base = _json(Path('results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json'))
     bracket_fit_a = _json(Path('results/fit_three_rule_bracket_ov_seed55301_rank2_n80_n40.json'))
     bracket_fit_b = _json(Path('results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json'))
     three_ov_a = _json(Path('results/three_rule_ov_canonical_seed55301_n80_n40.json'))
@@ -804,6 +806,18 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Bracket fidelity versus ordinary language fidelity',
+         'status': 'Moderate background protection improves the tradeoff',
+         'finding': ("At rank two per head, adding background KL with "
+                     "weight 0.3 changes heldout bracket paired accuracy "
+                     f"from {100*pareto_base['final']['bracket']['paired_top1']:.1f}% "
+                     f"to {100*pareto['final']['bracket']['paired_top1']:.1f}% "
+                     "while lowering background KL from "
+                     f"{pareto_base['final_teacher_kl']['background']:.2f} "
+                     f"to {pareto['final_teacher_kl']['background']:.2f} "
+                     "on one checkpoint. The second checkpoint shows the "
+                     "same tradeoff direction."),
+         'report': 'BRACKET_OV_FIDELITY_PARETO_RESULT.md'},
         {'title': 'Rule-aware low-rank fit rescues bracket behavior',
          'status': 'Heldout rule fidelity recovers; background KL worsens',
          'finding': ("At two value channels per head, fitting only OV factors "
@@ -1030,6 +1044,7 @@ def _fingerprint():
         'results/three_rule_ov_canonical_seed55302_n80_n40.json',
         'results/fit_three_rule_bracket_ov_seed55301_rank2_n80_n40.json',
         'results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json',
+        'results/fit_three_rule_bracket_ov_seed55302_rank2_bg0p3.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
