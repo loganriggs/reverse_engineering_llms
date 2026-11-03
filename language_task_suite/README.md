@@ -9,6 +9,9 @@ serve as an unmodified joint training distribution.
 The [joint natural-rule mixture pilot](JOINT_NATURAL_RULE_MIXTURE_PILOT.md)
 tests alias reuse, bracket closure, and spelling style in one bilinear model;
 only bracket closure currently passes a strong held-out behavioral gate.
+The [sports OV gauge and truncation test](SPORTS_OV_CANONICAL_TRUNCATION.md)
+then asks which value-output reductions preserve that learned bracket rule,
+separately tracking teacher KL, alias copying, and background prediction.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
