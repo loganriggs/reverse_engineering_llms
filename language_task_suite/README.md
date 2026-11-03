@@ -32,6 +32,10 @@ The [interleaved pilot](document_world_v4_interleaved.py) varies the number
 and location of its semantic sites and passes the [replay and edit
 audit](results/document_world_v4_interleaved_audit_n3000.json), but still
 fails the natural lexical-diversity screen; it is also a control.
+The [V5 task-rich document mixture](DOCUMENT_MIXTURE_V5_TASK_CONTROLS.md)
+combines V14's exact-oracle local rules, event recaps, colliding record
+keys, and leaked/unleaked score updates. Its 800-document audit passes
+visible-prefix and paired-edit checks, but natural form remains inadequate.
 
 ## Planted rules beside learned sparse-model paths
 
