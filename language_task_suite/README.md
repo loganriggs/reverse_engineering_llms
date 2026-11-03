@@ -81,7 +81,14 @@ The [V6 whole-combination transfer test](DOCUMENT_MIXTURE_V6_TRANSFER.md)
 varies score increments and query team, with disjoint ship/category and
 score combinations. Bilinear models fit local action sites but fail the
 harder semantic transfer despite similar aggregate token loss. The
-[real-text prediction mechanism map](FINEWEB_PREDICTION_MECHANISM_MAP.md)
+[V7 cross-section pilot](DOCUMENT_MIXTURE_V7_CROSS_AND_TRANSFER.md) mixes
+variable event reports with the existing narrative, record and score tasks,
+then composes source attribution, reviewer assignment and scoped record
+lookup in one document. Its audited DGP is somewhat less repetitive but
+remains far from FineWeb. Depth-2/4 models learn the local conditional action
+and fail the cross rule; a whole-kind basis-fit holdout compares weight-only
+and unlabeled bond directions on the learned action.
+The [real-text prediction mechanism map](FINEWEB_PREDICTION_MECHANISM_MAP.md)
 works backward from eight selected FineWeb previews to distinguish
 deterministic constraints, probability shifts, and new facts before the
 next DGP revision.

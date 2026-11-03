@@ -1,0 +1,662 @@
+{
+  "config": {
+    "depths": "2,4",
+    "steps": 2000,
+    "train_n": 10000,
+    "test_n": 1000,
+    "vocab_calibration_n": 10000,
+    "batch_size": 32,
+    "d_model": 64,
+    "heads": 4,
+    "lr": 0.001,
+    "seed": 34801,
+    "weights": "0.25,0.3,0.12,0.13,0.2",
+    "device": "cuda",
+    "output": "language_task_suite/results/document_mixture_v7_cross_depth2_4_2000.json",
+    "save_models": true
+  },
+  "generator": {
+    "weights": [
+      0.25,
+      0.3,
+      0.12,
+      0.13,
+      0.2
+    ],
+    "kinds": [
+      "narrative",
+      "event_report",
+      "record_listing",
+      "score_report",
+      "cross_report"
+    ]
+  },
+  "n_vocab": 499,
+  "n_ctx": 316,
+  "train_documents": 10000,
+  "iid_documents": 1000,
+  "composition_documents": 1000,
+  "train_kinds": {
+    "event_report": 2953,
+    "cross_report": 2033,
+    "record_listing": 1253,
+    "score_report": 1294,
+    "narrative": 2467
+  },
+  "iid_kinds": {
+    "score_report": 139,
+    "cross_report": 205,
+    "record_listing": 117,
+    "event_report": 299,
+    "narrative": 240
+  },
+  "composition_kinds": {
+    "cross_report": 215,
+    "narrative": 232,
+    "event_report": 300,
+    "score_report": 142,
+    "record_listing": 111
+  },
+  "exact_document_overlap": {
+    "iid": 40,
+    "composition": 0
+  },
+  "objective": "ordinary full next-token CE across all task kinds",
+  "caveat": "Task-rich mixture remains far from FineWeb form. Composition panel withholds record category pairs and score combinations from training; other kinds are independent draws. Rule labels are evaluation only.",
+  "results": {
+    "2": {
+      "parameters": 211328,
+      "train_loss_last50": 1.0147105240821839,
+      "iid": {
+        "token_nll": 1.0250186585644694,
+        "by_kind": {
+          "score_report": {
+            "token_nll": 0.4027369305343529,
+            "documents": 139
+          },
+          "cross_report": {
+            "token_nll": 0.7754203986302978,
+            "documents": 205
+          },
+          "record_listing": {
+            "token_nll": 0.44766817911020673,
+            "documents": 117
+          },
+          "event_report": {
+            "token_nll": 0.9257194966233838,
+            "documents": 299
+          },
+          "narrative": {
+            "token_nll": 1.5090462107487088,
+            "documents": 240
+          }
+        },
+        "by_site": {
+          "score_update": {
+            "n": 139,
+            "observed_target_nll": 1.6811767649307525,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 139,
+            "deterministic_full_vocab_accuracy": 0.4172661870503597
+          },
+          "alias_identity": {
+            "n": 333,
+            "observed_target_nll": 1.6920099956942751,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 333,
+            "deterministic_full_vocab_accuracy": 0.2822822822822823
+          },
+          "cross_source_record": {
+            "n": 205,
+            "observed_target_nll": 1.7596153701223978,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 205,
+            "deterministic_full_vocab_accuracy": 0.2097560975609756
+          },
+          "scoped_record": {
+            "n": 117,
+            "observed_target_nll": 1.717810774460817,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 117,
+            "deterministic_full_vocab_accuracy": 0.1623931623931624
+          },
+          "source_attribution": {
+            "n": 171,
+            "observed_target_nll": 2.327977379860237,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 171,
+            "deterministic_full_vocab_accuracy": 0.11695906432748537
+          },
+          "mixed_verb": {
+            "n": 1792,
+            "observed_target_nll": 1.8424594203492493,
+            "oracle_entropy": 1.257985023259226,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "mixed_object": {
+            "n": 1325,
+            "observed_target_nll": 2.971001815413529,
+            "oracle_entropy": 1.377896089809708,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "bracket_close": {
+            "n": 233,
+            "observed_target_nll": 2.9800878884190847,
+            "oracle_entropy": 2.805400142380894,
+            "deterministic_n": 45,
+            "deterministic_full_vocab_accuracy": 1.0
+          },
+          "attribute_adjective": {
+            "n": 576,
+            "observed_target_nll": 2.5750579815745973,
+            "oracle_entropy": 1.5337257522142456,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "attribute_object": {
+            "n": 467,
+            "observed_target_nll": 2.7116749238151043,
+            "oracle_entropy": 0.7690886716868582,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "question_answer": {
+            "n": 78,
+            "observed_target_nll": 4.160624883113763,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 78,
+            "deterministic_full_vocab_accuracy": 0.02564102564102564
+          },
+          "world_color": {
+            "n": 179,
+            "observed_target_nll": 2.17902957860318,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 179,
+            "deterministic_full_vocab_accuracy": 0.0782122905027933
+          },
+          "world_place": {
+            "n": 179,
+            "observed_target_nll": 1.7063586277335716,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 179,
+            "deterministic_full_vocab_accuracy": 0.20670391061452514
+          },
+          "world_owner": {
+            "n": 165,
+            "observed_target_nll": 2.3426317446159595,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 165,
+            "deterministic_full_vocab_accuracy": 0.11515151515151516
+          },
+          "conditional_action": {
+            "n": 196,
+            "observed_target_nll": 0.22439466499158048,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 196,
+            "deterministic_full_vocab_accuracy": 0.9387755102040817
+          },
+          "source_answer": {
+            "n": 28,
+            "observed_target_nll": 2.200960729803358,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 28,
+            "deterministic_full_vocab_accuracy": 0.07142857142857142
+          },
+          "price_answer": {
+            "n": 15,
+            "observed_target_nll": 1.9323976039886475,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 15,
+            "deterministic_full_vocab_accuracy": 0.2
+          }
+        }
+      },
+      "composition": {
+        "token_nll": 1.0180649824243537,
+        "by_kind": {
+          "cross_report": {
+            "token_nll": 0.7770429692560666,
+            "documents": 215
+          },
+          "narrative": {
+            "token_nll": 1.4941951925149506,
+            "documents": 232
+          },
+          "event_report": {
+            "token_nll": 0.933133204008733,
+            "documents": 300
+          },
+          "score_report": {
+            "token_nll": 0.41792657089470386,
+            "documents": 142
+          },
+          "record_listing": {
+            "token_nll": 0.5606160047732873,
+            "documents": 111
+          }
+        },
+        "by_site": {
+          "alias_identity": {
+            "n": 350,
+            "observed_target_nll": 1.7300195506640843,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 350,
+            "deterministic_full_vocab_accuracy": 0.2714285714285714
+          },
+          "world_color": {
+            "n": 177,
+            "observed_target_nll": 2.2942594144977417,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 177,
+            "deterministic_full_vocab_accuracy": 0.0903954802259887
+          },
+          "world_place": {
+            "n": 183,
+            "observed_target_nll": 1.6940683600355366,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 183,
+            "deterministic_full_vocab_accuracy": 0.15846994535519127
+          },
+          "cross_source_record": {
+            "n": 215,
+            "observed_target_nll": 1.7904106190038283,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 215,
+            "deterministic_full_vocab_accuracy": 0.24186046511627907
+          },
+          "mixed_verb": {
+            "n": 1713,
+            "observed_target_nll": 1.841063635570573,
+            "oracle_entropy": 1.2653790803444454,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "mixed_object": {
+            "n": 1248,
+            "observed_target_nll": 2.8152732640886917,
+            "oracle_entropy": 1.3744667729446387,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "question_answer": {
+            "n": 63,
+            "observed_target_nll": 4.159748259044829,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 63,
+            "deterministic_full_vocab_accuracy": 0.015873015873015872
+          },
+          "attribute_adjective": {
+            "n": 559,
+            "observed_target_nll": 2.456541900824562,
+            "oracle_entropy": 1.5248295711502373,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "attribute_object": {
+            "n": 465,
+            "observed_target_nll": 2.5443108225381503,
+            "oracle_entropy": 0.774068358369659,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "bracket_close": {
+            "n": 236,
+            "observed_target_nll": 2.984935196846629,
+            "oracle_entropy": 2.6518770729231584,
+            "deterministic_n": 56,
+            "deterministic_full_vocab_accuracy": 1.0
+          },
+          "price_answer": {
+            "n": 17,
+            "observed_target_nll": 1.8801693776074577,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 17,
+            "deterministic_full_vocab_accuracy": 0.17647058823529413
+          },
+          "world_owner": {
+            "n": 175,
+            "observed_target_nll": 2.361693500791277,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 175,
+            "deterministic_full_vocab_accuracy": 0.10285714285714286
+          },
+          "score_update": {
+            "n": 142,
+            "observed_target_nll": 1.7188871823985812,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 142,
+            "deterministic_full_vocab_accuracy": 0.3873239436619718
+          },
+          "source_attribution": {
+            "n": 184,
+            "observed_target_nll": 2.3366372737547625,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 184,
+            "deterministic_full_vocab_accuracy": 0.10869565217391304
+          },
+          "scoped_record": {
+            "n": 111,
+            "observed_target_nll": 3.0957316235379055,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 111,
+            "deterministic_full_vocab_accuracy": 0.13513513513513514
+          },
+          "conditional_action": {
+            "n": 163,
+            "observed_target_nll": 0.20136174463711257,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 163,
+            "deterministic_full_vocab_accuracy": 0.9447852760736196
+          },
+          "source_answer": {
+            "n": 21,
+            "observed_target_nll": 2.25577822185698,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 21,
+            "deterministic_full_vocab_accuracy": 0.09523809523809523
+          }
+        }
+      },
+      "seconds": 12.74
+    },
+    "4": {
+      "parameters": 358784,
+      "train_loss_last50": 0.9840870761871338,
+      "iid": {
+        "token_nll": 0.9947556377886987,
+        "by_kind": {
+          "score_report": {
+            "token_nll": 0.3972008422782414,
+            "documents": 139
+          },
+          "cross_report": {
+            "token_nll": 0.7344807771347112,
+            "documents": 205
+          },
+          "record_listing": {
+            "token_nll": 0.41960567807653126,
+            "documents": 117
+          },
+          "event_report": {
+            "token_nll": 0.8784533197655103,
+            "documents": 299
+          },
+          "narrative": {
+            "token_nll": 1.5063571243866347,
+            "documents": 240
+          }
+        },
+        "by_site": {
+          "score_update": {
+            "n": 139,
+            "observed_target_nll": 1.6200898318625183,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 139,
+            "deterministic_full_vocab_accuracy": 0.45323741007194246
+          },
+          "alias_identity": {
+            "n": 333,
+            "observed_target_nll": 1.3998842575439103,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 333,
+            "deterministic_full_vocab_accuracy": 0.3843843843843844
+          },
+          "cross_source_record": {
+            "n": 205,
+            "observed_target_nll": 1.8084320678943542,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 205,
+            "deterministic_full_vocab_accuracy": 0.2048780487804878
+          },
+          "scoped_record": {
+            "n": 117,
+            "observed_target_nll": 1.6354149488302379,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 117,
+            "deterministic_full_vocab_accuracy": 0.1794871794871795
+          },
+          "source_attribution": {
+            "n": 171,
+            "observed_target_nll": 2.3962290816836886,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 171,
+            "deterministic_full_vocab_accuracy": 0.12280701754385964
+          },
+          "mixed_verb": {
+            "n": 1792,
+            "observed_target_nll": 1.8116374411162854,
+            "oracle_entropy": 1.257985023259226,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "mixed_object": {
+            "n": 1325,
+            "observed_target_nll": 3.065388800040731,
+            "oracle_entropy": 1.377896089809708,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "bracket_close": {
+            "n": 233,
+            "observed_target_nll": 2.766066101329729,
+            "oracle_entropy": 2.805400142380894,
+            "deterministic_n": 45,
+            "deterministic_full_vocab_accuracy": 1.0
+          },
+          "attribute_adjective": {
+            "n": 576,
+            "observed_target_nll": 2.1403486666709393,
+            "oracle_entropy": 1.5337257522142456,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "attribute_object": {
+            "n": 467,
+            "observed_target_nll": 2.659888755075426,
+            "oracle_entropy": 0.7690886716868582,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "question_answer": {
+            "n": 78,
+            "observed_target_nll": 3.945072189355508,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 78,
+            "deterministic_full_vocab_accuracy": 0.05128205128205128
+          },
+          "world_color": {
+            "n": 179,
+            "observed_target_nll": 2.3249789762763338,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 179,
+            "deterministic_full_vocab_accuracy": 0.0670391061452514
+          },
+          "world_place": {
+            "n": 179,
+            "observed_target_nll": 1.7124244092895997,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 179,
+            "deterministic_full_vocab_accuracy": 0.2011173184357542
+          },
+          "world_owner": {
+            "n": 165,
+            "observed_target_nll": 2.2026146135546942,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 165,
+            "deterministic_full_vocab_accuracy": 0.14545454545454545
+          },
+          "conditional_action": {
+            "n": 196,
+            "observed_target_nll": 0.1413709845314306,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 196,
+            "deterministic_full_vocab_accuracy": 0.9642857142857143
+          },
+          "source_answer": {
+            "n": 28,
+            "observed_target_nll": 2.2064698466232846,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 28,
+            "deterministic_full_vocab_accuracy": 0.17857142857142858
+          },
+          "price_answer": {
+            "n": 15,
+            "observed_target_nll": 2.003669802347819,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 15,
+            "deterministic_full_vocab_accuracy": 0.4
+          }
+        }
+      },
+      "composition": {
+        "token_nll": 0.9948577023584018,
+        "by_kind": {
+          "cross_report": {
+            "token_nll": 0.7420860169675619,
+            "documents": 215
+          },
+          "narrative": {
+            "token_nll": 1.4978056041422798,
+            "documents": 232
+          },
+          "event_report": {
+            "token_nll": 0.8895962431158952,
+            "documents": 300
+          },
+          "score_report": {
+            "token_nll": 0.41089666030450894,
+            "documents": 142
+          },
+          "record_listing": {
+            "token_nll": 0.6545029905266391,
+            "documents": 111
+          }
+        },
+        "by_site": {
+          "alias_identity": {
+            "n": 350,
+            "observed_target_nll": 1.4053187401805605,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 350,
+            "deterministic_full_vocab_accuracy": 0.30857142857142855
+          },
+          "world_color": {
+            "n": 177,
+            "observed_target_nll": 2.3634505406611384,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 177,
+            "deterministic_full_vocab_accuracy": 0.04519774011299435
+          },
+          "world_place": {
+            "n": 183,
+            "observed_target_nll": 1.732468698031264,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 183,
+            "deterministic_full_vocab_accuracy": 0.2185792349726776
+          },
+          "cross_source_record": {
+            "n": 215,
+            "observed_target_nll": 1.9290045211481495,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 215,
+            "deterministic_full_vocab_accuracy": 0.11162790697674418
+          },
+          "mixed_verb": {
+            "n": 1713,
+            "observed_target_nll": 1.8487753609268205,
+            "oracle_entropy": 1.2653790803444454,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "mixed_object": {
+            "n": 1248,
+            "observed_target_nll": 2.998215159926659,
+            "oracle_entropy": 1.3744667729446387,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "question_answer": {
+            "n": 63,
+            "observed_target_nll": 4.1313005780416825,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 63,
+            "deterministic_full_vocab_accuracy": 0.015873015873015872
+          },
+          "attribute_adjective": {
+            "n": 559,
+            "observed_target_nll": 2.05314414680324,
+            "oracle_entropy": 1.5248295711502373,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "attribute_object": {
+            "n": 465,
+            "observed_target_nll": 2.569870827787666,
+            "oracle_entropy": 0.774068358369659,
+            "deterministic_n": 0,
+            "deterministic_full_vocab_accuracy": null
+          },
+          "bracket_close": {
+            "n": 236,
+            "observed_target_nll": 2.950415568489392,
+            "oracle_entropy": 2.6518770729231584,
+            "deterministic_n": 56,
+            "deterministic_full_vocab_accuracy": 1.0
+          },
+          "price_answer": {
+            "n": 17,
+            "observed_target_nll": 1.951633747886209,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 17,
+            "deterministic_full_vocab_accuracy": 0.11764705882352941
+          },
+          "world_owner": {
+            "n": 175,
+            "observed_target_nll": 2.136845943927765,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 175,
+            "deterministic_full_vocab_accuracy": 0.17714285714285713
+          },
+          "score_update": {
+            "n": 142,
+            "observed_target_nll": 1.722905750635644,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 142,
+            "deterministic_full_vocab_accuracy": 0.4647887323943662
+          },
+          "source_attribution": {
+            "n": 184,
+            "observed_target_nll": 2.414298085414845,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 184,
+            "deterministic_full_vocab_accuracy": 0.09239130434782608
+          },
+          "scoped_record": {
+            "n": 111,
+            "observed_target_nll": 4.14739450248512,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 111,
+            "deterministic_full_vocab_accuracy": 0.0
+          },
+          "conditional_action": {
+            "n": 163,
+            "observed_target_nll": 0.10351326863997061,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 163,
+            "deterministic_full_vocab_accuracy": 0.9815950920245399
+          },
+          "source_answer": {
+            "n": 21,
+            "observed_target_nll": 2.1324530953452703,
+            "oracle_entropy": 0.0,
+            "deterministic_n": 21,
+            "deterministic_full_vocab_accuracy": 0.19047619047619047
+          }
+        }
+      },
+      "seconds": 35.64
+    }
+  }
+}
