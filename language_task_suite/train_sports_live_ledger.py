@@ -28,9 +28,10 @@ from sports_live_ledger_dgp import sample_document  # noqa: E402
 from eval_sports_live_ledger_edits import edited  # noqa: E402
 
 
-def draw(n, seed, group, descriptions):
+def draw(n, seed, group, descriptions, query_mode='all'):
     return [sample_document(random.Random(seed+i), 'rotowire', group,
-                            descriptions) for i in range(n)]
+                            descriptions, query_mode=query_mode)
+            for i in range(n)]
 
 
 def encode(docs, vocab, n_ctx):
@@ -107,6 +108,9 @@ def main():
     parser.add_argument('--train-augmentation', choices=('none', 'paired_edits'),
                         default='none', help='Add coherent score-offset and '
                         'one-play +1 copies of each bare training document')
+    parser.add_argument('--query-mode', choices=('all', 'single'),
+                        default='all', help='One sampled answer or the '
+                        'original three-answer sequence')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     torch.set_num_threads(4)
@@ -125,14 +129,16 @@ def main():
         descriptions = arm == 'described'
         if args.train_augmentation == 'paired_edits' and descriptions:
             raise ValueError('Paired play edits require the bare arm')
-        train = draw(args.train_n, args.seed+100000, 'train', descriptions)
+        train = draw(args.train_n, args.seed+100000, 'train', descriptions,
+                     args.query_mode)
         if args.train_augmentation == 'paired_edits':
             augmented = []
             for i, doc in enumerate(train):
                 augmented.extend((doc, edited(doc, 'offset'),
                                   edited(doc, 'add_play', i % 2)))
             train = augmented
-        test = draw(args.test_n, args.seed+200000, 'heldout', descriptions)
+        test = draw(args.test_n, args.seed+200000, 'heldout', descriptions,
+                    args.query_mode)
         train_games = {doc.latent['game_id'] for doc in train}
         test_games = {doc.latent['game_id'] for doc in test}
         assert not train_games & test_games
@@ -144,8 +150,9 @@ def main():
         train_data, train_oov = encode(train, vocab, n_ctx)
         test_data, test_oov = encode(test, vocab, n_ctx)
         baseline = {}
-        for family in ('live_score_copy', 'live_run_first',
-                       'live_run_second'):
+        families = sorted({site.family for doc in train+test
+                           for site in doc.sites})
+        for family in families:
             counts = Counter(site.target for doc in train for site in doc.sites
                              if site.family == family)
             popular = counts.most_common(1)[0][0]
@@ -207,6 +214,7 @@ def main():
                             'vocabulary': vocab, 'n_ctx': n_ctx,
                             'arm': arm, 'depth': depth,
                             'train_augmentation': args.train_augmentation,
+                            'query_mode': args.query_mode,
                             'model_kwargs': {'d_model': args.d_model,
                                              'n_head': args.heads,
                                              'norm': 'rms',

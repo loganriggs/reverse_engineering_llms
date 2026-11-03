@@ -1,0 +1,24 @@
+# Isolating live score questions removes answer copying, but run subtraction remains weak
+
+The old live-score ledger prints a `Latest` copy answer, then two `Run` answers in one document. A prior 3,000-step depth-4 model reached 93% on the second run answer, but changing the first printed run answer while leaving all score lines fixed collapsed second-answer accuracy. This version tests a cleaner task distribution: after the same real-game scoring sequence, sample **one** query—latest score or run total, home or away—and print only its answer. Query kind and side are chosen independently of the numeric target. All ordinary tokens still contribute to next-token cross-entropy; the site marker is for evaluation only.
+
+The [generator change](sports_live_ledger_dgp.py) is `query_mode='single'`; the original three-answer mode remains the default and an unchanged control. The [audit](audit_live_single_query.py) checked 200 games per RotoWire/SBNation × train/heldout partition, in paired bare and source-description surfaces. All **1,600** single answer sites matched the answer computed from visible score lines; **3,200** coherent score-offset edits and **1,600** bare play edits had the intended selective targets. No earlier explicit answer query appears before the sole target. Game IDs stay disjoint by partition. Query categories were sampled in both sides and both source styles. Play descriptions are empirical text, so this is a selected-site rule oracle, not an exact full-prefix next-token oracle or a realistic live-feed form certification.
+
+Two width-48, four-head bilinear models trained on 5,000 sampled bare documents for 3,000 updates; a depth-4 control trained from the same seed on 15,000 documents for 9,000 updates. Each uses full next-token cross-entropy. The 400-document test panel has 200 copy and 200 isolated run sites, with entire games excluded from training and zero OOV token share. The larger run adds both unique examples and updates, so its improvement does not isolate which of those two factors mattered.
+
+| Single-query training | Heldout token NLL | Latest-score copy top-1 | Isolated run top-1 |
+|---|---:|---:|---:|
+| Most-common training answer | — | .015 | .185 |
+| Depth 2, 3,000 updates | .343 | .360 | .230 full-vocab / .235 number-candidate |
+| Depth 4, 3,000 updates | .286 | .780 | .240 |
+| Depth 4, 9,000 updates | .285 | **.950 full-vocab / .955 candidate** | **.470** |
+
+On a **separate 200-document heldout-game edit panel**, the 9,000-update depth-4 model gets 88/90 (97.8%) correct copy answers and 52/110 (47.3%) correct isolated run answers. For the 90 relevant +1 score-offset edits, copy rises exactly in **87/90 (96.7%)**; for the 90 relevant +1 bare-play edits, it rises in **88/90 (97.8%)**. Copy stays fixed on 88/90 irrelevant play edits. This supports a robust copied-score rule across both queried teams.
+
+The run result is different. It stays fixed on 176/220 (80.0%) score-offset edits, but rises exactly on only **24/110 (21.8%)** coherent +1 play edits targeting the queried team. Restricting to the **86** edits that still satisfy the sampler's run-window selection rule yields **20/86 (23.3%)**. An unrelated-team play edit leaves the run prediction fixed on 71/110 (64.5%). Thus 47% ordinary run accuracy does not establish subtraction; the selective causal test rejects a run circuit claim at this training budget. Further depth or a more balanced arithmetic distribution remains possible, but this model is not a run teacher for weight interpretation.
+
+Frozen models trained on the old three-answer layout perform poorly on isolated run questions and away-team copy questions, consistent with layout dependence. That comparison is out of distribution in several ways—query order, number of answers, and away-team copy frequency—so it cannot identify a single shortcut cause. The single-query training experiment is the direct test of the revised DGP.
+
+**Decision:** retain single-query sampling as a better-controlled live genre arm and use the behaviorally verified latest-score copy rule as a candidate for canonicalization/sparsity tests. Keep run subtraction as a negative/partial-learning control. This still does not solve the broader language-realism goal: the live wrapper is repetitive and the [shared-game retrospective/live mixture](SPORTS_SHARED_GAME_GENRE_MIXTURE.md) fails the retrospective human-form screen. The next main DGP work should improve genre-specific task windows and sampled discourse, while training methods are evaluated only on rules passing heldout and causal gates.
+
+Aggregate [training](results/sports_live_ledger_single_query_3000.json), [larger training](results/sports_live_ledger_single_query_9000.json), and [generator/causal audit](results/live_single_query_audit_n200.json) contain no empirical play text. Model checkpoints remain local.

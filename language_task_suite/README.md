@@ -89,6 +89,10 @@ with known rules for benchmarking weight-based interpretability. The
 retrospective and live-score observation regimes on the same games. It passes
 visible-rule checks but fails the retrospective human-form comparison, so it
 remains a controlled fixture rather than the main training DGP. The
+[single-query live ledger](LIVE_SINGLE_QUERY_DGP_AND_MODEL.md) removes the
+earlier-answer shortcut and yields a causally robust latest-score copy rule
+after larger depth-4 training; run subtraction remains behaviorally weak.
+The
 [structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
 substantial sentence-level variation in DART and ToTTo, but rejects their
 simple concatenation as a coherent document generator. Behavioral checks

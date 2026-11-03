@@ -1,0 +1,64 @@
+{
+  "config": {
+    "steps": 9000,
+    "train_n": 15000,
+    "test_n": 400,
+    "batch_size": 32,
+    "d_model": 48,
+    "heads": 4,
+    "depths": "4",
+    "arms": "bare",
+    "lr": 0.001,
+    "seed": 10307,
+    "device": "cuda",
+    "save_models": true,
+    "train_augmentation": "none",
+    "query_mode": "single",
+    "output": "language_task_suite/results/sports_live_ledger_single_query_9000.json"
+  },
+  "objective": "full next-token cross-entropy on every non-padding token; run sites are evaluation labels only",
+  "caveat": "Controlled live-feed genre pilot. Original NBA play descriptions are empirical text and have no exact all-token oracle. Test games are entirely held out.",
+  "results": {
+    "bare": {
+      "vocab": 311,
+      "n_ctx": 138,
+      "sampled_training_documents": 15000,
+      "train_games": 809,
+      "heldout_games": 186,
+      "train_oov_token_share": 0.0,
+      "heldout_oov_token_share": 0.0,
+      "majority_baseline": {
+        "live_run_single": {
+          "most_common_train_answer": "2",
+          "heldout_accuracy": 0.185
+        },
+        "live_score_copy": {
+          "most_common_train_answer": "15",
+          "heldout_accuracy": 0.015
+        }
+      },
+      "depths": {
+        "4": {
+          "parameters": 195744,
+          "train_loss_last50": 0.23460860311985016,
+          "heldout": {
+            "token_nll": 0.28500021991300933,
+            "sites": {
+              "live_score_copy": {
+                "n": 200,
+                "full_vocab_accuracy": 0.95,
+                "number_candidate_accuracy": 0.955
+              },
+              "live_run_single": {
+                "n": 200,
+                "full_vocab_accuracy": 0.47,
+                "number_candidate_accuracy": 0.47
+              }
+            }
+          },
+          "seconds": 76.8
+        }
+      }
+    }
+  }
+}

@@ -115,7 +115,9 @@ def ledger_pool():
 
 def sample_document(rng: random.Random, source='rotowire',
                     group='train', include_descriptions=True,
-                    game_id=None):
+                    game_id=None, query_mode='all'):
+    if query_mode not in ('all', 'single'):
+        raise ValueError('query_mode must be all or single')
     pool = ledger_pool()[source, group]
     if not pool:
         raise RuntimeError('No eligible live-score ledger games')
@@ -149,27 +151,45 @@ def sample_document(rng: random.Random, source='rotowire',
             tokens.extend(['Play', ':', action.team, 'scored',
                            str(action.points), '.', '\n'])
         tokens.extend(score_line(action.after))
-    tokens.extend(['Latest', ':', codes[0]])
-    copy_index = len(tokens)
-    copy_value = str(after[0])
-    tokens.extend([copy_value, '.', '\n'])
-    tokens.extend(['Run', ':', codes[order[0]]])
-    first_index = len(tokens)
-    first = str(delta[order[0]])
-    tokens.extend([first, ',', codes[order[1]]])
-    second_index = len(tokens)
-    second = str(delta[order[1]])
-    tokens.extend([second, '.', '\n'])
-    sites = (Site(copy_index, 'live_score_copy', copy_value,
-                  {copy_value: 1.}),
-             Site(first_index, 'live_run_first', first, {first: 1.}),
-             Site(second_index, 'live_run_second', second, {second: 1.}))
+    query_kind = query_side = None
+    if query_mode == 'single':
+        # The query kind and team are sampled independently of the answer.
+        # Only one answer is printed, eliminating answer-to-answer copying.
+        query_kind = rng.choice(('copy', 'run'))
+        query_side = rng.randrange(2)
+        tokens.extend(['Latest' if query_kind == 'copy' else 'Run',
+                       ':', codes[query_side]])
+        index = len(tokens)
+        target = str(after[query_side] if query_kind == 'copy'
+                     else delta[query_side])
+        tokens.extend([target, '.', '\n'])
+        family = ('live_score_copy' if query_kind == 'copy'
+                  else 'live_run_single')
+        sites = (Site(index, family, target, {target: 1.}),)
+    else:
+        tokens.extend(['Latest', ':', codes[0]])
+        copy_index = len(tokens)
+        copy_value = str(after[0])
+        tokens.extend([copy_value, '.', '\n'])
+        tokens.extend(['Run', ':', codes[order[0]]])
+        first_index = len(tokens)
+        first = str(delta[order[0]])
+        tokens.extend([first, ',', codes[order[1]]])
+        second_index = len(tokens)
+        second = str(delta[order[1]])
+        tokens.extend([second, '.', '\n'])
+        sites = (Site(copy_index, 'live_score_copy', copy_value,
+                      {copy_value: 1.}),
+                 Site(first_index, 'live_run_first', first, {first: 1.}),
+                 Site(second_index, 'live_run_second', second, {second: 1.}))
     return Document(tuple(tokens), sites, 'live_score_ledger',
                     {'source': source, 'split': group, 'game_id': game_id,
                      'period': selected[0].period,
                      'start_score': before, 'end_score': after,
                      'actions': len(selected), 'descriptions':
-                     include_descriptions})
+                     include_descriptions, 'query_mode': query_mode,
+                     'query_kind': query_kind,
+                     'query_side': query_side})
 
 
 def answer_from_visible_prefix(prefix, kind='run'):

@@ -50,9 +50,10 @@ def edited(doc, edit, side=0):
             tokens[line+index] = str(int(tokens[line+index])+1)
     sites = []
     for site in doc.sites:
-        changed = (site.family == 'live_score_copy' and side == 0 or
-                   edit == 'add_play' and site.family != 'live_score_copy'
-                   and tokens[site.index-1] == codes[side])
+        queried_side = codes.index(tokens[site.index-1])
+        changed = (queried_side == side and
+                   (site.family == 'live_score_copy' or
+                    edit == 'add_play'))
         target = str(int(site.target)+int(changed))
         tokens[site.index] = target
         sites.append(replace(site, target=target, distribution={target: 1.}))
