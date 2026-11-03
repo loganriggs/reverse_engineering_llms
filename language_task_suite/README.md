@@ -36,6 +36,14 @@ The [V5 task-rich document mixture](DOCUMENT_MIXTURE_V5_TASK_CONTROLS.md)
 combines V14's exact-oracle local rules, event recaps, colliding record
 keys, and leaked/unleaked score updates. Its 800-document audit passes
 visible-prefix and paired-edit checks, but natural form remains inadequate.
+The [V6 whole-combination transfer test](DOCUMENT_MIXTURE_V6_TRANSFER.md)
+varies score increments and query team, with disjoint ship/category and
+score combinations. Bilinear models fit local action sites but fail the
+harder semantic transfer despite similar aggregate token loss. The
+[real-text prediction mechanism map](FINEWEB_PREDICTION_MECHANISM_MAP.md)
+works backward from eight selected FineWeb previews to distinguish
+deterministic constraints, probability shifts, and new facts before the
+next DGP revision.
 
 ## Planted rules beside learned sparse-model paths
 
