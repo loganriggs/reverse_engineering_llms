@@ -96,6 +96,10 @@ The [fresh V14 frame audit](V14_FRESH_FRAME_BOTTLENECK.md) finds near-matched
 mean sentence lengths but a large gap in clause openings, lexical breadth,
 and phrase repetition on a new FineWeb range. The next sampled-grammar
 revision needs alternate event-level realizations, not another tail synonym.
+The [first event-frame grammar fixture](EVENT_FRAME_LANGUAGE_V1_RESULT.md)
+now verifies an exact visible-prefix oracle and shared semantic event law
+across two clause orders. Its form is much worse than V14, so it is a
+correctness base for a broader grammar, not a new main training DGP.
 The [structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
 substantial sentence-level variation in DART and ToTTo, but rejects their
 simple concatenation as a coherent document generator. Behavioral checks
