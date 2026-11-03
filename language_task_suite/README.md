@@ -50,6 +50,10 @@ The [five-frame event grammar audit](EVENT_FRAME_LANGUAGE_V2_RESULT.md)
 validates exact prefix marginals for changed word order but finds that its
 surface form remains much less varied than V14 or FineWeb. It is a correctness
 fixture, not the replacement training DGP.
+The [rule-window form audit](RULE_WINDOW_FORM_AUDIT.md) checks 41-word contexts
+around actual object, verb, bracket, source, and conditional-action sites.
+Those windows remain much more repetitive than frozen FineWeb windows even
+when whole-document openings are set aside.
 [Open the phone viewer on GitHub Pages](https://loganriggs.github.io/reverse_engineering_llms/).
 This stable URL receives the latest committed snapshot after each push and Pages build.
 GitHub's file view displays the HTML source rather than rendering it.

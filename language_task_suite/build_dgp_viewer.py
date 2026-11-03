@@ -779,6 +779,7 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    rule_windows = _json(Path('results/rule_window_form_v14_v2_n128.json'))
     agreement = _json(Path('results/treebank_agreement_subject_holdout_100kfit_50ktrain_balanced_depth2_4_3000.json'))
     causal = _json(Path('results/treebank_agreement_subject_holdout_100kfit_causal_n1000.json'))
     mixture = _json(Path('results/joint_natural_rules_seed41501_1000.json'))
@@ -791,7 +792,18 @@ def _recent_research():
     a4 = agreement['results']['4']['heldout']['site_pair_accuracy']
     c4 = causal['results'][next(key for key in causal['results']
                                 if key.endswith('depth4'))]['counts']['attractor']
+    v14_object = [rule_windows['synthetic'][f'v14_seed_{seed}']['form'][
+        'mixed_object']['repeated_across_docs_trigram_occurrence_share']
+        for seed in (0, 1)]
     return [
+        {'title': 'Rule-bearing language form remains repetitive',
+         'status': 'V14 and five-frame V2 fail the local form gate',
+         'finding': (f'V14 mixed-object contexts repeat cross-document '
+                     f'trigrams at {100*v14_object[0]:.1f}%/'
+                     f'{100*v14_object[1]:.1f}% across two seeds, versus '
+                     'roughly 1% in matched-length FineWeb windows. '
+                     'V2 is more repetitive; it remains an oracle fixture.'),
+         'report': 'RULE_WINDOW_FORM_AUDIT.md'},
         {'title': 'Agreement needs whole-subject holdouts',
          'status': 'Partial rule learning; no syntax circuit claim',
          'finding': f"Depth 4 gets {100*a4['plain']['accuracy']:.1f}% on plain subjects but {100*a4['attractor']['accuracy']:.1f}% with an opposite-number noun. Only {100*c4['both_causal']/c4['n']:.1f}% of heldout attractor edit triples show both required responses.",
@@ -985,6 +997,7 @@ def _fingerprint():
         'sports_combined_result_record_n100_form64.json'))
     paths.append(HERE/'sports_document_actplan_v1.py')
     paths.append(HERE/'sports_combined_result_record_renderer.py')
+    paths.append(HERE/'results/rule_window_form_v14_v2_n128.json')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',
