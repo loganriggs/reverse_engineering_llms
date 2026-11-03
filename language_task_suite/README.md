@@ -63,6 +63,13 @@ The [interleaved pilot](document_world_v4_interleaved.py) varies the number
 and location of its semantic sites and passes the [replay and edit
 audit](results/document_world_v4_interleaved_audit_n3000.json), but still
 fails the natural lexical-diversity screen; it is also a control.
+The [V5 variable-clause document pilot](DOCUMENT_WORLD_V5_CLAUSE_RESULTS.md)
+adds sentence and layout variation, trains depth-1/2/4 bilinear models, and
+tests immediate versus delayed source retrieval. It improves surface
+repetition but remains lexically far from FineWeb. A depth-2 model learns
+immediate source retrieval, while delayed source binding fails the current
+behavioral gate. Attention-only L1/prune/no-L1 recovery retains much of the
+immediate rule at 60% attention sparsity, without clearer head modularity.
 The [V5 task-rich document mixture](DOCUMENT_MIXTURE_V5_TASK_CONTROLS.md)
 combines V14's exact-oracle local rules, event recaps, colliding record
 keys, and leaked/unleaked score updates. Its 800-document audit passes
