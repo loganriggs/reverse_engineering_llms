@@ -367,13 +367,17 @@ def _zipf_comparison():
 
 def _action_path_summary():
     rows = []
-    for seed in (35051, 35052):
-        result = _json(Path(f'results/v7_action_edge_patch_seed{seed}.json'))['result']
+    panels = ((34801, 35051, 3, 'v7_action_edge_patch_seed35051.json'),
+              (34801, 35052, 3, 'v7_action_edge_patch_seed35052.json'),
+              (34802, 35051, 1, 'v7_action_edge_patch_model34802.json'))
+    for model_seed, panel_seed, head, filename in panels:
+        result = _json(Path('results')/filename)['result']
         selected = {(row['layer'], row['head'], row['patch']): row
                     for row in result['rows']}
         def removed(mode):
-            return selected[2, 3, mode]['mean_response_removed']
-        rows.append({'panel_seed': seed, 'n': result['n'],
+            return selected[2, head, mode]['mean_response_removed']
+        rows.append({'model_seed': model_seed, 'panel_seed': panel_seed,
+                     'head': head, 'n': result['n'],
                      'native_response': result['native_response'],
                      'source_score': removed('score_edge'),
                      'source_value': removed('value_source'),
@@ -382,9 +386,40 @@ def _action_path_summary():
     return {'rows': rows,
             'status': ('A local action edit is carried mainly by one '
                        'layer-2 attention head and its changed-token edge. '
-                       'This is one model seed and an activation patch, '
-                       'not weight-only circuit recovery.'),
+                       'The dominant head changes across two model seeds. '
+                       'This is an activation patch, not weight-only '
+                       'circuit recovery.'),
             'report': 'V7_ACTION_ATTENTION_EDGE_PATCH.md'}
+
+
+def _pair_reduction_summary():
+    panels = {34801: ('v7_action_rotary_pair_seed35151.json',
+                      'v7_action_rotary_pair_seed35251.json'),
+              34802: ('v7_action_rotary_pair_model34802.json',
+                      'v7_action_rotary_pair_model34802_rep.json')}
+    rows = []
+    for model_seed, filenames in panels.items():
+        results = [_json(Path('results')/name) for name in filenames]
+        for rank in (4, 6):
+            for method in ('weight_only', 'unlabeled_other_kinds',
+                           'supervised_action_development', 'random_control'):
+                measures = [next(row for row in result['rows']
+                                 if row['method'] == method and
+                                 row['pairs_per_branch'] == rank)
+                            for result in results]
+                rows.append({'model_seed': model_seed, 'rank': rank,
+                             'method': method,
+                             'token_nll': sum(m['token_nll'] for m in measures)/2,
+                             'action_accuracy': sum(m['action_accuracy']
+                                                    for m in measures)/2,
+                             'edit_response': sum(m['edit_response']
+                                                  for m in measures)/2})
+    return {'rows': rows,
+            'status': ('Means over two fresh panels per independently trained '
+                       'model. Weight-only ranking beats random at both '
+                       'budgets, but does not recover a nearly complete '
+                       'small circuit in the second model.'),
+            'report': 'V7_ACTION_ROTARY_PAIR_REDUCTION.md'}
 
 
 def build(cache_path, refresh):
@@ -425,6 +460,7 @@ def build(cache_path, refresh):
             'catalog': _catalog(),
             'zipf': _zipf_comparison(),
             'action_path': _action_path_summary(),
+            'pair_reduction': _pair_reduction_summary(),
             'zipf_by_kind': _json(Path('results/v7_zipf_by_kind_n500.json')),
             'zipf_variant': [
                 _json(Path('results/'+name)) for name in (
@@ -493,6 +529,12 @@ def _fingerprint():
     paths.append(HERE/'results/v7_zipf_by_kind_n500.json')
     paths.extend(HERE/f'results/v7_action_edge_patch_seed{seed}.json'
                  for seed in (35051, 35052))
+    paths.append(HERE/'results/v7_action_edge_patch_model34802.json')
+    paths.extend(HERE/'results'/name for name in (
+        'v7_action_rotary_pair_seed35151.json',
+        'v7_action_rotary_pair_seed35251.json',
+        'v7_action_rotary_pair_model34802.json',
+        'v7_action_rotary_pair_model34802_rep.json'))
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',
