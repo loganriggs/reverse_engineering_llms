@@ -92,3 +92,24 @@ interpretation should be attempted until the trained model passes this gate;
 if a 512-stream panel is too sparse, increase the panel size rather than
 relaxing the threshold. A six-price product-only guess has CE `log(6)=1.79`
 nats.
+
+The ordinary-CE seed-2 run finished 1,000 updates. Its fixed diagnostic
+price-answer CE went from 5.94 at initialization to 1.80 nats, essentially
+the six-price guess. On two **untouched** 1,024-stream reference-rate panels,
+the answer CE was 1.884/1.801 nats across 68/65 answers. The mean
+new-target response to an earlier fact-price edit was -0.00002/+0.00004;
+to a queried-item edit it was +0.00014/-0.00028. The exact oracle response
+is 1 for both edit types. The model therefore **fails the prospective
+circuit gate** decisively, even though its ordinary verb and object losses
+improved. A latest-fact heuristic achieved only 33.8%/30.8% on these panels,
+but the model's near-zero edit response gives no evidence it implemented
+that heuristic either. See [training record](results/v12_price_faq_depth2_seed2_1000/results.json),
+[fresh panel A](results/v12_price_faq_depth2_seed2_1000/fresh_panel_99701.json),
+and [fresh panel B](results/v12_price_faq_depth2_seed2_1000/fresh_panel_99711.json).
+
+A matched answer-weighted arm (100× loss on `price_answer` positions, same
+seed, architecture, generated minibatches, and number of updates) is the
+next test. It distinguishes a weak supervision signal from an inability of
+this small architecture or optimizer to learn the long-range binding. It
+may trade away other task competence, which the same per-rule evaluation
+will expose. No V12 price circuit analysis follows from the ordinary-CE run.
