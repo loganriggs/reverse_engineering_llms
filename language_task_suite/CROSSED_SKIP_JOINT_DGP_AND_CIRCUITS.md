@@ -147,3 +147,52 @@ sufficient by itself, that the same representation emerges across model
 seeds, that an unsupervised decomposition would recover the rule, or that the
 text resembles FineWeb. Those are separate next tests for canonicalization
 and interpretability methods on a better-grounded language generator.
+
+## Local basis priors on the competent crossed model
+
+The [bond-prior comparison](eval_v3_crossed_skip_bond_priors.py) now tests
+whether this known dependency survives local low-rank reductions of the
+**sparse model**. At each attention block's pre-`W_O` 64-dimensional bond,
+it compares (i) right singular vectors of `W_O` from weights alone,
+(ii) unlabeled activation PCA fitted on all 256×128 positions, (iii) the
+same PCA after excluding all 2,039 skip-labeled fit positions, (iv) a
+matched-count random exclusion, and (v) a trace-normalized weight/activation
+hybrid with coefficient 1. Each projection changes **one bond at a time**.
+Ranks 8, 16, 32, and 64 were fixed before looking at the two independent
+512-stream evaluation panels; rank 64 replays both model outputs and edit
+responses within the asserted 1e-5 tolerance. The model itself was trained
+on all rules. The exclusion is a **featurizer-fit site holdout**, not a
+whole-task model-training holdout or discovery experiment.
+
+![Rank-16 layer-1 basis comparison](results/v3_crossed_skip_bond_priors_rank16_layer1.png)
+
+At rank 16 in layer 1, averaged across the two fresh panels:
+
+| Basis | Skip teacher KL | Anchor-edit error vs native | Error vs oracle | Bond MSE | Bracket teacher KL |
+|---|---:|---:|---:|---:|---:|
+| Weight-only SVD | .057 | .045 | .031 | .299 | .108 |
+| Activation, all positions | .025 | .060 | .120 | .125 | .055 |
+| Activation, skip positions omitted | 1.596 | .843 | .915 | .173 | .085 |
+| Activation, matched random omission | .026 | .061 | .121 | .125 | .056 |
+| Weight/activation hybrid | .007 | .022 | .072 | .165 | .114 |
+
+Omitting only 6.2% of fit positions—the skip sites—nearly erases the
+rank-16 layer-1 edit response (mean .085 versus the native .928). Randomly
+omitting the same number does not. This repeats on both evaluation panels
+and at rank 8; rank 32 repairs most of the failure. It shows that a compact
+activation basis needs task-bearing directions that are not reliably
+inferred from other positions. It does **not** prove those directions are
+semantically unique or unavailable from a different unlabeled prior.
+
+The metrics also reject a single unqualified winner: weight-only SVD has
+the smallest error to the **oracle** edit response, because its projection
+overshoots the native model toward the exact response of 1; the hybrid best
+matches the **native** causal effect and has the lowest skip teacher KL, but
+has worse bracket KL than all-position PCA. All-position PCA gives the lowest
+bond reconstruction MSE and better bracket fidelity, yet a larger skip edit
+error. Thus reconstruction, teacher imitation, exact-oracle behavior, and
+cross-rule preservation select different reductions. The full [numerical
+records](results/v3_crossed_skip_bond_priors_fit99501_eval99511_99521.json)
+include both layers and all four ranks. This is a local linear projection
+comparison, not a function-level canonical tensor form or learned sparse
+featurizer.
