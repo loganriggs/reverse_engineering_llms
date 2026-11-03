@@ -35,6 +35,12 @@ adds halftime-leader and comeback rules to winner, margin, and top-player
 within one sampled world. Its visible-prefix and selective-edit audit
 passes, but its new answer windows remain highly repetitive, so it is
 retained as a semantic fixture rather than the main realistic distribution.
+The [V5 distributed quarter-prose test](SPORTS_DOCUMENT_QUARTER_V5_AUDIT.md)
+keeps the five rules and moves period evidence and answer sites among report
+sentences. All visible-answer and selective-edit checks pass, but fixed and
+spread-out typed prose still repeat far more than natural report text. The
+next realism step must broaden the discourse and realization process, not
+just add more sports paraphrases.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
