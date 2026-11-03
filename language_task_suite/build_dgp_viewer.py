@@ -313,6 +313,79 @@ def _latest_candidate():
                                      ('human_reference', None))]}
 
 
+def _event_world_screen():
+    pilot = _json(Path('results/sports_event_world_renderer_n100_form64_w30.json'))
+    carrier = _json(Path('results/sports_event_natural_carrier_n64_w100.json'))
+    metric = 'repeated_across_docs_trigram_occurrence_share'
+    rows = []
+    for source in ('rotowire', 'sbnation'):
+        for group in ('train', 'heldout'):
+            key = source+'_'+group
+            form = pilot['arms'][key]['form']
+            natural = carrier['arms'][key]
+            local = natural['local_repetitions']
+            rows.append({
+                'source': source, 'group': group,
+                'eligible_games': natural['eligible_rows'],
+                'generated_30': form['generated'][metric],
+                'human_30': form['human_reference'][metric],
+                'original_100': natural['paired_original'][metric],
+                'insertion_100': natural['with_run_insertion'][metric],
+                'inserted_window': sum(x['generated'] for x in local)/len(local),
+                'human_run_window': sum(x['human_run'] for x in local)/len(local),
+            })
+    return {
+        'status': ('Event-world arithmetic passes 800 visible run-number '
+                   'sites, but both the fully sampled text pilot and the '
+                   'natural-carrier insertion fail their human form screens. '
+                   'Neither is an accepted training DGP; no model was '
+                   'trained on these variants.'),
+        'rows': rows,
+        'examples': [pilot['arms'][source+'_train']['semantic']
+                     ['generated_examples'][0]
+                     for source in ('rotowire', 'sbnation')],
+        'rules': [
+            {'title': 'Empirical event world and split',
+             'sampling': ('Sample a unique 2016/17 game aligned by date, '
+                          'full teams, and final score to its box score '
+                          'and play-by-play feed. Keep whole game IDs '
+                          'apart across train and held-out partitions. '
+                          'Carry final and all period-end scores, a top '
+                          'scorer, and an event-verified regulation run.'),
+             'rule': ('The run interval is a within-quarter scoreboard '
+                      'change: one side scores 8–25, the other 1–12, '
+                      'and the margin swings by at least six. Overtime '
+                      'remains in game state but is excluded from this '
+                      'first run renderer.'),
+             'source_files': ['sports_event_world_dgp.py']},
+            {'title': 'Visible run arithmetic',
+             'sampling': ('Sample result, scorer, and period statements. '
+                          'When a run is included, state two earlier '
+                          'score snapshots and then an X–Y run claim. '
+                          'Default run inclusion is 4% for RotoWire-style '
+                          'documents and 22% for SBNation-style ones.'),
+             'rule': ('The two run numbers must equal the named team’s '
+                      'and opponent’s score changes between the visible '
+                      'snapshots. Forced-run semantic audits passed 800 '
+                      'number sites. Form remains far from human prose; '
+                      'there is no all-token oracle or model learning '
+                      'claim for this pilot.'),
+             'source_files': ['sports_event_world_renderer.py',
+                              'audit_sports_event_world_renderer.py']},
+            {'title': 'Natural-carrier form control',
+             'sampling': ('Insert the same event-verified run block into '
+                          'an unchanged human report about the joined '
+                          'game. Require a matching final score somewhere '
+                          'in the report and at least 100 source tokens.'),
+             'rule': ('The surrounding human prose is not generated and '
+                      'has no complete symbolic oracle. Paired documents '
+                      'look more natural, but the local run windows still '
+                      'repeat far more than human run windows.'),
+             'source_files': ['sports_event_natural_carrier.py',
+                              'audit_sports_event_natural_carrier.py']},
+        ]}
+
+
 def _actplan_screen():
     audit = _json(Path('results/sports_document_actplan_v1_n100_form64.json'))
     ablation = _json(Path('results/sports_actplan_record_ablation_n64.json'))
@@ -727,6 +800,7 @@ def build(cache_path, refresh):
             'rulebook': _rulebook(),
             'oracle_examples': _oracle_examples(),
             'latest_candidate': _latest_candidate(),
+            'event_world_screen': _event_world_screen(),
             'actplan_screen': _actplan_screen(),
             'zipf': _zipf_comparison(),
             'action_path': _action_path_summary(),
@@ -841,6 +915,8 @@ def _fingerprint():
         'sports_baseline_predicate_depth2_seed37301_s2000.json',
         'sports_empirical_predicate_depth2_seed37301_s2000.json'))
     paths.extend(HERE/'results'/name for name in (
+        'sports_event_world_renderer_n100_form64_w30.json',
+        'sports_event_natural_carrier_n64_w100.json',
         'sports_document_actplan_v1_n100_form64.json',
         'sports_actplan_record_ablation_n64.json',
         'sports_combined_result_record_n100_form64.json'))
