@@ -25,6 +25,7 @@ from deep_model import DeepModel, SPECS  # noqa: E402
 sys.modules.pop('model', None)
 sys.path.remove(str(OLD_REPO))
 from sports_live_ledger_dgp import sample_document  # noqa: E402
+from eval_sports_live_ledger_edits import edited  # noqa: E402
 
 
 def draw(n, seed, group, descriptions):
@@ -103,6 +104,9 @@ def main():
     parser.add_argument('--seed', type=int, default=10307)
     parser.add_argument('--device', default='cpu')
     parser.add_argument('--save-models', action='store_true')
+    parser.add_argument('--train-augmentation', choices=('none', 'paired_edits'),
+                        default='none', help='Add coherent score-offset and '
+                        'one-play +1 copies of each bare training document')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     torch.set_num_threads(4)
@@ -119,7 +123,15 @@ def main():
         if arm not in ('bare', 'described'):
             raise ValueError(arm)
         descriptions = arm == 'described'
+        if args.train_augmentation == 'paired_edits' and descriptions:
+            raise ValueError('Paired play edits require the bare arm')
         train = draw(args.train_n, args.seed+100000, 'train', descriptions)
+        if args.train_augmentation == 'paired_edits':
+            augmented = []
+            for i, doc in enumerate(train):
+                augmented.extend((doc, edited(doc, 'offset'),
+                                  edited(doc, 'add_play', i % 2)))
+            train = augmented
         test = draw(args.test_n, args.seed+200000, 'heldout', descriptions)
         train_games = {doc.latent['game_id'] for doc in train}
         test_games = {doc.latent['game_id'] for doc in test}
@@ -143,6 +155,7 @@ def main():
                                 'heldout_accuracy':
                                 sum(x == popular for x in actual)/len(actual)}
         arm_out = {'vocab': len(vocab), 'n_ctx': n_ctx,
+                   'sampled_training_documents': len(train),
                    'train_games': len(train_games),
                    'heldout_games': len(test_games),
                    'train_oov_token_share': train_oov,
@@ -193,6 +206,7 @@ def main():
                                            model.state_dict().items()},
                             'vocabulary': vocab, 'n_ctx': n_ctx,
                             'arm': arm, 'depth': depth,
+                            'train_augmentation': args.train_augmentation,
                             'model_kwargs': {'d_model': args.d_model,
                                              'n_head': args.heads,
                                              'norm': 'rms',

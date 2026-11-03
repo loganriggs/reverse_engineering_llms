@@ -1,0 +1,72 @@
+{
+  "config": {
+    "steps": 3000,
+    "train_n": 5000,
+    "test_n": 400,
+    "batch_size": 32,
+    "d_model": 48,
+    "heads": 4,
+    "depths": "4",
+    "arms": "bare",
+    "lr": 0.001,
+    "seed": 10307,
+    "device": "cuda",
+    "save_models": true,
+    "train_augmentation": "paired_edits",
+    "output": "language_task_suite/results/sports_live_ledger_bare_3000_paired_edits.json"
+  },
+  "objective": "full next-token cross-entropy on every non-padding token; run sites are evaluation labels only",
+  "caveat": "Controlled live-feed genre pilot. Original NBA play descriptions are empirical text and have no exact all-token oracle. Test games are entirely held out.",
+  "results": {
+    "bare": {
+      "vocab": 311,
+      "n_ctx": 147,
+      "sampled_training_documents": 15000,
+      "train_games": 807,
+      "heldout_games": 186,
+      "train_oov_token_share": 0.0,
+      "heldout_oov_token_share": 0.0,
+      "majority_baseline": {
+        "live_score_copy": {
+          "most_common_train_answer": "17",
+          "heldout_accuracy": 0.005
+        },
+        "live_run_first": {
+          "most_common_train_answer": "7",
+          "heldout_accuracy": 0.28
+        },
+        "live_run_second": {
+          "most_common_train_answer": "2",
+          "heldout_accuracy": 0.3475
+        }
+      },
+      "depths": {
+        "4": {
+          "parameters": 195744,
+          "train_loss_last50": 0.23225488901138305,
+          "heldout": {
+            "token_nll": 0.2500720179838722,
+            "sites": {
+              "live_score_copy": {
+                "n": 400,
+                "full_vocab_accuracy": 0.995,
+                "number_candidate_accuracy": 0.995
+              },
+              "live_run_first": {
+                "n": 400,
+                "full_vocab_accuracy": 0.5125,
+                "number_candidate_accuracy": 0.515
+              },
+              "live_run_second": {
+                "n": 400,
+                "full_vocab_accuracy": 0.8675,
+                "number_candidate_accuracy": 0.8675
+              }
+            }
+          },
+          "seconds": 20.8
+        }
+      }
+    }
+  }
+}

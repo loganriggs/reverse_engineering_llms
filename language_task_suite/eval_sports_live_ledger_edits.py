@@ -97,6 +97,23 @@ def panel(model, vocab, seed, n, arm, device):
         doc = sample_document(random.Random(seed+i), 'rotowire',
                               'heldout', arm == 'described')
         baseline = predictions(model, vocab, doc, device)
+        first_site = next(site for site in doc.sites
+                          if site.family == 'live_run_first')
+        changed_tokens = list(doc.tokens)
+        changed_tokens[first_site.index] = str(int(first_site.target)+1)
+        changed_first = replace(doc, tokens=tuple(changed_tokens))
+        changed_first_prediction = predictions(model, vocab, changed_first,
+                                               device)['live_run_second']
+        row = counts['first_answer_plus_one/live_run_second/target_same']
+        row['n'] += 1
+        correct = baseline['live_run_second'] == int(doc.sites[-1].target)
+        row['baseline_correct'] += correct
+        row['edited_correct'] += changed_first_prediction == \
+            int(doc.sites[-1].target)
+        row['response_exact'] += changed_first_prediction == \
+            baseline['live_run_second']
+        row['response_exact_given_baseline_correct'] += correct and \
+            changed_first_prediction == baseline['live_run_second']
         for edit, side in (('offset', 0),
                            *((('add_play', s) for s in (0, 1))
                              if arm == 'bare' else ())):
@@ -143,6 +160,9 @@ def main():
            'edits': {'offset': 'Add one point to every printed home score '
                               'and latest-score copy target; run totals '
                               'must stay invariant.',
+                     'first_answer_plus_one': 'Deliberately corrupt the '
+                              'printed first run answer by +1; the second '
+                              'run answer is still determined by score lines.',
                      'add_play': 'Bare arm only: add one point to one '
                                  'scoring play and all later printed '
                                  'scores for its team; corresponding run '
