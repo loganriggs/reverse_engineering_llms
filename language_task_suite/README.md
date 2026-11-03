@@ -80,6 +80,12 @@ their sentence positions. It cuts answer-window repetition sharply, but
 fixed- and spread-trained models show large cross-layout failures on player
 copying. This exposes a generator shortcut and sets a concrete behavioral
 gate before comparing weight-based interpretability methods across layouts.
+The [natural entity-alias pilot](SPORTS_ENTITY_ALIAS_PILOT.md) uses a common
+human-written report pattern: a full player name followed later by its
+surname. Document-wide paired renames preserve natural task-window prose
+and give an explicit causal edit. Two longer-trained bilinear seeds respond
+to the edit, but exact open-vocabulary copying and nuisance specificity are
+still too weak for a confident weight-circuit claim.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
