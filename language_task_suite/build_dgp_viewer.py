@@ -805,6 +805,7 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    natural_score = _json(Path('results/natural_score_copy_mentions_screen.json'))
     score_transfer_a = _json(Path('results/sports_score_bracket_transfer_seed55801_n28.json'))
     score_transfer_b = _json(Path('results/sports_score_bracket_transfer_seed55802_n28.json'))
     score_ov_a = _json(Path('results/fit_score_bracket_ov_seed55801_rank8_both.json'))
@@ -837,6 +838,18 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Natural score-copy queries are rare',
+         'status': 'Corpus support and semantic validity limit the next DGP',
+         'finding': ("Among "
+                     f"{natural_score['groups']['train']['validated_result_lead']} "
+                     "validated training report leads, only "
+                     f"{natural_score['groups']['train']['later_high_near_points']} "
+                     "later mention the winning score near ‘points’ without "
+                     "the losing score; the heldout count is "
+                     f"{natural_score['groups']['heldout']['later_high_near_points']}. "
+                     "Manual inspection finds some opponent or part-of-total "
+                     "meanings, so these are upper bounds, not safe queries."),
+         'report': 'SCORE_COPY_NATURAL_MENTION_SCREEN.md'},
         {'title': 'Two rules compose in heldout reports',
          'status': 'Both learned without jointly edited training reports',
          'finding': ("On the same 28-game heldout joint panel, two bilinear "
@@ -1117,6 +1130,7 @@ def _fingerprint():
         'results/sports_score_bracket_transfer_seed55802_n28.json',
         'results/fit_score_bracket_ov_seed55801_rank8_both.json',
         'results/fit_score_bracket_ov_seed55802_rank8_both.json',
+        'results/natural_score_copy_mentions_screen.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
