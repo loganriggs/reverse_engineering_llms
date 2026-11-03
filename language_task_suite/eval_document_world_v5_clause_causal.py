@@ -134,6 +134,8 @@ def main():
     p.add_argument('--batch-size',type=int,default=32)
     p.add_argument('--style-entropy',type=float,
                    help='Optional evaluation surface entropy override')
+    p.add_argument('--source-delay-rate',type=float,
+                   help='Optional source-question delay override')
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output',type=Path,required=True)
     a=p.parse_args()
@@ -143,6 +145,8 @@ def main():
     kwargs=dict(saved['generator_kwargs'])
     if a.style_entropy is not None:
         kwargs['style_entropy']=a.style_entropy
+    if a.source_delay_rate is not None:
+        kwargs['source_delay_rate']=a.source_delay_rate
     cases,skipped=collect(a.streams,a.seed,kwargs,n_ctx,a.max_cases)
     model=DeepModel(len(vocab),saved['model_kwargs']['d_model'],
                     saved['model_kwargs']['n_head'],

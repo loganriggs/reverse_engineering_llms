@@ -70,6 +70,9 @@ repetition but remains lexically far from FineWeb. A depth-2 model learns
 immediate source retrieval, while delayed source binding fails the current
 behavioral gate. Attention-only L1/prune/no-L1 recovery retains much of the
 immediate rule at 60% attention sparsity, without clearer head modularity.
+The [local bond-basis comparison](DOCUMENT_WORLD_V5_BOND_BASIS_COMPARISON.md)
+tests weight-only, unlabeled activation, hybrid, and task-conditioned bases
+across two whole-genre basis-fit holdouts on dense and sparse checkpoints.
 The [V5 task-rich document mixture](DOCUMENT_MIXTURE_V5_TASK_CONTROLS.md)
 combines V14's exact-oracle local rules, event recaps, colliding record
 keys, and leaked/unleaked score updates. Its 800-document audit passes
