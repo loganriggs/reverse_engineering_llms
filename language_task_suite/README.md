@@ -11,6 +11,11 @@ The [variable-clause core-rule pilot](V3_VARIABLE_FORM_AND_ZIPF_GATE.md)
 preserves the exact V3 verb/object oracle across a common shorter sentence
 form, but its 48,000-word frequency audit fails the Zipf/realism gate:
 the vocabulary tail remains truncated and the top-word concentration grows.
+The [document-level FineWeb predictive-rule inventory](FINEWEB_PREDICTIVE_RULE_INVENTORY.md)
+works backward from real articles, records, instructions, and narratives
+to candidate generative structures: entity aliases, scoped records, and
+event updates. Its surface counts are from 64 distinct-source documents;
+its task examples are exploratory hypotheses, not measured prevalence.
 
 ## Planted rules beside learned sparse-model paths
 
