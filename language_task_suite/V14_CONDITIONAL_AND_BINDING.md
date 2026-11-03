@@ -45,6 +45,29 @@ contains hashes, not source prose. The V13 32-crop review motivates
 conditional actions as a broad relation (10/32 crops) but does not validate
 this exact sentence or rate. **V14 is still not naturalistic.**
 
+An [exploratory layout sweep](sweep_v14_form_coverage.py) then reduced
+numbered-line, quote, question, and section rates while leaving the new
+attribute/conditional rule unchanged. On the same offset-17,000 development
+documents, this reduced toy colon presence from .569 to .241, near the
+FineWeb .259. But the repeated-word fraction remained .284 versus .166,
+and source-answer sites in 64 full toy streams fell from 20 to 5; scope
+answers fell from 1 to 0. The candidate was fixed before scoring a disjoint
+offset-18,000 FineWeb panel with an independent toy seed:
+
+| Offset 18,000, 58 matched windows | FineWeb | V14 reference | Prose-heavy candidate |
+|---|---:|---:|---:|
+| Colon presence | .431 | .500 | .103 |
+| Repeated-word fraction, first 40 | .169 | .272 | .272 |
+| Source-answer sites in 64 toy streams | — | 16 | 1 |
+| Conditional-action sites in 64 toy streams | — | 29 | 33 |
+
+See the [development](results/v14_layout_tradeoff_dev_skip17000_n64.json)
+and [held-out](results/v14_layout_tradeoff_holdout_skip18000_n64.json)
+records. This is a form diagnostic, not a statistical corpus-matching test:
+the two natural panels differ, and 64 toy streams give noisy rare-task
+counts. The reduced-layout candidate is **not adopted**. It removes task
+coverage without repairing repetition or robustly matching punctuation.
+
 ## Model comparison and gates
 
 The [small-model trainer](train_v13_attributes.py) accepts `--generator v14`
