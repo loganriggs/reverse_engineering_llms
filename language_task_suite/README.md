@@ -7,6 +7,10 @@ four-layer V14 result](V14_DEPTH_COMPARISON.md) shows stronger local-action
 learning with depth but still no earlier-fact object binding. The
 [tail-variation pilot](V15_TAIL_VARIATION_PILOT.md) is explicitly rejected;
 it passed oracle checks but worsened repetition.
+The [variable-clause core-rule pilot](V3_VARIABLE_FORM_AND_ZIPF_GATE.md)
+preserves the exact V3 verb/object oracle across a common shorter sentence
+form, but its 48,000-word frequency audit fails the Zipf/realism gate:
+the vocabulary tail remains truncated and the top-word concentration grows.
 
 ## Planted rules beside learned sparse-model paths
 
