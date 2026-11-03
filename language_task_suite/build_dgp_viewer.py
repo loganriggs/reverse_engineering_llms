@@ -313,6 +313,35 @@ def _latest_candidate():
                                      ('human_reference', None))]}
 
 
+def _actplan_screen():
+    audit = _json(Path('results/sports_document_actplan_v1_n100_form64.json'))
+    ablation = _json(Path('results/sports_actplan_record_ablation_n64.json'))
+    rows = []
+    for key, arm in audit['arms'].items():
+        form = arm['form']
+        matched = ablation['arms'][key]['form']
+        rows.append({
+            'source': key.replace('_', ' '),
+            'fixed_repeat': form['fixed_empirical'][
+                'repeated_across_docs_trigram_occurrence_share'],
+            'full_repeat': form['variable_actplan'][
+                'repeated_across_docs_trigram_occurrence_share'],
+            'human_repeat': form['human_reference'][
+                'repeated_across_docs_trigram_occurrence_share'],
+            'no_record_repeat': matched['no_records'][
+                'repeated_across_docs_trigram_occurrence_share'],
+            'matched_fixed_repeat': matched['fixed_empirical'][
+                'repeated_across_docs_trigram_occurrence_share'],
+        })
+    return {'status': ('Newer act-plan V1 passes visible-answer and selective '
+                       'edit checks, and samples which rule sites and facts '
+                       'appear. Its default record sentences do not pass the '
+                       'language-form gate: they increase phrase repetition. '
+                       'No V1 model was trained or interpreted.'),
+            'report': 'SPORTS_DOCUMENT_ACTPLAN_V1_RESULT.md',
+            'rows': rows}
+
+
 def _renderer_variant_example():
     world = draw_varied(random.Random(98640), source_delay_rate=1.).latent
     arms = []
@@ -682,6 +711,7 @@ def build(cache_path, refresh):
             'rulebook': _rulebook(),
             'oracle_examples': _oracle_examples(),
             'latest_candidate': _latest_candidate(),
+            'actplan_screen': _actplan_screen(),
             'zipf': _zipf_comparison(),
             'action_path': _action_path_summary(),
             'pair_reduction': _pair_reduction_summary(),
@@ -794,6 +824,10 @@ def _fingerprint():
         'sports_empirical_predicates_paired_n128.json',
         'sports_baseline_predicate_depth2_seed37301_s2000.json',
         'sports_empirical_predicate_depth2_seed37301_s2000.json'))
+    paths.extend(HERE/'results'/name for name in (
+        'sports_document_actplan_v1_n100_form64.json',
+        'sports_actplan_record_ablation_n64.json'))
+    paths.append(HERE/'sports_document_actplan_v1.py')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',
