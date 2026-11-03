@@ -1,0 +1,131 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "run_dir": "language_task_suite/results/v3_shared_bracket_depth1_seed1_2000",
+    "streams": 512,
+    "length": 129,
+    "limit": 256,
+    "seed": 97111,
+    "device": "cuda",
+    "output": "language_task_suite/results/v3_shared_bracket_depth1_seed1_fresh97111.json"
+  },
+  "ordinary": {
+    "per_rule_ce": {
+      "cat_bigram": 3.1544137075417384,
+      "noun_bigram": 1.2340964528715097,
+      "cat_trigram": 2.2848893688493757,
+      "place_bigram": 0.07756929669043038,
+      "induction": 1.7169775176390392,
+      "quote_open": 3.559323033135406,
+      "quote_content": 2.6721417231011473,
+      "skip_trigram": 0.6690797419850423,
+      "tok_trigram": 0.7605411769406849,
+      "skip_bigram": 0.10797182950008281,
+      "paren_open": 3.581381505295967,
+      "paren_content": 2.7208040072359405
+    },
+    "per_rule_n": {
+      "cat_bigram": 37247,
+      "noun_bigram": 2314,
+      "cat_trigram": 2686,
+      "place_bigram": 3180,
+      "induction": 3111,
+      "quote_open": 1541,
+      "quote_content": 4592,
+      "skip_trigram": 2923,
+      "tok_trigram": 352,
+      "skip_bigram": 1712,
+      "paren_open": 1477,
+      "paren_content": 4401
+    },
+    "bracket_edit": {
+      "n": 256,
+      "new_before": 0.00043935920044191334,
+      "new_after": 0.5871682821889408,
+      "old_before": 0.5942122325359378,
+      "old_after": 0.0004892042974589117,
+      "new_effect": 0.5867289229884989,
+      "oracle_new_effect": 0.61328125,
+      "by_content_length": {
+        "2": 84,
+        "3": 86,
+        "4": 86
+      }
+    },
+    "examples": [
+      {
+        "prefix": "[ small new dave small",
+        "changed_opener": "(",
+        "original_closer": "]",
+        "new_closer": ")",
+        "oracle_closer_mass": 1.0
+      },
+      {
+        "prefix": "[ old henry carol",
+        "changed_opener": "(",
+        "original_closer": "]",
+        "new_closer": ")",
+        "oracle_closer_mass": 0.5
+      },
+      {
+        "prefix": "[ old henry tall fast",
+        "changed_opener": "(",
+        "original_closer": "]",
+        "new_closer": ")",
+        "oracle_closer_mass": 1.0
+      },
+      {
+        "prefix": "( big henry new alice",
+        "changed_opener": "[",
+        "original_closer": ")",
+        "new_closer": "]",
+        "oracle_closer_mass": 1.0
+      }
+    ]
+  },
+  "full_bracket_oracle": {
+    "all": {
+      "n": 256,
+      "original_kl": 0.08796942271510488,
+      "edited_kl": 0.09826425502615166,
+      "new_closer_effect": 0.5902279035726679,
+      "oracle_new_effect": 0.6178385450039059,
+      "effect_l1_error": 0.32959169123205356,
+      "original_old_closer_probability": 0.5893566991871921,
+      "edited_new_closer_probability": 0.5907102188502904
+    },
+    "by_content_count": {
+      "2": {
+        "n": 86,
+        "original_kl": 0.07264187505338775,
+        "edited_kl": 0.08648486462486692,
+        "new_closer_effect": 0.2700978226656484,
+        "oracle_new_effect": 0.3333333432674408,
+        "effect_l1_error": 0.3420946670826091,
+        "original_old_closer_probability": 0.2720671640492456,
+        "edited_new_closer_probability": 0.27080417606373164
+      },
+      "3": {
+        "n": 81,
+        "original_kl": 0.0803757736367392,
+        "edited_kl": 0.09463706177969773,
+        "new_closer_effect": 0.5951794201945081,
+        "oracle_new_effect": 0.5,
+        "effect_l1_error": 0.39269278658392986,
+        "original_old_closer_probability": 0.586731250639315,
+        "edited_new_closer_probability": 0.5957317595128659
+      },
+      "4": {
+        "n": 89,
+        "original_kl": 0.10969138534718685,
+        "edited_kl": 0.11294774072809835,
+        "new_closer_effect": 0.895060646400023,
+        "oracle_new_effect": 1.0,
+        "effect_l1_error": 0.2600810772247529,
+        "original_old_closer_probability": 0.8983405346281073,
+        "edited_new_closer_probability": 0.8952627456590031
+      }
+    }
+  },
+  "caveat": "Fresh streams from the same joint generator as training. Full bracket oracle includes closure probability and continuation-word probabilities. Opener flip retains the complete visible content prefix in support. No whole-task model-training holdout or naturalness claim."
+}

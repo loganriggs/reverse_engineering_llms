@@ -1,0 +1,140 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "nstreams": 4000,
+    "length": 129,
+    "seed": 97002,
+    "output": "language_task_suite/results/v3_shared_bracket_audit_seed97002_n4000.json"
+  },
+  "panel": {
+    "config": {
+      "nstreams": 4000,
+      "length": 129
+    },
+    "labels": {
+      "cat_bigram": 294796,
+      "quote_open": 11903,
+      "quote_content": 35080,
+      "skip_trigram": 23062,
+      "place_bigram": 24591,
+      "noun_bigram": 18241,
+      "skip_bigram": 13146,
+      "paren_open": 11938,
+      "paren_content": 35061,
+      "induction": 24723,
+      "cat_trigram": 20500,
+      "tok_trigram": 2959
+    },
+    "streams_with_noun_skip_bracket": 3780,
+    "close_counts": {
+      "[:3": 3812,
+      "(:4": 3809,
+      "[:4": 3785,
+      "[:2": 3813,
+      "(:2": 3931,
+      "(:3": 3727
+    },
+    "supported_opener_swap_events": 22877,
+    "conditional_close_frequency": {
+      "[:2": {
+        "total": 11410,
+        "close": 3813,
+        "empirical": 0.33418054338299735,
+        "predicted": 0.3333333333333333
+      },
+      "[:3": {
+        "total": 7597,
+        "close": 3812,
+        "empirical": 0.5017770172436488,
+        "predicted": 0.5
+      },
+      "(:2": {
+        "total": 11467,
+        "close": 3931,
+        "empirical": 0.3428098020406384,
+        "predicted": 0.3333333333333333
+      },
+      "(:3": {
+        "total": 7536,
+        "close": 3727,
+        "empirical": 0.4945594479830149,
+        "predicted": 0.5
+      },
+      "(:4": {
+        "total": 3809,
+        "close": 3809,
+        "empirical": 1.0,
+        "predicted": 1.0
+      },
+      "[:4": {
+        "total": 3785,
+        "close": 3785,
+        "empirical": 1.0,
+        "predicted": 1.0
+      }
+    },
+    "examples": [
+      {
+        "original": "[ red small tall",
+        "edited": "( red small tall",
+        "old_closer": "]",
+        "new_closer": ")",
+        "closer_mass": 0.5
+      },
+      {
+        "original": "( small eve tall eve",
+        "edited": "[ small eve tall eve",
+        "old_closer": ")",
+        "new_closer": "]",
+        "closer_mass": 1.0
+      },
+      {
+        "original": "[ new small bob big",
+        "edited": "( new small bob big",
+        "old_closer": "]",
+        "new_closer": ")",
+        "closer_mass": 1.0
+      },
+      {
+        "original": "[ fast new",
+        "edited": "( fast new",
+        "old_closer": "]",
+        "new_closer": ")",
+        "closer_mass": 0.3333333333333333
+      },
+      {
+        "original": "[ red small grace frank",
+        "edited": "( red small grace frank",
+        "old_closer": "]",
+        "new_closer": ")",
+        "closer_mass": 1.0
+      },
+      {
+        "original": "( small dave",
+        "edited": "[ small dave",
+        "old_closer": ")",
+        "new_closer": "]",
+        "closer_mass": 0.3333333333333333
+      }
+    ]
+  },
+  "content_oracle_checks": {
+    "(:big-alice": {
+      "draws": 20000,
+      "tv": 0.010129252624511715
+    },
+    "(:big-alice-old": {
+      "draws": 20000,
+      "tv": 0.010029443359375004
+    },
+    "[:big-alice": {
+      "draws": 20000,
+      "tv": 0.007443402099609354
+    },
+    "[:big-alice-old": {
+      "draws": 20000,
+      "tv": 0.011322082519531252
+    }
+  },
+  "caveat": "Shared content makes opener-only edits of the visible pre-closer prefix supported. It does not make the stylized grammar naturalistic or identify the full visible-prefix distribution outside bracket spans."
+}
