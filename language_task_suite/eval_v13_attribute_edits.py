@@ -183,6 +183,10 @@ def main():
     assert saved['generator']==generator_cls.__name__
     model=BilinearGPT(Config(**saved['config'])).to(args.device)
     model.load_state_dict(saved['model'])
+    if 'mask' in saved:
+        parameters=dict(model.named_parameters())
+        for name,mask in saved['mask'].items():
+            assert torch.count_nonzero(parameters[name][~mask])==0
     panels={}
     for name,kwargs in (('reference',REFERENCE),('diagnostic',DIAGNOSTIC)):
         kwargs=dict(kwargs)

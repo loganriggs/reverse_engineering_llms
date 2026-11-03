@@ -112,3 +112,47 @@ preserving its causal edit response. Stop that branch if a sparse candidate
 cannot preserve the local gate at a clearly smaller connection budget;
 do not reinterpret the failed historical binding as learned. A local mapping
 is not evidence of reusable computation across the other task families.
+
+## Bounded sparse-weight follow-up
+
+The [sparsification run](sparsify_v14_conditional.py) starts from the
+competent dense checkpoint. It applies two 80-update L1/magnitude-pruning
+rounds to the attention projection matrices (40%, then 60% zero), followed
+by 200 masked recovery updates **without L1**. Embedding, unembedding, and
+norm weights remain dense. At 60% attention sparsity, 19,661 of 49,152
+attention connections remain; total live parameter connections fall from
+98,752 to 69,261. The stage-boundary checkpoint/resume control matched
+uninterrupted CPU weights and masks exactly. The [stage record](results/v14_conditional_sparse_seed99441/results.json)
+shows conditional-action CE .214 dense, .198 at 40% zero, 1.877 just after
+60% pruning, and .213 after no-L1 recovery on one fixed diagnostic panel.
+These stage scores were not the final gate.
+
+On the two untouched 512-stream reference panels used for the dense model,
+the recovered sparse checkpoint has conditional-action CE **.239/.226** and
+supported local attribute-edit response **+.735/+.740**, versus dense
+**.185/.189** and **+.846/+.840**. Each panel includes 128 local edits; the
+sparse model passes the prespecified CE<.5 and response>.5 gate on both,
+although its causal response is materially weaker. Historical object
+binding remains absent: sparse object CE **2.820/2.817** versus oracle
+entropy **1.130/1.126**, and its earlier-fact edit response is near zero
+(−.00099/−.00014 versus oracle −.647/−.641). The [fresh panel A](results/v14_conditional_sparse_seed99441/fresh_panel_99741.json)
+and [B](results/v14_conditional_sparse_seed99441/fresh_panel_99751.json)
+also include diagnostic-regime checks.
+
+![Planted and learned V14 action maps with sparse edge ablations](results/v14_conditional_sparse_seed99441/v14_sparse_action_map_and_edges.png)
+
+The [map and edge-ablation runner](plot_v14_sparse_action_map.py) sampled a
+separate 1,024-stream panel, retained 24 conditional-action sites per
+attribute, and compared the planted six-way rule with full-model
+probabilities. All six planted actions are the largest-probability actions
+in the recovered sparse model. The fourth panel removes the earlier
+attribute→query attention edge in **one head at a time** and recomputes the
+entire model. The largest correct-action probability drop ranges from .323
+to .853 across the six rows; five rows peak at L1H3, while `dusty` peaks
+at L1H0. The query self-edge control is recorded in the [source matrices](results/v14_conditional_sparse_seed99441/v14_sparse_action_map_and_edges.json).
+These end-to-end ablations support selected-edge necessity on these
+contexts; they do not establish that the edges are sufficient, unique, or
+discoverable without rule labels. This V14 graph is a **local conditional
+mapping**, whereas the [crossed skip-rule graph](results/v3_crossed_skip_sparse_graphs_seed99301/bigram_skip_bracket_comparison.png)
+tests a separate jointly sampled DGP with noun bigrams, a two-cue
+place…adjective rule, and bracket closing.
