@@ -1,0 +1,95 @@
+{
+  "config": {
+    "steps": 1000,
+    "train_n": 5000,
+    "test_n": 400,
+    "batch_size": 32,
+    "d_model": 48,
+    "heads": 4,
+    "depths": "2,4",
+    "arms": "described",
+    "lr": 0.001,
+    "seed": 10307,
+    "device": "cuda",
+    "save_models": true,
+    "output": "language_task_suite/results/sports_live_ledger_copy_control_described_1000.json"
+  },
+  "objective": "full next-token cross-entropy on every non-padding token; run sites are evaluation labels only",
+  "caveat": "Controlled live-feed genre pilot. Original NBA play descriptions are empirical text and have no exact all-token oracle. Test games are entirely held out.",
+  "results": {
+    "described": {
+      "vocab": 756,
+      "n_ctx": 235,
+      "train_games": 807,
+      "heldout_games": 186,
+      "train_oov_token_share": 0.0,
+      "heldout_oov_token_share": 4.21674045962471e-05,
+      "majority_baseline": {
+        "live_score_copy": {
+          "most_common_train_answer": "18",
+          "heldout_accuracy": 0.02
+        },
+        "live_run_first": {
+          "most_common_train_answer": "7",
+          "heldout_accuracy": 0.28
+        },
+        "live_run_second": {
+          "most_common_train_answer": "2",
+          "heldout_accuracy": 0.3475
+        }
+      },
+      "depths": {
+        "2": {
+          "parameters": 155520,
+          "train_loss_last50": 0.7473538482189178,
+          "heldout": {
+            "token_nll": 0.7901125031196993,
+            "sites": {
+              "live_score_copy": {
+                "n": 400,
+                "full_vocab_accuracy": 0.1475,
+                "number_candidate_accuracy": 0.1475
+              },
+              "live_run_first": {
+                "n": 400,
+                "full_vocab_accuracy": 0.3375,
+                "number_candidate_accuracy": 0.34
+              },
+              "live_run_second": {
+                "n": 400,
+                "full_vocab_accuracy": 0.395,
+                "number_candidate_accuracy": 0.395
+              }
+            }
+          },
+          "seconds": 5.3
+        },
+        "4": {
+          "parameters": 238464,
+          "train_loss_last50": 0.6465117228031159,
+          "heldout": {
+            "token_nll": 0.7028456851108073,
+            "sites": {
+              "live_score_copy": {
+                "n": 400,
+                "full_vocab_accuracy": 0.7125,
+                "number_candidate_accuracy": 0.7125
+              },
+              "live_run_first": {
+                "n": 400,
+                "full_vocab_accuracy": 0.4575,
+                "number_candidate_accuracy": 0.4575
+              },
+              "live_run_second": {
+                "n": 400,
+                "full_vocab_accuracy": 0.43,
+                "number_candidate_accuracy": 0.43
+              }
+            }
+          },
+          "seconds": 8.3
+        }
+      }
+    }
+  }
+}
