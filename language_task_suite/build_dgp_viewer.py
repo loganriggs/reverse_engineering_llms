@@ -779,6 +779,8 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    three_ov_a = _json(Path('results/three_rule_ov_canonical_seed55301_n80_n40.json'))
+    three_ov_b = _json(Path('results/three_rule_ov_canonical_seed55302_n80_n40.json'))
     three_a = _json(Path('results/sports_alias_bracket_caps_seed55301_s3000.json'))
     three_b = _json(Path('results/sports_alias_bracket_caps_seed55302_s6000.json'))
     variable_graph = _json(Path('results/v14_variable_graph_n128.json'))
@@ -800,6 +802,18 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Average activation fidelity misses a learned rule',
+         'status': 'Weight-only rank-4 OV truncation preserves bracket better',
+         'finding': ("At four value channels per head, weight-only versus "
+                     "activation-aware reduction retains "
+                     f"{100*next(r for r in three_ov_a['rows'] if r['method']=='weight' and r['rank_per_head']==4)['heldout']['bracket']['paired_top1']:.1f}%/"
+                     f"{100*next(r for r in three_ov_a['rows'] if r['method']=='data' and r['rank_per_head']==4)['heldout']['bracket']['paired_top1']:.1f}% "
+                     "paired bracket answers in one checkpoint, and "
+                     f"{100*next(r for r in three_ov_b['rows'] if r['method']=='weight' and r['rank_per_head']==4)['heldout']['bracket']['paired_top1']:.1f}%/"
+                     f"{100*next(r for r in three_ov_b['rows'] if r['method']=='data' and r['rank_per_head']==4)['heldout']['bracket']['paired_top1']:.1f}% "
+                     "in the other, despite lower average reconstruction error "
+                     "from the activation-aware method."),
+         'report': 'THREE_RULE_OV_REDUCTION_RESULT.md'},
         {'title': 'Three rules in the same human report',
          'status': 'Bracket learned; name reuse weak; case has a word-frequency shortcut',
          'finding': (f"Two bilinear runs reach {100*three_a['test']['bracket']['paired_top1']:.1f}%/"
@@ -997,6 +1011,8 @@ def _fingerprint():
         'results/sports_alias_bracket_multistyle_rwcontrol_seed98402_600.json',
         'results/sports_alias_bracket_caps_seed55301_s3000.json',
         'results/sports_alias_bracket_caps_seed55302_s6000.json',
+        'results/three_rule_ov_canonical_seed55301_n80_n40.json',
+        'results/three_rule_ov_canonical_seed55302_n80_n40.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
