@@ -20,4 +20,23 @@ On each behaviorally learned rule, compare the original iterative L1/prune metho
 
 ## Immediate next comparison
 
-Build a coherent generator revision from the existing sampled-rule machinery with (1) at least two surface/lexical-variation settings and (2) independent versus coupled rule settings. Keep explicit per-site provenance and supported edit pairs. Train a small fixed-budget depth-1/depth-2 pilot across these settings, score learned-rule panels, then compare a small set of weight methods on the same learned rule. Include the older V3 sampled generator as a controlled, less realistic baseline. Do not resume PCFG-only scale sweeps until a specific weight-recovery question needs them.
+The [natural-prose spelling-convention pilot](CORPUS_SPELLING_STYLE_PILOT.md)
+shows that retaining real surface text alone does not provide enough
+learnable rule instances: 1,970 training windows produced strong training
+target memorization but no held-out cue-dependent behavior in depth-1 or
+depth-2 models. It remains a controlled realism anchor, not the main DGP.
+
+Build a coherent generator revision from the existing sampled-rule machinery
+with (1) at least two surface/lexical-variation settings and (2) independent
+versus coupled rule settings. Keep explicit per-site provenance and supported
+edit pairs. The first comparison should jointly include at least two rule
+families in each training document, with enough instances of each family for
+learning and a frozen token budget. Diagnose whether the rules remain
+predictive from visible context under the more variable realization. Compare
+the sampled documents to held-out natural prose on lexical, layout, local
+repetition, and discourse-form screens, and inspect actual examples. Train a
+small fixed-budget depth-1/depth-2 pilot across settings, score learned-rule
+panels, then compare weight methods on the same **behaviorally learned**
+rule(s). Include the older V3 sampled generator as a controlled, less
+realistic baseline. Do not resume PCFG-only scale sweeps until a specific
+weight-recovery question needs them.
