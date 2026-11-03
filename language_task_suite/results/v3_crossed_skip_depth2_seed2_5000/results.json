@@ -1,0 +1,896 @@
+{
+  "config": {
+    "source": "/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits",
+    "generator": "crossed_skip",
+    "depth": 2,
+    "width": 64,
+    "heads": 4,
+    "steps": 5000,
+    "batch_size": 256,
+    "length": 129,
+    "lr": 0.003,
+    "seed": 2,
+    "eval_every": 500,
+    "eval_streams": 256,
+    "edit_limit": 128,
+    "resume_checkpoint": "language_task_suite/results/v3_crossed_skip_depth2_seed2_5000/resume_latest.pt",
+    "device": "cuda",
+    "output_dir": "language_task_suite/results/v3_crossed_skip_depth2_seed2_5000"
+  },
+  "model_config": {
+    "vocab_size": 54,
+    "n_layer": 2,
+    "n_head": 4,
+    "n_embd": 64,
+    "seq_len": 128,
+    "mlp_hidden": 512,
+    "block_has_mlp": [
+      false,
+      false
+    ],
+    "use_rmsnorm": false,
+    "use_qk_norm": false,
+    "use_final_norm": false
+  },
+  "records": [
+    {
+      "step": 0,
+      "elapsed_seconds": 0.5332515239715576,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.9889841079711914,
+          "cat_trigram": 3.9889841079711914,
+          "place_bigram": 3.9889841079711914,
+          "paren_open": 3.9889841079711914,
+          "paren_content": 3.9889841079711914,
+          "skip_trigram": 3.9889841079711914,
+          "induction": 3.9889841079711914,
+          "noun_bigram": 3.9889841079711914,
+          "skip_bigram": 3.9889841079711914,
+          "quote_open": 3.9889841079711914,
+          "quote_content": 3.9889841079711914,
+          "tok_trigram": 3.9889841079711914
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.018518518656492233,
+          "new_after": 0.018518518656492233,
+          "old_before": 0.018518518656492233,
+          "old_after": 0.018518518656492233,
+          "new_effect": 0.0,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 500,
+      "elapsed_seconds": 26.573340892791748,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.1325494004146432,
+          "cat_trigram": 2.199018077712793,
+          "place_bigram": 0.07415763411071898,
+          "paren_open": 3.6077726866847786,
+          "paren_content": 2.6753829133505294,
+          "skip_trigram": 0.646644183528888,
+          "induction": 1.557196397268451,
+          "noun_bigram": 1.064035747319177,
+          "skip_bigram": 0.07329175220428036,
+          "quote_open": 3.676236035641391,
+          "quote_content": 2.675661247344654,
+          "tok_trigram": 0.32509390233053115
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0009033812706746858,
+          "new_after": 0.551505722629372,
+          "old_before": 0.5559931669849902,
+          "old_after": 0.0007750960637622484,
+          "new_effect": 0.5506023413586973,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 1000,
+      "elapsed_seconds": 52.46421003341675,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.122542457121386,
+          "cat_trigram": 2.2367861931140607,
+          "place_bigram": 0.07303089170792457,
+          "paren_open": 3.634128979934278,
+          "paren_content": 2.6389208707423912,
+          "skip_trigram": 0.6438860548854382,
+          "induction": 0.7698105423826327,
+          "noun_bigram": 0.9662171084983427,
+          "skip_bigram": 0.09153857224888098,
+          "quote_open": 3.6247397324655175,
+          "quote_content": 2.6869667624308313,
+          "tok_trigram": 0.11254101490314873
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0008610350018187773,
+          "new_after": 0.5405572714516893,
+          "old_before": 0.545802672568243,
+          "old_after": 0.000952791323634794,
+          "new_effect": 0.5396962364498705,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 1500,
+      "elapsed_seconds": 78.2217800617218,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.1207871147258794,
+          "cat_trigram": 2.210853870373506,
+          "place_bigram": 0.06056212162616792,
+          "paren_open": 3.6953293699626775,
+          "paren_content": 2.6484684528429634,
+          "skip_trigram": 0.7023693674297884,
+          "induction": 0.1775696039076931,
+          "noun_bigram": 0.8888611762661477,
+          "skip_bigram": 0.07265057216512084,
+          "quote_open": 3.6828541046396723,
+          "quote_content": 2.62827843863396,
+          "tok_trigram": 0.11180384447610799
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0006182132019745268,
+          "new_after": 0.5163237309316173,
+          "old_before": 0.5169681020779535,
+          "old_after": 0.0006194618448593925,
+          "new_effect": 0.5157055177296428,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 2000,
+      "elapsed_seconds": 103.8914704322815,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.1211255784765757,
+          "cat_trigram": 2.2027025948121,
+          "place_bigram": 0.06939488013293428,
+          "paren_open": 3.617670262506766,
+          "paren_content": 2.6527353677681846,
+          "skip_trigram": 0.614946340337066,
+          "induction": 0.16329219573444853,
+          "noun_bigram": 0.9026174675657175,
+          "skip_bigram": 0.0665922091863277,
+          "quote_open": 3.6151513724654207,
+          "quote_content": 2.662804006561906,
+          "tok_trigram": 0.12209337984476688
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0005899047007469349,
+          "new_after": 0.5439796554856002,
+          "old_before": 0.5389591107959859,
+          "old_after": 0.0005520356965549866,
+          "new_effect": 0.5433897507848533,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 2500,
+      "elapsed_seconds": 129.56697416305542,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.118574362713318,
+          "cat_trigram": 2.19143112714474,
+          "place_bigram": 0.062167680770749516,
+          "paren_open": 3.641121476811648,
+          "paren_content": 2.6227500651053246,
+          "skip_trigram": 0.6758250528027607,
+          "induction": 0.16556479368248073,
+          "noun_bigram": 0.8891961226389262,
+          "skip_bigram": 0.06073885390432957,
+          "quote_open": 3.6396351404743648,
+          "quote_content": 2.6538644828413367,
+          "tok_trigram": 0.12337791579962847
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.000605826376570584,
+          "new_after": 0.5113203566143056,
+          "old_before": 0.5212385310442187,
+          "old_after": 0.0006105632549712747,
+          "new_effect": 0.510714530237735,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 3000,
+      "elapsed_seconds": 155.3025712966919,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.1218944507652924,
+          "cat_trigram": 2.197209055813459,
+          "place_bigram": 0.05554253999933203,
+          "paren_open": 3.6249387904963135,
+          "paren_content": 2.6523004790932694,
+          "skip_trigram": 0.6496185139371483,
+          "induction": 0.15376497439245904,
+          "noun_bigram": 0.890212034226441,
+          "skip_bigram": 0.07887143660753912,
+          "quote_open": 3.5211464176077327,
+          "quote_content": 2.6373659475077793,
+          "tok_trigram": 0.1211003847487121
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0006096129800874373,
+          "new_after": 0.5388161845039576,
+          "old_before": 0.5405105332611129,
+          "old_after": 0.0005843065428130026,
+          "new_effect": 0.5382065715238702,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 3500,
+      "elapsed_seconds": 181.22724390029907,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.117440430964323,
+          "cat_trigram": 2.210995582984044,
+          "place_bigram": 0.06217275106654294,
+          "paren_open": 3.654464999372645,
+          "paren_content": 2.641086463025812,
+          "skip_trigram": 0.6849071851052638,
+          "induction": 0.13589324239313147,
+          "noun_bigram": 0.8941335774913135,
+          "skip_bigram": 0.051339709652969995,
+          "quote_open": 3.6959070162282455,
+          "quote_content": 2.6225997238060197,
+          "tok_trigram": 0.06913382851788988
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0004337078274276318,
+          "new_after": 0.5219869005886721,
+          "old_before": 0.5190430204384029,
+          "old_after": 0.0004218090091351531,
+          "new_effect": 0.5215531927612445,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 4000,
+      "elapsed_seconds": 206.91272735595703,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.118796209222874,
+          "cat_trigram": 2.1903968064830854,
+          "place_bigram": 0.05775453584295426,
+          "paren_open": 3.625834374310742,
+          "paren_content": 2.6311439132753978,
+          "skip_trigram": 0.6291493277305998,
+          "induction": 0.13046482528319892,
+          "noun_bigram": 0.8789504887512062,
+          "skip_bigram": 0.07288581585586544,
+          "quote_open": 3.6037281018762917,
+          "quote_content": 2.672438842832827,
+          "tok_trigram": 0.059705380837422335
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.00046499615279094186,
+          "new_after": 0.5390439496259205,
+          "old_before": 0.5348458542721346,
+          "old_after": 0.0004629936287640201,
+          "new_effect": 0.5385789534731296,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 4500,
+      "elapsed_seconds": 236.2962350845337,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.1175072272075814,
+          "cat_trigram": 2.1824909943686084,
+          "place_bigram": 0.07075883335066592,
+          "paren_open": 3.636200176653012,
+          "paren_content": 2.6194443960605014,
+          "skip_trigram": 0.687429631066498,
+          "induction": 0.14908094231149793,
+          "noun_bigram": 0.8828932994316115,
+          "skip_bigram": 0.0655160481007189,
+          "quote_open": 3.621923930254964,
+          "quote_content": 2.6351473602577236,
+          "tok_trigram": 0.11775881676980156
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.00038965809169644317,
+          "new_after": 0.5100583385210484,
+          "old_before": 0.513624950312078,
+          "old_after": 0.00043599984411300113,
+          "new_effect": 0.509668680429352,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    },
+    {
+      "step": 5000,
+      "elapsed_seconds": 263.8943781852722,
+      "scores": {
+        "per_rule_ce": {
+          "cat_bigram": 3.1179924325470356,
+          "cat_trigram": 2.19431687107453,
+          "place_bigram": 0.051350916213192356,
+          "paren_open": 3.6226251273192176,
+          "paren_content": 2.6299007320234584,
+          "skip_trigram": 0.6581610797893628,
+          "induction": 0.1234752922136906,
+          "noun_bigram": 0.8645856203422966,
+          "skip_bigram": 0.0839129156935915,
+          "quote_open": 3.588192997003923,
+          "quote_content": 2.643203200953962,
+          "tok_trigram": 0.09005788677698537
+        },
+        "per_rule_n": {
+          "cat_bigram": 17716,
+          "cat_trigram": 1300,
+          "place_bigram": 1463,
+          "paren_open": 774,
+          "paren_content": 2251,
+          "skip_trigram": 1482,
+          "induction": 1410,
+          "noun_bigram": 1159,
+          "skip_bigram": 2065,
+          "quote_open": 758,
+          "quote_content": 2216,
+          "tok_trigram": 174
+        },
+        "bracket_edit": {
+          "n": 128,
+          "new_before": 0.0005026759881059384,
+          "new_after": 0.5346025662729517,
+          "old_before": 0.5384000795893371,
+          "old_after": 0.000572163906365164,
+          "new_effect": 0.5340998902848457,
+          "oracle_new_effect": 0.5494791666666666,
+          "by_content_length": {
+            "2": 58,
+            "3": 38,
+            "4": 32
+          }
+        },
+        "examples": [
+          {
+            "prefix": "( old bob new henry",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 1.0
+          },
+          {
+            "prefix": "( red dave",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          },
+          {
+            "prefix": "[ old small grace",
+            "changed_opener": "(",
+            "original_closer": "]",
+            "new_closer": ")",
+            "oracle_closer_mass": 0.5
+          },
+          {
+            "prefix": "( red alice",
+            "changed_opener": "[",
+            "original_closer": ")",
+            "new_closer": "]",
+            "oracle_closer_mass": 0.3333333333333333
+          }
+        ]
+      }
+    }
+  ],
+  "caveat": "Same joint-rule DGP at train and evaluation, disjoint random streams. No whole-task training holdout. Bracket edit changes only opener in a shared-content span; model competence must be judged against oracle effect and per-rule CE separately. Surface naturalness is not established."
+}

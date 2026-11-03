@@ -142,3 +142,16 @@ tokens fixed. Graphs should show the planted conditional table, full-model
 probabilities, weight paths, and per-row causal effects. Preserve bracket
 closure separately: the legacy `skip_trigram` label means opener-dependent
 closing, not a generic skip-trigram relation.
+
+The [crossed-skip joint control](CROSSED_SKIP_JOINT_DGP_AND_CIRCUITS.md) now
+implements and passes that mechanistic screen: 16 crossed pairs, exact
+short-distance anchor edits, a competent two-layer model, and retained
+two-cue behavior plus causal anchor paths after 60% attention pruning.
+Its FineWeb comparison is still strongly negative. The next **realism** step
+must use more plausible document relations, not just add crossed symbolic
+rules. The reviewed FineWeb panel contains recurring field-value/numeric
+bindings, conditional actions, attribution, and list or FAQ scope; these are
+better grounded candidates for a shared sampled document state than V11's
+literal heading→place mixture. Keep the crossed model as a control for
+whether canonicalization or sparse featurizers recover known reuse, while
+building and auditing the richer DGP separately.

@@ -16,6 +16,7 @@ sys.path.insert(0,_source.source)
 
 from generator_v3 import LanguageV3
 from original_v3_shared_bracket import LanguageV3SharedBracket
+from original_v3_crossed_skip import LanguageV3CrossedSkip
 from audit_fineweb_surfaces import DEFAULT_TOKENIZER
 from audit_surface_repetition import WORD,form_cues,score
 from fineweb_random_form_panel import first_words
@@ -46,8 +47,9 @@ def main():
              for row in rows]
     old=synthetic(LanguageV3(seed=a.seed),len(rows),a.length)
     new=synthetic(LanguageV3SharedBracket(seed=a.seed),len(rows),a.length)
+    crossed=synthetic(LanguageV3CrossedSkip(seed=a.seed),len(rows),a.length)
     eligible=[i for i in range(len(rows)) if all(len(WORD.findall(group[i]))>=a.words
-             for group in (natural,old,new))]
+             for group in (natural,old,new,crossed))]
     assert eligible
     def summary(group):
         cropped=[first_words(group[i],a.words) for i in eligible]
@@ -56,6 +58,7 @@ def main():
                 fineweb_sha256=hashlib.sha256(rows.numpy().tobytes()).hexdigest(),
                 n_word_matched=len(eligible),fineweb=summary(natural),
                 original_v3=summary(old),shared_bracket_v3=summary(new),
+                crossed_skip_v3=summary(crossed),
                 caveat='This disjoint FineWeb panel has been used in earlier '
                        'toy-language development, so the comparison is '
                        'diagnostic, not fresh confirmation. GPT and toy tokens '
@@ -64,7 +67,7 @@ def main():
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(json.dumps(result,indent=2)+'\n')
     print('n',len(eligible))
-    for name in ('fineweb','original_v3','shared_bracket_v3'):
+    for name in ('fineweb','original_v3','shared_bracket_v3','crossed_skip_v3'):
         print(name,result[name])
 
 

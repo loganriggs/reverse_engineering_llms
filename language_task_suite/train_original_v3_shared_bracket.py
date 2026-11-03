@@ -20,6 +20,7 @@ from generator_v3 import make_batch
 from model import BilinearGPT,Config
 from original_v3_shared_bracket import (LanguageV3SharedBracket,
                                         bracket_close_distribution)
+from original_v3_crossed_skip import LanguageV3CrossedSkip
 
 
 @torch.no_grad()
@@ -95,6 +96,8 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--source',type=Path,
                    default=Path('/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits'))
+    p.add_argument('--generator',choices=['shared_bracket','crossed_skip'],
+                   default='shared_bracket')
     p.add_argument('--depth',type=int,default=2)
     p.add_argument('--width',type=int,default=64)
     p.add_argument('--heads',type=int,default=4)
@@ -106,23 +109,42 @@ def main():
     p.add_argument('--eval-every',type=int,default=250)
     p.add_argument('--eval-streams',type=int,default=256)
     p.add_argument('--edit-limit',type=int,default=128)
+    p.add_argument('--resume-checkpoint',type=Path)
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output-dir',type=Path,required=True)
     a=p.parse_args()
     torch.set_num_threads(1)
     torch.manual_seed(a.seed)
     device=torch.device(a.device)
-    config=Config(vocab_size=54,n_layer=a.depth,n_head=a.heads,
+    generator_class=(LanguageV3CrossedSkip if a.generator=='crossed_skip'
+                     else LanguageV3SharedBracket)
+    train_gen=generator_class(seed=a.seed+1000)
+    config=Config(vocab_size=len(train_gen.vocab),n_layer=a.depth,n_head=a.heads,
                   n_embd=a.width,seq_len=a.length-1,
                   block_has_mlp=(False,)*a.depth,
                   use_rmsnorm=False,use_qk_norm=False,use_final_norm=False)
     model=BilinearGPT(config).to(device)
     opt=torch.optim.AdamW(model.parameters(),lr=a.lr,weight_decay=0.)
-    train_gen=LanguageV3SharedBracket(seed=a.seed+1000)
+    a.output_dir.mkdir(parents=True,exist_ok=True)
     records=[]
+    start_step=0
     start_time=time.time()
+    if a.resume_checkpoint is not None:
+        saved=torch.load(a.resume_checkpoint,map_location=device,weights_only=False)
+        assert saved['generator']==generator_class.__name__
+        assert saved['model_config']==vars(config)
+        model.load_state_dict(saved['model'])
+        opt.load_state_dict(saved['optimizer'])
+        train_gen.rng.setstate(saved['generator_rng'])
+        torch.set_rng_state(saved['torch_rng'].cpu())
+        if device.type=='cuda':
+            torch.cuda.set_rng_state_all([state.cpu()
+                                          for state in saved['cuda_rng']])
+        records=saved['records']
+        start_step=saved['step']
+        start_time=time.time()-saved['elapsed_seconds']
     def snapshot(step):
-        scores=evaluate(model,LanguageV3SharedBracket(seed=a.seed+2000),
+        scores=evaluate(model,generator_class(seed=a.seed+2000),
             a.eval_streams,a.length,32,device,a.edit_limit)
         records.append(dict(step=step,elapsed_seconds=time.time()-start_time,
                             scores=scores))
@@ -134,9 +156,19 @@ def main():
               'opener effect',round(scores['bracket_edit']['new_effect'],3),
               'oracle',round(scores['bracket_edit']['oracle_new_effect'],3),
               flush=True)
-    snapshot(0)
+        state=dict(step=step,model=model.state_dict(),optimizer=opt.state_dict(),
+                   model_config=vars(config),generator=generator_class.__name__,
+                   generator_rng=train_gen.rng.getstate(),
+                   torch_rng=torch.get_rng_state(),
+                   cuda_rng=(torch.cuda.get_rng_state_all()
+                             if device.type=='cuda' else None),
+                   records=records,elapsed_seconds=time.time()-start_time)
+        temporary=a.output_dir/'resume_latest.pt.tmp'
+        torch.save(state,temporary)
+        temporary.replace(a.output_dir/'resume_latest.pt')
+    if start_step==0:snapshot(0)
     model.train()
-    for step in range(1,a.steps+1):
+    for step in range(start_step+1,a.steps+1):
         x,y,_,_=make_batch(train_gen,a.batch_size,a.length,device)
         logits=model(x)[0]
         loss=F.cross_entropy(logits.flatten(0,1),y.flatten())
@@ -148,9 +180,9 @@ def main():
         opt.step()
         if step%a.eval_every==0 or step==a.steps:
             snapshot(step)
-    a.output_dir.mkdir(parents=True,exist_ok=True)
     torch.save(dict(model=model.state_dict(),config=vars(config),
-                    generator='LanguageV3SharedBracket'),a.output_dir/'model.pt')
+                    generator=generator_class.__name__,step=a.steps),
+               a.output_dir/'model.pt')
     result=dict(config={k:str(v) if isinstance(v,Path) else v for k,v in vars(a).items()},
                 model_config=vars(config),records=records,
                 caveat='Same joint-rule DGP at train and evaluation, disjoint '
