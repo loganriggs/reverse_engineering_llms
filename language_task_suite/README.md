@@ -11,6 +11,9 @@ procedure, and math as a Bayesian mixture with an exact prefix oracle and
 but still fails the FineWeb lexical-diversity screen and does not establish a
 learned source-binding circuit. The older [multi-genre benchmark](MULTI_GENRE_RESULTS.md)
 has separate Guide/FAQ/Policy grammars and is also far from natural web text.
+The [lexical ceiling audit](GENRE_V3_LEXICAL_CEILING.md) shows that V3's
+repeated frame words alone already exceed the FineWeb top-ten frequency share,
+so expanding nouns and names cannot repair this fixed grammar.
 
 For concrete generated sentences, what each task label scores, and the
 measured word-frequency gap to FineWeb, see [sampled examples and Zipf
