@@ -15,6 +15,9 @@ The [within-kind renderer pilot](V7_RENDERER_VARIATION_PILOT.md) compares
 paired worlds at three rates of alternate introduction and recap frames.
 It preserves visible answers but increases top-ten word concentration at
 high use, so the optional frames are not the adopted training distribution.
+The [paired human sports Zipf reference](NATURAL_SPORTS_ZIPF_REFERENCE.md)
+shows that RotoWire/SBNation themselves differ from broad FineWeb; the
+viewer plots all three natural and sampled panels.
 
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The

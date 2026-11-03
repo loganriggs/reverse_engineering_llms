@@ -277,6 +277,7 @@ def _zipf_comparison():
     """Equal-length lexical windows; the V7 arm conditions on long documents."""
     frozen = _json(Path('results/v14_zipf_seed99851_n480/'
                         'v14_vs_fineweb_word_rank.json'))
+    sports = _json(Path('results/natural_sports_zipf_n480.json'))
     rng = random.Random(99852)
     rows = []
     attempts = 0
@@ -307,8 +308,9 @@ def _zipf_comparison():
                        'alphabetic-word regex. V7 samples only eligible '
                        'long narrative/event/cross documents, so this is '
                        'not the full V7 mixture. FineWeb and V14 use the '
-                       'previously frozen 480-window reference audit; '
-                       'these are equal-sized, not paired documents.'),
+                       'previously frozen reference audit. Human sports '
+                       'reports use unique training games. Panels are '
+                       'equal-sized, independent, and from different genres.'),
             'caveat': ('A near -1 middle-rank slope alone does not mean '
                        'Zipfian natural language: head mass and vocabulary '
                        'tail matter, and lexical frequency does not test '
@@ -319,9 +321,14 @@ def _zipf_comparison():
                 {'name': 'V14 sampled grammar', 'summary': frozen['summary']['V14'],
                  'ranks': frozen['ranks']['V14']},
                 {'name': 'V7 long-document sample', 'summary': v7,
-                 'ranks': rank}],
+                 'ranks': rank},
+                *[{'name': 'Human '+name.upper(),
+                   'summary': sports['panels'][name]['summary'],
+                   'ranks': sports['panels'][name]['ranks']}
+                  for name in ('rotowire', 'sbnation')]],
             'reference': 'V14_SAMPLED_EXAMPLES_AND_ZIPF.md; '
-                         'DOCUMENT_MIXTURE_V7_CROSS_AND_TRANSFER.md'}
+                         'DOCUMENT_MIXTURE_V7_CROSS_AND_TRANSFER.md; '
+                         'NATURAL_SPORTS_ZIPF_REFERENCE.md'}
 
 
 def build(cache_path, refresh):
@@ -381,6 +388,7 @@ def _fingerprint():
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
         'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
+    paths.append(HERE/'results/natural_sports_zipf_n480.json')
     paths.append(HERE/'results/v7_zipf_by_kind_n500.json')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
