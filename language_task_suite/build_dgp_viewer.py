@@ -779,6 +779,7 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    packed = _json(Path('results/v13_packed_intro_n64.json'))
     rule_windows = _json(Path('results/rule_window_form_v14_v2_n128.json'))
     agreement = _json(Path('results/treebank_agreement_subject_holdout_100kfit_50ktrain_balanced_depth2_4_3000.json'))
     causal = _json(Path('results/treebank_agreement_subject_holdout_100kfit_causal_n1000.json'))
@@ -796,6 +797,16 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Packing facts across clauses does not solve form',
+         'status': 'Truth checks pass; paired V10 form comparison fails',
+         'finding': (f"Across two 64-world panels, full packing has "
+                     f"{100*packed['panels'][0]['first100_form']['pack_1']['repeated_across_docs_trigram_occurrence_share']:.1f}%/"
+                     f"{100*packed['panels'][1]['first100_form']['pack_1']['repeated_across_docs_trigram_occurrence_share']:.1f}% "
+                     "cross-document repeated trigrams versus "
+                     f"{100*packed['panels'][0]['first100_form']['v10']['repeated_across_docs_trigram_occurrence_share']:.1f}%/"
+                     f"{100*packed['panels'][1]['first100_form']['v10']['repeated_across_docs_trigram_occurrence_share']:.1f}% "
+                     "for V10. The proposition graph itself needs variation."),
+         'report': 'PACKED_PROPOSITION_INTRO_RESULT.md'},
         {'title': 'Rule-bearing language form remains repetitive',
          'status': 'V14 and five-frame V2 fail the local form gate',
          'finding': (f'V14 mixed-object contexts repeat cross-document '
@@ -998,6 +1009,7 @@ def _fingerprint():
     paths.append(HERE/'sports_document_actplan_v1.py')
     paths.append(HERE/'sports_combined_result_record_renderer.py')
     paths.append(HERE/'results/rule_window_form_v14_v2_n128.json')
+    paths.append(HERE/'results/v13_packed_intro_n64.json')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',

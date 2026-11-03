@@ -54,6 +54,10 @@ The [rule-window form audit](RULE_WINDOW_FORM_AUDIT.md) checks 41-word contexts
 around actual object, verb, bracket, source, and conditional-action sites.
 Those windows remain much more repetitive than frozen FineWeb windows even
 when whole-document openings are set aside.
+The [packed-proposition pilot](PACKED_PROPOSITION_INTRO_RESULT.md) keeps a
+typed multi-rule world and visible-answer checks while coordinating initial
+facts across objects. It fails the paired V10 form comparison, indicating
+that varied proposition *content* matters more than packing the same facts.
 [Open the phone viewer on GitHub Pages](https://loganriggs.github.io/reverse_engineering_llms/).
 This stable URL receives the latest committed snapshot after each push and Pages build.
 GitHub's file view displays the HTML source rather than rendering it.
