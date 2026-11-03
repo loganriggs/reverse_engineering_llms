@@ -29,6 +29,7 @@ from surface_mixture_v7 import SurfaceMixtureV7
 from surface_mixture_v8 import SurfaceMixtureV8
 from surface_mixture_v10_linked_events import SurfaceMixtureV10LinkedEvents
 from surface_mixture_v10_linked_events import linked_state
+from surface_mixture_v11_section_topic import SurfaceMixtureV11SectionTopic
 from surface_alias_mixture import AliasMixtureLanguage
 from softmax_attention_control import configure_attention
 
@@ -82,6 +83,7 @@ def make_eval(gen, n, length, device):
     nested_inner = np.zeros((n, length), dtype=bool)
     nested_outer = np.zeros((n, length), dtype=bool)
     bracket_close = np.zeros((n, length), dtype=bool)
+    section_topic_place = np.zeros((n, length), dtype=bool)
     for b, (row, labs, distributions) in enumerate(zip(ids, labels, qs)):
         for t in range(1, len(row)):
             for token, p in distributions[t].items():
@@ -115,6 +117,8 @@ def make_eval(gen, n, length, device):
                 nested_outer[b, t-1] = True
             elif labs[t] == 'bracket_close':
                 bracket_close[b, t-1] = True
+            elif labs[t] == 'section_topic_place':
+                section_topic_place[b, t-1] = True
     assert np.allclose(q.sum(-1), 1)
     return dict(x=z[:, :-1], y=z[:, 1:], q=torch.from_numpy(q).to(device),
                 verb=torch.from_numpy(verb).to(device),
@@ -129,7 +133,8 @@ def make_eval(gen, n, length, device):
                 scope_answer=torch.from_numpy(scope_answer).to(device),
                 nested_inner=torch.from_numpy(nested_inner).to(device),
                 nested_outer=torch.from_numpy(nested_outer).to(device),
-                bracket_close=torch.from_numpy(bracket_close).to(device))
+                bracket_close=torch.from_numpy(bracket_close).to(device),
+                section_topic_place=torch.from_numpy(section_topic_place).to(device))
 
 
 def query_counterfactuals(gen, x, answer_mask):
@@ -328,6 +333,8 @@ def evaluate(model, data):
         masks['nested_close_outer'] = data['nested_outer']
     if data['bracket_close'].any():
         masks['bracket_close'] = data['bracket_close']
+    if data['section_topic_place'].any():
+        masks['section_topic_place'] = data['section_topic_place']
     return {name: dict(n=int(mask.sum()), kl=float(kl[mask].mean()),
                        oracle_entropy=float(entropy[mask].mean()),
                        sampled_ce=float(sample_ce[mask].mean()))
@@ -338,7 +345,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--source', default='/home/loganriggs/Coding/toy_models_of_tensor_networks/attn_circuits')
     p.add_argument('--depths', default='1,2,3,4')
-    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'alias'], default='v1')
+    p.add_argument('--generator', choices=['v1', 'v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11', 'alias'], default='v1')
     p.add_argument('--parenthetical-rate', type=float, default=.55)
     p.add_argument('--alias-fraction', type=float, default=.65)
     p.add_argument('--alias-use', type=float, default=.65)
@@ -403,6 +410,9 @@ def main():
     p.add_argument('--linked-object-mass',type=float,default=.65)
     p.add_argument('--linked-question-mass',type=float,default=.30)
     p.add_argument('--linked-query-key-mass',type=float,default=.65)
+    p.add_argument('--section-topic-mass',type=float,default=.35)
+    p.add_argument('--section-topic-soft-weight',type=float,default=0.,
+                   help='Additional exact-oracle CE on V11 heading-influenced place slots')
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -449,6 +459,8 @@ def main():
     a = p.parse_args()
     if a.verb_soft_weight and a.verb_sampled_weight:
         p.error('Select only one extra verb objective')
+    if a.section_topic_soft_weight and a.generator!='v11':
+        p.error('Section-topic supervision requires the v11 generator')
     if a.alias_causal_weight and a.generator != 'alias':
         p.error('Alias causal supervision requires the alias generator')
     if a.object_counterfactual_weight and a.generator != 'v3_nested_varlen':
@@ -461,7 +473,7 @@ def main():
         p.error('Verb-only curriculum currently requires the alias generator')
     if a.mask_verb_ce and (a.verb_soft_weight or a.verb_sampled_weight):
         p.error('Cannot mask verb CE while adding a verb objective')
-    if a.object_vocab_size is not None and a.generator not in ('v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.object_vocab_size is not None and a.generator not in ('v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Object vocabulary restriction requires v3/v4/v5 generator')
     if (a.subject_repeat_mass is not None or a.subject_return_mass is not None) and a.generator not in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3_nested_varlen'):
         p.error('Subject repeat/return masses apply to v2 variants only')
@@ -474,17 +486,17 @@ def main():
         p.error('Nested options require a v2_nested generator')
     if a.extra_mass is not None and a.generator not in ('v2_nested_varlen', 'v3_nested_varlen'):
         p.error('Extra filler mass requires v2_nested_varlen')
-    if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.answer_soft_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Question-answer supervision requires v4/v5 generator')
-    if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.hard_query_rate is not None and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Hard-query rate requires v4/v5 generator')
-    if a.counterbalanced_queries and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.counterbalanced_queries and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Counterbalanced queries require v4/v5 generator')
-    if a.query_counterfactual_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.query_counterfactual_weight and a.generator not in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Query counterfactuals require v4/v5 generator')
-    if a.count_soft_weight and a.generator not in ('v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.count_soft_weight and a.generator not in ('v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Count supervision requires v5/v6 generator')
-    if (a.source_soft_weight or a.source_counterfactual_weight) and a.generator not in ('v6', 'v7', 'v8', 'v10'):
+    if (a.source_soft_weight or a.source_counterfactual_weight) and a.generator not in ('v6', 'v7', 'v8', 'v10', 'v11'):
         p.error('Source supervision requires v6 generator')
     if a.exclude_source_pairs and a.generator != 'v6':
         p.error('Source-pair holdout currently requires the v6 generator')
@@ -492,7 +504,7 @@ def main():
         p.error('Unquoted source statements currently require the v6 generator')
     if a.padded_unquoted_share and a.generator != 'v6':
         p.error('Padded unquoted source statements currently require the v6 generator')
-    if (a.scope_soft_weight or a.scope_counterfactual_weight) and a.generator not in ('v7', 'v8', 'v10'):
+    if (a.scope_soft_weight or a.scope_counterfactual_weight) and a.generator not in ('v7', 'v8', 'v10', 'v11'):
         p.error('Scope supervision requires v7 generator')
     sys.path.insert(0, a.source)
     from model import BilinearGPT, Config
@@ -516,9 +528,10 @@ def main():
                        'v7': SurfaceMixtureV7,
                        'v8': SurfaceMixtureV8,
                        'v10': SurfaceMixtureV10LinkedEvents,
+                       'v11': SurfaceMixtureV11SectionTopic,
                        'alias': AliasMixtureLanguage}[a.generator]
     generator_kwargs = ({'object_vocab_size': a.object_vocab_size}
-                        if a.generator in ('v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'v10') else {})
+                        if a.generator in ('v3', 'v3_nested_varlen', 'v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11') else {})
     if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3_nested_varlen') and a.subject_repeat_mass is not None:
         generator_kwargs['subject_repeat_mass'] = a.subject_repeat_mass
     if a.generator in ('v2', 'v2_varied', 'v2_nested', 'v2_nested_varlen', 'v3_nested_varlen') and a.subject_return_mass is not None:
@@ -537,31 +550,33 @@ def main():
             generator_kwargs['inner_mass'] = a.inner_mass
     if a.generator in ('v2_nested_varlen', 'v3_nested_varlen') and a.extra_mass is not None:
         generator_kwargs['extra_mass'] = a.extra_mass
-    if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.generator in ('v4', 'v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         generator_kwargs['hard_query_rate'] = a.hard_query_rate
         generator_kwargs['counterbalanced_queries'] = a.counterbalanced_queries
         generator_kwargs['question_rate'] = a.question_rate
-    if a.generator in ('v5', 'v6', 'v7', 'v8', 'v10'):
+    if a.generator in ('v5', 'v6', 'v7', 'v8', 'v10', 'v11'):
         generator_kwargs['count_rate'] = (a.count_rate if a.count_rate is not None
                                           else (.20 if a.generator == 'v5' else 0.))
-    if a.generator in ('v6', 'v7', 'v8', 'v10'):
+    if a.generator in ('v6', 'v7', 'v8', 'v10', 'v11'):
         generator_kwargs['quote_rate'] = a.quote_rate
         generator_kwargs['source_rate'] = a.source_rate
     if a.generator == 'v6':
         generator_kwargs['exclude_source_pairs'] = a.exclude_source_pairs
         generator_kwargs['unquoted_source_rate'] = a.unquoted_source_rate
         generator_kwargs['padded_unquoted_share'] = a.padded_unquoted_share
-    if a.generator in ('v7', 'v8', 'v10'):
+    if a.generator in ('v7', 'v8', 'v10', 'v11'):
         generator_kwargs['section_rate'] = a.section_rate
         generator_kwargs['detail_rate'] = a.detail_rate
         generator_kwargs['scope_question_rate'] = a.scope_question_rate
-    if a.generator == 'v10':
+    if a.generator in ('v10','v11'):
         generator_kwargs.update(source_object_mass=a.source_object_mass,
           source_subject_mass=a.source_subject_mass,bracket_rate=a.bracket_rate,
           linked_subject_mass=a.linked_subject_mass,
           linked_object_mass=a.linked_object_mass,
           linked_question_mass=a.linked_question_mass,
           linked_query_key_mass=a.linked_query_key_mass)
+    if a.generator == 'v11':
+        generator_kwargs['section_topic_mass']=a.section_topic_mass
     if a.generator == 'alias':
         generator_kwargs.update(parenthetical_rate=a.parenthetical_rate,
                                 alias_fraction=a.alias_fraction,
@@ -606,6 +621,7 @@ def main():
                     or a.source_soft_weight > 0 or a.source_counterfactual_weight > 0
                     or a.scope_soft_weight > 0 or a.scope_counterfactual_weight > 0
                     or a.nested_soft_weight > 0
+                    or a.section_topic_soft_weight > 0
                     or a.mask_verb_ce or a.verb_only_soft):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
@@ -699,6 +715,11 @@ def main():
                     logp = F.log_softmax(logits.float(), dim=-1)
                     expected_ce = -(train['q']*logp).sum(-1)
                     loss = loss + a.nested_soft_weight*expected_ce[mask].mean()
+            if a.section_topic_soft_weight > 0 and train['section_topic_place'].any():
+                logp = F.log_softmax(logits.float(), dim=-1)
+                expected_ce = -(train['q']*logp).sum(-1)
+                loss = loss + a.section_topic_soft_weight*expected_ce[
+                    train['section_topic_place']].mean()
             if alias_cache is not None:
                 chosen = []
                 for group in alias_cache.values():
@@ -747,6 +768,8 @@ def main():
                       if 'nested_close_outer' in scores else 'n/a',
                       'bracket KL', round(scores['bracket_close']['kl'], 4)
                       if 'bracket_close' in scores else 'n/a',
+                      'topic-place KL', round(scores['section_topic_place']['kl'], 4)
+                      if 'section_topic_place' in scores else 'n/a',
                       'elapsed', round(time.time()-t0, 1), flush=True)
                 model.train()
         torch.save(model.state_dict(), output_dir/f'model_depth{depth}.pt')
