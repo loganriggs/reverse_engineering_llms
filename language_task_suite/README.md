@@ -57,6 +57,11 @@ allows common tally verbs and written numbers while verifying every stated
 stat and excluding other claims. It admits 153 RotoWire training clauses
 across 132 games, including 56 needing extended fields. This improves the
 safe candidate lower bound but remains too sparse for varied documents.
+The [structured-relation extension](PLAYER_RELATION_CLAUSE_AUDIT.md) verifies
+bench role, win/loss role, and team/game-high score against complete game
+records. Its narrow whole-clause grammar adds only 9 RotoWire and 8 SBNation
+training clauses. The clause-bank detour is closed; broader document planning
+and semantic realization are needed before model training on this source.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
