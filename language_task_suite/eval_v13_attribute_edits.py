@@ -27,6 +27,7 @@ def collect(seed, nstreams, length, kwargs, max_edits,
             generator_cls=SurfaceMixtureV13Attributes):
     gen=generator_cls(seed=seed,**COMMON,**kwargs)
     streams=[]; edits=[]
+    excluded=defaultdict(int)
     for _ in range(nstreams):
         ids,labels,qs=gen.sample_sequence(length)
         words=[gen.id2token[v] for v in ids]
@@ -86,7 +87,15 @@ def collect(seed, nstreams, length, kwargs, max_edits,
             edited_q=gen.next_distribution(altered)
             target=replacement if label=='attribute_adjective' else item
             oracle_response=edited_q.get(target,0.)-qs[t].get(target,0.)
-            assert oracle_response>0 if label=='attribute_adjective' else oracle_response<0
+            if abs(oracle_response)<1e-12:
+                # A repaired earlier fact can change which items are already
+                # mentioned; some supported edits then have no effect at this
+                # particular prediction site. They are not causal contrasts.
+                excluded[label+'_no_target_effect'] += 1
+                continue
+            assert (oracle_response>0 if label=='attribute_adjective'
+                    else oracle_response<0), (
+                label,oracle_response,target)
             edits.append(dict(kind=label,x=ids[:-1],query=t-1,
                               position=pos,target=target,
                               new=replacement,old=old,item=item,
@@ -108,7 +117,7 @@ def collect(seed, nstreams, length, kwargs, max_edits,
     conditional=[e for e in edits if e['kind']=='conditional_action']
     rng.shuffle(conditional)
     selected.extend(conditional[:max_edits])
-    return gen,streams,selected
+    return gen,streams,selected,dict(excluded)
 
 
 @torch.no_grad()
@@ -174,6 +183,10 @@ def main():
     p.add_argument('--batch-size',type=int,default=16)
     p.add_argument('--device',default='cpu')
     p.add_argument('--generator',choices=('v13','v14'),default='v13')
+    p.add_argument('--conditional-rate',type=float,
+                   help='Override V14 rate for older checkpoints without generator kwargs')
+    p.add_argument('--eval-conditional-rate',type=float,
+                   help='Evaluate V14 at this rate instead of its training rate')
     p.add_argument('--output',type=Path,required=True)
     args=p.parse_args()
     torch.set_num_threads(1)
@@ -181,6 +194,17 @@ def main():
     generator_cls=(SurfaceMixtureV13Attributes if args.generator=='v13'
                    else SurfaceMixtureV14Conditional)
     assert saved['generator']==generator_cls.__name__
+    recorded_rate=saved.get('generator_kwargs',{}).get(
+        'conditional_continuation_rate')
+    if (args.conditional_rate is not None and recorded_rate is not None
+            and args.conditional_rate!=recorded_rate):
+        p.error('Requested conditional rate disagrees with checkpoint')
+    train_rate=(args.conditional_rate if args.conditional_rate is not None
+                else recorded_rate if recorded_rate is not None else .35)
+    conditional_rate=(args.eval_conditional_rate
+                      if args.eval_conditional_rate is not None else train_rate)
+    if args.generator=='v14' and not 0 <= conditional_rate < 1:
+        p.error('--eval-conditional-rate must be in [0, 1)')
     model=BilinearGPT(Config(**saved['config'])).to(args.device)
     model.load_state_dict(saved['model'])
     if 'mask' in saved:
@@ -191,11 +215,13 @@ def main():
     for name,kwargs in (('reference',REFERENCE),('diagnostic',DIAGNOSTIC)):
         kwargs=dict(kwargs)
         if args.generator=='v14':
-            kwargs['conditional_continuation_rate']=.35
-        gen,streams,edits=collect(args.seed,args.streams,args.length,
-                                  kwargs,args.max_edits,generator_cls)
+            kwargs['conditional_continuation_rate']=conditional_rate
+        gen,streams,edits,excluded=collect(
+            args.seed,args.streams,args.length,
+            kwargs,args.max_edits,generator_cls)
         panels[name]=score(model,gen,streams,edits,
                            torch.device(args.device),args.batch_size)
+        panels[name]['excluded_edits']=excluded
         print(name,'adjective',panels[name]['per_rule'].get('attribute_adjective'),
               'object',panels[name]['per_rule'].get('attribute_object'),
               'conditional',panels[name]['per_rule'].get('conditional_action'),
@@ -203,7 +229,9 @@ def main():
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(dict(
         config={**vars(args),'checkpoint':str(args.checkpoint),
-                'output':str(args.output)},panels=panels,
+                'output':str(args.output),
+                'train_conditional_rate':train_rate,
+                'eval_conditional_rate':conditional_rate},panels=panels,
         caveat='Response is change in model probability of the selected '
                'target after a supported edit. V14 earlier completed '
                'conditional facts also repair their local action. The oracle '

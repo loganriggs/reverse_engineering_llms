@@ -97,10 +97,13 @@ def main():
     p.add_argument('--n',type=int,default=100)
     p.add_argument('--length',type=int,default=256)
     p.add_argument('--regime',choices=('reference','diagnostic'),default='reference')
+    p.add_argument('--conditional-rate',type=float,default=.35)
     p.add_argument('--output',type=Path,required=True)
     args=p.parse_args()
+    if not 0 <= args.conditional_rate < 1:
+        p.error('--conditional-rate must be in [0, 1)')
     kwargs=dict(COMMON,**(REFERENCE if args.regime=='reference' else DIAGNOSTIC),
-                conditional_continuation_rate=.35)
+                conditional_continuation_rate=args.conditional_rate)
     rows=[]
     for seed in (args.seed,args.seed+1):
         inherited=inherited_panel(seed,args.n,args.length,kwargs,

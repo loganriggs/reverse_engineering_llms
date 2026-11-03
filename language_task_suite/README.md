@@ -1,5 +1,13 @@
 # Grounded toy-language task suite (first pass)
 
+The [DGP rule-prevalence and weight-recovery pilot](DGP_CONDITIONAL_RATE_WEIGHT_PILOT.md)
+tests a controlled 0.10-versus-0.60 conditional-action rate at matched model
+training budget. Fresh behavioral edits gate interpretation: only the
+high-rate model learned the local rule. Its 60%-zero attention model retains
+much of the response after no-L1 recovery, but dense and sparse models already
+localize the rule to the same head. This is a mechanism-method pilot on the
+still-stylized V14 stream, not a language-realism improvement.
+
 The [joint-document V1/V2 report](JOINT_DOCUMENT_V1_V2_RESULTS.md)
 tests one sampled stream containing verb mixtures, induction, sections,
 source claims, and brackets. It distinguishes learned bracket closure from

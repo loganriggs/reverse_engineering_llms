@@ -53,6 +53,8 @@ def main():
     p.add_argument('--lr',type=float,default=3e-4)
     p.add_argument('--l1',type=float,default=1e-5)
     p.add_argument('--seed',type=int,default=99441)
+    p.add_argument('--conditional-rate',type=float,
+                   help='Override V14 rate for older checkpoints without generator kwargs')
     p.add_argument('--eval-streams',type=int,default=128)
     p.add_argument('--resume-stage',choices=('dense','pruned_40','pruned_60'))
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
@@ -62,12 +64,22 @@ def main():
     device=torch.device(args.device)
     saved=torch.load(args.checkpoint,map_location=device,weights_only=True)
     assert saved['generator']=='SurfaceMixtureV14Conditional'
+    recorded_rate=saved.get('generator_kwargs',{}).get(
+        'conditional_continuation_rate')
+    if (args.conditional_rate is not None and recorded_rate is not None
+            and args.conditional_rate!=recorded_rate):
+        p.error('Requested conditional rate disagrees with checkpoint')
+    conditional_rate=(args.conditional_rate if args.conditional_rate is not None
+                      else recorded_rate if recorded_rate is not None else .35)
+    if not 0 <= conditional_rate < 1:
+        p.error('--conditional-rate must be in [0, 1)')
     model=BilinearGPT(Config(**saved['config'])).to(device)
     model.load_state_dict(saved['model'])
     params=prunable(model)
     mask={name:torch.ones_like(weight,dtype=torch.bool)
           for name,weight in params.items()}
-    kwargs=dict(COMMON,**REFERENCE,conditional_continuation_rate=.35)
+    kwargs=dict(COMMON,**REFERENCE,
+                conditional_continuation_rate=conditional_rate)
     gen=SurfaceMixtureV14Conditional(seed=args.seed,**kwargs)
     args.output_dir.mkdir(parents=True,exist_ok=True)
     targets=[float(v) for v in args.targets.split(',')]
@@ -78,6 +90,7 @@ def main():
         payload=torch.load(args.output_dir/f'{args.resume_stage}.pt',
                            map_location=device,weights_only=False)
         assert payload['generator']=='SurfaceMixtureV14Conditional'
+        assert payload.get('generator_kwargs',kwargs)==kwargs
         assert payload['config']==saved['config']
         assert payload['targets']==targets
         assert payload['steps_per_round']==args.steps_per_round
@@ -110,6 +123,7 @@ def main():
               'attribute object',scores.get('attribute_object'),flush=True)
         payload=dict(stage=stage,model=model.state_dict(),mask=mask,
             config=saved['config'],generator='SurfaceMixtureV14Conditional',
+            generator_kwargs=kwargs,
             targets=targets,steps_per_round=args.steps_per_round,
             final_steps=args.final_steps,batch_size=args.batch_size,
             length=args.length,lr=args.lr,l1=args.l1,
@@ -122,7 +136,8 @@ def main():
         temporary.replace(args.output_dir/f'{stage}.pt')
         (args.output_dir/'results.json').write_text(json.dumps(dict(
             args={**vars(args),'checkpoint':str(args.checkpoint),
-                  'output_dir':str(args.output_dir)},rows=rows,
+                  'output_dir':str(args.output_dir),
+                  'conditional_continuation_rate':conditional_rate},rows=rows,
             caveat='Only attention projection entries are pruned. Embedding, '
                    'unembedding, and norm weights stay dense. Fixed-panel '
                    'CE does not establish fresh causal fidelity.'),indent=2)+'\n')

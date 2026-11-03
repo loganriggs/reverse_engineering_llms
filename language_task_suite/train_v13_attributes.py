@@ -44,6 +44,9 @@ def main():
     p.add_argument('--regime',choices=('reference','diagnostic'),
                    default='reference')
     p.add_argument('--generator',choices=('v13','v14'),default='v13')
+    p.add_argument('--conditional-rate',type=float,default=.35,
+                   help='V14 probability that an attribute fact continues '
+                        'with a rule-determined action')
     p.add_argument('--eval-every',type=int,default=200)
     p.add_argument('--eval-streams',type=int,default=128)
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
@@ -58,7 +61,9 @@ def main():
     generator_cls=(SurfaceMixtureV13Attributes if args.generator=='v13'
                    else SurfaceMixtureV14Conditional)
     if args.generator=='v14':
-        task_kwargs['conditional_continuation_rate']=.35
+        if not 0 <= args.conditional_rate < 1:
+            p.error('--conditional-rate must be in [0, 1)')
+        task_kwargs['conditional_continuation_rate']=args.conditional_rate
     train_gen=generator_cls(seed=args.seed+1000,**task_kwargs)
     config=Config(vocab_size=len(train_gen.vocab),n_layer=args.depth,
                   n_head=args.heads,n_embd=args.width,
@@ -75,6 +80,7 @@ def main():
         assert saved['generator']==generator_cls.__name__
         assert saved['config']==vars(config)
         assert saved['regime']==args.regime
+        assert saved.get('generator_kwargs',task_kwargs)==task_kwargs
         assert saved['batch_size']==args.batch_size
         assert saved['length']==args.length
         model.load_state_dict(saved['model'])
@@ -100,6 +106,7 @@ def main():
         payload=dict(step=step,model=model.state_dict(),
             optimizer=optimizer.state_dict(),config=vars(config),
             generator=generator_cls.__name__,regime=args.regime,
+            generator_kwargs=task_kwargs,
             batch_size=args.batch_size,length=args.length,
             generator_rng=train_gen.rng.getstate(),
             torch_rng=torch.get_rng_state(),
@@ -131,7 +138,8 @@ def main():
         if step%args.eval_every==0 or step==args.steps:
             snapshot(step)
     torch.save(dict(model=model.state_dict(),config=vars(config),
-                    generator=generator_cls.__name__,step=args.steps),
+                    generator=generator_cls.__name__,
+                    generator_kwargs=task_kwargs,step=args.steps),
                args.output_dir/'model.pt')
 
 

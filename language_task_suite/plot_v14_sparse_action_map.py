@@ -30,7 +30,8 @@ def load(path, device):
         parameters = dict(model.named_parameters())
         for name, mask in saved['mask'].items():
             assert torch.count_nonzero(parameters[name][~mask]) == 0
-    return model
+    return model, saved.get('generator_kwargs',{}).get(
+        'conditional_continuation_rate')
 
 
 def collect(gen, streams, length, per_attribute):
@@ -99,28 +100,40 @@ def main():
     p.add_argument('--streams',type=int,default=1024)
     p.add_argument('--length',type=int,default=256)
     p.add_argument('--per-attribute',type=int,default=24)
+    p.add_argument('--conditional-rate',type=float,
+                   help='Evaluation rate; defaults to saved dense-model rate')
     p.add_argument('--batch-size',type=int,default=24)
     p.add_argument('--device',default='cuda' if torch.cuda.is_available() else 'cpu')
     args=p.parse_args()
     torch.set_num_threads(1)
     device=torch.device(args.device)
+    dense,dense_rate=load(args.dense,device)
+    sparse,sparse_rate=load(args.sparse,device)
+    if dense_rate is not None and sparse_rate is not None:
+        assert dense_rate==sparse_rate, 'dense and sparse models use different DGP rates'
+    rate=(args.conditional_rate if args.conditional_rate is not None
+          else dense_rate if dense_rate is not None else .35)
+    if not 0 <= rate < 1:
+        p.error('--conditional-rate must be in [0, 1)')
     gen=SurfaceMixtureV14Conditional(seed=args.seed,**COMMON,**REFERENCE,
-                                     conditional_continuation_rate=.35)
+                                     conditional_continuation_rate=rate)
     selected=collect(gen,args.streams,args.length,args.per_attribute)
     actions=list(ACTION.values())
     ids=[gen.token2id[action] for action in actions]
-    dense=load(args.dense,device)
-    sparse=load(args.sparse,device)
     truth=np.eye(len(ACTION))
     dense_p=[];sparse_p=[];effect=[];control=[]
+    dense_effect=[];dense_control=[]
     for attribute,rows in selected.items():
         dense_p.append(predictions(dense,rows,ids,device,args.batch_size).mean(0))
         sparse_p.append(predictions(sparse,rows,ids,device,args.batch_size).mean(0))
         e,c=ablations(sparse,rows,gen.token2id[ACTION[attribute]],device,args.batch_size)
         effect.append(e.reshape(-1));control.append(c.reshape(-1))
+        e,c=ablations(dense,rows,gen.token2id[ACTION[attribute]],device,args.batch_size)
+        dense_effect.append(e.reshape(-1));dense_control.append(c.reshape(-1))
     dense_p=np.asarray(dense_p);sparse_p=np.asarray(sparse_p)
     effect=np.asarray(effect);control=np.asarray(control)
-    fig,axes=plt.subplots(1,4,figsize=(17,4.5),layout='constrained')
+    dense_effect=np.asarray(dense_effect);dense_control=np.asarray(dense_control)
+    fig,axes=plt.subplots(1,5,figsize=(21,4.5),layout='constrained')
     for ax,title,mat in zip(axes[:3],('Planted action','Dense full-model probability',
                                     '60%-zero attention probability'),
                             (truth,dense_p,sparse_p)):
@@ -129,23 +142,30 @@ def main():
         ax.set_xticks(range(len(actions)),actions,rotation=60,fontsize=8)
         ax.set_yticks(range(len(ACTION)),list(ACTION),fontsize=8)
     fig.colorbar(im,ax=axes[:3],fraction=.023,pad=.01,label='Full-vocabulary probability')
-    bound=max(float(np.abs(effect).max()),float(np.abs(control).max()),1e-6)
-    im=axes[3].imshow(effect,vmin=-bound,vmax=bound,cmap='coolwarm',aspect='auto')
-    axes[3].set_title('Sparse model: remove attribute edge')
-    axes[3].set_xticks(range(effect.shape[1]),
-                       [f'L{l}H{h}' for l in range(len(sparse.blocks))
-                        for h in range(sparse.config.n_head)],rotation=60,fontsize=8)
-    axes[3].set_yticks(range(len(ACTION)),list(ACTION),fontsize=8)
-    fig.colorbar(im,ax=axes[3],fraction=.07,pad=.02,label='Correct-action probability drop')
+    bound=max(float(np.abs(effect).max()),float(np.abs(dense_effect).max()),
+              float(np.abs(control).max()),float(np.abs(dense_control).max()),1e-6)
+    for ax,mat,title in ((axes[3],dense_effect,'Dense: remove attribute edge'),
+                         (axes[4],effect,'Sparse: remove attribute edge')):
+        im=ax.imshow(mat,vmin=-bound,vmax=bound,cmap='coolwarm',aspect='auto')
+        ax.set_title(title)
+        ax.set_xticks(range(mat.shape[1]),
+                      [f'L{l}H{h}' for l in range(len(sparse.blocks))
+                       for h in range(sparse.config.n_head)],rotation=60,fontsize=8)
+        ax.set_yticks(range(len(ACTION)),list(ACTION),fontsize=8)
+    fig.colorbar(im,ax=axes[3:],fraction=.05,pad=.02,label='Correct-action probability drop')
     fig.suptitle('Fresh V14 conditional-action sites; full-model edge ablation after the selected attention block')
     args.output_dir.mkdir(parents=True,exist_ok=True)
     figure=args.output_dir/'v14_sparse_action_map_and_edges.png'
     fig.savefig(figure,dpi=180)
     plt.close(fig)
-    out=dict(config={k:str(v) if isinstance(v,Path) else v for k,v in vars(args).items()},
+    out=dict(config={**{k:str(v) if isinstance(v,Path) else v
+                        for k,v in vars(args).items()},
+                     'eval_conditional_rate':rate},
              attributes=list(ACTION),actions=actions,planted=truth.tolist(),
              dense_full_probability=dense_p.tolist(),
              sparse_full_probability=sparse_p.tolist(),
+             dense_attribute_edge_target_probability_drop=dense_effect.tolist(),
+             dense_query_self_edge_control_drop=dense_control.tolist(),
              sparse_attribute_edge_target_probability_drop=effect.tolist(),
              sparse_query_self_edge_control_drop=control.tolist(),
              caveat='Only attention projections are pruned. Ablations remove one '
@@ -154,8 +174,9 @@ def main():
                     'on sampled contexts, not circuit uniqueness or sufficiency.')
     (args.output_dir/'v14_sparse_action_map_and_edges.json').write_text(
         json.dumps(out,indent=2)+'\n')
-    print('saved',figure,'mean attribute drop',effect.mean(),
-          'mean self-edge control drop',control.mean(),flush=True)
+    print('saved',figure,'dense/sparse mean attribute drop',
+          dense_effect.mean(),effect.mean(),'dense/sparse self-edge control',
+          dense_control.mean(),control.mean(),flush=True)
 
 
 if __name__=='__main__':main()
