@@ -19,7 +19,10 @@ import torch
 import torch.nn.functional as F
 
 OLD_REPO = Path(__file__).resolve().parents[2]/'reverse_engineer/tensor_language'
-from sports_document_dgp import edit, realize, sample_plan  # noqa: E402
+from sports_document_dgp import (  # noqa: E402
+    PAIR_FORMS, RECAP_FORMS, STAT_FORMS, edit, realize, resources,
+    sample_plan,
+)
 
 # The source-audit import chain loads this package's ``model`` module; the
 # historical DeepModel imports a different top-level module with that name.
@@ -40,14 +43,19 @@ def tokenize(text):
     return [word for word, _, _ in tokens_with_offsets(text)]
 
 
-def draw(n, seed, sbnation_rate, form_entropy, pair_rate):
+def draw(n, seed, sbnation_rate, form_entropy, pair_rate,
+         discourse_entropy, lead_stat_rate, source_group):
     rng = random.Random(seed)
-    return [realize(sample_plan(rng, sbnation_rate=sbnation_rate),
-                    form_entropy=form_entropy, pair_rate=pair_rate)
+    return [realize(sample_plan(rng, sbnation_rate=sbnation_rate,
+                                source_group=source_group),
+                    form_entropy=form_entropy, pair_rate=pair_rate,
+                    discourse_entropy=discourse_entropy,
+                    lead_stat_rate=lead_stat_rate)
             for _ in range(n)]
 
 
-def changed(doc, field, form_entropy, pair_rate):
+def changed(doc, field, form_entropy, pair_rate,
+            discourse_entropy, lead_stat_rate):
     plan = doc.plan
     if field == 'swap_teams':
         plan = edit(plan, field, True)
@@ -60,7 +68,30 @@ def changed(doc, field, form_entropy, pair_rate):
         plan = edit(plan, field, points)
     else:
         raise ValueError(field)
-    return realize(plan, form_entropy=form_entropy, pair_rate=pair_rate)
+    return realize(plan, form_entropy=form_entropy, pair_rate=pair_rate,
+                   discourse_entropy=discourse_entropy,
+                   lead_stat_rate=lead_stat_rate)
+
+
+def source_vocabulary(train):
+    """Vocabulary fixed from public source lexicon, not test documents."""
+    corpora, teams, _ = resources()
+    words = {'<BOS>', '<EOS>', '<PAD>', '<UNK>'}
+    for doc in train:
+        words.update(tokenize(doc.text))
+    for team in teams:
+        words.update(tokenize(team))
+    for rows, templates in corpora.values():
+        for template in templates:
+            words.update(tokenize(' '.join(template.tokens)))
+        for row in rows:
+            for name in row['box_score']['PLAYER_NAME'].values():
+                words.update(tokenize(name))
+    for form in STAT_FORMS+PAIR_FORMS+tuple(
+            value for group in RECAP_FORMS.values() for value in group):
+        words.update(tokenize(form))
+    words.update(str(value) for value in range(151))
+    return {word: i for i, word in enumerate(sorted(words))}
 
 
 def encoded(doc, vocab, n_ctx):
@@ -143,6 +174,8 @@ def main():
     p.add_argument('--sbnation-rate', type=float, default=.5)
     p.add_argument('--form-entropy', type=float, default=1.)
     p.add_argument('--pair-rate', type=float, default=1.)
+    p.add_argument('--discourse-entropy', type=float, default=1.)
+    p.add_argument('--lead-stat-rate', type=float, default=.5)
     p.add_argument('--seed', type=int, default=99021)
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', type=Path, required=True)
@@ -150,23 +183,23 @@ def main():
     a = p.parse_args()
     torch.set_num_threads(4)
     kwargs = dict(sbnation_rate=a.sbnation_rate,
-                  form_entropy=a.form_entropy, pair_rate=a.pair_rate)
-    train = draw(a.train_n, a.seed, **kwargs)
-    test = draw(a.test_n, a.seed+1, **kwargs)
+                  form_entropy=a.form_entropy, pair_rate=a.pair_rate,
+                  discourse_entropy=a.discourse_entropy,
+                  lead_stat_rate=a.lead_stat_rate)
+    train = draw(a.train_n, a.seed, source_group='train', **kwargs)
+    test = draw(a.test_n, a.seed+1, source_group='heldout', **kwargs)
+    assert not {d.plan.source_game_key for d in train} & \
+        {d.plan.source_game_key for d in test}
     assert not {d.text for d in train} & {d.text for d in test}
-    edits = {field: [changed(d, field, a.form_entropy, a.pair_rate)
+    edits = {field: [changed(d, field, a.form_entropy, a.pair_rate,
+                             a.discourse_entropy, a.lead_stat_rate)
                      for d in test]
              for field in ('swap_teams', 'high_score', 'points')}
-    # Vocabulary is fixed before optimization. This pilot exposes test word
-    # types, but no held-out document or label, so no lexical OOD claim.
-    vocab = {word: i for i, word in enumerate(sorted(
-        {'<BOS>', '<EOS>', '<PAD>', '<UNK>'} |
-        {t for doc in train+test+sum(edits.values(), [])
-         for site in doc.sites
-         for answer in site.candidates
-         for t in tokenize(answer)} |
-        {t for doc in train+test+sum(edits.values(), [])
-         for t in tokenize(doc.text)}))}
+    vocab = source_vocabulary(train)
+    unseen = {t for doc in test+sum(edits.values(), [])
+              for t in tokenize(doc.text) if t not in vocab}
+    if unseen:
+        raise ValueError(f'Test word types absent from source vocabulary: {sorted(unseen)}')
     n_ctx = max(len(tokenize(d.text))+1
                 for d in train+test+sum(edits.values(), []))
     train_data = [encoded(doc, vocab, n_ctx) for doc in train]
@@ -176,10 +209,10 @@ def main():
                   vocab_size=len(vocab), context=n_ctx,
                   objective='ordinary full next-token CE; no rule labels in training',
                   caveats=['Candidate DGP fails natural sports form audit',
-                           'Test vocabulary exposed before training; no lexical OOD claim',
+                           'Corpus-wide lexicon is known; no lexical OOD claim',
                            'Site accuracy ranks candidates, not full-vocabulary accuracy',
                            'Multi-token candidate sums can favor shorter names',
-                           'Random world split; no whole-template or game holdout'],
+                           'Source-game holdout; no score-template holdout'],
                   results={})
     a.output.parent.mkdir(parents=True, exist_ok=True)
     for depth in [int(v) for v in a.depths.split(',')]:

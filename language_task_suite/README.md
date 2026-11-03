@@ -16,6 +16,11 @@ The [sampled sports-document V1 audit](SPORTS_DOCUMENT_DGP_V1_AUDIT.md)
 adds three linked, visible-prefix rules and selective edits. It substantially
 reduces repetition relative to the linked synthetic report, but still falls
 well short of natural sports reports; no new model or weight result is claimed.
+The [V2 discourse-order audit](SPORTS_DOCUMENT_DGP_V2_DISCOURSE_AUDIT.md)
+adds game-grouped holdouts and variable placement of score and recap clauses.
+It improves repetition near task answers but slightly worsens whole-document
+repetition; a source screen shows that natural player-stat sentences usually
+need more world facts than a points-only plan provides.
 
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document

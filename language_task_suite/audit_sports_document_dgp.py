@@ -14,7 +14,8 @@ from compare_v12_fineweb_fresh import first_words
 from project_report_dgp import realize as report_realize
 from project_report_dgp import sample_plan as report_plan
 from sports_document_dgp import (
-    answer_from_visible_prefix, edit, realize, resources, sample_plan,
+    answer_from_visible_prefix, edit, game_partition, realize, resources,
+    sample_plan,
 )
 
 
@@ -39,14 +40,20 @@ def _window(doc, site):
                     doc.text[site.start:].split()[:16])
 
 
-def semantic(seed, n, sbnation_rate, form_entropy, pair_rate):
+def semantic(seed, n, sbnation_rate, form_entropy, pair_rate,
+             discourse_entropy=0., lead_stat_rate=0., game_group='all'):
     rng = random.Random(seed)
     counts = Counter()
     examples = []
     for i in range(n):
-        plan = sample_plan(rng, sbnation_rate=sbnation_rate)
+        plan = sample_plan(rng, sbnation_rate=sbnation_rate,
+                           source_group=game_group)
+        assert game_group == 'all' or \
+            game_partition(plan.source_game_key) == game_group
         doc = realize(plan, form_entropy=form_entropy,
-                      pair_rate=pair_rate)
+                      pair_rate=pair_rate,
+                      discourse_entropy=discourse_entropy,
+                      lead_stat_rate=lead_stat_rate)
         original = _answers(doc)
         counts['plans'] += 1
         counts[f'style/{plan.style_source}'] += 1
@@ -55,7 +62,9 @@ def semantic(seed, n, sbnation_rate, form_entropy, pair_rate):
             examples.append(doc.text)
         changed = realize(edit(plan, 'swap_teams', True),
                           form_entropy=form_entropy,
-                          pair_rate=pair_rate)
+                          pair_rate=pair_rate,
+                          discourse_entropy=discourse_entropy,
+                          lead_stat_rate=lead_stat_rate)
         after = _answers(changed)
         assert after['winner'] != original['winner']
         assert after['margin'] == original['margin']
@@ -64,7 +73,9 @@ def semantic(seed, n, sbnation_rate, form_entropy, pair_rate):
         changed = realize(edit(plan, 'high_score',
                                plan.high_score+1),
                           form_entropy=form_entropy,
-                          pair_rate=pair_rate)
+                          pair_rate=pair_rate,
+                          discourse_entropy=discourse_entropy,
+                          lead_stat_rate=lead_stat_rate)
         after = _answers(changed)
         assert int(after['margin']) == int(original['margin'])+1
         assert after['winner'] == original['winner']
@@ -76,7 +87,9 @@ def semantic(seed, n, sbnation_rate, form_entropy, pair_rate):
         new_points[alt_index] = max(plan.points)+1
         changed = realize(edit(plan, 'points', new_points),
                           form_entropy=form_entropy,
-                          pair_rate=pair_rate)
+                          pair_rate=pair_rate,
+                          discourse_entropy=discourse_entropy,
+                          lead_stat_rate=lead_stat_rate)
         after = _answers(changed)
         assert after['top_player'] == plan.players[alt_index]
         assert after['winner'] == original['winner']
@@ -85,7 +98,8 @@ def semantic(seed, n, sbnation_rate, form_entropy, pair_rate):
     return dict(counts=dict(counts), examples=examples)
 
 
-def form(seed, n, words, sbnation_rate, form_entropy, pair_rate):
+def form(seed, n, words, sbnation_rate, form_entropy, pair_rate,
+         discourse_entropy=0., lead_stat_rate=0., game_group='all'):
     rng = random.Random(seed)
     rows = []
     windows = {kind: [] for kind in ('winner', 'margin', 'top_player')}
@@ -94,8 +108,11 @@ def form(seed, n, words, sbnation_rate, form_entropy, pair_rate):
         draws += 1
         if draws > 100*n:
             raise RuntimeError('Too few long sports documents')
-        doc = realize(sample_plan(rng, sbnation_rate=sbnation_rate),
-                      form_entropy=form_entropy, pair_rate=pair_rate)
+        doc = realize(sample_plan(rng, sbnation_rate=sbnation_rate,
+                                  source_group=game_group),
+                      form_entropy=form_entropy, pair_rate=pair_rate,
+                      discourse_entropy=discourse_entropy,
+                      lead_stat_rate=lead_stat_rate)
         crop = first_words(doc.text, words)
         if len(crop.split()) < words:
             continue
@@ -138,14 +155,20 @@ def audit(args):
                        f'_pair{pair:g}')
                 semantic_panels[key] = semantic(
                     args.seed+int(style)*100+int(entropy)*10+int(pair),
-                    args.plans, style, entropy, pair)
+                    args.plans, style, entropy, pair,
+                    args.discourse_entropy, args.lead_stat_rate,
+                    args.game_group)
                 form_panels[key] = form(
                     args.seed+10000+int(style)*100+int(entropy)*10+
                     int(pair), args.form_n, args.words, style,
-                    entropy, pair)
+                    entropy, pair, args.discourse_entropy,
+                    args.lead_stat_rate, args.game_group)
     return dict(config=dict(seed=args.seed,
                             plans_per_condition=args.plans,
-                            form_n=args.form_n, form_words=args.words),
+                            form_n=args.form_n, form_words=args.words,
+                            discourse_entropy=args.discourse_entropy,
+                            lead_stat_rate=args.lead_stat_rate,
+                            game_group=args.game_group),
                 semantic=semantic_panels, form=form_panels,
                 natural_sports=natural_sports(args.seed+20000,
                                               args.form_n, args.words),
@@ -165,6 +188,10 @@ def main():
     p.add_argument('--plans', type=int, default=300)
     p.add_argument('--form-n', type=int, default=64)
     p.add_argument('--words', type=int, default=55)
+    p.add_argument('--discourse-entropy', type=float, default=0.)
+    p.add_argument('--lead-stat-rate', type=float, default=0.)
+    p.add_argument('--game-group', choices=('all', 'train', 'heldout'),
+                   default='all')
     p.add_argument('--output', type=Path, required=True)
     args = p.parse_args()
     result = audit(args)

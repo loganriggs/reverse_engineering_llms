@@ -9,12 +9,13 @@ from __future__ import annotations
 
 import random
 import re
+import hashlib
 from collections import Counter
 from dataclasses import dataclass, replace
 from functools import lru_cache
 from pathlib import Path
 
-from audit_rotowire_document_source import load
+from audit_rotowire_document_source import game_key, load
 from corpus_score_sentence_renderer import ScoreTemplate, extract, render
 from score_template_guard import safe_for
 
@@ -45,6 +46,7 @@ class Plan:
     points: tuple[int, ...]
     score_template: ScoreTemplate
     style_source: str
+    source_game_key: tuple
     surface_seed: int
 
     @property
@@ -95,19 +97,34 @@ def resources():
     return corpora, tuple(sorted(teams)), players
 
 
+def game_partition(key):
+    """Stable cross-corpus game split; aliases of one game stay together."""
+    digest = hashlib.sha256(repr(key).encode()).digest()
+    return 'heldout' if int.from_bytes(digest[:8], 'big') % 5 == 0 \
+        else 'train'
+
+
+@lru_cache(maxsize=4)
+def source_rows(source, group):
+    if group not in ('train', 'heldout', 'all'):
+        raise ValueError(group)
+    rows = resources()[0][source][0]
+    return tuple(row for row in rows
+                 if row['home_city'] != row['vis_city'] and
+                 (group == 'all' or game_partition(game_key(row)) == group))
+
+
 def sample_plan(rng, sbnation_rate=.25, player_exponent=.5,
-                margin_limit=25):
+                margin_limit=25, source_group='all'):
     if not 0 <= sbnation_rate <= 1 or player_exponent < 0 \
             or not 2 <= margin_limit <= 35:
         raise ValueError('Invalid sports DGP controls')
     corpora, _, players = resources()
     source = 'sbnation' if rng.random() < sbnation_rate else 'rotowire'
-    train, templates = corpora[source]
+    _, templates = corpora[source]
     # TEAM_CITY is the only team affiliation carried in these box scores.
     # Same-city games are ambiguous under that field, so exclude them.
-    row = rng.choice(train)
-    while row['home_city'] == row['vis_city']:
-        row = rng.choice(train)
+    row = rng.choice(source_rows(source, source_group))
     home = row['home_city']+' '+row['home_name']
     away = row['vis_city']+' '+row['vis_name']
     home_win = rng.random() < .55
@@ -144,7 +161,7 @@ def sample_plan(rng, sbnation_rate=.25, player_exponent=.5,
     rng.shuffle(chosen)
     points = tuple(rng.sample(range(8, 33), 5))
     return Plan(home, away, home_win, high, low,
-                tuple(chosen), points, template, source,
+                tuple(chosen), points, template, source, game_key(row),
                 rng.randrange(2**63))
 
 
@@ -187,9 +204,11 @@ RECAP_FORMS = {
 
 
 def realize(plan, form_entropy=1., paragraph_rate=.12,
-            pair_rate=1.):
+            pair_rate=1., discourse_entropy=0., lead_stat_rate=0.):
     if not 0 <= form_entropy <= 1 or not 0 <= paragraph_rate <= 1 \
-            or not 0 <= pair_rate <= 1:
+            or not 0 <= pair_rate <= 1 or \
+            not 0 <= discourse_entropy <= 1 or \
+            not 0 <= lead_stat_rate <= 1:
         raise ValueError('Invalid surface controls')
     if len(plan.players) != 5 or len(plan.points) != 5 or \
             len(set(plan.players)) != 5 or len(set(plan.points)) != 5:
@@ -198,9 +217,10 @@ def realize(plan, form_entropy=1., paragraph_rate=.12,
                     plan.high_score, plan.low_score):
         raise ValueError('Score template incompatible with sampled scores')
     rng = random.Random(plan.surface_seed)
-    sentences = [_detokenize(render(
+    score_sentence = _detokenize(render(
         plan.score_template, plan.winner, plan.loser,
-        plan.high_score, plan.low_score))]
+        plan.high_score, plan.low_score))
+    stat_sentences = []
     order = list(range(5))
     rng.shuffle(order)
     while order:
@@ -209,21 +229,31 @@ def realize(plan, form_entropy=1., paragraph_rate=.12,
             second = order.pop()
             form = rng.choice(PAIR_FORMS) if rng.random() < form_entropy \
                 else PAIR_FORMS[0]
-            sentences.append(form.format(
+            stat_sentences.append(form.format(
                 a=plan.players[index], pa=plan.points[index],
                 b=plan.players[second], pb=plan.points[second]))
         else:
             form = rng.choice(STAT_FORMS) if rng.random() < form_entropy \
                 else STAT_FORMS[0]
-            sentences.append(form.format(name=plan.players[index],
-                                         points=plan.points[index]))
-    recap_order = list(RECAP_FORMS)
-    rng.shuffle(recap_order)
-    for kind in recap_order:
+            stat_sentences.append(form.format(name=plan.players[index],
+                                              points=plan.points[index]))
+    lead = int(bool(stat_sentences) and rng.random() < lead_stat_rate)
+    base = stat_sentences[:lead]+[score_sentence]+stat_sentences[lead:]
+    insertions = {slot: [] for slot in range(len(base)+1)}
+    for kind in RECAP_FORMS:
         choices = RECAP_FORMS[kind]
         form = rng.choice(choices) if rng.random() < form_entropy \
             else choices[0]
-        sentences.append(form)
+        slot = len(base)
+        if kind != 'top_player' and rng.random() < discourse_entropy:
+            slot = rng.randint(lead+1, len(base))
+        insertions[slot].append(form)
+    sentences = []
+    for slot in range(len(base)+1):
+        rng.shuffle(insertions[slot])
+        sentences.extend(insertions[slot])
+        if slot < len(base):
+            sentences.append(base[slot])
     text = sentences[0]
     for sentence in sentences[1:]:
         text += ('\n\n' if rng.random() < paragraph_rate else ' ')+sentence
@@ -252,7 +282,14 @@ def realize(plan, form_entropy=1., paragraph_rate=.12,
 
 
 def _visible_score(prefix):
-    return _parse_score_sentence(prefix.split('.')[0]+'.')
+    match = SCORE_PAIR.search(prefix)
+    if match is None:
+        raise ValueError('No visible result score')
+    start = prefix.rfind('.', 0, match.start())+1
+    end = prefix.find('.', match.end())
+    if end < 0:
+        raise ValueError('Incomplete visible result sentence')
+    return _parse_score_sentence(prefix[start:end+1].strip())
 
 
 @lru_cache(maxsize=100_000)
