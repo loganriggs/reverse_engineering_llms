@@ -26,7 +26,9 @@ PLAYER = re.compile(r'^[A-Z][a-z]+ [A-Z][a-z]+$')
 SCORE_PAIR = re.compile(r'\b(\d{2,3})\s*-\s*(\d{2,3})\b')
 PLAYER_FACT = re.compile(
     r'\b([A-Z][a-z]+ [A-Z][a-z]+) '
-    r'(?:scored|finished with|posted|contributed|added|had) '
+    r'(?:scored|finished with|ended with|posted|contributed|added|had|'
+    r'recorded|registered|tallied|collected|accumulated|amassed|notched|'
+    r'managed|totaled|totalled|chipped in with|put up) '
     r'(\d+) points\b')
 PAREN_FACT = re.compile(r'\b([A-Z][a-z]+ [A-Z][a-z]+) '
                         r'\((\d+) points\)')
@@ -223,12 +225,13 @@ RECAP_FORMS = {
 
 def realize(plan, form_entropy=1., paragraph_rate=.12,
             pair_rate=1., discourse_entropy=0., lead_stat_rate=0.,
-            stat_richness=0.):
+            stat_richness=0., empirical_stat_rate=0.):
     if not 0 <= form_entropy <= 1 or not 0 <= paragraph_rate <= 1 \
             or not 0 <= pair_rate <= 1 or \
             not 0 <= discourse_entropy <= 1 or \
             not 0 <= lead_stat_rate <= 1 or \
-            not 0 <= stat_richness <= 1:
+            not 0 <= stat_richness <= 1 or \
+            not 0 <= empirical_stat_rate <= 1:
         raise ValueError('Invalid surface controls')
     if len(plan.players) != 5 or len(plan.points) != 5 or \
             len(set(plan.players)) != 5 or len(set(plan.points)) != 5:
@@ -247,7 +250,13 @@ def realize(plan, form_entropy=1., paragraph_rate=.12,
     rng.shuffle(order)
     while order:
         index = order.pop()
-        if order and rng.random() < pair_rate:
+        if empirical_stat_rate and rng.random() < empirical_stat_rate:
+            from sports_empirical_stat_renderer import render as render_empirical
+            stat_sentences.append(render_empirical(
+                plan.players[index],
+                {'PTS': plan.points[index], 'REB': plan.rebounds[index],
+                 'AST': plan.assists[index]}, rng))
+        elif order and rng.random() < pair_rate:
             second = order.pop()
             forms = RICH_PAIR_FORMS if stat_richness > 0 and \
                 rng.random() < stat_richness \

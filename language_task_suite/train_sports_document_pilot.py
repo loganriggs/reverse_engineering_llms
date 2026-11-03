@@ -44,19 +44,22 @@ def tokenize(text):
 
 
 def draw(n, seed, sbnation_rate, form_entropy, pair_rate,
-         discourse_entropy, lead_stat_rate, stat_richness, source_group):
+         discourse_entropy, lead_stat_rate, stat_richness,
+         empirical_stat_rate, source_group):
     rng = random.Random(seed)
     return [realize(sample_plan(rng, sbnation_rate=sbnation_rate,
                                 source_group=source_group),
                     form_entropy=form_entropy, pair_rate=pair_rate,
                     discourse_entropy=discourse_entropy,
                     lead_stat_rate=lead_stat_rate,
-                    stat_richness=stat_richness)
+                    stat_richness=stat_richness,
+                    empirical_stat_rate=empirical_stat_rate)
             for _ in range(n)]
 
 
 def changed(doc, field, form_entropy, pair_rate,
-            discourse_entropy, lead_stat_rate, stat_richness):
+            discourse_entropy, lead_stat_rate, stat_richness,
+            empirical_stat_rate):
     plan = doc.plan
     if field == 'swap_teams':
         plan = edit(plan, field, True)
@@ -72,10 +75,11 @@ def changed(doc, field, form_entropy, pair_rate,
     return realize(plan, form_entropy=form_entropy, pair_rate=pair_rate,
                    discourse_entropy=discourse_entropy,
                    lead_stat_rate=lead_stat_rate,
-                   stat_richness=stat_richness)
+                   stat_richness=stat_richness,
+                   empirical_stat_rate=empirical_stat_rate)
 
 
-def source_vocabulary(train):
+def source_vocabulary(train, empirical_stat_rate=0.):
     """Vocabulary fixed from public source lexicon, not test documents."""
     corpora, teams, _ = resources()
     words = {'<BOS>', '<EOS>', '<PAD>', '<UNK>'}
@@ -92,6 +96,10 @@ def source_vocabulary(train):
     for form in STAT_FORMS+PAIR_FORMS+RICH_STAT_FORMS+RICH_PAIR_FORMS+tuple(
             value for group in RECAP_FORMS.values() for value in group):
         words.update(tokenize(form))
+    if empirical_stat_rate:
+        from sports_empirical_stat_renderer import bank
+        for form, _, _ in bank():
+            words.update(tokenize(form))
     words.update(str(value) for value in range(151))
     return {word: i for i, word in enumerate(sorted(words))}
 
@@ -179,6 +187,7 @@ def main():
     p.add_argument('--discourse-entropy', type=float, default=1.)
     p.add_argument('--lead-stat-rate', type=float, default=.5)
     p.add_argument('--stat-richness', type=float, default=0.)
+    p.add_argument('--empirical-stat-rate', type=float, default=0.)
     p.add_argument('--seed', type=int, default=99021)
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', type=Path, required=True)
@@ -189,7 +198,8 @@ def main():
                   form_entropy=a.form_entropy, pair_rate=a.pair_rate,
                   discourse_entropy=a.discourse_entropy,
                   lead_stat_rate=a.lead_stat_rate,
-                  stat_richness=a.stat_richness)
+                  stat_richness=a.stat_richness,
+                  empirical_stat_rate=a.empirical_stat_rate)
     train = draw(a.train_n, a.seed, source_group='train', **kwargs)
     test = draw(a.test_n, a.seed+1, source_group='heldout', **kwargs)
     assert not {d.plan.source_game_key for d in train} & \
@@ -197,10 +207,10 @@ def main():
     assert not {d.text for d in train} & {d.text for d in test}
     edits = {field: [changed(d, field, a.form_entropy, a.pair_rate,
                              a.discourse_entropy, a.lead_stat_rate,
-                             a.stat_richness)
+                             a.stat_richness, a.empirical_stat_rate)
                      for d in test]
              for field in ('swap_teams', 'high_score', 'points')}
-    vocab = source_vocabulary(train)
+    vocab = source_vocabulary(train, a.empirical_stat_rate)
     unseen = {t for doc in test+sum(edits.values(), [])
               for t in tokenize(doc.text) if t not in vocab}
     if unseen:

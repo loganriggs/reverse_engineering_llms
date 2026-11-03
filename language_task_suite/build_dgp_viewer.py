@@ -105,6 +105,214 @@ def _synthetic_examples():
     return examples
 
 
+def _rulebook():
+    """Operational description of the V7 sampler shown in this viewer."""
+    items = [
+        {'title': 'Document mixture and training objective',
+         'sampling': ('Each training document independently chooses narrative '
+                      '25%, event report 30%, record listing 12%, score report '
+                      '13%, or cross report 20%. The displayed samples are '
+                      'fixed-seed draws from this same task-rich sampler; '
+                      'these proportions are intentionally not estimates '
+                      'of natural language.'),
+         'rule': ('The V7 bilinear checkpoints were trained on 10,000 sampled '
+                  'documents for 2,000 updates using ordinary next-token '
+                  'cross-entropy at every token after the first. Padding is '
+                  'ignored. The model must predict names, connective words, '
+                  'punctuation, newlines, facts, and answer tokens; rule-site '
+                  'labels are used only for evaluation. Longer documents '
+                  'contribute more token losses. A site oracle is '
+                  'available below, but a full exact next-token oracle for '
+                  'every position exists only for the V14 narrative arm.')},
+        {'title': 'Narrative: probabilistic local and distant rules',
+         'sampling': ('Sample the V14 sentence stream to roughly 192 tokens '
+                      'and stop at its last sentence boundary. Its explicit '
+                      'rates include source questions 15%, scope questions '
+                      '8%, brackets 6%, attribute facts 20%, and a 35% '
+                      'chance to continue an attribute fact with “, so …”. '
+                      'These are generator controls, not empirical text '
+                      'frequencies.'),
+         'rule': ('Local noun/verb and earlier-cue combinations set soft '
+                  'next-token distributions. An earlier item-attribute fact '
+                  'puts 80% mass on reusing its adjective at a later mention, '
+                  'with the rest distributed over other adjectives; the '
+                  'object has a similar 80% mass. In a local conditional '
+                  'continuation, clean→uses, dusty→cleans, broken→repairs, '
+                  'valuable→protects, rare→inspects, heavy→moves. Bracket '
+                  'closers and other query answers depend on visible context. '
+                  'Only the local action is strongly learned in the two V7 '
+                  'checkpoints; harder binding must pass a behavioral gate.')},
+        {'title': 'Event report: visible world state and report sources',
+         'sampling': ('Sample objects with owner, color, place, aliases, and '
+                      'a sequence of attributed updates. Choose among story, '
+                      'summary, and log styles; intro/event/recap clauses '
+                      'have 3/4/4 forms, with style entropy .7. Add asides '
+                      'at rate .3, paragraph breaks at .22, and a header '
+                      'at .5. Source questions are delayed past a different '
+                      'report.'),
+         'rule': ('A later alias query asks which object received a label. '
+                  'Owner/color/place queries read the latest visible update '
+                  'for that object. A source query asks who made the latest '
+                  'report about a specified object and attribute—not merely '
+                  'who spoke most recently. Sampled answers are verified '
+                  'against a parser of visible text; V7 did not learn the '
+                  'source rule reliably.')},
+        {'title': 'Record listing: scoped key-value lookup',
+         'sampling': ('Choose two distinct ships and two distinct category '
+                      'codes, one room, and a query ship. Print the two '
+                      'ship–room–category facts in random order. The '
+                      'composition split withholds the queried ship–category '
+                      'assignment while retaining its individual values.'),
+         'rule': ('At “For the [ship], room [room] was category …”, return '
+                  'the code in the earlier record matching both ship and '
+                  'room. A room alone is insufficient.')},
+        {'title': 'Score report: state update',
+         'sampling': ('Choose two teams, initial scores from 1–5, and an '
+                      'increment from 1–4 for the first team. A final-score '
+                      'headline appears with probability .5. The query '
+                      'names either team; a composition split withholds '
+                      'selected initial-score × increment pairs.'),
+         'rule': ('At the final score target, return the queried team’s '
+                  'initial score plus its visible increment if it scored, '
+                  'or its unchanged initial score otherwise. The optional '
+                  'headline is a potential copy shortcut, so behavioral '
+                  'tests must distinguish copying from updating.')},
+        {'title': 'Cross report: composed retrieval',
+         'sampling': ('Combine one event history, two source→reviewed-ship '
+                      'assignments, and two ship–room–category records. '
+                      'Shuffle Events, Reviewers, and Records section order. '
+                      'The last event concerns a different object or '
+                      'attribute from the query.'),
+         'rule': ('At the final query, find the latest report source for the '
+                  'specified object and attribute; map that source to its '
+                  'reviewed ship; then look up that ship and room’s category. '
+                  'The answer is independently recovered from the entire '
+                  'visible prefix. Both tested V7 models failed this '
+                  'behavioral and causal-edit gate, so no cross circuit '
+                  'is claimed.')},
+    ]
+    sources = (
+        'document_mixture_v7_cross.py; train_document_mixture_v7_cross.py',
+        'document_mixture_v5.py; surface_mixture_v14_conditional.py',
+        'document_world_v5_clause_realizations.py',
+        'document_mixture_v5.py; document_mixture_v6.py',
+        'document_mixture_v5.py; document_mixture_v6.py',
+        'document_mixture_v7_cross.py',
+    )
+    for item, source in zip(items, sources, strict=True):
+        item['source_files'] = source.split('; ')
+    return items
+
+
+def _oracle_examples():
+    """Actual fixed-seed prefixes and exact rule-site distributions."""
+    choices = {'narrative': ('mixed_verb', 'mixed_object',
+                             'attribute_adjective', 'conditional_action'),
+               'event_report': ('source_attribution',),
+               'record_listing': ('scoped_record',),
+               'score_report': ('score_update',),
+               'cross_report': ('cross_source_record',)}
+    rows = []
+    for index, kind in enumerate(KINDS):
+        doc = sample_document(random.Random(98630+index), kind=kind)
+        rendered, spans = _render_tokens(doc.tokens)
+        for family in choices[kind]:
+            site = next((s for s in doc.sites if s.family == family), None)
+            if site is None:
+                continue
+            distribution = site_oracle(doc, site)
+            assert abs(sum(distribution.values())-1) < 1e-8
+            assert distribution.get(site.target, 0) > 0
+            start = spans[site.index][0]
+            ranked = sorted(distribution.items(), key=lambda item:
+                            (-item[1], item[0]))
+            rows.append({'kind': kind, 'family': family,
+                         'prefix': rendered[max(0, start-170):start].lstrip(),
+                         'prefix_clipped': start > 170,
+                         'sampled': site.target,
+                         'distribution': ranked,
+                         'scope': ('Exact full-prefix generator marginal'
+                                   if kind == 'narrative' else
+                                   'Exact at this answer site; not an '
+                                   'all-positions oracle')})
+    return rows
+
+
+def _latest_candidate():
+    audit = _json(Path('results/sports_empirical_predicates_paired_n128.json'))
+    fixed = _json(Path('results/sports_baseline_predicate_depth2_seed37301_s2000.json'))
+    empirical = _json(Path('results/sports_empirical_predicate_depth2_seed37301_s2000.json'))
+    panel = audit['arms']['rotowire_heldout']['form']
+    return {'title': 'Separate sports-language surface candidate',
+            'status': ('A typed bank of human-written player-stat predicates '
+                       'improves form but remains far from human reports. '
+                       'Its one-seed model learns the winner rule less '
+                       'reliably at the same budget; margin and top-player '
+                       'rules remain unlearned. It is not the V7 mixture '
+                       'used for the rule-site distributions above.'),
+            'report': 'EMPIRICAL_PLAYER_PREDICATE_PILOT.md',
+            'rules': [
+                {'title': 'Sampled game and player facts',
+                 'sampling': ('Choose RotoWire or SBNation source games with '
+                              'equal probability under a game-disjoint '
+                              'train/held-out split. Sample home winner '
+                              'with probability .55, high score 100–130, '
+                              'and margin 1–25. Choose five distinct '
+                              'roster players (three from winner, two '
+                              'from loser) with unique point totals 8–32; '
+                              'also sample rebounds and assists. Select '
+                              'a score sentence compatible with the new '
+                              'numbers.'),
+                 'rule': ('The structured world fixes winner, margin, and '
+                          'the highest-scoring player among the five. '
+                          'Those three targets are checked independently '
+                          'from visible text and under selective edits.'),
+                 'source_files': ['sports_document_dgp.py']},
+                {'title': 'Typed stat wording and discourse',
+                 'sampling': ('The candidate arm samples one of 95 distinct '
+                              'training-game-derived stat predicate forms '
+                              'for each player, weighted by square root '
+                              'of source frequency. Only points-first '
+                              'forms with point/rebound/assist facts are '
+                              'allowed. Five single-player clauses are '
+                              'randomly ordered; a player clause leads '
+                              'the score at rate .25. Recap sentence '
+                              'wording and position vary, with paragraph '
+                              'break rate .12.'),
+                 'rule': ('Every rendered statistic must equal that '
+                          'player’s sampled box-score fact. The three '
+                          'recaps ask for winner, winning margin, and '
+                          'which listed player has the most points. '
+                          'This is not a full-document next-token oracle.'),
+                 'source_files': ['sports_empirical_stat_renderer.py',
+                                  'sports_document_dgp.py']},
+                {'title': 'Model training and eligibility',
+                 'sampling': ('Two depth-2, width-64, four-head bilinear '
+                              'models received 4,000 sampled training '
+                              'documents and 2,000 updates each, seed '
+                              '37301, with either fixed or empirical '
+                              'player-stat forms.'),
+                 'rule': ('Both models used ordinary next-token '
+                          'cross-entropy on every non-padding token '
+                          'position, not just the three answer sites. '
+                          'Those sites are evaluation labels only. '
+                          'Under the empirical form, winner is partial '
+                          'and margin/top-player remain unlearned, so '
+                          'weight analysis of those rules is ineligible.'),
+                 'source_files': ['train_sports_document_pilot.py']},
+            ],
+            'rows': [
+                {'arm': label,
+                 'top10_word_share': panel[label]['top10_word_share'],
+                 'repeated_trigram_share': panel[label][
+                     'repeated_across_docs_trigram_occurrence_share'],
+                 'winner_accuracy': model['results']['2']['heldout']['site'][
+                     'winner']['candidate_accuracy'] if model else None}
+                for label, model in (('baseline', fixed),
+                                     ('empirical', empirical),
+                                     ('human_reference', None))]}
+
+
 def _renderer_variant_example():
     world = draw_varied(random.Random(98640), source_delay_rate=1.).latent
     arms = []
@@ -471,6 +679,9 @@ def build(cache_path, refresh):
                             '58/1,000 span-aligned FineWeb opportunities, '
                             'but replacement semantics need validation.'}],
             'catalog': _catalog(),
+            'rulebook': _rulebook(),
+            'oracle_examples': _oracle_examples(),
+            'latest_candidate': _latest_candidate(),
             'zipf': _zipf_comparison(),
             'action_path': _action_path_summary(),
             'pair_reduction': _pair_reduction_summary(),
@@ -579,6 +790,10 @@ def _fingerprint():
         'v7_action_rotary_pair_model34802.json',
         'v7_action_rotary_pair_model34802_rep.json'))
     paths.append(HERE/'results/sports_lm_surface_bank_candidates_seed37051.json')
+    paths.extend(HERE/'results'/name for name in (
+        'sports_empirical_predicates_paired_n128.json',
+        'sports_baseline_predicate_depth2_seed37301_s2000.json',
+        'sports_empirical_predicate_depth2_seed37301_s2000.json'))
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',

@@ -8,7 +8,13 @@ passages. [Open it in a phone browser via HTML Preview](https://htmlpreview.gith
 GitHub's file view displays the HTML source rather than rendering it.
 Open the [local DGP field guide](dgp_viewer.html) to inspect sampled documents,
 highlighted rule sites, four-way causal variants, and matched-size word-rank
-comparisons against a frozen FineWeb reference. Generate its local data
+comparisons against a frozen FineWeb reference. The viewer now states the full
+operational rules for its V7 sampler, clarifies that V7 training predicts every
+non-padding next token, and plots exact generator distributions for selected
+rule-site prefixes. The [empirical player-predicate pilot](EMPIRICAL_PLAYER_PREDICATE_PILOT.md)
+is a separate newer surface candidate: it improves form diversity but remains
+far from human reports, and its first model has weak rule competence. Generate
+the viewer's local data
 file with
 `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python language_task_suite/build_dgp_viewer.py`
 from the repository root. Add `--watch` to rebuild on DGP or result changes;
