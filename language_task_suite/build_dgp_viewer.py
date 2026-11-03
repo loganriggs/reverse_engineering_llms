@@ -316,6 +316,7 @@ def _latest_candidate():
 def _actplan_screen():
     audit = _json(Path('results/sports_document_actplan_v1_n100_form64.json'))
     ablation = _json(Path('results/sports_actplan_record_ablation_n64.json'))
+    combined = _json(Path('results/sports_combined_result_record_n100_form64.json'))
     rows = []
     for key, arm in audit['arms'].items():
         form = arm['form']
@@ -333,13 +334,28 @@ def _actplan_screen():
             'matched_fixed_repeat': matched['fixed_empirical'][
                 'repeated_across_docs_trigram_occurrence_share'],
         })
+    combined_rows = []
+    for group, arm in combined['arms'].items():
+        panels = arm['form']['panels']
+        combined_rows.append({
+            'group': group,
+            **{name: panels[name][
+                'repeated_across_docs_trigram_occurrence_share']
+                for name in ('fixed', 'variable_no_record',
+                             'combined_record', 'human')},
+        })
     return {'status': ('Newer act-plan V1 passes visible-answer and selective '
                        'edit checks, and samples which rule sites and facts '
                        'appear. Its default record sentences do not pass the '
                        'language-form gate: they increase phrase repetition. '
-                       'No V1 model was trained or interpreted.'),
+                       'A stricter RotoWire score-and-record lead avoids '
+                       'most of that repetition penalty but remains far '
+                       'from human form. No V1 model was trained or '
+                       'interpreted.'),
             'report': 'SPORTS_DOCUMENT_ACTPLAN_V1_RESULT.md',
-            'rows': rows}
+            'rows': rows,
+            'combined_rows': combined_rows,
+            'combined_report': 'SPORTS_COMBINED_RESULT_RECORD_RESULT.md'}
 
 
 def _renderer_variant_example():
@@ -826,8 +842,10 @@ def _fingerprint():
         'sports_empirical_predicate_depth2_seed37301_s2000.json'))
     paths.extend(HERE/'results'/name for name in (
         'sports_document_actplan_v1_n100_form64.json',
-        'sports_actplan_record_ablation_n64.json'))
+        'sports_actplan_record_ablation_n64.json',
+        'sports_combined_result_record_n100_form64.json'))
     paths.append(HERE/'sports_document_actplan_v1.py')
+    paths.append(HERE/'sports_combined_result_record_renderer.py')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',

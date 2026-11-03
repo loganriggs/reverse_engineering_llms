@@ -121,11 +121,12 @@ def _post_record_sentence(team, after, rng):
 
 def realize(plan, empirical_stat_rate=1., paragraph_rate=.12,
             rule_rate_scale=1., record_rate=.65,
-            post_record_rate=.5):
+            post_record_rate=.5, combined_record_rate=0.):
     if not (0 <= empirical_stat_rate <= 1 and
             0 <= paragraph_rate <= 1 and
             0 <= rule_rate_scale <= 1 and 0 <= record_rate <= 1 and
-            0 <= post_record_rate <= 1):
+            0 <= post_record_rate <= 1 and
+            0 <= combined_record_rate <= 1):
         raise ValueError('Rates must be within [0,1]')
     base = base_realize(plan.base, pair_rate=0., stat_richness=1.,
                         paragraph_rate=0., discourse_entropy=0.,
@@ -136,6 +137,11 @@ def realize(plan, empirical_stat_rate=1., paragraph_rate=.12,
     stats = [row for row in rows if row[0] == 'player']
     answers = {row[2].kind: row for row in rows if row[0] == 'answer'}
     rng = random.Random(plan.base.surface_seed ^ 0x51C0A17)
+    combined_rng = random.Random(plan.base.surface_seed ^ 0xC0B1E)
+    if (plan.base.style_source == 'rotowire' and
+            combined_rng.random() < combined_record_rate):
+        from sports_combined_result_record_renderer import render
+        score = ('score', render(plan, combined_rng)[0], None, None)
     rates = RULE_RATES[plan.base.style_source]
     chosen = {kind for kind, rate in rates.items()
               if rng.random() < rate*rule_rate_scale}
@@ -208,6 +214,19 @@ def record_facts_from_visible(text):
             if team in found[name]:
                 raise ValueError('Duplicate record for team and phase')
             found[name][team] = (int(w), int(l))
+    from sports_combined_result_record_renderer import visible_records
+    for sentence in SENTENCE.findall(text):
+        if not SCORE_PAIR.search(sentence):
+            continue
+        teams = [team for team in resources()[1]
+                 if re.search(r'(?<!\w)'+re.escape(team)+r'(?!\w)',
+                              sentence)]
+        if len(teams) != 2:
+            continue
+        for team, record in visible_records(sentence, teams).items():
+            if team in found['after'] and found['after'][team] != record:
+                raise ValueError('Conflicting postgame records')
+            found['after'][team] = record
     return found
 
 
@@ -219,6 +238,10 @@ def answer_from_visible_prefix(prefix, kind):
                      not POST_RECORD.fullmatch(match.group().strip())]
         if len(sentences) != 1:
             raise ValueError('Expected one visible result sentence')
+        if re.search(r'\(\d+-\d+\)', sentences[0]):
+            from sports_combined_result_record_renderer import parse_visible_result
+            high, low, winner = parse_visible_result(sentences[0])
+            return winner if kind == 'winner' else str(high-low)
         return base_answer(sentences[0], kind)
     if kind == 'top_player':
         return base_answer(prefix, kind)
