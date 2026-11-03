@@ -66,34 +66,71 @@ toy versus 32.7% FineWeb; quote presence 43.6% versus 18.2%; repeated-word
 fraction in the first 40 words 25.7% versus 16.4%. The form mismatch remains
 substantial. See the [aggregate and source hashes](results/v13_attributes_fineweb_skip16000_n64.json).
 
-A separate [one-annotator review](review_v13_fineweb_dependencies.py) took
-16 of those 64 documents uniformly without text-cue filtering and examined
-at most the first 160 words. Eight contained broad item-attribute
-descriptions; one clearly repeated an attribute of the same named item
-later in the crop. None showed V13's full multiple-pending-facts followed by
-descriptive reuse pattern. These overlapping qualitative tags are not
-estimates of exact next-token target prevalence. The broader relation is
-present in natural text, but **V13 remains a synthetic causal stress test,
-not a verified realistic language distribution**. The [coded review](results/v13_attributes_fineweb_dependency_review_n16.json)
-exports notes and hashes, no source prose.
+A separate [one-annotator review](review_v13_fineweb_dependencies_n32.py)
+took two successive uniform 16-document draws from those 64 documents,
+without text-cue filtering, and examined at most the first 160 words of
+each. Of 32 short crops, 13 contained broad item-attribute descriptions;
+four clearly repeated an attribute of the same item later in the crop.
+Numeric binding appeared in 18, entity tracking in 20, conditional action
+in 10, and an explicit question/answer in one. None showed V13's full
+multiple-pending-facts followed by descriptive reuse pattern. These
+overlapping qualitative tags are not estimates of exact next-token target
+prevalence. The broader relation is present in natural text, but **V13
+remains a synthetic causal stress test, not a verified realistic language
+distribution**. The [coded review](results/v13_attributes_fineweb_dependency_review_n32.json)
+exports notes and hashes, no source prose. The [initial 16-crop review](results/v13_attributes_fineweb_dependency_review_n16.json)
+is retained for reproducibility; it is included in the 32, not a separate
+sample.
 
 ## Bilinear baseline and next gate
 
-The [resumable trainer](train_v13_attributes.py) is running a two-layer,
-four-head, width-64 RMSNorm bilinear LM on the **reference** stream, using
-ordinary next-token cross-entropy. The
-[fresh evaluator](eval_v13_attribute_edits.py) will score adjective/object
-CE against exact-oracle entropy and compare model probability responses to
-supported earlier-fact edits on independent reference and diagnostic panels.
+The [resumable trainer](train_v13_attributes.py) completed 1,000 updates of
+a two-layer, four-head, width-64 RMSNorm bilinear LM on the **reference**
+stream, using ordinary next-token cross-entropy. One transient GPU exit 139
+occurred after step 200; training resumed from its verified optimizer,
+generator-RNG, and Torch-RNG checkpoint. A separate four-step CPU
+split-versus-uninterrupted check matched final weights exactly. The saved
+[training record](results/v13_attribute_binding_reference_depth2_seed3_1000/results.json)
+has steps 0, 200, 400, 600, 800, and 1,000 exactly.
+
+The [fresh evaluator](eval_v13_attribute_edits.py) scored two untouched
+512-stream reference panels and two diagnostic panels. It stratified edits
+between single-pending and multi-pending cases, so each reference panel has
+64 multi-pending object edits among 128 supported object edits.
 The prospective gate for **attribute-binding circuit analysis** is object
 CE at most 0.5 nats above the exact-oracle entropy and mean absolute
 earlier-fact object-edit effect error at most 0.25, on each of two untouched
 reference panels with at least 50 multi-pending edited cases per panel.
-Prediction, causal sensitivity, and later circuit interpretability are
-separate claims. Do not call a sparse or canonical attribute circuit learned
-until held-out prediction and edit responses establish task competence.
 
-The main remaining realism task is to replace the still-templated abundance
-of colons/quotes and study a larger, more diverse set of natural document
-relations and distances. The crossed symbolic control remains useful for
-checking decomposition methods with known two-cue ground truth.
+| Untouched reference panel | Object CE / oracle entropy | Model object-edit response / oracle | Object-edit effect error |
+|---|---:|---:|---:|
+| 99721 | 2.763 / 1.129 | +0.00029 / −0.646 | 0.646 |
+| 99731 | 2.738 / 1.132 | −0.000007 / −0.641 | 0.641 |
+
+Adjective CE is 3.211/3.243 versus oracle entropy 2.171/2.159, and its
+earlier-fact edit response is +0.00068/+0.00091 versus oracle
++0.472/+0.476. The separate diagnostic-regime panels show the same
+near-zero response despite denser facts. Ordinary mixed-verb CE continued
+improving to 1.778 on the fixed training diagnostic, so the model did learn
+some of the overall stream. See [panel A](results/v13_attribute_binding_reference_depth2_seed3_1000/fresh_panel_99721.json)
+and [panel B](results/v13_attribute_binding_reference_depth2_seed3_1000/fresh_panel_99731.json).
+
+![V13 prediction and causal-edit comparison](results/v13_attribute_binding_reference_depth2_seed3_1000/v13_attribute_learning_and_edits.png)
+
+**The V13 model fails both parts of the prospective attribute-binding gate.**
+The fact-edit effect is essentially absent; no sparse or canonical
+attribute circuit should be inferred from this checkpoint. This is one
+architecture, seed, ordinary-CE objective, and 1,000-update budget, so it
+does not show that the DGP is unlearnable. It does show that simply adding
+this relation to a crowded reference stream has not produced a competent
+teacher for the interpretation-method comparison.
+
+The next DGP experiment should use the reviewed relation mix—numeric
+bindings, conditional actions, entity tracking, and attribute descriptions—
+with more varied sentence and document forms. A small, explicitly enriched
+binding control could test learnability, but do not extend this single-task
+model sweep without a concrete gain in supervision or diagnostic power.
+For canonicalization and sparse-featurizer comparisons now, use the already
+competent crossed symbolic control and the FAQ/place-recall teacher; keep
+whole-task featurizer holdouts and distinguish reconstruction, teacher
+prediction, oracle causal fidelity, and genuine new-task discovery.

@@ -41,9 +41,14 @@ def main():
     centers=np.arange(2)
     width=.23
     for i,panel in enumerate(panels):
-        axes[1].bar(centers+(i-.5)*width,
-                    [panel['edits'][k]['mean_model_response'] for k in labels],
-                    width=width,label=f'fresh panel {i+1}')
+        values=[panel['edits'][k]['mean_model_response'] for k in labels]
+        locations=centers+(i-.5)*width
+        axes[1].bar(locations,values,width=width,
+                    label=f'fresh panel {i+1}')
+        for x,value in zip(locations,values):
+            axes[1].text(x,.035 if value>=0 else -.035,
+                         f'{value:+.4f}',ha='center',
+                         va='center',rotation=90,fontsize=8)
     axes[1].scatter(centers,
                     [np.mean([v['edits'][k]['mean_oracle_response']
                               for v in panels]) for k in labels],

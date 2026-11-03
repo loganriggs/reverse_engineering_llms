@@ -190,8 +190,8 @@ because it created a recency shortcut. Two independent 100×256 reference
 panels pass exact-prefix, named-component, and supported earlier-fact edit
 audits, with 51/30 multi-pending object sites. The two diagnostic panels
 have 142/117 such sites. On a fresh FineWeb offset, broad item-attribute
-descriptions occur in 8/16 reviewed short crops, but only one clearly
-restates the same named item's attribute; none contains the full V13
+descriptions occur in 13/32 reviewed short crops, but only four clearly
+restate the same item's attribute; none contains the full V13
 multi-pending pattern. Form mismatch remains large (colons 63.6% toy vs
 32.7% FineWeb; repeated-word fraction .257 vs .164). V13 is an improved
 synthetic binding stress test, **not a validated realistic distribution**.
