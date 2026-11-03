@@ -65,7 +65,7 @@ def _context_act(obj, attr, previous_source):
 
 def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
             paragraph_rate=.22, header_rate=.5, intro_interleave_rate=0.,
-            extra_event_sentences=None):
+            extra_event_sentences=None, initial_sentence_plan=None):
     assert all(0 <= rate <= 1 for rate in (
         syntax_entropy, aside_rate, context_rate, paragraph_rate,
         header_rate, intro_interleave_rate))
@@ -101,7 +101,13 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
     # every initial fact needed by the independent answer parser. The zero
     # setting retains the previous renderer's random stream exactly.
     introduced = set()
-    if intro_interleave_rate:
+    if initial_sentence_plan is not None:
+        assert intro_interleave_rate == 0
+        for sentence in initial_sentence_plan:
+            emit(sentence)
+        introduced.update(world['initial'])
+        intro_slots = {obj: -1 for obj in world['initial']}
+    elif intro_interleave_rate:
         last_slot = len(world['events']) - 1
         intro_slots = {
             obj: (rng.randrange(last_slot + 1)
