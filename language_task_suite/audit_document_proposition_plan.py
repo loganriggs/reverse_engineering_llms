@@ -53,10 +53,28 @@ def audit(seed=8817, per_form=200):
     all_report = {form: float(form == 'report') for form in FORMS}
     for _ in range(50):
         assert sample_plan(rng, form_weights=all_report)['form'] == 'report'
+    comparison_sweep = []
+    for panel_seed in (4014, 4015):
+        for shared_rate in (0., .35, .6, 1.):
+            panel_rng = random.Random(panel_seed)
+            labels = Counter()
+            for _ in range(1000):
+                plan = sample_plan(panel_rng, coupling_rate=.7,
+                                   shared_attribute_rate=shared_rate)
+                labels.update(plan['nodes'][move['refs'][0]]['value']
+                              for move in plan['moves']
+                              if move['kind'] == 'compare')
+            total = sum(labels.values())
+            comparison_sweep.append(dict(seed=panel_seed,
+                                         shared_attribute_rate=shared_rate,
+                                         labels=dict(labels),
+                                         majority_baseline=max(
+                                             labels.values())/total))
     return dict(seed=seed, per_form_per_coupling=per_form,
                 plans=2*per_form*len(FORMS),
                 unique_form_sequence_pairs=len(total_sequences),
                 by_form=by_form,
+                comparison_sweep=comparison_sweep,
                 form_prior_override_checks=50,
                 caveat='Plan-level truth and dependency checks only. '
                        'No surface language, model learning, or realism '

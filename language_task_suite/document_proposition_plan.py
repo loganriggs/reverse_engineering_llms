@@ -9,6 +9,7 @@ the 32-document FineWeb opening panel is too small to calibrate priors.
 from __future__ import annotations
 
 import random
+import copy
 from collections import Counter
 
 from document_world import NAMES, OBJECTS, VALUES
@@ -19,7 +20,10 @@ FORMS = ('report', 'personal', 'reference', 'quoted_feature',
          'procedure', 'collection', 'commercial')
 ATTRS = tuple(VALUES)
 STEP_ACTIONS = ('inspect', 'move', 'combine', 'record', 'check')
-UNITS = ('minutes', 'items', 'pages', 'meters')
+# Counts describe the document's external record, so typed lexical
+# substitution can change an object (map -> motorcycle, for example)
+# without creating an impossible physical-unit claim.
+COUNT_UNITS = ('copies', 'reports', 'entries')
 
 # These are qualitative coverage settings, not rates inferred from 32 docs.
 MOVE_WEIGHTS = {
@@ -58,14 +62,16 @@ OPENINGS = {
 
 
 def sample_plan(rng: random.Random, form=None, form_weights=None,
-                n_moves=None, coupling_rate=.5, question_rate=1.):
+                n_moves=None, coupling_rate=.5, question_rate=1.,
+                shared_attribute_rate=.6):
     """Sample a truth-conditional graph and a legal visible move order."""
     if form_weights is None:
         form_weights = {name: 1. for name in FORMS}
     assert set(form_weights) == set(FORMS)
     assert all(weight >= 0 for weight in form_weights.values())
     assert sum(form_weights.values()) > 0
-    assert 0 <= coupling_rate <= 1 and question_rate >= 0
+    assert (0 <= coupling_rate <= 1 and question_rate >= 0 and
+            0 <= shared_attribute_rate <= 1)
     if form is None:
         form = rng.choices(FORMS, [form_weights[k] for k in FORMS])[0]
     if form not in FORMS:
@@ -77,8 +83,16 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
 
     entities = rng.sample(OBJECTS, rng.randint(3, 5))
     aliases = dict(zip(entities, rng.sample(ALIASES, len(entities))))
-    initial = {entity: {attr: rng.choice(VALUES[attr]) for attr in ATTRS}
-               for entity in entities}
+    initial = {}
+    for entity in entities:
+        initial[entity] = {}
+        for attr in ATTRS:
+            earlier_entities = tuple(e for e in initial if e != entity)
+            if earlier_entities and rng.random() < shared_attribute_rate:
+                earlier = rng.choice(earlier_entities)
+                initial[entity][attr] = initial[earlier][attr]
+            else:
+                initial[entity][attr] = rng.choice(VALUES[attr])
     nodes, moves = [], []
     first_fact = {}
 
@@ -97,6 +111,7 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
     introduced = set()
     shown = set()
     updates, claims, measures, steps, records = [], [], [], [], []
+    latest_claim, latest_measure, latest_record = {}, {}, {}
     scope = 0
 
     def emit(kind, refs=(), **fields):
@@ -119,7 +134,8 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         old = nodes[previous]['value']
         new = rng.choice([v for v in VALUES[attr] if v != old])
         idx = node('update', entity=entity, attr=attr, old=old,
-                   value=new, deps=(previous,))
+                   value=new, ordinal=len(updates)+1,
+                   deps=(previous,))
         current[(entity, attr)] = idx
         updates.append(idx)
         emit('update', (idx,))
@@ -129,6 +145,7 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         source = rng.choice(NAMES)
         idx = node('source_claim', value=source, deps=(event,))
         claims.append(idx)
+        latest_claim[event] = idx
         emit('attribute', (idx,))
 
     def compare():
@@ -143,10 +160,13 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
 
     def measure():
         entity = rng.choice(tuple(sorted(introduced)))
-        idx = node('measure', entity=entity, unit=rng.choice(UNITS),
+        unit = rng.choice(COUNT_UNITS)
+        idx = node('measure', entity=entity, unit=unit,
                    value=rng.randint(1, 30),
+                   ordinal=len(measures)+1,
                    deps=(current[(entity, rng.choice(ATTRS))],))
         measures.append(idx)
+        latest_measure[(entity, unit)] = idx
         emit('measure', (idx,))
 
     def step():
@@ -171,22 +191,28 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
                       'code': tuple(aliases.values())}[key]
         value = rng.choice(candidates)
         idx = node('record', entity=entity, key=key, value=value,
-                   scope=scope, deps=(current[(entity, 'owner')],))
+                   scope=scope, ordinal=len(records)+1,
+                   deps=(current[(entity, 'owner')],))
         records.append(idx)
+        latest_record[(scope, entity, key)] = idx
         emit('record', (idx,))
 
     def revisit():
-        options = [idx for idx in shown
-                   if nodes[idx]['kind'] in ('fact', 'update',
-                                             'source_claim', 'measure',
-                                             'record')]
+        current_ids = (set(current.values()) |
+                       set(latest_claim.values()) |
+                       set(latest_measure.values()) |
+                       set(latest_record.values()) |
+                       set(steps[-1:]))
+        options = [idx for idx in shown if idx in current_ids]
         emit('revisit', (rng.choice(options),))
 
     def question():
-        options = [idx for idx in shown
-                   if nodes[idx]['kind'] in ('fact', 'update',
-                                             'source_claim', 'measure',
-                                             'record', 'comparison')]
+        current_ids = (set(current.values()) |
+                       set(latest_claim.values()) |
+                       set(latest_measure.values()) |
+                       set(latest_record.values()) |
+                       set(steps[-1:]))
+        options = [idx for idx in shown if idx in current_ids]
         target = rng.choice(options)
         emit('question', (target,), answer=nodes[target]['value'])
 
@@ -237,6 +263,7 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
                   controls=dict(n_moves=n_moves,
                                 coupling_rate=coupling_rate,
                                 question_rate=question_rate,
+                                shared_attribute_rate=shared_attribute_rate,
                                 form_weights=form_weights))
     validate(result)
     return result
@@ -311,6 +338,77 @@ def validate(plan):
     assert any(move['kind'] == REQUIRED[plan['form']]
                for move in plan['moves'])
     return True
+
+
+def edit_update(plan, node_id, new_value):
+    """Intervene on one event value and repair downstream derived claims."""
+    result = copy.deepcopy(plan)
+    nodes = result['nodes']
+    target = nodes[node_id]
+    assert target['kind'] == 'update'
+    assert new_value in VALUES[target['attr']]
+    assert new_value != target['value']
+    target['value'] = new_value
+    current = {}
+    for move in result['moves']:
+        kind = move['kind']
+        if kind == 'intro':
+            for ref in move['refs']:
+                fact = nodes[ref]
+                current[(fact['entity'], fact['attr'])] = ref
+        elif kind == 'update':
+            update = nodes[move['refs'][0]]
+            key = (update['entity'], update['attr'])
+            prior = current[key]
+            update['old'] = nodes[prior]['value']
+            assert update['old'] != update['value']
+            current[key] = update['id']
+        elif kind == 'compare':
+            relation = nodes[move['refs'][0]]
+            left, right = relation['deps']
+            relation['value'] = (
+                'same' if nodes[left]['value'] == nodes[right]['value']
+                else 'different')
+        elif kind == 'question':
+            move['answer'] = nodes[move['refs'][0]]['value']
+    validate(result)
+    return result
+
+
+def edit_initial_fact(plan, entity, attr, new_value):
+    """Intervene on an opening fact and repair dependent world claims."""
+    assert attr in ATTRS and new_value in VALUES[attr]
+    result = copy.deepcopy(plan)
+    assert new_value != result['initial'][entity][attr]
+    result['initial'][entity][attr] = new_value
+    first = next(node for node in result['nodes']
+                 if node['kind'] == 'fact' and
+                 (node['entity'], node['attr']) == (entity, attr))
+    first['value'] = new_value
+    nodes, current = result['nodes'], {}
+    for move in result['moves']:
+        kind = move['kind']
+        if kind == 'intro':
+            for ref in move['refs']:
+                fact = nodes[ref]
+                current[(fact['entity'], fact['attr'])] = ref
+        elif kind == 'update':
+            update = nodes[move['refs'][0]]
+            key = (update['entity'], update['attr'])
+            prior = current[key]
+            update['old'] = nodes[prior]['value']
+            assert update['old'] != update['value']
+            current[key] = update['id']
+        elif kind == 'compare':
+            relation = nodes[move['refs'][0]]
+            left, right = relation['deps']
+            relation['value'] = (
+                'same' if nodes[left]['value'] == nodes[right]['value']
+                else 'different')
+        elif kind == 'question':
+            move['answer'] = nodes[move['refs'][0]]['value']
+    validate(result)
+    return result
 
 
 def audit(seed=8817, per_form=200):
