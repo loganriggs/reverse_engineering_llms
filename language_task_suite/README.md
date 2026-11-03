@@ -7,6 +7,14 @@ splits, tokenizer-clean paired interventions, and nuisance edits gate a
 strong relative closer preference; a data-free QK opener score alone fails
 to rank the causally important second-layer heads consistently. This is a
 natural-form control, not an oracle for all of the source text.
+The [full-path follow-up](CORPUS_DELIMITER_FULL_PATH_COMPARISON.md) compares
+QK-only, QK×OV/readout, and final-MLP path scores against held-out causal
+head removal across five seeds. It also catches a model where individually
+small first-attention head effects conceal a larger whole-layer effect.
+The [repeated-phrase opportunity screen](CORPUS_REPEATED_PHRASE_OPPORTUNITY_SCREEN.md)
+finds a denser potential document-local copying rule in natural prose,
+while showing that broad exact recurrence is too ambiguous to serve as an
+entity-identity oracle without further checks.
 
 The [DGP rule-prevalence and weight-recovery pilot](DGP_CONDITIONAL_RATE_WEIGHT_PILOT.md)
 tests a controlled 0.10-versus-0.60 conditional-action rate at matched model

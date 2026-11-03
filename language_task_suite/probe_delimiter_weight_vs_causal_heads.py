@@ -93,7 +93,24 @@ def main():
             model.layers[0], raw_table, tokenizer),
         second_attention_after_first_mlp=opener_qk_signal(
             model.layers[2], effective_table, tokenizer))
-    baseline = evaluate(model, data['test'], device, args.batch_size)
+    round_data, square_data = data['test']['round'], data['test']['square']
+    ix = torch.arange(len(round_data['x']))
+    matched_mask = (round_data['target_is_pure_delimiter'] &
+                    square_data['target_is_pure_delimiter'] &
+                    (round_data['x'][ix, round_data['opener_position']] ==
+                     weight_scores['second_attention_after_first_mlp']
+                     ['space']['opener_token_ids'][0]) &
+                    (square_data['x'][ix, square_data['opener_position']] ==
+                     weight_scores['second_attention_after_first_mlp']
+                     ['space']['opener_token_ids'][1]))
+    matched = {style: {key: value[matched_mask]
+                       for key, value in data['test'][style].items()}
+               for style in ('round', 'square')}
+    assert len(matched['round']['x']) > 0
+    def assess():
+        return (evaluate(model, data['test'], device, args.batch_size),
+                evaluate(model, matched, device, args.batch_size))
+    baseline, matched_baseline = assess()
     head_ablations = []
     for layer_index, layer in enumerate(model.layers):
         if not hasattr(layer, 'n_head'):
@@ -105,8 +122,7 @@ def main():
                 return (value,)
             handle = layer.o.register_forward_pre_hook(zero_head)
             try:
-                metrics = evaluate(model, data['test'], device,
-                                   args.batch_size)
+                metrics, matched_metrics = assess()
             finally:
                 handle.remove()
             head_ablations.append(dict(
@@ -118,6 +134,12 @@ def main():
                 drop_mean_margin_shift=(
                     baseline['mean_correct_margin_shift']-
                     metrics['mean_correct_margin_shift']),
+                matched_drop_both_two_way=(
+                    matched_baseline['both_two_way']-
+                    matched_metrics['both_two_way']),
+                matched_drop_mean_margin_shift=(
+                    matched_baseline['mean_correct_margin_shift']-
+                    matched_metrics['mean_correct_margin_shift']),
                 positive_shift_fraction=metrics['positive_shift_fraction']))
     mlp_ablations = []
     for layer_index, layer in enumerate(model.layers):
@@ -126,8 +148,7 @@ def main():
         handle = layer.D.register_forward_hook(
             lambda module, inputs, output: torch.zeros_like(output))
         try:
-            metrics = evaluate(model, data['test'], device,
-                               args.batch_size)
+            metrics, matched_metrics = assess()
         finally:
             handle.remove()
         mlp_ablations.append(dict(
@@ -135,13 +156,44 @@ def main():
             both_two_way=metrics['both_two_way'],
             drop_both_two_way=(baseline['both_two_way']-
                                metrics['both_two_way']),
+            matched_drop_both_two_way=(
+                matched_baseline['both_two_way']-
+                matched_metrics['both_two_way']),
             drop_mean_margin_shift=(baseline['mean_correct_margin_shift']-
-                                    metrics['mean_correct_margin_shift'])))
+                                    metrics['mean_correct_margin_shift']),
+            matched_drop_mean_margin_shift=(
+                matched_baseline['mean_correct_margin_shift']-
+                matched_metrics['mean_correct_margin_shift'])))
+    attention_layer_ablations = []
+    for layer_index, layer in enumerate(model.layers):
+        if not hasattr(layer, 'n_head'):
+            continue
+        handle = layer.o.register_forward_pre_hook(
+            lambda module, inputs: (torch.zeros_like(inputs[0]),))
+        try:
+            metrics, matched_metrics = assess()
+        finally:
+            handle.remove()
+        attention_layer_ablations.append(dict(
+            layer_index=layer_index,
+            both_two_way=metrics['both_two_way'],
+            drop_both_two_way=(baseline['both_two_way']-
+                               metrics['both_two_way']),
+            matched_drop_both_two_way=(
+                matched_baseline['both_two_way']-
+                matched_metrics['both_two_way']),
+            drop_mean_margin_shift=(baseline['mean_correct_margin_shift']-
+                                    metrics['mean_correct_margin_shift']),
+            matched_drop_mean_margin_shift=(
+                matched_baseline['mean_correct_margin_shift']-
+                matched_metrics['mean_correct_margin_shift'])))
     result = dict(checkpoint=str(args.checkpoint),
                   data_free_first_layer_qk=weight_scores,
                   baseline_test=baseline,
+                  matched_pure_test=matched_baseline,
                   head_ablations=head_ablations,
                   mlp_ablations=mlp_ablations,
+                  attention_layer_ablations=attention_layer_ablations,
                   caveat='QK differential is a weight-only screening score, '
                          'not a complete path or proof of a delimiter circuit.')
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -152,6 +204,9 @@ def main():
     print('mlps', [(row['layer_index'],
                     round(row['drop_both_two_way'], 4))
                    for row in mlp_ablations], flush=True)
+    print('attention layers', [(row['layer_index'],
+                                round(row['drop_both_two_way'], 4))
+                               for row in attention_layer_ablations], flush=True)
 
 
 if __name__ == '__main__':

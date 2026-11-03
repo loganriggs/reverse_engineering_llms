@@ -115,11 +115,15 @@ def evaluate(model, paired, device, batch_size=8):
                     totals['correct_margin_shift']/count),
                 positive_shift_fraction=totals['positive_shift']/count,
                 pure_delimiter_pairs=pure_count,
-                pure_both_top1=totals['pure_both_top1']/pure_count,
-                merged_both_top1=totals['merged_both_top1']/merged_count,
-                pure_both_two_way=totals['pure_both_two_way']/pure_count,
+                pure_both_top1=(totals['pure_both_top1']/pure_count
+                                if pure_count else None),
+                merged_both_top1=(totals['merged_both_top1']/merged_count
+                                  if merged_count else None),
+                pure_both_two_way=(totals['pure_both_two_way']/pure_count
+                                   if pure_count else None),
                 merged_both_two_way=(
-                    totals['merged_both_two_way']/merged_count))
+                    totals['merged_both_two_way']/merged_count
+                    if merged_count else None))
 
 
 def train(args):

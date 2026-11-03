@@ -123,3 +123,9 @@ sparse, and intervention-based weight methods only on eligible rules. The
 corpus transform remains a natural-form control alongside the symbolic
 synthetic DGP, not a replacement for ground-truth entity, discourse,
 bigram/skip, or induction rules.
+
+The bounded [full-path comparison](CORPUS_DELIMITER_FULL_PATH_COMPARISON.md)
+is now complete. It adds five-seed behavior and whole-layer ablations,
+explicitly gates the zero-first-attention approximation, and shows that
+including OV/readout improves causal-head ranking relative to QK contrast
+in this task. This closes the delimiter-specific method detour.
