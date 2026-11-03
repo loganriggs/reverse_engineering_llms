@@ -80,4 +80,8 @@ python language_task_suite/audit_sports_document_dgp.py \
 
 This requires the official RotoWire and SBNation archives at the local paths
 declared in the generator. Raw archives stay outside Git. The aggregate JSON
-and scripts are committed; no model has yet been trained on this V1 DGP.
+and scripts are committed. A [1–4-block bilinear training scaffold](train_sports_document_pilot.py)
+has passed a one-step depth-1 smoke test; no substantive model has yet been
+trained on this V1 DGP. Its current random-world split and exposed test word
+types are explicitly diagnostic and must be replaced for a strong transfer
+claim.
