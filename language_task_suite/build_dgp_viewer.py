@@ -779,6 +779,7 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    score_overlap = _json(Path('results/score_rule_overlap_by_carrier_words.json'))
     pareto = _json(Path('results/fit_three_rule_bracket_ov_seed55302_rank2_bg0p3.json'))
     pareto_base = _json(Path('results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json'))
     bracket_fit_a = _json(Path('results/fit_three_rule_bracket_ov_seed55301_rank2_n80_n40.json'))
@@ -806,6 +807,18 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Score arithmetic can pair with brackets, but not all three rules',
+         'status': 'Natural report overlap screens the next DGP pilot',
+         'finding': ("At 100 carrier words, conservative score reports with "
+                     "a retained bracket site number "
+                     f"{score_overlap['by_carrier_words']['100']['train']['score_and_bracket']} "
+                     "training and "
+                     f"{score_overlap['by_carrier_words']['100']['heldout']['score_and_bracket']} "
+                     "heldout games. Adding the surname rule leaves only "
+                     f"{score_overlap['by_carrier_words']['100']['train']['all_three']}/"
+                     f"{score_overlap['by_carrier_words']['100']['heldout']['all_three']}; "
+                     "that intersection is too small for a three-rule model."),
+         'report': 'SCORE_RULE_OVERLAP_SCREEN.md'},
         {'title': 'Bracket fidelity versus ordinary language fidelity',
          'status': 'Moderate background protection improves the tradeoff',
          'finding': ("At rank two per head, adding background KL with "
@@ -1045,6 +1058,7 @@ def _fingerprint():
         'results/fit_three_rule_bracket_ov_seed55301_rank2_n80_n40.json',
         'results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json',
         'results/fit_three_rule_bracket_ov_seed55302_rank2_bg0p3.json',
+        'results/score_rule_overlap_by_carrier_words.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
