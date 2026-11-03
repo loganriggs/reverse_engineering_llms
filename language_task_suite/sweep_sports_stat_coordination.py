@@ -18,6 +18,10 @@ from sports_document_actplan_v1 import (
 ARMS = {
     'empirical_singletons': dict(empirical_stat_rate=1., pair_rate=0.,
                                  record_rate=0.),
+    'empirical_join_half': dict(empirical_stat_rate=1., pair_rate=0.,
+                                stat_join_rate=.5, record_rate=0.),
+    'empirical_join_full': dict(empirical_stat_rate=1., pair_rate=0.,
+                                stat_join_rate=1., record_rate=0.),
     'mixed_coordination': dict(empirical_stat_rate=.5, pair_rate=1.,
                                record_rate=0.),
     'fixed_coordination': dict(empirical_stat_rate=0., pair_rate=1.,

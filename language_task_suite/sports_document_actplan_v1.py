@@ -121,16 +121,36 @@ def _post_record_sentence(team, after, rng):
             f'The game left {team} with a {w}-{l} record.')
 
 
+def _join_stat_sentences(rows, rng, rate):
+    """Coordinate independently verified player predicates once each."""
+    output = []
+    cursor = 0
+    while cursor < len(rows):
+        first = rows[cursor]
+        if cursor+1 < len(rows) and rng.random() < rate:
+            second = rows[cursor+1]
+            assert first[0] == second[0] == 'player'
+            assert first[1].endswith('.') and second[1].endswith('.')
+            connector = rng.choice(('; ', ', while ', ', and '))
+            output.append(('player', first[1][:-1]+connector+second[1],
+                           None, None))
+            cursor += 2
+        else:
+            output.append(first)
+            cursor += 1
+    return output
+
+
 def realize(plan, empirical_stat_rate=1., paragraph_rate=.12,
             rule_rate_scale=1., record_rate=.65,
             post_record_rate=.5, combined_record_rate=0.,
-            pair_rate=0.):
+            pair_rate=0., stat_join_rate=0.):
     if not (0 <= empirical_stat_rate <= 1 and
             0 <= paragraph_rate <= 1 and
             0 <= rule_rate_scale <= 1 and 0 <= record_rate <= 1 and
             0 <= post_record_rate <= 1 and
             0 <= combined_record_rate <= 1 and
-            0 <= pair_rate <= 1):
+            0 <= pair_rate <= 1 and 0 <= stat_join_rate <= 1):
         raise ValueError('Rates must be within [0,1]')
     base = base_realize(plan.base, pair_rate=pair_rate, stat_richness=1.,
                         paragraph_rate=0., discourse_entropy=0.,
@@ -154,6 +174,10 @@ def realize(plan, empirical_stat_rate=1., paragraph_rate=.12,
     selected_stats = stats if 'top_player' in chosen else rng.sample(
         stats, rng.randint(2, min(4, len(stats))))
     rng.shuffle(selected_stats)
+    if stat_join_rate:
+        join_rng = random.Random(plan.base.surface_seed ^ 0x57A7A7)
+        selected_stats = _join_stat_sentences(selected_stats, join_rng,
+                                               stat_join_rate)
     records = []
     post_records = []
     for team, before in ((plan.base.home, plan.home_before),
