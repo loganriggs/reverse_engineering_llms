@@ -12,6 +12,10 @@ finds full human-written reports with structured scores and two distinct
 writing styles. It also demonstrates severe game leakage across supplied
 splits and that reversible score-slot extraction alone does not make a
 counterfactual sentence semantically valid.
+The [sampled sports-document V1 audit](SPORTS_DOCUMENT_DGP_V1_AUDIT.md)
+adds three linked, visible-prefix rules and selective edits. It substantially
+reduces repetition relative to the linked synthetic report, but still falls
+well short of natural sports reports; no new model or weight result is claimed.
 
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document
