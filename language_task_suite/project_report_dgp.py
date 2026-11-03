@@ -208,8 +208,10 @@ TEMPLATES = {
 }
 
 
-def realize(plan: Plan, surface_entropy=1., paragraph_rate=.25):
-    if not 0 <= surface_entropy <= 1 or not 0 <= paragraph_rate <= 1:
+def realize(plan: Plan, surface_entropy=1., paragraph_rate=.25,
+            discourse_entropy=0.):
+    if not 0 <= surface_entropy <= 1 or not 0 <= paragraph_rate <= 1 \
+            or not 0 <= discourse_entropy <= 1:
         raise ValueError('Invalid surface control')
     rng = random.Random(plan.surface_seed)
     clauses = []
@@ -222,10 +224,21 @@ def realize(plan: Plan, surface_entropy=1., paragraph_rate=.25):
         clauses.append(template.format(**values))
 
     add('opening')
-    add('context')
-    add('target' if plan.coupled else 'target_independent')
-    add('issue')
-    add('impact')
+    background = ['context',
+                  'target' if plan.coupled else 'target_independent',
+                  'issue', 'impact']
+    if discourse_entropy and rng.random() < discourse_entropy:
+        # Vary the discourse plan while preserving a plausible background
+        # phase and leaving all rule evidence before its scored answer.
+        background = list(rng.choice((
+            ('issue', 'impact', background[1], 'context'),
+            ('context', 'issue', background[1], 'impact'),
+            ('issue', background[1], 'context', 'impact'),
+            (background[1], 'issue', 'impact', 'context'),
+            ('issue', 'context', 'impact', background[1]),
+        )))
+    for kind in background:
+        add(kind)
     add('first_work')
     add('second_work')
     add('scope')

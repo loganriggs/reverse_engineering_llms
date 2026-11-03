@@ -91,3 +91,29 @@ instantiate the multi-step event chain here, and it does not provide an
 exact document-level rule oracle. The local training JSON has SHA-256
 `92c8594979c05f508f5739047079ec2ffe5a244e58bfa2b50a9cb8b9c65f5a2b`
 and stays outside Git. Do not count it as a solved renderer.
+
+## Discourse-order control: verified but insufficient
+
+The [order audit](audit_project_report_discourse.py) adds an opt-in
+`discourse_entropy` control to the [same generator](project_report_dgp.py).
+It permutes background facts among five plausible layouts while preserving
+the work-report chronology and the visible evidence before all three answer
+sites. The default remains the previous order. In a paired 64-document,
+100-word screen, all 64 full texts changed. Four 1,000-plan semantic cells
+(fixed/variable order × coupled/independent status) passed every total,
+source, and status visible-prefix check and the corresponding selective
+causal edits.
+
+| Order | Whole-document word types | Repeated trigram share | Total-site window | Status-site window | Source-site window |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Fixed | 289 | 88.8% | 90.3% | 92.9% | 92.9% |
+| Variable | 292 | 86.9% | 91.5% | 93.0% | 93.1% |
+
+The [aggregate results](results/project_report_discourse_order_audit.json)
+show why order randomization is not enough. It modestly reduces full-text
+repetition but leaves the *rule-bearing spans* as repetitive as before, or
+slightly more so. Manual samples remain variations of one public-works
+report. This is a negative control for discourse-order changes, not an
+accepted successor distribution. The next meaningful change must diversify
+the task-bearing realization and document process, not merely rearrange
+the same sentences. No model was trained on this arm.

@@ -36,7 +36,8 @@ def _values(document):
     return {site.kind: site.answer for site in document.sites}
 
 
-def semantic(seed, plans, surface_entropy, coupling_rate):
+def semantic(seed, plans, surface_entropy, coupling_rate,
+             discourse_entropy=0.):
     rng = random.Random(seed)
     counts = Counter()
     samples = []
@@ -44,7 +45,8 @@ def semantic(seed, plans, surface_entropy, coupling_rate):
         plan = sample_plan(rng, coupling_rate=coupling_rate,
                            frequency_exponent=1.)
         doc = realize(plan, surface_entropy=surface_entropy,
-                      paragraph_rate=.25)
+                      paragraph_rate=.25,
+                      discourse_entropy=discourse_entropy)
         verify(doc)
         counts['plans'] += 1
         counts['coupled' if plan.coupled else 'independent'] += 1
@@ -61,7 +63,8 @@ def semantic(seed, plans, surface_entropy, coupling_rate):
                    if name not in (plan.first_source, plan.second_source)]
         altered = realize(edit(plan, 'second_source', choices[0]),
                           surface_entropy=surface_entropy,
-                          paragraph_rate=.25)
+                          paragraph_rate=.25,
+                          discourse_entropy=discourse_entropy)
         verify(altered)
         after = _values(altered)
         assert after['source'] != original['source']
@@ -71,7 +74,8 @@ def semantic(seed, plans, surface_entropy, coupling_rate):
         altered = realize(edit(plan, 'first_count',
                                plan.first_count+3),
                           surface_entropy=surface_entropy,
-                          paragraph_rate=.25)
+                          paragraph_rate=.25,
+                          discourse_entropy=discourse_entropy)
         verify(altered)
         after = _values(altered)
         assert int(after['total']) == int(original['total'])+3
@@ -83,7 +87,8 @@ def semantic(seed, plans, surface_entropy, coupling_rate):
                 else plan.total-1
             altered = realize(edit(plan, 'target', threshold),
                               surface_entropy=surface_entropy,
-                              paragraph_rate=.25)
+                              paragraph_rate=.25,
+                              discourse_entropy=discourse_entropy)
             verify(altered)
             after = _values(altered)
             assert after['status'] != original['status']
@@ -94,7 +99,8 @@ def semantic(seed, plans, surface_entropy, coupling_rate):
                                    'closed' if plan.status == 'open'
                                    else 'open'),
                               surface_entropy=surface_entropy,
-                              paragraph_rate=.25)
+                              paragraph_rate=.25,
+                              discourse_entropy=discourse_entropy)
             verify(altered)
             after = _values(altered)
             assert after['status'] != original['status']
@@ -104,7 +110,8 @@ def semantic(seed, plans, surface_entropy, coupling_rate):
     return dict(counts=dict(counts), examples=samples)
 
 
-def form(seed, n, words, surface_entropy, coupling_rate):
+def form(seed, n, words, surface_entropy, coupling_rate,
+         discourse_entropy=0.):
     rng = random.Random(seed)
     rows = []
     draws = 0
@@ -115,7 +122,8 @@ def form(seed, n, words, surface_entropy, coupling_rate):
         plan = sample_plan(rng, coupling_rate=coupling_rate,
                            frequency_exponent=1.)
         doc = realize(plan, surface_entropy=surface_entropy,
-                      paragraph_rate=.25)
+                      paragraph_rate=.25,
+                      discourse_entropy=discourse_entropy)
         crop = first_words(doc.text, words)
         if len(WORD.findall(crop)) < words:
             continue
