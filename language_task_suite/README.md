@@ -1,5 +1,13 @@
 # Grounded toy-language task suite (first pass)
 
+**Current DGP priority:** Build a realistic, variable sampled distribution
+with known rules for benchmarking weight-based interpretability. The
+[structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
+substantial sentence-level variation in DART and ToTTo, but rejects their
+simple concatenation as a coherent document generator. Behavioral checks
+gate which rules are eligible for weight analysis; capability is not the
+generator's main objective.
+
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document
 splits, tokenizer-clean paired interventions, and nuisance edits gate a
