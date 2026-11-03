@@ -29,6 +29,10 @@ The [cross-source closure head ablation](CROSS_SOURCE_CLOSURE_HEAD_ABLATION.md)
 finds one late attention head per seed whose removal destroys both sports
 bracket and FineWeb delimiter behavior while largely sparing sports alias
 copying. This is head-level causal localization, not yet a shared QK/OV circuit.
+The [within-head OV mode test](CROSS_SOURCE_OV_MODE_RESULT.md) shows that a
+weight-only SVD has no single mode whose removal reproduces the head's effect
+on both closure rules. Top-rank retention reveals a compact but distributed
+closure-supporting subspace and a sharper FineWeb sensitivity to rank.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
