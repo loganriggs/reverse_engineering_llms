@@ -60,10 +60,31 @@ OPENINGS = {
     'commercial': ('headline', 'specification', 'review'),
 }
 
+# Exploratory focus/novelty controls, not natural-language frequency estimates.
+# A threaded document discusses a small number of related events instead of
+# independently redrawing the same move at every position.
+THREAD_CAPS = {
+    'report': dict(intro=3, update=4, attribute=3, compare=2,
+                   measure=2, revisit=2, question=2),
+    'personal': dict(intro=3, update=4, attribute=2, compare=2,
+                     measure=2, revisit=3, question=2),
+    'reference': dict(intro=3, update=2, attribute=1, compare=4,
+                      measure=2, revisit=3, question=2),
+    'quoted_feature': dict(intro=3, update=5, attribute=3,
+                           compare=3, revisit=3, question=2),
+    'procedure': dict(intro=3, step=6, measure=3, revisit=2,
+                      question=2),
+    'collection': dict(intro=3, scope=3, record=5, revisit=2,
+                       question=2),
+    'commercial': dict(intro=3, record=4, measure=3,
+                       compare=2, revisit=2, question=2),
+}
+
 
 def sample_plan(rng: random.Random, form=None, form_weights=None,
                 n_moves=None, coupling_rate=.5, question_rate=1.,
-                shared_attribute_rate=.6):
+                shared_attribute_rate=.6, planning_style='independent',
+                focus_rate=.8):
     """Sample a truth-conditional graph and a legal visible move order."""
     if form_weights is None:
         form_weights = {name: 1. for name in FORMS}
@@ -72,12 +93,15 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
     assert sum(form_weights.values()) > 0
     assert (0 <= coupling_rate <= 1 and question_rate >= 0 and
             0 <= shared_attribute_rate <= 1)
+    assert planning_style in ('independent', 'threaded')
+    assert 0 <= focus_rate <= 1
+    threaded = planning_style == 'threaded'
     if form is None:
         form = rng.choices(FORMS, [form_weights[k] for k in FORMS])[0]
     if form not in FORMS:
         raise ValueError(form)
     if n_moves is None:
-        n_moves = rng.randint(8, 14)
+        n_moves = rng.randint(8, 11) if threaded else rng.randint(8, 14)
     assert n_moves >= 3
     opening_role = rng.choice(OPENINGS[form])
 
@@ -112,7 +136,46 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
     shown = set()
     updates, claims, measures, steps, records = [], [], [], [], []
     latest_claim, latest_measure, latest_record = {}, {}, {}
+    seen_comparisons, seen_measures, seen_records = set(), set(), set()
+    answered = set()
+    focus_entity = None
+    document_unit = rng.choice(COUNT_UNITS) if threaded else None
+    document_record_key = (rng.choice(('status', 'category', 'code'))
+                           if threaded else None)
     scope = 0
+
+    def choose_entity():
+        if threaded and focus_entity in introduced and rng.random() < focus_rate:
+            return focus_entity
+        return rng.choice(tuple(sorted(introduced)))
+
+    def comparison_options():
+        options = []
+        for entity in sorted(introduced):
+            for other in sorted(introduced):
+                if entity == other:
+                    continue
+                for attr in ATTRS:
+                    pair = tuple(sorted((entity, other)))
+                    signature = (pair, attr, current[(pair[0], attr)],
+                                 current[(pair[1], attr)])
+                    if signature not in seen_comparisons:
+                        options.append((entity, other, attr, signature))
+        return options
+
+    def recall_options():
+        current_ids = (set(current.values()) |
+                       set(latest_claim.values()) |
+                       set(latest_measure.values()) |
+                       set(latest_record.values()) |
+                       set(steps[-1:]))
+        options = [idx for idx in shown if idx in current_ids]
+        if threaded:
+            recent = {ref for move in moves[-2:] for ref in move['refs']}
+            fresh = [idx for idx in options
+                     if idx not in answered and idx not in recent]
+            return fresh
+        return options
 
     def emit(kind, refs=(), **fields):
         refs = tuple(refs)
@@ -122,14 +185,20 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         shown.update(refs)
 
     def introduce(entity):
+        nonlocal focus_entity
         assert entity not in introduced
+        if focus_entity is None:
+            focus_entity = entity
         refs = tuple(first_fact[(entity, attr)] for attr in ATTRS)
         introduced.add(entity)
         emit('intro', refs, entity=entity, alias=aliases[entity])
 
     def update():
-        entity = rng.choice(tuple(sorted(introduced)))
-        attr = rng.choice(ATTRS)
+        entity = choose_entity()
+        attrs = (tuple(attr for attr in ATTRS
+                       if current[(entity, attr)] == first_fact[(entity, attr)])
+                 if threaded else ())
+        attr = rng.choice(attrs or ATTRS)
         previous = current[(entity, attr)]
         old = nodes[previous]['value']
         new = rng.choice([v for v in VALUES[attr] if v != old])
@@ -141,7 +210,9 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         emit('update', (idx,))
 
     def attribute():
-        event = rng.choice(updates)
+        available = ([idx for idx in updates if idx not in latest_claim]
+                     if threaded else updates)
+        event = rng.choice(available)
         source = rng.choice(NAMES)
         idx = node('source_claim', value=source, deps=(event,))
         claims.append(idx)
@@ -149,8 +220,16 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         emit('attribute', (idx,))
 
     def compare():
-        entity, other = rng.sample(sorted(introduced), 2)
-        attr = rng.choice(ATTRS)
+        if threaded:
+            options = comparison_options()
+            focal = [row for row in options if row[0] == focus_entity]
+            pool = (focal if focal and rng.random() < focus_rate
+                    else options)
+            entity, other, attr, signature = rng.choice(pool)
+            seen_comparisons.add(signature)
+        else:
+            entity, other = rng.sample(sorted(introduced), 2)
+            attr = rng.choice(ATTRS)
         left, right = current[(entity, attr)], current[(other, attr)]
         relation = ('same' if nodes[left]['value'] == nodes[right]['value']
                     else 'different')
@@ -159,8 +238,18 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         emit('compare', (idx,))
 
     def measure():
-        entity = rng.choice(tuple(sorted(introduced)))
-        unit = rng.choice(COUNT_UNITS)
+        if threaded:
+            options = [(entity, unit) for entity in sorted(introduced)
+                       for unit in (document_unit,)
+                       if (entity, unit) not in seen_measures]
+            focal = [row for row in options if row[0] == focus_entity]
+            pool = (focal if focal and rng.random() < focus_rate
+                    else options)
+            entity, unit = rng.choice(pool)
+            seen_measures.add((entity, unit))
+        else:
+            entity = rng.choice(tuple(sorted(introduced)))
+            unit = rng.choice(COUNT_UNITS)
         idx = node('measure', entity=entity, unit=unit,
                    value=rng.randint(1, 30),
                    ordinal=len(measures)+1,
@@ -170,7 +259,7 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         emit('measure', (idx,))
 
     def step():
-        entity = rng.choice(tuple(sorted(introduced)))
+        entity = choose_entity()
         dependencies = (steps[-1],) if steps else (
             current[(entity, rng.choice(ATTRS))],)
         idx = node('step', entity=entity, value=rng.choice(STEP_ACTIONS),
@@ -184,8 +273,21 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         emit('scope', (), scope_name=f'part_{scope}')
 
     def record():
-        entity = rng.choice(tuple(sorted(introduced)))
-        key = rng.choice(('status', 'category', 'code'))
+        if threaded:
+            options = [(entity, key) for entity in sorted(introduced)
+                       for key in ('status', 'category', 'code')
+                       if (scope, entity, key) not in seen_records]
+            preferred = [row for row in options
+                         if row[1] == document_record_key]
+            options = preferred or options
+            focal = [row for row in options if row[0] == focus_entity]
+            pool = (focal if focal and rng.random() < focus_rate
+                    else options)
+            entity, key = rng.choice(pool)
+            seen_records.add((scope, entity, key))
+        else:
+            entity = rng.choice(tuple(sorted(introduced)))
+            key = rng.choice(('status', 'category', 'code'))
         candidates = {'status': ('active', 'closed', 'pending'),
                       'category': ('standard', 'special'),
                       'code': tuple(aliases.values())}[key]
@@ -198,22 +300,13 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
         emit('record', (idx,))
 
     def revisit():
-        current_ids = (set(current.values()) |
-                       set(latest_claim.values()) |
-                       set(latest_measure.values()) |
-                       set(latest_record.values()) |
-                       set(steps[-1:]))
-        options = [idx for idx in shown if idx in current_ids]
-        emit('revisit', (rng.choice(options),))
+        target = rng.choice(recall_options())
+        answered.add(target)
+        emit('revisit', (target,))
 
     def question():
-        current_ids = (set(current.values()) |
-                       set(latest_claim.values()) |
-                       set(latest_measure.values()) |
-                       set(latest_record.values()) |
-                       set(steps[-1:]))
-        options = [idx for idx in shown if idx in current_ids]
-        target = rng.choice(options)
+        target = rng.choice(recall_options())
+        answered.add(target)
         emit('question', (target,), answer=nodes[target]['value'])
 
     operations = dict(intro=lambda: introduce(
@@ -234,23 +327,54 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
 
     while len(moves) < n_moves:
         valid = []
+        counts = Counter(move['kind'] for move in moves) if threaded else None
         for kind, weight in MOVE_WEIGHTS[form].items():
+            if threaded and counts[kind] >= THREAD_CAPS[form][kind]:
+                continue
             if kind == 'intro' and len(introduced) == len(entities):
                 continue
             if kind == 'attribute' and not updates:
                 continue
+            if kind == 'attribute' and threaded and not any(
+                    idx not in latest_claim for idx in updates):
+                continue
             if kind == 'compare' and len(introduced) < 2:
+                continue
+            if kind == 'compare' and threaded and not comparison_options():
+                continue
+            if kind == 'measure' and threaded and not any(
+                    (entity, document_unit) not in seen_measures
+                    for entity in introduced):
+                continue
+            if kind == 'record' and threaded and not any(
+                    (scope, entity, key) not in seen_records
+                    for entity in introduced
+                    for key in ('status', 'category', 'code')):
                 continue
             if kind == 'question' and rng.random() > question_rate:
                 continue
+            if kind == 'question' and threaded and len(moves) < 6:
+                continue
             if kind in ('revisit', 'question') and not shown:
+                continue
+            if kind == 'revisit' and threaded and len(moves) < 6:
+                continue
+            if kind in ('revisit', 'question') and threaded and not recall_options():
                 continue
             # Coupling controls reuse of existing semantic nodes. Low
             # coupling favors fresh facts/events over revisit/attribution.
             if kind in ('revisit', 'attribute', 'question'):
                 weight *= coupling_rate
+            if threaded and moves and kind == moves[-1]['kind'] and kind != 'step':
+                weight *= .1
+            if threaded and kind == 'attribute' and moves[-1]['kind'] == 'update':
+                weight *= 3.
+            if threaded and kind == 'record' and moves[-1]['kind'] == 'scope':
+                weight *= 3.
             valid.append((kind, weight))
         if not valid or sum(weight for _, weight in valid) == 0:
+            if threaded:
+                raise ValueError('Threaded plan exhausted legal moves')
             kind = 'update'
         else:
             kind = rng.choices([kind for kind, _ in valid],
@@ -264,6 +388,8 @@ def sample_plan(rng: random.Random, form=None, form_weights=None,
                                 coupling_rate=coupling_rate,
                                 question_rate=question_rate,
                                 shared_attribute_rate=shared_attribute_rate,
+                                planning_style=planning_style,
+                                focus_rate=focus_rate,
                                 form_weights=form_weights))
     validate(result)
     return result

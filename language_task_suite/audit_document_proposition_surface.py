@@ -71,7 +71,8 @@ def _check_flip(plan, edited, site_index, surface_seed, canonical,
         form_counts[label] += 1
 
 
-def semantic(seed=345, per_form=200, surface_version=1):
+def semantic(seed=345, per_form=200, surface_version=1,
+             planning_style='independent', fixed_moves=None):
     rng = random.Random(seed)
     counts = Counter()
     by_form = {}
@@ -79,7 +80,9 @@ def semantic(seed=345, per_form=200, surface_version=1):
         form_counts = Counter()
         for i in range(per_form):
             plan = sample_plan(rng, form=form, coupling_rate=1.,
-                               question_rate=1.)
+                               question_rate=1.,
+                               planning_style=planning_style,
+                               n_moves=fixed_moves)
             assert validate(plan)
             surface_seed = rng.randrange(2**32)
             canonical = realize(plan, seed=surface_seed,
@@ -216,14 +219,17 @@ def semantic(seed=345, per_form=200, surface_version=1):
                 totals=dict(counts), by_form=by_form)
 
 
-def form(seed, n=64, words=100, surface_version=1):
+def form(seed, n=64, words=100, surface_version=1,
+         planning_style='independent', fixed_moves=None):
     rng = random.Random(seed)
     texts = dict(canonical=[], typed=[])
     draws = 0
     while len(texts['typed']) < n:
         draws += 1
         plan = sample_plan(rng, coupling_rate=.7,
-                           n_moves=rng.randint(10, 16))
+                           planning_style=planning_style,
+                           n_moves=(fixed_moves if fixed_moves is not None
+                                    else rng.randint(10, 16)))
         surface_seed = rng.randrange(2**32)
         docs = dict(canonical=realize(plan, seed=surface_seed,
                                       surface_version=surface_version),
@@ -257,11 +263,22 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--surface-version', type=int, choices=(1, 2), default=1)
+    p.add_argument('--planning-style', choices=('independent', 'threaded'),
+                   default='independent')
+    p.add_argument('--fixed-moves', type=int)
     args = p.parse_args()
     result = dict(surface_version=args.surface_version,
-                  semantic=semantic(surface_version=args.surface_version),
-                  form=[form(94121, surface_version=args.surface_version),
-                        form(94122, surface_version=args.surface_version)],
+                  planning_style=args.planning_style,
+                  fixed_moves=args.fixed_moves,
+                  semantic=semantic(surface_version=args.surface_version,
+                                    planning_style=args.planning_style,
+                                    fixed_moves=args.fixed_moves),
+                  form=[form(94121, surface_version=args.surface_version,
+                             planning_style=args.planning_style,
+                             fixed_moves=args.fixed_moves),
+                        form(94122, surface_version=args.surface_version,
+                             planning_style=args.planning_style,
+                             fixed_moves=args.fixed_moves)],
                   caveat='First semantic surface fixture, not a realistic '
                          'training distribution or a full-token oracle.')
     args.output.parent.mkdir(parents=True, exist_ok=True)
