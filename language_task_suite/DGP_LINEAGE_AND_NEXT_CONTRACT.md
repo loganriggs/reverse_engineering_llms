@@ -199,3 +199,21 @@ The reference-stream bilinear baseline must pass held-out attribute
 prediction and earlier-fact edit gates before using its learned paths for
 interpretability. The realism task now needs diverse document surfaces and
 semantic dependencies, not further price-only loss tuning.
+
+## V14 conditional continuation and rule-specific model competence
+
+The [V14 report](V14_CONDITIONAL_AND_BINDING.md) lets a completed attribute
+fact continue with an exact local condition→action rule, while the same fact
+remains available to later ordinary descriptions. Two independent reference
+and diagnostic audits pass inherited V13 checks plus local action edits.
+Cross-sentence edits of conditional facts must also repair their already
+written action to remain in support. A two-layer bilinear model trained on
+the V14 reference stream passes the local action prediction and causal-edit
+gate on two untouched panels, but fails the earlier-fact item-binding gate.
+This is a within-model learned-versus-unlearned task split, not shared
+computation or realistic language. FineWeb form mismatch remains. A
+prose-heavy rate variant reduced colon frequency on one development panel
+but failed on a disjoint natural panel and nearly erased rare source/scope
+coverage, so it was not adopted. Interpret only the competent local rule;
+next generator work needs genuine lexical and document-structure diversity
+rather than punctuation-rate tuning.

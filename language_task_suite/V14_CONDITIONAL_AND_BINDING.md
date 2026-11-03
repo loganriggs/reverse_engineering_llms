@@ -81,6 +81,34 @@ object-edit mean absolute effect error at most 0.25, with at least 50
 multi-pending edit cases per panel. These gates are set before inspecting
 the trained V14 model.
 
-Passing only the local gate would establish competence on a condition→action
-mapping inside the shared stream, not on the earlier-fact binding. Only
-competent rules should be used for sparse/canonical circuit comparison.
+The 1,000-update reference-stream run completed with saved diagnostics at
+steps 0, 200, 400, 600, 800, and 1,000. Its four-step CPU
+interrupted-versus-uninterrupted control matched final weights exactly.
+The [training record](results/v14_conditional_reference_depth2_seed3_1000/results.json),
+[checkpoint](results/v14_conditional_reference_depth2_seed3_1000/model.pt),
+and two untouched 512-stream [fresh panels A](results/v14_conditional_reference_depth2_seed3_1000/fresh_panel_99741.json)
+and [B](results/v14_conditional_reference_depth2_seed3_1000/fresh_panel_99751.json)
+give the result:
+
+| Reference panel | Conditional-action CE | Local new-action edit response | Attribute-object CE / oracle entropy | Earlier-fact object edit response / oracle |
+|---|---:|---:|---:|---:|
+| 99741 | 0.185 | +0.846 | 2.823 / 1.130 | −0.00073 / −0.647 |
+| 99751 | 0.189 | +0.840 | 2.828 / 1.126 | −0.00073 / −0.641 |
+
+Each panel has 128 supported local edits and 128 supported object edits,
+including 64 multi-pending object edits. The independent diagnostic-regime
+panels show the same qualitative split. Adjective prediction is partial:
+reference CE2.522/2.528 versus oracle entropy2.164/2.154, with
+earlier-fact adjective-edit response +.258/+.247 versus oracle +.477/+.482.
+The object binding remains absent despite this partial set tracking.
+
+![Learned local action versus unlearned historical binding](results/v14_conditional_reference_depth2_seed3_1000/v14_local_vs_binding.png)
+
+**The local conditional action passes its prespecified prediction and edit
+gate on both panels; cross-sentence item binding fails both parts of its
+gate.** This supports a narrow mechanistic next step: test whether pruning
+or canonicalization exposes the learned condition→action computation while
+preserving its causal edit response. Stop that branch if a sparse candidate
+cannot preserve the local gate at a clearly smaller connection budget;
+do not reinterpret the failed historical binding as learned. A local mapping
+is not evidence of reusable computation across the other task families.
