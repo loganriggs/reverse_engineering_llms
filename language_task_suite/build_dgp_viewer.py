@@ -929,6 +929,9 @@ def write_public_html(path, data):
 def _write_both(local_path, public_path, data):
     write_data(local_path, data)
     write_public_html(public_path, data)
+    pages_path = HERE.parent/'docs'/'index.html'
+    if public_path.resolve() != pages_path.resolve():
+        write_public_html(pages_path, data)
 
 
 def _fingerprint():
