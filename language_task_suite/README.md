@@ -1,7 +1,8 @@
 # Grounded toy-language task suite (first pass)
 
 Open the [local DGP field guide](dgp_viewer.html) to inspect sampled documents,
-highlighted rule sites, and four-way causal variants. Generate its local data
+highlighted rule sites, four-way causal variants, and matched-size word-rank
+comparisons against a frozen FineWeb reference. Generate its local data
 file with
 `/home/loganriggs/Coding/neuron_circuits/.venv/bin/python language_task_suite/build_dgp_viewer.py`
 from the repository root. Add `--watch` to rebuild on DGP or result changes;

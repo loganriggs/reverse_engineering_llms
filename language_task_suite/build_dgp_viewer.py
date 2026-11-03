@@ -8,6 +8,7 @@ Run once to refresh, or use --watch while actively editing DGP code/results.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 from itertools import islice
@@ -27,6 +28,7 @@ from corpus_joint_style_delimiter_dgp import validate_factorial
 from document_mixture_v7_cross import KINDS, sample_document, site_oracle
 from sports_alias_bracket_dgp import realize as sports_realize
 from sports_alias_bracket_dgp import sample_plan as sports_sample_plan
+from audit_surface_repetition import WORD
 
 
 HERE = Path(__file__).resolve().parent
@@ -234,6 +236,57 @@ def _catalog():
     ]
 
 
+def _zipf_comparison():
+    """Equal-length lexical windows; the V7 arm conditions on long documents."""
+    frozen = _json(Path('results/v14_zipf_seed99851_n480/'
+                        'v14_vs_fineweb_word_rank.json'))
+    rng = random.Random(99852)
+    rows = []
+    attempts = 0
+    while len(rows) < 480 and attempts < 5000:
+        attempts += 1
+        kind = rng.choice(('narrative', 'event_report', 'cross_report'))
+        doc = sample_document(rng, kind=kind)
+        passage, _ = _render_tokens(doc.tokens)
+        words = [word.lower() for word in WORD.findall(passage)]
+        if len(words) >= 100:
+            rows.append(words[:100])
+    if len(rows) != 480:
+        raise RuntimeError('Could not sample 480 long V7 windows')
+    counts = Counter(word for row in rows for word in row)
+    rank = sorted(counts.values(), reverse=True)
+    total = sum(rank)
+    # Match audit_v14_zipf.py's descriptive least-squares slope.
+    import numpy as np
+    slope = float(np.polyfit(np.log(np.arange(10, 101)),
+                             np.log(np.asarray(rank[9:100])/total), 1)[0])
+    v7 = {'n_windows': 480, 'words_per_window': 100,
+          'total_words': total, 'observed_vocabulary': len(counts),
+          'top1_mass': rank[0]/total, 'top10_mass': sum(rank[:10])/total,
+          'tail_slope_rank10_to100': slope,
+          'hapax_types': sum(value == 1 for value in counts.values()),
+          'top25': counts.most_common(25)}
+    return {'method': ('480 first-100-word windows per arm; lowercase '
+                       'alphabetic-word regex. V7 samples only eligible '
+                       'long narrative/event/cross documents, so this is '
+                       'not the full V7 mixture. FineWeb and V14 use the '
+                       'previously frozen 480-window reference audit; '
+                       'these are equal-sized, not paired documents.'),
+            'caveat': ('A near -1 middle-rank slope alone does not mean '
+                       'Zipfian natural language: head mass and vocabulary '
+                       'tail matter, and lexical frequency does not test '
+                       'syntax or meaning.'),
+            'series': [
+                {'name': 'FineWeb reference', 'summary': frozen['summary']['FineWeb'],
+                 'ranks': frozen['ranks']['FineWeb']},
+                {'name': 'V14 sampled grammar', 'summary': frozen['summary']['V14'],
+                 'ranks': frozen['ranks']['V14']},
+                {'name': 'V7 long-document sample', 'summary': v7,
+                 'ranks': rank}],
+            'reference': 'V14_SAMPLED_EXAMPLES_AND_ZIPF.md; '
+                         'DOCUMENT_MIXTURE_V7_CROSS_AND_TRANSFER.md'}
+
+
 def build(cache_path, refresh):
     return {'generated_at': datetime.now(timezone.utc).isoformat(
                 timespec='seconds'),
@@ -252,6 +305,7 @@ def build(cache_path, refresh):
                             '58/1,000 span-aligned FineWeb opportunities, '
                             'but replacement semantics need validation.'}],
             'catalog': _catalog(),
+            'zipf': _zipf_comparison(),
             'examples': (_synthetic_examples()+[_sports_example()]+
                          _fineweb_examples(cache_path, refresh)),
             'candidate': _json(Path('results/'
@@ -280,7 +334,8 @@ def _fingerprint():
         'corpus_joint_style_delimiter_dgp.py',
         'results/sports_alias_bracket_fresh_seed98301_n100.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
-        'results/corpus_uppercase_repeat_joint_skip84500_n1000.json')]
+        'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
+        'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
     return tuple((str(path), path.stat().st_mtime_ns, path.stat().st_size)
                  for path in paths)
 
