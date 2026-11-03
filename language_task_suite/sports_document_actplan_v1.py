@@ -95,7 +95,9 @@ def _base_sentences(doc):
         kind = ('answer' if site else 'score' if SCORE_PAIR.search(sentence)
                 else 'player')
         rows.append((kind, sentence, site, offset))
-    if len(rows) != 9 or CounterKinds(rows) != (1, 5, 3):
+    score_count, player_count, answer_count = CounterKinds(rows)
+    if score_count != 1 or not 3 <= player_count <= 5 or \
+            answer_count != 3:
         raise ValueError('Unexpected base sentence inventory')
     return rows
 
@@ -121,14 +123,16 @@ def _post_record_sentence(team, after, rng):
 
 def realize(plan, empirical_stat_rate=1., paragraph_rate=.12,
             rule_rate_scale=1., record_rate=.65,
-            post_record_rate=.5, combined_record_rate=0.):
+            post_record_rate=.5, combined_record_rate=0.,
+            pair_rate=0.):
     if not (0 <= empirical_stat_rate <= 1 and
             0 <= paragraph_rate <= 1 and
             0 <= rule_rate_scale <= 1 and 0 <= record_rate <= 1 and
             0 <= post_record_rate <= 1 and
-            0 <= combined_record_rate <= 1):
+            0 <= combined_record_rate <= 1 and
+            0 <= pair_rate <= 1):
         raise ValueError('Rates must be within [0,1]')
-    base = base_realize(plan.base, pair_rate=0., stat_richness=1.,
+    base = base_realize(plan.base, pair_rate=pair_rate, stat_richness=1.,
                         paragraph_rate=0., discourse_entropy=0.,
                         lead_stat_rate=0.,
                         empirical_stat_rate=empirical_stat_rate)
@@ -148,7 +152,7 @@ def realize(plan, empirical_stat_rate=1., paragraph_rate=.12,
     if not chosen:
         chosen.add(rng.choice(tuple(rates)))
     selected_stats = stats if 'top_player' in chosen else rng.sample(
-        stats, rng.randint(2, 4))
+        stats, rng.randint(2, min(4, len(stats))))
     rng.shuffle(selected_stats)
     records = []
     post_records = []
