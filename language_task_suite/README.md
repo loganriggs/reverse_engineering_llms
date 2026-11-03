@@ -92,8 +92,11 @@ remains a controlled fixture rather than the main training DGP. The
 [single-query live ledger](LIVE_SINGLE_QUERY_DGP_AND_MODEL.md) removes the
 earlier-answer shortcut and yields a causally robust latest-score copy rule
 after larger depth-4 training; run subtraction remains behaviorally weak.
-The
-[structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
+The [fresh V14 frame audit](V14_FRESH_FRAME_BOTTLENECK.md) finds near-matched
+mean sentence lengths but a large gap in clause openings, lexical breadth,
+and phrase repetition on a new FineWeb range. The next sampled-grammar
+revision needs alternate event-level realizations, not another tail synonym.
+The [structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
 substantial sentence-level variation in DART and ToTTo, but rejects their
 simple concatenation as a coherent document generator. Behavioral checks
 gate which rules are eligible for weight analysis; capability is not the
