@@ -68,6 +68,12 @@ Two bilinear-model seeds learn both copy rules but not margin; a task-blind
 head weight score nominates the two causally important heads in both seeds.
 Full documents and answer windows still repeat more than natural reports, so
 this is a mechanistic positive control rather than a realism pass.
+The [local OV rank-transfer comparison](MULTIRULE_OV_RANK_TRANSFER.md) tests
+weight-only and score-only-activation SVDs of those two heads, including a
+strict fit without player-stat carrier prose. Full rank replays the native
+model; at lower rank, better fitted OV reconstruction does not consistently
+preserve held-out copying or output KL. This local map is not a full
+attention-function canonicalization.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
