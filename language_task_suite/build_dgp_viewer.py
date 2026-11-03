@@ -779,6 +779,8 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    bracket_fit_a = _json(Path('results/fit_three_rule_bracket_ov_seed55301_rank2_n80_n40.json'))
+    bracket_fit_b = _json(Path('results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json'))
     three_ov_a = _json(Path('results/three_rule_ov_canonical_seed55301_n80_n40.json'))
     three_ov_b = _json(Path('results/three_rule_ov_canonical_seed55302_n80_n40.json'))
     three_a = _json(Path('results/sports_alias_bracket_caps_seed55301_s3000.json'))
@@ -802,6 +804,19 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Rule-aware low-rank fit rescues bracket behavior',
+         'status': 'Heldout rule fidelity recovers; background KL worsens',
+         'finding': ("At two value channels per head, fitting only OV factors "
+                     "to teacher bracket-site predictions raises heldout "
+                     "paired bracket accuracy from "
+                     f"{100*bracket_fit_a['initial']['bracket']['paired_top1']:.1f}% "
+                     f"to {100*bracket_fit_a['final']['bracket']['paired_top1']:.1f}% "
+                     "and from "
+                     f"{100*bracket_fit_b['initial']['bracket']['paired_top1']:.1f}% "
+                     f"to {100*bracket_fit_b['final']['bracket']['paired_top1']:.1f}%. "
+                     "This uses supervised task sites and trades off ordinary "
+                     "background predictions."),
+         'report': 'BRACKET_AWARE_OV_DISTILLATION_RESULT.md'},
         {'title': 'Average activation fidelity misses a learned rule',
          'status': 'Weight-only rank-4 OV truncation preserves bracket better',
          'finding': ("At four value channels per head, weight-only versus "
@@ -1013,6 +1028,8 @@ def _fingerprint():
         'results/sports_alias_bracket_caps_seed55302_s6000.json',
         'results/three_rule_ov_canonical_seed55301_n80_n40.json',
         'results/three_rule_ov_canonical_seed55302_n80_n40.json',
+        'results/fit_three_rule_bracket_ov_seed55301_rank2_n80_n40.json',
+        'results/fit_three_rule_bracket_ov_seed55302_rank2_n80_n40.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
