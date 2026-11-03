@@ -86,6 +86,26 @@ express their verified deltas, while conditioning whether and how often to
 discuss runs on genre. It should not copy human run clauses merely because
 a number pair matches somewhere in the game.
 
+The first [event-world sampler](sports_event_world_dgp.py) now selects a
+matched empirical game as latent state, carrying both teams, final and
+end-of-period scores, a box-score top scorer, and a specific within-period
+scoring interval. An interval is eligible when the favored side scored
+8–25 points, the other scored 1–12, and the margin swung by at least six;
+the sampler randomly selects among the strongest twenty eligible windows.
+That selection is a tunable *generating prior*, not an estimate of the
+human author's chosen run. Overtime periods remain in the world state;
+an initial audit caught and fixed an incorrect assumption that the end of
+the fourth quarter always equals the final score.
+
+The [world audit](audit_sports_event_world_dgp.py) sampled 200 worlds in
+each source × whole-game partition and checked final/period score
+consistency, run interval deltas and ordering, point bounds, and separation
+of game IDs across train and held-out pools. All 800 checks pass. Eligible
+distinct game pools are 809/215 for RotoWire train/heldout and 540/145 for
+SBNation. The [aggregate](results/sports_event_world_dgp_audit_n200.json)
+includes a few fact-only examples. **No language renderer, visible-prefix
+oracle, form screen, or model training is claimed for this sampler yet.**
+
 This is a **source alignment result**, not a realism or entailment pass.
 Matching the game does not prove that a sentence about momentum, a foul,
 or a late comeback is supported by these events. The separate
@@ -125,4 +145,8 @@ python language_task_suite/audit_sports_report_run_mentions.py \
   --pbp /path/to/nbastatsv3_2016.tar.xz \
   --shotdetail /path/to/shotdetail_2016.tar.xz \
   --output language_task_suite/results/sports_report_run_mentions_2016.json
+
+python language_task_suite/audit_sports_event_world_dgp.py \
+  --n 200 \
+  --output language_task_suite/results/sports_event_world_dgp_audit_n200.json
 ```
