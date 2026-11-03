@@ -338,6 +338,9 @@ def _event_world_screen():
         'status': ('Event-world arithmetic passes 800 visible run-number '
                    'sites, but both the fully sampled text pilot and the '
                    'natural-carrier insertion fail their human form screens. '
+                   'Human retrospective reports rarely print both score '
+                   'snapshots before a run number, so arithmetic completion '
+                   'is a better target for a score-ledger genre. '
                    'Neither is an accepted training DGP; no model was '
                    'trained on these variants.'),
         'rows': rows,
@@ -383,6 +386,20 @@ def _event_world_screen():
                       'repeat far more than human run windows.'),
              'source_files': ['sports_event_natural_carrier.py',
                               'audit_sports_event_natural_carrier.py']},
+            {'title': 'Observation regimes and next task choice',
+             'sampling': ('In human retrospective reports, numeric run '
+                          'sentences average about 32–35 tokens and '
+                          'usually weave the run into other commentary. '
+                          'Only a minority of screened run mentions have '
+                          'even two score-shaped pairs in their '
+                          'recent visible prefix.'),
+             'rule': ('Do not assume the run number is computable from a '
+                      'retrospective report prefix. A score-ledger or '
+                      'live-report genre can expose score transitions '
+                      'for arithmetic; retrospective prose instead '
+                      'tests visible result, entity, and discourse '
+                      'rules while run facts remain latent world facts.'),
+             'source_files': ['audit_sports_run_syntax.py']},
         ]}
 
 
@@ -917,6 +934,7 @@ def _fingerprint():
     paths.extend(HERE/'results'/name for name in (
         'sports_event_world_renderer_n100_form64_w30.json',
         'sports_event_natural_carrier_n64_w100.json',
+        'sports_run_syntax_2016.json',
         'sports_document_actplan_v1_n100_form64.json',
         'sports_actplan_record_ablation_n64.json',
         'sports_combined_result_record_n100_form64.json'))
