@@ -25,6 +25,13 @@ The [V3 stat-richness control](SPORTS_DOCUMENT_DGP_V3_FACT_RICHNESS_AUDIT.md)
 adds sampled rebound/assist facts and validates their rendered numbers. Its
 small grammar makes whole-document and answer-window repetition worse, so it
 is not the improved training distribution.
+The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
+samples human report prose under a conservative source-result check, inserts
+one controlled score rule, and gets much closer to natural report form.
+Higher-exposure models learn held-out score copying from short and long
+contexts, while the margin/subtraction variant still fails its paired
+behavioral gate. The carrier has only a limited known rule, not a full
+symbolic oracle for the human prose.
 
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document

@@ -1,0 +1,74 @@
+{
+  "config": {
+    "depths": "2",
+    "train_pairs": 4000,
+    "val_pairs": 32,
+    "test_pairs": 64,
+    "steps": 1500,
+    "batch_size": 16,
+    "eval_batch_size": 8,
+    "n_ctx": 320,
+    "carrier_words": 100,
+    "query_kind": "winning_score",
+    "d_model": 64,
+    "heads": 4,
+    "site_weight": 500.0,
+    "lr": 0.0005,
+    "seed": 93401,
+    "save_every": 100,
+    "resume": false,
+    "device": "cuda",
+    "output": "language_task_suite/results/sports_report_carrier_copy_long_depth2_1500_site500.json",
+    "checkpoint_dir": "/home/loganriggs/Coding/neuron_circuits/artifacts/sports_report_carrier/checkpoints"
+  },
+  "tokenizer_sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6",
+  "carrier_dgp_sha256": "7c2334b0d2ade0a9c8fc0872e8e2792b4ecc1d5c854b788b02ad0e61fcfd7b28",
+  "data": {
+    "train_pairs": 4000,
+    "val_pairs": 32,
+    "test_pairs": 64,
+    "train_unique_games": 554,
+    "train_attempts": 4000,
+    "val_attempts": 34,
+    "test_attempts": 121
+  },
+  "objective": "full next-token CE plus specified site weight; paired original/+1 winning score, winning_score target on empirical RotoWire carrier",
+  "caveat": "Only the inserted score and final margin have explicit rules; source prose has no symbolic oracle. Numeric and first-result screens are conservative but not full semantic certification.",
+  "results": {
+    "2": {
+      "parameters": 6580352,
+      "initial_validation": {
+        "pairs": 32,
+        "token_nll": 10.844199932317874,
+        "site_nll": 10.847509860992432,
+        "full_vocab_top1": 0.0,
+        "two_way_accuracy": 0.5,
+        "both_variants_two_way": 0.0,
+        "correct_shift_fraction": 0.5,
+        "mean_correct_shift_logits": 1.8743914552032948e-05
+      },
+      "train_loss_last50": 0.7578647577762604,
+      "validation": {
+        "pairs": 32,
+        "token_nll": 4.5464253347359715,
+        "site_nll": 0.9274585405364633,
+        "full_vocab_top1": 0.90625,
+        "two_way_accuracy": 0.984375,
+        "both_variants_two_way": 0.96875,
+        "correct_shift_fraction": 0.96875,
+        "mean_correct_shift_logits": 30.055680751800537
+      },
+      "test": {
+        "pairs": 64,
+        "token_nll": 4.466541490178181,
+        "site_nll": 0.6052507791901007,
+        "full_vocab_top1": 0.9375,
+        "two_way_accuracy": 1.0,
+        "both_variants_two_way": 1.0,
+        "correct_shift_fraction": 1.0,
+        "mean_correct_shift_logits": 31.04843020439148
+      },
+      "elapsed_seconds": 26.21
+    }
+  }
+}
