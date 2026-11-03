@@ -18,6 +18,10 @@ high use, so the optional frames are not the adopted training distribution.
 The [paired human sports Zipf reference](NATURAL_SPORTS_ZIPF_REFERENCE.md)
 shows that RotoWire/SBNation themselves differ from broad FineWeb; the
 viewer plots all three natural and sampled panels.
+The [cross-style alias/bracket test](SPORTS_ALIAS_BRACKET_STYLE_TRANSFER.md)
+finds that RotoWire-trained models do not retain full bracket competence on
+SBNation reports, even after coarse bracket-position matching. The viewer
+shows this behavioral gate alongside the sampled examples.
 
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The

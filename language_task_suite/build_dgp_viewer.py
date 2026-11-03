@@ -162,8 +162,10 @@ def _sports_example():
             'source_hash': hashlib.sha256(
                 repr(plan.alias.game_key).encode()).hexdigest()[:12],
             'status': ('Two depth-2 bilinear models learned bracket closure '
-                       'strongly. Alias copying responds to edits but is '
-                       'incomplete; do not infer an exact copy circuit.'),
+                       'strongly on held-out RotoWire reports, but bracket '
+                       'accuracy drops on position-balanced SBNation. '
+                       'Alias copying responds to edits but is incomplete; '
+                       'do not infer a portable exact-copy circuit.'),
             'report': 'SPORTS_ALIAS_BRACKET_JOINT_PILOT.md',
             'metrics': metrics, 'arms': arms}
 
@@ -332,6 +334,7 @@ def _zipf_comparison():
 
 
 def build(cache_path, refresh):
+    transfer = _json(Path('results/sports_alias_bracket_position_control_seed98351.json'))
     return {'generated_at': datetime.now(timezone.utc).isoformat(
                 timespec='seconds'),
             'focus': ('Realistic, variable sampled language with known '
@@ -356,6 +359,15 @@ def build(cache_path, refresh):
                     'v7_renderer_variant_rate025_n480.json',
                     'v7_renderer_variant_rate05_n480.json',
                     'v7_renderer_variant_n480.json')],
+            'style_transfer': {
+                'matched_n': transfer['panel']['matched_n_per_source'],
+                'matched_per_bin': transfer['panel']['matched_per_bin'],
+                'seeds': [{source: {kind: result['metrics'][source][
+                    'matched'][kind] for kind in ('alias', 'bracket')}
+                           for source in ('rotowire', 'sbnation')}
+                          for result in transfer['results']],
+                'caveat': transfer['caveat'],
+                'report': 'SPORTS_ALIAS_BRACKET_STYLE_TRANSFER.md'},
             'examples': (_synthetic_examples()+[_renderer_variant_example(),
                          _sports_example()]+
                          _fineweb_examples(cache_path, refresh)),
@@ -385,6 +397,7 @@ def _fingerprint():
         'sports_alias_bracket_dgp.py',
         'corpus_joint_style_delimiter_dgp.py',
         'results/sports_alias_bracket_fresh_seed98301_n100.json',
+        'results/sports_alias_bracket_position_control_seed98351.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
         'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
