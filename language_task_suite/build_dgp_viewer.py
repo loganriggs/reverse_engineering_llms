@@ -779,6 +779,8 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    three_a = _json(Path('results/sports_alias_bracket_caps_seed55301_s3000.json'))
+    three_b = _json(Path('results/sports_alias_bracket_caps_seed55302_s6000.json'))
     variable_graph = _json(Path('results/v14_variable_graph_n128.json'))
     packed = _json(Path('results/v13_packed_intro_n64.json'))
     rule_windows = _json(Path('results/rule_window_form_v14_v2_n128.json'))
@@ -798,6 +800,15 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Three rules in the same human report',
+         'status': 'Bracket learned; name reuse weak; case has a word-frequency shortcut',
+         'finding': (f"Two bilinear runs reach {100*three_a['test']['bracket']['paired_top1']:.1f}%/"
+                     f"{100*three_b['test']['bracket']['paired_top1']:.1f}% heldout paired bracket accuracy, "
+                     f"but name reuse only {100*three_a['test']['alias']['paired_top1']:.1f}%/"
+                     f"{100*three_b['test']['alias']['paired_top1']:.1f}%. "
+                     "Capitalization responds to punctuation, yet mostly predicts The/the "
+                     "for rarer words. Treat only bracket as a positive circuit control."),
+         'report': 'SPORTS_THREE_RULE_NATURAL_PILOT.md'},
         {'title': 'Larger sampled event graphs increase rule sites, not form',
          'status': 'Graph controls work; language-form gate fails',
          'finding': ("Variable 2–6-entity graphs average more scored sites "
@@ -984,6 +995,8 @@ def _fingerprint():
         'results/sports_alias_bracket_multistyle_mixed_seed98402_600.json',
         'results/sports_alias_bracket_multistyle_rwcontrol_seed98401_600.json',
         'results/sports_alias_bracket_multistyle_rwcontrol_seed98402_600.json',
+        'results/sports_alias_bracket_caps_seed55301_s3000.json',
+        'results/sports_alias_bracket_caps_seed55302_s6000.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98401_1200.json',
         'results/sports_alias_bracket_multistyle_mixed_seed98402_1200.json',
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
