@@ -30,9 +30,13 @@ def price_state(history):
         if not content:
             continue
         if content[0] == 'The':
-            assert (len(content) == 6 and content[2] == 'costs' and
-                    content[4:] == ['dollars', '.'])
-            facts[content[1]] = content[3]
+            if content[2] == 'costs':
+                assert (len(content) == 6 and
+                        content[4:] == ['dollars', '.'])
+                facts[content[1]] = content[3]
+            else:
+                assert (content[2] == 'is' and len(content) == 5
+                        and content[-1] == '.')
         elif content[0] == 'How' and content[1:2] == ['much']:
             assert len(content) == 12 and content[5:9] == [
                 'cost', '?', 'Answer', ':']

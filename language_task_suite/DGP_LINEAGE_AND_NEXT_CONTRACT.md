@@ -178,3 +178,24 @@ and both exact edit responses were essentially zero on two fresh panels.
 Stop this price-only circuit/loss-weight detour. Next diversify the sampled
 document relations and surfaces; use already competent tasks for
 featurizer/canonicalization comparisons while this DGP improves.
+
+## V13 item-attribute reuse pilot (2026-11-02 continuation)
+
+The [V13 report](V13_ATTRIBUTE_BINDING_DGP_AND_MODEL.md) adds a completed
+`The item is attribute.` fact that affects later **ordinary narrative**
+adjective and object slots. All pending facts contribute to the adjective
+mixture; the observed adjective selects which item's object proposal gets
+boosted. The initial latest-fact-only version was removed before training
+because it created a recency shortcut. Two independent 100×256 reference
+panels pass exact-prefix, named-component, and supported earlier-fact edit
+audits, with 51/30 multi-pending object sites. The two diagnostic panels
+have 142/117 such sites. On a fresh FineWeb offset, broad item-attribute
+descriptions occur in 8/16 reviewed short crops, but only one clearly
+restates the same named item's attribute; none contains the full V13
+multi-pending pattern. Form mismatch remains large (colons 63.6% toy vs
+32.7% FineWeb; repeated-word fraction .257 vs .164). V13 is an improved
+synthetic binding stress test, **not a validated realistic distribution**.
+The reference-stream bilinear baseline must pass held-out attribute
+prediction and earlier-fact edit gates before using its learned paths for
+interpretability. The realism task now needs diverse document surfaces and
+semantic dependencies, not further price-only loss tuning.
