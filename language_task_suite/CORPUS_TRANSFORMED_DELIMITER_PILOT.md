@@ -16,10 +16,13 @@ with **447 eligible pairs**. For one selected pair in each window, all
 218 paired opener/closer edits passed the string-level localized-change
 check. **69** windows also supported a preceding, unrelated-pair edit
 that left the selected closer unchanged. The enclosed span was 3–25
-words, mean 7.0. **182/218** round-versus-square pairs are cleanly a
-single next GPT-2 token in *both* styles when the visible prefix is
-encoded separately. A token-level model evaluation should use those
-sites or score the full changed token sequence.
+words, mean 7.0. With the **entire passage** tokenized, **183/218**
+round-versus-square pairs have a stable visible-prefix tokenization and
+the closer begins the next GPT-2 token in *both* styles. Only **93/218**
+have a pure one-character closer token in both styles: GPT-2 often merges
+the closer with following punctuation. A token-level evaluation should
+use the 183 aligned pairs and retain the complete next-token target, or
+score the full changed token sequence.
 
 On a separate [500-document stream](results/corpus_transformed_delimiters_full_docs_skip43000_n500.json)
 at FineWeb offsets 43,000–43,499, examining each document's first 8,000

@@ -71,18 +71,24 @@ def audit(rows_path=DEFAULT_ROWS, tokenizer_path=DEFAULT_TOKENIZER,
         rows_seen.append(index)
 
         next_token_ok = []
+        pure_delimiter_token = []
         for ex in (round_ex, square_ex):
             prefix = tokenizer.encode(ex.prefix,
                                       add_special_tokens=False).ids
-            through = tokenizer.encode(
-                ex.text[:ex.close_index+1],
-                add_special_tokens=False).ids
-            okay = (through[:len(prefix)] == prefix and
-                    len(through) == len(prefix)+1)
+            full = tokenizer.encode(ex.text, add_special_tokens=False)
+            next_index = len(prefix)
+            okay = (next_index < len(full.ids) and
+                    full.ids[:next_index] == prefix and
+                    full.offsets[next_index][0] == ex.close_index and
+                    full.offsets[next_index][1] > ex.close_index)
             next_token_ok.append(okay)
             if okay:
                 counts['single_next_token_sites'] += 1
+            pure_delimiter_token.append(
+                okay and full.offsets[next_index][1] == ex.close_index+1)
         counts['paired_single_next_token_sites'] += all(next_token_ok)
+        counts['paired_pure_delimiter_token_sites'] += all(
+            pure_delimiter_token)
         if len(options) >= 2:
             earlier = [row for j, row in enumerate(options)
                        if j != pair_index and row[1] < square_ex.open_index]
