@@ -32,6 +32,11 @@ Higher-exposure models learn held-out score copying from short and long
 contexts, while the margin/subtraction variant still fails its paired
 behavioral gate. The carrier has only a limited known rule, not a full
 symbolic oracle for the human prose.
+The [score-copy weight-versus-causal probe](SPORTS_REPORT_COPY_WEIGHT_VS_CAUSAL_HEADS.md)
+uses the behaviorally competent long-carrier model. Its direct OV score
+finds large candidate heads by magnitude but gives the wrong signed story
+for two causally important second-layer heads. This closes the bounded
+single-score positive control; it is not a multi-rule circuit recovery.
 
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document
