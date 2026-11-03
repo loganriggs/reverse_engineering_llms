@@ -146,7 +146,11 @@ def sample_world(rng: random.Random, source='rotowire',
     pool = world_pool()[source, partition]
     if not pool:
         raise RuntimeError('No joined event worlds available')
-    game_id, home, away, final, periods, scorer, intervals = rng.choice(pool)
+    return world_from_entry(rng, source, partition, rng.choice(pool))
+
+
+def world_from_entry(rng, source, partition, entry):
+    game_id, home, away, final, periods, scorer, intervals = entry
     # Favor stronger swings while retaining stochastic selection. This is a
     # DGP prior, not a claim about which interval the human report mentioned.
     ranked = sorted(intervals, key=lambda run: (

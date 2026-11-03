@@ -53,8 +53,10 @@ Decision: keep this as a causal arithmetic and visibility fixture, but stop
 expanding the fixed sentence bank as a realism strategy. The next renderer
 needs richer discourse planning and clause combination, with independent
 human-surface comparisons at matched document positions. A natural-carrier
-arm with event-verified insertions can provide an interim realistic form
-control. After a form improvement, train multiple small bilinear models,
+arm with event-verified insertions was subsequently tested as a
+[form control](SPORTS_EVENT_NATURAL_CARRIER_RESULT.md): natural background
+helps, but its local run windows still repeat far more than human ones.
+After a form improvement, train multiple small bilinear models,
 confirm learned run/score/other rules behaviorally on whole-game and
 composition holdouts, and only then compare weight canonicalization and
 sparsification at matched task fidelity.
