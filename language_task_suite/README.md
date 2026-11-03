@@ -1,5 +1,14 @@
 # Grounded toy-language task suite (first pass)
 
+The [latest joint-document V1/V2 report](JOINT_DOCUMENT_V1_V2_RESULTS.md)
+tests one sampled stream containing verb mixtures, induction, sections,
+source claims, and brackets. It distinguishes learned bracket closure from
+unlearned contrastive source binding, and documents a large FineWeb frequency
+and genre gap. `Report`/`Guide` are only title labels in that pilot; the older
+[multi-genre benchmark](MULTI_GENRE_RESULTS.md) has different Guide/FAQ/Policy
+grammars but is also far from natural web text. Court, encyclopedia, and math
+genres have not yet been added.
+
 For concrete generated sentences, what each task label scores, and the
 measured word-frequency gap to FineWeb, see [sampled examples and Zipf
 diagnostic](V14_SAMPLED_EXAMPLES_AND_ZIPF.md). The [matched two- versus
