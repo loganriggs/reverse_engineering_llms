@@ -15,6 +15,9 @@ separately tracking teacher KL, alias copying, and background prediction.
 The [halftime-to-final opportunity screen](SPORTS_HALFTIME_RULE_OPPORTUNITIES.md)
 locates a more diverse grounded document rule and records the semantic
 validation needed before it can enter a sampled generator.
+The [complete-sentence validator result](HALFTIME_CLAUSE_VALIDATOR_RESULT.md)
+shows that only a tiny, safe halftime clause bank survives conservative
+semantic checks; the larger surface-match pool is not training-ready.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
