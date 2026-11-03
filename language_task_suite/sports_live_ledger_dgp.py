@@ -114,10 +114,15 @@ def ledger_pool():
 
 
 def sample_document(rng: random.Random, source='rotowire',
-                    group='train', include_descriptions=True):
+                    group='train', include_descriptions=True,
+                    game_id=None):
     pool = ledger_pool()[source, group]
     if not pool:
         raise RuntimeError('No eligible live-score ledger games')
+    if game_id is not None:
+        pool = tuple(entry for entry in pool if entry[0][0] == game_id)
+        if not pool:
+            raise ValueError('Game is not eligible for this live ledger')
     world, windows = rng.choice(pool)
     game_id, home, away = world[:3]
     codes = _codes()[game_id]

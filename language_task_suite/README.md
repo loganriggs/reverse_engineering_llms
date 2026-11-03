@@ -85,6 +85,10 @@ panel. It does not yet qualify as a cross-style circuit teacher.
 
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The
+[shared-game two-genre pilot](SPORTS_SHARED_GAME_GENRE_MIXTURE.md) now tests
+retrospective and live-score observation regimes on the same games. It passes
+visible-rule checks but fails the retrospective human-form comparison, so it
+remains a controlled fixture rather than the main training DGP. The
 [structured-realization screen](STRUCTURED_REALISATION_BANK_AUDIT.md) finds
 substantial sentence-level variation in DART and ToTTo, but rejects their
 simple concatenation as a coherent document generator. Behavioral checks
