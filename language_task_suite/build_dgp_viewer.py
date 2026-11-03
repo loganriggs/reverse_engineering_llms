@@ -778,6 +778,39 @@ def _lm_surface_screen():
             'report': 'LM_SURFACE_BANK_REJECTION_PILOT.md'}
 
 
+def _recent_research():
+    agreement = _json(Path('results/treebank_agreement_subject_holdout_100kfit_50ktrain_balanced_depth2_4_3000.json'))
+    causal = _json(Path('results/treebank_agreement_subject_holdout_100kfit_causal_n1000.json'))
+    mixture = _json(Path('results/joint_natural_rules_seed41501_1000.json'))
+    ov_a = _json(Path('results/sports_ov_canonical_kl_seed98201_n80_n40.json'))
+    ov_b = _json(Path('results/sports_ov_canonical_kl_seed98202_n80_n40.json'))
+    halftime = _json(Path('results/sports_halftime_clause_bank.json'))
+    def rank8(data):
+        return next(row for row in data['rows']
+                    if row['method'] == 'data' and row['rank_per_head'] == 8)
+    a4 = agreement['results']['4']['heldout']['site_pair_accuracy']
+    c4 = causal['results'][next(key for key in causal['results']
+                                if key.endswith('depth4'))]['counts']['attractor']
+    return [
+        {'title': 'Agreement needs whole-subject holdouts',
+         'status': 'Partial rule learning; no syntax circuit claim',
+         'finding': f"Depth 4 gets {100*a4['plain']['accuracy']:.1f}% on plain subjects but {100*a4['attractor']['accuracy']:.1f}% with an opposite-number noun. Only {100*c4['both_causal']/c4['n']:.1f}% of heldout attractor edit triples show both required responses.",
+         'report': 'TREEBANK_AGREEMENT_HOLDOUT_RESULT.md'},
+        {'title': 'Three-rule natural-text mixture',
+         'status': 'Bracket learned; alias partial; spelling unlearned',
+         'finding': f"The mixed model keeps {100*mixture['arms']['mixed']['test']['sports']['bracket']['paired_top1']:.1f}% heldout paired bracket accuracy. Spelling paired correctness is {100*mixture['arms']['mixed']['test']['style']['both_two_way']:.1f}% despite lower FineWeb token loss.",
+         'report': 'JOINT_NATURAL_RULE_MIXTURE_PILOT.md'},
+        {'title': 'OV gauge and truncation',
+         'status': 'Exact full-rank gauge; rule-specific compression',
+         'finding': f"Activation-weighted rank 8 per attention head keeps bracket paired accuracy at {100*rank8(ov_a)['heldout']['bracket']['paired_top1']:.1f}% and {100*rank8(ov_b)['heldout']['bracket']['paired_top1']:.1f}% in two seeds, but alias fidelity degrades.",
+         'report': 'SPORTS_OV_CANONICAL_TRUNCATION.md'},
+        {'title': 'Halftime-to-final rule candidate',
+         'status': 'Natural opportunity, but sentence bank too small',
+         'finding': f"A conservative full-sentence semantic validator accepts {halftime['sbnation/train']['counts']['accepted_clauses']} SBNation training clauses and {halftime['sbnation/heldout']['counts']['accepted_clauses']} heldout clause. Surface matches alone are not safe training labels.",
+         'report': 'HALFTIME_CLAUSE_VALIDATOR_RESULT.md'},
+    ]
+
+
 def build(cache_path, refresh):
     transfer = _json(Path('results/sports_alias_bracket_position_control_seed98351.json'))
     fresh600 = _json(Path('results/sports_alias_bracket_multistyle_fresh_seed98451.json'))
@@ -814,6 +847,7 @@ def build(cache_path, refresh):
                             '58/1,000 span-aligned FineWeb opportunities, '
                             'but replacement semantics need validation.'}],
             'catalog': _catalog(),
+            'research_updates': _recent_research(),
             'rulebook': _rulebook(),
             'oracle_examples': _oracle_examples(),
             'latest_candidate': _latest_candidate(),
@@ -899,7 +933,8 @@ def _write_both(local_path, public_path, data):
 
 def _fingerprint():
     paths = [HERE/name for name in (
-        'build_dgp_viewer.py', 'document_mixture_v7_cross.py',
+        'build_dgp_viewer.py', 'dgp_viewer.html',
+        'document_mixture_v7_cross.py',
         'document_world_v5_clause_realizations.py',
         'sports_alias_bracket_dgp.py',
         'corpus_joint_style_delimiter_dgp.py',
@@ -916,6 +951,13 @@ def _fingerprint():
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
         'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
+    paths.extend(HERE/'results'/name for name in (
+        'treebank_agreement_subject_holdout_100kfit_50ktrain_balanced_depth2_4_3000.json',
+        'treebank_agreement_subject_holdout_100kfit_causal_n1000.json',
+        'joint_natural_rules_seed41501_1000.json',
+        'sports_ov_canonical_kl_seed98201_n80_n40.json',
+        'sports_ov_canonical_kl_seed98202_n80_n40.json',
+        'sports_halftime_clause_bank.json'))
     paths.append(HERE/'results/natural_sports_zipf_n480.json')
     paths.append(HERE/'results/v7_zipf_by_kind_n500.json')
     paths.extend(HERE/f'results/v7_action_edge_patch_seed{seed}.json'
