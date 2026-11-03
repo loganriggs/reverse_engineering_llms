@@ -36,6 +36,30 @@ cumulative-score step in the feed; event-derived score trajectories for that
 game need inspection or exclusion. Quarter totals nevertheless agree for
 every joined report.
 
+The [event-predicate audit](audit_sports_event_predicates.py) independently
+checks two candidate game-flow rules. It ignores repeated score snapshots,
+requires each positive score step to belong to exactly one side and match
+that side's scoring action, and excludes the one invalid trajectory from
+future sampling. A **lead change** reverses the last non-tied leader after a
+score; a tie alone does not count. An **unanswered run** is consecutive
+points by one side within one period, ending when the opponent scores or
+the period changes. On distinct matched games, the resulting opportunities
+are abundant:
+
+| Source and whole-game partition | Games | Valid score trace | Any lead change | Q4/OT lead change | Run of at least 8 unanswered points |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| RotoWire train | 810 | 809 | 712 | 276 | 758 |
+| RotoWire held out | 215 | 215 | 193 | 70 | 204 |
+| SBNation train | 540 | 540 | 474 | 194 | 505 |
+| SBNation held out | 145 | 145 | 131 | 45 | 139 |
+
+All matched game traces pass scoring-team and scoring-action attribution.
+These are possible facts in the source world, **not** yet evidence that
+human reports mention them or that generated sentences express them
+correctly. The [aggregate](results/sports_event_predicates_2016.json)
+records the exact definitions, counts, and source hashes. Synthetic
+tie, period-boundary, and repeated-score edge cases were also checked.
+
 This is a **source alignment result**, not a realism or entailment pass.
 Matching the game does not prove that a sentence about momentum, a foul,
 or a late comeback is supported by these events. The separate
@@ -65,4 +89,9 @@ python language_task_suite/audit_sports_pbp_join.py \
   --pbp /path/to/nbastatsv3_2016.tar.xz \
   --shotdetail /path/to/shotdetail_2016.tar.xz \
   --output language_task_suite/results/sports_pbp_report_join_2016.json
+
+python language_task_suite/audit_sports_event_predicates.py \
+  --pbp /path/to/nbastatsv3_2016.tar.xz \
+  --shotdetail /path/to/shotdetail_2016.tar.xz \
+  --output language_task_suite/results/sports_event_predicates_2016.json
 ```
