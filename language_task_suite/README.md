@@ -52,6 +52,11 @@ thousands of one-player sentences whose explicit numbers match structured
 records, including hundreds needing steals or blocks. These are numeric
 opportunities, not safe realizations: many still assert game history,
 ranking, outcome, or qualitative claims absent from the sampled world.
+The [whole-clause player-stat grammar screen](PLAYER_STAT_GRAMMAR_BANK_AUDIT.md)
+allows common tally verbs and written numbers while verifying every stated
+stat and excluding other claims. It admits 153 RotoWire training clauses
+across 132 games, including 56 needing extended fields. This improves the
+safe candidate lower bound but remains too sparse for varied documents.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
