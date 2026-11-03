@@ -64,7 +64,8 @@ def _context_act(obj, attr, previous_source):
 
 
 def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
-            paragraph_rate=.22, header_rate=.5, intro_interleave_rate=0.):
+            paragraph_rate=.22, header_rate=.5, intro_interleave_rate=0.,
+            extra_event_sentences=None):
     assert all(0 <= rate <= 1 for rate in (
         syntax_entropy, aside_rate, context_rate, paragraph_rate,
         header_rate, intro_interleave_rate))
@@ -74,10 +75,14 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
     current = replay(world['initial'], [])
     sources = {}
 
-    def emit(sentence):
-        if tokens and rng.random() < paragraph_rate:
+    def emit(sentence, layout_rng=None):
+        layout_rng = rng if layout_rng is None else layout_rng
+        if tokens and layout_rng.random() < paragraph_rate:
             tokens.append('\n')
         tokens.extend(sentence)
+
+    extra_layout_rng = (random.Random(world['realization_seed'] ^ 0x5A17)
+                        if extra_event_sentences else None)
 
     if rng.random() < header_rate:
         kind = {'story': 'Story', 'summary': 'Report', 'log': 'File'}[genre]
@@ -145,6 +150,9 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
         emit(_extended_event(event, current, source, ref, form))
         current[obj][attr] = event['value']
         sources[(obj, attr)] = source
+        if extra_event_sentences:
+            for sentence in extra_event_sentences.get(j, ()):
+                emit(sentence, extra_layout_rng)
         if old_source is not None and rng.random() < context_rate:
             emit(_context_act(obj, attr, old_source))
         if rng.random() < aside_rate:

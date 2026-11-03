@@ -135,9 +135,8 @@ def _surface(token, mapping):
     return mapping.get(token, token)
 
 
-def realize(world, **render_kwargs):
+def lexicalize_document(canonical, world):
     assert 'surface_lexicon' in world
-    canonical = realize_v8(world, **render_kwargs)
     mapping = world['surface_lexicon']
     tokens = tuple(
         token if (token == 'note' and canonical.tokens[i-2:i] ==
@@ -151,6 +150,10 @@ def realize(world, **render_kwargs):
                              site.object)
                   for site in canonical.sites)
     return VariedDocument(tokens, sites, canonical.genre, world)
+
+
+def realize(world, **render_kwargs):
+    return lexicalize_document(realize_v8(world, **render_kwargs), world)
 
 
 def draw_varied(rng, frequency_exponent=0., **kwargs):
