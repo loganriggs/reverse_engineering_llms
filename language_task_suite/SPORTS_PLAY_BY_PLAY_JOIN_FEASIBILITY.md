@@ -60,6 +60,32 @@ correctly. The [aggregate](results/sports_event_predicates_2016.json)
 records the exact definitions, counts, and source hashes. Synthetic
 tie, period-boundary, and repeated-score edge cases were also checked.
 
+Human reports describe two-sided runs such as `26–5`, not just unanswered
+`10–0` stretches. The [run-mention screen](audit_sports_report_run_mentions.py)
+looks for numeric `X–Y run` phrases in joined reports and asks whether the
+same two scores occur over a contiguous play-by-play interval, allowing
+either team orientation. The screen is weaker than full entailment: a
+common pair can occur by chance, and it does not certify the named team or
+other claims in the sentence.
+
+| Source and split | Clean matched report rows | Rows with numeric run | Run mentions | Match within one period | Match anywhere in game |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| RotoWire train | 1,252 | 37 | 38 | 27 | 36 |
+| RotoWire held out | 340 | 16 | 16 | 9 | 9 |
+| SBNation train | 678 | 152 | 212 | 202 | 207 |
+| SBNation held out | 186 | 40 | 55 | 51 | 55 |
+
+This is a clear **genre-conditioned act frequency**: numeric runs occur in
+roughly 3–5% of RotoWire reports and 22% of SBNation reports. None of these
+in-scope human mentions is an unanswered `X–0` run, despite unanswered runs
+being common in the source world. Several RotoWire misses are explicitly
+cross-period descriptions; other misses need closer alignment. The
+[aggregate JSON](results/sports_report_run_mentions_2016.json) records the
+scope and source hashes. A sampler should draw event intervals first and
+express their verified deltas, while conditioning whether and how often to
+discuss runs on genre. It should not copy human run clauses merely because
+a number pair matches somewhere in the game.
+
 This is a **source alignment result**, not a realism or entailment pass.
 Matching the game does not prove that a sentence about momentum, a foul,
 or a late comeback is supported by these events. The separate
@@ -94,4 +120,9 @@ python language_task_suite/audit_sports_event_predicates.py \
   --pbp /path/to/nbastatsv3_2016.tar.xz \
   --shotdetail /path/to/shotdetail_2016.tar.xz \
   --output language_task_suite/results/sports_event_predicates_2016.json
+
+python language_task_suite/audit_sports_report_run_mentions.py \
+  --pbp /path/to/nbastatsv3_2016.tar.xz \
+  --shotdetail /path/to/shotdetail_2016.tar.xz \
+  --output language_task_suite/results/sports_report_run_mentions_2016.json
 ```
