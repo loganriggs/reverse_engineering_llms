@@ -37,4 +37,18 @@ The ordinary-CE continuation ran 800 updates with batch 32×256, RMSNorm, learni
 
 The topic-site KL improved, but the causal response stayed at zero, including near, middle, and far heading distances. The model learned easier statistics of place sites rather than the heading dependency. Other measured rules did not regress, but the prospective topic competence gate **failed**. Source answers remain around 2.1 nats KL; the very rare section-answer sites are too few to infer reliable learning. Do not decompose or sparsify a purported section-topic circuit in this checkpoint. [Training record](results/v11_section_topic_depth2_from_v10_seed1_800/results.json), [reference panel A](results/v11_section_topic_fresh_seed98501.json), and [reference panel B](results/v11_section_topic_fresh_seed98511.json) preserve the numerical evidence.
 
+A matched 300-step continuation from that *same* checkpoint tested whether explicit exact-oracle supervision fixes the missing dependency. Both arms used batch 32×256, seed 2, learning rate .0005, enriched training section rate .18, and a weight-1 soft target on ordinary topic-place sites. The second arm additionally used a weight-1 full-oracle target for supported heading-topic edits generated from the training batch. Evaluation used two **new** reference-rate panels, each with 512 fresh streams and 256 supported heading edits; the replacement topic was randomly chosen among eligible alternatives rather than fixed to the first alternative.
+
+| Metric | 800-step start, panels 98521/98531 | Soft target only | Soft + heading edits |
+|---|---:|---:|---:|
+| Topic-place oracle KL | .583/.587 | .435/.448 | .503/.506 |
+| Heading-edit new-topic response | ~0/~0 | .011/.015 | .0015/.0017 |
+| Exact-oracle response | .35/.35 | .35/.35 | .35/.35 |
+| Full edit-effect L1 error | .704/.705 | .706/.705 | .713/.716 |
+| Verb KL | — | .455/.457 | .451/.454 |
+| Object KL | — | 1.171/1.163 | 1.164/1.159 |
+| Bracket KL | — | .106/.100 | .071/.067 |
+
+The extra heading-edit loss **worsened** the measured heading response and topic-place KL relative to the soft-only control. Its near, middle, and far edit responses remain at or below .004. This is a one-seed, one-coefficient result, not a conclusion that causal supervision cannot work. It is enough to stop treating either checkpoint as a learned heading-topic circuit. The model may need a shorter or more frequent dependency, different architecture/curriculum, or a better DGP with broader naturalistic uses of headings. A prospective next screen should require edit fidelity before any sparse-weight graph or canonicalization claim. [Soft-only training](results/v11_section_topic_softonly_seed2_300/results.json), [causal training](results/v11_section_topic_softcausal_seed2_300/results.json), [soft-only panel A](results/v11_section_topic_softonly_fresh_seed98521.json), [soft-only panel B](results/v11_section_topic_softonly_fresh_seed98531.json), [causal panel A](results/v11_section_topic_softcausal_fresh_seed98521.json), and [causal panel B](results/v11_section_topic_softcausal_fresh_seed98531.json) preserve the comparison.
+
 The follow-up should replace the narrow place-heading proxy with a richer heading-to-content relation informed by actual web-text forms, while retaining this version as a causally auditable control. For interpretability, compare whether a weight-only or data-weighted decomposition identifies the heading-topic path and preserves the other competent rules on untouched streams; evaluate reconstruction, task oracle KL, heading-edit fidelity, and unlabeled new-task discovery separately. A rule label used to define the edit is not evidence of unsupervised discovery.

@@ -118,3 +118,27 @@ and only 0/100 and 2/100 streams in two panels combine a source answer,
 source-influenced prose object, and bracket. Next build linked document events
 that create such interactions at an auditable reference rate; then train a
 small bilinear model and compare learned circuits to the planted mechanisms.
+
+## Skip-rule identifiability correction (2026-11-02)
+
+The [sparse v3 rule graphs](ORIGINAL_V3_SHARED_BRACKET_SUCCESSOR.md) uncovered
+an additional requirement for any skip-task DGP. The original v3 skip table
+uses four distinct adjacent triggers (`big`, `small`, `old`, `new`), each paired
+with exactly one earlier place and one output. A model can therefore predict
+the labeled skip event from the adjacent trigger alone. In a 60%-zero attention
+model, the trigger-only embedding→unembedding path visibly favors all four
+outputs; removing the selected earlier-place attention edge has a large effect
+for only one of the four mappings, replicated on two fresh panels. High
+accuracy on the other three does **not** show that the model learned a skip
+dependency.
+
+For the next generator, cross anchors and triggers: each trigger should occur
+under multiple anchors with *different* correct outputs, and each output
+should occur under multiple triggers. Sample the combinations in the same
+autoregressive stream, report the full anchor×trigger frequency table, and
+check that an adjacent-token-only oracle cannot solve the task. Evaluate
+support-preserving anchor edits while holding the trigger and intervening
+tokens fixed. Graphs should show the planted conditional table, full-model
+probabilities, weight paths, and per-row causal effects. Preserve bracket
+closure separately: the legacy `skip_trigram` label means opener-dependent
+closing, not a generic skip-trigram relation.

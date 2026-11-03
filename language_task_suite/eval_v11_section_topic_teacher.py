@@ -19,6 +19,7 @@ from model import BilinearGPT,Config
 
 def selected_pairs(gen,streams,length,limit,selection_seed):
     pairs=[]
+    choice_rng=random.Random(selection_seed)
     for _ in range(streams):
         ids,labels,_=gen.sample_sequence(length)
         words=[gen.id2token[i] for i in ids]
@@ -32,7 +33,7 @@ def selected_pairs(gen,streams,length,limit,selection_seed):
             base=gen.place_rule_components(prefix)['base_place']['distribution']
             alternatives=[topic for topic in TOPICS if topic!=old and topic in base]
             if not alternatives:continue
-            new=alternatives[0]
+            new=choice_rng.choice(alternatives)
             edited=prefix.copy();edited[heading]=new
             for pos in range(heading+1,len(prefix)):
                 assert gen.next_distribution(edited[:pos]).get(edited[pos],0)>0
@@ -47,7 +48,7 @@ def selected_pairs(gen,streams,length,limit,selection_seed):
                               heading_distance=t-heading))
     if len(pairs)<limit:
         raise ValueError(f'Only {len(pairs)} supported edits in {streams} streams')
-    return random.Random(selection_seed).sample(pairs,limit)
+    return choice_rng.sample(pairs,limit)
 
 
 @torch.no_grad()
