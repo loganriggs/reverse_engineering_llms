@@ -39,8 +39,9 @@ def repair_completed_conditional(words,changed,attribute_pos,replacement,t):
     return True
 
 
-def conditional_panel(seed,n,length,kwargs):
-    gen=SurfaceMixtureV14Conditional(seed=seed,**kwargs)
+def conditional_panel(seed,n,length,kwargs,
+                      generator_cls=SurfaceMixtureV14Conditional):
+    gen=generator_cls(seed=seed,**kwargs)
     metrics,labels=Counter(),Counter()
     examples=[]
     for stream in range(n):
