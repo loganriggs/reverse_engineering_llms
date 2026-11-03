@@ -30,6 +30,11 @@ finds stable differences between RotoWire and SBNation report sequencing
 and validates quarter-score trajectories for about 94% of rows. It supplies
 a concrete game-flow world variable for the next multi-rule DGP; its
 lexical act labels are proxies, not a semantic oracle.
+The [quarter-trajectory V4 arm](SPORTS_DOCUMENT_QUARTER_V4_AUDIT.md)
+adds halftime-leader and comeback rules to winner, margin, and top-player
+within one sampled world. Its visible-prefix and selective-edit audit
+passes, but its new answer windows remain highly repetitive, so it is
+retained as a semantic fixture rather than the main realistic distribution.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
