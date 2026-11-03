@@ -14,6 +14,7 @@ import torch
 
 
 OLD_REPO = Path(__file__).resolve().parents[2]/'reverse_engineer/tensor_language'
+sys.modules.pop('model', None)
 sys.path.insert(0, str(OLD_REPO))
 from deep_model import DeepModel, SPECS  # noqa: E402
 sys.modules.pop('model', None)
@@ -101,11 +102,17 @@ def panel(model, vocab, seed, n, arm, device):
                              if arm == 'bare' else ())):
             changed = edited(doc, edit, side)
             after = predictions(model, vocab, changed, device)
+            run_values = [int(site.target) for site in changed.sites
+                          if site.family.startswith('live_run_')]
+            in_sampling_support = (min(run_values) >= 1 and
+                                   max(run_values) >= 6 and
+                                   abs(run_values[0]-run_values[1]) >= 3)
             for before_site, after_site in zip(doc.sites, changed.sites):
                 family = before_site.family
                 expected = int(after_site.target)-int(before_site.target)
                 row = counts[f'{edit}_{side}/{family}/'
-                             f'{"target_up" if expected else "target_same"}']
+                             f'{"target_up" if expected else "target_same"}/'
+                             f'{"in_support" if in_sampling_support else "out_of_support"}']
                 prior_correct = baseline[family] == int(before_site.target)
                 row['n'] += 1
                 row['baseline_correct'] += prior_correct
