@@ -40,6 +40,7 @@ def joint_evaluate(model, panel, device, batch_size=2):
     arms = panel['arms']
     n = len(arms['us', 'round']['x'])
     totals = dict(style_pair=0, delimiter_pair=0,
+                  style_top1=0, delimiter_top1=0,
                   style_direction=0, delimiter_direction=0,
                   all_four_two_way=0)
     for start in range(0, n, batch_size):
@@ -52,6 +53,13 @@ def joint_evaluate(model, panel, device, batch_size=2):
         ix = torch.arange(m, device=device)
         site = {arm: [logits[arm][ix, rows[arm]['site'][:, kind]]
                       for kind in (0, 1)] for arm in rows}
+        for arm in rows:
+            totals['style_top1'] += (
+                site[arm][0].argmax(-1) == rows[arm]['target'][:, 0]
+            ).sum().item()
+            totals['delimiter_top1'] += (
+                site[arm][1].argmax(-1) == rows[arm]['target'][:, 1]
+            ).sum().item()
         style_ok, delimiter_ok = [], []
         for bracket in ('round', 'square'):
             u, k = ('us', bracket), ('uk', bracket)
@@ -80,6 +88,8 @@ def joint_evaluate(model, panel, device, batch_size=2):
                                        delimiter_ok[0] &
                                        delimiter_ok[1]).sum().item()
     return {'documents': n,
+            'style_full_vocab_top1': totals['style_top1']/(4*n),
+            'delimiter_full_vocab_top1': totals['delimiter_top1']/(4*n),
             'style_paired_two_way': totals['style_pair']/(2*n),
             'delimiter_paired_two_way': totals['delimiter_pair']/(2*n),
             'style_edit_direction': totals['style_direction']/(2*n),

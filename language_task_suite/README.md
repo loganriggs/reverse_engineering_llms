@@ -21,6 +21,10 @@ semantic checks; the larger surface-match pool is not training-ready.
 The [three-source rule-combination holdout](THREE_SOURCE_RULE_COMBINATION_HOLDOUT.md)
 trains natural-text delimiter and spelling rules on separate documents and
 tests their unseen joint occurrence, alongside the sports alias/bracket arm.
+The [fresh 164-document combination check](THREE_SOURCE_RULE_FRESH_COMBINATION_RESULT.md)
+scores those frozen checkpoints on a larger untouched FineWeb panel: delimiter
+transfer persists in both seeds, while spelling and full two-rule composition
+remain unlearned.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained

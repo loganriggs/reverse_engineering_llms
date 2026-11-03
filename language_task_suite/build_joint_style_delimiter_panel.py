@@ -18,7 +18,9 @@ from datasets import load_dataset
 from tokenizers import Tokenizer
 
 from audit_corpus_joint_style_delimiter import aligned
+from audit_document_structure_vs_fineweb import structure
 from audit_fineweb_surfaces import DEFAULT_TOKENIZER
+from compare_v12_fineweb_fresh import first_words
 from corpus_joint_style_delimiter_dgp import sample_plan, validate_factorial
 
 
@@ -49,12 +51,20 @@ def build(skip, n, n_ctx, seed):
     rng = random.Random(seed)
     found = {arm: [] for arm in ARMS}
     hashes = []
+    reference_form, original_form, edited_form = [], [], []
     counts = dict(documents=0, plans=0, aligned=0)
     stream = iter(source)
     try:
         for row in islice(stream, skip, skip+n):
             counts['documents'] += 1
             text = row['text'][:8000]
+            crop = first_words(text, 100)
+            if len(reference_form) < 128:
+                reference_form.append(crop)
+            else:
+                replace = rng.randrange(counts['documents'])
+                if replace < len(reference_form):
+                    reference_form[replace] = crop
             plan = sample_plan(text, rng)
             if plan is None:
                 continue
@@ -65,6 +75,10 @@ def build(skip, n, n_ctx, seed):
                 continue
             counts['aligned'] += 1
             hashes.append(hashlib.sha256(text.encode()).hexdigest())
+            if len(original_form) < 128:
+                original_form.append(crop)
+                edited_form.append(first_words(arms['uk', 'square'].text,
+                                               100))
             for arm in ARMS:
                 found[arm].append(encode(arms[arm], positions[arm],
                                          tokenizer, n_ctx))
@@ -84,6 +98,9 @@ def build(skip, n, n_ctx, seed):
                            stacked['uk', bracket]['target'][:, 1])
     return {'config': {'skip': skip, 'n': n, 'n_ctx': n_ctx, 'seed': seed},
             'counts': counts, 'source_sha256': hashes,
+            'form_first100': {'random_reference': structure(reference_form),
+                              'selected_original': structure(original_form),
+                              'selected_edited': structure(edited_form)},
             'arms': stacked}
 
 
