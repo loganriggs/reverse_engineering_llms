@@ -365,6 +365,28 @@ def _zipf_comparison():
                          'NATURAL_SPORTS_ZIPF_REFERENCE.md'}
 
 
+def _action_path_summary():
+    rows = []
+    for seed in (35051, 35052):
+        result = _json(Path(f'results/v7_action_edge_patch_seed{seed}.json'))['result']
+        selected = {(row['layer'], row['head'], row['patch']): row
+                    for row in result['rows']}
+        def removed(mode):
+            return selected[2, 3, mode]['mean_response_removed']
+        rows.append({'panel_seed': seed, 'n': result['n'],
+                     'native_response': result['native_response'],
+                     'source_score': removed('score_edge'),
+                     'source_value': removed('value_source'),
+                     'score_and_value': removed('score_and_value'),
+                     'preceding_score': removed('preceding_score_edge')})
+    return {'rows': rows,
+            'status': ('A local action edit is carried mainly by one '
+                       'layer-2 attention head and its changed-token edge. '
+                       'This is one model seed and an activation patch, '
+                       'not weight-only circuit recovery.'),
+            'report': 'V7_ACTION_ATTENTION_EDGE_PATCH.md'}
+
+
 def build(cache_path, refresh):
     transfer = _json(Path('results/sports_alias_bracket_position_control_seed98351.json'))
     fresh600 = _json(Path('results/sports_alias_bracket_multistyle_fresh_seed98451.json'))
@@ -402,6 +424,7 @@ def build(cache_path, refresh):
                             'but replacement semantics need validation.'}],
             'catalog': _catalog(),
             'zipf': _zipf_comparison(),
+            'action_path': _action_path_summary(),
             'zipf_by_kind': _json(Path('results/v7_zipf_by_kind_n500.json')),
             'zipf_variant': [
                 _json(Path('results/'+name)) for name in (
@@ -468,6 +491,8 @@ def _fingerprint():
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
     paths.append(HERE/'results/natural_sports_zipf_n480.json')
     paths.append(HERE/'results/v7_zipf_by_kind_n500.json')
+    paths.extend(HERE/f'results/v7_action_edge_patch_seed{seed}.json'
+                 for seed in (35051, 35052))
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',
