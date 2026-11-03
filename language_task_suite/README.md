@@ -44,6 +44,9 @@ harder semantic transfer despite similar aggregate token loss. The
 works backward from eight selected FineWeb previews to distinguish
 deterministic constraints, probability shifts, and new facts before the
 next DGP revision.
+The [random prediction-site pilot](FINEWEB_RANDOM_PREDICTION_SITE_AUDIT.md)
+checks that selection effect on 20 mechanically chosen next-word sites and
+scores full versus local prefixes with GPT-2 and the 18-layer bilinear model.
 
 ## Planted rules beside learned sparse-model paths
 

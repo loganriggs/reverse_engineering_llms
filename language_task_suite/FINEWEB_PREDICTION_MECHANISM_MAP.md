@@ -54,6 +54,13 @@ prefix scoring, with the caveat that a model's score difference is a
 sensitivity estimate rather than ground-truth causal structure. Split
 independent documents from the development panel for validation.
 
+A first [20-site random-word pilot](FINEWEB_RANDOM_PREDICTION_SITE_AUDIT.md)
+now does this on a development preview. It finds mostly local or
+document-conditioned probability shifts and new first mentions, with no
+clear exact state update among the selected targets. It is a small
+single-reader screen and does not replace the longer, disjoint, adjudicated
+annotation described above.
+
 For synthetic training, build the *joint distribution* before training:
 sample one world with an entity graph, events, sources, and document
 intent; render it through multiple forms (prose, list, quote, short
