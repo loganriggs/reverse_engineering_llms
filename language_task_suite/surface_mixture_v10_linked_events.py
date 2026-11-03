@@ -27,7 +27,7 @@ def linked_state(history):
             claims[obj] = clause[1]
         elif kind == 'Who':
             answered.add(clause[3])
-        elif kind not in ('Where','How','Section','Detail','What'):
+        elif kind not in ('Where','How','Section','Detail','What','The'):
             frame = _frame(clause)
             subject = clause[_indices(frame)[0]]
             obj = clause[OBJECT_INDEX[frame]]

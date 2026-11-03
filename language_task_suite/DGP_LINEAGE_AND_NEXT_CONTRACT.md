@@ -155,3 +155,20 @@ better grounded candidates for a shared sampled document state than V11's
 literal heading→place mixture. Keep the crossed model as a control for
 whether canonicalization or sparse featurizers recover known reuse, while
 building and auditing the richer DGP separately.
+
+## V12 item-price/FAQ pilot (2026-11-02)
+
+The [V12 report](V12_PRICE_FAQ_DGP_AND_MODEL.md) adds item–price facts that
+can boost the same item's probability in ordinary narrative object slots and
+later determine a cost-question answer. Two independent reference-rate and
+enriched-rate panels pass sampled-token/oracle replay, named-component
+arithmetic, and support-preserving fact-price and query-key edits. The
+reference candidate yields only 4 complete price answers per 100×256-token
+panel; the enriched training regime yields 28/40 answer sites and must be
+reported as a changed distribution. On a fresh disjoint FineWeb offset,
+broader field/numeric binding is visible in a 16-document manual review, but
+none of those short crops contains V12's exact fact→prose→FAQ triplet. Form
+statistics also show excess colons and repeated words. V12 is a causal
+synthetic pilot, **not yet a realistic reference language**. The small
+bilinear training gate is item-price prediction and both supported edit
+responses on untouched reference panels; circuit analysis waits for it.
