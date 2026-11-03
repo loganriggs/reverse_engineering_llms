@@ -114,6 +114,32 @@ and [sparse panel B](results/v3_crossed_skip_sparse_final_seed99211.json).
 The [sparse pair graph](results/v3_crossed_skip_sparse_final_seed99201.png)
 shows the 4×4 table directly.
 
+The [joint rule comparison](results/v3_crossed_skip_sparse_graphs_seed99301/bigram_skip_bracket_comparison.png)
+puts the planted noun-bigram, crossed place…adjective rule, and bracket-close
+rule beside held-out predictions and their corresponding weight paths in the
+**same 60%-zero checkpoint**:
+
+![Planted and learned bigram, crossed skip, and bracket rules](results/v3_crossed_skip_sparse_graphs_seed99301/bigram_skip_bracket_comparison.png)
+
+On 512 new jointly sampled streams, the highest-probability verb matches the
+planted noun-bigram preference for all 8 nouns; the direct
+embedding→unembedding path does too. For all 16 place×adjective pairs, both
+the model's highest-probability output and the summed selected-anchor local
+attention path pick the planted function word. Both bracket opener rows also
+select their planted closer in the model and the selected-opener path; their
+planted heatmap entries show the **mean exact closer probability** over the
+observed prefixes, not an unconditional probability of one. The bracket
+local-path identity against actual edge removal is accurate to 9.6e-7 logits.
+The [plot script](plot_v3_crossed_joint_rule_graphs.py) and
+[underlying matrices](results/v3_crossed_skip_sparse_graphs_seed99301/bigram_skip_bracket_comparison.json)
+make the comparison reproducible.
+
+The noun path is **dense**: only attention projections were pruned, whereas
+embedding and unembedding weights remained dense. The skip and bracket panels
+use sparse attention weights but are conditioned on fresh activations; they
+show exact local logit paths, not a data-free canonical form or a complete
+causal circuit. The inherited code label `skip_trigram` means bracket closing.
+
 ![Crossed-skip mappings in dense and 60%-zero attention paths](results/v3_crossed_skip_sparse_graphs_seed99301/crossed_skip_sparse_weight_paths.png)
 
 The selected earlier-place edge's exact layer-1 `QK₁×QK₂×OV→unembedding`
