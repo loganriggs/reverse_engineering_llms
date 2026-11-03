@@ -14,6 +14,7 @@ from pathlib import Path
 
 from genre_document_v3 import sample_sequence as sample_v3
 from genre_document_v4 import sample_sequence as sample_v4
+from genre_document_v7 import sample_sequence as sample_v7
 
 
 WORDS = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")
@@ -63,7 +64,8 @@ def generated_rows(n, regime, seed, sampler):
         doc_seed = seed+candidate
         candidate += 1
         words, _, _, _ = sampler(doc_seed, 256, regime)
-        positions = [i for i, word in enumerate(words) if word.isalpha()][:100]
+        positions = [i for i, word in enumerate(words)
+                     if WORDS.fullmatch(word)][:100]
         if len(positions) < 100:
             continue
         word_rows.append([words[i].lower() for i in positions])
@@ -74,7 +76,7 @@ def generated_rows(n, regime, seed, sampler):
     return word_rows, pair_rows, chosen, candidate
 
 
-def audit(preview_path, manifest_path, seed=58001):
+def audit(preview_path, manifest_path, seed=58001, versions=None):
     rows = json.loads(preview_path.read_text())
     manifest = json.loads(manifest_path.read_text())
     natural_words, natural_pairs = real_rows(rows, manifest)
@@ -91,7 +93,13 @@ def audit(preview_path, manifest_path, seed=58001):
                       'not a semantic task prevalence or a population estimate. '
                       'Generators use 256-token streams, FineWeb 1200-character '
                       'previews. Whitespace-adjacent pair denominators differ.')
-    for version, sampler in (('v3', sample_v3), ('v4', sample_v4)):
+    samplers = dict(v3=sample_v3, v4=sample_v4, v7=sample_v7)
+    if versions is None or any(v in versions for v in ('v5', 'v6')):
+        from corpus_backed_document_v5 import sample_sequence as sample_v5
+        from corpus_markov_document_v6 import sample_sequence as sample_v6
+        samplers.update(v5=sample_v5, v6=sample_v6)
+    for version in (versions or tuple(samplers)):
+        sampler = samplers[version]
         out['generated'][version] = {}
         for regime in ('task_rich', 'reference'):
             words, pairs, seeds, scanned = generated_rows(n, regime, seed,
@@ -109,9 +117,12 @@ if __name__ == '__main__':
                    default=Path(__file__).parent/'results'/
                    'fineweb_long_panel_25000_n48_manifest.json')
     p.add_argument('--seed', type=int, default=58001)
+    p.add_argument('--versions', default='v3,v4,v5,v6,v7',
+                   help='Comma-separated generator versions to audit')
     p.add_argument('--output', type=Path, required=True)
     args = p.parse_args()
-    result = audit(args.preview_json, args.manifest_json, args.seed)
+    result = audit(args.preview_json, args.manifest_json, args.seed,
+                   tuple(args.versions.split(',')))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2)+'\n')
     print({key: {k: v for k, v in result[key].items()
