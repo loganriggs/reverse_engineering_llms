@@ -1,0 +1,104 @@
+{
+  "config": {
+    "fit_trees": 100000,
+    "train_n": 50000,
+    "train_attractor_rate": 0.5,
+    "test_n": 2000,
+    "vocab_size": 4000,
+    "steps": 3000,
+    "batch_size": 64,
+    "d_model": 64,
+    "heads": 4,
+    "depths": "2,4",
+    "seed": 41301,
+    "lr": 0.001,
+    "device": "cuda",
+    "save_models": true,
+    "treebank_file": "original_treebank_500k.txt",
+    "output": "language_task_suite/results/treebank_agreement_subject_holdout_100kfit_50ktrain_balanced_depth2_4_3000.json"
+  },
+  "objective": "Full next-subword cross-entropy on every non-padding token. At the verb site, compare the two inflections of the same latent lemma; balanced test subject number and opposite-number PP attractors.",
+  "caveat": "Exploratory single-sentence syntax arm. Source phrase recombination can be semantically odd. The latent verb lemma is not visible before its target, so exact token accuracy is not a valid grammar score.",
+  "vocab": 4000,
+  "n_ctx": 46,
+  "oov": {
+    "train": 0.0,
+    "test": 0.0
+  },
+  "baseline_pair_accuracy": 0.5,
+  "whole_subject_holdout": {
+    "train_unique_subjects": 18751,
+    "test_unique_subjects": 1439,
+    "overlap": 0
+  },
+  "results": {
+    "2": {
+      "parameters": 659456,
+      "train_loss_last50": 3.1211435651779174,
+      "heldout": {
+        "token_nll": 4.480551334663541,
+        "site_pair_accuracy": {
+          "plain": {
+            "n": 1000,
+            "accuracy": 0.853
+          },
+          "all": {
+            "n": 2000,
+            "accuracy": 0.7455
+          },
+          "lemma/have": {
+            "n": 686,
+            "accuracy": 0.7332361516034985
+          },
+          "lemma/be": {
+            "n": 636,
+            "accuracy": 0.7452830188679245
+          },
+          "attractor": {
+            "n": 1000,
+            "accuracy": 0.638
+          },
+          "lemma/do": {
+            "n": 678,
+            "accuracy": 0.7581120943952803
+          }
+        }
+      },
+      "seconds": 12.8
+    },
+    "4": {
+      "parameters": 806912,
+      "train_loss_last50": 2.963419966697693,
+      "heldout": {
+        "token_nll": 4.449041043944982,
+        "site_pair_accuracy": {
+          "plain": {
+            "n": 1000,
+            "accuracy": 0.908
+          },
+          "all": {
+            "n": 2000,
+            "accuracy": 0.7735
+          },
+          "lemma/have": {
+            "n": 686,
+            "accuracy": 0.7653061224489796
+          },
+          "lemma/be": {
+            "n": 636,
+            "accuracy": 0.7830188679245284
+          },
+          "attractor": {
+            "n": 1000,
+            "accuracy": 0.639
+          },
+          "lemma/do": {
+            "n": 678,
+            "accuracy": 0.7728613569321534
+          }
+        }
+      },
+      "seconds": 21.4
+    }
+  }
+}
