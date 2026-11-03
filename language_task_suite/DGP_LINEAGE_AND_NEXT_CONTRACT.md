@@ -105,3 +105,16 @@ supposedly unified language. The existing competent mixed-verb and section
 models remain useful baselines, but they answer narrower questions.
 
 Raw [sampling counts and examples](results/dgp_joint_sampling_n300_l256_seed93001.json).
+
+## V9 partial implementation (2026-11-02)
+
+The [V9 shared-stream pilot](V9_SHARED_STREAM_PILOT.md) now lets source claims
+participate in ordinary narrative object prediction and puts variable-length
+bracket spans into the same prose stream. It passes exact-prefix support,
+source-mixture arithmetic, and opener-swap audits on two independent panels.
+The pilot is **not** the completed DGP contract: section facts still do not
+influence prose, the provisional lower-rate setting is not FineWeb-calibrated,
+and only 0/100 and 2/100 streams in two panels combine a source answer,
+source-influenced prose object, and bracket. Next build linked document events
+that create such interactions at an auditable reference rate; then train a
+small bilinear model and compare learned circuits to the planted mechanisms.
