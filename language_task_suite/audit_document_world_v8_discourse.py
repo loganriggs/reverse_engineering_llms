@@ -19,35 +19,42 @@ def check_sites(document):
             document.tokens[:site.index]) == site.answer
 
 
-def audit(n, seed, extra_source_recap_rate=0.):
+def audit(n, seed, extra_source_recap_rate=0., intro_interleave_rate=0.):
     rng = random.Random(seed)
     families, edits = Counter(), Counter()
     syntax_changes = context_changes = 0
     for _ in range(n):
         document = draw_varied(rng,
-                               extra_source_recap_rate=extra_source_recap_rate)
+                               extra_source_recap_rate=extra_source_recap_rate,
+                               intro_interleave_rate=intro_interleave_rate)
         check_sites(document)
         families.update(site.family for site in document.sites)
         for index, plan in enumerate(document.latent['recap_plan']):
             edited = _edited_world(document.latent, plan)
-            other = realize(edited)
+            other = realize(edited,
+                            intro_interleave_rate=intro_interleave_rate)
             check_sites(other)
             assert other.sites[index].family == document.sites[index].family
             assert other.sites[index].answer != document.sites[index].answer
             edits[plan[1]] += 1
-        plain = realize(document.latent, syntax_entropy=0., context_rate=0.)
-        varied = realize(document.latent, syntax_entropy=1., context_rate=1.)
+        plain = realize(document.latent, syntax_entropy=0., context_rate=0.,
+                        intro_interleave_rate=intro_interleave_rate)
+        varied = realize(document.latent, syntax_entropy=1., context_rate=1.,
+                         intro_interleave_rate=intro_interleave_rate)
         check_sites(plain)
         check_sites(varied)
         assert [(site.family, site.answer) for site in plain.sites] == [
             (site.family, site.answer) for site in varied.sites]
         syntax_changes += plain.tokens != varied.tokens
         context_changes += (
-            realize(document.latent, context_rate=0.).tokens !=
-            realize(document.latent, context_rate=1.).tokens)
+            realize(document.latent, context_rate=0.,
+                    intro_interleave_rate=intro_interleave_rate).tokens !=
+            realize(document.latent, context_rate=1.,
+                    intro_interleave_rate=intro_interleave_rate).tokens)
     assert syntax_changes and context_changes
     return dict(n=n, seed=seed,
                 extra_source_recap_rate=extra_source_recap_rate,
+                intro_interleave_rate=intro_interleave_rate,
                 sites_by_family=dict(families),
                 successful_upstream_edits=dict(edits),
                 documents_changed_by_syntax=syntax_changes,
@@ -59,10 +66,12 @@ def main():
     parser.add_argument('--n', type=int, default=300)
     parser.add_argument('--seed', type=int, default=9317)
     parser.add_argument('--extra-source-recap-rate', type=float, default=0.)
+    parser.add_argument('--intro-interleave-rate', type=float, default=0.)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     panels = [audit(args.n, args.seed + offset,
-                    args.extra_source_recap_rate) for offset in (0, 1)]
+                    args.extra_source_recap_rate,
+                    args.intro_interleave_rate) for offset in (0, 1)]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(dict(panels=panels), indent=2) + '\n')
     for panel in panels:

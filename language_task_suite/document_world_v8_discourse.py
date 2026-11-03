@@ -64,10 +64,10 @@ def _context_act(obj, attr, previous_source):
 
 
 def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
-            paragraph_rate=.22, header_rate=.5):
+            paragraph_rate=.22, header_rate=.5, intro_interleave_rate=0.):
     assert all(0 <= rate <= 1 for rate in (
         syntax_entropy, aside_rate, context_rate, paragraph_rate,
-        header_rate))
+        header_rate, intro_interleave_rate))
     rng = random.Random(world['realization_seed'])
     genre = world['genre']
     tokens, sites = [], []
@@ -84,11 +84,37 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
         emit([kind] + list(str(rng.randrange(100, 1000))) +
              [':', world['topic'], 'notes', '.'])
 
-    for obj, state in world['initial'].items():
+    def emit_intro(obj):
+        state = world['initial'][obj]
         form = _choose_form(rng, genre, INTRO_FORMS, syntax_entropy)
         emit(_extended_intro(obj, state, world['aliases'][obj], form))
         if rng.random() < aside_rate:
             emit(_aside(rng, obj, state['place'], world['topic'], genre))
+
+    # Each object may enter the account at a different point. Introduce it
+    # before its first event or question, so the visible prose still supplies
+    # every initial fact needed by the independent answer parser. The zero
+    # setting retains the previous renderer's random stream exactly.
+    introduced = set()
+    if intro_interleave_rate:
+        last_slot = len(world['events']) - 1
+        intro_slots = {
+            obj: (rng.randrange(last_slot + 1)
+                  if rng.random() < intro_interleave_rate else -1)
+            for obj in world['initial']}
+    else:
+        intro_slots = {obj: -1 for obj in world['initial']}
+
+    def introduce_due(slot, required=None):
+        due = [obj for obj in world['initial'] if obj not in introduced and
+               (intro_slots[obj] <= slot or obj == required)]
+        if intro_interleave_rate:
+            rng.shuffle(due)
+        for obj in due:
+            emit_intro(obj)
+            introduced.add(obj)
+
+    introduce_due(-1)
 
     def append_recap(family, obj, attr):
         form = _choose_form(rng, genre, RECAP_FORMS, syntax_entropy)
@@ -106,11 +132,13 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
 
     for after, family, obj, attr in world['recap_plan']:
         if after == -1:
+            introduce_due(-1, obj)
             append_recap(family, obj, attr)
     for j, (event, source, use_alias) in enumerate(zip(
             world['events'], world['sources'], world['use_alias'],
             strict=True)):
         obj, attr = event['object'], event['attribute']
+        introduce_due(j, obj)
         ref = world['aliases'][obj] if use_alias else obj
         old_source = sources.get((obj, attr))
         form = _choose_form(rng, genre, EVENT_FORMS, syntax_entropy)
@@ -123,7 +151,9 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
             emit(_aside(rng, obj, current[obj]['place'], world['topic'], genre))
         for after, family, recap_obj, recap_attr in world['recap_plan']:
             if after == j:
+                introduce_due(j, recap_obj)
                 append_recap(family, recap_obj, recap_attr)
+    assert len(introduced) == len(world['initial'])
     return VariedDocument(tuple(tokens), tuple(sites), genre, world)
 
 
