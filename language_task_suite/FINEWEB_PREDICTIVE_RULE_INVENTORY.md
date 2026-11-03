@@ -105,6 +105,51 @@ computation. For naturally occurring text, a full-prefix versus truncated
 or counterfactual-prefix score can test predictive sensitivity, but a
 single model's score is not ground-truth causal evidence.
 
+## Target-site red team
+
+An eight-site, hand-inspected [target ledger](results/fineweb_prediction_sites_skip23000_n8.json)
+records a hash, exact character offset, candidate dependency, competing
+shortcut, and proposed edit for each target. The [script](audit_fineweb_prediction_sites.py)
+verifies every offset against the local source preview without committing
+source passages. The sites were chosen for conceptual diversity, **not** to
+estimate frequencies or model accuracy.
+
+Two attractive examples are less decisive than they first appear. In the
+sports report, the score later explained by a 4–2 starting score and three
+runs is already given in the headline. In the walkthrough, the third-floor
+goal is named before the first/second/third progression. A model could get
+both targets right by copying an earlier explicit answer. The toy should
+include matched **leaked** and **unleaked** versions, plus edits that make
+copying and state computation disagree.
+
+Other targets isolate different levels of constraint. A witness pronoun is
+strongly biased by a nearby gendered noun, but its exact wording is a writer
+choice. A repeated surname after a quotation can use an earlier full-name
+introduction, though a local attribution pattern may suffice. A product
+listing predicts that a case-measurement field has a dimensional unit, but
+not its exact value. A dog receives a proper name for the first time; that
+name is a new fact, while *later* uses of it can test identity tracking. A
+room number occurs under two ships with different category values, so a
+key-only lookup is ambiguous; record scope matters only at a later query
+site that actually asks for a category. These distinctions should control
+which sampled sites count as task evidence, which are nuisance surface loss,
+and which are deliberate confound tests.
+
+As a controlled first implementation, [document_world_v3_multisite.py](document_world_v3_multisite.py)
+uses one visible event history for alias identity, source attribution, and
+three final-state predictions in the same sampled document. The
+[3,000-document audit](results/document_world_v3_multisite_audit_n3000.json)
+checks all 15,000 answer sites against an independent visible-prefix parser,
+genre-preserving answers, and relevant event edits. It passes those semantic
+checks. It fails the natural-form gate badly: in 49 documents × the first
+100 alphabetic tokens, the toy has 84 word types and zero singletons,
+versus 1,993 types and 1,336 singletons in the analogous FineWeb screen.
+The toy also ends every document with the same five questions. It is a
+control for semantic binding, **not** yet a realistic replacement stream or
+an exact full next-token oracle. The next DGP iteration should make those
+dependencies appear inside variable-length prose, records, and dialogue,
+with stochastic continuations and interaction with the original local rules.
+
 ## What to build and measure
 
 The next version should integrate the original competing bigram,

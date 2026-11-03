@@ -20,6 +20,12 @@ opportunity screen](results/fineweb_manual_opportunities_skip23000_seed23012_n24
 finds entity reuse and source attribution much more often than explicit
 numeric or scoped-record problems in the inspected previews. These are
 single-annotator opportunities, not measured dependency prevalence.
+An [eight-site target red team](results/fineweb_prediction_sites_skip23000_n8.json)
+separates visible dependencies, answer leakage, probabilistic cues, and new
+facts. The [multisite document pilot](document_world_v3_multisite.py) passes
+visible-prefix semantic replay but fails the natural-form lexicon screen;
+its [audit](results/document_world_v3_multisite_audit_n3000.json) is a
+controlled baseline, not a replacement language stream.
 
 ## Planted rules beside learned sparse-model paths
 
