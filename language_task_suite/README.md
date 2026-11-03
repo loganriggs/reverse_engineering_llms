@@ -62,6 +62,12 @@ bench role, win/loss role, and team/game-high score against complete game
 records. Its narrow whole-clause grammar adds only 9 RotoWire and 8 SBNation
 training clauses. The clause-bank detour is closed; broader document planning
 and semantic realization are needed before model training on this source.
+The [multirule natural-carrier pilot](SPORTS_REPORT_MULTIRULE_PILOT.md) puts
+score copy, winning margin, and player-stat copy in the same sampled report.
+Two bilinear-model seeds learn both copy rules but not margin; a task-blind
+head weight score nominates the two causally important heads in both seeds.
+Full documents and answer windows still repeat more than natural reports, so
+this is a mechanistic positive control rather than a realism pass.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.

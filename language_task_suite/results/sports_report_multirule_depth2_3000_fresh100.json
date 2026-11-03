@@ -1,0 +1,64 @@
+{
+  "config": {
+    "checkpoint": "language_task_suite/results/sports_report_multirule_depth2_1500/model.pt",
+    "output": "language_task_suite/results/sports_report_multirule_depth2_3000_fresh100.json",
+    "n": 100,
+    "seed": 96801,
+    "batch_size": 8,
+    "device": "cuda"
+  },
+  "draw_attempts": 196,
+  "model_training_config": {
+    "output": "language_task_suite/results/sports_report_multirule_depth2_3000.json",
+    "checkpoint_dir": "language_task_suite/results/sports_report_multirule_depth2_1500",
+    "depth": 2,
+    "steps": 3000,
+    "train_triplets": 2000,
+    "val_triplets": 32,
+    "test_triplets": 64,
+    "batch_size": 8,
+    "n_ctx": 320,
+    "carrier_words": 100,
+    "d_model": 64,
+    "heads": 4,
+    "site_weight": 500.0,
+    "lr": 0.0005,
+    "seed": 96701,
+    "save_every": 100,
+    "device": "cuda",
+    "resume": true
+  },
+  "result": {
+    "triplets": 100,
+    "metrics": {
+      "winning_score": {
+        "original_top1": 0.93,
+        "score_edit_top1": 0.94,
+        "player_edit_top1": 0.93,
+        "paired_top1": 0.9,
+        "edit_direction": 0.98,
+        "targeted_full_tv": 0.9779097485542297,
+        "nuisance_full_tv": 0.00519141505472362
+      },
+      "margin": {
+        "original_top1": 0.06,
+        "score_edit_top1": 0.02,
+        "player_edit_top1": 0.07,
+        "paired_top1": 0.0,
+        "edit_direction": 0.49,
+        "targeted_full_tv": 0.3488959681987762,
+        "nuisance_full_tv": 0.08183381602168083
+      },
+      "player_points": {
+        "original_top1": 0.93,
+        "score_edit_top1": 0.94,
+        "player_edit_top1": 0.94,
+        "paired_top1": 0.92,
+        "edit_direction": 1.0,
+        "targeted_full_tv": 0.948461320400238,
+        "nuisance_full_tv": 0.019421462854370474
+      }
+    }
+  },
+  "caveat": "Fresh query/form draws from 100 unique held-out game keys. May overlap earlier held-out eval games; never overlaps train-group games. Candidate TV is full-vocabulary softmax TV at the answer position."
+}
