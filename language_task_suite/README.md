@@ -47,6 +47,10 @@ next DGP revision.
 The [random prediction-site pilot](FINEWEB_RANDOM_PREDICTION_SITE_AUDIT.md)
 checks that selection effect on 20 mechanically chosen next-word sites and
 scores full versus local prefixes with GPT-2 and the 18-layer bilinear model.
+The [disjoint longer-document panel](FINEWEB_LONG_TARGET_PANEL.md) selects
+ten longer pages before choosing target spans; repeated identities and a
+numbered interview show stronger long-prefix sensitivity, with explicit
+copy and topic shortcuts recorded for each target.
 
 ## Planted rules beside learned sparse-model paths
 

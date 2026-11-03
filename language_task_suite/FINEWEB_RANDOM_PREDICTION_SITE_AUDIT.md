@@ -58,3 +58,9 @@ from independent documents, include multiple candidate words per site,
 and have a second reader adjudicate at least a subset. A corpus-rate
 estimate would need document and token sampling weights; this 20-site
 pilot supplies neither.
+
+A subsequent [disjoint longer-document panel](FINEWEB_LONG_TARGET_PANEL.md)
+selected ten longer documents before choosing one informative span in each.
+Those *purposively chosen targets* often show large full-prefix gains,
+underscoring why the random-word and target-selected screens answer
+different questions.

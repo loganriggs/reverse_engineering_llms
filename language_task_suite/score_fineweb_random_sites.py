@@ -1,4 +1,4 @@
-"""Exploratory full versus local GPT-2 scores for random FineWeb words."""
+"""Exploratory full versus local scores for pinned FineWeb targets."""
 
 import argparse
 import json
@@ -36,19 +36,30 @@ def run(preview_path, ledger_path, device, model_name, tensor_language_root):
                   for name, context in [('full', prefix),
                                         ('last_100_words', suffix_words(prefix, 100)),
                                         ('last_40_words', suffix_words(prefix, 40))]}
+        alternative = site.get('alternative')
+        alt_values = None
+        if alternative:
+            alt_values = {
+                name: score(forward, tok, device, context, alternative)
+                for name, context in [('full', prefix),
+                                      ('last_100_words', suffix_words(prefix, 100)),
+                                      ('last_40_words', suffix_words(prefix, 40))]}
         sites.append(dict(source_row=site['source_row'],
                           source_sha256=site['source_sha256'],
                           target=site['target'], mechanism=site['mechanism'],
-                          predictability=site['predictability'], scores=values))
+                          predictability=site['predictability'], scores=values,
+                          alternative=alternative, alternative_scores=alt_values))
         print(site['source_row'], site['target'],
               round(values['full']['logprob'] - values['last_40_words']['logprob'], 3),
               flush=True)
     return dict(model=model_name, source='FineWeb sample-10BT',
                 selection=ledger['selection'], sites=sites,
-                caveat='Selected words are not independent token positions. '
+                caveat='Selected words or phrases are not independent token positions. '
                        'A model score difference measures sensitivity to '
                        'prefix truncation, not the human writer’s mechanism '
-                       'or a causal effect. One model and one annotation seed.')
+                       'or a causal effect. Target/alternative scores may '
+                       'have different token counts. One model and one '
+                       'annotation seed.')
 
 
 if __name__ == '__main__':
