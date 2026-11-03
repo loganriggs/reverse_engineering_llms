@@ -25,9 +25,16 @@ shows that retaining real surface text alone does not provide enough
 learnable rule instances: 1,970 training windows produced strong training
 target memorization but no held-out cue-dependent behavior in depth-1 or
 depth-2 models. It remains a controlled realism anchor, not the main DGP.
+The [corpus construction audit](DISCOURSE_CONSTRUCTION_FORM_AUDIT.md)
+then tested a corpus-inspired V3 renderer: it preserved semantic and causal
+checks and improved short-sentence length, but its phrase rates overshot
+natural prose and repeated trigrams did not improve. V3 is a negative
+surface control, not the next training distribution.
 
-Build a coherent generator revision from the existing sampled-rule machinery
-with (1) at least two surface/lexical-variation settings and (2) independent
+Build a coherent generator revision from the existing sampled-rule machinery.
+Use a purpose-driven document/event graph rather than independent listings,
+and add varied supporting prose rather than only swapping phrases. Include
+(1) at least two surface/lexical-variation settings and (2) independent
 versus coupled rule settings. Keep explicit per-site provenance and supported
 edit pairs. The first comparison should jointly include at least two rule
 families in each training document, with enough instances of each family for

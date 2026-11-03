@@ -1,8 +1,10 @@
-"""First visible-text realization of typed document proposition plans.
+"""Visible-text realizations of typed document proposition plans.
 
 The text grammar is intentionally explicit and independently parseable. It
 is a semantic integration fixture; natural-form audits decide whether it is
 usable as a training distribution. The parser reads text only, never a plan.
+Version 3 is a corpus-inspired surface control; its form audit rejects it as
+the next realistic training distribution.
 """
 
 from __future__ import annotations
@@ -280,7 +282,7 @@ def _canonical_clause(row):
 def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
             surface_version=1):
     assert plan['form'] in FORMS and 0 <= paragraph_rate <= 1
-    assert surface_version in (1, 2)
+    assert surface_version in (1, 2, 3)
     rng = random.Random(seed)
     tokens, sites = [], []
     nodes = plan['nodes']
@@ -302,22 +304,54 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
         elif kind == 'update':
             obj, attr, old, new = (node[k] for k in (
                 'entity', 'attr', 'old', 'value'))
-            if form == 0:
+            if surface_version == 3 and form == 0:
+                sentence = ['The', attr, 'of', 'the', obj,
+                            'went', 'from', old, 'to', new, '.']
+            elif form == 0:
                 sentence = ['The', attr, 'of', 'the', obj, 'changed',
                             'from', old, 'to', new, '.']
             else:
                 sentence = ['Now', 'the', obj, 'had', new, 'as', 'its', attr,
                             ',', 'up', 'from', old, '.']
         elif kind == 'attribute':
-            ordinal = nodes[node['deps'][0]]['ordinal']
+            update_node = nodes[node['deps'][0]]
+            ordinal = update_node['ordinal']
             source = node['value']
-            sentence = ([source, 'reported', 'update', str(ordinal), '.']
-                        if form == 0 else
-                        ['Update', str(ordinal), 'was', 'reported',
-                         'by', source, '.'])
+            if surface_version == 3 and form == 0:
+                sentence = [source, 'said', 'in', 'update', str(ordinal),
+                            'that', 'the', update_node['attr'], 'of',
+                            'the', update_node['entity'], 'had', 'changed',
+                            'from', update_node['old'], 'to',
+                            update_node['value'], '.']
+            elif surface_version == 3:
+                sentence = ['According', 'to', source, ',', 'update',
+                            str(ordinal), 'changed', 'the',
+                            update_node['attr'], 'of', 'the',
+                            update_node['entity'], 'from',
+                            update_node['old'], 'to',
+                            update_node['value'], '.']
+            elif form == 0:
+                sentence = [source, 'reported', 'update', str(ordinal), '.']
+            else:
+                sentence = ['Update', str(ordinal), 'was', 'reported',
+                            'by', source, '.']
         elif kind == 'compare':
             obj, other, attr, relation = (node[k] for k in (
                 'entity', 'other', 'attr', 'value'))
+            if surface_version == 3:
+                lead = (['The', attr, 'of', obj, 'and', other,
+                         'was', 'a'] if form == 0 else
+                        ['Compared', 'with', obj, ',', 'the',
+                         attr, 'of', other, 'was', 'a'])
+                answer = ('match' if relation == 'same' else 'mismatch')
+                if tokens and rng.random() < paragraph_rate:
+                    tokens.append('\n')
+                tokens.extend(lead)
+                index = len(tokens)
+                tokens.extend((answer, '.'))
+                sites.append(AnswerSite(index, 'comparison', answer,
+                                        ('match', 'mismatch'), obj))
+                continue
             lead = (['The', attr, 'values', 'for', obj, 'and', other,
                      'were'] if form == 0 else
                     ['For', obj, 'and', other, ',', attr, 'values',
@@ -333,7 +367,13 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
         elif kind == 'measure':
             obj, value, unit, ordinal = (node[k] for k in (
                 'entity', 'value', 'unit', 'ordinal'))
-            sentence = (['The', 'file', 'lists', str(value), unit,
+            sentence = (['There', 'were', str(value), unit,
+                         'recorded', 'for', 'the', obj, '.']
+                        if surface_version == 3 and form == 0 else
+                        ['The', 'number', 'of', unit, 'for', 'the',
+                         obj, 'was', str(value), '.']
+                        if surface_version == 3 else
+                        ['The', 'file', 'lists', str(value), unit,
                          'for', 'the', obj, '.']
                         if form == 0 else
                         ['Count', str(ordinal), ':', obj, ',',
@@ -369,7 +409,7 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
             assert kind in ('revisit', 'question')
             question = kind == 'question'
             lead = _query(node, nodes, question)
-            if surface_version == 2:
+            if surface_version in (2, 3):
                 lead = _paraphrase_query(lead, node, question, rng)
             answer = str(node['value'])
             if tokens and rng.random() < paragraph_rate:
@@ -393,7 +433,7 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
             sites.append(AnswerSite(index, node['kind'], answer,
                                     candidates, node.get('entity')))
             continue
-        if surface_version == 2:
+        if surface_version in (2, 3):
             sentence = _paraphrase(sentence, kind, rng)
         emit(sentence, force_break=kind in ('scope', 'step') or
              (plan['form'] in ('collection', 'procedure') and
@@ -424,6 +464,17 @@ class _VisibleState:
 
     def query(self, raw):
         raw = _canonical_query(raw)
+        if len(raw) == 8 and raw[:1] == ['The'] and raw[2:3] == ['of'] \
+                and raw[4:5] == ['and'] and raw[6:] == ['was', 'a']:
+            _, attr, _, obj, _, other, _, _ = raw
+            return ('match' if self.facts[(obj, attr)] ==
+                    self.facts[(other, attr)] else 'mismatch')
+        if len(raw) == 10 and raw[:2] == ['Compared', 'with'] \
+                and raw[3:5] == [',', 'the'] and raw[6:7] == ['of'] \
+                and raw[8:] == ['was', 'a']:
+            _, _, obj, _, _, attr, _, other, _, _ = raw
+            return ('match' if self.facts[(obj, attr)] ==
+                    self.facts[(other, attr)] else 'mismatch')
         if raw == ['Step'] or raw == ['For', 'step']:
             return str(len(self.steps)+1)
         if raw[:4] == ['The', 'action', 'at', 'step']:
@@ -493,12 +544,13 @@ class _VisibleState:
             self.facts[(obj, 'color')] = color
             self.facts[(obj, 'place')] = place
             return
-        if row[:1] == ['The'] and len(row) == 10 and row[5] == 'changed':
+        if row[:1] == ['The'] and len(row) == 10 and row[5] in (
+                'changed', 'went'):
             _, attr, of, the, obj, _, from_, old, to, new = row
             assert (of, the, from_, to) == ('of', 'the', 'from', 'to')
             assert self.facts[(obj, attr)] == old and new in VALUES[attr]
             self.facts[(obj, attr)] = new
-            self.updates.append((obj, attr, new))
+            self.updates.append((obj, attr, old, new))
             return
         if len(row) == 12 and row[:2] == ['Now', 'the']:
             _, _, obj, had, new, as_, its, attr, comma, up, from_, old = row
@@ -507,7 +559,28 @@ class _VisibleState:
                 'as', 'its', ',', 'up', 'from')
             assert self.facts[(obj, attr)] == old and new in VALUES[attr]
             self.facts[(obj, attr)] = new
-            self.updates.append((obj, attr, new))
+            self.updates.append((obj, attr, old, new))
+            return
+        if len(row) == 17 and row[1:4] == ['said', 'in', 'update']:
+            source, _, _, _, ordinal, that, the, attr, of, the2, obj, \
+                had, changed, from_, old, to, new = row
+            assert (that, the, of, the2, had, changed, from_, to) == (
+                'that', 'the', 'of', 'the', 'had', 'changed', 'from', 'to')
+            ordinal = int(ordinal)
+            assert source in NAMES and self.updates[ordinal-1] == (
+                obj, attr, old, new)
+            self.sources[ordinal] = source
+            return
+        if len(row) == 16 and row[:2] == ['According', 'to'] \
+                and row[4:5] == ['update']:
+            _, _, source, comma, _, ordinal, changed, the, attr, of, \
+                the2, obj, from_, old, to, new = row
+            assert (comma, changed, the, of, the2, from_, to) == (
+                ',', 'changed', 'the', 'of', 'the', 'from', 'to')
+            ordinal = int(ordinal)
+            assert source in NAMES and self.updates[ordinal-1] == (
+                obj, attr, old, new)
+            self.sources[ordinal] = source
             return
         if row[0] in NAMES and row[1:3] == ['reported', 'update']:
             ordinal = int(row[3])
@@ -540,6 +613,20 @@ class _VisibleState:
         if len(row) == 8 and row[:3] == ['The', 'file', 'lists']:
             _, _, _, value, unit, for_, the, obj = row
             assert (for_, the) == ('for', 'the')
+            assert (obj, 'owner') in self.facts
+            assert unit in COUNT_UNITS and 1 <= int(value) <= 30
+            self.measures.append(dict(entity=obj, value=value, unit=unit))
+            return
+        if len(row) == 8 and row[:2] == ['There', 'were']:
+            _, _, value, unit, recorded, for_, the, obj = row
+            assert (recorded, for_, the) == ('recorded', 'for', 'the')
+            assert (obj, 'owner') in self.facts
+            assert unit in COUNT_UNITS and 1 <= int(value) <= 30
+            self.measures.append(dict(entity=obj, value=value, unit=unit))
+            return
+        if len(row) == 9 and row[:3] == ['The', 'number', 'of']:
+            _, _, _, unit, for_, the, obj, was, value = row
+            assert (for_, the, was) == ('for', 'the', 'was')
             assert (obj, 'owner') in self.facts
             assert unit in COUNT_UNITS and 1 <= int(value) <= 30
             self.measures.append(dict(entity=obj, value=value, unit=unit))

@@ -107,12 +107,16 @@ def semantic(seed=345, per_form=200, surface_version=1,
                     form_counts['original_sites'] += 1
                     form_counts['site_' + site.family] += 1
                 form_counts['documents'] += 1
-            if 'same' in canonical.tokens or 'different' in canonical.tokens:
+            comparison_words = (('match', 'mismatch')
+                                if surface_version == 3 else
+                                ('same', 'different'))
+            if any(word in canonical.tokens for word in comparison_words):
                 altered = list(canonical.tokens)
                 idx = next(j for j, token in enumerate(altered)
-                           if token in ('same', 'different'))
-                altered[idx] = ('different' if altered[idx] == 'same'
-                                else 'same')
+                           if token in comparison_words)
+                altered[idx] = (comparison_words[1]
+                                if altered[idx] == comparison_words[0]
+                                else comparison_words[0])
                 try:
                     parse_visible_document(altered)
                 except AssertionError:
@@ -262,7 +266,7 @@ def form(seed, n=64, words=100, surface_version=1,
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--output', type=Path, required=True)
-    p.add_argument('--surface-version', type=int, choices=(1, 2), default=1)
+    p.add_argument('--surface-version', type=int, choices=(1, 2, 3), default=1)
     p.add_argument('--planning-style', choices=('independent', 'threaded'),
                    default='independent')
     p.add_argument('--fixed-moves', type=int)
