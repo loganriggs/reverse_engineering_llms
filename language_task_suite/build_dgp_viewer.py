@@ -306,6 +306,7 @@ def build(cache_path, refresh):
                             'but replacement semantics need validation.'}],
             'catalog': _catalog(),
             'zipf': _zipf_comparison(),
+            'zipf_by_kind': _json(Path('results/v7_zipf_by_kind_n500.json')),
             'examples': (_synthetic_examples()+[_sports_example()]+
                          _fineweb_examples(cache_path, refresh)),
             'candidate': _json(Path('results/'
@@ -336,6 +337,7 @@ def _fingerprint():
         'results/corpus_joint_style_delimiter_audit_skip83500_n1000.json',
         'results/corpus_uppercase_repeat_joint_skip84500_n1000.json',
         'results/v14_zipf_seed99851_n480/v14_vs_fineweb_word_rank.json')]
+    paths.append(HERE/'results/v7_zipf_by_kind_n500.json')
     return tuple((str(path), path.stat().st_mtime_ns, path.stat().st_size)
                  for path in paths)
 

@@ -8,6 +8,9 @@ file with
 from the repository root. Add `--watch` to rebuild on DGP or result changes;
 the open page checks for updates every 30 seconds. The generated data file
 contains short natural-corpus excerpts and is intentionally Git-ignored.
+The [V7 per-kind frequency audit](V7_ZIPF_BY_KIND_FEASIBILITY.md) explains
+why changing only the document-kind mixture cannot fix its oversized
+common-word head.
 
 **Current DGP priority:** Build a realistic, variable sampled distribution
 with known rules for benchmarking weight-based interpretability. The
