@@ -1,5 +1,13 @@
 # Grounded toy-language task suite (first pass)
 
+For concrete generated sentences, what each task label scores, and the
+measured word-frequency gap to FineWeb, see [sampled examples and Zipf
+diagnostic](V14_SAMPLED_EXAMPLES_AND_ZIPF.md). The [matched two- versus
+four-layer V14 result](V14_DEPTH_COMPARISON.md) shows stronger local-action
+learning with depth but still no earlier-fact object binding. The
+[tail-variation pilot](V15_TAIL_VARIATION_PILOT.md) is explicitly rejected;
+it passed oracle checks but worsened repetition.
+
 ## Planted rules beside learned sparse-model paths
 
 ![Planted rules, held-out predictions, and weight paths for the noun bigram, crossed skip rule, and bracket closer](results/v3_crossed_skip_sparse_graphs_seed99301/bigram_skip_bracket_comparison.png)

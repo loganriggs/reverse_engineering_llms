@@ -34,7 +34,19 @@ should target repeated sentence frames and short structural words across
 the whole stream, with the same exact-oracle and task-coverage checks.
 
 The [fresh repetition-attribution script](audit_v14_repetition_attribution.py)
-is intended to verify which tokens drive this gap on an independent
-FineWeb offset before changing the grammar. It saves hashes and aggregate
-counts only. The first attempt ended with a process exit 139 before
-writing a result; its outcome remains pending.
+then sampled a disjoint FineWeb offset 19,000. One process exited 139 before
+writing; a rerun completed. Across 57 jointly eligible 100-word windows,
+the first 40 words had repeated-word fraction **.271 V14 / .281 V15 /
+.167 FineWeb**. Repeated-content fractions were **.109/.114/.093** under
+the fixed heuristic. Most of the all-word gap comes from short words:
+V14 had 449 repeated stopword occurrences versus 234 in FineWeb, compared
+with 170 versus 146 repeated non-stopwords. The most striking token is
+`the`: 486 V14 occurrences and 429 repeats, versus 102 natural occurrences
+and 58 repeats. The natural panel also has many `a`, `an`, `of`, and `to`
+occurrences, absent or rare in V14's first 40 words. See the
+[aggregate record](results/v14_v15_fineweb_repetition_attribution_skip19000_n64.json),
+which saves hashes but no source prose. This is a robust **surface** clue,
+not proof that changing articles alone will yield realistic language. It
+argues for a whole-frame grammar revision with varied clause lengths and
+determiners, while preserving the planted task dependencies and measuring
+natural-language similarity on another untouched panel.
