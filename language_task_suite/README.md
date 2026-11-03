@@ -41,6 +41,12 @@ sentences. All visible-answer and selective-edit checks pass, but fixed and
 spread-out typed prose still repeat far more than natural report text. The
 next realism step must broaden the discourse and realization process, not
 just add more sports paraphrases.
+The [grounded player-sentence yield screen](GROUNDED_PLAYER_SENTENCE_BANK_YIELD.md)
+tests whether actual report sentences can supply that broader realization
+under the current points/rebounds/assists world. A strict factual and
+context screen leaves only 13 RotoWire and 33 SBNation training clauses,
+with no game supplying two. The sampled world and semantic validator need
+more coverage before such a bank can support varied documents.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
