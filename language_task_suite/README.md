@@ -15,7 +15,11 @@ The [document-level FineWeb predictive-rule inventory](FINEWEB_PREDICTIVE_RULE_I
 works backward from real articles, records, instructions, and narratives
 to candidate generative structures: entity aliases, scoped records, and
 event updates. Its surface counts are from 64 distinct-source documents;
-its task examples are exploratory hypotheses, not measured prevalence.
+its task examples are exploratory hypotheses. A fixed [24-document
+opportunity screen](results/fineweb_manual_opportunities_skip23000_seed23012_n24.json)
+finds entity reuse and source attribution much more often than explicit
+numeric or scoped-record problems in the inspected previews. These are
+single-annotator opportunities, not measured dependency prevalence.
 
 ## Planted rules beside learned sparse-model paths
 

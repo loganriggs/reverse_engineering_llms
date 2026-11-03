@@ -51,12 +51,67 @@ distribution. A natural continuation is usually stochastic. We should
 plant exact *conditional distributions* and supported counterfactuals in
 the toy, not pretend every natural sentence has a deterministic rule.
 
+## Fixed-sample opportunity screen
+
+To check whether the examples above are merely memorable, a second pass
+used a fixed random draw of 24 of the 64 independent documents
+(`random.Random(23012)`). One reader inspected the first 1,200 characters
+of **every** selected document, recorded its main page form, and marked
+only clear positive opportunities under [explicit flag
+definitions](results/fineweb_manual_opportunities_skip23000_seed23012_n24.json).
+The counts are:
+
+| Visible opportunity | Documents / 24 |
+|---|---:|
+| Particular entity reused across clauses | 19 |
+| Proposition or quotation attributed to a source | 10 |
+| Repeated list, page, or field schema | 7 |
+| Explicit before/after state change | 6 |
+| Ordered multistep procedure | 2 |
+| Candidate parallel records with separate scope | 1 |
+| Semantically related numbers | 1 |
+| Failure plus alternative causal hypotheses | 1 |
+
+These are **not population prevalence estimates**. The preview may miss
+later dependencies, one annotator can disagree with another, and a reused
+entity does not prove that an LM needs a long-range identity circuit to
+predict any particular token. The scoped-record and numeric examples that
+motivated the inventory were not typical of this small fixed sample. This
+changes the sampling plan: ordinary entity reuse, source attribution, and
+page/genre structure should be common in a reference-rate stream;
+arithmetic and record-collision tasks can be deliberately oversampled in
+a separate task-rich training/evaluation regime, with the reference rate
+reported separately. The next annotation pass should mark **target spans,
+minimal evidence spans, alternate candidates, and ambiguity**, then have
+a second reader adjudicate a subset before treating any rate as a target.
+
+Several concrete targets show why a single notion of “the rule” is too
+coarse:
+
+| Offset and target | What the prefix supplies | Predictability judgment |
+|---|---|---|
+| 23014: next floor in the walkthrough | The goal is the third floor, and prior steps visit first then second. | Strong, visible sequence constraint; a good exact toy oracle. |
+| 23006: pronoun for the witness | A young woman was introduced and acted on the dog. | Entity/role evidence raises `she`, but wording remains a writer choice. |
+| 23037: surname on a later attribution | An official is introduced with full name before a quotation. | Long-context identity helps; the quote wording is not determined. |
+| 23043: next specification field | A product page has bullet and key-value conventions. | Strong format/type prior; particular order and value are uncertain. |
+| 23010: bulb or ballast | The car light failed after previously working. | Several causal explanations remain possible; test probability calibration. |
+| 23059: sentence length in months | Headline says roughly eight years. | `97 months` is compatible, but not recoverable exactly from the rounded headline. |
+
+Thus the toy should distinguish **visible deterministic implications**,
+**context-sensitive probability shifts**, and **new exogenous facts**. A
+next-token model legitimately spends capacity on all three; only the
+first two support a claim that the prefix contains a recoverable
+computation. For naturally occurring text, a full-prefix versus truncated
+or counterfactual-prefix score can test predictive sensitivity, but a
+single model's score is not ground-truth causal evidence.
+
 ## What to build and measure
 
 The next version should integrate the original competing bigram,
-skip-context, induction, and bracket rules with three shared latent
-structures: **entity identity/aliases**, **scoped records**, and **event
-state updates**. Each structure should appear through multiple outputs
+skip-context, induction, and bracket rules with shared latent structures
+for **entity identity/aliases, sources, and event states**, then add
+scoped records as a targeted harder family. Each structure should appear
+through multiple outputs
 (ordinary prose, a short table/list, a quote or question) in the same
 sampled document. Add optional distractors, variable document and clause
 lengths, and a class-appropriate long-tail lexicon. This makes a later
