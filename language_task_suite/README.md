@@ -47,6 +47,11 @@ under the current points/rebounds/assists world. A strict factual and
 context screen leaves only 13 RotoWire and 33 SBNation training clauses,
 with no game supplying two. The sampled world and semantic validator need
 more coverage before such a bank can support varied documents.
+The [box-score relation inventory](BOXSCORE_RELATION_INVENTORY.md) finds
+thousands of one-player sentences whose explicit numbers match structured
+records, including hundreds needing steals or blocks. These are numeric
+opportunities, not safe realizations: many still assert game history,
+ranking, outcome, or qualitative claims absent from the sampled world.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
