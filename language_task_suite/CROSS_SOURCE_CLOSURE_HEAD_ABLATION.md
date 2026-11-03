@@ -1,0 +1,16 @@
+# A late head is necessary for closure on two natural-text sources
+
+The [fresh whole-combination result](THREE_SOURCE_RULE_FRESH_COMBINATION_RESULT.md) established that two depth-2 bilinear models learned sports-report bracket closure and transferred a FineWeb delimiter rule into unseen spelling×delimiter documents. A complete-head ablation now asks whether those two behaviors depend on the same internal *location*. In both seeds, a single late attention head is necessary for both, while sports alias copying survives. This is a strong localization result, but one head can carry separate circuits; a narrower within-head intervention is needed before claiming reusable computation.
+
+The [runner](ablate_cross_source_closure_heads.py) loads the frozen three-source checkpoints, evaluates a newly drawn 100-game, game-disjoint sports panel and the untouched 164-document FineWeb joint panel, and then zeroes one head's output-projection columns at a time. No weights are optimized and no panel chooses a checkpoint. There are four heads in each of two attention layers. The sports metric is bracket target-versus-alternative correctness in both round/square arms, averaged over the two alias settings (200 comparisons). FineWeb uses the analogous delimiter metric over the two spelling settings (328 comparisons). Sports alias copying is an unrelated learned-rule control. The spelling rule is unlearned and is not a useful positive control.
+
+| Seed | Critical attention head | Sports bracket paired: intact → ablated | FineWeb delimiter paired: intact → ablated | Sports alias paired: intact → ablated |
+|---|---|---:|---:|---:|
+| 41701 | second attention layer, head 1 | 1.000 → .000 | .527 → .018 | .745 → .740 |
+| 41702 | second attention layer, head 3 | .990 → .125 | .683 → .116 | .680 → .720 |
+
+No other complete-head ablation lowers sports bracket paired accuracy by more than .010 in either model. No other head lowers FineWeb delimiter paired accuracy by more than .024, although seed 41701's late head 2 substantially lowers **full-vocabulary** delimiter top-1 while leaving its paired target-versus-alternative choice unchanged. The latter is a reminder that top-1 token prediction and rule-specific discrimination measure different things. The critical head number changes across seeds; the location is the second attention layer in both.
+
+This is evidence that the two learned closure behaviors share a **necessary head** under this intervention. It is not evidence that they share a single QK score pattern, value direction, output direction, or sparse path. Head removal changes the residual stream and can create nonlinear downstream effects. The next experiment should decompose each critical head's complete OV map and its QK-selected source responses, then test finer directional ablations or patches across both corpora at matched effects on unrelated token prediction and alias copying. A genuinely reusable component should affect both closure rules selectively, beyond what is expected from generic head damage.
+
+The [aggregate output](results/cross_source_closure_head_ablation.json) contains every head's scores and drops. Source-token panels and checkpoints stay local.

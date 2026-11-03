@@ -25,6 +25,10 @@ The [fresh 164-document combination check](THREE_SOURCE_RULE_FRESH_COMBINATION_R
 scores those frozen checkpoints on a larger untouched FineWeb panel: delimiter
 transfer persists in both seeds, while spelling and full two-rule composition
 remain unlearned.
+The [cross-source closure head ablation](CROSS_SOURCE_CLOSURE_HEAD_ABLATION.md)
+finds one late attention head per seed whose removal destroys both sports
+bracket and FineWeb delimiter behavior while largely sparing sports alias
+copying. This is head-level causal localization, not yet a shared QK/OV circuit.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
