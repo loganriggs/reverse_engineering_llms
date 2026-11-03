@@ -20,7 +20,7 @@ SITES = [
          evidence='goal names third floor; earlier steps go first then second',
          judgment='visible_but_leaked', alternative='copy explicit goal or repeat floor phrase',
          edit='replace goal and step sequence independently'),
-    dict(row=23019, term='11||', occurrence=0, family='scoped_record',
+    dict(row=23019, term='11', occurrence=1, family='scoped_record',
          evidence='second ship record begins after first record with same room number',
          judgment='exogenous_record_value', alternative='first record category is 11B',
          edit='swap ship-specific categories while preserving room number'),

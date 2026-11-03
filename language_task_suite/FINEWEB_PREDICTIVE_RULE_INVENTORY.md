@@ -164,6 +164,19 @@ rate of the small FineWeb screen, but the two rates are not directly
 comparable: one is a planted target and the other a broad human flag.
 Do not promote this pilot to the main training stream on that basis.
 
+An [exploratory prefix-sensitivity check](FINEWEB_PREFIX_SENSITIVITY.md)
+scores the eight natural target sites with GPT-2 and the trained 18-layer
+bilinear model. Both are strongly sensitive to earlier mentions at a later
+surname site, while a witness pronoun depends mainly on nearby gender
+evidence. The apparent long-context benefit at a second record's category
+is contaminated by priming from the first record; the sports score is
+contaminated by its headline. The daylight-saving direction site does not
+show successful contrastive reasoning in either model. These are model
+diagnostics on selected examples, not natural task rates or proof of the
+source writer's rule. They sharpen the next sampled controls: separate
+name binding from local grammar, priming from scoped lookup, and copying
+from state computation.
+
 ## What to build and measure
 
 The next version should integrate the original competing bigram,
