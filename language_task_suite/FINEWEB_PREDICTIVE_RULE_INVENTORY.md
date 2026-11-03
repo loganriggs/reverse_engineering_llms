@@ -150,6 +150,20 @@ an exact full next-token oracle. The next DGP iteration should make those
 dependencies appear inside variable-length prose, records, and dialogue,
 with stochastic continuations and interaction with the original local rules.
 
+The [interleaved structure pilot](document_world_v4_interleaved.py) removes
+the fixed five-question ending: it samples one to eight declarative answer
+sites at different points in the visible event history. Its
+[audit](results/document_world_v4_interleaved_audit_n3000.json) checks 6,995
+sites across 3,000 documents and 2,671 paired upstream edits. The median
+site falls at 65% of document length. This establishes that the parser and
+edits still work with variable placement. It **does not** improve natural
+form: the same 49 × 100 alphabetic-token screen has only 82 types, no
+singletons, and a top-ten share of 39.4%. Source-attribution sites occur
+in 1,401/3,000 documents, roughly the 10/24 document-level opportunity
+rate of the small FineWeb screen, but the two rates are not directly
+comparable: one is a planted target and the other a broad human flag.
+Do not promote this pilot to the main training stream on that basis.
+
 ## What to build and measure
 
 The next version should integrate the original competing bigram,

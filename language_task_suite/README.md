@@ -26,6 +26,10 @@ facts. The [multisite document pilot](document_world_v3_multisite.py) passes
 visible-prefix semantic replay but fails the natural-form lexicon screen;
 its [audit](results/document_world_v3_multisite_audit_n3000.json) is a
 controlled baseline, not a replacement language stream.
+The [interleaved pilot](document_world_v4_interleaved.py) varies the number
+and location of its semantic sites and passes the [replay and edit
+audit](results/document_world_v4_interleaved_audit_n3000.json), but still
+fails the natural lexical-diversity screen; it is also a control.
 
 ## Planted rules beside learned sparse-model paths
 
