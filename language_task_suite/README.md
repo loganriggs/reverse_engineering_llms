@@ -58,8 +58,15 @@ The [packed-proposition pilot](PACKED_PROPOSITION_INTRO_RESULT.md) keeps a
 typed multi-rule world and visible-answer checks while coordinating initial
 facts across objects. It fails the paired V10 form comparison, indicating
 that varied proposition *content* matters more than packing the same facts.
+The [variable-graph screen](VARIABLE_PROPOSITION_GRAPH_RESULT.md) then varies
+entity count, event count, and recurrence. It raises rule-site density and
+passes visible-answer edits, but still fails to improve document or task-window
+form because the predicate and realization inventory remains narrow.
 [Open the phone viewer on GitHub Pages](https://loganriggs.github.io/reverse_engineering_llms/).
-This stable URL receives the latest committed snapshot after each push and Pages build.
+This stable URL receives the latest published snapshot after a Pages build.
+To publish a rebuilt viewer, commit `docs/index.html` on main, then run
+`python language_task_suite/publish_dgp_viewer_pages.py`. The small Pages
+branch contains only the static snapshot, so research pushes do not delay it.
 GitHub's file view displays the HTML source rather than rendering it.
 Open the [local DGP field guide](dgp_viewer.html) to inspect sampled documents,
 highlighted rule sites, four-way causal variants, and matched-size word-rank

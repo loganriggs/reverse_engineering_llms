@@ -779,6 +779,7 @@ def _lm_surface_screen():
 
 
 def _recent_research():
+    variable_graph = _json(Path('results/v14_variable_graph_n128.json'))
     packed = _json(Path('results/v13_packed_intro_n64.json'))
     rule_windows = _json(Path('results/rule_window_form_v14_v2_n128.json'))
     agreement = _json(Path('results/treebank_agreement_subject_holdout_100kfit_50ktrain_balanced_depth2_4_3000.json'))
@@ -797,6 +798,17 @@ def _recent_research():
         'mixed_object']['repeated_across_docs_trigram_occurrence_share']
         for seed in (0, 1)]
     return [
+        {'title': 'Larger sampled event graphs increase rule sites, not form',
+         'status': 'Graph controls work; language-form gate fails',
+         'finding': ("Variable 2–6-entity graphs average more scored sites "
+                     "than fixed three-entity controls, but first-100-word "
+                     "repeated trigrams rise from "
+                     f"{100*variable_graph['panels']['seed_0']['fixed_3']['first100_form']['repeated_across_docs_trigram_occurrence_share']:.1f}% "
+                     "to "
+                     f"{100*variable_graph['panels']['seed_0']['variable']['first100_form']['repeated_across_docs_trigram_occurrence_share']:.1f}% "
+                     "in one 128-document panel, with the same direction "
+                     "in the second."),
+         'report': 'VARIABLE_PROPOSITION_GRAPH_RESULT.md'},
         {'title': 'Packing facts across clauses does not solve form',
          'status': 'Truth checks pass; paired V10 form comparison fails',
          'finding': (f"Across two 64-world panels, full packing has "
@@ -1010,6 +1022,7 @@ def _fingerprint():
     paths.append(HERE/'sports_combined_result_record_renderer.py')
     paths.append(HERE/'results/rule_window_form_v14_v2_n128.json')
     paths.append(HERE/'results/v13_packed_intro_n64.json')
+    paths.append(HERE/'results/v14_variable_graph_n128.json')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',
