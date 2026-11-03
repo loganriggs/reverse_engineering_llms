@@ -26,7 +26,9 @@ updates online after it is committed and pushed. It excludes natural-source
 passages. It does not refresh automatically while you read. The newest
 research cards summarize agreement holdouts, the joint natural-text mixture,
 OV reduction, and the halftime semantic screen.
-[Open it directly in a phone browser](https://raw.githack.com/loganriggs/reverse_engineering_llms/main/language_task_suite/dgp_viewer_iphone.html);
+[Open the current pinned phone snapshot](https://raw.githack.com/loganriggs/reverse_engineering_llms/9ed40402/language_task_suite/dgp_viewer_iphone.html).
+The [latest-link version](https://raw.githack.com/loganriggs/reverse_engineering_llms/main/language_task_suite/dgp_viewer_iphone.html)
+can briefly serve a cached older snapshot after a push.
 GitHub's file view displays the HTML source rather than rendering it.
 Open the [local DGP field guide](dgp_viewer.html) to inspect sampled documents,
 highlighted rule sites, four-way causal variants, and matched-size word-rank
