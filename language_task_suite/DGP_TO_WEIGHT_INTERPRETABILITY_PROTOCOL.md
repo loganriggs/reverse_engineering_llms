@@ -30,10 +30,24 @@ then tested a corpus-inspired V3 renderer: it preserved semantic and causal
 checks and improved short-sentence length, but its phrase rates overshot
 natural prose and repeated trigrams did not improve. V3 is a negative
 surface control, not the next training distribution.
+The [purpose-driven report candidate](PROJECT_REPORT_DGP_V1_AUDIT.md)
+then verified a coherent three-rule event chain and four DGP-control cells,
+but its fixed act sequence and tiny template bank produced 89–95% repeated
+trigrams across documents, against .73% on a fresh FineWeb form panel.
+It is a semantic/causal fixture, not the main training distribution.
+The same report's corpus-carrier screen found only 79 superficially
+topic-matched, repeated-project, multiline documents in 10,000 FineWeb
+sources; this is an upper bound before semantic validation. Merely
+attaching natural text would also hide formulaic rule clauses in aggregate
+form metrics. The next surface method must vary and validate the
+task-bearing prose itself.
 
 Build a coherent generator revision from the existing sampled-rule machinery.
-Use a purpose-driven document/event graph rather than independent listings,
-and add varied supporting prose rather than only swapping phrases. Include
+Retain a purpose-driven document/event graph rather than independent listings,
+and source a substantially larger, variable realization space from natural
+text rather than adding a few more hand-written phrases. Audit task-bearing
+spans separately from any natural carrier so aggregate realism cannot hide
+formulaic rule clauses. Include
 (1) at least two surface/lexical-variation settings and (2) independent
 versus coupled rule settings. Keep explicit per-site provenance and supported
 edit pairs. The first comparison should jointly include at least two rule
