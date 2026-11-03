@@ -86,6 +86,13 @@ surname. Document-wide paired renames preserve natural task-window prose
 and give an explicit causal edit. Two longer-trained bilinear seeds respond
 to the edit, but exact open-vocabulary copying and nuisance specificity are
 still too weak for a confident weight-circuit claim.
+The [joint alias-and-bracket pilot](SPORTS_ALIAS_BRACKET_JOINT_PILOT.md)
+places two independently editable, naturally occurring rule sites inside the
+same human report. A strict source-yield screen rules out the tempting
+score-plus-player combination, while the alias-and-bracket 2×2 factorial
+passes visible-prefix and form checks on game-grouped panels. Its human
+carrier has no full symbolic next-token oracle; each learned rule is gated
+behaviorally before weight analysis.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.
