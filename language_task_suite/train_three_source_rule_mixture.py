@@ -42,7 +42,7 @@ def joint_evaluate(model, panel, device, batch_size=2):
     totals = dict(style_pair=0, delimiter_pair=0,
                   style_top1=0, delimiter_top1=0,
                   style_direction=0, delimiter_direction=0,
-                  all_four_two_way=0)
+                  all_four_two_way=0, token_loss=0., token_count=0)
     for start in range(0, n, batch_size):
         end = min(n, start+batch_size)
         rows = {arm: indexed(data, slice(start, end), device)
@@ -54,6 +54,11 @@ def joint_evaluate(model, panel, device, batch_size=2):
         site = {arm: [logits[arm][ix, rows[arm]['site'][:, kind]]
                       for kind in (0, 1)] for arm in rows}
         for arm in rows:
+            totals['token_loss'] += F.cross_entropy(
+                logits[arm].flatten(0, 1), rows[arm]['y'].flatten(),
+                ignore_index=-100, reduction='sum').item()
+            totals['token_count'] += (
+                rows[arm]['y'] != -100).sum().item()
             totals['style_top1'] += (
                 site[arm][0].argmax(-1) == rows[arm]['target'][:, 0]
             ).sum().item()
@@ -88,6 +93,7 @@ def joint_evaluate(model, panel, device, batch_size=2):
                                        delimiter_ok[0] &
                                        delimiter_ok[1]).sum().item()
     return {'documents': n,
+            'token_nll': totals['token_loss']/totals['token_count'],
             'style_full_vocab_top1': totals['style_top1']/(4*n),
             'delimiter_full_vocab_top1': totals['delimiter_top1']/(4*n),
             'style_paired_two_way': totals['style_pair']/(2*n),

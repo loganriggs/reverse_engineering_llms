@@ -33,6 +33,11 @@ The [within-head OV mode test](CROSS_SOURCE_OV_MODE_RESULT.md) shows that a
 weight-only SVD has no single mode whose removal reproduces the head's effect
 on both closure rules. Top-rank retention reveals a compact but distributed
 closure-supporting subspace and a sharper FineWeb sensitivity to rank.
+The [cross-source OV basis comparison](CROSS_SOURCE_OV_BASIS_COMPARISON.md)
+fits activation-weighted bases on training-only examples and evaluates both
+closure rules on untouched panels. Weight-only SVD is strongest at low rank
+for joint preservation here; task loss, ordinary NLL, and causal rule fidelity
+have different frontiers.
 
 Open the [phone-friendly public snapshot](dgp_viewer_iphone.html) for generated
 examples, rule explanations, and the Zipf comparison in one self-contained
