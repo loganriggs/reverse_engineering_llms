@@ -65,7 +65,8 @@ def _context_act(obj, attr, previous_source):
 
 def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
             paragraph_rate=.22, header_rate=.5, intro_interleave_rate=0.,
-            extra_event_sentences=None, initial_sentence_plan=None):
+            extra_event_sentences=None, initial_sentence_plan=None,
+            event_sentence_plan=None):
     assert all(0 <= rate <= 1 for rate in (
         syntax_entropy, aside_rate, context_rate, paragraph_rate,
         header_rate, intro_interleave_rate))
@@ -153,7 +154,9 @@ def realize(world, syntax_entropy=.85, aside_rate=.3, context_rate=.35,
         ref = world['aliases'][obj] if use_alias else obj
         old_source = sources.get((obj, attr))
         form = _choose_form(rng, genre, EVENT_FORMS, syntax_entropy)
-        emit(_extended_event(event, current, source, ref, form))
+        sentence = (_extended_event(event, current, source, ref, form)
+                    if event_sentence_plan is None else event_sentence_plan[j])
+        emit(sentence)
         current[obj][attr] = event['value']
         sources[(obj, attr)] = source
         if extra_event_sentences:
