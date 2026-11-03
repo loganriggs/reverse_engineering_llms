@@ -7,6 +7,11 @@ substantial sentence-level variation in DART and ToTTo, but rejects their
 simple concatenation as a coherent document generator. Behavioral checks
 gate which rules are eligible for weight analysis; capability is not the
 generator's main objective.
+The [sports-document source audit](SPORTS_DOCUMENT_SOURCE_AND_SCORE_RENDERER_AUDIT.md)
+finds full human-written reports with structured scores and two distinct
+writing styles. It also demonstrates severe game leakage across supplied
+splits and that reversible score-slot extraction alone does not make a
+counterfactual sentence semantically valid.
 
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document
