@@ -25,7 +25,7 @@ from surface_mixture_v2 import _frame, _indices, _split
 from surface_mixture_v4 import SurfaceMixtureV4, _content
 from surface_mixture_v5 import SurfaceMixtureV5
 from surface_mixture_v6 import SurfaceMixtureV6
-from surface_mixture_v7 import SurfaceMixtureV7
+from surface_mixture_v7 import SurfaceMixtureV7,TOPICS
 from surface_mixture_v8 import SurfaceMixtureV8
 from surface_mixture_v10_linked_events import SurfaceMixtureV10LinkedEvents
 from surface_mixture_v10_linked_events import linked_state
@@ -135,6 +135,41 @@ def make_eval(gen, n, length, device):
                 nested_outer=torch.from_numpy(nested_outer).to(device),
                 bracket_close=torch.from_numpy(bracket_close).to(device),
                 section_topic_place=torch.from_numpy(section_topic_place).to(device))
+
+
+def section_topic_counterfactuals(gen, x, topic_mask, limit, rng):
+    """Supported heading-only edits with full exact-oracle place targets."""
+    rows=[]
+    for b in range(len(x)):
+        sites=torch.where(topic_mask[b])[0].tolist()
+        if not sites:continue
+        chosen=sites[int(torch.randint(len(sites),(1,),generator=rng))]
+        prefix=gen._tokens(x[b,:chosen+1].tolist())
+        headings=[i+3 for i,word in enumerate(prefix) if word=='Section'
+                  and i+4<len(prefix) and prefix[i+2]==':' and prefix[i+4]=='.']
+        if not headings:continue
+        heading=headings[-1]
+        old=prefix[heading]
+        base=gen.place_rule_components(prefix)['base_place']['distribution']
+        alternatives=[token for token in TOPICS if token!=old and token in base]
+        if not alternatives:continue
+        replacement=alternatives[int(torch.randint(len(alternatives),(1,),
+                            generator=rng))]
+        edited=prefix.copy();edited[heading]=replacement
+        target=gen.next_distribution(edited)
+        assert abs(target[replacement]-gen.next_distribution(prefix)[replacement]
+                   -gen.section_topic_mass)<1e-10
+        edited_x=x[b].clone()
+        edited_x[heading]=gen.token2id[replacement]
+        target_q=torch.zeros(len(gen.vocab),device=x.device)
+        for token,prob in target.items():
+            target_q[gen.token2id[token]]=prob
+        rows.append((edited_x,chosen,target_q))
+        if len(rows)>=limit:break
+    if not rows:return None
+    return (torch.stack([row[0] for row in rows]),
+            torch.tensor([row[1] for row in rows],device=x.device),
+            torch.stack([row[2] for row in rows]))
 
 
 def query_counterfactuals(gen, x, answer_mask):
@@ -413,6 +448,9 @@ def main():
     p.add_argument('--section-topic-mass',type=float,default=.35)
     p.add_argument('--section-topic-soft-weight',type=float,default=0.,
                    help='Additional exact-oracle CE on V11 heading-influenced place slots')
+    p.add_argument('--section-topic-counterfactual-weight',type=float,default=0.,
+                   help='Full-oracle CE on supported V11 heading-only edits')
+    p.add_argument('--section-topic-counterfactual-per-batch',type=int,default=8)
     p.add_argument('--steps', type=int, default=5000)
     p.add_argument('--batch', type=int, default=64)
     p.add_argument('--length', type=int, default=70)
@@ -459,8 +497,10 @@ def main():
     a = p.parse_args()
     if a.verb_soft_weight and a.verb_sampled_weight:
         p.error('Select only one extra verb objective')
-    if a.section_topic_soft_weight and a.generator!='v11':
+    if (a.section_topic_soft_weight or a.section_topic_counterfactual_weight) and a.generator!='v11':
         p.error('Section-topic supervision requires the v11 generator')
+    if a.section_topic_counterfactual_per_batch<1:
+        p.error('Section-topic counterfactual batch limit must be positive')
     if a.alias_causal_weight and a.generator != 'alias':
         p.error('Alias causal supervision requires the alias generator')
     if a.object_counterfactual_weight and a.generator != 'v3_nested_varlen':
@@ -622,6 +662,7 @@ def main():
                     or a.scope_soft_weight > 0 or a.scope_counterfactual_weight > 0
                     or a.nested_soft_weight > 0
                     or a.section_topic_soft_weight > 0
+                    or a.section_topic_counterfactual_weight > 0
                     or a.mask_verb_ce or a.verb_only_soft):
                 train = make_eval(gen, a.batch, a.length, device)
                 x, y = train['x'], train['y']
@@ -720,6 +761,16 @@ def main():
                 expected_ce = -(train['q']*logp).sum(-1)
                 loss = loss + a.section_topic_soft_weight*expected_ce[
                     train['section_topic_place']].mean()
+            if a.section_topic_counterfactual_weight>0:
+                counterfactual=section_topic_counterfactuals(
+                    gen,x,train['section_topic_place'],
+                    a.section_topic_counterfactual_per_batch,causal_rng)
+                if counterfactual is not None:
+                    cf_x,cf_pos,cf_q=counterfactual
+                    cf_logits=model(cf_x)[0][
+                        torch.arange(len(cf_pos),device=device),cf_pos]
+                    cf_ce=-(cf_q*F.log_softmax(cf_logits.float(),-1)).sum(-1).mean()
+                    loss=loss+a.section_topic_counterfactual_weight*cf_ce
             if alias_cache is not None:
                 chosen = []
                 for group in alias_cache.values():

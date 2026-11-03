@@ -23,4 +23,18 @@ The FineWeb check is **negative**. On an already-used 192-window panel, V11 and 
 
 The model test uses the already-trained V10 two-layer, four-head, width-64 bilinear transformer as a baseline, then continues training on the V11 joint stream with the enriched section rate. The reference-rate evaluator compares exact-oracle KL at heading-influenced place sites and a supported heading-only edit that should move probability toward the new place by exactly .35. It also reports the previously learned verb, object, bracket, source, and section-answer rules separately. The prospective competence gate is reference-rate topic-site KL below .1 nat, mean edit response within .05 of .35, and no >.1-nat KL regression on any previously competent verb/object/bracket family. Failure on any condition calls for a training or DGP adjustment before interpreting a section-topic circuit. Training and [evaluation](eval_v11_section_topic_teacher.py) are deliberately task-wise: competence on the new place rule cannot be inferred from overall language loss, and no source/section-answer interpretation is licensed if those rules remain weak.
 
+The ordinary-CE continuation ran 800 updates with batch 32×256, RMSNorm, learning rate .001, and initial V10 weights. It was trained at `section_rate=.18`; all results below use fresh *reference-rate* V11 streams (`section_rate=.06`) and 256 randomly selected supported heading edits per panel.
+
+| Metric | V10 pretrained, panel 98501/98511 | V11 continuation, panel 98501/98511 |
+|---|---:|---:|
+| Topic-place exact-oracle KL | .818/.824 | .585/.574 |
+| Heading-edit new-topic response | .00001/~0 | .00002/.00002 |
+| Exact heading-edit oracle response | .35/.35 | .35/.35 |
+| Full edit-effect L1 error | .705/.705 | .706/.705 |
+| Verb KL | .524/.521 | .462/.457 |
+| Object KL | 1.276/1.271 | 1.184/1.175 |
+| Bracket KL | .110/.119 | .088/.091 |
+
+The topic-site KL improved, but the causal response stayed at zero, including near, middle, and far heading distances. The model learned easier statistics of place sites rather than the heading dependency. Other measured rules did not regress, but the prospective topic competence gate **failed**. Source answers remain around 2.1 nats KL; the very rare section-answer sites are too few to infer reliable learning. Do not decompose or sparsify a purported section-topic circuit in this checkpoint. [Training record](results/v11_section_topic_depth2_from_v10_seed1_800/results.json), [reference panel A](results/v11_section_topic_fresh_seed98501.json), and [reference panel B](results/v11_section_topic_fresh_seed98511.json) preserve the numerical evidence.
+
 The follow-up should replace the narrow place-heading proxy with a richer heading-to-content relation informed by actual web-text forms, while retaining this version as a causally auditable control. For interpretability, compare whether a weight-only or data-weighted decomposition identifies the heading-topic path and preserves the other competent rules on untouched streams; evaluate reconstruction, task oracle KL, heading-edit fidelity, and unlabeled new-task discovery separately. A rule label used to define the edit is not evidence of unsupervised discovery.
