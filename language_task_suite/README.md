@@ -46,6 +46,10 @@ updates online after it is committed and pushed. It excludes natural-source
 passages. It does not refresh automatically while you read. The newest
 research cards summarize agreement holdouts, the joint natural-text mixture,
 OV reduction, and the halftime semantic screen.
+The [five-frame event grammar audit](EVENT_FRAME_LANGUAGE_V2_RESULT.md)
+validates exact prefix marginals for changed word order but finds that its
+surface form remains much less varied than V14 or FineWeb. It is a correctness
+fixture, not the replacement training DGP.
 [Open the phone viewer on GitHub Pages](https://loganriggs.github.io/reverse_engineering_llms/).
 This stable URL receives the latest committed snapshot after each push and Pages build.
 GitHub's file view displays the HTML source rather than rendering it.
