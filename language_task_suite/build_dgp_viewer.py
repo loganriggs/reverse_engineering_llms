@@ -422,6 +422,19 @@ def _pair_reduction_summary():
             'report': 'V7_ACTION_ROTARY_PAIR_REDUCTION.md'}
 
 
+def _lm_surface_screen():
+    bank = _json(Path('results/sports_lm_surface_bank_candidates_seed37051.json'))
+    return {'model': 'Qwen2.5-1.5B-Instruct',
+            'rows': [{'fact': kind, 'attempts': item['attempts'],
+                      'mechanical_accepts': item['accepted_candidates'],
+                      'distinct': item['distinct_candidates']}
+                     for kind, item in bank['kinds'].items()],
+            'status': ('Rejected as a DGP source: the mechanical accepts '
+                       'still include unsupported or awkward claims. '
+                       'No bilinear model was trained on these forms.'),
+            'report': 'LM_SURFACE_BANK_REJECTION_PILOT.md'}
+
+
 def build(cache_path, refresh):
     transfer = _json(Path('results/sports_alias_bracket_position_control_seed98351.json'))
     fresh600 = _json(Path('results/sports_alias_bracket_multistyle_fresh_seed98451.json'))
@@ -461,6 +474,7 @@ def build(cache_path, refresh):
             'zipf': _zipf_comparison(),
             'action_path': _action_path_summary(),
             'pair_reduction': _pair_reduction_summary(),
+            'lm_surface_screen': _lm_surface_screen(),
             'zipf_by_kind': _json(Path('results/v7_zipf_by_kind_n500.json')),
             'zipf_variant': [
                 _json(Path('results/'+name)) for name in (
@@ -535,6 +549,7 @@ def _fingerprint():
         'v7_action_rotary_pair_seed35251.json',
         'v7_action_rotary_pair_model34802.json',
         'v7_action_rotary_pair_model34802_rep.json'))
+    paths.append(HERE/'results/sports_lm_surface_bank_candidates_seed37051.json')
     paths.extend(HERE/'results'/name for name in (
         'v7_renderer_variant_rate025_n480.json',
         'v7_renderer_variant_rate05_n480.json',
