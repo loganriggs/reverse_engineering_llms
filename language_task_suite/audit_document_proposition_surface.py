@@ -4,7 +4,7 @@ import argparse
 import copy
 import json
 import random
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 from audit_document_structure_vs_fineweb import structure
@@ -54,12 +54,14 @@ def _edit_literal(plan, node_id, new_value):
 
 
 def _check_flip(plan, edited, site_index, surface_seed, canonical,
-                form_counts, label):
+                form_counts, label, surface_version=1):
     for lexical in (False, True):
         before = (realize(plan, seed=surface_seed,
-                          lexical_exponent=0.) if lexical else canonical)
+                          lexical_exponent=0., surface_version=surface_version)
+                  if lexical else canonical)
         after = realize(edited, seed=surface_seed,
-                        lexical_exponent=0. if lexical else None)
+                        lexical_exponent=0. if lexical else None,
+                        surface_version=surface_version)
         old_site, new_site = (before.sites[site_index],
                               after.sites[site_index])
         assert old_site.answer != new_site.answer
@@ -69,7 +71,7 @@ def _check_flip(plan, edited, site_index, surface_seed, canonical,
         form_counts[label] += 1
 
 
-def semantic(seed=345, per_form=200):
+def semantic(seed=345, per_form=200, surface_version=1):
     rng = random.Random(seed)
     counts = Counter()
     by_form = {}
@@ -80,7 +82,8 @@ def semantic(seed=345, per_form=200):
                                question_rate=1.)
             assert validate(plan)
             surface_seed = rng.randrange(2**32)
-            canonical = realize(plan, seed=surface_seed)
+            canonical = realize(plan, seed=surface_seed,
+                                surface_version=surface_version)
             state = parse_visible_document(canonical.tokens)
             assert len(state.updates) == sum(
                 m['kind'] == 'update' for m in plan['moves'])
@@ -90,7 +93,8 @@ def semantic(seed=345, per_form=200):
                 m['kind'] == 'step' for m in plan['moves'])
             for lexical in (False, True):
                 doc = (realize(plan, seed=surface_seed,
-                               lexical_exponent=0.) if lexical
+                               lexical_exponent=0.,
+                               surface_version=surface_version) if lexical
                        else canonical)
                 parse_visible_document(doc.tokens, lexical)
                 for site in doc.sites:
@@ -146,7 +150,7 @@ def semantic(seed=345, per_form=200):
                     edited = edit_update(plan, node['id'], rng.choice(choices))
                     _check_flip(plan, edited, site_index, surface_seed,
                                 canonical, form_counts,
-                                'targeted_update_flips')
+                                'targeted_update_flips', surface_version)
             target = _target_site(plan, 'source_claim')
             if target:
                 site_index, node = target
@@ -154,7 +158,7 @@ def semantic(seed=345, per_form=200):
                     [name for name in NAMES if name != node['value']]))
                 _check_flip(plan, edited, site_index, surface_seed,
                             canonical, form_counts,
-                            'targeted_source_flips')
+                            'targeted_source_flips', surface_version)
             for kind, pool in (
                     ('measure', range(1, 31)),
                     ('record', None),
@@ -176,7 +180,7 @@ def semantic(seed=345, per_form=200):
                                        rng.choice(alternatives))
                 _check_flip(plan, edited, site_index, surface_seed,
                             canonical, form_counts,
-                            'targeted_' + kind + '_flips')
+                            'targeted_' + kind + '_flips', surface_version)
             comparison = _comparison_site(plan)
             if comparison:
                 site_index, relation = comparison
@@ -203,7 +207,8 @@ def semantic(seed=345, per_form=200):
                             relation['value']:
                         _check_flip(plan, edited, site_index,
                                     surface_seed, canonical, form_counts,
-                                    'targeted_comparison_flips')
+                                    'targeted_comparison_flips',
+                                    surface_version)
                         break
         by_form[form] = dict(form_counts)
         counts.update(form_counts)
@@ -211,7 +216,7 @@ def semantic(seed=345, per_form=200):
                 totals=dict(counts), by_form=by_form)
 
 
-def form(seed, n=64, words=100):
+def form(seed, n=64, words=100, surface_version=1):
     rng = random.Random(seed)
     texts = dict(canonical=[], typed=[])
     draws = 0
@@ -220,24 +225,43 @@ def form(seed, n=64, words=100):
         plan = sample_plan(rng, coupling_rate=.7,
                            n_moves=rng.randint(10, 16))
         surface_seed = rng.randrange(2**32)
-        docs = dict(canonical=realize(plan, seed=surface_seed),
+        docs = dict(canonical=realize(plan, seed=surface_seed,
+                                      surface_version=surface_version),
                     typed=realize(plan, seed=surface_seed,
-                                  lexical_exponent=0.))
+                                  lexical_exponent=0.,
+                                  surface_version=surface_version))
         crops = {key: first_words(doc.text(), words)
                  for key, doc in docs.items()}
         if any(len(WORD.findall(text)) < words for text in crops.values()):
             continue
         for key in texts:
             texts[key].append(crops[key])
-    return dict(seed=seed, draws=draws,
-                panels={key: structure(rows) for key, rows in texts.items()})
+    panels = {}
+    for key, rows in texts.items():
+        panel = structure(rows)
+        documents = defaultdict(set)
+        for doc_id, row in enumerate(rows):
+            terms = [term.lower() for term in WORD.findall(row)]
+            for index in range(len(terms)-2):
+                documents[tuple(terms[index:index+3])].add(doc_id)
+        panel['top_reused_trigrams_by_document_count'] = [
+            dict(trigram=' '.join(trigram), documents=len(ids))
+            for trigram, ids in sorted(
+                documents.items(), key=lambda entry: (
+                    -len(entry[1]), entry[0]))[:20]]
+        panels[key] = panel
+    return dict(seed=seed, draws=draws, panels=panels)
 
 
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--surface-version', type=int, choices=(1, 2), default=1)
     args = p.parse_args()
-    result = dict(semantic=semantic(), form=[form(94121), form(94122)],
+    result = dict(surface_version=args.surface_version,
+                  semantic=semantic(surface_version=args.surface_version),
+                  form=[form(94121, surface_version=args.surface_version),
+                        form(94122, surface_version=args.surface_version)],
                   caveat='First semantic surface fixture, not a realistic '
                          'training distribution or a full-token oracle.')
     args.output.parent.mkdir(parents=True, exist_ok=True)
