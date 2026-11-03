@@ -25,6 +25,11 @@ The [V3 stat-richness control](SPORTS_DOCUMENT_DGP_V3_FACT_RICHNESS_AUDIT.md)
 adds sampled rebound/assist facts and validates their rendered numbers. Its
 small grammar makes whole-document and answer-window repetition worse, so it
 is not the improved training distribution.
+The [discourse-act and quarter-score audit](SPORTS_DISCOURSE_ACT_AND_QUARTER_AUDIT.md)
+finds stable differences between RotoWire and SBNation report sequencing
+and validates quarter-score trajectories for about 94% of rows. It supplies
+a concrete game-flow world variable for the next multi-rule DGP; its
+lexical act labels are proxies, not a semantic oracle.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.

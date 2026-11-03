@@ -1,0 +1,20 @@
+# Which report structure can the next sampled world support?
+
+The [V3 sports generator](SPORTS_DOCUMENT_DGP_V3_FACT_RICHNESS_AUDIT.md) worsened repetition when it added more player statistics through eight fixed forms. The [natural report carrier](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md) improved form, but controls only one score rule. This audit looks for the missing **document process** and tests a candidate new world variable: quarterly scores.
+
+[`audit_sports_discourse_acts.py`](audit_sports_discourse_acts.py) scans the official RotoWire and SBNation training releases under a stable, game-key train/held-out partition. It labels the first 12 sentences with transparent lexical proxies: exact box-score final-score pair, named-player statistics, game-flow words, outlook words, and background words. Sentences can have multiple labels. It also checks that each team's four quarter scores sum to its final score, then computes halftime-to-final and adjacent-period leader reversals. No source prose enters the [aggregate JSON](results/sports_discourse_acts_train_heldout_n12.json).
+
+| Corpus / group | Reports | Result as first primary act | Reports with player-stat / game-flow proxy in first 12 | Mean sentences per full report | Consistent quarter scores |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| RotoWire train | 2,690 | 74.7% | 95.8% / 81.1% | 13.4 | 94.2% |
+| RotoWire held-out | 708 | 74.7% | 93.9% / 78.2% | 13.3 | 93.9% |
+| SBNation train | 6,065 | 15.0% | 51.6% / 87.0% | 37.2 | 93.8% |
+| SBNation held-out | 1,568 | 15.1% | 53.1% / 88.5% | 36.4 | 93.7% |
+
+The position profile is stable across game groups. In RotoWire, the result is usually the lead; the next two sentences have game-flow proxy rates near 41–43%, while player-stat proxy rates climb from about 15% in sentence two to 30–40% later. SBNation rarely leads with an exact result and has a much larger “other” share. This is evidence for **style-conditioned act sequencing**, not a single fixed template order or an arbitrary permutation of the same clauses. Because the labels are lexical proxies, the quoted rates are not ground-truth rhetorical annotations: “first” can trigger game-flow spuriously, and a name-plus-stat surface match can misstate a player fact.
+
+Quarter scores offer a more promising rule extension than extra stat wording. Among rows whose four quarters exactly reconstruct both final scores, **594/2,535 (23.4%)** RotoWire training games and **172/665 (25.9%)** held-out games have a halftime leader different from the final winner. Any adjacent-period leader reversal occurs in **1,019/2,535 (40.2%)** and **289/665 (43.5%)** respectively. The same fields are consistent in roughly 94% of SBNation rows. A sampler can use these observed joint score vectors, or a fitted conditional prior, to generate coherent final-score, halftime-leader, comeback, and per-quarter comparison rules. Rows failing the sum check must be rejected or modeled with overtime; silently treating them as four-quarter games would create false supervision.
+
+The next DGP iteration should combine a sampled result and quarter trajectory, player records, and a style-conditioned act process **within the same document**, with answer-site wording drawn from more than a small fixed recap bank. It should vary rule prevalence, trajectory difficulty, style, and act transitions independently. Candidate rules include result/winner, player maximum, halftime leader, winner after trailing, and a source-bound statistic. Every scored answer still needs a visible-prefix oracle and selective edits that preserve the other facts. Fit any act prior on the training game group and use held-out games for the source-form comparison; do not count a low repetition score from human carrier text as proof that the task-bearing spans are varied.
+
+This audit proves availability and coarse style structure, **not** that the next generator is realistic or that a model learns the new rules. It gives a concrete world variable and sampling constraint for that implementation. The broader DGP and weight-method objective remains open.
