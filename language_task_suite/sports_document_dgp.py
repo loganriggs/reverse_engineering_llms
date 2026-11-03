@@ -48,6 +48,8 @@ class Plan:
     style_source: str
     source_game_key: tuple
     surface_seed: int
+    rebounds: tuple[int, ...] = ()
+    assists: tuple[int, ...] = ()
 
     @property
     def winner(self):
@@ -160,9 +162,13 @@ def sample_plan(rng, sbnation_rate=.25, player_exponent=.5,
             remaining.remove(name)
     rng.shuffle(chosen)
     points = tuple(rng.sample(range(8, 33), 5))
+    surface_seed = rng.randrange(2**63)
+    stat_rng = random.Random(surface_seed ^ 0x51A7C0DE)
+    rebounds = tuple(stat_rng.sample(range(1, 16), 5))
+    assists = tuple(stat_rng.sample(range(13), 5))
     return Plan(home, away, home_win, high, low,
                 tuple(chosen), points, template, source, game_key(row),
-                rng.randrange(2**63))
+                surface_seed, rebounds, assists)
 
 
 def _detokenize(tokens):
@@ -184,6 +190,18 @@ PAIR_FORMS = (
     '{a} ({pa} points) and {b} ({pb} points) were both noted.',
     '{a} contributed {pa} points, with {b} scoring {pb} points.',
 )
+RICH_STAT_FORMS = (
+    '{name} scored {points} points and grabbed {rebounds} rebounds.',
+    '{name} posted {points} points, {rebounds} rebounds and {assists} assists.',
+    '{name} finished with {points} points and added {assists} assists.',
+    '{name} contributed {points} points to go with {rebounds} rebounds and {assists} assists.',
+)
+RICH_PAIR_FORMS = (
+    '{a} scored {pa} points with {ra} rebounds and {aa} assists; {b} had {pb} points, {rb} rebounds and {ab} assists.',
+    '{a} posted {pa} points and {ra} rebounds, while {b} added {pb} points and {rb} rebounds.',
+    '{a} finished with {pa} points and {aa} assists; {b} contributed {pb} points and {ab} assists.',
+    '{a} had {pa} points and {ra} rebounds, while {b} scored {pb} points and pulled down {rb} rebounds.',
+)
 RECAP_FORMS = {
     'winner': (
         'The winning team was WINNER_ANSWER.',
@@ -204,15 +222,19 @@ RECAP_FORMS = {
 
 
 def realize(plan, form_entropy=1., paragraph_rate=.12,
-            pair_rate=1., discourse_entropy=0., lead_stat_rate=0.):
+            pair_rate=1., discourse_entropy=0., lead_stat_rate=0.,
+            stat_richness=0.):
     if not 0 <= form_entropy <= 1 or not 0 <= paragraph_rate <= 1 \
             or not 0 <= pair_rate <= 1 or \
             not 0 <= discourse_entropy <= 1 or \
-            not 0 <= lead_stat_rate <= 1:
+            not 0 <= lead_stat_rate <= 1 or \
+            not 0 <= stat_richness <= 1:
         raise ValueError('Invalid surface controls')
     if len(plan.players) != 5 or len(plan.points) != 5 or \
             len(set(plan.players)) != 5 or len(set(plan.points)) != 5:
         raise ValueError('Five distinct player names and point totals required')
+    if len(plan.rebounds) != 5 or len(plan.assists) != 5:
+        raise ValueError('Five rebound and assist totals required')
     if not safe_for(plan.score_template,
                     plan.high_score, plan.low_score):
         raise ValueError('Score template incompatible with sampled scores')
@@ -227,16 +249,26 @@ def realize(plan, form_entropy=1., paragraph_rate=.12,
         index = order.pop()
         if order and rng.random() < pair_rate:
             second = order.pop()
-            form = rng.choice(PAIR_FORMS) if rng.random() < form_entropy \
-                else PAIR_FORMS[0]
+            forms = RICH_PAIR_FORMS if stat_richness > 0 and \
+                rng.random() < stat_richness \
+                else PAIR_FORMS
+            form = rng.choice(forms) if rng.random() < form_entropy \
+                else forms[0]
             stat_sentences.append(form.format(
                 a=plan.players[index], pa=plan.points[index],
-                b=plan.players[second], pb=plan.points[second]))
+                ra=plan.rebounds[index], aa=plan.assists[index],
+                b=plan.players[second], pb=plan.points[second],
+                rb=plan.rebounds[second], ab=plan.assists[second]))
         else:
-            form = rng.choice(STAT_FORMS) if rng.random() < form_entropy \
-                else STAT_FORMS[0]
+            forms = RICH_STAT_FORMS if stat_richness > 0 and \
+                rng.random() < stat_richness \
+                else STAT_FORMS
+            form = rng.choice(forms) if rng.random() < form_entropy \
+                else forms[0]
             stat_sentences.append(form.format(name=plan.players[index],
-                                              points=plan.points[index]))
+                                              points=plan.points[index],
+                                              rebounds=plan.rebounds[index],
+                                              assists=plan.assists[index]))
     lead = int(bool(stat_sentences) and rng.random() < lead_stat_rate)
     base = stat_sentences[:lead]+[score_sentence]+stat_sentences[lead:]
     insertions = {slot: [] for slot in range(len(base)+1)}

@@ -20,8 +20,8 @@ import torch.nn.functional as F
 
 OLD_REPO = Path(__file__).resolve().parents[2]/'reverse_engineer/tensor_language'
 from sports_document_dgp import (  # noqa: E402
-    PAIR_FORMS, RECAP_FORMS, STAT_FORMS, edit, realize, resources,
-    sample_plan,
+    PAIR_FORMS, RECAP_FORMS, RICH_PAIR_FORMS, RICH_STAT_FORMS,
+    STAT_FORMS, edit, realize, resources, sample_plan,
 )
 
 # The source-audit import chain loads this package's ``model`` module; the
@@ -44,18 +44,19 @@ def tokenize(text):
 
 
 def draw(n, seed, sbnation_rate, form_entropy, pair_rate,
-         discourse_entropy, lead_stat_rate, source_group):
+         discourse_entropy, lead_stat_rate, stat_richness, source_group):
     rng = random.Random(seed)
     return [realize(sample_plan(rng, sbnation_rate=sbnation_rate,
                                 source_group=source_group),
                     form_entropy=form_entropy, pair_rate=pair_rate,
                     discourse_entropy=discourse_entropy,
-                    lead_stat_rate=lead_stat_rate)
+                    lead_stat_rate=lead_stat_rate,
+                    stat_richness=stat_richness)
             for _ in range(n)]
 
 
 def changed(doc, field, form_entropy, pair_rate,
-            discourse_entropy, lead_stat_rate):
+            discourse_entropy, lead_stat_rate, stat_richness):
     plan = doc.plan
     if field == 'swap_teams':
         plan = edit(plan, field, True)
@@ -70,7 +71,8 @@ def changed(doc, field, form_entropy, pair_rate,
         raise ValueError(field)
     return realize(plan, form_entropy=form_entropy, pair_rate=pair_rate,
                    discourse_entropy=discourse_entropy,
-                   lead_stat_rate=lead_stat_rate)
+                   lead_stat_rate=lead_stat_rate,
+                   stat_richness=stat_richness)
 
 
 def source_vocabulary(train):
@@ -87,7 +89,7 @@ def source_vocabulary(train):
         for row in rows:
             for name in row['box_score']['PLAYER_NAME'].values():
                 words.update(tokenize(name))
-    for form in STAT_FORMS+PAIR_FORMS+tuple(
+    for form in STAT_FORMS+PAIR_FORMS+RICH_STAT_FORMS+RICH_PAIR_FORMS+tuple(
             value for group in RECAP_FORMS.values() for value in group):
         words.update(tokenize(form))
     words.update(str(value) for value in range(151))
@@ -176,6 +178,7 @@ def main():
     p.add_argument('--pair-rate', type=float, default=1.)
     p.add_argument('--discourse-entropy', type=float, default=1.)
     p.add_argument('--lead-stat-rate', type=float, default=.5)
+    p.add_argument('--stat-richness', type=float, default=0.)
     p.add_argument('--seed', type=int, default=99021)
     p.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     p.add_argument('--output', type=Path, required=True)
@@ -185,14 +188,16 @@ def main():
     kwargs = dict(sbnation_rate=a.sbnation_rate,
                   form_entropy=a.form_entropy, pair_rate=a.pair_rate,
                   discourse_entropy=a.discourse_entropy,
-                  lead_stat_rate=a.lead_stat_rate)
+                  lead_stat_rate=a.lead_stat_rate,
+                  stat_richness=a.stat_richness)
     train = draw(a.train_n, a.seed, source_group='train', **kwargs)
     test = draw(a.test_n, a.seed+1, source_group='heldout', **kwargs)
     assert not {d.plan.source_game_key for d in train} & \
         {d.plan.source_game_key for d in test}
     assert not {d.text for d in train} & {d.text for d in test}
     edits = {field: [changed(d, field, a.form_entropy, a.pair_rate,
-                             a.discourse_entropy, a.lead_stat_rate)
+                             a.discourse_entropy, a.lead_stat_rate,
+                             a.stat_richness)
                      for d in test]
              for field in ('swap_teams', 'high_score', 'points')}
     vocab = source_vocabulary(train)

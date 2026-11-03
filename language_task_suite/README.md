@@ -21,6 +21,10 @@ adds game-grouped holdouts and variable placement of score and recap clauses.
 It improves repetition near task answers but slightly worsens whole-document
 repetition; a source screen shows that natural player-stat sentences usually
 need more world facts than a points-only plan provides.
+The [V3 stat-richness control](SPORTS_DOCUMENT_DGP_V3_FACT_RICHNESS_AUDIT.md)
+adds sampled rebound/assist facts and validates their rendered numbers. Its
+small grammar makes whole-document and answer-window repetition worse, so it
+is not the improved training distribution.
 
 The [natural-text delimiter model and weight pilot](CORPUS_DELIMITER_MODEL_AND_WEIGHT_PILOT.md)
 samples a known paired-punctuation rule inside FineWeb prose. Whole-document
