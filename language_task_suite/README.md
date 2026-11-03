@@ -74,6 +74,12 @@ strict fit without player-stat carrier prose. Full rank replays the native
 model; at lower rank, better fitted OV reconstruction does not consistently
 preserve held-out copying or output KL. This local map is not a full
 attention-function canonicalization.
+The [paired placement study](SPORTS_REPORT_PLACEMENT_RESULTS.md) keeps each
+sampled game's facts, carrier sentences, and questions fixed while varying
+their sentence positions. It cuts answer-window repetition sharply, but
+fixed- and spread-trained models show large cross-layout failures on player
+copying. This exposes a generator shortcut and sets a concrete behavioral
+gate before comparing weight-based interpretability methods across layouts.
 The [natural sports-report carrier pilot](SPORTS_REPORT_CARRIER_MARGIN_PILOT.md)
 samples human report prose under a conservative source-result check, inserts
 one controlled score rule, and gets much closer to natural report form.

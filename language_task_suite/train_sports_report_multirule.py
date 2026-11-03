@@ -20,6 +20,9 @@ from sports_report_multirule_dgp import (
     increment_player, increment_score, realize, sample_plan,
     template_digest,
 )
+from sports_report_multirule_interleaved import (
+    realize as interleaved_realize, realize_mixed,
+)
 
 
 OLD_REPO = Path(__file__).resolve().parents[2]/'reverse_engineer/tensor_language'
@@ -59,9 +62,9 @@ def aligned(doc, tokenizer, n_ctx):
             'target': torch.tensor(targets, dtype=torch.long)}
 
 
-def triple(plan, tokenizer, n_ctx):
-    docs = (realize(plan), realize(increment_score(plan)),
-            realize(increment_player(plan)))
+def triple(plan, tokenizer, n_ctx, renderer=realize):
+    docs = (renderer(plan), renderer(increment_score(plan)),
+            renderer(increment_player(plan)))
     rows = tuple(aligned(doc, tokenizer, n_ctx) for doc in docs)
     if any(row is None for row in rows):
         return None
@@ -76,7 +79,7 @@ def triple(plan, tokenizer, n_ctx):
 
 
 def draw(rng, count, group, tokenizer, n_ctx, unique=False,
-         excluded=(), carrier_words=100):
+         excluded=(), carrier_words=100, renderer=realize):
     records = []
     seen = set(excluded)
     attempts = 0
@@ -88,7 +91,7 @@ def draw(rng, count, group, tokenizer, n_ctx, unique=False,
         key = plan.carrier_plan.source_game_key
         if unique and key in seen:
             continue
-        rows = triple(plan, tokenizer, n_ctx)
+        rows = triple(plan, tokenizer, n_ctx, renderer)
         if rows is None:
             continue
         records.append((key, rows))
@@ -167,6 +170,8 @@ def main():
     p.add_argument('--batch-size', type=int, default=8)
     p.add_argument('--n-ctx', type=int, default=320)
     p.add_argument('--carrier-words', type=int, default=100)
+    p.add_argument('--placement', choices=('fixed', 'spread', 'mixed'),
+                   default='fixed')
     p.add_argument('--d-model', type=int, default=64)
     p.add_argument('--heads', type=int, default=4)
     p.add_argument('--site-weight', type=float, default=100.)
@@ -179,14 +184,18 @@ def main():
     if a.depth not in (1, 2, 3, 4) or a.site_weight < 1:
         raise ValueError('Invalid depth or site weight')
     tokenizer = Tokenizer.from_file(str(DEFAULT_TOKENIZER))
+    renderer = {'fixed': realize, 'spread': interleaved_realize,
+                'mixed': realize_mixed}[a.placement]
     rng = random.Random(a.seed)
     train, train_attempts = draw(rng, a.train_triplets, 'train', tokenizer,
-                                 a.n_ctx, carrier_words=a.carrier_words)
+                                 a.n_ctx, carrier_words=a.carrier_words,
+                                 renderer=renderer)
     val, val_attempts = draw(rng, a.val_triplets, 'heldout', tokenizer,
-                             a.n_ctx, True, carrier_words=a.carrier_words)
+                             a.n_ctx, True, carrier_words=a.carrier_words,
+                             renderer=renderer)
     test, test_attempts = draw(rng, a.test_triplets, 'heldout', tokenizer,
                                a.n_ctx, True, {key for key, _ in val},
-                               a.carrier_words)
+                               a.carrier_words, renderer)
     assert not {key for key, _ in train} & {key for key, _ in val+test}
     training, validation, testing = map(stack, (train, val, test))
     xtrain = torch.cat([row['x'] for row in training])
