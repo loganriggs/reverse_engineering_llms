@@ -33,6 +33,7 @@ def main():
     p.add_argument('--list-shift-rate', type=float, default=.5)
     p.add_argument('--square-rate', type=float, default=.5)
     p.add_argument('--literal-copy-rate', type=float, default=0.)
+    p.add_argument('--natural-style-rate', type=float, default=0.)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--review-output', type=Path,
                    help='Local-only source excerpts for manual semantic review')
@@ -42,7 +43,7 @@ def main():
     random.Random(71999).shuffle(codes)
     pool = tuple(codes[:256])
     counts = Counter()
-    by_kind = ('list', 'bracket', 'nonce', 'literal_copy')
+    by_kind = ('list', 'bracket', 'nonce', 'literal_copy', 'natural_style')
     review_rng = random.Random(a.seed + 999)
     review = {kind: [] for kind in by_kind}
     review_seen = Counter()
@@ -59,7 +60,8 @@ def main():
                 nonce_rate=a.nonce_rate, list_shift_rate=a.list_shift_rate,
                 square_rate=a.square_rate,
                 max_chars=a.max_chars,
-                literal_copy_rate=a.literal_copy_rate)
+                literal_copy_rate=a.literal_copy_rate,
+                natural_style_rate=a.natural_style_rate)
             counts['documents_with_any_text_change'] += (
                 document.text != document.source_text)
             for kind in by_kind:
@@ -80,6 +82,12 @@ def main():
             for kind in by_kind:
                 counts[f'local_{kind}_sites'] += sum(
                     site['kind'] == kind for site in local_sites)
+            for site in local_sites:
+                if site['kind'] == 'natural_style':
+                    cue = 'us' if site['style_cue_us'] else 'uk'
+                    target = 'us' if site['style_target_us'] else 'uk'
+                    counts[f'local_style_cue_{cue}_target_{target}'] += 1
+                    counts[f'local_style_root_{site["style_target_root"]}_{target}'] += 1
             for kind in local:
                 counts[f'local_{kind}_documents'] += 1
             for first, second in combinations(sorted(local), 2):
@@ -131,7 +139,9 @@ def main():
               'scope': 'Uniform FineWeb source offsets, no conditioning on '
                        'rule presence. List/bracket/nonce edits use configured '
                        'rates and preserve character length; literal_copy '
-                       'tags natural unchanged-code repeats. Local means source and '
+                       'tags natural unchanged-code repeats; natural_style '
+                       'tags agreeing US/UK cue-target pairs in unchanged text. '
+                       'Local means source and '
                        'target fit one ordinary nonoverlapping model chunk '
                        'with BPE alignment; it is a lower bound for a model '
                        'with cross-chunk memory. Natural background tokens '

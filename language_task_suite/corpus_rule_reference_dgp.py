@@ -17,6 +17,9 @@ from corpus_numbered_list_dgp import visible_next_number
 from corpus_nonce_copy_dgp import candidates as nonce_candidates, draw_pair
 from corpus_transformed_delimiters import candidates as bracket_candidates
 from corpus_uppercase_copy_dgp import candidates as literal_copy_candidates
+from corpus_transformed_spelling_style import (
+    LOOKUP as STYLE_LOOKUP, candidate_indices as style_candidates,
+)
 
 
 PAD = 50256
@@ -42,9 +45,9 @@ class Document:
 def sample_document(source_text, rng: random.Random, nonce_pool,
                     list_rate=1., bracket_rate=1., nonce_rate=0.,
                     list_shift_rate=0., square_rate=0., max_chars=8000,
-                    literal_copy_rate=0.):
+                    literal_copy_rate=0., natural_style_rate=0.):
     rates = (list_rate, bracket_rate, nonce_rate, list_shift_rate,
-             square_rate, literal_copy_rate)
+             square_rate, literal_copy_rate, natural_style_rate)
     if any(not 0 <= rate <= 1 for rate in rates):
         raise ValueError('Every rate must be in [0,1]')
     source_text = source_text[:max_chars]
@@ -102,6 +105,19 @@ def sample_document(source_text, rng: random.Random, nonce_pool,
                                       plan.source_code))
             applied.append('literal_copy')
 
+    style_words, style_indices = style_candidates(source_text)
+    style_pairs = [style_words[index - 1:index + 1]
+                   for index, _ in style_indices]
+    if style_pairs:
+        eligible.append('natural_style')
+        if rng.random() < natural_style_rate:
+            for cue, target in style_pairs:
+                sites.append(RuleSite('natural_style',
+                                      (cue.start, cue.end),
+                                      (target.start, target.end),
+                                      target.source_word))
+            applied.append('natural_style')
+
     chars = list(source_text)
     for index, char in edits.items():
         assert len(char) == 1
@@ -116,7 +132,7 @@ def sample_document(source_text, rng: random.Random, nonce_pool,
 def check_document(document):
     assert len(document.text) == len(document.source_text)
     singular = [site.kind for site in document.sites
-                if site.kind != 'literal_copy']
+                if site.kind not in ('literal_copy', 'natural_style')]
     assert len(singular) == len(set(singular))
     for site in document.sites:
         a, b = site.target
@@ -131,6 +147,10 @@ def check_document(document):
             assert document.text[slice(*site.source)] == site.answer
         elif site.kind == 'literal_copy':
             assert document.text[slice(*site.source)] == site.answer
+        elif site.kind == 'natural_style':
+            assert document.text[slice(*site.target)] == site.answer
+            cue_word = document.text[slice(*site.source)]
+            assert STYLE_LOOKUP[cue_word][0] != STYLE_LOOKUP[site.answer][0]
         else:
             raise AssertionError(site.kind)
     return True
@@ -175,11 +195,13 @@ def chunk_document(document, tokenizer, n_ctx=256, max_tokens=2048):
         elif site.kind == 'bracket':
             if len(target) != 1 or first[0] != site.target[0]:
                 continue
-        elif site.kind == 'literal_copy':
+        elif site.kind in ('literal_copy', 'natural_style'):
             if (not _exact_single_code_token(encoding, document.text,
                                              site.source, source) or
                 not _exact_single_code_token(encoding, document.text,
-                                             site.target, target) or
+                                             site.target, target)):
+                continue
+            if (site.kind == 'literal_copy' and
                     encoding.ids[source[0]] != encoding.ids[target[0]]):
                 continue
         token_sites.append((site, source, target))
@@ -200,10 +222,20 @@ def chunk_document(document, tokenizer, n_ctx=256, max_tokens=2048):
             positions = tuple(index - start - 1 for index in target)
             assert all(y[pos].item() == ids[index]
                        for pos, index in zip(positions, target, strict=True))
-            local_sites.append({'kind': site.kind,
-                                'positions': positions,
-                                'target_ids': tuple(ids[index] for index in target),
-                                'source_token': source[0] - start})
+            row = {'kind': site.kind,
+                   'positions': positions,
+                   'target_ids': tuple(ids[index] for index in target),
+                   'source_token': source[0] - start}
+            if site.kind == 'natural_style':
+                cue_word = document.text[slice(*site.source)]
+                target_word = document.text[slice(*site.target)]
+                cue_root, cue_us, _ = STYLE_LOOKUP[cue_word]
+                target_root, target_us, _ = STYLE_LOOKUP[target_word]
+                row['style_cue_us'] = cue_word == cue_us
+                row['style_target_us'] = target_word == target_us
+                row['style_target_root'] = target_root
+                assert cue_root != target_root
+            local_sites.append(row)
         chunks.append({'x': x, 'y': y, 'sites': local_sites,
                        'start_token': start})
     return chunks

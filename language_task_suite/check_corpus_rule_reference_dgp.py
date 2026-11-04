@@ -42,6 +42,27 @@ def main():
                                                         tokenizer)
                for site in chunk['sites']) == set(natural_three.applied)
 
+    style_text = ('The color of the exhibit was recorded in a field report. '
+                  'Several people read the report and discussed the result '
+                  'with the staff before sending another note to the office. '
+                  'The favorite item was mentioned again.')
+    style_document = sample_document(style_text, random.Random(9), pool,
+                                     list_rate=0., bracket_rate=0.,
+                                     natural_style_rate=1.)
+    assert style_document.text == style_text
+    assert style_document.applied == ('natural_style',)
+    assert any(site['kind'] == 'natural_style'
+               for chunk in chunk_document(style_document, tokenizer)
+               for site in chunk['sites'])
+    mixed_style = sample_document(style_text.replace('favorite', 'favourite'),
+                                  random.Random(9), pool, list_rate=0.,
+                                  bracket_rate=0., natural_style_rate=1.)
+    assert mixed_style.applied == ('natural_style',)
+    assert mixed_style.sites[0].answer == 'favourite'
+    assert any(site['kind'] == 'natural_style'
+               for chunk in chunk_document(mixed_style, tokenizer)
+               for site in chunk['sites'])
+
     shifted = sample_document(TEXT, random.Random(7), pool,
                               list_shift_rate=1.)
     assert {site.kind: site.answer for site in shifted.sites}['list'] == '4'
@@ -65,7 +86,7 @@ def main():
     assert {site['kind'] for site in sites} == set(all_rules.applied)
     assert len(next(site for site in sites if site['kind'] == 'nonce')[
         'positions']) == 3
-    print('reference DGP three-rule composition and chunk fixture passed')
+    print('reference DGP natural rule fixtures passed')
 
 
 if __name__ == '__main__':
