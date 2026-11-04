@@ -86,6 +86,9 @@ def main():
     a = p.parse_args()
     fetch(a.skip, a.n, a.preview_chars, a.jsonl,
           a.preview_json, a.manifest_json)
+    # The streaming datasets reader can leave non-daemon threads alive after
+    # all rows and outputs have been flushed and verified.
+    os._exit(0)
 
 
 if __name__ == '__main__':

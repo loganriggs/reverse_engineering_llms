@@ -184,6 +184,8 @@ def main():
     p.add_argument('--pair-loss-weight',type=float,default=0.)
     p.add_argument('--pair-ce-mode',choices=('both','one_arm'),
                    default='both')
+    p.add_argument('--test-final-only',action='store_true',
+                   help='Reserve test evaluation until the final step')
     p.add_argument('--seed',type=int,default=46451)
     p.add_argument('--device',default='cuda' if torch.cuda.is_available()
                    else 'cpu')
@@ -208,6 +210,8 @@ def main():
         identity += (a.pair_loss_weight,)
     if a.pair_ce_mode!='both':
         identity += (a.pair_ce_mode,)
+    if a.test_final_only:
+        identity += ('test_final_only',)
     if a.state.exists():
         saved=torch.load(a.state,map_location='cpu',weights_only=True)
         if tuple(saved['identity'])!=identity or saved['step']>a.steps:
@@ -221,8 +225,10 @@ def main():
         print('resumed',start,flush=True)
     else:
         start=0
-        history={'0':{'val':evaluate(model,cache['val'],a.device,a.batch_size),
-                      'test':evaluate(model,cache['test'],a.device,a.batch_size)}}
+        history={'0':{'val':evaluate(model,cache['val'],a.device,a.batch_size)}}
+        if not a.test_final_only:
+            history['0']['test']=evaluate(model,cache['test'],a.device,
+                                          a.batch_size)
     report={'config':{key:str(value) if isinstance(value,Path) else value
                       for key,value in vars(a).items()},
             'parameters':model.n_params,
@@ -253,20 +259,25 @@ def main():
         optimizer.step()
         completed=step+1
         if completed%a.eval_every==0 or completed==a.steps:
-            history[str(completed)]={'last_train_loss':float(loss.detach()),
-                'val':evaluate(model,cache['val'],a.device,a.batch_size),
-                'test':evaluate(model,cache['test'],a.device,a.batch_size)}
+            snapshot={'last_train_loss':float(loss.detach()),
+                'val':evaluate(model,cache['val'],a.device,a.batch_size)}
+            if not a.test_final_only or completed==a.steps:
+                snapshot['test']=evaluate(model,cache['test'],a.device,
+                                          a.batch_size)
+            history[str(completed)]=snapshot
             report['history']=history
             a.output.write_text(json.dumps(report,indent=2)+'\n')
             save(a.state,model,optimizer,rng,completed,history,identity)
-            test=history[str(completed)]['test']
-            print(completed,'surname paired rank',
-                  round(test['surname_copy']['candidate_rank_paired'],3),
+            scored=snapshot.get('test',snapshot['val'])
+            print(completed,'heldout',
+                  'test' if 'test' in snapshot else 'validation',
+                  'surname paired rank',
+                  round(scored['surname_copy']['candidate_rank_paired'],3),
                   'surname paired top1',
-                  round(test['surname_copy']['paired_top1'],3),
+                  round(scored['surname_copy']['paired_top1'],3),
                   'bracket top1',
-                  None if test['sites']['bracket'] is None else
-                  round(test['sites']['bracket']['top1'],3),flush=True)
+                  None if scored['sites']['bracket'] is None else
+                  round(scored['sites']['bracket']['top1'],3),flush=True)
 
 
 if __name__=='__main__':
