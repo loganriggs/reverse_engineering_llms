@@ -126,12 +126,13 @@ def main():
               'parameters':model.n_params,
               'source_counts':cache['counts'],
               'history':history,
-              'scope':'Whole-source heldout corpus surname substitution. '
+              'scope':cache.get('task_description',
+                      'Whole-source heldout corpus surname substitution. '
                       'Full next-token CE with specified extra site weight; '
                       'target pair rank and earlier-name edit response are '
                       'separate behavioral gates. Natural background text '
                       'has no all-token oracle, and source identity was '
-                      'screened heuristically.'}
+                      'screened heuristically.')}
     a.output.parent.mkdir(parents=True, exist_ok=True)
     a.output.write_text(json.dumps(report,indent=2)+'\n')
     if step_start == 0:
