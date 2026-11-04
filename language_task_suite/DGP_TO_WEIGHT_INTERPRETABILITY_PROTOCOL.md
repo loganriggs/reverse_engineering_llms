@@ -61,3 +61,16 @@ panels, then compare weight methods on the same **behaviorally learned**
 rule(s). Include the older V3 sampled generator as a controlled, less
 realistic baseline. Do not resume PCFG-only scale sweeps until a specific
 weight-recovery question needs them.
+
+The subsequent [V4 clause-grammar control](PROPOSITION_CLAUSE_AST_V4_RESULT.md)
+improved semantic phrasing while leaving a large full-document and rule-site
+form gap. Stop adding finite sentence templates as the main route. The next
+renderer must vary sampled document state and discourse alongside a
+compositional, corpus-calibrated realization process. The [natural joint-rule
+opportunity audit](NATURAL_JOINT_RULE_OPPORTUNITIES.md) also found that only
+8.1–9.6% of 2,000-document preview panels contain two or more currently
+detectable mechanical rule opportunities. Thus task prevalence must be an
+explicit DGP knob: compare natural-rate and enriched regimes, preserve
+source-disjoint holdouts, and report selection rate. This is a calibration
+constraint, not evidence that a natural carrier supplies a full symbolic
+oracle or that the semantic renderer is already realistic.
