@@ -28,7 +28,7 @@ def is_question_site(document, site):
     return 'Answer' in prefix[start:]
 
 
-def audit(preview, n, words, width, seed):
+def audit(preview, n, words, width, seed, surface_version=3):
     rows = json.loads(preview.read_text())
     if len(rows) < n+1:
         raise ValueError('Need separate natural reference rows')
@@ -40,7 +40,7 @@ def audit(preview, n, words, width, seed):
     for i in range(n):
         plan = sample_plan(rng, planning_style='threaded')
         doc = realize(plan, seed=seed+i, lexical_exponent=1.05,
-                      surface_version=3)
+                      surface_version=surface_version)
         by_family = defaultdict(list)
         for site in doc.sites:
             assert answer_from_visible_prefix(
@@ -87,7 +87,8 @@ def audit(preview, n, words, width, seed):
                        'source_last_index': rows[n-1]['index'],
                        'preview_sha256': hashlib.sha256(
                            preview.read_bytes()).hexdigest(),
-                       'words': words, 'window_width': width, 'seed': seed},
+                       'words': words, 'window_width': width, 'seed': seed,
+                       'surface_version': surface_version},
             'counts': dict(counts), 'families': result,
             'scope': 'One randomly selected site per family per generated '
                      'document. Natural windows use different source rows '
@@ -105,9 +106,11 @@ def main():
     p.add_argument('--words', type=int, default=100)
     p.add_argument('--width', type=int, default=41)
     p.add_argument('--seed', type=int, default=48901)
+    p.add_argument('--surface-version', type=int, choices=(3, 4), default=3)
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
-    result = audit(a.preview, a.documents, a.words, a.width, a.seed)
+    result = audit(a.preview, a.documents, a.words, a.width, a.seed,
+                   a.surface_version)
     a.output.parent.mkdir(parents=True, exist_ok=True)
     a.output.write_text(json.dumps(result, indent=2) + '\n')
     for family, row in result['families'].items():

@@ -21,6 +21,10 @@ from document_world_v9_typed_lexicon import (
     _CANONICAL_POOLS, _KIND, _surface, draw_lexicon,
 )
 from document_proposition_plan import COUNT_UNITS, FORMS, STEP_ACTIONS
+from document_proposition_clause_ast import (
+    Clause, render as render_clause, parse_prefix as parse_clause_prefix,
+    parse_complete as parse_complete_clause,
+)
 
 
 @dataclass(frozen=True)
@@ -282,7 +286,7 @@ def _canonical_clause(row):
 def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
             surface_version=1):
     assert plan['form'] in FORMS and 0 <= paragraph_rate <= 1
-    assert surface_version in (1, 2, 3)
+    assert surface_version in (1, 2, 3, 4)
     rng = random.Random(seed)
     tokens, sites = [], []
     nodes = plan['nodes']
@@ -338,6 +342,18 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
         elif kind == 'compare':
             obj, other, attr, relation = (node[k] for k in (
                 'entity', 'other', 'attr', 'value'))
+            if surface_version == 4:
+                lead, answer, tail, candidates = render_clause(
+                    Clause('comparison', obj, attr, other),
+                    rng.randrange(6), relation)
+                if tokens and rng.random() < paragraph_rate:
+                    tokens.append('\n')
+                tokens.extend(lead)
+                index = len(tokens)
+                tokens.extend((answer, *tail, '.'))
+                sites.append(AnswerSite(index, 'comparison', answer,
+                                        candidates, obj))
+                continue
             if surface_version == 3:
                 lead = (['The', attr, 'of', obj, 'and', other,
                          'was', 'a'] if form == 0 else
@@ -408,8 +424,21 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
         else:
             assert kind in ('revisit', 'question')
             question = kind == 'question'
+            if (surface_version == 4 and not question and
+                    node['kind'] in ('fact', 'update')):
+                lead, answer, tail, candidates = render_clause(
+                    Clause('fact', node['entity'], node['attr']),
+                    rng.randrange(7), str(node['value']))
+                if tokens and rng.random() < paragraph_rate:
+                    tokens.append('\n')
+                tokens.extend(lead)
+                index = len(tokens)
+                tokens.extend((answer, *tail, '.'))
+                sites.append(AnswerSite(index, node['kind'], answer,
+                                        candidates, node['entity']))
+                continue
             lead = _query(node, nodes, question)
-            if surface_version in (2, 3):
+            if surface_version in (2, 3, 4):
                 lead = _paraphrase_query(lead, node, question, rng)
             answer = str(node['value'])
             if tokens and rng.random() < paragraph_rate:
@@ -433,7 +462,7 @@ def realize(plan, seed=0, paragraph_rate=.35, lexical_exponent=None,
             sites.append(AnswerSite(index, node['kind'], answer,
                                     candidates, node.get('entity')))
             continue
-        if surface_version in (2, 3):
+        if surface_version in (2, 3, 4):
             sentence = _paraphrase(sentence, kind, rng)
         emit(sentence, force_break=kind in ('scope', 'step') or
              (plan['form'] in ('collection', 'procedure') and
@@ -463,6 +492,15 @@ class _VisibleState:
         self.scope = 0
 
     def query(self, raw):
+        clause = parse_clause_prefix(raw)
+        if clause is not None:
+            frame, captures = clause
+            obj, attr = captures['entity'], captures['attr']
+            if frame.kind == 'fact':
+                return self.facts[(obj, attr)]
+            other = captures['other']
+            same = self.facts[(obj, attr)] == self.facts[(other, attr)]
+            return frame.positive if same else frame.negative
         raw = _canonical_query(raw)
         if len(raw) == 8 and raw[:1] == ['The'] and raw[2:3] == ['of'] \
                 and raw[4:5] == ['and'] and raw[6:] == ['was', 'a']:
@@ -529,6 +567,18 @@ class _VisibleState:
         return None
 
     def observe(self, row):
+        clause = parse_complete_clause(row)
+        if clause is not None:
+            frame, captures, answer = clause
+            obj, attr = captures['entity'], captures['attr']
+            if frame.kind == 'fact':
+                expected = self.facts[(obj, attr)]
+            else:
+                same = (self.facts[(obj, attr)] ==
+                        self.facts[(captures['other'], attr)])
+                expected = frame.positive if same else frame.negative
+            assert answer == expected, (row, expected)
+            return
         row = _canonical_clause(row)
         expected = self.query(row[:-1]) if len(row) > 1 else None
         if expected is not None:
