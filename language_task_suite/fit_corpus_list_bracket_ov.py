@@ -75,13 +75,14 @@ def background_kl(teacher, student, arms, device, site_key, batch_size=4):
     return total / count
 
 
-def scores(teacher, student, data, brackets, device):
+def scores(teacher, student, data, brackets, device, joint_panel=None):
     list_test = data['list']['test']
     bracket_test = brackets['test']
     return {
         'list': eval_list(student, list_test, device),
         'bracket': eval_bracket(student, bracket_test, device, batch_size=4),
-        'joint': eval_joint(student, data['joint']['test'], device),
+        'joint': eval_joint(student, joint_panel if joint_panel is not None
+                            else data['joint']['test'], device),
         'list_site_teacher_kl': site_kl(teacher, student,
                                        [list_test[0], list_test[1]], device, 'site'),
         'bracket_site_teacher_kl': site_kl(teacher, student,
@@ -102,6 +103,8 @@ def main():
     p.add_argument('--checkpoints', type=Path, nargs='+', required=True)
     p.add_argument('--list-cache', type=Path, required=True)
     p.add_argument('--bracket-cache', type=Path, required=True)
+    p.add_argument('--joint-cache', type=Path,
+                   help='Independent four-arm test panel; never used in fitting')
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--rank', type=int, default=4)
     p.add_argument('--fit-rows-per-arm', type=int, default=64)
@@ -116,6 +119,8 @@ def main():
     torch.set_num_threads(4)
     data = torch.load(a.list_cache, map_location='cpu', weights_only=True)
     brackets = torch.load(a.bracket_cache, map_location='cpu', weights_only=True)
+    joint_panel = (torch.load(a.joint_cache, map_location='cpu',
+                              weights_only=True) if a.joint_cache else None)
     assert data['n_ctx'] == brackets['n_ctx'] == 256
     list_rows, bracket_rows = training_rows(data, brackets, a.fit_rows_per_arm)
     gram_rows = {key: torch.cat([list_rows[key], bracket_rows[key]])
@@ -146,7 +151,8 @@ def main():
             replace_ov(student, grams, a.rank, method)
             model_results['rows'].append({'method': method,
                                           'scores': scores(teacher, student, data,
-                                                           brackets, a.device)})
+                                                           brackets, a.device,
+                                                           joint_panel)})
             del student
         for scope in a.scopes.split(','):
             assert scope in ('list', 'bracket', 'both')
@@ -202,7 +208,8 @@ def main():
                                                          min(50, len(losses)),
                                           'unused_channel_max': unused,
                                           'scores': scores(teacher, student, data,
-                                                           brackets, a.device)})
+                                                           brackets, a.device,
+                                                           joint_panel)})
             a.output.write_text(json.dumps(report, indent=2) + '\n')
             del student
     a.output.write_text(json.dumps(report, indent=2) + '\n')
