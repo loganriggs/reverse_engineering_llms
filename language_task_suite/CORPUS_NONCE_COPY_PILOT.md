@@ -62,3 +62,20 @@ As a first weight-method check, each attention head was ranked without task exam
 | 72105 | Bracket | 6/3 | 2/16 | 94.9 points | 0.0 points |
 
 The nonce head also reduces two-code sequence preference by 85.5/92.8 points, a stronger signal than its exact-generation drop because native exactness is only 21.7/19.3%. The list-critical head changes location across seeds but is ranked 14th in both. This is a replicated failure of the simple weight-only ranking to prioritize one clearly learned rule. It does not show that weight-only canonicalization in general fails. Whole-head ablation establishes necessity in the intact model, not a unique circuit or sufficient path. In particular, the three rules have not been tested in one crossed document; task-specific heads may partly reflect the disjoint training-window distributions.
+
+## Matched-budget OV reductions
+
+We next canonicalized each head's composed linear value-output map, `O_h @ V_h`, by SVD. Weight-only SVD uses the ordinary Frobenius metric; data SVD first weights input directions by an activation covariance fitted on 384 separate-rule **training** windows (64 distinct nonce source documents per edited arm, 64 list rows per arm, and 128 bracket rows). No held-out or list × bracket joint document enters this fit. In both methods, each of 16 heads retains rank 8, 16, 24, or its native 32; QK, MLPs, embeddings, and readout remain fixed. At rank 32, both refactorizations reproduce probe logits to the script's `<0.001` tolerance. The measured mean input-weighted OV error is lower for data SVD at every compressed rank in both seeds, as its objective predicts. That lower local reconstruction error does not consistently improve exact-rule behavior. At rank 8, both methods retain list and bracket behavior while nonce exact generation falls to 4.8–7.8%; at rank 16, familiar nonce exactness is 19.9–21.7%, near the native 19.3–21.7% range.
+
+For the same retained OV channel budget, we also kept the highest-ranked heads at full width and zeroed all other heads. Keeping 8 of 16 full-width heads uses `8×32=256` OV channels, matching rank 16 in every head. Keeping 12 uses 384 channels, matching rank 24 everywhere. Each retained channel carries the same O and V factor dimensions in these comparisons. The head ranking uses the task-blind QK1×QK2×OV norm product above.
+
+| Seed | OV allocation, 256-channel budget | List paired exact | Bracket paired two-way | Familiar nonce exact, both worlds | List × bracket all-arm exact |
+|---|---|---:|---:|---:|---:|
+| 72104 | Rank 16/head, weight SVD | 92.2% | 94.9% | 19.9% | 18.8% |
+| 72104 | Rank 16/head, data SVD | 92.2% | 95.2% | 21.7% | 20.1% |
+| 72104 | Top 8 full heads | **0%** | 95.5% | 19.9% | **0%** |
+| 72105 | Rank 16/head, weight SVD | 91.1% | 96.4% | 21.1% | 42.7% |
+| 72105 | Rank 16/head, data SVD | 91.1% | 96.4% | 20.5% | 42.7% |
+| 72105 | Top 8 full heads | **0%** | 95.5% | 22.9% | **0%** |
+
+At the 384-channel budget, rank-24 truncation still retains 91.1–92.2% list exactness, while top-12 full-head pruning leaves only 0–1.1% and zero all-arm list × bracket exactness. On a 64-row held-out list-site KL probe, the top-12 pruned models have teacher KL 4.20/.33 versus ≤.001 for rank-24 students. The qualitative result is replicated across seeds: a global head norm allocates zero capacity to a low-ranked but necessary list head, whereas spreading rank across heads preserves it. This does **not** make uniform rank universally optimal; the result depends on this model, metric, and budget. Neither local OV SVD nor pruning is a canonical decomposition of the full bilinear attention function or a proof of human-legible features. The [aggregate comparison](results/corpus_three_rule_ov_weight_vs_data_and_pruning_seed72104_72105.json) separates reconstruction, rule behavior, and teacher KL; the [script](eval_corpus_three_rule_ov_reduction.py) reproduces it.
