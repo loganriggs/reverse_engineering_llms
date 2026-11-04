@@ -147,6 +147,8 @@ def check_document(document):
             assert document.text[slice(*site.source)] == site.answer
         elif site.kind == 'literal_copy':
             assert document.text[slice(*site.source)] == site.answer
+        elif site.kind == 'surname_copy':
+            assert document.text[slice(*site.source)] == site.answer
         elif site.kind == 'natural_style':
             assert document.text[slice(*site.target)] == site.answer
             cue_word = document.text[slice(*site.source)]
@@ -195,13 +197,13 @@ def chunk_document(document, tokenizer, n_ctx=256, max_tokens=2048):
         elif site.kind == 'bracket':
             if len(target) != 1 or first[0] != site.target[0]:
                 continue
-        elif site.kind in ('literal_copy', 'natural_style'):
+        elif site.kind in ('literal_copy', 'natural_style', 'surname_copy'):
             if (not _exact_single_code_token(encoding, document.text,
                                              site.source, source) or
                 not _exact_single_code_token(encoding, document.text,
                                              site.target, target)):
                 continue
-            if (site.kind == 'literal_copy' and
+            if (site.kind in ('literal_copy', 'surname_copy') and
                     encoding.ids[source[0]] != encoding.ids[target[0]]):
                 continue
         token_sites.append((site, source, target))
