@@ -15,6 +15,8 @@ from corpus_rule_reference_dgp import (
 )
 from fineweb_name_copy_dgp import WORD
 
+KINDS = ('surname_copy', 'bracket', 'literal_copy', 'natural_style', 'list')
+
 
 def _one_arm(dgp, index, original, replacement, surface_seed, nonce_pool,
              **rule_rates):
