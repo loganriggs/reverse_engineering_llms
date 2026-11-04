@@ -94,9 +94,11 @@ def visible_next_number(prefix):
     return str(b+1)
 
 
-def realize(plan, shift=0, bracket_style='round'):
+def realize(plan, shift=0, bracket_style='round', target_position=2):
     if shift not in (0, 1) or bracket_style not in ('round', 'square'):
         raise ValueError('Invalid edit arm')
+    if not 2 <= target_position < len(plan.markers):
+        raise ValueError('Target needs two earlier list markers')
     chars = list(plan.source_text)
     for start, end, number in plan.markers:
         assert end == start+1 and chars[start] == str(number)
@@ -109,12 +111,14 @@ def realize(plan, shift=0, bracket_style='round'):
             chars[opener], chars[closer] = '[', ']'
         sites.append(Site('bracket', closer, closer+1, chars[closer],
                           opener, opener+1))
-    target = plan.markers[2]
+    target = plan.markers[target_position]
     sites.append(Site('list_next', target[0], target[1],
-                      str(3+shift), plan.markers[1][0],
-                      plan.markers[1][1]))
+                      str(target_position+1+shift),
+                      plan.markers[target_position-1][0],
+                      plan.markers[target_position-1][1]))
     text = ''.join(chars)
-    assert visible_next_number(text[:target[0]]) == str(3+shift)
+    assert visible_next_number(text[:target[0]]) == \
+           str(target_position+1+shift)
     for site in sites:
         assert text[site.start:site.end] == site.answer
     return Document(text, tuple(sites), plan)
