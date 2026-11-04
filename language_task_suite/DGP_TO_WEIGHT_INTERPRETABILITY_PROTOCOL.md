@@ -74,3 +74,14 @@ explicit DGP knob: compare natural-rate and enriched regimes, preserve
 source-disjoint holdouts, and report selection rate. This is a calibration
 constraint, not evidence that a natural carrier supplies a full symbolic
 oracle or that the semantic renderer is already realistic.
+
+The [joint corpus-rule mixture V2](CORPUS_JOINT_RULE_MIXTURE_V2.md) now makes
+source selection and correlated rule-gate incidence executable, while
+retaining natural source text and local causal traces. It is the near-term
+**semi-parametric control** for small-model/weight-method experiments. It
+does not discharge the fully sampled semantic-language objective. Do not
+continue broad DART/ToTTo slot screens without a new semantic-faithfulness
+test; the earlier [structured-realization audit](STRUCTURED_REALISATION_BANK_AUDIT.md)
+already found that exact mention coverage admits unsupported claims. Next
+training must use independent sources and whole-combination holdouts, and
+must not claim a weight circuit for a rule that fails behavioral edits.
