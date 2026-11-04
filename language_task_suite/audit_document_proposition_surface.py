@@ -230,10 +230,12 @@ def form(seed, n=64, words=100, surface_version=1,
     draws = 0
     while len(texts['typed']) < n:
         draws += 1
+        move_count = (fixed_moves if fixed_moves is not None else
+                      rng.randint(8, 11) if planning_style == 'threaded'
+                      else rng.randint(10, 16))
         plan = sample_plan(rng, coupling_rate=.7,
                            planning_style=planning_style,
-                           n_moves=(fixed_moves if fixed_moves is not None
-                                    else rng.randint(10, 16)))
+                           n_moves=move_count)
         surface_seed = rng.randrange(2**32)
         docs = dict(canonical=realize(plan, seed=surface_seed,
                                       surface_version=surface_version),
