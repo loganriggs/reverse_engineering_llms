@@ -1,0 +1,311 @@
+{
+  "config": {
+    "checkpoint": "language_task_suite/results/sports_alias_bracket_depth2_seed98202_6000.pt",
+    "output": "language_task_suite/results/sports_sparse_ov_gauge_seed98202.json",
+    "test_worlds": 40,
+    "seed": 41601,
+    "fit_steps": 250,
+    "fit_lr": 0.03,
+    "ranks": "4,8,16",
+    "device": "cuda"
+  },
+  "test_attempts": 53,
+  "fit_heads": [
+    {
+      "layer": 0,
+      "head": 0,
+      "original_l1": 155.8296515893744,
+      "balanced_l1": 143.46043269648413,
+      "sparse_l1": 130.45676941631018,
+      "orthogonality_error": 1.8266616786218897e-14,
+      "product_relative_error": 6.1784771454370525e-15
+    },
+    {
+      "layer": 0,
+      "head": 1,
+      "original_l1": 163.53672964567886,
+      "balanced_l1": 150.7218275750597,
+      "sparse_l1": 138.30995108021096,
+      "orthogonality_error": 5.929943310287067e-15,
+      "product_relative_error": 2.4959810767592235e-15
+    },
+    {
+      "layer": 0,
+      "head": 2,
+      "original_l1": 162.19438795311726,
+      "balanced_l1": 149.77892533429218,
+      "sparse_l1": 137.03763170140672,
+      "orthogonality_error": 7.059855407226678e-15,
+      "product_relative_error": 2.325739157343982e-15
+    },
+    {
+      "layer": 0,
+      "head": 3,
+      "original_l1": 159.5439135837696,
+      "balanced_l1": 148.04512454383385,
+      "sparse_l1": 134.57495123214272,
+      "orthogonality_error": 4.409475692077289e-15,
+      "product_relative_error": 2.1757524666496756e-15
+    },
+    {
+      "layer": 1,
+      "head": 0,
+      "original_l1": 160.14326915090714,
+      "balanced_l1": 150.28203897596748,
+      "sparse_l1": 134.41920033796507,
+      "orthogonality_error": 6.15943772951694e-15,
+      "product_relative_error": 2.390875229853352e-15
+    },
+    {
+      "layer": 1,
+      "head": 1,
+      "original_l1": 151.67446486890958,
+      "balanced_l1": 139.62845475803437,
+      "sparse_l1": 127.14281609614494,
+      "orthogonality_error": 6.348074025526885e-15,
+      "product_relative_error": 2.7851547333627096e-15
+    },
+    {
+      "layer": 1,
+      "head": 2,
+      "original_l1": 152.35659357527675,
+      "balanced_l1": 139.7702852532185,
+      "sparse_l1": 127.8777000908492,
+      "orthogonality_error": 9.939725969125537e-15,
+      "product_relative_error": 3.15406393732653e-15
+    },
+    {
+      "layer": 1,
+      "head": 3,
+      "original_l1": 157.04625008066068,
+      "balanced_l1": 146.1680394982894,
+      "sparse_l1": 131.9841714093041,
+      "orthogonality_error": 5.7252987139949545e-15,
+      "product_relative_error": 2.350708772345402e-15
+    }
+  ],
+  "native": {
+    "examples": 40,
+    "token_nll": 4.598764367489298,
+    "alias": {
+      "top1": 0.43125,
+      "paired_top1": 0.3375,
+      "candidate_paired": 0.7375,
+      "edit_direction": 0.9375,
+      "site_nll": 5.566431659460068,
+      "target_tv": 0.6395089030265808,
+      "cross_rule_nuisance_tv": 0.0470133563503623
+    },
+    "bracket": {
+      "top1": 0.95,
+      "paired_top1": 0.95,
+      "candidate_paired": 1.0,
+      "edit_direction": 1.0,
+      "site_nll": 0.3799907836417333,
+      "target_tv": 0.9590307116508484,
+      "cross_rule_nuisance_tv": 0.0026903594512987183
+    }
+  },
+  "rows": [
+    {
+      "method": "sparse_gauge",
+      "rank_per_head": 4,
+      "max_probe_logit_change": 23.900283813476562,
+      "heldout": {
+        "examples": 40,
+        "token_nll": 4.814671425421734,
+        "alias": {
+          "top1": 0.05,
+          "paired_top1": 0.025,
+          "candidate_paired": 0.475,
+          "edit_direction": 0.8875,
+          "site_nll": 9.083044970035553,
+          "target_tv": 0.4947962433099747,
+          "cross_rule_nuisance_tv": 0.03969294000416994
+        },
+        "bracket": {
+          "top1": 0.6,
+          "paired_top1": 0.3,
+          "candidate_paired": 0.725,
+          "edit_direction": 1.0,
+          "site_nll": 1.8429531622678041,
+          "target_tv": 0.6327687919139862,
+          "cross_rule_nuisance_tv": 0.00816128053702414
+        }
+      },
+      "teacher_kl": {
+        "alias": 3.725450774282217,
+        "bracket": 1.2808393903775142,
+        "background": 0.4465612236058937,
+        "background_positions": 1060
+      }
+    },
+    {
+      "method": "weight_svd",
+      "rank_per_head": 4,
+      "max_probe_logit_change": 30.73409652709961,
+      "heldout": {
+        "examples": 40,
+        "token_nll": 4.714157704449583,
+        "alias": {
+          "top1": 0.05625,
+          "paired_top1": 0.0,
+          "candidate_paired": 0.55,
+          "edit_direction": 0.9,
+          "site_nll": 8.518104100227356,
+          "target_tv": 0.5334172785282135,
+          "cross_rule_nuisance_tv": 0.048172333464026454
+        },
+        "bracket": {
+          "top1": 0.725,
+          "paired_top1": 0.5,
+          "candidate_paired": 0.875,
+          "edit_direction": 1.0,
+          "site_nll": 1.5334219858770666,
+          "target_tv": 0.9077162981033325,
+          "cross_rule_nuisance_tv": 0.009810468833893537
+        }
+      },
+      "teacher_kl": {
+        "alias": 3.1913213977590202,
+        "bracket": 0.9729198414218445,
+        "background": 0.31589068854754826,
+        "background_positions": 1060
+      }
+    },
+    {
+      "method": "sparse_gauge",
+      "rank_per_head": 8,
+      "max_probe_logit_change": 18.932558059692383,
+      "heldout": {
+        "examples": 40,
+        "token_nll": 4.624874291729276,
+        "alias": {
+          "top1": 0.125,
+          "paired_top1": 0.0,
+          "candidate_paired": 0.675,
+          "edit_direction": 0.975,
+          "site_nll": 7.299337303638458,
+          "target_tv": 0.5553951352834702,
+          "cross_rule_nuisance_tv": 0.05371784940361977
+        },
+        "bracket": {
+          "top1": 0.68125,
+          "paired_top1": 0.4125,
+          "candidate_paired": 0.875,
+          "edit_direction": 1.0,
+          "site_nll": 1.4184210824314505,
+          "target_tv": 0.9134003221988678,
+          "cross_rule_nuisance_tv": 0.011581248417496682
+        }
+      },
+      "teacher_kl": {
+        "alias": 2.03140349984169,
+        "bracket": 0.8914289101367103,
+        "background": 0.17715048025239188,
+        "background_positions": 1060
+      }
+    },
+    {
+      "method": "weight_svd",
+      "rank_per_head": 8,
+      "max_probe_logit_change": 18.321107864379883,
+      "heldout": {
+        "examples": 40,
+        "token_nll": 4.615782751345616,
+        "alias": {
+          "top1": 0.1875,
+          "paired_top1": 0.0875,
+          "candidate_paired": 0.675,
+          "edit_direction": 0.9125,
+          "site_nll": 7.035581374168396,
+          "target_tv": 0.5776910066604615,
+          "cross_rule_nuisance_tv": 0.05312133766710758
+        },
+        "bracket": {
+          "top1": 0.85625,
+          "paired_top1": 0.7625,
+          "candidate_paired": 0.95,
+          "edit_direction": 1.0,
+          "site_nll": 0.8281147875750321,
+          "target_tv": 0.9320440530776978,
+          "cross_rule_nuisance_tv": 0.015679203160107135
+        }
+      },
+      "teacher_kl": {
+        "alias": 1.6611123764887452,
+        "bracket": 0.36249731504817645,
+        "background": 0.12978346246593403,
+        "background_positions": 1060
+      }
+    },
+    {
+      "method": "sparse_gauge",
+      "rank_per_head": 16,
+      "max_probe_logit_change": 1.9073486328125e-05,
+      "heldout": {
+        "examples": 40,
+        "token_nll": 4.598764313989912,
+        "alias": {
+          "top1": 0.43125,
+          "paired_top1": 0.3375,
+          "candidate_paired": 0.7375,
+          "edit_direction": 0.9375,
+          "site_nll": 5.566431534290314,
+          "target_tv": 0.6395088970661164,
+          "cross_rule_nuisance_tv": 0.04701343774795532
+        },
+        "bracket": {
+          "top1": 0.95,
+          "paired_top1": 0.95,
+          "candidate_paired": 1.0,
+          "edit_direction": 1.0,
+          "site_nll": 0.3799908136070371,
+          "target_tv": 0.959030705690384,
+          "cross_rule_nuisance_tv": 0.0026903487523668446
+        }
+      },
+      "teacher_kl": {
+        "alias": -6.352926240626999e-09,
+        "bracket": -5.283741094934576e-10,
+        "background": -8.726022336568435e-10,
+        "background_positions": 1060
+      }
+    },
+    {
+      "method": "weight_svd",
+      "rank_per_head": 16,
+      "max_probe_logit_change": 2.6702880859375e-05,
+      "heldout": {
+        "examples": 40,
+        "token_nll": 4.598764313989912,
+        "alias": {
+          "top1": 0.43125,
+          "paired_top1": 0.3375,
+          "candidate_paired": 0.7375,
+          "edit_direction": 0.9375,
+          "site_nll": 5.566431638598442,
+          "target_tv": 0.6395088315010071,
+          "cross_rule_nuisance_tv": 0.04701343048363924
+        },
+        "bracket": {
+          "top1": 0.95,
+          "paired_top1": 0.95,
+          "candidate_paired": 1.0,
+          "edit_direction": 1.0,
+          "site_nll": 0.37999073287301144,
+          "target_tv": 0.9590307354927063,
+          "cross_rule_nuisance_tv": 0.0026903874844720122
+        }
+      },
+      "teacher_kl": {
+        "alias": -2.2413374156649012e-09,
+        "bracket": -2.851278521685645e-09,
+        "background": 1.4905799764297832e-09,
+        "background_positions": 1060
+      }
+    }
+  ],
+  "scope": "Orthogonal gauge rotation of each attention head OV factorization minimizes weight L1 at exact full rank. Prune whole value coordinates at matched 4/8/16 rank; compare with weight SVD on the same heldout games. No activation or task labels enter the gauge fit.",
+  "caveat": "This is local OV reduction, not a canonical full attention decomposition or a human-legible circuit."
+}
