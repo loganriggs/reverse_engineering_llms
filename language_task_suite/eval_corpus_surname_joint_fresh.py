@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 import hashlib
 import json
 from pathlib import Path
@@ -31,6 +31,10 @@ def _fresh_indices(prior_rows,rows):
     # Avoid carrying source prose or token IDs into the committed aggregate.
     hashes={row['sha256'] for row in prior_rows}
     signatures=[simhash(row['preview']) for row in prior_rows]
+    buckets=defaultdict(list)
+    for i,signature in enumerate(signatures):
+        for block in range(4):
+            buckets[(block,(signature>>(16*block))&65535)].append(i)
     keep=[]
     reasons=Counter()
     for i,row in enumerate(rows):
@@ -38,11 +42,20 @@ def _fresh_indices(prior_rows,rows):
             reasons['exact_duplicate']+=1
             continue
         signature=simhash(row['preview'])
-        if any((signature^old).bit_count()<=3 for old in signatures):
+        candidates=set()
+        for block in range(4):
+            candidates.update(buckets[(block,(signature>>(16*block))&65535)])
+        # Hamming distance <=3 across four 16-bit blocks implies at least
+        # one exactly matching block, so this has the same result as a scan.
+        if any((signature^signatures[j]).bit_count()<=3
+               for j in candidates):
             reasons['near_duplicate']+=1
             continue
         hashes.add(row['sha256'])
+        j=len(signatures)
         signatures.append(signature)
+        for block in range(4):
+            buckets[(block,(signature>>(16*block))&65535)].append(j)
         keep.append(i)
     return keep,reasons
 
