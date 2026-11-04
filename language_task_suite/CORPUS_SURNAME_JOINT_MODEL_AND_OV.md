@@ -38,6 +38,20 @@ Using only the first 128 **training background** rows to estimate activation met
 
 The activation metric gives modestly lower KL and rank-8 effect error, but neither basis has a clear causal-behavior advantage at these ranks. The preserved two-choice behavior is encouraging for compression; it does not show that singular modes correspond to a legible bracket circuit. Nor can a weight-only result on a model that has not learned surname copying reveal that task's algorithm.
 
+## Fresh-source replication
+
+After freezing both checkpoints and the rank settings, a new FineWeb panel at offsets 130000–131999 was fetched with the same 2,500-character previews. All 2,000 source documents passed exact full-source hash and preview SimHash Hamming≤3 screens against the earlier 12,000 sources. The [fresh behavioral result](results/corpus_surname_joint_fresh_130000_2000.json) contains 195 aligned surname pairs and 200 bracket counterfactuals. There was no training or checkpoint selection on this panel.
+
+| Fresh behavior | Next-token/site loss only | Plus paired surname loss |
+| --- | ---: | ---: |
+| Surname paired two-candidate rank | 0/195 | 32/195 |
+| Surname paired full-vocabulary top-1 | 0/195 | 4/195 |
+| Surname edit moves two-candidate margin correctly | 108/195 | 139/195 |
+| Bracket paired two-choice accuracy | 183/200 | 192/200 |
+| Bracket paired full-vocabulary top-1 | 40/200 | 46/200 |
+
+Thus the narrow result replicates: paired supervision improves relative surname sensitivity but does not yield reliable full-vocabulary copying, while bracket choice responds strongly to an opener edit. On the fresh panel's independent 200 bracket pairs, the [rank audit](results/corpus_surname_joint_depth2_pair2_ov_rank_fresh130k.json) uses the same training activation Gram and frozen rank settings. Weight-only/data-aware rank-4 effect MAE is 1.056/.938 with site KL .0728/.0569; rank-8 effect MAE is .607/.513 with site KL .0223/.0213. Both rank-4 methods retain .950 paired two-choice accuracy versus .950 for this evaluator's teacher subset. The activation metric again improves functional approximation modestly, with no demonstrated legibility advantage. This OV evaluator selects source-hash-odd examples from the fresh panel, while the behavioral table uses all eligible fresh sources; the two 200-pair bracket sets are therefore not identical.
+
 ## Decision
 
 Keep the bracket response as a candidate for a fresh-source causal and weight-circuit replication. Keep surname as a partial transfer result and code/style as negative capability controls. Do not extend these same small-source runs merely to lower training loss: the previous surname-only run and this joint run both show substantial train/heldout gaps. The next data/model experiment should add independent sources, preserve ordinary-source sampling, and separately test whether paired causal supervision helps full-vocabulary generalization. The broader **fully sampled** multi-rule language DGP still needs a more varied semantic carrier; this natural-text conditional arm is complementary, not a substitute.

@@ -26,6 +26,8 @@ def main():
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--fit-rows',type=int,default=128)
     p.add_argument('--max-pairs',type=int,default=200)
+    p.add_argument('--panel-status',choices=('monitored','fresh'),
+                   default='monitored')
     p.add_argument('--device',default='cuda' if torch.cuda.is_available()
                    else 'cpu')
     a=p.parse_args()
@@ -53,14 +55,14 @@ def main():
             'fit_activation_counts':counts,
             'heldout_pairs':len(records),'pair_build_reasons':dict(reasons),
             'teacher':original,'reductions':{},
+            'panel_status':a.panel_status,
             'scope':'Per-head OV product SVD; all QK, MLP, embedding, and '
                     'unembedding weights fixed. Weight-only versus '
                     'train-background-activation input metric. Both fit '
                     'without evaluation sources. Evaluate full-vocab '
                     'behavior, two-candidate bracket response, teacher KL, '
-                    'and paired edit effect. The panel was monitored in '
-                    'earlier exploratory training, so this is not a final '
-                    'untouched replication. No unique circuit claim.'}
+                    'and paired edit effect. Panel status is recorded '
+                    'separately. No unique circuit claim.'}
     for rank in (4,8,16):
         for method in ('weight','data'):
             student=deepcopy(teacher).eval()
