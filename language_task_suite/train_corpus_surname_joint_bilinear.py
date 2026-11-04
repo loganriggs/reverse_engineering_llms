@@ -27,22 +27,47 @@ def sample(rows, count, rng):
     return {key:value[indices] for key,value in rows.items()}
 
 
-def sampled_batch(section, rng):
-    out = [sample(section['background'],TRAIN_KIND_BATCH['background'],rng)]
+def sampled_batch(section, rng, pair_ce_mode='both'):
+    if pair_ce_mode not in ('both','one_arm'):
+        raise ValueError(pair_ce_mode)
+    background_count = (TRAIN_KIND_BATCH['background'] if
+                        pair_ce_mode=='both' else 3)
+    out = [sample(section['background'],background_count,rng)]
     a,b = section['name_pairs']
     i = torch.randint(len(a['x']),(TRAIN_KIND_BATCH['name_pairs'],),
                       generator=rng)
-    out += [{key:value[i] for key,value in arm.items()} for arm in (a,b)]
+    name_arms = [{key:value[i] for key,value in arm.items()}
+                 for arm in (a,b)]
+    counterfactual = None
+    if pair_ce_mode=='both':
+        out += name_arms
+    else:
+        which = int(torch.randint(2,(1,),generator=rng).item())
+        out.append(name_arms[which])
+        counterfactual = name_arms[1-which]
     for kind in ('bracket','literal_copy','natural_style'):
         out.append(sample(section['sites'][kind],TRAIN_KIND_BATCH[kind],rng))
-    return {key:torch.cat([part[key] for part in out])
-            for key in ('x','y','positions','targets')}
+    batch = {key:torch.cat([part[key] for part in out])
+             for key in ('x','y','positions','targets')}
+    if counterfactual is not None:
+        batch['counterfactual'] = counterfactual
+    return batch
 
 
-def weighted_loss(model,batch,device,pair_loss_weight=0.):
+def weighted_loss(model,batch,device,pair_loss_weight=0.,
+                  pair_ce_mode='both'):
     x,y,positions = (batch[key].to(device) for key in
                      ('x','y','positions'))
-    output = model(x).float()
+    cf=batch.get('counterfactual')
+    if pair_ce_mode=='one_arm':
+        if cf is None or pair_loss_weight<=0:
+            raise AssertionError('Missing causal-only counterfactual')
+        output_all=model(torch.cat((x,cf['x'].to(device)))).float()
+        output=output_all[:len(x)]
+    else:
+        if cf is not None:
+            raise AssertionError('Unexpected extra counterfactual')
+        output=model(x).float()
     per = F.cross_entropy(output.flatten(0,1),y.flatten(),
                           ignore_index=-100,reduction='none').view_as(y)
     weights = (y != -100).float()
@@ -57,13 +82,21 @@ def weighted_loss(model,batch,device,pair_loss_weight=0.):
     if pair_loss_weight:
         # The fixed eight-row allocation puts the two counterfactual surname
         # arms at rows 2 and 3. Compare their *same two* answer tokens.
-        name_a,name_b = 2,3
-        pos_a,pos_b = positions[name_a,0],positions[name_b,0]
-        target_a,target_b = (batch['targets'][i,0].to(device)
-                             for i in (name_a,name_b))
+        name_a = 2 if pair_ce_mode=='both' else 3
+        name_b = 3 if pair_ce_mode=='both' else len(x)
+        pos_a=positions[name_a,0]
+        target_a=batch['targets'][name_a,0].to(device)
+        if cf is None:
+            pos_b=positions[name_b,0]
+            target_b=batch['targets'][name_b,0].to(device)
+            logits_b=output[name_b,pos_b]
+        else:
+            pos_b=cf['positions'][0,0].to(device)
+            target_b=cf['targets'][0,0].to(device)
+            logits_b=output_all[name_b,pos_b]
         if pos_a < 0 or pos_b < 0 or target_a == target_b:
             raise AssertionError('Invalid paired surname batch')
-        logits_a,logits_b = output[name_a,pos_a],output[name_b,pos_b]
+        logits_a=output[name_a,pos_a]
         paired = .5*(F.softplus(logits_a[target_b]-logits_a[target_a])+
                      F.softplus(logits_b[target_a]-logits_b[target_b]))
         loss = loss + pair_loss_weight*paired
@@ -149,6 +182,8 @@ def main():
     p.add_argument('--batch-size',type=int,default=8)
     p.add_argument('--lr',type=float,default=.0005)
     p.add_argument('--pair-loss-weight',type=float,default=0.)
+    p.add_argument('--pair-ce-mode',choices=('both','one_arm'),
+                   default='both')
     p.add_argument('--seed',type=int,default=46451)
     p.add_argument('--device',default='cuda' if torch.cuda.is_available()
                    else 'cpu')
@@ -156,6 +191,8 @@ def main():
     if (a.batch_size != 8 or a.depth not in (1,2,3,4) or
             a.pair_loss_weight < 0):
         raise ValueError('Only fixed eight-row allocation and depth1–4')
+    if a.pair_ce_mode=='one_arm' and a.pair_loss_weight==0:
+        raise ValueError('one_arm requires a positive paired loss')
     torch.set_num_threads(4)
     cache=torch.load(a.cache,map_location='cpu',weights_only=True)
     for split in ('train','val','test'):
@@ -169,6 +206,8 @@ def main():
               tuple(TRAIN_KIND_BATCH.items()),tuple(SITE_WEIGHTS.items()))
     if a.pair_loss_weight:
         identity += (a.pair_loss_weight,)
+    if a.pair_ce_mode!='both':
+        identity += (a.pair_ce_mode,)
     if a.state.exists():
         saved=torch.load(a.state,map_location='cpu',weights_only=True)
         if tuple(saved['identity'])!=identity or saved['step']>a.steps:
@@ -187,7 +226,10 @@ def main():
     report={'config':{key:str(value) if isinstance(value,Path) else value
                       for key,value in vars(a).items()},
             'parameters':model.n_params,
-            'train_allocation':TRAIN_KIND_BATCH,
+            'train_allocation':(TRAIN_KIND_BATCH if a.pair_ce_mode=='both'
+                else {'background':3,'name_lm_arm':1,
+                      'bracket':2,'literal_copy':1,'natural_style':1,
+                      'causal_only_counterfactual_forward':1}),
             'site_weights':SITE_WEIGHTS,'history':history,
             'scope':'One ordinary background chunk from every accepted '
                     'source plus stratified marked-site rows. All eight '
@@ -200,8 +242,9 @@ def main():
         save(a.state,model,optimizer,rng,0,history,identity)
     for step in range(start,a.steps):
         model.train()
-        batch=sampled_batch(cache['train'],rng)
-        loss=weighted_loss(model,batch,a.device,a.pair_loss_weight)
+        batch=sampled_batch(cache['train'],rng,a.pair_ce_mode)
+        loss=weighted_loss(model,batch,a.device,a.pair_loss_weight,
+                           a.pair_ce_mode)
         if not torch.isfinite(loss):
             raise RuntimeError(f'Nonfinite loss at {step+1}')
         optimizer.zero_grad(set_to_none=True)

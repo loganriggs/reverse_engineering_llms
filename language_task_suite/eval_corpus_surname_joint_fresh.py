@@ -84,6 +84,8 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--train-preview',type=Path,required=True)
     p.add_argument('--old-heldout-preview',type=Path,required=True)
+    p.add_argument('--additional-prior-preview',type=Path,nargs='*',
+                   default=[])
     p.add_argument('--fresh-preview',type=Path,required=True)
     p.add_argument('--checkpoint',type=Path,nargs='+',required=True)
     p.add_argument('--output',type=Path,required=True)
@@ -93,7 +95,9 @@ def main():
     a=p.parse_args()
     torch.set_num_threads(4)
     prior=(json.loads(a.train_preview.read_text())+
-           json.loads(a.old_heldout_preview.read_text()))
+           json.loads(a.old_heldout_preview.read_text())+
+           [row for path in a.additional_prior_preview
+            for row in json.loads(path.read_text())])
     rows=json.loads(a.fresh_preview.read_text())
     keep,reasons=_fresh_indices(prior,rows)
     if len(keep)<len(rows)*.9:
@@ -144,7 +148,7 @@ def main():
             'scope':'Previously unseen source range; no training, fitting, '
                     'or checkpoint selection on this panel. Exact full-source '
                     'hash and preview SimHash Hamming<=3 screen against '
-                    'prior train and monitored heldout ranges. Same paired '
+                    'all provided prior source ranges. Same paired '
                     'surname generator and bracket intervention as the '
                     'exploratory pilot. Name identity remains heuristic; '
                     'source prose/token rows stay local.'}
