@@ -38,3 +38,27 @@ The controlled comparison reuses exactly the same selected source documents, val
 Eight-draw training improves exact generation in both seeds, but still leaves most unused-code combinations incorrectly generated. Seen-code paired *two-choice* sequence preference was 98.8%/99.4% in the two augmented seeds, well above exact generation; evaluating only that easier measure would overstate competence. The first-256 training score is not directly comparable between caches because the augmented cache's first 256 pairs come from fewer distinct source documents. The extra pairs change sampling frequency over alias realizations and reduce repeat exposure to any particular pair; they do not add independent source documents. Two seeds support a directional effect, not a precise population estimate.
 
 If exact held-out generation remains weak, stop this narrow copy-task detour and broaden the multirule DGP rather than interpreting a nonexistent robust circuit. If it improves, repeat across seeds and put copying back into a capable joint model, then apply weight-only canonicalization and sparse decomposition under behavioral and causal fidelity checks. Track behavioral competence, reconstruction, task prediction, causal fidelity, and new-rule discovery separately.
+
+## Three-rule joint model and a task-blind head probe
+
+Two depth-4 width-128 RMSNorm models trained from scratch on 50% augmented nonce-copy, 25% numbered-list, and 25% bracket windows, 6,000 steps with site weights 200/500/500. They received all-token next-token CE in every window. The list and bracket source documents are separate rule windows; no nonce × list × bracket document was used for training or held-out testing. The list × bracket four-arm test panel remains an unseen combination. The second seed's first process crashed before its first checkpoint; a clean retry with restricted native threading finished. The trainer now writes resumable model/optimizer/RNG state every 500 steps.
+
+| Joint model seed | List paired exact | Bracket paired two-way | Nonce familiar-code exact, both worlds | Nonce unused-code exact, both worlds | List × bracket all-arm exact / two-way |
+|---|---:|---:|---:|---:|---:|
+| 72104 | 92.2% | 95.5% | 21.7% | 7.2% | 23.5% / 88.0% |
+| 72105 | 91.1% | 96.1% | 19.3% | 9.0% | 42.7% / 88.0% |
+
+The nonce-only models at the matched seeds and architecture got 39.2%/15.7% and 45.2%/18.1% exact on familiar/unused-code panels. Joint training recovers list and bracket while weakening nonce exactness, especially code-combination transfer. This is a partial three-rule model, not robust joint mastery. The list × bracket exact score is seed-variable despite equal two-way score; tokenization and background logits still matter.
+
+As a first weight-method check, each attention head was ranked without task examples by the product of the Frobenius norms of its two composed QK maps and composed OV map. The ranking was frozen before ablating one whole head at a time on the **full 166 nonce, 90 list, and 334 bracket held-out source panels**. These are original-plus-edited pairs, so the measured drop requires both worlds to remain correct. The task labels enter only after weight ranking.
+
+| Seed | Rule | Most necessary head, layer/head | Weight-only rank of that head | Drop in exact paired generation (nonce/list) or paired two-way (bracket) | Largest cross-rule drop |
+|---|---|---|---:|---:|---:|
+| 72104 | Nonce | 6/0 | 1/16 | 21.7 points | 1.1 points |
+| 72104 | List | 4/2 | 14/16 | 92.2 points | 0.6 points |
+| 72104 | Bracket | 6/3 | 2/16 | 95.2 points | 0.0 points |
+| 72105 | Nonce | 6/0 | 1/16 | 19.3 points | 1.1 points |
+| 72105 | List | 0/3 | 14/16 | 91.1 points | 0.6 points |
+| 72105 | Bracket | 6/3 | 2/16 | 94.9 points | 0.0 points |
+
+The nonce head also reduces two-code sequence preference by 85.5/92.8 points, a stronger signal than its exact-generation drop because native exactness is only 21.7/19.3%. The list-critical head changes location across seeds but is ranked 14th in both. This is a replicated failure of the simple weight-only ranking to prioritize one clearly learned rule. It does not show that weight-only canonicalization in general fails. Whole-head ablation establishes necessity in the intact model, not a unique circuit or sufficient path. In particular, the three rules have not been tested in one crossed document; task-specific heads may partly reflect the disjoint training-window distributions.
