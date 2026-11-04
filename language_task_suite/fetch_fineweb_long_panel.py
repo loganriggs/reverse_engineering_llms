@@ -7,6 +7,7 @@ local path; only the hash manifest should be committed.
 import argparse
 import hashlib
 import json
+import os
 from itertools import islice
 from pathlib import Path
 from urllib.parse import urlparse
@@ -56,3 +57,6 @@ if __name__ == '__main__':
     result = manifest(rows, args.skip, args.n, args.preview_chars)
     args.manifest_json.write_text(json.dumps(result, indent=2) + '\n')
     print({k: v for k, v in result.items() if k != 'hashes'}, flush=True)
+    # Streaming datasets can leave background reader threads alive at Python
+    # interpreter shutdown after all requested rows and files are complete.
+    os._exit(0)
