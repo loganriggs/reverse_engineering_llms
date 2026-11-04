@@ -1,8 +1,10 @@
 """A reversible coordination operator over proposition-surface V3 clauses.
 
-This is a structural pilot. It joins adjacent complete, unscored assertions
-without changing their contents, then validates the clauses by expanding the
+This is a structural pilot. It joins adjacent complete assertions without
+changing their contents, then validates the clauses by expanding the
 coordination from *visible tokens only* before the existing semantic parser.
+Scored declarative statements can optionally be joined; questions and list
+item numbers remain separate.
 """
 
 from __future__ import annotations
@@ -15,9 +17,8 @@ from document_proposition_surface import (
 )
 
 
-def _boundaries(tokens, sites, opening_length, rng, rate):
+def _boundaries(tokens, sites, opening_length, rng, rate, allow_scored):
     periods = [i for i, token in enumerate(tokens) if token == '.']
-    site_positions = {site.index for site in sites}
     chosen = []
     last_end = -1
     for k in range(1, len(periods)-1):
@@ -28,8 +29,17 @@ def _boundaries(tokens, sites, opening_length, rng, rate):
         # A newline denotes a paragraph boundary; do not combine across it.
         if left_end+1 >= len(tokens) or tokens[left_end+1] == '\n':
             continue
-        if any(left_start <= pos <= right_end for pos in site_positions):
-            continue
+        scored = [site for site in sites
+                  if left_start <= site.index <= right_end]
+        if scored:
+            if not allow_scored or any(site.family == 'step_number'
+                                       for site in scored):
+                continue
+            # A question/answer form has a different clause structure even
+            # when its site family is the same as a declarative revisit.
+            if '?' in tokens[left_start:right_end] or \
+                    'Answer' in tokens[left_start:right_end]:
+                continue
         if tokens[left_end+1] in ('.', ',', ';', ':', '?', '!'):
             continue
         if rng.random() < rate:
@@ -38,7 +48,8 @@ def _boundaries(tokens, sites, opening_length, rng, rate):
     return tuple(chosen)
 
 
-def compose(doc: RenderedDocument, seed=0, rate=.75):
+def compose(doc: RenderedDocument, seed=0, rate=.75,
+            allow_scored=False):
     """Return (document, join_count), preserving all marked site answers."""
     if not 0 <= rate <= 1:
         raise ValueError(rate)
@@ -46,7 +57,7 @@ def compose(doc: RenderedDocument, seed=0, rate=.75):
     if any(tokens[i:i+2] == (',', 'and') for i in range(len(tokens)-1)):
         raise ValueError('The reserved coordination marker is already present')
     joins = set(_boundaries(tokens, doc.sites, len(_opening(doc.plan)),
-                            random.Random(seed), rate))
+                            random.Random(seed), rate, allow_scored))
     result, indices = [], {}
     after_join = False
     for i, token in enumerate(tokens):
@@ -100,7 +111,8 @@ def answer_from_composed_prefix(prefix, lexical_enabled=False):
 
 
 def realize_composed(plan, seed=0, coordination_rate=.75,
-                     lexical_exponent=None):
+                     lexical_exponent=None, allow_scored=False):
     base = realize(plan, seed=seed, lexical_exponent=lexical_exponent,
                    surface_version=3)
-    return compose(base, seed=seed ^ 0xC005E, rate=coordination_rate)
+    return compose(base, seed=seed ^ 0xC005E, rate=coordination_rate,
+                   allow_scored=allow_scored)

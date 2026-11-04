@@ -24,6 +24,10 @@ from audit_rule_window_form import word_window
 from document_proposition_coordination import (
     answer_from_composed_prefix, compose, expand_visible, parse_composed,
 )
+from document_proposition_relative import (
+    add_relative_clauses, answer_from_relative_prefix,
+    expand_checked, parse_relative,
+)
 
 
 WORD = re.compile(r"\b[A-Za-z]+(?:'[A-Za-z]+)?\b")
@@ -161,6 +165,25 @@ def parser_self_check(nlp):
             raise AssertionError((sentence, family, expected, got))
 
 
+def site_in_coordination(tokens, position):
+    start = position - 1
+    while start >= 0 and tokens[start] != '.':
+        start -= 1
+    end = position
+    while end < len(tokens) and tokens[end] != '.':
+        end += 1
+    return any(tokens[i:i+2] == (',', 'and')
+               for i in range(start+1, end-1))
+
+
+def site_in_relative(tokens, position):
+    start = position - 1
+    while start >= 0 and tokens[start] != '.':
+        start -= 1
+    return any(tokens[i:i+2] == (',', 'which')
+               for i in range(start+1, position-1))
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--preview', type=Path, required=True)
@@ -168,6 +191,10 @@ def main():
     p.add_argument('--words', type=int, default=100)
     p.add_argument('--seed', type=int, default=46601)
     p.add_argument('--coordination-rate', type=float, default=.75)
+    p.add_argument('--allow-scored-joins', action='store_true')
+    p.add_argument('--surface-operator', choices=('coordination', 'relative'),
+                   default='coordination')
+    p.add_argument('--relative-rate', type=float, default=.75)
     p.add_argument('--window-width', type=int, default=41)
     p.add_argument('--output', type=Path, required=True)
     a = p.parse_args()
@@ -183,20 +210,33 @@ def main():
     generated_texts, composed_texts = [], []
     task_windows = {'synthetic': [], 'composed': []}
     task_families = Counter()
-    joined = validated_sites = 0
+    joined = validated_sites = coordinated_sites = 0
     for index in range(a.documents):
         plan = sample_plan(rng, planning_style='threaded')
         generated = realize(plan, seed=a.seed + index,
                             lexical_exponent=1.05, surface_version=3)
         generated_texts.append(first_words(generated.text(), a.words))
-        composed, count = compose(generated, seed=a.seed + index + 800000,
-                                  rate=a.coordination_rate)
-        assert expand_visible(composed.tokens) == generated.tokens
-        parse_composed(composed, lexical_enabled=True)
+        if a.surface_operator == 'coordination':
+            composed, count = compose(
+                generated, seed=a.seed + index + 800000,
+                rate=a.coordination_rate, allow_scored=a.allow_scored_joins)
+            assert expand_visible(composed.tokens) == generated.tokens
+            parse_composed(composed, lexical_enabled=True)
+            answer = answer_from_composed_prefix
+            modified_site = site_in_coordination
+        else:
+            composed, count = add_relative_clauses(
+                generated, seed=a.seed + index + 800000,
+                rate=a.relative_rate, lexical_enabled=True)
+            assert expand_checked(composed.tokens, True) == generated.tokens
+            parse_relative(composed, lexical_enabled=True)
+            answer = answer_from_relative_prefix
+            modified_site = site_in_relative
         for site in composed.sites:
-            assert answer_from_composed_prefix(
+            assert answer(
                 composed.tokens[:site.index], lexical_enabled=True) == site.answer
             validated_sites += 1
+            coordinated_sites += modified_site(composed.tokens, site.index)
         joined += count
         composed_texts.append(first_words(composed.text(), a.words))
         if generated.sites:
@@ -242,13 +282,23 @@ def main():
                    'spacy_version': spacy.__version__,
                    'model_version': nlp.meta.get('version'),
                    'synthetic': 'threaded proposition surface v3',
-                   'coordination_rate': a.coordination_rate},
+                   'coordination_rate': a.coordination_rate,
+                   'allow_scored_joins': a.allow_scored_joins,
+                   'surface_operator': a.surface_operator,
+                   'relative_rate': a.relative_rate},
         'natural': natural, 'synthetic': generated,
         'composed': composed,
         'composition_checks': {'full_document_reversible': a.documents,
                                'visible_parser_passed': a.documents,
                                'visible_answer_sites_passed': validated_sites,
-                               'joined_sentence_pairs': joined},
+                               'sites_inside_modified_sentences': coordinated_sites,
+                               'operator_applications': joined,
+                               'joined_sentence_pairs': (
+                                   joined if a.surface_operator == 'coordination'
+                                   else 0),
+                               'relative_clauses': (
+                                   joined if a.surface_operator == 'relative'
+                                   else 0)},
         'task_window': {
             'width_words': a.window_width,
             'n': len(task_windows['synthetic']),
