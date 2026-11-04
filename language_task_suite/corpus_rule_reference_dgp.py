@@ -145,7 +145,7 @@ def check_document(document):
             assert (opener, site.answer) in (('(', ')'), ('[', ']'))
         elif site.kind == 'nonce':
             assert document.text[slice(*site.source)] == site.answer
-        elif site.kind == 'literal_copy':
+        elif site.kind in ('literal_copy', 'noun_copy'):
             assert document.text[slice(*site.source)] == site.answer
         elif site.kind == 'surname_copy':
             assert document.text[slice(*site.source)] == site.answer

@@ -1,0 +1,16 @@
+# Repeated-noun substitution does not rescue the joint-rule training arm
+
+The [joint corpus-rule mixture](CORPUS_JOINT_RULE_MIXTURE_V2.md) can generate controlled rule co-occurrence without noticeably changing its sampled natural source text. But the current bracket-plus-literal-copy **same-context** test is severely underpowered: in 2,000 distinct 140k-panel sources with `.5` marginal gates and `.4` coupling, only 35 documents activated both rules, and only 7 had both single-token sites in the same 256-token chunk (13 at 512 tokens). This is not enough to evaluate held-out combination transfer reliably. Training a new bilinear model on the existing small cache would mostly repeat earlier individual-bracket experiments.
+
+I tested whether a different natural-language copy rule could raise joint density without injecting a fixed task sentence. The [screened edit](corpus_repeated_noun_copy_dgp.py) finds repeated lowercase singular nouns tagged by spaCy, selects one of five coarse semantic groups, and substitutes both mentions with either of two same-length, same-vowel-class one-BPE nouns. It preserves character offsets, checks that the answer at the later mention equals the earlier edited mention, and can coexist with the sampled bracket rule. This is a surface-copy task; it is not entity binding or preservation of the source document's real-world facts.
+
+The [aggregate audit](audit_corpus_repeated_noun_copy.py) on two 2,000-source panels found:
+
+| Panel | Sources with a valid paired noun edit | With aligned one-token noun site | With bracket and noun sites in one 256-token chunk |
+|---|---:|---:|---:|
+| 130k | 158 | 131 | 10 |
+| 140k | 160 | 127 | 8 |
+
+The exact counts and group distribution are in [130k](results/corpus_repeated_noun_copy_130000_n2000.json) and [140k](results/corpus_repeated_noun_copy_140000_n2000.json). Both paired variants and all existing selected sites pass the local visible-string checker. That check is deliberately narrow. Manual inspection of uncommitted examples found replacements that spoiled the sentence's meaning or selectional fit: *doctor* became *singer* in medical advice, *hotel* became *field* in a travel description, and *market* became *school* in an economic sense. A same-length noun of the same broad category is not a safe semantic substitution. The screen is also rare enough that it barely improves the same-context combination sample size.
+
+**Decision:** do not train on this noun-edit arm or treat its mechanical validation as realistic task-bearing prose. Stop broad lexical-substitution searches as the main route. The existing natural-carrier model remains a valid control for bracket behavior, but richer rules will require either a much larger corpus with strict entity-preserving edits or a generated document process whose semantic and syntactic derivations are linked. The next main implementation should target that latter sampled process; the prior [induced-PCFG/state bridge](INDUCED_PCFG_AND_STATE_BRIDGE.md) supplies a starting grammar/oracle interface, while its known coherence and runtime defects remain explicit acceptance tests. Keep source-disjoint, whole-combination holdouts and behavioral gates before any weight-method comparison.
