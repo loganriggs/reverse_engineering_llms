@@ -178,7 +178,9 @@ def evaluate(a):
                        'Token cache is local and reconstructable.'}
     for path in a.checkpoints:
         saved = torch.load(path, map_location='cpu', weights_only=True)
-        model = _model(50257, data['n_ctx'], 2, 64, 4, a.device, 'none')
+        model = _model(saved['vocab_size'], data['n_ctx'], saved['depth'],
+                       saved['d_model'], saved['heads'], a.device,
+                       saved['norm'])
         model.load_state_dict(saved['state_dict'])
         model.eval()
         by_kind = {}
