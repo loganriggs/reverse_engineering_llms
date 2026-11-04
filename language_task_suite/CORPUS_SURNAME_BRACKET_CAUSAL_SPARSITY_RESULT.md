@@ -1,0 +1,22 @@
+# Causal supervision during attention-edge pruning on a learned natural bracket rule
+
+The [source-coverage experiment](CORPUS_SURNAME_SOURCE_COVERAGE_RESULT.md) produced two depth-2, width-64 bilinear models that respond to bracket-opener edits on source-disjoint natural passages. This experiment asks whether a sparse attention subnetwork retains the *same edit response* better when that response is explicitly included in distillation. It is a method test on a learned rule, not a human-readable circuit extraction.
+
+The [sparsifier](sparsify_corpus_surname_bracket_causal.py) freezes embeddings, both MLPs, unembedding, and norms. It trains only the twelve `q1/k1/q2/k2/v/o` attention matrices, starting from each dense teacher. Both arms use the same 256 training-source bracket counterfactuals, random example order, teacher site KL, ordinary-background teacher KL with weight .25, L1 coefficient `1e-5`, 100 steps before 40% pruning, 100 more before 60% pruning, and 250 masked recovery steps **without L1**. The causal arm additionally matches the teacher's change in the correct-versus-alternative closing-token logit margin when the opener is edited. Its squared error is normalized by `1 + mean(teacher_effect²)` on the training batch; its coefficient is one. The distribution arm's coefficient is zero. Both retain exactly **19,661/49,152 attention edges** after recovery. This is 60% sparsity in attention matrices, only about 0.45% of the full 6.58M model's parameters removed; the rest of the model is still dense.
+
+The [seed-46451](results/corpus_surname_sparse_bracket_causal_seed46451_fit.json) and [seed-46452](results/corpus_surname_sparse_bracket_causal_seed46452_fit.json) development fits were scored on an already-used source panel at offsets 540000–544999. The causal arm reduced teacher bracket-edit effect MAE from **1.686 to 1.358 logits** in seed 46451 and **1.598 to 1.527** in seed 46452, at the same edge count and nearly identical background KL. Both arms missed the predeclared background KL≤0.10 gate (.131 and .113). The end-to-end smoke test verified exact mask counts and running behavior; the [fresh evaluator](eval_corpus_surname_sparse_fresh.py) independently verifies every masked attention weight is zero when loading the saved students.
+
+After fitting both arms and fixing their stages, a new [5,000-source panel](results/corpus_surname_sparse_bracket_causal_fresh_550000_5000.json) at offsets 550000–554999 was screened against training, the reused development split, and the earlier 530k/540k panels. All 5,000 passed exact full-source hash and preview-SimHash Hamming≤3 checks. The frozen evaluator selected 200 bracket pairs; no sparse fitting used this panel.
+
+| Teacher seed | Arm | Paired two-choice | Paired full-vocab top-1 | Edit-effect MAE vs teacher | Site teacher KL | Background teacher KL |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 46451 | Dense teacher | .965 | .360 | 0 | 0 | 0 |
+| 46451 | Distribution only | .970 | .385 | 1.378 | .097 | .125 |
+| 46451 | Plus causal effect | .970 | .390 | **1.183** | .096 | .124 |
+| 46452 | Dense teacher | .965 | .330 | 0 | 0 | 0 |
+| 46452 | Distribution only | .980 | .360 | 1.568 | .123 | .105 |
+| 46452 | Plus causal effect | .970 | .360 | **1.489** | .120 | .105 |
+
+The causal objective improves edit-effect fidelity at the same sparse-edge budget in both seeds and on a genuinely new source panel. It does **not** make the sparse model faithful under the full predeclared gate: sampled ordinary-background KL remains above .10, and the retained-edge fraction covers only the attention projections. Sparse answer accuracy can even exceed the dense teacher while edit effects differ, reinforcing that task success and teacher-circuit fidelity are different measurements. No component legibility, shared feature, or canonical attention factorization is established here.
+
+The next method comparison should vary *actual* edge budget and local fan-in across the entire computation path, or factor/reparameterize the dense projections before pruning, while keeping task behavior, teacher KL, and causal effect fidelity separate. A held-out rule family is needed to test whether any sparsity prior transfers. The broader sampled semantic document DGP remains a separate unfinished requirement; this natural-carrier result supplies a realistic behavior gate for methods rather than replacing that DGP.
