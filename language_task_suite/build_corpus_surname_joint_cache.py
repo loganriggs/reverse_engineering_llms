@@ -22,6 +22,9 @@ from fineweb_name_copy_dgp import NameCopyDGP
 RULE_RATES = dict(list_rate=.5, bracket_rate=.5, nonce_rate=0.,
                   list_shift_rate=.5, square_rate=.5,
                   literal_copy_rate=1., natural_style_rate=1.)
+UNEDITED_RATES = dict(list_rate=1., bracket_rate=1., nonce_rate=0.,
+                      list_shift_rate=0., square_rate=0.,
+                      literal_copy_rate=1., natural_style_rate=1.)
 
 
 def token_row(chunk):
@@ -61,7 +64,8 @@ def _name_chunks(pair, tokenizer, n_ctx):
     return tuple(arms)
 
 
-def build(train_rows, heldout_rows, n_ctx=256, seed=46401):
+def build(train_rows, heldout_rows, n_ctx=256, seed=46401,
+          unedited_background=False):
     tokenizer = Tokenizer.from_file(str(DEFAULT_TOKENIZER))
     dedup = NearDuplicateFilter()
     cache = {split:{'background':[], 'sites':{kind:[] for kind in KINDS},
@@ -83,14 +87,23 @@ def build(train_rows, heldout_rows, n_ctx=256, seed=46401):
             cache[split]['source_hashes'].append(sha)
             offset = source['index']
             rng = random.Random(seed+offset)
-            natural = sample_document(source['preview'],
-                                      random.Random(seed+offset+20_000_000),
-                                      (), **RULE_RATES)
-            chunks = chunk_document(natural,tokenizer,n_ctx,max_tokens=2048)
-            if chunks:
-                background = token_row(rng.choice(chunks))
+            enriched = sample_document(source['preview'],
+                                       random.Random(seed+offset+20_000_000),
+                                       (), **RULE_RATES)
+            counts[split]['enriched_documents_with_text_change'] += (
+                enriched.text != enriched.source_text)
+            background_doc = (sample_document(
+                source['preview'], random.Random(seed+offset+30_000_000),
+                (), **UNEDITED_RATES) if unedited_background else enriched)
+            counts[split]['background_documents_with_text_change'] += (
+                background_doc.text != background_doc.source_text)
+            background_chunks = chunk_document(background_doc, tokenizer,
+                                               n_ctx, max_tokens=2048)
+            if background_chunks:
+                background = token_row(rng.choice(background_chunks))
                 cache[split]['background'].append(background)
                 counts[split]['background_rows'] += 1
+            chunks = chunk_document(enriched,tokenizer,n_ctx,max_tokens=2048)
             found = set()
             for chunk in chunks:
                 row = token_row(chunk)
@@ -137,12 +150,16 @@ def build(train_rows, heldout_rows, n_ctx=256, seed=46401):
                 'heldout_offsets':[heldout_rows[0]['index'],
                                    heldout_rows[-1]['index']],
                 'config':{'n_ctx':n_ctx,'seed':seed,'rates':RULE_RATES,
+                          'unedited_background':unedited_background,
                           'tokenizer':str(DEFAULT_TOKENIZER)},
                 'counts':{split:dict(counts[split]) for split in cache},
                 'source_digest':{split:hashlib.sha256(''.join(sorted(
                     cache[split]['source_hashes'])).encode()).hexdigest()
                                  for split in cache},
                 'scope':'One random background chunk per accepted source; '
+                        'when unedited_background=true it comes from '
+                        'the unchanged source text, otherwise from the '
+                        'enriched edit draw. '
                         'at most one natural site row per family per source; '
                         'paired surname edit when BPE-aligned. All rows '
                         'carry ordinary next-token targets. Site sampling '
@@ -161,10 +178,12 @@ def main():
     p.add_argument('--heldout-limit',type=int)
     p.add_argument('--n-ctx',type=int,default=256)
     p.add_argument('--seed',type=int,default=46401)
+    p.add_argument('--unedited-background',action='store_true')
     a = p.parse_args()
     train = json.loads(a.train_preview.read_text())[:a.train_limit]
     heldout = json.loads(a.heldout_preview.read_text())[:a.heldout_limit]
-    result,manifest = build(train,heldout,a.n_ctx,a.seed)
+    result,manifest = build(train,heldout,a.n_ctx,a.seed,
+                            a.unedited_background)
     a.cache.parent.mkdir(parents=True,exist_ok=True)
     temp = a.cache.with_suffix('.tmp')
     torch.save(result,temp)
