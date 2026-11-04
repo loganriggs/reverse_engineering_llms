@@ -1,0 +1,854 @@
+{
+  "config": {
+    "checkpoints": [
+      "/home/loganriggs/Coding/neuron_circuits/artifacts/corpus_numbered_list_pilot/list_bracket_joint_supervised_seed71503.pt",
+      "/home/loganriggs/Coding/neuron_circuits/artifacts/corpus_numbered_list_pilot/list_bracket_joint_supervised_seed71504.pt"
+    ],
+    "list_cache": "/home/loganriggs/Coding/neuron_circuits/artifacts/corpus_numbered_list_pilot/dataset_multi.pt",
+    "bracket_cache": "/home/loganriggs/Coding/neuron_circuits/artifacts/corpus_delimiter_pilot/dataset.pt",
+    "joint_cache": "/home/loganriggs/Coding/neuron_circuits/artifacts/corpus_numbered_list_pilot/joint_fresh_235000_335000.pt",
+    "output": "language_task_suite/results/corpus_list_bracket_joint_supervised_ov_rank4_causal.json",
+    "rank": 4,
+    "fit_rows_per_arm": 64,
+    "steps": 300,
+    "batch_size": 4,
+    "lr": 0.001,
+    "background_weight": 0.1,
+    "scopes": "both",
+    "seed": 71601,
+    "device": "cuda"
+  },
+  "fit_rows": {
+    "list": 384,
+    "bracket": 64
+  },
+  "scope": "Only retained per-head OV coordinates optimized on separate-rule train windows. QK, MLP, embedding, and unembedding frozen. Joint four-arm documents are test only; teacher KL is functional fidelity, not independent task discovery.",
+  "models": {
+    "list_bracket_joint_supervised_seed71503": {
+      "gram_counts": [
+        110188,
+        110188
+      ],
+      "rows": [
+        {
+          "method": "weight",
+          "scores": {
+            "list": {
+              "n": 90,
+              "top1_0": 0.9777777777777777,
+              "top1_1": 0.9333333333333333,
+              "both_top1": 0.9222222222222223,
+              "two_way_0": 0.9888888888888889,
+              "two_way_1": 0.9444444444444444,
+              "paired_two_way": 0.9333333333333333,
+              "positive_edit": 1.0,
+              "nll": 0.24086686987429856
+            },
+            "bracket": {
+              "n": 334,
+              "token_nll": 8.03640470476478,
+              "round_site_nll": 3.1807988177159587,
+              "square_site_nll": 3.0607286078010514,
+              "round_top1": 0.4550898203592814,
+              "square_top1": 0.5059880239520959,
+              "round_two_way": 0.9610778443113772,
+              "square_two_way": 0.9910179640718563,
+              "both_two_way": 0.9520958083832335,
+              "mean_correct_margin_shift": 22.767865335156102,
+              "positive_shift_fraction": 0.9940119760479041,
+              "pure_delimiter_pairs": 169,
+              "pure_both_top1": 0.7988165680473372,
+              "merged_both_top1": 0.012121212121212121,
+              "pure_both_two_way": 0.9704142011834319,
+              "merged_both_two_way": 0.9333333333333333
+            },
+            "joint": {
+              "n": 234,
+              "all_arms_both_rules_top1": 0.6239316239316239,
+              "all_arms_both_rules_two_way": 0.9230769230769231,
+              "bracket": {
+                "paired_top1": 0.6901709401709402,
+                "paired_two_way": 0.9829059829059829,
+                "edit_direction": 1.0
+              },
+              "list": {
+                "paired_top1": 0.9209401709401709,
+                "paired_two_way": 0.9358974358974359,
+                "edit_direction": 1.0
+              }
+            },
+            "joint_causal_effects": {
+              "n_documents": 234,
+              "teacher": {
+                "bracket_intended": {
+                  "mean": 23.566217449485745,
+                  "mean_abs": 23.566217449485745,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 19.58954987362919,
+                  "mean_abs": 19.58954987362919,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": -0.05556457878178001,
+                  "mean_abs": 0.3892519779694386,
+                  "positive_fraction": 0.452991452991453,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": -0.05508813389346131,
+                  "mean_abs": 0.157386311608502,
+                  "positive_fraction": 0.1517094017094017,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 60.542324021147024,
+                "list_effect_to_spill_ratio": 124.46793524380807
+              },
+              "student": {
+                "bracket_intended": {
+                  "mean": 28.730841915831608,
+                  "mean_abs": 28.730841915831608,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 14.720708343717787,
+                  "mean_abs": 14.720708343717787,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.0880342915526822,
+                  "mean_abs": 0.37577393523648256,
+                  "positive_fraction": 0.5341880341880342,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": -0.07915867342908159,
+                  "mean_abs": 0.17373435568605733,
+                  "positive_fraction": 0.14957264957264957,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 76.45777825504275,
+                "list_effect_to_spill_ratio": 84.73112410333032
+              },
+              "student_vs_teacher": {
+                "bracket_intended": {
+                  "mean_abs_error": 5.204838499554202,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9429633035704806
+                },
+                "list_intended": {
+                  "mean_abs_error": 4.9069851402543545,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9616978882631989
+                },
+                "bracket_edit_on_list": {
+                  "mean_abs_error": 0.1945182726933406,
+                  "sign_agreement": 0.8888888888888888,
+                  "pearson": 0.8777831782995639
+                },
+                "list_edit_on_bracket": {
+                  "mean_abs_error": 0.07896596600866726,
+                  "sign_agreement": 0.938034188034188,
+                  "pearson": 0.9020277750403894
+                }
+              }
+            },
+            "list_site_teacher_kl": 0.04036911627691653,
+            "bracket_site_teacher_kl": 1.4774491045467868,
+            "list_background_teacher_kl": 0.43072809820825403,
+            "bracket_background_teacher_kl": 0.594874831460575
+          }
+        },
+        {
+          "method": "data",
+          "scores": {
+            "list": {
+              "n": 90,
+              "top1_0": 0.9777777777777777,
+              "top1_1": 0.9111111111111111,
+              "both_top1": 0.9,
+              "two_way_0": 0.9888888888888889,
+              "two_way_1": 0.9222222222222223,
+              "paired_two_way": 0.9111111111111111,
+              "positive_edit": 1.0,
+              "nll": 0.2851011905250036
+            },
+            "bracket": {
+              "n": 334,
+              "token_nll": 7.371906543102658,
+              "round_site_nll": 2.7542707020651083,
+              "square_site_nll": 2.882813624279228,
+              "round_top1": 0.46107784431137727,
+              "square_top1": 0.4161676646706587,
+              "round_two_way": 0.9820359281437125,
+              "square_two_way": 0.9730538922155688,
+              "both_two_way": 0.9550898203592815,
+              "mean_correct_margin_shift": 18.076720825926273,
+              "positive_shift_fraction": 0.9940119760479041,
+              "pure_delimiter_pairs": 169,
+              "pure_both_top1": 0.46745562130177515,
+              "merged_both_top1": 0.09696969696969697,
+              "pure_both_two_way": 0.9763313609467456,
+              "merged_both_two_way": 0.9333333333333333
+            },
+            "joint": {
+              "n": 234,
+              "all_arms_both_rules_top1": 0.3888888888888889,
+              "all_arms_both_rules_two_way": 0.8846153846153846,
+              "bracket": {
+                "paired_top1": 0.4700854700854701,
+                "paired_two_way": 0.9743589743589743,
+                "edit_direction": 1.0
+              },
+              "list": {
+                "paired_top1": 0.8952991452991453,
+                "paired_two_way": 0.9145299145299145,
+                "edit_direction": 1.0
+              }
+            },
+            "joint_causal_effects": {
+              "n_documents": 234,
+              "teacher": {
+                "bracket_intended": {
+                  "mean": 23.566217449485745,
+                  "mean_abs": 23.566217449485745,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 19.58954987362919,
+                  "mean_abs": 19.58954987362919,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": -0.05556457878178001,
+                  "mean_abs": 0.3892519779694386,
+                  "positive_fraction": 0.452991452991453,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": -0.05508813389346131,
+                  "mean_abs": 0.157386311608502,
+                  "positive_fraction": 0.1517094017094017,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 60.542324021147024,
+                "list_effect_to_spill_ratio": 124.46793524380807
+              },
+              "student": {
+                "bracket_intended": {
+                  "mean": 22.624576178880837,
+                  "mean_abs": 22.624576178880837,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 14.960588094515678,
+                  "mean_abs": 14.960588094515678,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.04422820327628372,
+                  "mean_abs": 0.4688477923727443,
+                  "positive_fraction": 0.49572649572649574,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": -0.0497167828755501,
+                  "mean_abs": 0.14405653874079385,
+                  "positive_fraction": 0.15384615384615385,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 48.25569618965771,
+                "list_effect_to_spill_ratio": 103.85220291842613
+              },
+              "student_vs_teacher": {
+                "bracket_intended": {
+                  "mean_abs_error": 1.5158748993506799,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9876475235631366
+                },
+                "list_intended": {
+                  "mean_abs_error": 4.6431941333998985,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9737970952795769
+                },
+                "bracket_edit_on_list": {
+                  "mean_abs_error": 0.21447364285460904,
+                  "sign_agreement": 0.8760683760683761,
+                  "pearson": 0.8894743352017767
+                },
+                "list_edit_on_bracket": {
+                  "mean_abs_error": 0.049810478320488565,
+                  "sign_agreement": 0.9465811965811965,
+                  "pearson": 0.9587614404167611
+                }
+              }
+            },
+            "list_site_teacher_kl": 0.0695902693411982,
+            "bracket_site_teacher_kl": 0.156095142058002,
+            "list_background_teacher_kl": 0.044110536321320316,
+            "bracket_background_teacher_kl": 0.06493561722371127
+          }
+        },
+        {
+          "method": "rule_aware",
+          "scope": "both",
+          "loss_last50": 0.08627520810812711,
+          "unused_channel_max": 0.0,
+          "scores": {
+            "list": {
+              "n": 90,
+              "top1_0": 0.9666666666666667,
+              "top1_1": 0.9444444444444444,
+              "both_top1": 0.9333333333333333,
+              "two_way_0": 0.9888888888888889,
+              "two_way_1": 0.9666666666666667,
+              "paired_two_way": 0.9555555555555556,
+              "positive_edit": 1.0,
+              "nll": 0.24638659151322725
+            },
+            "bracket": {
+              "n": 334,
+              "token_nll": 7.413615952868893,
+              "round_site_nll": 2.585381242329489,
+              "square_site_nll": 2.4919522865089827,
+              "round_top1": 0.4251497005988024,
+              "square_top1": 0.45808383233532934,
+              "round_two_way": 0.9640718562874252,
+              "square_two_way": 0.9910179640718563,
+              "both_two_way": 0.9550898203592815,
+              "mean_correct_margin_shift": 17.93922490559652,
+              "positive_shift_fraction": 0.9940119760479041,
+              "pure_delimiter_pairs": 169,
+              "pure_both_top1": 0.4970414201183432,
+              "merged_both_top1": 0.06666666666666667,
+              "pure_both_two_way": 0.9704142011834319,
+              "merged_both_two_way": 0.9393939393939394
+            },
+            "joint": {
+              "n": 234,
+              "all_arms_both_rules_top1": 0.5256410256410257,
+              "all_arms_both_rules_two_way": 0.9145299145299145,
+              "bracket": {
+                "paired_top1": 0.5961538461538461,
+                "paired_two_way": 0.9829059829059829,
+                "edit_direction": 1.0
+              },
+              "list": {
+                "paired_top1": 0.9123931623931624,
+                "paired_two_way": 0.9294871794871795,
+                "edit_direction": 1.0
+              }
+            },
+            "joint_causal_effects": {
+              "n_documents": 234,
+              "teacher": {
+                "bracket_intended": {
+                  "mean": 23.566217449485745,
+                  "mean_abs": 23.566217449485745,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 19.58954987362919,
+                  "mean_abs": 19.58954987362919,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": -0.05556457878178001,
+                  "mean_abs": 0.3892519779694386,
+                  "positive_fraction": 0.452991452991453,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": -0.05508813389346131,
+                  "mean_abs": 0.157386311608502,
+                  "positive_fraction": 0.1517094017094017,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 60.542324021147024,
+                "list_effect_to_spill_ratio": 124.46793524380807
+              },
+              "student": {
+                "bracket_intended": {
+                  "mean": 22.600759285637455,
+                  "mean_abs": 22.600759285637455,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 16.14188907492874,
+                  "mean_abs": 16.14188907492874,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.17507492171393502,
+                  "mean_abs": 0.3886648793505807,
+                  "positive_fraction": 0.6196581196581197,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": -0.0717688809093247,
+                  "mean_abs": 0.16019143660863241,
+                  "positive_fraction": 0.14316239316239315,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 58.14973112611117,
+                "list_effect_to_spill_ratio": 100.76624827387975
+              },
+              "student_vs_teacher": {
+                "bracket_intended": {
+                  "mean_abs_error": 1.6632329775736883,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9810947733278796
+                },
+                "list_intended": {
+                  "mean_abs_error": 3.568057771421905,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9667778109151659
+                },
+                "bracket_edit_on_list": {
+                  "mean_abs_error": 0.2627745510166527,
+                  "sign_agreement": 0.8034188034188035,
+                  "pearson": 0.904397016625022
+                },
+                "list_edit_on_bracket": {
+                  "mean_abs_error": 0.06371432644689184,
+                  "sign_agreement": 0.9444444444444444,
+                  "pearson": 0.9296720408095416
+                }
+              }
+            },
+            "list_site_teacher_kl": 0.028974983760498514,
+            "bracket_site_teacher_kl": 0.14237134035364418,
+            "list_background_teacher_kl": 0.09295813612301242,
+            "bracket_background_teacher_kl": 0.11335748742985984
+          }
+        }
+      ]
+    },
+    "list_bracket_joint_supervised_seed71504": {
+      "gram_counts": [
+        110188,
+        110188
+      ],
+      "rows": [
+        {
+          "method": "weight",
+          "scores": {
+            "list": {
+              "n": 90,
+              "top1_0": 0.9555555555555556,
+              "top1_1": 0.7888888888888889,
+              "both_top1": 0.7555555555555555,
+              "two_way_0": 0.9777777777777777,
+              "two_way_1": 0.8,
+              "paired_two_way": 0.7777777777777778,
+              "positive_edit": 1.0,
+              "nll": 0.6340335941149129
+            },
+            "bracket": {
+              "n": 334,
+              "token_nll": 7.565336053159081,
+              "round_site_nll": 2.8687685872623305,
+              "square_site_nll": 3.3814358877207704,
+              "round_top1": 0.4820359281437126,
+              "square_top1": 0.40119760479041916,
+              "round_two_way": 0.9910179640718563,
+              "square_two_way": 0.9251497005988024,
+              "both_two_way": 0.9161676646706587,
+              "mean_correct_margin_shift": 22.487776761997246,
+              "positive_shift_fraction": 0.9910179640718563,
+              "pure_delimiter_pairs": 169,
+              "pure_both_top1": 0.6094674556213018,
+              "merged_both_top1": 0.006060606060606061,
+              "pure_both_two_way": 0.9467455621301775,
+              "merged_both_two_way": 0.8848484848484849
+            },
+            "joint": {
+              "n": 234,
+              "all_arms_both_rules_top1": 0.4358974358974359,
+              "all_arms_both_rules_two_way": 0.6709401709401709,
+              "bracket": {
+                "paired_top1": 0.6388888888888888,
+                "paired_two_way": 0.9273504273504274,
+                "edit_direction": 1.0
+              },
+              "list": {
+                "paired_top1": 0.75,
+                "paired_two_way": 0.7564102564102564,
+                "edit_direction": 1.0
+              }
+            },
+            "joint_causal_effects": {
+              "n_documents": 234,
+              "teacher": {
+                "bracket_intended": {
+                  "mean": 26.839537725616726,
+                  "mean_abs": 26.839537725616726,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 16.272517071829903,
+                  "mean_abs": 16.272517071829903,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.15197715596256092,
+                  "mean_abs": 0.47507660613100755,
+                  "positive_fraction": 0.6260683760683761,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": 0.03480816154907911,
+                  "mean_abs": 0.12319298547047836,
+                  "positive_fraction": 0.23076923076923078,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 56.49518280777308,
+                "list_effect_to_spill_ratio": 132.08964599921825
+              },
+              "student": {
+                "bracket_intended": {
+                  "mean": 29.538184805430916,
+                  "mean_abs": 29.538184805430916,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 8.497211552073813,
+                  "mean_abs": 8.497211552073813,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.22840247806320843,
+                  "mean_abs": 0.4242427634377765,
+                  "positive_fraction": 0.6965811965811965,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": 0.05178232682056916,
+                  "mean_abs": 0.12825411507207105,
+                  "positive_fraction": 0.25854700854700857,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 69.62565719895541,
+                "list_effect_to_spill_ratio": 66.25293401129407
+              },
+              "student_vs_teacher": {
+                "bracket_intended": {
+                  "mean_abs_error": 2.981760727544116,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9747018708314787
+                },
+                "list_intended": {
+                  "mean_abs_error": 7.775305519756089,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9172460112588479
+                },
+                "bracket_edit_on_list": {
+                  "mean_abs_error": 0.19772943472250915,
+                  "sign_agreement": 0.8525641025641025,
+                  "pearson": 0.9042417962357395
+                },
+                "list_edit_on_bracket": {
+                  "mean_abs_error": 0.05269789759419922,
+                  "sign_agreement": 0.9337606837606838,
+                  "pearson": 0.935500603035122
+                }
+              }
+            },
+            "list_site_teacher_kl": 0.4867354820171992,
+            "bracket_site_teacher_kl": 0.4301646902549365,
+            "list_background_teacher_kl": 0.19906064207580956,
+            "bracket_background_teacher_kl": 0.23284104374241474
+          }
+        },
+        {
+          "method": "data",
+          "scores": {
+            "list": {
+              "n": 90,
+              "top1_0": 0.9666666666666667,
+              "top1_1": 0.8888888888888888,
+              "both_top1": 0.8777777777777778,
+              "two_way_0": 0.9777777777777777,
+              "two_way_1": 0.9111111111111111,
+              "paired_two_way": 0.8888888888888888,
+              "positive_edit": 1.0,
+              "nll": 0.36639425264956016
+            },
+            "bracket": {
+              "n": 334,
+              "token_nll": 7.324343639385822,
+              "round_site_nll": 2.950505106035107,
+              "square_site_nll": 3.217168057393171,
+              "round_top1": 0.4431137724550898,
+              "square_top1": 0.3502994011976048,
+              "round_two_way": 0.9820359281437125,
+              "square_two_way": 0.9281437125748503,
+              "both_two_way": 0.9101796407185628,
+              "mean_correct_margin_shift": 19.04661017549252,
+              "positive_shift_fraction": 0.9940119760479041,
+              "pure_delimiter_pairs": 169,
+              "pure_both_top1": 0.4437869822485207,
+              "merged_both_top1": 0.03636363636363636,
+              "pure_both_two_way": 0.9526627218934911,
+              "merged_both_two_way": 0.8666666666666667
+            },
+            "joint": {
+              "n": 234,
+              "all_arms_both_rules_top1": 0.38461538461538464,
+              "all_arms_both_rules_two_way": 0.7435897435897436,
+              "bracket": {
+                "paired_top1": 0.5021367521367521,
+                "paired_two_way": 0.9487179487179487,
+                "edit_direction": 1.0
+              },
+              "list": {
+                "paired_top1": 0.7991452991452992,
+                "paired_two_way": 0.8055555555555556,
+                "edit_direction": 1.0
+              }
+            },
+            "joint_causal_effects": {
+              "n_documents": 234,
+              "teacher": {
+                "bracket_intended": {
+                  "mean": 26.839537725616726,
+                  "mean_abs": 26.839537725616726,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 16.272517071829903,
+                  "mean_abs": 16.272517071829903,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.15197715596256092,
+                  "mean_abs": 0.47507660613100755,
+                  "positive_fraction": 0.6260683760683761,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": 0.03480816154907911,
+                  "mean_abs": 0.12319298547047836,
+                  "positive_fraction": 0.23076923076923078,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 56.49518280777308,
+                "list_effect_to_spill_ratio": 132.08964599921825
+              },
+              "student": {
+                "bracket_intended": {
+                  "mean": 25.95356243250207,
+                  "mean_abs": 25.95356243250207,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 11.287371586530636,
+                  "mean_abs": 11.287371586530636,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.26893991894192165,
+                  "mean_abs": 0.5035417263324444,
+                  "positive_fraction": 0.7158119658119658,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": 0.04931723320076608,
+                  "mean_abs": 0.11921175894064781,
+                  "positive_fraction": 0.2606837606837607,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 51.542033714850376,
+                "list_effect_to_spill_ratio": 94.68337340229107
+              },
+              "student_vs_teacher": {
+                "bracket_intended": {
+                  "mean_abs_error": 1.94400076326142,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.984911191527489
+                },
+                "list_intended": {
+                  "mean_abs_error": 4.985145485299265,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9426664658164672
+                },
+                "bracket_edit_on_list": {
+                  "mean_abs_error": 0.23664990857116178,
+                  "sign_agreement": 0.8247863247863247,
+                  "pearson": 0.8711712936860462
+                },
+                "list_edit_on_bracket": {
+                  "mean_abs_error": 0.043964569385235124,
+                  "sign_agreement": 0.9444444444444444,
+                  "pearson": 0.9506298215416206
+                }
+              }
+            },
+            "list_site_teacher_kl": 0.22532416116769632,
+            "bracket_site_teacher_kl": 0.1196389753862234,
+            "list_background_teacher_kl": 0.04222715738102455,
+            "bracket_background_teacher_kl": 0.04285177291517231
+          }
+        },
+        {
+          "method": "rule_aware",
+          "scope": "both",
+          "loss_last50": 0.09056418191641569,
+          "unused_channel_max": 0.0,
+          "scores": {
+            "list": {
+              "n": 90,
+              "top1_0": 0.9444444444444444,
+              "top1_1": 0.9444444444444444,
+              "both_top1": 0.9,
+              "two_way_0": 0.9555555555555556,
+              "two_way_1": 0.9777777777777777,
+              "paired_two_way": 0.9333333333333333,
+              "positive_edit": 1.0,
+              "nll": 0.28726451142639337
+            },
+            "bracket": {
+              "n": 334,
+              "token_nll": 7.3844847468903465,
+              "round_site_nll": 2.797739104596441,
+              "square_site_nll": 3.2757953137694718,
+              "round_top1": 0.437125748502994,
+              "square_top1": 0.3772455089820359,
+              "round_two_way": 0.9820359281437125,
+              "square_two_way": 0.9311377245508982,
+              "both_two_way": 0.9131736526946108,
+              "mean_correct_margin_shift": 19.889250566859445,
+              "positive_shift_fraction": 0.9940119760479041,
+              "pure_delimiter_pairs": 169,
+              "pure_both_top1": 0.46745562130177515,
+              "merged_both_top1": 0.030303030303030304,
+              "pure_both_two_way": 0.9467455621301775,
+              "merged_both_two_way": 0.8787878787878788
+            },
+            "joint": {
+              "n": 234,
+              "all_arms_both_rules_top1": 0.5512820512820513,
+              "all_arms_both_rules_two_way": 0.8717948717948718,
+              "bracket": {
+                "paired_top1": 0.594017094017094,
+                "paired_two_way": 0.9316239316239316,
+                "edit_direction": 1.0
+              },
+              "list": {
+                "paired_top1": 0.9230769230769231,
+                "paired_two_way": 0.9358974358974359,
+                "edit_direction": 1.0
+              }
+            },
+            "joint_causal_effects": {
+              "n_documents": 234,
+              "teacher": {
+                "bracket_intended": {
+                  "mean": 26.839537725616726,
+                  "mean_abs": 26.839537725616726,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 16.272517071829903,
+                  "mean_abs": 16.272517071829903,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.15197715596256092,
+                  "mean_abs": 0.47507660613100755,
+                  "positive_fraction": 0.6260683760683761,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": 0.03480816154907911,
+                  "mean_abs": 0.12319298547047836,
+                  "positive_fraction": 0.23076923076923078,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 56.49518280777308,
+                "list_effect_to_spill_ratio": 132.08964599921825
+              },
+              "student": {
+                "bracket_intended": {
+                  "mean": 26.451438966788288,
+                  "mean_abs": 26.451438966788288,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "list_intended": {
+                  "mean": 12.845617328953539,
+                  "mean_abs": 12.845617328953539,
+                  "positive_fraction": 1.0,
+                  "n_edges": 468
+                },
+                "bracket_edit_on_list": {
+                  "mean": 0.3424480002150576,
+                  "mean_abs": 0.5525185817327255,
+                  "positive_fraction": 0.7222222222222222,
+                  "n_edges": 468
+                },
+                "list_edit_on_bracket": {
+                  "mean": 0.050853371747538574,
+                  "mean_abs": 0.12994660793716073,
+                  "positive_fraction": 0.2606837606837607,
+                  "n_edges": 468
+                },
+                "bracket_effect_to_spill_ratio": 47.8742952864616,
+                "list_effect_to_spill_ratio": 98.85304319018633
+              },
+              "student_vs_teacher": {
+                "bracket_intended": {
+                  "mean_abs_error": 1.7514931190854464,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9833791358612849
+                },
+                "list_intended": {
+                  "mean_abs_error": 3.621737512767824,
+                  "sign_agreement": 1.0,
+                  "pearson": 0.9146324678695238
+                },
+                "bracket_edit_on_list": {
+                  "mean_abs_error": 0.26564553048875594,
+                  "sign_agreement": 0.8226495726495726,
+                  "pearson": 0.8891472879999778
+                },
+                "list_edit_on_bracket": {
+                  "mean_abs_error": 0.05636872593154255,
+                  "sign_agreement": 0.9188034188034188,
+                  "pearson": 0.9250751234613583
+                }
+              }
+            },
+            "list_site_teacher_kl": 0.0442369966638378,
+            "bracket_site_teacher_kl": 0.15379460889868393,
+            "list_background_teacher_kl": 0.1042412809858268,
+            "bracket_background_teacher_kl": 0.1096122171228408
+          }
+        }
+      ]
+    }
+  }
+}

@@ -13,6 +13,7 @@ import torch.nn.functional as F
 from train_corpus_delimiter_bilinear import _model, evaluate as eval_bracket
 from train_corpus_list_delimiter_mixture import eval_joint, eval_list
 from eval_corpus_list_ov_reduction import site_kl
+from joint_list_bracket_causal import evaluate as eval_causal_joint
 from ov_linear_reduction import activation_grams, attentions, replace_ov
 
 
@@ -83,6 +84,9 @@ def scores(teacher, student, data, brackets, device, joint_panel=None):
         'bracket': eval_bracket(student, bracket_test, device, batch_size=4),
         'joint': eval_joint(student, joint_panel if joint_panel is not None
                             else data['joint']['test'], device),
+        'joint_causal_effects': eval_causal_joint(
+            teacher, student, joint_panel if joint_panel is not None
+            else data['joint']['test'], device),
         'list_site_teacher_kl': site_kl(teacher, student,
                                        [list_test[0], list_test[1]], device, 'site'),
         'bracket_site_teacher_kl': site_kl(teacher, student,
