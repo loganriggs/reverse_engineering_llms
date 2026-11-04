@@ -32,6 +32,7 @@ def main():
     p.add_argument('--nonce-rate', type=float, default=1.)
     p.add_argument('--list-shift-rate', type=float, default=.5)
     p.add_argument('--square-rate', type=float, default=.5)
+    p.add_argument('--literal-copy-rate', type=float, default=0.)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--review-output', type=Path,
                    help='Local-only source excerpts for manual semantic review')
@@ -41,7 +42,7 @@ def main():
     random.Random(71999).shuffle(codes)
     pool = tuple(codes[:256])
     counts = Counter()
-    by_kind = ('list', 'bracket', 'nonce')
+    by_kind = ('list', 'bracket', 'nonce', 'literal_copy')
     review_rng = random.Random(a.seed + 999)
     review = {kind: [] for kind in by_kind}
     review_seen = Counter()
@@ -57,7 +58,8 @@ def main():
                 list_rate=a.list_rate, bracket_rate=a.bracket_rate,
                 nonce_rate=a.nonce_rate, list_shift_rate=a.list_shift_rate,
                 square_rate=a.square_rate,
-                max_chars=a.max_chars)
+                max_chars=a.max_chars,
+                literal_copy_rate=a.literal_copy_rate)
             counts['documents_with_any_text_change'] += (
                 document.text != document.source_text)
             for kind in by_kind:
@@ -73,16 +75,29 @@ def main():
                 int((chunk['y'] != -100).sum()) for chunk in chunks)
             local = {site['kind'] for chunk in chunks
                      for site in chunk['sites']}
+            local_sites = [site for chunk in chunks
+                           for site in chunk['sites']]
+            for kind in by_kind:
+                counts[f'local_{kind}_sites'] += sum(
+                    site['kind'] == kind for site in local_sites)
             for kind in local:
                 counts[f'local_{kind}_documents'] += 1
             for first, second in combinations(sorted(local), 2):
                 counts[f'local_pair_{first}_{second}'] += 1
             counts[f'documents_{len(local)}_local_families'] += 1
+            same_chunk_pairs = set()
+            for chunk in chunks:
+                families = {site['kind'] for site in chunk['sites']}
+                counts[f'chunks_{len(families)}_local_families'] += 1
+                same_chunk_pairs.update(combinations(sorted(families), 2))
+            for first, second in same_chunk_pairs:
+                counts[f'documents_same_chunk_pair_{first}_{second}'] += 1
             if a.review_output:
                 for site in document.sites:
                     review_seen[site.kind] += 1
                     index = review_seen[site.kind]
                     excerpt = {'offset': offset, 'kind': site.kind,
+                               'answer': site.answer,
                                'source_context': document.text[
                                    max(0, site.source[0] - 80):
                                    min(len(document.text), site.source[1] + 80)],
@@ -114,9 +129,9 @@ def main():
                          for stage in ('eligible', 'applied', 'local')}
                   for kind in by_kind},
               'scope': 'Uniform FineWeb source offsets, no conditioning on '
-                       'rule presence. Each eligible family is edited with '
-                       'its configured probability; edits are equal-length '
-                       'and independently sampled. Local means source and '
+                       'rule presence. List/bracket/nonce edits use configured '
+                       'rates and preserve character length; literal_copy '
+                       'tags natural unchanged-code repeats. Local means source and '
                        'target fit one ordinary nonoverlapping model chunk '
                        'with BPE alignment; it is a lower bound for a model '
                        'with cross-chunk memory. Natural background tokens '

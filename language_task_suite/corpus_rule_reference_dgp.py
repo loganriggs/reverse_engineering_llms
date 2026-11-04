@@ -16,6 +16,7 @@ from corpus_numbered_list_dgp import candidates as list_candidates
 from corpus_numbered_list_dgp import visible_next_number
 from corpus_nonce_copy_dgp import candidates as nonce_candidates, draw_pair
 from corpus_transformed_delimiters import candidates as bracket_candidates
+from corpus_uppercase_copy_dgp import candidates as literal_copy_candidates
 
 
 PAD = 50256
@@ -40,9 +41,10 @@ class Document:
 
 def sample_document(source_text, rng: random.Random, nonce_pool,
                     list_rate=1., bracket_rate=1., nonce_rate=0.,
-                    list_shift_rate=0., square_rate=0., max_chars=8000):
+                    list_shift_rate=0., square_rate=0., max_chars=8000,
+                    literal_copy_rate=0.):
     rates = (list_rate, bracket_rate, nonce_rate, list_shift_rate,
-             square_rate)
+             square_rate, literal_copy_rate)
     if any(not 0 <= rate <= 1 for rate in rates):
         raise ValueError('Every rate must be in [0,1]')
     source_text = source_text[:max_chars]
@@ -89,6 +91,17 @@ def sample_document(source_text, rng: random.Random, nonce_pool,
                                       alias.answer_span, alias.code))
                 applied.append('nonce')
 
+    literal = list(literal_copy_candidates(source_text))
+    if literal:
+        eligible.append('literal_copy')
+        if rng.random() < literal_copy_rate and 'nonce' not in applied:
+            for plan in literal:
+                sites.append(RuleSite('literal_copy',
+                                      plan.spans[plan.target_occurrence - 1],
+                                      plan.spans[plan.target_occurrence],
+                                      plan.source_code))
+            applied.append('literal_copy')
+
     chars = list(source_text)
     for index, char in edits.items():
         assert len(char) == 1
@@ -102,7 +115,9 @@ def sample_document(source_text, rng: random.Random, nonce_pool,
 
 def check_document(document):
     assert len(document.text) == len(document.source_text)
-    assert len(document.sites) == len(set(site.kind for site in document.sites))
+    singular = [site.kind for site in document.sites
+                if site.kind != 'literal_copy']
+    assert len(singular) == len(set(singular))
     for site in document.sites:
         a, b = site.target
         assert document.text[a:b] == site.answer
@@ -113,6 +128,8 @@ def check_document(document):
             opener = document.text[site.source[0]]
             assert (opener, site.answer) in (('(', ')'), ('[', ']'))
         elif site.kind == 'nonce':
+            assert document.text[slice(*site.source)] == site.answer
+        elif site.kind == 'literal_copy':
             assert document.text[slice(*site.source)] == site.answer
         else:
             raise AssertionError(site.kind)
@@ -126,6 +143,15 @@ def _token_span(encoding, char_span):
     if not indices or indices != list(range(indices[0], indices[-1] + 1)):
         return None
     return tuple(indices)
+
+
+def _exact_single_code_token(encoding, text, span, tokens):
+    if tokens is None or len(tokens) != 1:
+        return False
+    start, end = encoding.offsets[tokens[0]]
+    return (end == span[1] and
+            (start == span[0] or
+             (start == span[0] - 1 and text[start].isspace())))
 
 
 def chunk_document(document, tokenizer, n_ctx=256, max_tokens=2048):
@@ -148,6 +174,13 @@ def chunk_document(document, tokenizer, n_ctx=256, max_tokens=2048):
                 continue
         elif site.kind == 'bracket':
             if len(target) != 1 or first[0] != site.target[0]:
+                continue
+        elif site.kind == 'literal_copy':
+            if (not _exact_single_code_token(encoding, document.text,
+                                             site.source, source) or
+                not _exact_single_code_token(encoding, document.text,
+                                             site.target, target) or
+                    encoding.ids[source[0]] != encoding.ids[target[0]]):
                 continue
         token_sites.append((site, source, target))
     chunks = []

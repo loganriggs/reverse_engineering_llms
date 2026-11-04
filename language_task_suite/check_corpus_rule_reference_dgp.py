@@ -13,7 +13,7 @@ from corpus_rule_reference_dgp import sample_document, chunk_document
 
 
 TEXT = (
-    'ABC issued the first report. The team reviewed several records in the '
+    'The ABC issued the first report. The team reviewed several records in the '
     'office (and checked the older notes carefully). Other people discussed '
     'the meeting, the schedule, and the next steps before the committee '
     'published a short list.\n'
@@ -28,10 +28,19 @@ def main():
     pool = codebook(tokenizer)
     natural = sample_document(TEXT, random.Random(7), pool)
     assert natural.text == TEXT
-    assert set(natural.eligible) == {'list', 'bracket', 'nonce'}
+    assert set(natural.eligible) == {'list', 'bracket', 'nonce',
+                                     'literal_copy'}
     assert set(natural.applied) == {'list', 'bracket'}
     assert set(site['kind'] for chunk in chunk_document(natural, tokenizer)
                for site in chunk['sites']) == {'list', 'bracket'}
+
+    natural_three = sample_document(TEXT, random.Random(7), pool,
+                                    literal_copy_rate=1.)
+    assert natural_three.text == TEXT
+    assert set(natural_three.applied) == {'list', 'bracket', 'literal_copy'}
+    assert set(site['kind'] for chunk in chunk_document(natural_three,
+                                                        tokenizer)
+               for site in chunk['sites']) == set(natural_three.applied)
 
     shifted = sample_document(TEXT, random.Random(7), pool,
                               list_shift_rate=1.)
